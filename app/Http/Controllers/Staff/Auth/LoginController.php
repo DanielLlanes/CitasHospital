@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class AdminLoginController extends Controller
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class AdminLoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest')->except('logout');
     }
     public function username()
     {
