@@ -43,6 +43,9 @@
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
                 </div>
                 @error('password')
+                    <span class="invalid-feedback d-bock mb-5" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
                 @enderror
                 <div class="contact100-form-checkbox">
                     <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>

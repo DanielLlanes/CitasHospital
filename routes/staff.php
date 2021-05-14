@@ -37,6 +37,6 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    // Route::get('email/resend','VerificationController@resend')->name('verification.resend');
 	});
 
-	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
 });
