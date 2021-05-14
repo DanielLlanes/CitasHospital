@@ -2,9 +2,12 @@
 
 
 
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
+use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
 use App\Http\Controllers\Staff\DashboardController;
+
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
 
@@ -18,13 +21,15 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    Route::get('/register', [StaffRegisterController::class, 'showRegistrationForm'])->name('register');
 	    Route::post('/register', [StaffRegisterController::class, 'register']);
 
-	    // //Forgot Password Routes
+	    //Forgot Password Routes
 	    // Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
 	    // Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+	    Route::get('/password/reset', [StaffForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+	    Route::post('/password/email', [StaffForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
-	    // //Reset Password Routes
-	    // Route::get('/password/reset/{token}','ResetPasswordController@showResetForm')->name('password.reset');
-	    // Route::post('/password/reset','ResetPasswordController@reset')->name('password.update');
+	    // Reset Password Routes
+	    Route::get('/password/reset/{token}', [StaffResetPasswordController::class, 'showResetForm'])->name('password.reset');
+	    Route::post('/password/reset', [StaffResetPasswordController::class, 'reset'])->name('password.update');
 
 	    // // Email Verification Route(s)
 	    // Route::get('email/verify','VerificationController@show')->name('verification.notice');
