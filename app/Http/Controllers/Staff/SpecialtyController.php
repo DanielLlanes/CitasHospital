@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class StaffController extends Controller
+class SpecialtyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        return view('staff.staff-manager.list');
+        //
     }
 
     /**
@@ -24,7 +24,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('staff.staff-manager.add');
+        //
     }
 
     /**

@@ -41,6 +41,7 @@ class CreatePermissionTables extends Migration
             $table->string('name_en', 45);
             $table->boolean('active')->default(true);
             $table->boolean('show')->default(true);
+            $table->timestamps();
 
             $table->unique(['name', 'guard_name']);
         });

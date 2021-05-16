@@ -6,16 +6,6 @@
 <div class="limiter">
     <div class="container-login100 page-background">
         <div class="wrap-login100">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        {{ $errors->all() }}
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <form class="login100-form" method="POST" action="{{ route('staff.login') }}">
                 @csrf
                 <span class="d-flex justify-content-center">

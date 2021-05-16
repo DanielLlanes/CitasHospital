@@ -7,6 +7,7 @@ use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
 use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\StaffController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
@@ -39,4 +40,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 
 	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
+
+	Route::name('staff.')->group(function(){
+		Route::get('/staff/listar',[StaffController::class, 'index'])->name('staff');
+	});
 });

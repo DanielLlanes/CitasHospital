@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-            //Spatie\Permission\PermissionServiceProvider::class,
+            Spatie\Permission\PermissionServiceProvider::class,
             //Collective\Html\HtmlServiceProvider::class,
             //Intervention\Image\ImageServiceProvider::class,
         /*

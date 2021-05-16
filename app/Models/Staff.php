@@ -7,10 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Staff extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +22,19 @@ class Staff extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
+        'cellphone',
+        'phone',
         'email',
         'password',
-        'username'
+        'lang',
+        'avatar',
+        'active',
+        'show',
+        'set_pass',
+        'color',
+        'specialty_id',
+        'last_assignment',
     ];
 
     /**
