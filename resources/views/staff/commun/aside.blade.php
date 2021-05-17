@@ -13,8 +13,13 @@
                             <img src="{{ asset('staffFiles/assets/img/dp.jpg') }}" class="img-circle user-img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
-                            <p> Dr. Emily</p>
-                            <small>Admin</small>
+                            <p> {{ auth()->guard('staff')->user()->name }}</p>
+                            @php
+                                $roles = Auth::guard('staff')->user()->roles
+                            @endphp
+                            @foreach($roles as $rol)
+                               <small>{{ Auth::guard('staff')->user()->lang == 'es' ? $rol->name_es : $rol->name_en }}</small>
+                            @endforeach
                         </div>
                     </div>
                 </li>
@@ -59,10 +64,6 @@
                             <a href="book_appointment.html" class="nav-link "> <span class="title">@lang('aside.Book Appointment') </span>
                             </a>
                         </li>
-                        <li class="nav-item  ">
-                            <a href="book_appointment_material.html" class="nav-link "> <span class="title">@lang('aside.Book Appointment Material') </span>
-                            </a>
-                        </li>
                          <li class="nav-item  ">
                             <a href="edit_appointment.html" class="nav-link "> <span class="title">@lang('aside.Edit Appointment') </span>
                             </a>
@@ -87,10 +88,6 @@
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_doctor_material.html" class="nav-link "> <span class="title">@lang('aside.Add Doctor Material') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
                             <a href="edit_doctor.html" class="nav-link "> <span class="title">@lang('aside.Edit Doctor') </span>
                             </a>
                         </li>
@@ -111,10 +108,6 @@
                         </li>
                         <li class="nav-item  ">
                             <a href="add_staff.html" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="add_staff_material.html" class="nav-link "> <span class="title">@lang('aside.Add Staff Material') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
@@ -164,10 +157,6 @@
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_patient_material.html" class="nav-link "> <span class="title">@lang('aside.Add Patient Material') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
                             <a href="edit_patient.html" class="nav-link "> <span class="title">@lang('aside.Edit Patient') </span>
                             </a>
                         </li>
@@ -188,10 +177,6 @@
                         </li>
                         <li class="nav-item  ">
                             <a href="add_room_allotment.html" class="nav-link "> <span class="title">@lang("New Allotment") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="add_room_allotment_material.html" class="nav-link "> <span class="title">@lang("New Allotment Material") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">

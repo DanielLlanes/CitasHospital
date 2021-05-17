@@ -27,6 +27,7 @@
 				<li class="nav-item tab-all"><a class="nav-link" href="#tab2"
 					data-toggle="tab">Grid View</a></li>
 			</ul> --}}
+
             <div class="tab-content">
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">

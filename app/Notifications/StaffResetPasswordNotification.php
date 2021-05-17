@@ -49,7 +49,7 @@ class StaffResetPasswordNotification extends Notification
     {
         return (new MailMessage)
            ->greeting(\Lang::get('Dear'). ' '. ucfirst($notifiable->name))
-           ->subject(config('app.name').' - ' .\Lang::get('Reset Password Notification'))
+           ->subject(str_replace('_', " ", config('app.name', 'Laravel')).' - ' .\Lang::get('Reset Password Notification'))
            ->line(\Lang::get('You are receiving this email because we received a password reset request for your account.'))
            ->action(\Lang::get('Admin Reset Password'), url(config('app.url').route('staff.password.reset', ['token' => $this->token, 'email' => $notifiable->getEmailForPasswordReset()], false)))
            ->line(\Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))

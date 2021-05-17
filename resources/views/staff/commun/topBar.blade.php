@@ -4,7 +4,7 @@
         <div class="page-logo">
             <a href="index-2.html">
                 {{-- <img alt="" src="{{ asset('staffFiles/assets/img/logo.png') }}"> --}}
-                <span class="logo-default" >{{ config('app.name', 'Laravel') }}</span>
+                <span class="logo-default" >{{ str_replace('_', " ", config('app.name', 'Laravel')) }}</span>
             </a>
         </div>
         <!-- logo end -->

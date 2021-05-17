@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	"Dashboard" => "Tabero",
+	"Dashboard" => "Tablero",
 
 	"Appointment" => "Cita",
 	"Doctor Schedule" => "Horario médico",

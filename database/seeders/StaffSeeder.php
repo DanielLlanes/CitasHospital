@@ -19,7 +19,7 @@ class StaffSeeder extends Seeder
     public function run()
     {
         $dios = Staff::create([
-                'name' => 'Soporte Técnico',
+                'name' => 'Gabriel Llanes',
                 'username' => 'dios',
                 'cellphone' => '6645335213',
                 'phone' => '6642104318',
