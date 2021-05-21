@@ -1,6 +1,6 @@
 @extends('staff.layouts.app')
 @section('title')
-@lang('staff')
+	@lang('staff.Staff')
 @endsection
 @section('content')
 
@@ -21,13 +21,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="tabbable-line">
-           {{-- <ul class="nav nav-pills nav-pills-rose">
-				<li class="nav-item tab-all"><a class="nav-link active show"
-					href="#tab1" data-toggle="tab">List View</a></li>
-				<li class="nav-item tab-all"><a class="nav-link" href="#tab2"
-					data-toggle="tab">Grid View</a></li>
-			</ul> --}}
-
             <div class="tab-content">
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
@@ -42,330 +35,23 @@
                                     </div>
                                 </div>
                                 <div class="card-body ">
-                                  <div class="table-scrollable">
-                                    <table class="table table-hover table-checkable order-column full-width" id="example4">
+                                  <div class="table-scrollable responsive" >
+                                    <table class="table table-hover table-checkable order-column full-width" id="staffTable">
                                         <thead>
                                             <tr>
-                                            	<th></th>
-                                                <th> Name </th>
-                                                <th> Department </th>
-                                                <th> Specialization </th>
-                                                <th> Degree </th>
-                                                <th> Mobile </th>
-                                                <th> Email </th>
-                                                <th>Joining Date</th>
-                                                <th> Action </th>
+                                            	<th> ID </th>
+                                            	<th> @lang('Staff.Picture') </th>
+                                                <th> @lang('Staff.Name') </th>
+                                                <th> @lang('Staff.Department') </th>
+                                                <th> @lang('Staff.Specialization') </th>
+                                                <th> @lang('Staff.Color') </th>
+                                                <th> @lang('Staff.Mobile') </th>
+                                                <th> @lang('Staff.Email') </th>
+                                                <th> @lang('Staff.Active') </th>
+                                                <th> @lang('Staff.Action') </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Rajesh</td>
-												<td class="left">General surgery</td>
-												<td class="left">18</td>
-												<td class="left">MBBS,MD</td>
-												<td><a href="tel:4444565756">
-														4444565756 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														rajesh@gmail.com </a></td>
-												<td class="left">22 Feb 2000</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Pooja Patel</td>
-												<td class="left">Cardiology</td>
-												<td class="left">5</td>
-												<td class="left">M.D.</td>
-												<td><a href="tel:444786876">
-														444786876 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														pooja@gmail.com </a></td>
-												<td class="left">27 Aug 2005</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Sarah Smith</td>
-												<td class="left">Anaesthetics</td>
-												<td class="left">15</td>
-												<td class="left">MBBS,DGO,MD</td>
-												<td><a href="tel:44455546456">
-														44455546456 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														sarah@gmail.com </a></td>
-												<td class="left">05 Jun 2011</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.John Deo</td>
-												<td class="left">Dentist</td>
-												<td class="left">23</td>
-												<td class="left">BDS,MDS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														john@gmail.com </a></td>
-												<td class="left">15 Feb 2012</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Jay Soni</td>
-												<td class="left">General</td>
-												<td class="left">10</td>
-												<td class="left">BHMS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														kenh@gmail.com </a></td>
-												<td class="left">12 Nov 2012</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Jacob Ryan</td>
-												<td class="left">Urology</td>
-												<td class="left">14</td>
-												<td class="left">MBBS,MS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														johnson@gmail.com </a></td>
-												<td class="left">03 Dec 2001</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Megha Trivedi</td>
-												<td class="left">Gynaecology</td>
-												<td class="left">7</td>
-												<td class="left">MBBS,MS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														megha@gmail.com </a></td>
-												<td class="left">17 Mar 2013</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Rajesh</td>
-												<td class="left">General surgery</td>
-												<td class="left">18</td>
-												<td class="left">MBBS,MD</td>
-												<td><a href="tel:4444565756">
-														4444565756 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														rajesh@gmail.com </a></td>
-												<td class="left">22 Feb 2000</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Pooja Patel</td>
-												<td class="left">Cardiology</td>
-												<td class="left">5</td>
-												<td class="left">M.D.</td>
-												<td><a href="tel:444786876">
-														444786876 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														pooja@gmail.com </a></td>
-												<td class="left">27 Aug 2005</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Sarah Smith</td>
-												<td class="left">Anaesthetics</td>
-												<td class="left">15</td>
-												<td class="left">MBBS,DGO,MD</td>
-												<td><a href="tel:44455546456">
-														44455546456 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														sarah@gmail.com </a></td>
-												<td class="left">05 Jun 2011</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.John Deo</td>
-												<td class="left">Dentist</td>
-												<td class="left">23</td>
-												<td class="left">BDS,MDS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														john@gmail.com </a></td>
-												<td class="left">15 Feb 2012</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Jay Soni</td>
-												<td class="left">General</td>
-												<td class="left">10</td>
-												<td class="left">BHMS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														kenh@gmail.com </a></td>
-												<td class="left">12 Nov 2012</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Jacob Ryan</td>
-												<td class="left">Urology</td>
-												<td class="left">14</td>
-												<td class="left">MBBS,MS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														johnson@gmail.com </a></td>
-												<td class="left">03 Dec 2001</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
-											<tr class="odd gradeX">
-												<td class="patient-img">
-														<img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" alt="">
-												</td>
-												<td>Dr.Megha Trivedi</td>
-												<td class="left">Gynaecology</td>
-												<td class="left">7</td>
-												<td class="left">MBBS,MS</td>
-												<td><a href="tel:444543564">
-														444543564 </a></td>
-												<td><a href="mailto:shuxer@gmail.com">
-														megha@gmail.com </a></td>
-												<td class="left">17 Mar 2013</td>
-												<td class="center">
-													<a href="edit_doctor.html" class="btn btn-tbl-edit btn-xs">
-														<i class="fa fa-pencil"></i>
-													</a>
-													<a class="btn btn-tbl-delete btn-xs">
-														<i class="fa fa-trash-o "></i>
-													</a>
-												</td>
-											</tr>
 										</tbody>
                                     </table>
                                     </div>
@@ -374,234 +60,176 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="tab2">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Pooja Patel </div>
-                                            <div class="name-center"> Cardiology </div>
-                                        </div>
-                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                            <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Rajesh </div>
-                                            <div class="name-center"> General surgery </div>
-                                        </div>
-                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Sarah Smith </div>
-                                            <div class="name-center"> Anaesthetics </div>
-                                        </div>
-                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-					<div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.John Deo </div>
-                                            <div class="name-center"> Dentist </div>
-                                        </div>
-                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Jay Soni </div>
-                                            <div class="name-center"> General Physician </div>
-                                        </div>
-                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Jacob Ryan </div>
-                                            <div class="name-center"> Urology </div>
-                                        </div>
-                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-					<div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Megha Trivedi </div>
-                                            <div class="name-center"> Gynaecology </div>
-                                        </div>
-                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Rajesh </div>
-                                            <div class="name-center"> General surgery </div>
-                                        </div>
-                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Sarah Smith </div>
-                                            <div class="name-center"> Anaesthetics </div>
-                                        </div>
-                                            <p>456, Estern evenue, Courtage area, <br />New York</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-					<div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Pooja Patel </div>
-                                            <div class="name-center"> Cardiology </div>
-                                        </div>
-                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.Rajesh </div>
-                                            <div class="name-center"> General surgery </div>
-                                        </div>
-                                            <p>45, Krishna Tower, Near Bus Stop, Satellite, <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-box">
-                                <div class="card-body no-padding ">
-                                	<div class="doctor-profile">
-                                            <img src="{{ asset('staffFiles/assets/img/doc/doc1.jpg') }}" class="doctor-pic" alt="">
-                                        <div class="profile-usertitle">
-                                            <div class="doctor-name">Dr.John Deo </div>
-                                            <div class="name-center"> Dentist </div>
-                                        </div>
-                                            <p>A-103, shyam gokul flats, Mahatma Road <br />Mumbai</p>
-                                            <div><p><i class="fa fa-phone"></i><a href="tel:(123)456-7890">  (123)456-7890</a></p> </div>
-                                        <div class="profile-userbuttons">
-                                             <a href="doctor_profile.html" class="btn btn-circle deepPink-bgcolor btn-sm">Read More</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-					</div>
-                </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('styles')
+	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}">
+    <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
+@endsection
+@section('scripts')
+    @if (\Session::has('sys-message'))
+        <script>
+            Toast.fire({
+              icon: '{{\Session::get('icon')}}',
+              title: '{{\Session::get('msg')}}',
+            })
+        </script>
+    @endif
+	<script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
+	<script>
+        $('.table').magnificPopup({
+              delegate: 'a.a',
+              type: 'image',
+              removalDelay: 500, //delay removal by X to allow out-animation
+              callbacks: {
+                beforeOpen: function() {
+                  // just a hack that adds mfp-anim class to markup
+                   this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+                   this.st.mainClass = this.st.el.attr('data-effect');
+                }
+              },
+              closeOnContentClick: true,
+              midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+        });
+        var globalRouteobtenerLista = "{{ route('staff.staff.getStaffList') }}";
+		var globalRouteActivar = "{{ route('staff.staff.activate') }}";
+        var globalRouteEliminar = "{{ route('staff.staff.destroy') }}"
+		$(document).ready(function() {
+			var codigo = 1;
+		    var staffTable = $('#staffTable').DataTable({
+				responsive: true,
+		        processing: true,
+		        serverSide: true,
+		    	ajax:{
+		            url : '{{ route('staff.staff.getStaffList') }}',
+		            type: "get",
+		            data: {"estable": codigo},
+		            error: function (xhr, error, thrown) {
+		            },
+		         },
+		        language: {
+		            "url": dataTablesLangEs
+		        },
+		        "columns": [
+
+					{ data: 'DT_RowIndex' },
+		            { data: "picture", className:'patient-img' },
+		            { data: "name" },
+		            { data: "department" },
+		            { data: "specialization" },
+		            { data: "color", className: 'center' },
+		            { data: "mobile" },
+		            { data: "email" },
+		            { data: "active", className: 'center' },
+		            { data: "action", orderable: false, searchable: false, className: 'center' },
+
+		        ],
+		        createdRow: function (row, data, dataIndex) {
+		            $(row).addClass('odd gradeX');
+		        },
+		    });
+            $(document).on('click', '.table-active', function(event) {
+                event.preventDefault();
+                var form_data = new FormData();
+                form_data.append('id', $(this).attr('attr-id'));
+                $.ajax({
+                    url: globalRouteActivar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            staffTable.ajax.reload( null, false );
+                        }
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+            $(document).on('click', '.eliminar', function(e) {
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+                Swal.fire({
+                    title: '¿Esta seguro?',
+                    //text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, borrarlo!'
+                }).then((result) => {
+                    if (result.value) {
+                        deleteRecord(id)
+                    } else if (result.dismiss) {
+                        Swal.fire(
+                            'Cancelado!',
+                            'Ningun registro fue eliminado.',
+                            'error'
+                        )
+                        e.preventDefault()
+                        e.stopPropagation();
+                    }
+                })
+            });
+
+            function deleteRecord(id)
+            {
+                var form_data = new FormData();
+                form_data.append('id', id);
+                $.ajax({
+                    url: globalRouteEliminar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                    console.log("data", data);
+                        Toast.fire({
+                          icon: data.icon,
+                          title: data.msg
+                        })
+                        if (data.reload) {
+                            staffTable.ajax.reload( null, false );
+                            //adminTable.search('').draw();
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            }
+		});
+	</script>
 @endsection

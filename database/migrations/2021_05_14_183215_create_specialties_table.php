@@ -21,6 +21,7 @@ class CreateSpecialtiesTable extends Migration
             $table->boolean('active')->default(true);
             $table->boolean('show')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('specialties', function($table) {
            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');

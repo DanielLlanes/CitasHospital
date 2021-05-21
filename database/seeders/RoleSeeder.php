@@ -29,28 +29,28 @@ class RoleSeeder extends Seeder
             'name_en' => 'Administrator',
         ]);
 
-        $role = Role::create([
+        $doctor = Role::create([
             'id' => 3,
             'name' => 'doctor',
             'name_es' => 'Doctor',
             'name_en' => 'Doctor',
         ]);
 
-        $role = Role::create([
+        $nurse = Role::create([
             'id' => 4,
             'name' => 'nurse',
-            'name_es' => 'Emfermero',
+            'name_es' => 'Enfermero',
             'name_en' => 'Nurse',
         ]);
 
-        $role = Role::create([
+        $cordinator = Role::create([
             'id' => 5,
            'name' => 'coordinador',
            'name_es' => 'Coordinador',
            'name_en' => 'Coordinator',
         ]);
 
-        $role = Role::create([
+        $driver = Role::create([
             'id' => 6,
             'name' => 'driver',
             'name_es' => 'Chofer',

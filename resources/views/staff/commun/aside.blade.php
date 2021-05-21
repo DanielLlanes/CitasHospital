@@ -10,7 +10,7 @@
                 <li class="sidebar-user-panel">
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="{{ asset('staffFiles/assets/img/dp.jpg') }}" class="img-circle user-img-circle" alt="User Image" />
+                            <img src="{{ auth()->guard('staff')->user()->avatar }}" class="img-circle user-img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p> {{ auth()->guard('staff')->user()->name }}</p>
@@ -57,7 +57,7 @@
                     <span class="title">@lang('aside.Appointment') </span><span class="arrow"></span></a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="" class="nav-link "> <span class="title">@lang('aside.Doctor Schedule') </span>
+                            <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('aside.Doctor Schedule') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
@@ -130,17 +130,17 @@
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_staff.html" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
+                            <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
                             </a>
                         </li>
-                        <li class="nav-item  ">
+                        {{-- <li class="nav-item  ">
                             <a href="edit_staff.html" class="nav-link "> <span class="title">@lang('aside.Edit Staff') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
                             <a href="staff_profile.html" class="nav-link "> <span class="title">@lang('aside.Staff Profile') </span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
                 <li class="nav-item  ">

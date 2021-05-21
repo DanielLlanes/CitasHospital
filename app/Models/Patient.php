@@ -6,10 +6,17 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Patient extends Authenticatable
 {
-    use HasFactory, Notifiable;
+     use HasFactory;
+    use Notifiable;
+    use HasRoles;
+    use SoftDeletes; //Implementamos
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -17,10 +24,21 @@ class Patient extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'photo',
         'name',
-        'email',
+        'gender',
+        'age',
+        'phone',
         'password',
-        'username'
+        'phone_cellphone',
+        'email',
+        'address',
+        'city',
+        'region_id',
+        'country_id',
+        'postcode',
+        'emergency_contact',
+        'contact_phone_number'
     ];
 
     /**
@@ -41,3 +59,4 @@ class Patient extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+}

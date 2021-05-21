@@ -31,6 +31,7 @@ class StaffFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'password' => Hash::make('Pa$$w0rd!'),
             'lang' => $this->faker->randomElement(['en', 'es']),
+            'avatar' => 'staffFiles/assets/img/user/user'.$this->faker->randomElement(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '12', '13', '14', '15', '16', '17', '18']).'.jpg',
             'active' => true,
             'show' => true,
             'set_pass' => true,

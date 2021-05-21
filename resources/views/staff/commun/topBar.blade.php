@@ -223,7 +223,7 @@
                 <!-- start manage user dropdown -->
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="" class="img-circle " src="{{ asset('staffFiles/assets/img/dp.jpg') }}" />
+                        <img alt="" class="img-circle " src="{{ auth()->guard('staff')->user()->avatar }}" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
@@ -247,11 +247,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Log Out </a>
+                            <a href="{{ route('staff.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fa fa-sign-out"></i> Log Out
+                            </a>
                         </li>
                     </ul>
                 </li>
+                <form id="logout-form" action="{{ route('staff.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
                 <!-- end manage user dropdown -->
                 <li class="dropdown dropdown-quick-sidebar-toggler">
                      <a id="headerSettingButton" class="mdl-button mdl-js-button mdl-button--icon pull-right" data-upgraded=",MaterialButton">

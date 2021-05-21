@@ -7,6 +7,7 @@
     <meta name="description" content="Responsive Admin Template" />
     <meta name="author" content="Sunray" />
     <title>{{ str_replace('_', " ", config('app.name', 'Laravel')) }} | @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
     <!-- icons -->
@@ -25,6 +26,12 @@
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}">
+    <style type="text/css">
+        .swal2-title{
+            font-size: .8rem!important;
+        }
+    </style>
     @yield('styles')
     <!-- favicon -->
 </head>
@@ -81,8 +88,26 @@
         <!-- morris chart -->
         <script src="{{ asset('staffFiles/assets/plugins/morris/morris.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/morris/raphael-min.js') }}" ></script>
-        <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script>
+        <script src="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert2.js') }}"></script>
+        {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- end js include path -->
+        {{-- plugins Langs --}}
+        <script>
+            var dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
+        </script>
+        <script>
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+        </script>
         @yield('scripts')
       </body>
 </body>

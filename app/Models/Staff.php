@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Staff extends Authenticatable
 {
     use HasFactory;
     use Notifiable;
     use HasRoles;
+    use SoftDeletes; //Implementamos
+
+    protected $dates = ['deleted_at']; //Registramos la nueva columna
 
     /**
      * The attributes that are mass assignable.
@@ -55,6 +59,16 @@ class Staff extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Staff belongs to .
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
+    }
 
     /**
      * Send the password reset notification.

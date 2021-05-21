@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Patient;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class PatientFactory extends Factory
 {
@@ -22,7 +24,10 @@ class PatientFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'phone' => $this->faker->phoneNumber,
+            'email' => $this->faker->unique()->safeEmail,
+            'password' => Hash::make(Str::random(10))
         ];
     }
 }
