@@ -132,7 +132,8 @@
                         <div class="row">
                             <div class="offset-md-3 col-md-9">
                                 <button type="button" class="btn btn-info" id="formSubmit">Add</button>
-                                <button type="reset" class="btn btn-default" id="formReset">Cancel</button>
+                                <button type="button" class="btn btn-default" id="formCancel">Cancel</button>
+                                <button type="reset" class="d-none" id="formReset">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -230,6 +231,7 @@
         var globalSetEvent = '{{ route('staff.events.store') }}'
         var globaleventSources = '{{ route('staff.events.eventSources') }}'
         var globalEventDrop = '{{ route('staff.events.eventDrop') }}'
+        var globalEditEvent = '{{ route('staff.events.editEvent') }}'
     </script>
 	<script>
         var calendar;
@@ -429,6 +431,9 @@
             format : 'DD/MM/YYYY',
             minDate : moment()
         });
+        function dateCheck(sss){
+            if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
+        }
         function eventDrop(event){
             var form_data = new FormData();
             form_data.append('id', event.event.id);
@@ -466,7 +471,99 @@
                 },
             })
         }
+        $(document).on('click', '#formCancel', function(event) {
+            event.preventDefault();
+            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
+            $('input').removeAttr("disabled")
+            $('#formReset').click();
+        });
+        $(document).on('click', '.eventEdit', function(event) {
+            event.preventDefault();
+            $('#formSubmit').html('edit').attr({
+                event: $(this).attr('data-id'),
+                id: 'formEdit'
+            });
+            var event = calendar.getEventById($(this).attr('data-id'))
+            $(this).removeAttr('data-id')
+            $('#title').val(event.title);
+            $('#patient').val(event.extendedProps.patient).attr({
+                disabled: true,
+                'data-id': event.extendedProps.patient_id,
+            });
 
+            $('#phone').val(event.extendedProps.phone).attr('disabled', true);
+            $('#email').val(event.extendedProps.email).attr('disabled', true);
+            $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
+            $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
+            $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
+            $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
+            $('#notes').val(event.extendedProps.notas);
+            $('#viewEvantModal').modal('hide')
+        });
+        function eventClick(arg) {
+            $('#viewEvantModal').on('show.bs.modal', function (e) {
+                $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit');
+                $('.eventEdit').attr('data-id', arg.event.id)
+                $('#formReset').click();
+            }).modal('show')
+        }
+
+        $(document).on('click', '.closeModal', function(event) {
+            event.preventDefault();
+            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
+            $('input').removeAttr("disabled")
+            $('#formReset').click();
+        });
+        $(document).on('click', '#formEdit', function(event) {
+            event.preventDefault();
+            $('.error').html('')
+            var date = $('#start').val();
+            var formatdate = date.split("/").reverse().join("/");
+            var dataString = new FormData()
+            dataString.append('patient_id', $('#patient').attr('data-id'))
+            dataString.append('phone', $('#phone').val())
+            dataString.append('title', $('#title').val())
+            dataString.append('email', $('#email').val())
+            dataString.append('patient', $('#patient').val())
+            dataString.append('start', formatdate)
+            dataString.append('timeStart', $('#timeStart').val())
+            dataString.append('timeEnd', $('#timeEnd').val())
+            dataString.append('staff_id', $('#staff').attr('data-id'))
+            dataString.append('staff', $('#staff').val())
+            dataString.append('notes', $('#notes').val())
+            dataString.append('event', $('#formEdit').attr('event'))
+            $.ajax({
+                type: "POST",
+                url: globalEditEvent,
+                method:"POST",
+                data:dataString,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+
+                },
+                success: function(data) {
+                    $('input').removeAttr("disabled")
+                    calendar.refetchEvents()
+                    if (data.reload) {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        $('#formReset').click();
+                    } else {
+                        $.each( data.errors, function( key, value ) {
+                            $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                        });
+                    }
+                }
+            });
+        });
 
 </script>
 @endsection

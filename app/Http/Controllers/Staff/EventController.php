@@ -68,6 +68,10 @@ class EventController extends Controller
             $extendedProps['notas'] = $events[$i]->note;
             $extendedProps['email'] = $events[$i]->patient->email;
             $extendedProps['phone'] = $events[$i]->patient->phone;
+            $extendedProps['startDate'] = $events[$i]->start_date;
+            $extendedProps['startTime'] = $events[$i]->start_time;;
+            $extendedProps['endDate'] = $events[$i]->start_date;
+            $extendedProps['endTime'] = $events[$i]->end_time;
             $singleEvent['extendedProps'] = $extendedProps;
             $allEvents[] = $singleEvent;
         }
@@ -227,14 +231,62 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        // $event = Event::first()
-        // return response()->json(
-        //     [
-        //         'msg' => $request,
-        //     ]
-        // );
+        //return $request;
+        $todayDate = Date('Y-m-d');
+        $event = Event::find($request->event);
+
+        if ($event) {
+            $validator = Validator::make($request->all(), [
+                'patient' => 'required|string',
+                'patient_id' => 'sometimes|integer|exists:patients,id',
+                'email' => 'required|email',
+                'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
+                'timeStart' => 'required|date_format:H:i',
+                'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
+                'notes' => 'required|string',
+                'title' => 'required|string',
+                'staff_id' => 'required|exists:staff,id',
+                'staff' => 'required|string',
+                'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
+            ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'go' => '0',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }
+            $event->staff_id = $request->staff_id;
+            $event->patient_id = $request->patient_id;
+            $event->title = $request->title;
+            $event->start_date = $request->start;
+            $event->start_time = $request->timeStart;
+            $event->end_date = $request->start;
+            $event->end_time = $request->timeEnd;
+            $event->note = $request->notes;
+            $event->title = $request->title;
+
+            if ($event->save()) {
+                return response()->json(
+                    [
+                        'icon' => 'success',
+                        'msg' => 'Evento editado satisfactoriamente!',
+                        'reload' => true
+                    ]
+                );
+            }
+        } else {
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => 'No se encontro el evento seleccionado',
+                    'reload' => false
+                ]
+            );
+        }
+
     }
 
     /**
