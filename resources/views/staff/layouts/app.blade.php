@@ -38,7 +38,7 @@
 <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-color logo-dark">
     <div class="page-wrapper">
         <!-- start header -->
-        <div class="page-header navbar navbar-fixed-top" style="border: 1px solid red">
+        <div class="page-header navbar navbar-fixed-top" style="">
             @include('staff.commun.topBar')
         </div>
         <!-- end header -->
@@ -109,6 +109,25 @@
             })
         </script>
         @yield('scripts')
+        <script type="text/javascript">
+
+            var url = window.location;
+            $('.sidemenu .nav-item a').each( function(index, val) {
+                if (this.href === url.href || url.href.indexOf(this.href) === 0) {
+                    $(this).parent().addClass('active open');
+                    $(this).parents('.nav-item').addClass('active open')
+                }
+            });
+            var sub = $('.sub-menu')
+
+            $.each(sub, function(index, val) {
+                let len = $(this).find('.nav-item').length;
+                if (len == 0) {
+                    $(this).parent().remove()
+                }
+            });
+        </script>
+
       </body>
 </body>
 </html>

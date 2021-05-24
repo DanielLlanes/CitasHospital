@@ -21,7 +21,7 @@ return [
 	"Doctor Schedule" => "Doctor Schedule",
 	"Book Appointment" => "Book Appointment",
 	"Edit Appointment" => "Edit Appointment",
-	"View All Appointment" => "View All Appointment",
+	"View All my Appointments" => "View All my Appointments",
 
 	"Doctors" => "Doctors",
 	"All Doctor" => "All Doctor",

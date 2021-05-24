@@ -21,7 +21,7 @@ return [
 	"Doctor Schedule" => "Horario Médico",
 	"Book Appointment" => "Reservar una Cita",
 	"Edit Appointment" => "Editar Cita",
-	"View All Appointment" => "Ver Todas las Citas",
+	"View All my Appointments" => "Ver Todas mis Citas",
 
 	"Doctors" => "Doctores",
 	"All Doctor" => "Todos los Doctores",

@@ -1,7 +1,7 @@
 
     <div class="sidemenu-container navbar-collapse collapse fixed-menu">
         <div id="remove-scroll" class="left-sidemenu">
-            <ul class="sidemenu  page-header-fixed slimscroll-style" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
+            <ul class="sidemenu page-header-fixed slimscroll-style" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 20px">
                 <li class="sidebar-toggler-wrapper hide">
                     <div class="sidebar-toggler">
                         <span></span>
@@ -23,127 +23,55 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item  ">
+                <li class="nav-item">
                     <a href="{{ route('staff.dashboard') }}" class="nav-link nav-toggle"> <i class="material-icons">dashboard</i>
                         <span class="title">@lang('aside.Dashboard')</span>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle">
-                        <i class="material-icons">email</i>
-                        <span class="title">Email</span>
-                        <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="email_inbox.html" class="nav-link ">
-                                <span class="title">Inbox</span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="email_view.html" class="nav-link ">
-                                <span class="title">View Mail</span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="email_compose.html" class="nav-link ">
-                                <span class="title">Compose Mail</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-                <li class="nav-item  ">
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"><i class="material-icons">assignment</i>
                     <span class="title">@lang('aside.Appointment') </span><span class="arrow"></span></a>
                     <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('aside.Doctor Schedule') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
+                        @can('calendar.list')
+                            <li class="nav-item">
+                                <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('aside.Doctor Schedule') </span>
+                                </a>
+                            </li>
+                        @endcan
+                        {{-- <li class="nav-item  ">
                             <a href="book_appointment.html" class="nav-link "> <span class="title">@lang('aside.Book Appointment') </span>
                             </a>
                         </li>
                          <li class="nav-item  ">
                             <a href="edit_appointment.html" class="nav-link "> <span class="title">@lang('aside.Edit Appointment') </span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item  ">
-                            <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('aside.View All Appointment') </span>
+                            <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('aside.View All my Appointments') </span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="nav-item  ">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">person</i>
-                        <span class="title">@lang('aside.Doctors') </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="all_doctors.html" class="nav-link "> <span class="title">@lang('aside.All Doctor') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="add_doctor.html" class="nav-link "> <span class="title">@lang('aside.Add Doctor') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="edit_doctor.html" class="nav-link "> <span class="title">@lang('aside.Edit Doctor') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="doctor_profile.html" class="nav-link "> <span class="title">@lang('aside.About Doctor') </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item  ">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
-                        <span class="title">@lang('aside.Other Staff') </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="all_staffs.html" class="nav-link "> <span class="title">@lang('aside.All Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="add_staff.html" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="edit_staff.html" class="nav-link "> <span class="title">@lang('aside.Edit Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="staff_profile.html" class="nav-link "> <span class="title">@lang('aside.Staff Profile') </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
                 <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
                         <span class="title">@lang('aside.Staff') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('aside.All Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item  ">
-                            <a href="edit_staff.html" class="nav-link "> <span class="title">@lang('aside.Edit Staff') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="staff_profile.html" class="nav-link "> <span class="title">@lang('aside.Staff Profile') </span>
-                            </a>
-                        </li> --}}
+                        @can('staff.list')
+                            <li class="nav-item  ">
+                                <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('aside.All Staff') </span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('staff.create')
+                            <li class="nav-item  ">
+                                <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
-                <li class="nav-item  ">
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">accessible</i>
                         <span class="title">@lang('aside.Patients') </span> <span class="arrow"></span>
                     </a>
@@ -166,7 +94,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item  ">
+                {{-- <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">hotel</i>
                         <span class="title">@lang("Room Allotment") </span> <span class="arrow"></span>
                     </a>
@@ -184,8 +112,8 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item  ">
+                </li> --}}
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">monetization_on</i>
                         <span class="title">@lang("Payments") </span> <span class="arrow"></span>
                     </a>
@@ -204,13 +132,28 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item  ">
-                    <a href="{{ route('staff.dashboard') }}" class="nav-link nav-toggle"> <i class="material-icons">extension</i>
-                        <span class="title">@lang("Configuration") </span>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">extension</i>
+                        <span class="title">@lang("Configuration") </span> <span class="arrow"></span>
                     </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item  ">
+                            <a href="payments.html" class="nav-link "> <span class="title">Pasarelas de pago </span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="invoice_payment.html" class="nav-link "> <span class="title">Roles </span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="invoice_payment.html" class="nav-link "> <span class="title">Permisos </span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item  ">
-                    <a href="{{ route('staff.dashboard') }}" class="nav-link nav-toggle"> <i class="material-icons">widgets</i>
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">widgets</i>
                         <span class="title">@lang("Widget") </span>
                     </a>
                 </li>

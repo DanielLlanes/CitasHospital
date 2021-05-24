@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 		jQuery("body").removeClass("white-sidebar-color dark-sidebar-color blue-sidebar-color indigo-sidebar-color green-sidebar-color red-sidebar-color cyan-sidebar-color");
         jQuery("body").addClass("dark-sidebar-color");
 	}
-	
+
 	if(localStorage.getItem("logo_color")){
 		jQuery("body").removeClass("logo-white logo-dark logo-blue logo-indigo logo-red logo-cyan logo-green");
         jQuery("body").addClass(localStorage.getItem("logo_color"));
@@ -22,7 +22,7 @@ jQuery(document).ready(function() {
 		jQuery("body").removeClass("logo-white logo-dark logo-blue logo-indigo logo-red logo-cyan logo-green");
         jQuery("body").addClass("logo-dark");
 	}
-	
+
 	if(localStorage.getItem("header_color")){
 		jQuery("body").removeClass("header-white header-dark header-blue header-indigo header-red header-cyan header-green");
         jQuery("body").addClass(localStorage.getItem("header_color"));
@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
         jQuery("body").removeClass("white-sidebar-color dark-sidebar-color blue-sidebar-color indigo-sidebar-color green-sidebar-color red-sidebar-color cyan-sidebar-color logo-white logo-dark logo-blue logo-indigo logo-red logo-cyan logo-green");
         jQuery("body").addClass(sidebar_color);
         jQuery("body").addClass(logo_color);
-        
+
     });
     jQuery(document).on("click", ".sidebar-theme a", function() {
         var sidebar_color = jQuery(this).attr('data-theme') + "-sidebar-color";

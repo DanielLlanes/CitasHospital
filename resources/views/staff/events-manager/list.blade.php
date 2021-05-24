@@ -131,7 +131,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="offset-md-3 col-md-9">
-                                <button type="button" class="btn btn-info" id="formSubmit">Submit</button>
+                                <button type="button" class="btn btn-info" id="formSubmit">Add</button>
                                 <button type="reset" class="btn btn-default" id="formReset">Cancel</button>
                             </div>
                         </div>
@@ -140,8 +140,28 @@
              </div>
          </div>
      </div>
-</div>
 
+</div>
+<div class="modal fade" id="viewEvantModal" tabindex="-1" role="dialog" aria-labelledby="viewEvantModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="viewEvantModalLabel">view event details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Modal body text goes here.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary eventEdit">Edit</button>
+                <button type="button" class="btn btn-danger eventDelete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('styles')
 	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
@@ -233,20 +253,12 @@
                     var today = moment(new Date()).format('YYYY-MM-DD');
                     if(check >= today){
                         eventDrop(info)
-                        //alert('message?: DOMString')
                     } else {
                         info.revert();
                     }
                 },
                 eventClick: function(arg) {
                     eventClick(arg)
-                },
-                eventResize: function(info) {
-                    alert(info.event.title + " end is now " + info.event.end.toISOString());
-
-                    if (!confirm("is this okay?")) {
-                        info.revert();
-                    }
                 },
                 eventSources:
                 [
@@ -262,7 +274,7 @@
                 ],
             });
             calendar.render();
-        });
+        })
         $('.autocomplete.staff').on('keyup', function() {
             var key = $(this).val();
             var dataString = new FormData();
@@ -396,13 +408,13 @@
 
                 },
                 success: function(data) {
-                    console.log("errors", data);
                     calendar.refetchEvents()
                     if (data.reload) {
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
                         })
+                        $('#formReset').click();
                     } else {
                         $.each( data.errors, function( key, value ) {
                             $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -417,12 +429,6 @@
             format : 'DD/MM/YYYY',
             minDate : moment()
         });
-        function dateCheck(sss){
-            if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
-        }
-        function eventClick(arg) {
-
-        }
         function eventDrop(event){
             var form_data = new FormData();
             form_data.append('id', event.event.id);

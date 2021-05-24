@@ -143,6 +143,7 @@ class StaffController extends Controller
     public function getSpecialty(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
+
         $specialties = Specialty::select(["id", "name_$lang AS name"])
         ->where('role_id', $request->id)
         ->get();

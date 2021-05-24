@@ -14,12 +14,12 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        // $this->middleware('can:ListAdmins')->only(['getAdmins', 'index']);
-        // $this->middleware('can:CreateAdmins')->only(['create','store']);
-        // $this->middleware('can:EditAdmins')->only(['edit','update']);
-        // $this->middleware('can:DeleteAdmins')->only(['destroy']);
-        // $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
-        // $this->middleware('can:ShowAdmins')->only(['show']);
+        $this->middleware('can:calendar.list')->only(['eventSources', 'index']);
+        $this->middleware('can:calendar.create')->only(['create','store']);
+        $this->middleware('can:calendar.edit')->only(['edit','update', 'eventDrop']);
+        $this->middleware('can:DeleteAdmins')->only(['destroy']);
+        $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
+        $this->middleware('can:ShowAdmins')->only(['show']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -62,10 +62,12 @@ class EventController extends Controller
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
             $singleEvent['allDay'] = false;
             $extendedProps['staff'] = $events[$i]->staff->name;
-            $extendedProps['staff_id'] = $events[$i]->staff->name;
+            $extendedProps['staff_id'] = $events[$i]->staff->id;
             $extendedProps['patient'] = $events[$i]->patient->name;
             $extendedProps['patient_id'] = $events[$i]->patient->id;
-            $extendedProps['notas'] = $events[$i]->notas;
+            $extendedProps['notas'] = $events[$i]->note;
+            $extendedProps['email'] = $events[$i]->patient->email;
+            $extendedProps['phone'] = $events[$i]->patient->phone;
             $singleEvent['extendedProps'] = $extendedProps;
             $allEvents[] = $singleEvent;
         }

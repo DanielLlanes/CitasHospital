@@ -20,11 +20,11 @@ class StaffSeeder extends Seeder
     {
         $dios = Staff::create([
                 'name' => 'Gabriel Llanes',
-                'username' => 'dios',
+                'username' => 'gabriel',
                 'cellphone' => '6645335213',
                 'phone' => '6642104318',
                 'email' => 'tejeda.llanes@gmail.com',
-                'password' => Hash::make('@@ModoDios'),
+                'password' => Hash::make('22Diciembre'),
                 'lang' => 'en',
                 'avatar' => asset("staffFiles/assets/img/user/user.jpg"),
                 'active' => true,
@@ -64,7 +64,7 @@ class StaffSeeder extends Seeder
                 'lang' => 'en',
                 'avatar' => asset("staffFiles/assets/img/user/user.jpg"),
                 'set_pass' => false,
-                'specialty_id' => '2',
+                'specialty_id' => '3',
                 'remember_token' => Str::random(10),
                 'active' => true,
                 'show' => true,
@@ -81,15 +81,73 @@ class StaffSeeder extends Seeder
                 'lang' => 'en',
                 'avatar' => asset("staffFiles/assets/img/user/user.jpg"),
                 'set_pass' => false,
-                'specialty_id' => '2',
+                'specialty_id' => '3',
                 'active' => true,
                 'show' => true,
-                'color' => '#F7F083',
+                'color' => '#1299FF',
                 'remember_token' => Str::random(10),
         ]);
+
+        $adminRole = [
+            "calendar.edit",
+            "calendar.list",
+            "calendar.create",
+            "calendar.destroy",
+
+            "staff.list",
+            "staff.create",
+            "staff.edit",
+            "staff.destroy",
+            "staff.destroy.admins",
+            'staff.edit.admins',
+
+            "applications.list",
+            "applications.details",
+            "applications.create",
+            "applications.edit",
+            "applications.setprice",
+            "applications.changeStaff",
+            "applications.destroy",
+
+            "patients.list",
+            "patients.create",
+            "patients.edit",
+            "patients.destroy",
+            "patients.details",
+
+
+            "procedures.list",
+            "procedures.create",
+            "procedures.edit",
+            "procedures.destroy",
+
+            "payments.list",
+            "payments.create",
+            "payments.edit",
+            "payments.destroy",
+
+            "specialties.list",
+            "specialties.create",
+            "specialties.edit",
+            "specialties.destroy",
+
+            "services.list",
+            "services.create",
+            "services.edit",
+            "services.destroy",
+
+            "packages.list",
+            "packages.create",
+            "packages.edit",
+            "packages.destroy",
+        ];
+
         $dios->assignRole('dios');
-        $admin->assignRole('administrator');
+        $admin->assignRole('super-administrator');
         $janlu->assignRole('administrator');
         $ismael->assignRole('administrator');
+
+        $janlu->givePermissionTo($adminRole);
+        $ismael->givePermissionTo($adminRole);
     }
 }

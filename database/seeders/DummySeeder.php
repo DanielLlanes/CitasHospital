@@ -15,10 +15,9 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
-        $staff = Staff::factory(50)->create()->each(function ($staff) {
-         	$staff->assignRole(rand(2,6));
-            $staff->syncPermissions(rand(1, 37));
-         });
+        // $staff = Staff::factory(50)->create()->each(function ($staff) {
+        //  	$staff->assignRole( rand( 3, 7 ) );
+        //  });
         $patient = Patient::factory(50)->create()->each(function ($staff) {
 
          });

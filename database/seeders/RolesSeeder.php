@@ -20,14 +20,25 @@ class RolesSeeder extends Seeder
             'id' => 1,
             'name' => 'dios',
             'guard_name' => 'staff',
-            'name_es' => 'Dios',
-            'name_en' => 'God',
+            'name_es' => 'Soporte Técnico',
+            'name_en' => 'Tech support',
             'active' => false,
             'show' => false
         ]);
 
-        $admin = Role::create([
+
+        $superAdmin = Role::create([
             'id' => 2,
+            'name' => 'super-administrator',
+            'guard_name' => 'staff',
+            'name_es' => 'Super Administrador',
+            'name_en' => 'Super Administrador',
+            'active' => false,
+            'show' => false
+        ]);
+
+        $Admin = Role::create([
+            'id' => 3,
             'name' => 'administrator',
             'guard_name' => 'staff',
             'name_es' => 'Administrador',
@@ -35,7 +46,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role = Role::create([
-            'id' => 3,
+            'id' => 4,
             'name' => 'doctor',
             'guard_name' => 'staff',
             'name_es' => 'Doctor',
@@ -43,7 +54,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role = Role::create([
-            'id' => 4,
+            'id' => 5,
             'name' => 'nurse',
             'guard_name' => 'staff',
             'name_es' => 'Emfermero',
@@ -51,7 +62,7 @@ class RolesSeeder extends Seeder
         ]);
 
         $role = Role::create([
-            'id' => 5,
+            'id' => 6,
            'name' => 'coordinador',
            'guard_name' => 'staff',
            'name_es' => 'Coordinador',
@@ -59,52 +70,13 @@ class RolesSeeder extends Seeder
         ]);
 
         $role = Role::create([
-            'id' => 6,
+            'id' => 7,
             'name' => 'driver',
             'guard_name' => 'staff',
             'name_es' => 'Chofer',
             'name_en' => 'Driver',
         ]);
         $dios->givePermissionTo(Permission::all());
-        $adminRole = [
-            "calendar.edit",
-            "calendar.list",
-            "calendar.create",
-            "calendar.destroy",
-            "team.list",
-            "team.create",
-            "team.edit",
-            "team.destroy",
-            "applications.list",
-            "applications.details",
-            "applications.create",
-            "applications.edit",
-            "applications.setprice",
-            "applications.changeStaff",
-            "patients.list",
-            "patients.create",
-            "patients.edit",
-            "patients.destroy",
-            "patients.details",
-            "procedures.list",
-            "procedures.create",
-            "procedures.edit",
-            "procedures.destroy",
-            "payments.list",
-            "payments.create",
-            "payments.edit",
-            "payments.destroy",
-            "specialties.list",
-            "specialties.create",
-            "specialties.edit",
-            "specialties.destroy",
-            "services.list",
-            "services.create",
-            "services.edit",
-            "packages.list",
-            "packages.create",
-            "packages.edit"
-        ];
-        $admin->givePermissionTo($adminRole);
+        $superAdmin->givePermissionTo(Permission::all());
     }
 }

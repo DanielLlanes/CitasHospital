@@ -246,7 +246,6 @@
             {
                 var form_data = new FormData();
                 form_data.append('id', id);
-                console.log("id", id);
                  $.ajax({
                      url: globalRouteGetSpecialty,
                      method:"POST",
@@ -264,7 +263,7 @@
                      success:function(data)
                      {
 
-                     console.log({{ $staff->specialty->id }});
+
                         if (data.reload) {
                             Toast.fire({
                                 icon: data.icon,
@@ -276,7 +275,6 @@
                             $.each(data.data, function(index, val) {
                                 if (val.id == {{ $staff->specialty->id }}) {
                                     var selected = 'selected'
-                                    console.log("selected", selected);
                                 }
                                 $("#specialty").append('<option '+selected+' value="'+val.id+'">'+val.name+'</option>')
                             });
@@ -327,7 +325,6 @@
                         } else {
                             $("#specialty option:not(:first-child)").remove();
                             $.each(data.data, function(index, val) {
-                                console.log("val", val.name);
                                 $("#specialty").append('<option value="'+val.id+'">'+val.name+'</option>')
                             });
                         }
