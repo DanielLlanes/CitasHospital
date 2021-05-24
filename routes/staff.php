@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\StaffController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
@@ -67,5 +68,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		// Route::post('/staff/get-specialty', [StaffController::class, 'getSpecialty'])->name('getSpecialty');
 		// Route::post('/staff/destroy', [StaffController::class, 'destroy'])->name('destroy');
 		// Route::post('/staff/activte', [StaffController::class, 'activate'])->name('activate');
+	});
+	Route::name('profile.')->group(function(){
+		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');
+		Route::post('/profile/change-own-pass', [ProfileController::class, 'changeOwnPassStaff'])->name('changeOwnPassStaff');
 	});
 });
