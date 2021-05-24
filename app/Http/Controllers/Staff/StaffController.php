@@ -229,7 +229,8 @@ class StaffController extends Controller
                 'password' => $unHashPassword,
                 'username' => $request->username,
                 'sender' => Auth::guard('staff')->user()->email,
-                'senderName' => Auth::guard('staff')->user()->name
+                'senderName' => Auth::guard('staff')->user()->name,
+                'lang' => $request->language
             );
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
 
