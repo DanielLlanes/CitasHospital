@@ -84,7 +84,7 @@ class StaffSeeder extends Seeder
                 'specialty_id' => '3',
                 'active' => true,
                 'show' => true,
-                'color' => '#1299FF',
+                'color' => '#f29f2c',
                 'remember_token' => Str::random(10),
         ]);
 

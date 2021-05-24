@@ -564,6 +564,5 @@
                 }
             });
         });
-
 </script>
 @endsection
