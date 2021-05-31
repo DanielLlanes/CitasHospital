@@ -507,7 +507,6 @@
                 $('#formReset').click();
             }).modal('show')
         }
-
         $(document).on('click', '.closeModal', function(event) {
             event.preventDefault();
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')

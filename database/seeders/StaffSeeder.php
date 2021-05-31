@@ -99,6 +99,7 @@ class StaffSeeder extends Seeder
             "staff.edit",
             "staff.destroy",
             "staff.destroy.admins",
+            "staff.activate.admins",
             "staff.activate",
             'staff.edit.admins',
 

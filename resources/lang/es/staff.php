@@ -47,5 +47,7 @@ return [
 		'enter designation' => 'Ingrese su nombre',
 		'Specialty' => 'Especialidad',
 		"Permission" => "Permisos",
-		"Edit Staff" => "Editar Personal"
+		"Edit Staff" => "Editar Personal",
+		"Select All" => "Selecionar todo",
+		"Select All Group" => "Seleccionar todo el grupo"
 ];

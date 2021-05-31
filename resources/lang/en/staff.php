@@ -47,5 +47,7 @@ return [
 	'enter designation' => 'Enter designation',
 	'Specialty' => 'Specialty',
 	"Permission" => "Permission",
-	"Edit Staff" => "Edit Staff"
+	"Edit Staff" => "Edit Staff",
+	"Select All" => "Select All",
+	"Select All Group" => "Select All Group"
 ];

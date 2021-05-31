@@ -38,14 +38,6 @@
                                 </a>
                             </li>
                         @endcan
-                        {{-- <li class="nav-item  ">
-                            <a href="book_appointment.html" class="nav-link "> <span class="title">@lang('aside.Book Appointment') </span>
-                            </a>
-                        </li>
-                         <li class="nav-item  ">
-                            <a href="edit_appointment.html" class="nav-link "> <span class="title">@lang('aside.Edit Appointment') </span>
-                            </a>
-                        </li> --}}
                         <li class="nav-item  ">
                             <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('aside.View All my Appointments') </span>
                             </a>

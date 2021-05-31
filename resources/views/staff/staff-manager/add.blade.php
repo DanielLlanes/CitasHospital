@@ -174,7 +174,15 @@
                                 <span class="required">  </span>
                             </label>
                             <div class="col-md-5">
-                                <h3 class="m-0">@lang('staff.Permission')</h3>
+                                <h3 class="m-0">
+                                    <input
+                                    type="checkbox" 
+                                    id="selectAll" >
+                                <label for="selectAll" class="col-form-label-sm">
+                                    @lang('staff.Select All')
+                                </label>
+                                    @lang('staff.Permission')
+                                </h3>
                             </div>
                         </div>
                             <div class="form-group row">
@@ -185,7 +193,17 @@
                                     <div class="col-md-12">
                                         <div class="card card-box">
                                             <div class="card-head">
-                                                <header>{{ $group->group }}</header>
+                                                <header class="d-flex justify-content-between">
+                                                    {{ $group->group }} 
+                                                    <div class="">
+                                                        <input
+                                                        type="checkbox" 
+                                                        class="selectAllGroup" >
+                                                        <label for="selectAll" class="col-form-label-sm">
+                                                            @lang('staff.Select All Group')
+                                                        </label>
+                                                    </div>
+                                                </header>
                                             </div>
 
                                             <div class="card-body " id="bar-parent2">
@@ -196,7 +214,9 @@
                                                                 <div class="checkbox checkbox-icon-black">
                                                                     <input
                                                                         id="permissions_{{ $permission->id }}"
-                                                                        type="checkbox" name="permissions[]"
+                                                                        type="checkbox" 
+                                                                        name="permissions[]"
+                                                                        class="check-all check-group"
                                                                         value="{{ $permission->id }}"
                                                                         {{ ( is_array(old('permissions')) && in_array($permission->name, old('permissions')) ) ? 'checked ' : '' }}
                                                                         >
@@ -233,7 +253,26 @@
 @endsection
 
 @section('scripts')
-
+    <script>
+        $("#selectAll").click(function() {
+            $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+        });
+        $("input[type=checkbox]").click(function() {
+            if (!$(this).prop("checked")) {
+                $("#selectAll").prop("checked", false);
+                $(this).parents('.card-body').siblings().find('.selectAllGroup').prop("checked", false);
+            }
+        });
+        $(".selectAllGroup").click(function() {
+            var input = $(this).parents('.card-head').siblings().find('.check-group')
+            var checked = $(this).is(":checked")
+            if (checked) {
+                input.prop('checked', true);
+            } else {
+                input.prop('checked', false);
+            }
+        });
+    </script>   
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
