@@ -92,7 +92,7 @@
                         <li>
                             <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283" style="height: auto;">
                                 <li>
-                                    <a href="{{route('staff.lang.update', 'es')}}">
+                                    <a href="{{ Auth::guard('staff')->user()->lang == 'es' ? 'javascript:;' : route("staff.lang.update", "es")}}">
                                         <span class="details">
                                             <img src="{{ asset('staffFiles/assets/img/flags/mexico.png') }}" alt="">
                                             <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">{{ __('Spanich') }}.</b> 
@@ -100,7 +100,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{route('staff.lang.update', 'en')}}">
+                                    <a href="{{ Auth::guard('staff')->user()->lang == 'en' ? 'javascript:;' : route('staff.lang.update', 'en') }}">
                                         <span class="details">
                                         <img src="{{ asset('staffFiles/assets/img/flags/estados-unidos.png') }}" alt="">
                                             <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'en' ? 'bold' : ''}}">{{ __('English') }}.</b>

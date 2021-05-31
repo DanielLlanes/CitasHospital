@@ -78,6 +78,14 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Staff'
         ]);
         Permission::create([
+            'name' => 'staff.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar y desactivar personal',
+            'group_es' => 'Personal',
+            'description_en' => 'Activate and deactivate staff',
+            'group_en' => 'Staff'
+        ]);
+        Permission::create([
             'name' => 'staff.destroy',
             'guard_name' => 'staff',
             'description_es' => 'Eliminar personal',
@@ -92,6 +100,14 @@ class PermissionsSeeder extends Seeder
             'description_es' => 'Eliminar administradores',
             'group_es' => 'Personal',
             'description_en' => 'Delete administrators',
+            'group_en' => 'Staff'
+        ]);
+        Permission::create([
+            'name' => 'staff.activate.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar y desactivar administradores',
+            'group_es' => 'Personal',
+            'description_en' => 'Activate and deactivate administrators',
             'group_en' => 'Staff'
         ]);
         Permission::create([

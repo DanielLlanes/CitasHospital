@@ -97,11 +97,11 @@
         {{-- plugins Langs --}}
         <script>
             var dataTablesLangEs;
-            // if ({{\Auth::guard('staff')->user()->lang == 'es'}}) {
-            //     dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
-            // }
-            console.log(navigator.language)
-            console.log(navigator.userLanguage)
+            var lang = '{{\Auth::guard('staff')->user()->lang}}'
+            console.log(lang)
+            if (lang == 'es') {
+                dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
+            }
         </script>
         <script>
             const Toast = Swal.mixin({

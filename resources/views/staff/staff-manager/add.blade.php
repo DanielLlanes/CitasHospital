@@ -179,7 +179,7 @@
                         </div>
                             <div class="form-group row">
                                 @foreach ($groups as $group)
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label class="control-label col-md-3">
                                     </label>
                                     <div class="col-md-12">
@@ -189,7 +189,7 @@
                                             </div>
 
                                             <div class="card-body " id="bar-parent2">
-                                                <div class="row text-nowrap">
+                                                <div class="row">
                                                     @foreach($permissions as $permission)
                                                         @if ($permission->groupP == $group->group)
                                                             <div class="col-md-6 col-sm-6">
