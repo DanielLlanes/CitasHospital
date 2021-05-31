@@ -29,6 +29,7 @@
                                 <div class="card-head">
                                     <header></header>
                                     <div class="tools">
+                                        {{ app()->getLocale() }}
                                         <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
 	                                    <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
 	                                    <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
@@ -40,15 +41,15 @@
                                         <thead>
                                             <tr>
                                             	<th> ID </th>
-                                            	<th> @lang('Staff.Picture') </th>
-                                                <th> @lang('Staff.Name') </th>
-                                                <th> @lang('Staff.Department') </th>
-                                                <th> @lang('Staff.Specialization') </th>
-                                                <th> @lang('Staff.Color') </th>
-                                                <th> @lang('Staff.Mobile') </th>
-                                                <th> @lang('Staff.Email') </th>
-                                                <th> @lang('Staff.Active') </th>
-                                                <th> @lang('Staff.Action') </th>
+                                            	<th> @lang('staff.Picture') </th>
+                                                <th> @lang('staff.Name') </th>
+                                                <th> @lang('staff.Department') </th>
+                                                <th> @lang('staff.Specialization') </th>
+                                                <th> @lang('staff.Color') </th>
+                                                <th> @lang('staff.Mobile') </th>
+                                                <th> @lang('staff.Email') </th>
+                                                <th> @lang('staff.Active') </th>
+                                                <th> @lang('staff.Action') </th>
                                             </tr>
                                         </thead>
                                         <tbody>

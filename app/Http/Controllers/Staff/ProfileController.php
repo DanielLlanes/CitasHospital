@@ -30,6 +30,7 @@ class ProfileController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang)
         $staff = Staff::with([
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);

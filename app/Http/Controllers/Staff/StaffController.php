@@ -38,6 +38,7 @@ class StaffController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $staff = Staff::where('show', true)
         ->with([
             'roles' => function($query) use ($lang) {
@@ -57,6 +58,7 @@ class StaffController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
+            app()->setLocale($lang);
 
             $staff = Staff::where('show', true)
                 ->with([
@@ -133,6 +135,7 @@ class StaffController extends Controller
     public function create()
     {
         $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $groups = \DB::table('permissions')->select("group_$lang AS group")->distinct()->get();
         $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->distinct()->get();
         $roles = Role::selectRaw("id, name_$lang AS name")->where('show', '=', '1')
@@ -143,6 +146,7 @@ class StaffController extends Controller
     public function getSpecialty(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
 
         $specialties = Specialty::select(["id", "name_$lang AS name"])
         ->where('role_id', $request->id)
@@ -276,6 +280,7 @@ class StaffController extends Controller
     public function edit($id)
     {
         $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $staff = Staff::where('show', true)
         ->with([
             'roles' => function($query) use ($lang) {

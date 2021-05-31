@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\LangController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\StaffController;
 
@@ -73,4 +74,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');
 		Route::post('/profile/change-own-pass', [ProfileController::class, 'changeOwnPassStaff'])->name('changeOwnPassStaff');
 	});
+	Route::name('lang.')->group(function(){
+		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
+	});
+	
 });

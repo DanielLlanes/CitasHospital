@@ -185,6 +185,7 @@ class EventController extends Controller
         $event->title = $request->title;
 
         if ($event->save()) {
+            //Mail::send(new NewEventStaff($dataMsg));
             return response()->json(
                 [
                     'icon' => 'success',

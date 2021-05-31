@@ -11,6 +11,7 @@
         <ul class="nav navbar-nav navbar-left in">
             <li><a href="#" class="menu-toggler sidebar-toggler font-size-20"><i class="fa fa-exchange" aria-hidden="true"></i></a></li>
         </ul>
+
          <ul class="nav navbar-nav navbar-left in">
             <li class="dropdown dropdown-extended dropdown-notification" >
                     <a href="javascript:;" class="dropdown-toggle app-list-icon font-size-20" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -77,6 +78,38 @@
         <div class="top-menu">
             <ul class="nav navbar-nav pull-right">
                 <!-- start notification dropdown -->
+                <li class="dropdown dropdown-extended dropdown-notification" >
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="material-icons f-left">flag</i>
+                        <span class="notify"></span>
+                        <span class="heartbeat"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="external">
+                            <h3><span class="bold">{{__('select Language')}}</span></h3>
+                            {{-- <span class="notification-label purple-bgcolor">New 6</span> --}}
+                        </li>
+                        <li>
+                            <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283" style="height: auto;">
+                                <li>
+                                    <a href="{{route('staff.lang.update', 'es')}}">
+                                        <span class="details">
+                                            <img src="{{ asset('staffFiles/assets/img/flags/mexico.png') }}" alt="">
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">{{ __('Spanich') }}.</b> 
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{route('staff.lang.update', 'en')}}">
+                                        <span class="details">
+                                        <img src="{{ asset('staffFiles/assets/img/flags/estados-unidos.png') }}" alt="">
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'en' ? 'bold' : ''}}">{{ __('English') }}.</b>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
                 <li class="dropdown dropdown-extended dropdown-notification" >
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="material-icons">notifications</i>

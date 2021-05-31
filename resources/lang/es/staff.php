@@ -17,7 +17,7 @@ return [
 		'Staff' => 'Personal',
 		'Picture' => 'Imagen',
 		'Name' => 'Nombre',
-		'Department' => 'Department',
+		'Department' => 'Departmento',
 		'Specialization' => 'Especialidad',
 		'Color' => 'Color',
 		'Mobile' => 'Celular',

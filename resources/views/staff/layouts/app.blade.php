@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+@php    
+    \App::setLocale(Auth::guard('staff')->user()->lang);
+@endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8" />
@@ -93,7 +96,12 @@
         <!-- end js include path -->
         {{-- plugins Langs --}}
         <script>
-            var dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
+            var dataTablesLangEs;
+            // if ({{\Auth::guard('staff')->user()->lang == 'es'}}) {
+            //     dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
+            // }
+            console.log(navigator.language)
+            console.log(navigator.userLanguage)
         </script>
         <script>
             const Toast = Swal.mixin({
