@@ -12,7 +12,7 @@
             <li><a href="#" class="menu-toggler sidebar-toggler font-size-20"><i class="fa fa-exchange" aria-hidden="true"></i></a></li>
         </ul>
 
-         <ul class="nav navbar-nav navbar-left in">
+         {{-- <ul class="nav navbar-nav navbar-left in">
             <li class="dropdown dropdown-extended dropdown-notification" >
                     <a href="javascript:;" class="dropdown-toggle app-list-icon font-size-20" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="fa fa-th" aria-hidden="true"></i>
@@ -63,7 +63,7 @@
                         </li>
                     </ul>
                 </li>
-        </ul>
+        </ul> --}}
         <ul class="nav navbar-nav navbar-left in">
             <!-- start full screen button -->
             <li><a href="javascript:;" class="fullscreen-click font-size-20"><i class="fa fa-arrows-alt"></i></a></li>
@@ -263,7 +263,7 @@
                             <a href="{{ route('staff.profile.profile') }}">
                                 <i class="fa fa-user"></i> Profile </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="#">
                                 <i class="fa fa-cogs"></i> Settings
                             </a>
@@ -278,7 +278,7 @@
                             <a href="lock_screen.html">
                                 <i class="fa fa-lock"></i> Lock
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="{{ route('staff.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa fa-sign-out"></i> Log Out

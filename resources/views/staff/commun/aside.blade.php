@@ -63,7 +63,8 @@
                         @endcan
                     </ul>
                 </li>
-                <li class="nav-item">
+
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">accessible</i>
                         <span class="title">@lang('aside.Patients') </span> <span class="arrow"></span>
                     </a>
@@ -85,7 +86,8 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
+
                 {{-- <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">hotel</i>
                         <span class="title">@lang("Room Allotment") </span> <span class="arrow"></span>
@@ -105,7 +107,8 @@
                         </li>
                     </ul>
                 </li> --}}
-                <li class="nav-item">
+
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">monetization_on</i>
                         <span class="title">@lang("Payments") </span> <span class="arrow"></span>
                     </a>
@@ -123,9 +126,9 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">extension</i>
                         <span class="title">@lang("Configuration") </span> <span class="arrow"></span>
                     </a>
@@ -143,12 +146,14 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item  ">
+                </li> --}}
+
+                {{-- <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">widgets</i>
                         <span class="title">@lang("Widget") </span>
                     </a>
-                </li>
+                </li> --}}
+                
             </ul>
         </div>
     </div>

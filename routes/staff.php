@@ -62,7 +62,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::post('/event/store', [EventController::class, 'store'])->name('store');
 		Route::get('/event/sources', [EventController::class, 'eventSources'])->name('eventSources');
 		Route::post('/event/event-drop', [EventController::class, 'eventDrop'])->name('eventDrop');
-		Route::post('/staff/update/', [EventController::class, 'update'])->name('editEvent');
+		Route::post('/enent/update/', [EventController::class, 'update'])->name('editEvent');
+		Route::post('/event/destroy', [EventController::class, 'destroy'])->name('destroy');
+
 
 		// Route::get('/staff/get-staff-list', [StaffController::class, 'getStaffList'])->name('getStaffList');
 		// Route::get('/staff/add', [StaffController::class, 'create'])->name('add');

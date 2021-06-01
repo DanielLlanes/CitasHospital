@@ -131,7 +131,9 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="offset-md-3 col-md-9">
-                                <button type="button" class="btn btn-info" id="formSubmit">Add</button>
+                                @can('calendar.create')
+                                    <button type="button" class="btn btn-info" id="formSubmit">Add</button>
+                                @endcan
                                 <button type="button" class="btn btn-default" id="formCancel">Cancel</button>
                                 <button type="reset" class="d-none" id="formReset">Cancel</button>
                             </div>
@@ -157,8 +159,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary eventEdit">Edit</button>
-                <button type="button" class="btn btn-danger eventDelete">Delete</button>
+                @can('calendar.edit')
+                    <button type="button" class="btn btn-primary eventEdit">Edit</button>
+                @endcan
+                @can('calendar.destroy')
+                    <button type="button" class="btn btn-danger eventDelete">Delete</button>
+                @endcan
             </div>
         </div>
     </div>
@@ -232,6 +238,7 @@
         var globaleventSources = '{{ route('staff.events.eventSources') }}'
         var globalEventDrop = '{{ route('staff.events.eventDrop') }}'
         var globalEditEvent = '{{ route('staff.events.editEvent') }}'
+        var globalDestroyEvent = '{{ route('staff.events.destroy') }}'
     </script>
 	<script>
         var calendar;
@@ -250,15 +257,17 @@
                 dayMaxEvents: true,
                 editable: true, //allow resize events
                 eventDisplay: 'block',
-                eventDrop: function(info) {
-                    var check = moment(info.event.start).format('YYYY-MM-DD');
-                    var today = moment(new Date()).format('YYYY-MM-DD');
-                    if(check >= today){
-                        eventDrop(info)
-                    } else {
-                        info.revert();
-                    }
-                },
+                @can('calendar.edit')
+                    eventDrop: function(info) {
+                        var check = moment(info.event.start).format('YYYY-MM-DD');
+                        var today = moment(new Date()).format('YYYY-MM-DD');
+                        if(check >= today){
+                            eventDrop(info)
+                        } else {
+                            info.revert();
+                        }
+                    },
+                @endcan
                 eventClick: function(arg) {
                     eventClick(arg)
                 },
@@ -434,76 +443,130 @@
         function dateCheck(sss){
             if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
         }
-        function eventDrop(event){
-            var form_data = new FormData();
-            form_data.append('id', event.event.id);
-            form_data.append('start', event.event.startStr);
-            $.ajax({
-                url: globalEventDrop,
-                method:"POST",
-                data:form_data,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
+        @can('calendar.edit')
+            function eventDrop(event){
+                var form_data = new FormData();
+                form_data.append('id', event.event.id);
+                form_data.append('start', event.event.startStr);
+                $.ajax({
+                    url: globalEventDrop,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            calendar.refetchEvents()
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            }
+            $(document).on('click', '.eventEdit', function(event) {
+                event.preventDefault();
+                $('#formSubmit').html('edit').attr({
+                    event: $(this).attr('data-id'),
+                    id: 'formEdit'
+                });
+                var event = calendar.getEventById($(this).attr('data-id'))
+                $(this).removeAttr('data-id')
+                $('#title').val(event.title);
+                $('#patient').val(event.extendedProps.patient).attr({
+                    disabled: true,
+                    'data-id': event.extendedProps.patient_id,
+                });
+
+                $('#phone').val(event.extendedProps.phone).attr('disabled', true);
+                $('#email').val(event.extendedProps.email).attr('disabled', true);
+                $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
+                $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
+                $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
+                $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
+                $('#notes').val(event.extendedProps.notas);
+                $('#viewEvantModal').modal('hide')
+            });
+            $(document).on('click', '#formEdit', function(event) {
+                event.preventDefault();
+                $('.error').html('')
+                var date = $('#start').val();
+                var formatdate = date.split("/").reverse().join("/");
+                var dataString = new FormData()
+                dataString.append('patient_id', $('#patient').attr('data-id'))
+                dataString.append('phone', $('#phone').val())
+                dataString.append('title', $('#title').val())
+                dataString.append('email', $('#email').val())
+                dataString.append('patient', $('#patient').val())
+                dataString.append('start', formatdate)
+                dataString.append('timeStart', $('#timeStart').val())
+                dataString.append('timeEnd', $('#timeEnd').val())
+                dataString.append('staff_id', $('#staff').attr('data-id'))
+                dataString.append('staff', $('#staff').val())
+                dataString.append('notes', $('#notes').val())
+                dataString.append('event', $('#formEdit').attr('event'))
+                $.ajax({
+                    type: "POST",
+                    url: globalEditEvent,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function()
-                {
-                },
-                success:function(data)
-                {
-                    Toast.fire({
-                        icon: data.icon,
-                        title: data.msg
-                    })
-                    if (data.reload) {
+                    },
+                    processData: false,
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        $('input').removeAttr("disabled")
                         calendar.refetchEvents()
+                        if (data.reload) {
+                            Toast.fire({
+                                icon: data.icon,
+                                title: data.msg
+                            })
+                            $('#formReset').click();
+                        } else {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
+                        }
                     }
-                },
-                error: function (err)
-                {
-                    console.log('err', err)
-                },
-                complete: function()
-                {
-                },
-            })
-        }
+                });
+            });
+        @endcan
         $(document).on('click', '#formCancel', function(event) {
             event.preventDefault();
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
             $('input').removeAttr("disabled")
             $('#formReset').click();
         });
-        $(document).on('click', '.eventEdit', function(event) {
-            event.preventDefault();
-            $('#formSubmit').html('edit').attr({
-                event: $(this).attr('data-id'),
-                id: 'formEdit'
-            });
-            var event = calendar.getEventById($(this).attr('data-id'))
-            $(this).removeAttr('data-id')
-            $('#title').val(event.title);
-            $('#patient').val(event.extendedProps.patient).attr({
-                disabled: true,
-                'data-id': event.extendedProps.patient_id,
-            });
-
-            $('#phone').val(event.extendedProps.phone).attr('disabled', true);
-            $('#email').val(event.extendedProps.email).attr('disabled', true);
-            $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
-            $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
-            $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
-            $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
-            $('#notes').val(event.extendedProps.notas);
-            $('#viewEvantModal').modal('hide')
-        });
+        
         function eventClick(arg) {
             $('#viewEvantModal').on('show.bs.modal', function (e) {
                 $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit');
                 $('.eventEdit').attr('data-id', arg.event.id)
+                $('.eventDelete').attr('data-id', arg.event.id)
                 $('#formReset').click();
             }).modal('show')
         }
@@ -513,55 +576,56 @@
             $('input').removeAttr("disabled")
             $('#formReset').click();
         });
-        $(document).on('click', '#formEdit', function(event) {
-            event.preventDefault();
-            $('.error').html('')
-            var date = $('#start').val();
-            var formatdate = date.split("/").reverse().join("/");
-            var dataString = new FormData()
-            dataString.append('patient_id', $('#patient').attr('data-id'))
-            dataString.append('phone', $('#phone').val())
-            dataString.append('title', $('#title').val())
-            dataString.append('email', $('#email').val())
-            dataString.append('patient', $('#patient').val())
-            dataString.append('start', formatdate)
-            dataString.append('timeStart', $('#timeStart').val())
-            dataString.append('timeEnd', $('#timeEnd').val())
-            dataString.append('staff_id', $('#staff').attr('data-id'))
-            dataString.append('staff', $('#staff').val())
-            dataString.append('notes', $('#notes').val())
-            dataString.append('event', $('#formEdit').attr('event'))
-            $.ajax({
-                type: "POST",
-                url: globalEditEvent,
-                method:"POST",
-                data:dataString,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
+        @can('calendar.destroy')
+            $(document).on('click', '.eventDelete', function(event) {
+                event.preventDefault();
+                //alert($(this).attr('data-id'))
+                $('#viewEvantModal').modal('hide')
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            eventDelete($(this).attr('data-id'))
+                        }
+                    })
+            });
+            function eventDelete(id) {
+                var dataString = new FormData()
+                dataString.append('id', id)
+                $.ajax({
+                    type: "POST",
+                    url: globalDestroyEvent,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function(){
+                    },
+                    processData: false,
+                    beforeSend: function(){
 
-                },
-                success: function(data) {
-                    $('input').removeAttr("disabled")
-                    calendar.refetchEvents()
-                    if (data.reload) {
+                    },
+                    success: function(data) {
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
                         })
                         $('#formReset').click();
-                    } else {
-                        $.each( data.errors, function( key, value ) {
-                            $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
-                        });
+                        if (data.reload) {
+                        calendar.refetchEvents()
+                            
+                        }
                     }
-                }
-            });
-        });
+                });
+            }
+        @endcan
 </script>
 @endsection

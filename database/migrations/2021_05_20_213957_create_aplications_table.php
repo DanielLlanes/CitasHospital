@@ -16,6 +16,7 @@ class CreateAplicationsTable extends Migration
         Schema::create('aplications', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

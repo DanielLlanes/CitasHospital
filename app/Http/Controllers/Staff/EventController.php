@@ -17,9 +17,7 @@ class EventController extends Controller
         $this->middleware('can:calendar.list')->only(['eventSources', 'index']);
         $this->middleware('can:calendar.create')->only(['create','store']);
         $this->middleware('can:calendar.edit')->only(['edit','update', 'eventDrop']);
-        $this->middleware('can:DeleteAdmins')->only(['destroy']);
-        $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
-        $this->middleware('can:ShowAdmins')->only(['show']);
+        $this->middleware('can:calendar.destroy')->only(['destroy']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -296,8 +294,25 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $event = Event::find($request->id);
+        if($event->exists()){
+            $event->delete();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => 'Evento eliminado satisfactoriamente!',
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => 'El Evento que intenta eliminar no existe o ya fue eliminado anteriormente!',
+                'reload' => false
+            ]
+        );
     }
 }
