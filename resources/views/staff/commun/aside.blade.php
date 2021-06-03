@@ -49,18 +49,19 @@
                         <span class="title">@lang('aside.Staff') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        @can('staff.list')
+                        @if (Auth::guard('staff')->user()->can('staff.list.admins') || Auth::guard('staff')->user()->can('staff.list'))
+                        
                             <li class="nav-item  ">
                                 <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('aside.All Staff') </span>
                                 </a>
                             </li>
-                        @endcan
-                        @can('staff.create')
+                        @endif
+                        @if (Auth::guard('staff')->user()->can('staff.create.admins') || Auth::guard('staff')->user()->can('staff.create'))
                             <li class="nav-item  ">
                                 <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
                                 </a>
                             </li>
-                        @endcan
+                        @endif
                     </ul>
                 </li>
 

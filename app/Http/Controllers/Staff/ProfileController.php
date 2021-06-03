@@ -35,11 +35,13 @@ class ProfileController extends Controller
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);
             },
+            'permissions',
             'specialty' => function($query) use ($lang){
                 $query->select(["id", "name_$lang AS Sname"]);
             }
         ])
         ->findOrFail(Auth::guard('staff')->user()->id);
+        //return $staff;
         return view('staff.profile-manager.profile', ['staff' => $staff]);
     }
 

@@ -27,7 +27,6 @@ class StaffSeeder extends Seeder
                 'password' => Hash::make('22Diciembre'),
                 'lang' => 'en',
                 'avatar' => "staffFiles/assets/img/user/user.jpg",
-                'active' => true,
                 'show' => false,
                 'set_pass' => true,
                 'color' => '#1596FB',
@@ -48,7 +47,6 @@ class StaffSeeder extends Seeder
                 'set_pass' => true,
                 'specialty_id' => '2',
                 'remember_token' => Str::random(10),
-                'active' => true,
                 'show' => false,
                 'color' => '#FF5733',
         ]);
@@ -66,7 +64,6 @@ class StaffSeeder extends Seeder
                 'set_pass' => false,
                 'specialty_id' => '3',
                 'remember_token' => Str::random(10),
-                'active' => true,
                 'show' => true,
                 'color' => '#3393FF',
         ]);
@@ -82,7 +79,6 @@ class StaffSeeder extends Seeder
                 'avatar' => "staffFiles/assets/img/user/user.jpg",
                 'set_pass' => false,
                 'specialty_id' => '3',
-                'active' => true,
                 'show' => true,
                 'color' => '#f29f2c',
                 'remember_token' => Str::random(10),
@@ -93,15 +89,28 @@ class StaffSeeder extends Seeder
             "calendar.list",
             "calendar.create",
             "calendar.destroy",
+            "calendar.show",
 
             "staff.list",
             "staff.create",
             "staff.edit",
             "staff.destroy",
+            "staff.activate",
+            "staff.show",
+            "staff.reset.password",
+            "staff.create.permisions",
+            "staff.edit.permisions",
+
+            "staff.list.admins",
+            "staff.create.admins",
+            "staff.edit.admins",
             "staff.destroy.admins",
             "staff.activate.admins",
-            "staff.activate",
-            'staff.edit.admins',
+            "staff.show.admins",
+            "staff.reset.password.admins",
+            "staff.create.permisions.admins",
+            "staff.edit.permisions.admins",
+            
 
             "applications.list",
             "applications.details",
@@ -110,12 +119,14 @@ class StaffSeeder extends Seeder
             "applications.setprice",
             "applications.changeStaff",
             "applications.destroy",
+            "applications.show",
 
             "patients.list",
             "patients.create",
             "patients.edit",
             "patients.destroy",
             "patients.details",
+            "patient.show",
 
 
             "procedures.list",
@@ -127,6 +138,7 @@ class StaffSeeder extends Seeder
             "payments.create",
             "payments.edit",
             "payments.destroy",
+            "payments.show",
 
             "specialties.list",
             "specialties.create",

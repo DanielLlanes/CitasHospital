@@ -51,22 +51,22 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Delete calendar events',
             'group_en' => 'Calendar'
         ]);
+        Permission::create([
+            'name' => 'calendar.show',
+            'guard_name' => 'staff',
+            'description_es' => 'ver detalles de eventos',
+            'group_es' => 'Calendario',
+            'description_en' => 'view event details',
+            'group_en' => 'Calendar'
+        ]);
 
         //team
         Permission::create([
             'name' => 'staff.list',
             'guard_name' => 'staff',
-            'description_es' => 'Mostrar listado staff',
+            'description_es' => 'Mostrar listado personal',
             'group_es' => 'Personal',
             'description_en' => 'Show staff list',
-            'group_en' => 'Staff'
-        ]);
-        Permission::create([
-            'name' => 'staff.edit',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar personal',
-            'group_es' => 'Personal',
-            'description_en' => 'Edit staff',
             'group_en' => 'Staff'
         ]);
         Permission::create([
@@ -75,6 +75,14 @@ class PermissionsSeeder extends Seeder
             'description_es' => 'Crear miembros del staff',
             'group_es' => 'Personal',
             'description_en' => 'Create staff',
+            'group_en' => 'Staff'
+        ]);
+        Permission::create([
+            'name' => 'staff.edit',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar personal',
+            'group_es' => 'Personal',
+            'description_en' => 'Edit staff',
             'group_en' => 'Staff'
         ]);
         Permission::create([
@@ -93,31 +101,112 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Delete staff',
             'group_en' => 'Staff'
         ]);
-
         Permission::create([
-            'name' => 'staff.destroy.admins',
+            'name' => 'staff.show',
             'guard_name' => 'staff',
-            'description_es' => 'Eliminar administradores',
+            'description_es' => 'ver detalles de personal',
             'group_es' => 'Personal',
-            'description_en' => 'Delete administrators',
+            'description_en' => 'view staff details',
             'group_en' => 'Staff'
         ]);
         Permission::create([
-            'name' => 'staff.activate.admins',
+            'name' => 'staff.reset.password',
             'guard_name' => 'staff',
-            'description_es' => 'Activar y desactivar administradores',
+            'description_es' => 'Restablecer contraseña del personal',
             'group_es' => 'Personal',
-            'description_en' => 'Activate and deactivate administrators',
+            'description_en' => 'Reset staff password',
             'group_en' => 'Staff'
+        ]);
+        Permission::create([
+            'name' => 'staff.create.permisions',
+            'guard_name' => 'staff',
+            'description_es' => 'Asignar permisos a personal',
+            'group_es' => 'Personal',
+            'description_en' => 'Assign permissions to staff',
+            'group_en' => 'Staff'
+        ]);
+        Permission::create([
+            'name' => 'staff.edit.permisions',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar permisos a personal',
+            'group_es' => 'Personal',
+            'description_en' => 'Edit permissions to staff',
+            'group_en' => 'Staff'
+        ]);
+        //admin
+        Permission::create([
+            'name' => 'staff.list.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Mostrar listado admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Show admin\'s list',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.create.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Crear admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Create admin\'s',
+            'group_en' => 'Administrator'
         ]);
         Permission::create([
             'name' => 'staff.edit.admins',
             'guard_name' => 'staff',
-            'description_es' => 'Editar administradores',
-            'group_es' => 'Personal',
-            'description_en' => 'Edit administrators',
-            'group_en' => 'Staff'
+            'description_es' => 'Editar admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Edit admin\'s',
+            'group_en' => 'Administrator'
         ]);
+        Permission::create([
+            'name' => 'staff.activate.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar y desactivar admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Activate and deactivate admin\'s',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.destroy.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Eliminar admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Delete admin\'s',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.show.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'ver detalles de admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'view admin\'s details',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.reset.password.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Restablecer contraseña de admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Reset admin\'s password',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.create.permisions.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Asignar permisos a admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Assign permissions to Admin\'s',
+            'group_en' => 'Administrator'
+        ]);
+        Permission::create([
+            'name' => 'staff.edit.permisions.admins',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar permisos de admin\'s',
+            'group_es' => 'Administrador',
+            'description_en' => 'Edit permissions to Admin\'s',
+            'group_en' => 'Administrator'
+        ]);
+
         // applications
         Permission::create([
             'name' => 'applications.list',
@@ -130,9 +219,9 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'applications.edit',
             'guard_name' => 'staff',
-            'description_es' => 'Editar Applicaciones',
+            'description_es' => 'Editar Aplicaciones',
             'group_es' => 'Aplicaciones',
-            'description_en' => 'Editar aplications',
+            'description_en' => 'Editar applications',
             'group_en' => 'Applications'
         ]);
         Permission::create([
@@ -175,6 +264,14 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Set and edit application staff',
             'group_en' => 'Applications'
         ]);
+        Permission::create([
+            'name' => 'applications.show',
+            'guard_name' => 'staff',
+            'description_es' => 'ver detalles de aplications',
+            'group_es' => 'Aplicaciones',
+            'description_en' => 'view aplication details',
+            'group_en' => 'Applications'
+        ]);
 
         //patients
         Permission::create([
@@ -215,6 +312,14 @@ class PermissionsSeeder extends Seeder
             'description_es' => 'Ver información de pacientes',
             'group_es' => 'Pacientes',
             'description_en' => 'View patient information',
+            'group_en' => 'Patients'
+        ]);
+        Permission::create([
+            'name' => 'patient.show',
+            'guard_name' => 'staff',
+            'description_es' => 'ver datos generales de patientes',
+            'group_es' => 'Pacientes',
+            'description_en' => 'view general patient data',
             'group_en' => 'Patients'
         ]);
         //procedures
@@ -281,6 +386,14 @@ class PermissionsSeeder extends Seeder
             'description_es' => 'Eliminar pagos',
             'group_es' => 'packages',
             'description_en' => 'Delete payments',
+            'group_en' => 'Payments'
+        ]);
+        Permission::create([
+            'name' => 'payments.show',
+            'guard_name' => 'staff',
+            'description_es' => 'Ver detalles de pagos',
+            'group_es' => 'packages',
+            'description_en' => 'view payments details',
             'group_en' => 'Payments'
         ]);
         //configuration

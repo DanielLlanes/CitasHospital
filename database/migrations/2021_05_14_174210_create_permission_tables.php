@@ -24,10 +24,12 @@ class CreatePermissionTables extends Migration
             $table->bigIncrements('id');
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
-            $table->string('description_es')->nullable();
             $table->string('group_es')->nullable();
             $table->string('group_en')->nullable();
             $table->string('description_en')->nullable();
+            $table->boolean('active')->default(true);
+            $table->string('description_es')->nullable();
+            $table->boolean('show')->default(true);
             $table->timestamps();
 
             $table->unique(['name', 'guard_name']);
