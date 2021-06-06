@@ -63,7 +63,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="name" value="{{ old('name') }}" data-required="1" placeholder="@lang('staff.enter name')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="name" value="{{ old('name') }}" data-required="1" placeholder="@lang('staff.Enter Name')" class="form-control input-height" />
                                 @error('name')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -89,7 +89,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="username" value="{{ old('username') }}" data-required="1" placeholder="@lang('staff.enter username')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="username" value="{{ old('username') }}" data-required="1" placeholder="@lang('staff.Enter Username')" class="form-control input-height" />
                                 @error('username')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -100,7 +100,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="phone" value="{{ old('phone') }}"  id="phone" data-required="1" data-mask="(999) 999-9999" placeholder="@lang('staff.enter phone')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="phone" value="{{ old('phone') }}"  id="phone" data-required="1" data-mask="(999) 999-9999" placeholder="@lang('staff.Enter Phone')" class="form-control input-height" />
                                 @error('phone')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -111,7 +111,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="cellphone" value="{{ old('cellphone') }}" data-required="1" data-mask="(999) 999-9999" placeholder="@lang('staff.enter mobile')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="cellphone" value="{{ old('cellphone') }}" data-required="1" data-mask="(999) 999-9999" placeholder="@lang('staff.Enter Mobile')" class="form-control input-height" />
                                 @error('cellphone')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -122,7 +122,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="email" value="{{ old('email') }}" data-required="1" placeholder="@lang('staff.enter email')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="email" value="{{ old('email') }}" data-required="1" placeholder="@lang('staff.Enter Email')" class="form-control input-height" />
                                 @error('email')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror

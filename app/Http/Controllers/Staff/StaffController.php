@@ -173,10 +173,8 @@ class StaffController extends Controller
         }
 
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
-
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.create.permisions');
-
-
+        
         $staff_create_admins = Auth::guard('staff')->user()->can('staff.create.admins');
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('staff.create.permisions.admins');
 
@@ -184,17 +182,7 @@ class StaffController extends Controller
         app()->setLocale($lang);
         $admin = "admins";
 
-        if ($staff_create_permisions) {
-            
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->distinct()->get();
-
-        } elseif ($staff_create_permisions_admins && !$staff_create_permisions) {
+        if ($staff_create_permisions_admins && !$staff_create_permisions) {
             $admin = "admins";
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
             ->where('name', 'like', '%' . $admin . '%')
@@ -205,6 +193,8 @@ class StaffController extends Controller
             ->distinct()->get();
         } elseif ($staff_create_permisions_admins && $staff_create_permisions) {
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
+
+
             $groups = Permission::select("group_$lang AS group")
             ->distinct()->get();
 
@@ -212,6 +202,7 @@ class StaffController extends Controller
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
             $groups = Permission::select("group_$lang AS group")
             ->distinct()->get();
+            return 4;
         }
 
 
@@ -405,6 +396,7 @@ class StaffController extends Controller
      */
     public function edit($id)
     {
+
         if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }

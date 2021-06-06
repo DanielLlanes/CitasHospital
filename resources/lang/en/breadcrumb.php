@@ -19,5 +19,7 @@ return [
 	"Staff" => 'Staff',
 	"Staff List" => "Staff List",
 	"Add Staff" => "Add Staff",
-	"Edit Staff" => "Edit Staff"
+	"Edit Staff" => "Edit Staff",
+	"Appointment" => "Appointment",
+	"Doctor Schedule" => "Doctor Schedule"
 ];

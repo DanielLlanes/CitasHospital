@@ -95,7 +95,7 @@
                                     <a href="{{ Auth::guard('staff')->user()->lang == 'es' ? 'javascript:;' : route("staff.lang.update", "es")}}">
                                         <span class="details">
                                             <img src="{{ asset('staffFiles/assets/img/flags/mexico.png') }}" alt="">
-                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">{{ __('Spanich') }}.</b> 
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">{{ __('Spanish') }}.</b> 
                                         </span>
                                     </a>
                                 </li>

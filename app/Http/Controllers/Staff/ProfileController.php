@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 class ProfileController extends Controller
 {
     public function __construct()

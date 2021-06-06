@@ -8,6 +8,7 @@ use App\Models\Patient;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -27,6 +28,9 @@ class EventController extends Controller
      */
     public function index()
     {
+        
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $events = Event::with(
             [
                 'staff',

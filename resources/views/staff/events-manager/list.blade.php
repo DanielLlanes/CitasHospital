@@ -1,20 +1,20 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('staff.Staff')
+	@lang('events.Doctor Schedule')
 @endsection
 @section('content')
 
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Doctor Schedule</div>
+            <div class="page-title">@lang('events.Doctor Schedule')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li><a class="parent-item" href="#">Appointment</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><a class="parent-item" href="#">@lang('breadcrumb.Appointment')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">Doctor Schedule</li>
+            <li class="active">@lang('breadcrumb.Doctor Schedule')</li>
         </ol>
     </div>
 </div>
@@ -34,46 +34,46 @@
      <div class="col-md-3 col-sm-12">
          <div class="card-box">
              <div class="card-head">
-                 <header>Book Appointment</header>
+                 <header>@lang('events.Book Appointment')</header>
              </div>
              <div class="card-body" id="bar-parent">
                 <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                     <div class="form-body">
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Title
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Title')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="title" id="title" placeholder="enter title" class="form-control input-sm" />
+                                <input type="text" name="title" id="title" placeholder="@lang('events.Title')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Patient Name
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Name')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="patient" id="patient" autocomplete="off" placeholder="enter patient name" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('events.Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items patient" style="overflow-x: auto; max-height: 200px">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Phone
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Phone')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="phone" id="phone" placeholder="enter phone" class="form-control input-sm" />
+                                <input type="text" name="phone" id="phone" placeholder="@lang('events.Enter patient phone')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Email
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Email')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="email" name="email" id="email" placeholder="enter email" class="form-control input-sm" />
+                                <input type="email" name="email" id="email" placeholder="@lang('events.Enter patient email')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                             </label>
                             <div class="col-md-12">
                                 <div class="input-group date form_date"  data-date="" data-date-format="dd MM yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input class="form-control input-sm" size="16" name="start" id="start" placeholder="date of appointment" type="text" value="">
+                            <input class="form-control input-sm" size="16" name="start" id="start" placeholder="@lang('events.Date of appointment')" type="text" value="">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <input type="hidden" id="dtp_input2" value="" />
@@ -109,21 +109,21 @@
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Staff
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Staff')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12 aqui">
-                                <input type="text" name="staff" id="staff" placeholder="enter staff name" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" name="staff" id="staff" placeholder="@lang('event.Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" />
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items staff" style="overflow-x: auto; max-height: 200px">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Note
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Note')
                             </label>
                             <div class="col-md-12">
-                                <textarea name="address" class="form-control-textarea mb-5" name="notes" id="notes" placeholder="note" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                <textarea name="address" class="form-control-textarea mb-5" name="notes" id="notes" placeholder="@lang('events.Note')" rows="5" style="font-size: 12px;resize: none"></textarea>
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
@@ -230,7 +230,6 @@
     <script src="{{ asset('staffFiles/assets/plugins/material/material.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-    {{-- <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/datetimepicker.js') }}"></script> --}}
     <script>
         var globalValidateBusquedaStaff = '{{ route('staff.events.busquedaStaff') }}'
         var globalValidateBusquedaPatient = '{{ route('staff.events.busquedaPatient') }}'

@@ -19,5 +19,7 @@ return [
 	"Staff" => 'Personal',
 	"Staff List" => "Listado de Personal",
 	"Add Staff" => "Agregar Personal",
-	"Edit Staff" => "Editar Personal"
+	"Edit Staff" => "Editar Personal",
+	"Appointment" => "Cita",
+	"Doctor Schedule" => "Horario médico"
 ];
