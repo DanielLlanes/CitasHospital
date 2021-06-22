@@ -290,7 +290,7 @@ class StaffController extends Controller
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
         ]);
-        $avatar = "staffFiles/assets/img/doc/doc1.jpg";
+        $avatar = "staffFiles/assets/img/user/user.jpg";
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $destinationPath = storage_path('app/public').'/staff/avatar';
@@ -569,7 +569,8 @@ class StaffController extends Controller
 
             $img->save($destinationPath."/".$img_name, '80');
             $avatar = "storage/staff/avatar/$img_name";
-            if ($lastPhoto != null) {
+
+            if ($lastPhoto != null || $lastPhoto != 'staffFiles/assets/img/user/user.jpg') {
 
                 unlink(public_path($lastPhoto));
             }
