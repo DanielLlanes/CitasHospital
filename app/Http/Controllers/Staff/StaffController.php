@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Lang;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -172,6 +173,9 @@ class StaffController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.create.permisions');
         
@@ -237,7 +241,7 @@ class StaffController extends Controller
             return response()->json(
                 [
                     'icon' => 'error',
-                    'msg' => 'No se han encontado especialidades con ese nombre!',
+                    'msg' => Lang::get('No specialties with that name have been found!'),
                     'reload' => true,
                     'data' => ''
                 ]
@@ -247,7 +251,7 @@ class StaffController extends Controller
         return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => 'Se cambio el status del usuario satisfactoriamente!',
+                    'msg' => Lang::get('User status changed successfully!'),
                     'reload' => false,
                     'data' => $specialties
                 ]
@@ -267,7 +271,8 @@ class StaffController extends Controller
         }
         $staff_create_admins = Auth::guard('staff')->user()->can('staff.create.admins');
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('staff.create.permisions.admins');
-
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
 
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
@@ -354,15 +359,14 @@ class StaffController extends Controller
                 'lang' => $request->language
             );
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
-
             $staff->syncRoles([$request->role]);
             $staff->syncPermissions($request->permissions);
-
+            app()->setLocale($lang);
             return redirect()->route('staff.staff.staff')->with(
                 [
                     'sys-message' => '',
                     'icon' => 'success',
-                    'msg' => 'Usuario creado con exito'
+                    'msg' => Lang::get('User created successfully!')
                 ]
             );
         }
@@ -370,7 +374,7 @@ class StaffController extends Controller
             [
                 'sys-message' => '',
                 'icon' => 'error',
-                'msg' => 'No fue posible actualizar al administrador inténtelo mas tarde..'
+                'msg' => Lang::get('We couldn’t create the user please try again!')
             ]
         );
 
@@ -400,6 +404,8 @@ class StaffController extends Controller
         if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
 
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
@@ -492,10 +498,12 @@ class StaffController extends Controller
     public function update(Request $request, $id)
     {
 
-
         if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
 
@@ -586,7 +594,7 @@ class StaffController extends Controller
                 [
                     'sys-message' => '',
                     'icon' => 'success',
-                    'msg' => 'Datos actualizados con exito'
+                    'msg' => Lang::get('User edited successfully!')
                 ]
             );
         }
@@ -594,7 +602,7 @@ class StaffController extends Controller
            [
                'sys-message' => '',
                'icon' => 'error',
-               'msg' => 'No fue posible actualizar al usuario inténtelo mas tarde..'
+               'msg' => Lang::get('The user you are trying to edit does\'t exist or was previously edited!')
            ]
        );
     }
@@ -607,13 +615,15 @@ class StaffController extends Controller
      */
     public function destroy(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $staff = Staff::find($request->id);
         if($staff->exists()){
             $staff->delete();
             return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => 'Usuario eliminado satisfactoriamente!',
+                    'msg' => Lang::get('User successfully removed!'),
                     'reload' => true
                 ]
             );
@@ -621,13 +631,15 @@ class StaffController extends Controller
         return response()->json(
             [
                 'icon' => 'error',
-                'msg' => 'El usuario que intenta eliminar no existe o ya fue eliminado anteriormente!',
+                'msg' => Lang::get('The User you are trying to delete doesn\'t exist or was previously deleted!'),
                 'reload' => false
             ]
         );
     }
     public function activate(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $staff = Staff::with(['roles'])
         ->find($request->id);
         $staff_activate = Auth::guard('staff')->user()->can('staff.activate');
@@ -650,7 +662,7 @@ class StaffController extends Controller
             return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => 'Se cambio el status del usuario satisfactoriamente!',
+                    'msg' => Lang::get('User status is changed successfully!'),
                     'reload' => true
                 ]
             );
@@ -658,7 +670,7 @@ class StaffController extends Controller
             return response()->json(
                 [
                     'icon' => 'error',
-                    'msg' => 'No pudimos encontrar al usuario seleccionado!',
+                    'msg' => Lang::get('We could not find the selected user!'),
                     'reload' => false
                 ]
             );

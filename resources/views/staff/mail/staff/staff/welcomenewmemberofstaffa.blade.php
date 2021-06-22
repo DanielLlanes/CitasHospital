@@ -22,14 +22,14 @@
 					<tbody>
 						<tr>
 							<td>
-								<b>Dear {{ $reciverName }},</b>
-								<p>This is to inform you that, Your account with {{ str_replace('_', " ", config('app.name', 'Laravel')) }} has been created successfully. Log in for more details.</p>
+								<b>@lang('Dear') {{ $reciverName }},</b>
+								<p>@lang('This is to inform you that, Your account on :app_name has been created successfully. Log in for more details.', ['app_name' => str_replace('_', " ", config('app.name', 'Laravel'))])</p>
 								<a href="{{ route('staff.login') }}" style="display: inline-block; padding: 11px 30px; margin: 20px 0px 30px; font-size: 15px; color: #fff; background: #00c0c8; border-radius: 60px; text-decoration:none;"> LogIn </a>
-								<p>From this moment, you can log in with your email or username and password.</p>
-								<p><strong>Email:</strong> {{ $email }}</p>
-								<p><strong>username:</strong> {{ $username }}</p>
-								<p><strong>Password:</strong> {{ $password }}</p>
-								<b>- Thanks {{ str_replace('_', " ", config('app.name', 'Laravel')) }}</b>
+								<p>@lang('From this moment, you can log in with your email or username and password.')</p>
+								<p><strong>@lang('Email'):</strong> {{ $email }}</p>
+								<p><strong>@lang('Username'):</strong> {{ $username }}</p>
+								<p><strong>@lang('Password'):</strong> {{ $password }}</p>
+								<b>- @lang('Thanks') {{ str_replace('_', " ", config('app.name', 'Laravel')) }}</b>
 							</td>
 						</tr>
 					</tbody>

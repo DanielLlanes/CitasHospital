@@ -16,6 +16,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
+        date_default_timezone_set('America/Tijuana');
     }
 
     /**

@@ -30,6 +30,7 @@ class CreatePatientsTable extends Migration
             $table->string('postcode',20)->nullable();
             $table->string('emergency_contact', 80)->nullable();
             $table->string('contact_phone_number', 20)->nullable();
+            $table->string('lang')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,20 +1,18 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('staff.Staff')
+	@lang('User Profile')
 @endsection
 @section('content')
 
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">User Profile</div>
+            <div class="page-title">@lang('User Profile')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li><a class="parent-item" href="#">UI Elements</a>&nbsp;<i class="fa fa-angle-right"></i>
-            </li>
-            <li class="active">User Profile</li>
+            <li class="active">@lang('User Profile')</li>
         </ol>
     </div>
 </div>
@@ -35,53 +33,53 @@
                     </div>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <b>User Name</b> <a class="pull-right">{{ $staff->username }}</a>
+                            <b>@lang('Username')</b> <a class="pull-right">{{ $staff->username }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Email</b> <a class="pull-right">{{ $staff->email }}</a>
+                            <b>@lang('Email')</b> <a class="pull-right">{{ $staff->email }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Phone</b> <a class="pull-right">{{ $staff->phone }}</a>
+                            <b>@lang('Phone')</b> <a class="pull-right">{{ $staff->phone }}</a>
                         </li>
                         <li class="list-group-item">
-                            <b>Mobile</b> <a class="pull-right">{{ $staff->cellphone }}</a>
+                            <b>@lang('Mobile')</b> <a class="pull-right">{{ $staff->cellphone }}</a>
                         </li>
                     </ul>
                     <!-- END SIDEBAR USER TITLE -->
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
                         {{-- <button type="button" class="btn btn-circle green btn-sm">Follow</button> --}}
-                        <button type="button" class="btn btn-circle red btn-sm">Message</button>
+                        <button type="button" class="btn btn-circle red btn-sm">@lang('Message')</button>
                     </div>
                     <!-- END SIDEBAR BUTTONS -->
                 </div>
             </div>
             <div class="card">
                 <div class="card-head ">
-                    <header>Change my Password</header>
+                    <header>@lang('Change my Password')</header>
                 </div>
                 <div class="card-body no-padding height-9">
                     <div class="profile-desc">
-                        Change your password to access the system, with at least 8 characters and easy to remember
+                        @lang('Change your password to access the system, with at least 8 characters and easy to remember')
                     </div>
                     <hr>
                     <form>
                         <div class="form-group">
-                            <label for="current_password" class="col-form-label-sm">Current Password</label>
+                            <label for="current_password" class="col-form-label-sm">@lang('Current Password')</label>
                             <input type="password" class="form-control input-sm" name="current_password" id="current_password" placeholder="Current Password">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <div class="form-group">
-                            <label for="new_password" class="col-form-label-sm">New Password</label>
+                            <label for="new_password" class="col-form-label-sm">@lang('New Password')</label>
                             <input type="password" class="form-control input-sm" name="new_password" id="new_password" placeholder="New Password">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <div class="form-group">
-                            <label for="password_confirmation" class="col-form-label-sm">Confirm new Password</label>
+                            <label for="password_confirmation" class="col-form-label-sm">@lang('Confirm new Password')</label>
                             <input type="password" class="form-control input-sm" name="password_confirmation" id="password_confirmation" placeholder="New Password confirmation">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
-                        <button type="submit" id="changepasswordButton" class="btn btn-primary">Submit</button>
+                        <button type="submit" id="changepasswordButton" class="btn btn-primary">@lang('Change my Password')</button>
                     </form>
                 </div>
             </div>

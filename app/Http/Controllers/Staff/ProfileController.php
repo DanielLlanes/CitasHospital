@@ -75,7 +75,7 @@ class ProfileController extends Controller
                     [
 
                         'icon' => 'success',
-                        'msg' => 'Constraseña editada satisfactoriamente!',
+                        'msg' => Lang::get('Password edited successfully!'),
                         'reload' => true
                     ]
                 );
@@ -84,7 +84,7 @@ class ProfileController extends Controller
                 [
 
                     'icon' => 'error',
-                    'msg' => 'Su contraseña actual no coinside con nuestros registros!',
+                    'msg' => Lang::get('Your current password does not match our records!'),
                     'reload' => true
                 ]
             );

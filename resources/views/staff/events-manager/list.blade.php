@@ -1,20 +1,20 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('events.Doctor Schedule')
+	@lang('Doctor Schedule')
 @endsection
 @section('content')
 
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">@lang('events.Doctor Schedule')</div>
+            <div class="page-title">@lang('Doctor Schedule')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li><a class="parent-item" href="#">@lang('breadcrumb.Appointment')</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><a class="parent-item" href="#">@lang('Appointment')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">@lang('breadcrumb.Doctor Schedule')</li>
+            <li class="active">@lang('Doctor Schedule')</li>
         </ol>
     </div>
 </div>
@@ -34,47 +34,60 @@
      <div class="col-md-3 col-sm-12">
          <div class="card-box">
              <div class="card-head">
-                 <header>@lang('events.Book Appointment')</header>
+                 <header>@lang('Book Appointment')</header>
              </div>
              <div class="card-body" id="bar-parent">
                 <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                     <div class="form-body">
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Title')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Title')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="title" id="title" placeholder="@lang('events.Title')" class="form-control input-sm" />
+                                <input type="text" name="title" id="title" placeholder="@lang('Title')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Name')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Patient Name')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('events.Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items patient" style="overflow-x: auto; max-height: 200px">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Phone')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Patient Phone')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="phone" id="phone" placeholder="@lang('events.Enter patient phone')" class="form-control input-sm" />
+                                <input type="text" name="phone" id="phone" placeholder="@lang('Enter patient phone')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Patient Email')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Patient Email')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="email" name="email" id="email" placeholder="@lang('events.Enter patient email')" class="form-control input-sm" />
+                                <input type="email" name="email" id="email" placeholder="@lang('Enter patient email')" class="form-control input-sm" />
                                 <div class="error text-danger col-form-label-sm"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Patient Lang')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-12">
+                                <select class="form-control input-sm" id="lang" name="lang">
+                                    <option value="">@lang('Select...')</option>
+                                    <option {{ old('language') == 'es' ? 'selected' : '' }} value="es">@lang('Spanish')</option>
+                                    <option {{ old('language') == 'en' ? 'selected' : '' }} value="en">@lang('English')</option>
+                                </select>
+                            <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
@@ -83,7 +96,7 @@
                             </label>
                             <div class="col-md-12">
                                 <div class="input-group date form_date"  data-date="" data-date-format="dd MM yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input class="form-control input-sm" size="16" name="start" id="start" placeholder="@lang('events.Date of appointment')" type="text" value="">
+                            <input class="form-control input-sm" size="16" name="start" id="start" placeholder="@lang('Date of appointment')" type="text" value="">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <input type="hidden" id="dtp_input2" value="" />
@@ -109,21 +122,21 @@
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Staff')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12 aqui">
-                                <input type="text" name="staff" id="staff" placeholder="@lang('event.Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" />
+                                <input type="text" name="staff" id="staff" placeholder="@lang('Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" />
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items staff" style="overflow-x: auto; max-height: 200px">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('events.Note')
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Note')
                             </label>
                             <div class="col-md-12">
-                                <textarea name="address" class="form-control-textarea mb-5" name="notes" id="notes" placeholder="@lang('events.Note')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                <textarea name="address" class="form-control-textarea mb-5" name="notes" id="notes" placeholder="@lang('Note')" rows="5" style="font-size: 12px;resize: none"></textarea>
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
@@ -331,8 +344,8 @@
         });
         $('.autocomplete.patient').on('keyup', function() {
             var key = $(this).val();
-            $('#email').val('').prop('disabled', false);
-            $('#phone').val('');
+            $('#email').val('').removeAttr('disabled')
+            $('#phone').val('').removeAttr('disabled')
             var dataString = new FormData();
             dataString.append('key', key);
             $.ajax({
@@ -349,6 +362,8 @@
                 processData: false,
                 beforeSend: function(){
                     $('#myInputautocomplete-list.patient').html('');
+                    $('#email').val('').prop('disabled', false);
+                    $('#phone').val('').prop('disabled', false);
                 },
                 success: function(data) {
                     //console.log("data", data);
@@ -368,7 +383,7 @@
                             var phone = $(this).attr('phone');
                             $('.autocomplete.patient').val(name).attr('data-id', id);
                             $('#email').val(email).prop('disabled', true);
-                            $('#phone').val(phone);
+                            $('#phone').val(phone).prop('disabled', true);
                             $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
                             return false;
                     });
@@ -386,6 +401,7 @@
             $('.autocomplete.staff').val('').focus().attr('data-id', '')
         });
         $(document).on('click', '#formSubmit', function(event) {
+
             event.preventDefault();
             $('.error').html('')
             var date = $('#start').val();
@@ -395,6 +411,7 @@
             dataString.append('phone', $('#phone').val())
             dataString.append('title', $('#title').val())
             dataString.append('email', $('#email').val())
+            dataString.append('lang', $("#lang option:selected" ).val())
             dataString.append('patient', $('#patient').val())
             dataString.append('start', formatdate)
             dataString.append('timeStart', $('#timeStart').val())
@@ -418,6 +435,7 @@
 
                 },
                 success: function(data) {
+                    console.log("data", data);
                     calendar.refetchEvents()
                     if (data.reload) {
                         Toast.fire({
@@ -425,6 +443,7 @@
                             title: data.msg
                         })
                         $('#formReset').click();
+                        $('.error').html('')
                     } else {
                         $.each( data.errors, function( key, value ) {
                             $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -470,6 +489,7 @@
                         if (data.reload) {
                             calendar.refetchEvents()
                         }
+                        $('.error').html('')
                     },
                     error: function (err)
                     {
@@ -513,6 +533,7 @@
                 dataString.append('phone', $('#phone').val())
                 dataString.append('title', $('#title').val())
                 dataString.append('email', $('#email').val())
+                dataString.append('lang', $("#lang option:selected" ).val())
                 dataString.append('patient', $('#patient').val())
                 dataString.append('start', formatdate)
                 dataString.append('timeStart', $('#timeStart').val())
@@ -559,6 +580,7 @@
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
             $('input').removeAttr("disabled")
             $('#formReset').click();
+            $('.error').html('')
         });
         
         function eventClick(arg) {
@@ -567,6 +589,7 @@
                 $('.eventEdit').attr('data-id', arg.event.id)
                 $('.eventDelete').attr('data-id', arg.event.id)
                 $('#formReset').click();
+                $('.error').html('')
             }).modal('show')
         }
         $(document).on('click', '.closeModal', function(event) {
@@ -574,6 +597,7 @@
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
             $('input').removeAttr("disabled")
             $('#formReset').click();
+            $('.error').html('')
         });
         @can('calendar.destroy')
             $(document).on('click', '.eventDelete', function(event) {
@@ -618,6 +642,7 @@
                             title: data.msg
                         })
                         $('#formReset').click();
+                        $('.error').html('')
                         if (data.reload) {
                         calendar.refetchEvents()
                             

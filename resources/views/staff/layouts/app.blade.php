@@ -98,7 +98,6 @@
         <script>
             var dataTablesLangEs;
             var lang = '{{\Auth::guard('staff')->user()->lang}}'
-            console.log(lang)
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }

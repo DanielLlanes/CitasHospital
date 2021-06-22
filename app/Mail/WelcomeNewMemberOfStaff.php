@@ -31,11 +31,12 @@ class WelcomeNewMemberOfStaff extends Mailable
     public function build()
     {
         //return $this->view('view.name');
-
+        //$lang = auth()->guard('staff')->user()->lang;
+        app()->setLocale($this->dataMsg['lang']);
         return $this->to($this->dataMsg['reciver'], $this->dataMsg['reciverName'])
-        ->from($this->dataMsg['sender'], $this->dataMsg['senderName'])
-        ->subject('Welcome to the jlPrado staff')
-        ->view('staff.mail.welcomenewmemberofstaff')
+        
+        ->subject(str_replace('_', " ", config('app.name', 'Laravel')))
+        ->view('staff.mail.staff.staff.welcomenewmemberofstaff')
         ->with(
             [
                 'reciverName' => $this->dataMsg['reciverName'],

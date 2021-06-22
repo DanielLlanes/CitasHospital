@@ -17,6 +17,35 @@
     <link href="{{ asset('staffFiles/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- style -->
     <link rel="stylesheet" href="{{ asset('staffFiles/assets/css/pages/extra_pages.css') }}">
+    <style>
+        input:-internal-autofill-selected {
+            appearance: menulist-button;
+            background-color: red !important;
+            background-image: none !important;
+            color: -internal-light-dark(black, white) !important;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-animation: autofill 0s forwards;
+            animation: autofill 0s forwards;
+        }
+
+        @keyframes autofill {
+            100% {
+                background: transparent;
+                color: inherit;
+            }
+        }
+
+        @-webkit-keyframes autofill {
+            100% {
+                background: transparent;
+                color: inherit;
+            }
+        }
+    </style>
 </head>
 <body>
     @yield('content')

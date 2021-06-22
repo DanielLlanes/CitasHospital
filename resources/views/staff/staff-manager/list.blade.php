@@ -41,15 +41,15 @@
                                         <thead>
                                             <tr>
                                             	<th> ID </th>
-                                            	<th> @lang('staff.Picture') </th>
-                                                <th> @lang('staff.Name') </th>
-                                                <th> @lang('staff.Department') </th>
-                                                <th> @lang('staff.Specialization') </th>
-                                                <th> @lang('staff.Color') </th>
-                                                <th> @lang('staff.Mobile') </th>
-                                                <th> @lang('staff.Email') </th>
-                                                <th> @lang('staff.Active') </th>
-                                                <th> @lang('staff.Action') </th>
+                                            	<th> @lang('Picture') </th>
+                                                <th> @lang('Name') </th>
+                                                <th> @lang('Department') </th>
+                                                <th> @lang('Specialization') </th>
+                                                <th> @lang('Color') </th>
+                                                <th> @lang('Mobile') </th>
+                                                <th> @lang('Email') </th>
+                                                <th> @lang('Active') </th>
+                                                <th> @lang('Action') </th>
                                             </tr>
                                         </thead>
                                         <tbody>

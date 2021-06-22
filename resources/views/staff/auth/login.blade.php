@@ -8,6 +8,7 @@
         <div class="wrap-login100">
             <form class="login100-form" method="POST" action="{{ route('staff.login') }}">
                 @csrf
+               
                 <span class="d-flex justify-content-center">
                     <img alt="" src="{{ asset('staffFiles/assets/img/hospital1.png') }}">
                 </span>
@@ -15,16 +16,16 @@
                     {{ __('Login') }}
                 </span>
                 <div class="wrap-input100" data-validate = "Enter username">
-                    <input class="input100" type="text" autocomplete="off" name="login" placeholder="{{ __('Username or Email') }}">
+                    <input class="input100" type="text" autocomplete="offs" name="login" placeholder="{{ __('Username or Email') }}">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
                 @error('email')
-                    <span class="invalid-feedback d-bock mb-5" role="alert">
+                    <span class="invalid-feedback" style="display: block!important; margin-top: -30px;" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
                 @error('username')
-                    <span class="invalid-feedback d-bock mb-5" role="alert">
+                    <span class="invalid-feedback" style="display: block!important; margin-top: -30px;" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
@@ -33,7 +34,7 @@
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
                 </div>
                 @error('password')
-                    <span class="invalid-feedback d-bock mb-5" role="alert">
+                    <span class="invalid-feedback" style="display: block!important; margin-top: -30px;" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror

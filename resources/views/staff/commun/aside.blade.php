@@ -25,40 +25,40 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('staff.dashboard') }}" class="nav-link nav-toggle"> <i class="material-icons">dashboard</i>
-                        <span class="title">@lang('aside.Dashboard')</span>
+                        <span class="title">@lang('Dashboard')</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"><i class="material-icons">assignment</i>
-                    <span class="title">@lang('aside.Appointment') </span><span class="arrow"></span></a>
+                    <span class="title">@lang('Appointment') </span><span class="arrow"></span></a>
                     <ul class="sub-menu">
                         @can('calendar.list')
                             <li class="nav-item">
-                                <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('aside.Doctor Schedule') </span>
+                                <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('Doctor Schedule') </span>
                                 </a>
                             </li>
                         @endcan
                         <li class="nav-item  ">
-                            <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('aside.View All my Appointments') </span>
+                            <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('View All my Appointments') </span>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
-                        <span class="title">@lang('aside.Staff') </span> <span class="arrow"></span>
+                        <span class="title">@lang('Staff') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         @if (Auth::guard('staff')->user()->can('staff.list.admins') || Auth::guard('staff')->user()->can('staff.list'))
                         
                             <li class="nav-item  ">
-                                <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('aside.All Staff') </span>
+                                <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('All Staff') </span>
                                 </a>
                             </li>
                         @endif
                         @if (Auth::guard('staff')->user()->can('staff.create.admins') || Auth::guard('staff')->user()->can('staff.create'))
                             <li class="nav-item  ">
-                                <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('aside.Add Staff') </span>
+                                <a href="{{ route('staff.staff.add') }}" class="nav-link "> <span class="title">@lang('Add Staff') </span>
                                 </a>
                             </li>
                         @endif
@@ -67,23 +67,23 @@
 
                 {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">accessible</i>
-                        <span class="title">@lang('aside.Patients') </span> <span class="arrow"></span>
+                        <span class="title">@lang('Patients') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="all_patients.html" class="nav-link "> <span class="title">@lang('aside.All Patients') </span>
+                            <a href="all_patients.html" class="nav-link "> <span class="title">@lang('All Patients') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_patient.html" class="nav-link "> <span class="title">@lang('aside.Add Patient') </span>
+                            <a href="add_patient.html" class="nav-link "> <span class="title">@lang('Add Patient') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="edit_patient.html" class="nav-link "> <span class="title">@lang('aside.Edit Patient') </span>
+                            <a href="edit_patient.html" class="nav-link "> <span class="title">@lang('Edit Patient') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="patient_profile.html" class="nav-link "> <span class="title">@lang('aside.Patient Profile') </span>
+                            <a href="patient_profile.html" class="nav-link "> <span class="title">@lang('Patient Profile') </span>
                             </a>
                         </li>
                     </ul>

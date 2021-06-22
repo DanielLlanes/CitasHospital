@@ -27,6 +27,7 @@ class PatientFactory extends Factory
             'name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
+            'lang' => $this->faker->randomElement(['en', 'es']),
             'password' => Hash::make(Str::random(10))
         ];
     }

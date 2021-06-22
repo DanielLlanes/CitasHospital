@@ -21,6 +21,7 @@
         <div class="col-md-6">
             <label class="control-label col-md-3">
             </label>
+
             <div class="col-md-12">
                 <div class="card card-box">
                     <div class="card-head">
@@ -49,7 +50,7 @@
                                                 name="permissions[]"
                                                 class="check-all check-group"
                                                 value="{{ $permission->id }}"
-                                                {{ ( is_array(old('permissions')) && in_array($permission->name, old('permissions')) ) ? 'checked ' : '' }}
+                                                {{ ( is_array(old('permissions')) && in_array($permission->id, old('permissions')) ) ? 'checked ' : '' }}
                                                 >
                                             <label for="permissions_{{ $permission->id }}">
                                                 {{ $permission->description }}

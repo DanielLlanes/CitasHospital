@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewEventPatient;
+use App\Mail\NewEventStaff;
 use App\Models\Event;
 use App\Models\Patient;
 use App\Models\Staff;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Lang;
 
 class EventController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth:staff');
@@ -97,6 +102,8 @@ class EventController extends Controller
 
     public function eventDrop(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $event = Event::find($request->id);
         if ($event) {
             $date = explode( 'T', $request->start );
@@ -105,7 +112,7 @@ class EventController extends Controller
                return response()->json(
                    [
                        'icon' => 'success',
-                       'msg' => 'Evento editado satisfactoriamente!',
+                       'msg' => Lang::get('Event edited successfully!'),
                        'reload' => true
                    ]
                );
@@ -114,7 +121,7 @@ class EventController extends Controller
         return response()->json(
             [
                 'icon' => 'error',
-                'msg' => 'La fecha que intenta editar no existe o fue eliminada anteriormente!',
+                'msg' => Lang::get('The event you are trying to edit does\'t exist or was previously edited!'),
                 'reload' => false
             ]
         );
@@ -138,6 +145,9 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
         $todayDate = Date('Y-m-d');
         $validator = Validator::make($request->all(), [
@@ -148,6 +158,7 @@ class EventController extends Controller
             'timeStart' => 'required|date_format:H:i',
             'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
             'notes' => 'required|string',
+            'lang' => 'required|string|max:2',
             'title' => 'required|string',
             'staff_id' => 'required|exists:staff,id',
             'staff' => 'required|string',
@@ -162,17 +173,21 @@ class EventController extends Controller
         }
 
         $patient_id = $request->patient_id;
-        // if ($request->has('patient_id')) {
-        //     $patient_id .= $request->patient_id;
-        // }
+        if ($request->has('patient_lang')) {
+            $patient_lang = $request->lang;
+        } else {
+            $patient_lang = $lang;
+        }
         $patienExist = Patient::where('email', $request->email)->first();
         if (!$patienExist) {
             $patient = New Patient;
             $patient->name = $request->patient;
             $patient->email = $request->email;
             $patient->phone = $request->phone;
+            $patient->lang = $lang;
             $patient->save();
             $patient_id = $pantient->id;
+
         }
 
         $event = new Event;
@@ -187,19 +202,49 @@ class EventController extends Controller
         $event->title = $request->title;
 
         if ($event->save()) {
-            //Mail::send(new NewEventStaff($dataMsg));
+            $staffData = Staff::findOrFail($request->staff_id);
+            if ($request->lang == 'es') {
+                $dateP = $this->fechaEspanol($event->start_date);
+            } else {
+                $dateP = $this->fechaIngles($event->start_date);
+            }
+            if ($staffData->lang == 'es') {
+                $dateD = $this->fechaEspanol($event->start_date);
+            } else {
+                $dateD = $this->fechaIngles($event->start_date);
+            }
+            
+            // $dataMsg = array(
+            //     'doctor_email' => $staffData->email,
+            //     'doctor_name' => $staffData->name,
+            //     'doctor_lang' => $staffData->lang,
+            //     'patient_name' => $request->patient,
+            //     'patient_mail' => $request->email,
+            //     'patient_lang' => $request->lang,
+            //     'date' => $request->start,
+            //     'hour_to' => $request->start,
+            //     'hour_from' => $request->timeEnd,
+            //     'note' => $request->notes
+            // );
+
+
+            // Mail::send(new NewEventPatient($dataMsg));
+            // Mail::send(new NewEventStaff($dataMsg));
+
+            // app()->setLocale($lang);
             return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => 'Evento creado satisfactoriamente!',
+                    'msg' => Lang::get('Event created successfully!'),
                     'reload' => true
                 ]
             );
         }
+
         return response()->json(
             [
                 'icon' => 'error',
-                'msg' => 'La fecha que intenta editar no existe o fue eliminada anteriormente!',
+                'msg' => Lang::get('We couldn’t create the event please try again!'),
                 'reload' => false
             ]
         );
@@ -237,6 +282,8 @@ class EventController extends Controller
     public function update(Request $request)
     {
         //return $request;
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $todayDate = Date('Y-m-d');
         $event = Event::find($request->event);
 
@@ -245,6 +292,7 @@ class EventController extends Controller
                 'patient' => 'required|string',
                 'patient_id' => 'sometimes|integer|exists:patients,id',
                 'email' => 'required|email',
+                'lang' => 'required|string|max:2',
                 'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
                 'timeStart' => 'required|date_format:H:i',
                 'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
@@ -275,7 +323,7 @@ class EventController extends Controller
                 return response()->json(
                     [
                         'icon' => 'success',
-                        'msg' => 'Evento editado satisfactoriamente!',
+                        'msg' => Lang::get('Event edited successfully!'),
                         'reload' => true
                     ]
                 );
@@ -284,7 +332,7 @@ class EventController extends Controller
             return response()->json(
                 [
                     'icon' => 'error',
-                    'msg' => 'No se encontro el evento seleccionado',
+                    'msg' => Lang::get('The event you are trying to edit does\'t exist or was previously edited!'),
                     'reload' => false
                 ]
             );
@@ -300,13 +348,15 @@ class EventController extends Controller
      */
     public function destroy(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $event = Event::find($request->id);
         if($event->exists()){
             $event->delete();
             return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => 'Evento eliminado satisfactoriamente!',
+                    'msg' => Lang::get('Event successfully removed!'),
                     'reload' => true
                 ]
             );
@@ -314,9 +364,40 @@ class EventController extends Controller
         return response()->json(
             [
                 'icon' => 'error',
-                'msg' => 'El Evento que intenta eliminar no existe o ya fue eliminado anteriormente!',
+                'msg' => Lang::get('The Event you are trying to delete doesn\'t exist or was previously deleted!'),
                 'reload' => false
             ]
         );
+    }
+    public function fechaEspanol($fecha)
+    {
+        $fecha = substr($fecha, 0, 10);
+        $numeroDia = date('d', strtotime($fecha));
+        $dia = date('l', strtotime($fecha));
+        $mes = date('F', strtotime($fecha));
+        $anio = date('Y', strtotime($fecha));
+        $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+        $nombredia = str_replace($dias_EN, $dias_ES, $dia);
+        $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+        $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
+        return $nombredia." ".$numeroDia." de ".$nombreMes." de ".$anio;
+    }
+     public function fechaIngles($fecha)
+    {
+        $fecha = substr($fecha, 0, 10);
+        $numeroDia = date('d', strtotime($fecha));
+        $dia = date('l', strtotime($fecha));
+        $mes = date('F', strtotime($fecha));
+        $anio = date('Y', strtotime($fecha));
+        $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+        $nombredia = str_replace($dias_ES, $dias_EN, $dia);
+        $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+        $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        $nombreMes = str_replace($meses_ES, $meses_EN, $mes);
+        //return $nombredia.", ".$numeroDia." de ".$nombreMes." de ".$anio;
+        return $nombredia.", ".$nombreMes." ".$numeroDia.", ".$anio;
     }
 }

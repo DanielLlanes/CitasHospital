@@ -16,11 +16,11 @@ class NewEventPatient extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $dataMsg;
+    public function __construct($dataMsg)
     {
-        //
+        $this->dataMsg = $dataMsg;
     }
-
     /**
      * Build the message.
      *
@@ -28,6 +28,18 @@ class NewEventPatient extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        app()->setLocale($this->dataMsg['patient_lang']);
+        return $this->to($this->dataMsg['patient_mail'], $this->dataMsg['patient_name'])
+        ->subject(str_replace('_', " ", config('app.name', 'Laravel')) . ' | ' . $this->dataMsg['patient_subjet'])
+        ->view('staff.mail.staff.event.NewEventPatient')
+        ->with(
+            [
+                'patient_name' => $this->dataMsg['patient_name'],
+                'patient_mail' => $this->dataMsg['patient_mail'],
+                'patient_body' => $this->dataMsg['patient_body'],
+                'note' => $this->dataMsg['note'],
+                
+            ]
+        );
     }
 }

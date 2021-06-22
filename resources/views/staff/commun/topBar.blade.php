@@ -86,7 +86,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="external">
-                            <h3><span class="bold">{{__('select Language')}}</span></h3>
+                            <h3><span class="bold">@lang('select Language')</span></h3>
                             {{-- <span class="notification-label purple-bgcolor">New 6</span> --}}
                         </li>
                         <li>
@@ -95,7 +95,7 @@
                                     <a href="{{ Auth::guard('staff')->user()->lang == 'es' ? 'javascript:;' : route("staff.lang.update", "es")}}">
                                         <span class="details">
                                             <img src="{{ asset('staffFiles/assets/img/flags/mexico.png') }}" alt="">
-                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">{{ __('Spanish') }}.</b> 
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">@lang('Spanish').</b> 
                                         </span>
                                     </a>
                                 </li>
@@ -103,7 +103,7 @@
                                     <a href="{{ Auth::guard('staff')->user()->lang == 'en' ? 'javascript:;' : route('staff.lang.update', 'en') }}">
                                         <span class="details">
                                         <img src="{{ asset('staffFiles/assets/img/flags/estados-unidos.png') }}" alt="">
-                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'en' ? 'bold' : ''}}">{{ __('English') }}.</b>
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'en' ? 'bold' : ''}}">@lang('English').</b>
                                     </a>
                                 </li>
                             </ul>
@@ -261,7 +261,7 @@
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
                             <a href="{{ route('staff.profile.profile') }}">
-                                <i class="fa fa-user"></i> Profile </a>
+                                <i class="fa fa-user"></i> @lang('Profile') </a>
                         </li>
                         {{-- <li>
                             <a href="#">
@@ -281,7 +281,7 @@
                         </li> --}}
                         <li>
                             <a href="{{ route('staff.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fa fa-sign-out"></i> Log Out
+                                <i class="fa fa-sign-out"></i> @lang('Log Out')
                             </a>
                         </li>
                     </ul>
