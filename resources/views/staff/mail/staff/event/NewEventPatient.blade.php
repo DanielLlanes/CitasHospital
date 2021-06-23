@@ -1,43 +1,51 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta name="viewport" content="width=device-width" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>{{ str_replace('_', " ", config('app.name', 'Laravel')) }}</title>
-</head>
-<body style="margin:0px; background: #f8f8f8; ">
-	<div width="100%" style="background: #f8f8f8; padding: 0px 0px; font-family:arial; line-height:28px; height:100%;  width: 100%; color: #514d6a;">
-		<div style="max-width: 700px; padding:50px 0;  margin: 0px auto; font-size: 14px">
-			<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; margin-bottom: 20px">
-				<tbody>
-					<tr>
-						<td style="vertical-align: top; padding-bottom:30px;" align="center">
-							<img src="{{ asset('staffFiles/assets/img/hospital1.png') }}" alt="">
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<div style="padding: 40px; background: #fff;">
-				<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-					<tbody>
-						<tr>
-							<td>
-								<b>@lang('Dear') {{ $patient_name }},</b>
-								<p><p>{{ $patient_body }}</p></p>
-								<p>{{ $note }}</p> 
-								<b>- @lang('Thanks') {{ str_replace('_', " ", config('app.name', 'Laravel')) }}</b>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div style="text-align: center; font-size: 12px; color: #b2b2b5; margin-top: 20px">
-				<p> Powered by {{ str_replace('_', " ", config('app.name', 'Laravel')) }} <br>
-					<a href="javascript: void(0);" style="color: #b2b2b5; text-decoration: underline;">
-					</a>
-				</p>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+@extends('staff.mail.mailTemplate')
+@section('content')
+
+    <table class="body-wrap" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;margin-top: -2px;">
+        <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+            <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;"></td>
+            <td class="container" style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
+                <div class="content" style="margin: 0 auto;padding: 15px;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;max-width: 600px;display: block;">
+                    <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;">
+                        <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+                            <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+                                {{-- <h3 style="margin: 0;padding: 0;font-family: &quot;HelveticaNeue-Light&quot;, &quot;Helvetica Neue Light&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif;line-height: 1.1;margin-bottom: 15px;color: #0A3A50;font-weight: 900;font-size: 55px;text-align: center;">
+                                    Bienvenido
+                                </h3> --}}
+                                <p class="lead patient-name" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: 900;font-size: 20px;line-height: 1.6;text-align: center;color: #2D5B6B;"> @lang('Hi'), {{ $patient_name }} </p>
+                                <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+                                <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+                                <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
+                                    {{ $patient_body }}
+                                </p>
+                                <div class="callout" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
+                                    <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
+                                        <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;">@lang('date'): 
+                                        </strong> {{ $patient_date }}
+                                    </p>
+                                    <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
+                                        <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;">@lang('Start Time'): 
+                                        </strong> {{ $hour_to}} 
+                                    </p>
+                                    <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;"></p>
+                                    <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
+                                        <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;">@lang('End time'): 
+                                        </strong> {{ $hour_from }} 
+                                    </p>
+                                </div>
+                                <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
+                                    {!! $note !!}
+                                </p>
+                                <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;"> </td>
+                                <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
+                                    
+                                </p>
+                                <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;"> </td>
+                        </tr>
+                    </table>
+                </div>
+                @include('staff.mail.email-footer')
+            </td>
+        </tr>
+    </table>
+@endsection

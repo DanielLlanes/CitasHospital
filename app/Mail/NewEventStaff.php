@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewEventStaff extends Mailable
+class NewEventStaff extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -22,18 +22,7 @@ class NewEventStaff extends Mailable
     {
         $this->dataMsg = $dataMsg;
     }
-        // doctor_email
-        // doctor_name
-        // doctor_lang
-        // doctor_subjet
-        // doctor_body
-        // patient_name
-        // patient_name
-        // patient_mail
-        // patient_lang
-        // patient_subjet
-        // patient_body
-        // doctor_name
+
 
     /**
      * Build the message.
@@ -43,18 +32,20 @@ class NewEventStaff extends Mailable
     public function build()
     {
         app()->setLocale($this->dataMsg['doctor_lang']);
+
         return $this->to($this->dataMsg['doctor_email'], $this->dataMsg['doctor_name'])
-        ->subject(str_replace('_', " ", config('app.name', 'Laravel')) . ' | ' . $this->dataMsg['doctor_subjet'])
+        ->subject(str_replace('_', " ", config('app.name', 'Laravel')) . ' | ' . \Lang::get($this->dataMsg['doctor_subj']))
         ->view('staff.mail.staff.event.NewEventStaff')
         ->with(
             [
-                'doctor_email' => $this->dataMsg['doctor_email'],
                 'doctor_name' => $this->dataMsg['doctor_name'],
-                'doctor_body' => $this->dataMsg['doctor_body'],
+                'doctor_subj' => \Lang::get($this->dataMsg['doctor_subj']),
+                'doctor_date' => $this->dataMsg['doctor_date'],
+                'doctor_body' => \Lang::get($this->dataMsg['doctor_body'], ['patient_name' => $this->dataMsg['patient_name']]),
                 'patient_name' => $this->dataMsg['patient_name'],
-                'patient_name' => $this->dataMsg['patient_name'],
-                'patient_mail' => $this->dataMsg['patient_mail'],
-                'note' => $this->dataMsg['note'],
+                'hour_to' => $this->dataMsg['hour_to'],
+                'hour_from' => $this->dataMsg['hour_from'],
+                'note' => $this->dataMsg['note']
             ]
         );
     }

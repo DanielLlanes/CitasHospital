@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Lang;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -145,7 +147,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
@@ -178,6 +179,7 @@ class EventController extends Controller
         } else {
             $patient_lang = $lang;
         }
+
         $patienExist = Patient::where('email', $request->email)->first();
         if (!$patienExist) {
             $patient = New Patient;
@@ -185,8 +187,9 @@ class EventController extends Controller
             $patient->email = $request->email;
             $patient->phone = $request->phone;
             $patient->lang = $lang;
+            $patient->password = Hash::make(Str::random(10));
             $patient->save();
-            $patient_id = $pantient->id;
+            $patient_id = $patient->id;
 
         }
 
@@ -214,24 +217,33 @@ class EventController extends Controller
                 $dateD = $this->fechaIngles($event->start_date);
             }
             
-            // $dataMsg = array(
-            //     'doctor_email' => $staffData->email,
-            //     'doctor_name' => $staffData->name,
-            //     'doctor_lang' => $staffData->lang,
-            //     'patient_name' => $request->patient,
-            //     'patient_mail' => $request->email,
-            //     'patient_lang' => $request->lang,
-            //     'date' => $request->start,
-            //     'hour_to' => $request->start,
-            //     'hour_from' => $request->timeEnd,
-            //     'note' => $request->notes
-            // );
+            $dataMsg = array(
+                'doctor_email' => $staffData->email,
+                'doctor_name' => $staffData->name,
+                'doctor_lang' => $staffData->lang,
+                'doctor_subj' => "A new appointment has been scheduled",
+                'doctor_date' => $dateD,
+                'doctor_body'  => "Hello, a new appointment has been scheduled with :patient_name, please write down the details",
+
+                'patient_name' => $request->patient,
+                'patient_mail' => $request->email,
+                'patient_lang' => $request->lang,
+                'patient_subj' => "Your medical appointment has been confirmed",
+                'patient_date' => $dateP,
+                'patient_body' => "Hello, your medical appointment with :doctor_name has been scheduled, please write down the details",
+
+                'date' => $request->start,
+                'hour_to' => $request->start,
+                'hour_from' => $request->timeEnd,
+
+                'note' => $request->notes
+            );
 
 
-            // Mail::send(new NewEventPatient($dataMsg));
-            // Mail::send(new NewEventStaff($dataMsg));
+            Mail::send(new NewEventPatient($dataMsg));
+            Mail::send(new NewEventStaff($dataMsg));
 
-            // app()->setLocale($lang);
+            app()->setLocale($lang);
             return response()->json(
                 [
                     'icon' => 'success',

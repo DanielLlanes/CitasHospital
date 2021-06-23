@@ -443,6 +443,8 @@
                             title: data.msg
                         })
                         $('#formReset').click();
+                         $('#email').prop('disabled', false);
+                        $('#phone').prop('disabled', false);
                         $('.error').html('')
                     } else {
                         $.each( data.errors, function( key, value ) {
