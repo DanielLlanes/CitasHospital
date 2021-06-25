@@ -509,8 +509,10 @@
                     id: 'formEdit'
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
+                console.log(event)
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
+
                 $('#patient').val(event.extendedProps.patient).attr({
                     disabled: true,
                     'data-id': event.extendedProps.patient_id,
@@ -519,10 +521,15 @@
                 $('#phone').val(event.extendedProps.phone).attr('disabled', true);
                 $('#email').val(event.extendedProps.email).attr('disabled', true);
                 $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
+                $('#lang').val(event.extendedProps.lang);
                 $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
                 $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
                 $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
                 $('#notes').val(event.extendedProps.notas);
+
+                $('#lang option[value="'+event.extendedProps.lang+'"]')
+
+
                 $('#viewEvantModal').modal('hide')
             });
             $(document).on('click', '#formEdit', function(event) {
@@ -587,6 +594,7 @@
         
         function eventClick(arg) {
             $('#viewEvantModal').on('show.bs.modal', function (e) {
+
                 $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit');
                 $('.eventEdit').attr('data-id', arg.event.id)
                 $('.eventDelete').attr('data-id', arg.event.id)

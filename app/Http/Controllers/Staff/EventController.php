@@ -76,6 +76,7 @@ class EventController extends Controller
             $extendedProps['patient_id'] = $events[$i]->patient->id;
             $extendedProps['notas'] = $events[$i]->note;
             $extendedProps['email'] = $events[$i]->patient->email;
+            $extendedProps['lang'] = $events[$i]->patient->lang;
             $extendedProps['phone'] = $events[$i]->patient->phone;
             $extendedProps['startDate'] = $events[$i]->start_date;
             $extendedProps['startTime'] = $events[$i]->start_time;;

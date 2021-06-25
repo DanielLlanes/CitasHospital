@@ -66,17 +66,17 @@
                     <form>
                         <div class="form-group">
                             <label for="current_password" class="col-form-label-sm">@lang('Current Password')</label>
-                            <input type="password" class="form-control input-sm" name="current_password" id="current_password" placeholder="Current Password">
+                            <input type="password" class="form-control input-sm" name="current_password" id="current_password" placeholder="@lang('Current Password')">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <div class="form-group">
                             <label for="new_password" class="col-form-label-sm">@lang('New Password')</label>
-                            <input type="password" class="form-control input-sm" name="new_password" id="new_password" placeholder="New Password">
+                            <input type="password" class="form-control input-sm" name="new_password" id="new_password" placeholder="@lang('New Password')">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation" class="col-form-label-sm">@lang('Confirm new Password')</label>
-                            <input type="password" class="form-control input-sm" name="password_confirmation" id="password_confirmation" placeholder="New Password confirmation">
+                            <input type="password" class="form-control input-sm" name="password_confirmation" id="password_confirmation" placeholder="@lang('Confirm new Password')">
                             <div class="error text-danger col-form-label-sm"></div>
                         </div>
                         <button type="submit" id="changepasswordButton" class="btn btn-primary">@lang('Change my Password')</button>
