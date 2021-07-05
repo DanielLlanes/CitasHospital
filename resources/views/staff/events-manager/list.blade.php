@@ -145,10 +145,10 @@
                         <div class="row">
                             <div class="offset-md-3 col-md-9">
                                 @can('calendar.create')
-                                    <button type="button" class="btn btn-info" id="formSubmit">Add</button>
+                                    <button type="button" class="btn btn-info" id="formSubmit">@lang('Add')</button>
                                 @endcan
-                                <button type="button" class="btn btn-default" id="formCancel">Cancel</button>
-                                <button type="reset" class="d-none" id="formReset">Cancel</button>
+                                <button type="button" class="btn btn-default" id="formCancel">@lang('Cancel')</button>
+                                <button type="reset" class="d-none" id="formReset">@lang('Cancel')</button>
                             </div>
                         </div>
                     </div>
@@ -162,21 +162,35 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="viewEvantModalLabel">view event details</h4>
+                <h4 class="modal-title" id="viewEvantModalLabel">@lang('Event details')</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
-                Modal body text goes here.
+                <div class="title text-center font-weight-bold">
+
+                </div>
+                <div class="staffName">
+
+                </div>
+                <div class="patient">
+
+                </div>
+                <div class="fechaInicio">
+
+                </div>
+                <div class="notas">
+
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
                 @can('calendar.edit')
-                    <button type="button" class="btn btn-primary eventEdit">Edit</button>
+                    <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
                 @endcan
                 @can('calendar.destroy')
-                    <button type="button" class="btn btn-danger eventDelete">Delete</button>
+                    <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
                 @endcan
             </div>
         </div>
@@ -295,6 +309,9 @@
                         },
                     }
                 ],
+                eventDidMount: function (info) {
+                    info.el.style.background = info.event.backgroundColor;
+                }
             });
             calendar.render();
         })
@@ -593,13 +610,19 @@
         });
         
         function eventClick(arg) {
+            console.log(arg.event)
             $('#viewEvantModal').on('show.bs.modal', function (e) {
-
                 $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit');
                 $('.eventEdit').attr('data-id', arg.event.id)
                 $('.eventDelete').attr('data-id', arg.event.id)
                 $('#formReset').click();
                 $('.error').html('')
+                //$('#viewEvantModal').find('.modal-body').html('')
+                $(".title").html(arg.event.title)
+                $(".staffName").html(arg.event.extendedProps.staff)
+                $(".patient").html(arg.event.extendedProps.patient)
+                $(".fechaInicio").html(arg.event.extendedProps.formatedDate)
+                $(".notas").html(arg.event.extendedProps.notas)
             }).modal('show')
         }
         $(document).on('click', '.closeModal', function(event) {

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Staff\TestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +27,10 @@ Route::get('/mail', [HomeController::class, "testMail"]);
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+Route::get('/test', [TestController::class, 'functionName'])->name('test');
+Route::get('/test2', [TestController::class, 'functionName2'])->name('test2');
 
 
 Route::prefix('staff')->group(base_path('routes/staff.php'));

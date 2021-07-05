@@ -64,7 +64,7 @@ class EventController extends Controller
         for ($i = 0; $i < count($events); $i++)
         {
             $singleEvent['id'] = $events[$i]->id;
-            $singleEvent['backgroundColor'] = $events[$i]->staff->Color;
+            $singleEvent['backgroundColor'] = 'linear-gradient(90deg, '.$events[$i]->staff->Color.' 80%, '.$events[$i]->staff->Color.' 0%)'; 
             $singleEvent['borderColor'] = $events[$i]->staff->Color;
             $singleEvent['title'] = $events[$i]->title;
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
@@ -82,6 +82,12 @@ class EventController extends Controller
             $extendedProps['startTime'] = $events[$i]->start_time;;
             $extendedProps['endDate'] = $events[$i]->start_date;
             $extendedProps['endTime'] = $events[$i]->end_time;
+            if (Auth::guard('staff')->user()->lang == 'es') {
+                $extendedProps['formatedDate'] = $this->fechaEspanol($events[$i]->start_date);
+            } else {
+                $extendedProps['formatedDate'] = $this->fechaIngles($events[$i]->end_time);
+            }
+            
             $singleEvent['extendedProps'] = $extendedProps;
             $allEvents[] = $singleEvent;
         }
