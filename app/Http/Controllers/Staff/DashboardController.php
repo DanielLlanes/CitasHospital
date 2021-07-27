@@ -31,7 +31,8 @@ class DashboardController extends Controller
         return view('staff.dashboard');
     }
 
-    public function dashboard(){
+    public function dashboard()
+    {
          return redirect()->route('staff.dashboard');
     }
 }

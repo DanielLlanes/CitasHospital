@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NewEventPatient;
 use App\Mail\NewEventStaff;
-use App\Models\Event;
-use App\Models\Patient;
-use App\Models\Staff;
+use App\Models\Staff\Event;
+use App\Models\Staff\Staff;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\NewEventPatient;
+use App\Models\Staff\Patient;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use Lang;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+
 
 class EventController extends Controller
 {
@@ -35,7 +36,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        
+
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         $events = Event::with(
@@ -45,7 +46,6 @@ class EventController extends Controller
             ]
         )
         ->get();
-        //return $events;
         return view('staff.events-manager.list');
     }
 
@@ -64,7 +64,7 @@ class EventController extends Controller
         for ($i = 0; $i < count($events); $i++)
         {
             $singleEvent['id'] = $events[$i]->id;
-            $singleEvent['backgroundColor'] = 'linear-gradient(90deg, '.$events[$i]->staff->Color.' 80%, '.$events[$i]->staff->Color.' 0%)'; 
+            $singleEvent['backgroundColor'] = 'linear-gradient(90deg, '.$events[$i]->staff->Color.' 80%, '.$events[$i]->staff->Color.' 0%)';
             $singleEvent['borderColor'] = $events[$i]->staff->Color;
             $singleEvent['title'] = $events[$i]->title;
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
@@ -87,7 +87,7 @@ class EventController extends Controller
             } else {
                 $extendedProps['formatedDate'] = $this->fechaIngles($events[$i]->end_time);
             }
-            
+
             $singleEvent['extendedProps'] = $extendedProps;
             $allEvents[] = $singleEvent;
         }
@@ -223,7 +223,7 @@ class EventController extends Controller
             } else {
                 $dateD = $this->fechaIngles($event->start_date);
             }
-            
+
             $dataMsg = array(
                 'doctor_email' => $staffData->email,
                 'doctor_name' => $staffData->name,

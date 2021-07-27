@@ -2,7 +2,7 @@
     <div class="page-header-inner ">
         <!-- logo start -->
         <div class="page-logo">
-            <a href="index-2.html">
+            <a href="{{ route('staff.dashboards') }}">
                 {{-- <img alt="" src="{{ asset('staffFiles/assets/img/logo.png') }}"> --}}
                 <span class="logo-default" >{{ str_replace('_', " ", config('app.name', 'Laravel')) }}</span>
             </a>
@@ -95,7 +95,7 @@
                                     <a href="{{ Auth::guard('staff')->user()->lang == 'es' ? 'javascript:;' : route("staff.lang.update", "es")}}">
                                         <span class="details">
                                             <img src="{{ asset('staffFiles/assets/img/flags/mexico.png') }}" alt="">
-                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">@lang('Spanish').</b> 
+                                            <b class="pl-4 {{ Auth::guard('staff')->user()->lang == 'es' ? 'bold' : ''}}">@lang('Spanish').</b>
                                         </span>
                                     </a>
                                 </li>

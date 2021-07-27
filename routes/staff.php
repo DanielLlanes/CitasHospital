@@ -3,15 +3,16 @@
 
 
 
-use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
+use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\BrandController;
+use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\ProfileController;
+use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
-use App\Http\Controllers\Staff\DashboardController;
-use App\Http\Controllers\Staff\EventController;
-use App\Http\Controllers\Staff\LangController;
-use App\Http\Controllers\Staff\ProfileController;
-use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
@@ -79,5 +80,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
 	});
-	
+    Route::name('products.')->group( function(){
+        Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
+        Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
+    });
+
 });

@@ -50,7 +50,7 @@
                     </a>
                     <ul class="sub-menu">
                         @if (Auth::guard('staff')->user()->can('staff.list.admins') || Auth::guard('staff')->user()->can('staff.list'))
-                        
+
                             <li class="nav-item  ">
                                 <a href="{{ route('staff.staff.staff') }}" class="nav-link "> <span class="title">@lang('All Staff') </span>
                                 </a>
@@ -109,6 +109,30 @@
                     </ul>
                 </li> --}}
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">local_parking</i>
+                        <span class="title">@lang("Products") </span> <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item  ">
+                            <a href="{{ route('staff.products.brand') }}" class="nav-link "> <span class="title">@lang("Brand") </span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="payments.html" class="nav-link "> <span class="title">@lang("Services") </span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="add_payment.html" class="nav-link "> <span class="title">@lang("Procedures") </span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="invoice_payment.html" class="nav-link "> <span class="title">@lang("Packages") </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">monetization_on</i>
                         <span class="title">@lang("Payments") </span> <span class="arrow"></span>
@@ -154,7 +178,7 @@
                         <span class="title">@lang("Widget") </span>
                     </a>
                 </li> --}}
-                
+
             </ul>
         </div>
     </div>

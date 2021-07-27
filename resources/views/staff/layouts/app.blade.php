@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@php    
+@php
     \App::setLocale(Auth::guard('staff')->user()->lang);
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -117,7 +117,6 @@
         </script>
         @yield('scripts')
         <script type="text/javascript">
-
             var url = window.location;
             $('.sidemenu .nav-item a').each( function(index, val) {
                 if (this.href === url.href || url.href.indexOf(this.href) === 0) {
@@ -126,7 +125,6 @@
                 }
             });
             var sub = $('.sub-menu')
-
             $.each(sub, function(index, val) {
                 let len = $(this).find('.nav-item').length;
                 if (len == 0) {

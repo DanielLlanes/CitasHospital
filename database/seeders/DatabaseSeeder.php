@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\Staff\RolesSeeder;
+use Database\Seeders\Staff\StaffSeeder;
+use Database\Seeders\Staff\SpecialtySeeder;
+use Database\Seeders\Staff\PermissionsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,7 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call(PermissionsSeeder::class);
         $this->call(RolesSeeder::class);
 		$this->call(SpecialtySeeder::class);

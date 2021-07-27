@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
-use App\Mail\WelcomeNewMemberOfStaff;
-use App\Models\Specialty;
-use App\Models\Staff;
 use DataTables;
+use App\Models\Staff\Staff;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use App\Mail\WelcomeNewMemberOfStaff;
 use Intervention\Image\Facades\Image;
-use Lang;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
 {
@@ -40,12 +39,12 @@ class StaffController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        
+
         if (!Auth::guard('staff')->user()->can('staff.list.admins') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
         }
         $can_list_admins = Auth::guard('staff')->user()->can('staff.list.admins');
-        
+
         return view('staff.staff-manager.list');
     }
 
@@ -56,8 +55,8 @@ class StaffController extends Controller
             app()->setLocale($lang);
             $can_list_admins = Auth::guard('staff')->user()->can('staff.list.admins');
 
-            
-            
+
+
             $staff = Staff::whereHas(
                 'roles', function($query) use ($lang, $can_list_admins) {
                     if ($can_list_admins) {
@@ -68,7 +67,7 @@ class StaffController extends Controller
                         ->where('name', '!=', 'administrator')
                         ->select(["id", "name_$lang AS Rname"]);
                     }
-                    
+
                 }
             )
             ->where('show', true)
@@ -178,7 +177,7 @@ class StaffController extends Controller
 
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.create.permisions');
-        
+
         $staff_create_admins = Auth::guard('staff')->user()->can('staff.create.admins');
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('staff.create.permisions.admins');
 
@@ -334,7 +333,7 @@ class StaffController extends Controller
                 }
             }
         }
-            
+
         $unHashPassword = Str::random(8);
         $staff = New Staff;
         $staff->name = $request->name;
@@ -437,7 +436,7 @@ class StaffController extends Controller
 
 
         if (!$staff_edit_permisions_admins && $staff_edit_permisions) {
-            
+
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
             ->where('name', 'not like', '%' . $admin . '%')
             ->get();

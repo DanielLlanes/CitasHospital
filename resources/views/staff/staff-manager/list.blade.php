@@ -69,6 +69,7 @@
 @section('styles')
 	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}">
     <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
+
 @endsection
 @section('scripts')
     @if (\Session::has('sys-message'))

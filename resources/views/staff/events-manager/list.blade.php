@@ -608,7 +608,7 @@
             $('#formReset').click();
             $('.error').html('')
         });
-        
+
         function eventClick(arg) {
             console.log(arg.event)
             $('#viewEvantModal').on('show.bs.modal', function (e) {
@@ -623,6 +623,7 @@
                 $(".patient").html(arg.event.extendedProps.patient)
                 $(".fechaInicio").html(arg.event.extendedProps.formatedDate)
                 $(".notas").html(arg.event.extendedProps.notas)
+                $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
             }).modal('show')
         }
         $(document).on('click', '.closeModal', function(event) {
@@ -678,7 +679,7 @@
                         $('.error').html('')
                         if (data.reload) {
                         calendar.refetchEvents()
-                            
+
                         }
                     }
                 });

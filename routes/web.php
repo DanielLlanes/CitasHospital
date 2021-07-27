@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Staff\TestController;
+use App\Http\Controllers\Site\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,23 +13,15 @@ use App\Http\Controllers\Staff\TestController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-//Auth::routes();
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/team', [HomeController::class, 'team'])->name('team');
+Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-post');
+Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
-Route::get('/mail', [HomeController::class, "testMail"]);
-
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
-Route::get('/test', [TestController::class, 'functionName'])->name('test');
-Route::get('/test2', [TestController::class, 'functionName2'])->name('test2');
 
 
 Route::prefix('staff')->group(base_path('routes/staff.php'));

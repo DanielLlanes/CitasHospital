@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Patient;
+use App\Models\Staff\Patient;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller

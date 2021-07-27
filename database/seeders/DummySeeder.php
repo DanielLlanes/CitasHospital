@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Patient;
-use App\Models\Staff;
+use App\Models\Staff\Patient;
 use Illuminate\Database\Seeder;
 
 class DummySeeder extends Seeder
@@ -15,9 +14,6 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
-        // $staff = Staff::factory(50)->create()->each(function ($staff) {
-        //  	$staff->assignRole( rand( 3, 7 ) );
-        //  });
         $patient = Patient::factory(50)->create()->each(function ($staff) {
 
          });
