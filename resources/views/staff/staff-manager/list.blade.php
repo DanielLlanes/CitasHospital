@@ -192,7 +192,6 @@
                     }
                 })
             });
-
             function deleteRecord(id)
             {
                 var form_data = new FormData();

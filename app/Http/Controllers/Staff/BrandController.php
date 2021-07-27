@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
 {
@@ -74,9 +75,28 @@ class BrandController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'brand' => 'required|string',
+            'acronym' => 'required|string',
+            'color' =>  [
+                'required',
+                'unique:brands' => 'This email is already exists in user brand table',
+                'unique:staff' => 'This email is already exists in user staff table',
+                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
+            ],
+            'description_en' => 'required|string',
+            'description_en' => 'required|string',
+          ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
     }
 
     /**

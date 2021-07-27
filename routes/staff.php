@@ -83,6 +83,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
     Route::name('products.')->group( function(){
         Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
         Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
+        Route::post('/brand/create', [BrandController::class, 'create'])->name('create');
     });
 
 });

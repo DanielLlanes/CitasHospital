@@ -91,14 +91,16 @@
                                                </div>
                                                <div class="form-group mb-2">
                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description English')
+                                                    <span class="required"> * </span>
                                                    </label>
                                                    <div class="col-md-12">
-                                                       <textarea name="address" class="form-control-textarea mb-5" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                                       <textarea name="address" class="form-control-textarea mb-3" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
                                                <div class="form-group mb-2">
                                                 <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
+                                                    <span class="required"> * </span>
                                                 </label>
                                                 <div class="col-md-12">
                                                     <textarea name="address" class="form-control-textarea mb-5" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
@@ -109,9 +111,9 @@
                                            <div class="form-actions">
                                                <div class="row">
                                                    <div class="offset-md-3 col-md-9">
-                                                       @can('brand.create')
+                                                       {{-- @can('brand.create') --}}
                                                            <button type="button" class="btn btn-info" id="formSubmit">@lang('Add')</button>
-                                                       @endcan
+                                                       {{-- @endcan --}}
                                                        <button type="button" class="btn btn-default" id="formCancel">@lang('Cancel')</button>
                                                        <button type="reset" class="d-none" id="formReset">@lang('Cancel')</button>
                                                    </div>
@@ -161,6 +163,8 @@
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
         var globalRouteobtenerLista = "{{ route('staff.products.getBrandList') }}";
+        var globalRouteCreate = "{{ route('staff.products.create') }}";
+
 
 		$(document).ready(function() {
 			var codigo = 1;
@@ -195,6 +199,49 @@
 		        },
 		    });
 
+            $(document).on("click", "#formSubmit", function () {
+                var form_data = new FormData();
+                form_data.append('brand', $('#brand').val());
+                form_data.append('acronym', $('#acronym').val());
+                form_data.append('color', $('#color').val());
+                form_data.append('description_en', $('#description_en').val());
+                form_data.append('description_es', $('#description_es').val());
+                $.ajax({
+                    url: globalRouteCreate,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        console.log(data);
+                    // console.log("data", data);
+                    //     Toast.fire({
+                    //       icon: data.icon,
+                    //       title: data.msg
+                    //     })
+                    //     if (data.reload) {
+                    //         brandTable.ajax.reload( null, false );
+                    //         //adminTable.search('').draw();
+                    //     }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
 
             function deleteRecord(id)
             {
