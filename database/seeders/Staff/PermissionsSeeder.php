@@ -206,7 +206,6 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Edit permissions to Admin\'s',
             'group_en' => 'Administrator'
         ]);
-
         // applications
         Permission::create([
             'name' => 'applications.list',
@@ -267,12 +266,11 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'applications.show',
             'guard_name' => 'staff',
-            'description_es' => 'ver detalles de aplications',
+            'description_es' => 'Ver detalles de aplications',
             'group_es' => 'Aplicaciones',
-            'description_en' => 'view aplication details',
+            'description_en' => 'View aplication details',
             'group_en' => 'Applications'
         ]);
-
         //patients
         Permission::create([
             'name' => 'patients.list',
@@ -355,6 +353,14 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Delete procedures',
             'group_en' => 'Procedures'
         ]);
+        Permission::create([
+            'name' => 'procedures.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Activate procedures',
+            'group_en' => 'Procedures'
+        ]);
         //payments
         Permission::create([
             'name' => 'payments.list',
@@ -425,8 +431,16 @@ class PermissionsSeeder extends Seeder
             'name' => 'specialties.destroy',
             'guard_name' => 'staff',
             'description_es' => 'Eliminar especialidades',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Deleta specialties',
+            'group_es' => 'Especialidades',
+            'description_en' => 'Delete specialties',
+            'group_en' => 'Specialties'
+        ]);
+        Permission::create([
+            'name' => 'specialties.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar especialidades',
+            'group_es' => 'Especialidades',
+            'description_en' => 'Activate specialties',
             'group_en' => 'Specialties'
         ]);
         //Services
@@ -462,6 +476,14 @@ class PermissionsSeeder extends Seeder
             'description_en' => 'Delete services',
             'group_en' => 'Services'
         ]);
+        Permission::create([
+            'name' => 'services.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar servicios',
+            'group_es' => 'Servicios',
+            'description_en' => 'Activate services',
+            'group_en' => 'Services'
+        ]);
         //packages
         Permission::create([
             'name' => 'packages.list',
@@ -494,6 +516,55 @@ class PermissionsSeeder extends Seeder
             'group_es' => 'Paquetes',
             'description_en' => 'Edit packages',
             'group_en' => 'Packages'
+        ]);
+        Permission::create([
+            'name' => 'packages.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar paquetes',
+            'group_es' => 'Paquetes',
+            'description_en' => 'Activate packages',
+            'group_en' => 'Packages'
+        ]);
+        //Brand
+        Permission::create([
+            'name' => 'brand.list',
+            'guard_name' => 'staff',
+            'description_es' => 'Mostrar lista de marcas',
+            'group_es' => 'Marcas',
+            'description_en' => 'Show brand list',
+            'group_en' => 'Brands'
+        ]);
+        Permission::create([
+            'name' => 'brand.edit',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar marcas',
+            'group_es' => 'Marcas',
+            'description_en' => 'Edit brand',
+            'group_en' => 'Brands'
+        ]);
+        Permission::create([
+            'name' => 'brand.create',
+            'guard_name' => 'staff',
+            'description_es' => 'Crear nuevos marcas',
+            'group_es' => 'Marcas',
+            'description_en' => 'Create new brand',
+            'group_en' => 'Brands'
+        ]);
+        Permission::create([
+            'name' => 'brand.destroy',
+            'guard_name' => 'staff',
+            'description_es' => 'Eliminar marcas',
+            'group_es' => 'Marcas',
+            'description_en' => 'Delete brand',
+            'group_en' => 'Brands'
+        ]);
+        Permission::create([
+            'name' => 'brand.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar marcas',
+            'group_es' => 'Marcas',
+            'description_en' => 'Activate brand',
+            'group_en' => 'Brands'
         ]);
 
     }

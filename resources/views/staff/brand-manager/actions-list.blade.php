@@ -1,8 +1,9 @@
 
 
-<div class="d-md-flex flex-md-nowrap">
-		{{-- {!! HTML::decode(link_to_route('admin.admininstadores.edit', $title = '<i class="fa fa-edit m-r-5"></i> Editar', $parameters = ['id' => $id], $attributes = ['id' => 'view', 'class' => 'btn btn-warning waves-effect btn-sm m-2 editar-admin'])) !!}
-		{{ Form::button('<i class="fa fa-trash m-r-5"></i>Eliminar', ['type' => 'submit', 'class' => 'btn btn-danger waves-effect btn-sm m-2 eliminar', 'data-id' => $id] )  }} --}}
-        <button type="button" class="btn btn-tbl-delete btn-xs" style="visibility: hidden;"><i class="fa fa-pencil"></i></button>
-        <button type="button" class="btn btn-tbl-delete btn-xs" style="visibility: hidden;"><i class="fa fa-trash-o"></i></button>'
-</div>
+@php
+    $btn_delete = '<button type="submit" class="btn btn-tbl-delete btn-xs eliminar" data-id=" '.$id.' "><i class="fa fa-trash-o"></i></button>';
+    $btn_edit = '<button type="submit" class="btn btn-tbl-edit btn-xs editar" data-id=" '.$id.' "><i class="fa fa-pencil"></i></button>';
+@endphp
+
+{!! $btn_edit !!}
+{!! $btn_delete !!}

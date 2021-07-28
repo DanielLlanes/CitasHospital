@@ -344,7 +344,7 @@ class StaffController extends Controller
         $staff->password = Hash::make($unHashPassword);
         $staff->lang = $request->language;
         $staff->avatar = $avatar;
-        $staff->color = $request->color;
+        $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
 
         if ($staff->save()) {
@@ -582,7 +582,7 @@ class StaffController extends Controller
         $staff->phone = $request->phone;
         $staff->email = $request->email;
         $staff->lang = $request->language;
-        $staff->color = $request->color;
+        $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
 
         if ($staff->save()) {

@@ -41,8 +41,8 @@
                                                     <th> @lang('Image') </th>
                                                     <th> @lang('Name') </th>
                                                     <th> @lang('Acronym') </th>
-                                                    <th> @lang('Color') </th>
                                                     <th> @lang('Description') </th>
+                                                    <th> @lang('Color') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
@@ -85,7 +85,7 @@
                                                        <span class="required"> * </span>
                                                    </label>
                                                    <div class="col-md-12">
-                                                       <input type="text" name="color" id="color" placeholder="@lang('Enter color')" class="form-control input-sm" />
+                                                       <input type="color" name="color" id="color" value="#000000" placeholder="@lang('Enter color')" class="form-control input-sm" />
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
@@ -163,8 +163,11 @@
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
         var globalRouteobtenerLista = "{{ route('staff.products.getBrandList') }}";
-        var globalRouteCreate = "{{ route('staff.products.create') }}";
-
+        var globalRouteStore = "{{ route('staff.products.store') }}";
+        var globalRouteActivar = "{{ route('staff.products.activate') }}"
+        var globalRouteEditar = "{{ route('staff.products.edit') }}"
+        var globalRouteUpdate = "{{ route('staff.products.update') }}"
+        var globalRouteDestroy = "{{ route('staff.products.destroy') }}"
 
 		$(document).ready(function() {
 			var codigo = 1;
@@ -173,7 +176,7 @@
 		        processing: true,
 		        serverSide: true,
 		    	ajax:{
-		            url : '{{ route('staff.products.getBrandList') }}',
+		            url : globalRouteobtenerLista,
 		            type: "get",
 		            data: {"estable": codigo},
 		            error: function (xhr, error, thrown) {
@@ -186,7 +189,7 @@
 
 					{ data: 'DT_RowIndex' },
 		            { data: "image" },
-		            { data: "name" },
+		            { data: "brand" },
 		            { data: "acronym" },
 		            { data: "description" },
 		            { data: "color", className: 'center' },
@@ -207,48 +210,7 @@
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
                 $.ajax({
-                    url: globalRouteCreate,
-                    method:"POST",
-                    data:form_data,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function()
-                    {
-                    },
-                    success:function(data)
-                    {
-                        console.log(data);
-                    // console.log("data", data);
-                    //     Toast.fire({
-                    //       icon: data.icon,
-                    //       title: data.msg
-                    //     })
-                    //     if (data.reload) {
-                    //         brandTable.ajax.reload( null, false );
-                    //         //adminTable.search('').draw();
-                    //     }
-                    },
-                    error: function (err)
-                    {
-                        console.log('err', err)
-                    },
-                    complete: function()
-                    {
-                    },
-                })
-            });
-
-            function deleteRecord(id)
-            {
-                var form_data = new FormData();
-                form_data.append('id', id);
-                $.ajax({
-                    url: globalRouteEliminar,
+                    url: globalRouteStore,
                     method:"POST",
                     data:form_data,
                     dataType:'JSON',
@@ -270,7 +232,265 @@
                         })
                         if (data.reload) {
                             brandTable.ajax.reload( null, false );
-                            //adminTable.search('').draw();
+                            clearForm()
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+
+            $(document).on('click', '#formCancel', function () {
+                clearForm()
+            });
+            function clearForm(){
+                $('#formReset').click();
+                $('#formEdit')
+                .removeAttr('brand')
+                .html('Add')
+                .attr('id', 'formSubmit')
+            }
+
+            $(document).on('click', '.table-active', function(event) {
+                event.preventDefault();
+                var form_data = new FormData();
+                form_data.append('id', $(this).attr('attr-id'));
+                $.ajax({
+                    url: globalRouteActivar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            brandTable.ajax.reload( null, false );
+                        }
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+
+            $(document).on('click', '.btn-tbl-edit', function (event) {
+                var brandId = $(this).attr('data-id')
+                var form_data = new FormData();
+                form_data.append('id', brandId);
+                $.ajax({
+                    url: globalRouteEditar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+
+                    },
+                    success:function(data)
+                    {
+
+                        if (data.success) {
+                            clearForm()
+                            $('#brand').val(data.info.brand);
+                            $('#acronym').val(data.info.acronym);
+                            $('#color').val(data.info.color);
+                            $('#description_en').val(data.info.description_en);
+                            $('#description_es').val(data.info.description_es);
+                            $('#formSubmit').html('edit').attr({
+                                brand: brandId,
+                                id: 'formEdit'
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: data.icon,
+                                title: data.msg
+                            })
+                            brandTable.ajax.reload( null, false );
+                            clearForm()
+                        }
+
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+
+            $(document).on('click', '.btn-tbl-edit', function (event) {
+                var brandId = $(this).attr('data-id')
+                var form_data = new FormData();
+                form_data.append('id', brandId);
+                $.ajax({
+                    url: globalRouteEditar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+
+                    },
+                    success:function(data)
+                    {
+                        if (data.success) {
+                            clearForm()
+                            $('#brand').val(data.info.brand);
+                            $('#acronym').val(data.info.acronym);
+                            $('#color').val(data.info.color);
+                            $('#description_en').val(data.info.description_en);
+                            $('#description_es').val(data.info.description_es);
+                            $('#formSubmit').html('edit').attr({
+                                brand: $.trim(brandId),
+                                id:'formEdit'
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: data.icon,
+                                title: data.msg
+                            })
+                            brandTable.ajax.reload( null, false );
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+
+            $(document).on('click', '#formEdit', function (event) {
+                var brandId = $(this).attr('brand')
+                var form_data = new FormData();
+                form_data.append('brand', $('#brand').val());
+                form_data.append('acronym', $('#acronym').val());
+                form_data.append('color', $('#color').val());
+                form_data.append('description_en', $('#description_en').val());
+                form_data.append('description_es', $('#description_es').val());
+                form_data.append('id', brandId);
+                $.ajax({
+                    url: globalRouteUpdate,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+
+                    },
+                    success:function(data)
+                    {
+                        console.log(data);
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            brandTable.ajax.reload( null, false );
+                            clearForm()
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+
+            $(document).on('click', '.eliminar', function(e) {
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+                Swal.fire({
+                    title: '¿Esta seguro?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, borrarlo!'
+                }).then((result) => {
+                    if (result.value) {
+                        deleteRecord(id)
+                    } else if (result.dismiss) {
+                        Swal.fire(
+                            'Cancelado!',
+                            'Ningun registro fue eliminado.',
+                            'error'
+                        )
+                        e.preventDefault()
+                        e.stopPropagation();
+                    }
+                })
+            });
+
+            function deleteRecord(id)
+            {
+                var form_data = new FormData();
+                form_data.append('id', id);
+                $.ajax({
+                    url: globalRouteDestroy,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                    console.log("data", data);
+                        Toast.fire({
+                          icon: data.icon,
+                          title: data.msg
+                        })
+                        if (data.reload) {
+                            brandTable.ajax.reload( null, false );
                         }
                     },
                     error: function (err)

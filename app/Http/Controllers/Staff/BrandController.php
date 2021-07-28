@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
@@ -33,7 +34,7 @@ class BrandController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $brands = Brand::select(["id", "image", "name", "acronym", "color", "description_$lang AS description" ]);
+            $brands = Brand::select(["*", "description_$lang AS description" ])->get();
             return DataTables::of($brands)
                 ->addIndexColumn()
                 ->addColumn('picture', function($brands){
@@ -50,10 +51,10 @@ class BrandController extends Controller
                                     </a>
                                 ';
                     }
-                    return $avatar;
+                    return $image;
                 })
-                ->addColumn('name', function($brands){
-                    return $brands->name;
+                ->addColumn('brand', function($brands){
+                    return $brands->brand;
                 })
                 ->addColumn('acronym', function($brands){
                     return $brands->acronym;
@@ -64,8 +65,20 @@ class BrandController extends Controller
                 ->addColumn('description', function($brands){
                     return $brands->description;
                 })
-                ->addColumn('action', 'brand.brand-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'picture', 'name', 'department', 'specialization', 'color', 'mobile', 'email', 'active', 'action'])
+                ->addColumn('active', function($brand){
+                    $table_active = 'table-active';
+                    $brand_id = $brand->id;
+                    $cursor = "pointer";
+
+                    if ($brand->active == '1') {
+                        $btn = '<span attr-id="'. $brand_id .'" data="0" class="badge badge-success bg-success waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Activo</span>';
+                    } else {
+                        $btn = '<span attr-id="'. $brand_id .'" data="1" class="badge badge-danger bg-danger waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Inactivo</span>';
+                    }
+                    return $btn;
+                })
+                ->addColumn('action', 'staff.brand-manager.actions-list')
+                ->rawColumns(['DT_RowIndex', 'picture', 'brand', 'color', 'active', 'action'])
                 ->make(true);
         }
     }
@@ -77,26 +90,7 @@ class BrandController extends Controller
      */
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'brand' => 'required|string',
-            'acronym' => 'required|string',
-            'color' =>  [
-                'required',
-                'unique:brands' => 'This email is already exists in user brand table',
-                'unique:staff' => 'This email is already exists in user staff table',
-                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
-            ],
-            'description_en' => 'required|string',
-            'description_en' => 'required|string',
-          ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'go' => '0',
-                'errors' => $validator->getMessageBag()->toArray()
-            ]);
-        }
     }
 
     /**
@@ -107,7 +101,45 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'brand' => 'required|string',
+            'acronym' => 'required|string',
+            'color' =>  [
+                'required',
+                'unique:brands',
+                'unique:staff',
+                'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
+            ],
+            'description_en' => 'required|string',
+            'description_en' => 'required|string',
+          ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        $brand = New Brand;
+
+        $brand->brand = $request->brand;
+        $brand->acronym = $request->acronym;
+        $brand->color = $request->color;
+        $brand->description_en = $request->description_en;
+        $brand->description_es = $request->description_es;
+
+        if ($brand->save()) {
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('New brand was successfully created!'),
+                    'reload' => true
+                ]
+            );
+        }
     }
 
     /**
@@ -127,11 +159,28 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
-    }
 
+        $brand = Brand::find($request->id);
+
+
+        if ($brand) {
+            return response()->json(
+                [
+                    'success' => true,
+                    'info' => $brand,
+                ]
+            );
+        }
+
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => 'The selected brand doesn\'t exist in the database',
+            ]
+        );
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -139,19 +188,115 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
-    }
+        $brand = Brand::find($request->id);
+        if ($brand) {
+            $validator = Validator::make($request->all(), [
+                'brand' => 'required|string',
+                'acronym' => 'required|string',
+                'color' =>  [
+                    'required',
+                    'unique:brands,color,'.$request->id.',id',
+                    'unique:staff',
+                    'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
+                ],
+                'description_en' => 'required|string',
+                'description_en' => 'required|string',
+              ]
+            );
 
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'go' => '0',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }
+
+            $brand->brand = $request->brand;
+            $brand->acronym = $request->acronym;
+            $brand->color = $request->color;
+            $brand->description_en = $request->description_en;
+            $brand->description_es = $request->description_es;
+
+            if ($brand->save()) {
+                return response()->json(
+                    [
+                        'icon' => 'success',
+                        'msg' => Lang::get('The brand was successfully edited!'),
+                        'reload' => true
+                    ]
+                );
+            }
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => Lang::get('We couldn\'t edit this brand, please try again later'),
+                    'reload' => false
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('The selected brand doesn\'t exist in the database'),
+                'reload' => false
+            ]
+        );
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $brand = Brand::find($request->id);
+        if($brand->exists()){
+            $brand->delete();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('Brand successfully removed!'),
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('The Brand you are trying to delete doesn\'t exist or was previously deleted!'),
+                'reload' => false
+            ]
+        );
+    }
+    public function activate(Request $request)
+    {
+        $brand = Brand::find($request->id);
+        if ($brand) {
+            if ($brand->active == 1) {
+                $brand->active = false;
+            } elseif ($brand->active == 0) {
+                $brand->active = true;
+            }
+            $brand->save();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('The brand status changed successfully'),
+                    'reload' => true
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => Lang::get('The selected brand doesn\'t exist in the database'),
+                    'reload' => false
+                ]
+            );
+        }
     }
 }

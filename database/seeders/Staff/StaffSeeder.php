@@ -29,7 +29,7 @@ class StaffSeeder extends Seeder
                 'avatar' => "staffFiles/assets/img/user/user.jpg",
                 'show' => false,
                 'set_pass' => true,
-                'color' => '#1596FB',
+                'color' => '#1596fb',
                 'specialty_id' => '1',
                 'remember_token' => Str::random(10),
         ]);
@@ -48,7 +48,7 @@ class StaffSeeder extends Seeder
                 'specialty_id' => '2',
                 'remember_token' => Str::random(10),
                 'show' => false,
-                'color' => '#FF5733',
+                'color' => '#ff5733',
         ]);
 
         $janlu = Staff::create([
@@ -65,7 +65,7 @@ class StaffSeeder extends Seeder
                 'specialty_id' => '3',
                 'remember_token' => Str::random(10),
                 'show' => true,
-                'color' => '#3393FF',
+                'color' => '#3393ff',
         ]);
 
         $ismael = Staff::create([
@@ -133,6 +133,7 @@ class StaffSeeder extends Seeder
             "procedures.create",
             "procedures.edit",
             "procedures.destroy",
+            "procedures.activate",
 
             "payments.list",
             "payments.create",
@@ -144,16 +145,25 @@ class StaffSeeder extends Seeder
             "specialties.create",
             "specialties.edit",
             "specialties.destroy",
+            "specialties.activate",
 
             "services.list",
             "services.create",
             "services.edit",
             "services.destroy",
+            "services.activate",
 
             "packages.list",
             "packages.create",
             "packages.edit",
             "packages.destroy",
+            "packages.activate",
+
+            "brand.list",
+            "brand.create",
+            "brand.edit",
+            "brand.destroy",
+            "brand.activate",
         ];
 
         $dios->assignRole('dios');

@@ -10,4 +10,6 @@ class Brand extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    
+    protected $dates = ['deleted_at']; //Registramos la nueva columna
 }
