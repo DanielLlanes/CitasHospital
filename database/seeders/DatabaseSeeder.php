@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\Staff\BrandSeeder;
 use Database\Seeders\Staff\RolesSeeder;
 use Database\Seeders\Staff\StaffSeeder;
 use Database\Seeders\Staff\SpecialtySeeder;
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
 		$this->call(SpecialtySeeder::class);
         $this->call(StaffSeeder::class);
+        $this->call(BrandSeeder::class);
         $this->call(DummySeeder::class);
     }
 }

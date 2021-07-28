@@ -19,8 +19,8 @@ class CreateBrandsTable extends Migration
             $table->string('brand');
             $table->string('acronym');
             $table->string('color');
-            $table->string('description_en');
-            $table->string('description_es');
+            $table->text('description_en');
+            $table->text('description_es');
             $table->string('active')->default(true);
             $table->softDeletes();
             $table->timestamps();
