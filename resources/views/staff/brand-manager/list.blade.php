@@ -233,6 +233,10 @@
                         if (data.reload) {
                             brandTable.ajax.reload( null, false );
                             clearForm()
+                        } else {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
                         }
                     },
                     error: function (err)
@@ -343,55 +347,55 @@
                 })
             });
 
-            $(document).on('click', '.btn-tbl-edit', function (event) {
-                var brandId = $(this).attr('data-id')
-                var form_data = new FormData();
-                form_data.append('id', brandId);
-                $.ajax({
-                    url: globalRouteEditar,
-                    method:"POST",
-                    data:form_data,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function()
-                    {
+            // $(document).on('click', '.btn-tbl-edit', function (event) {
+            //     var brandId = $(this).attr('data-id')
+            //     var form_data = new FormData();
+            //     form_data.append('id', brandId);
+            //     $.ajax({
+            //         url: globalRouteEditar,
+            //         method:"POST",
+            //         data:form_data,
+            //         dataType:'JSON',
+            //         contentType: false,
+            //         cache: false,
+            //         headers: {
+            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //         },
+            //         processData: false,
+            //         beforeSend: function()
+            //         {
 
-                    },
-                    success:function(data)
-                    {
-                        if (data.success) {
-                            clearForm()
-                            $('#brand').val(data.info.brand);
-                            $('#acronym').val(data.info.acronym);
-                            $('#color').val(data.info.color);
-                            $('#description_en').val(data.info.description_en);
-                            $('#description_es').val(data.info.description_es);
-                            $('#formSubmit').html('edit').attr({
-                                brand: $.trim(brandId),
-                                id:'formEdit'
-                            });
-                        } else {
-                            Toast.fire({
-                                icon: data.icon,
-                                title: data.msg
-                            })
-                            brandTable.ajax.reload( null, false );
-                        }
-                    },
-                    error: function (err)
-                    {
-                        console.log('err', err)
-                    },
-                    complete: function()
-                    {
-                    },
-                })
-            });
+            //         },
+            //         success:function(data)
+            //         {
+            //             if (data.success) {
+            //                 clearForm()
+            //                 $('#brand').val(data.info.brand);
+            //                 $('#acronym').val(data.info.acronym);
+            //                 $('#color').val(data.info.color);
+            //                 $('#description_en').val(data.info.description_en);
+            //                 $('#description_es').val(data.info.description_es);
+            //                 $('#formSubmit').html('edit').attr({
+            //                     brand: $.trim(brandId),
+            //                     id:'formEdit'
+            //                 });
+            //             } else {
+            //                 Toast.fire({
+            //                     icon: data.icon,
+            //                     title: data.msg
+            //                 })
+            //                 brandTable.ajax.reload( null, false );
+            //             }
+            //         },
+            //         error: function (err)
+            //         {
+            //             console.log('err', err)
+            //         },
+            //         complete: function()
+            //         {
+            //         },
+            //     })
+            // });
 
             $(document).on('click', '#formEdit', function (event) {
                 var brandId = $(this).attr('brand')
@@ -427,6 +431,10 @@
                         if (data.reload) {
                             brandTable.ajax.reload( null, false );
                             clearForm()
+                        } else {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
                         }
                     },
                     error: function (err)
@@ -491,6 +499,7 @@
                         })
                         if (data.reload) {
                             brandTable.ajax.reload( null, false );
+                            //adminTable.search('').draw();
                         }
                     },
                     error: function (err)

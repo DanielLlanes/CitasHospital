@@ -140,6 +140,13 @@ class BrandController extends Controller
                 ]
             );
         }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('We couldn’t create the brand please try again!'),
+                'reload' => false
+            ]
+        );
     }
 
     /**
