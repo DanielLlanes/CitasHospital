@@ -165,8 +165,8 @@
         var globalRouteobtenerLista = "{{ route('staff.products.getBrandList') }}";
         var globalRouteStore = "{{ route('staff.products.store') }}";
         var globalRouteActivar = "{{ route('staff.products.activate') }}"
-        var globalRouteEditar = "{{ route('staff.products.edit') }}"
-        var globalRouteUpdate = "{{ route('staff.products.update') }}"
+        var globalRouteEditar = "{{ route('staff.products.editService') }}"
+        var globalRouteUpdate = "{{ route('staff.products.updateService') }}"
         var globalRouteDestroy = "{{ route('staff.products.destroy') }}"
 
 		$(document).ready(function() {
@@ -324,7 +324,7 @@
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
                             $('#formSubmit').html('edit').attr({
-                                brand: brandId,
+                                brand: $.trim(brandId),
                                 id: 'formEdit'
                             });
                         } else {
@@ -346,56 +346,6 @@
                     },
                 })
             });
-
-            // $(document).on('click', '.btn-tbl-edit', function (event) {
-            //     var brandId = $(this).attr('data-id')
-            //     var form_data = new FormData();
-            //     form_data.append('id', brandId);
-            //     $.ajax({
-            //         url: globalRouteEditar,
-            //         method:"POST",
-            //         data:form_data,
-            //         dataType:'JSON',
-            //         contentType: false,
-            //         cache: false,
-            //         headers: {
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         },
-            //         processData: false,
-            //         beforeSend: function()
-            //         {
-
-            //         },
-            //         success:function(data)
-            //         {
-            //             if (data.success) {
-            //                 clearForm()
-            //                 $('#brand').val(data.info.brand);
-            //                 $('#acronym').val(data.info.acronym);
-            //                 $('#color').val(data.info.color);
-            //                 $('#description_en').val(data.info.description_en);
-            //                 $('#description_es').val(data.info.description_es);
-            //                 $('#formSubmit').html('edit').attr({
-            //                     brand: $.trim(brandId),
-            //                     id:'formEdit'
-            //                 });
-            //             } else {
-            //                 Toast.fire({
-            //                     icon: data.icon,
-            //                     title: data.msg
-            //                 })
-            //                 brandTable.ajax.reload( null, false );
-            //             }
-            //         },
-            //         error: function (err)
-            //         {
-            //             console.log('err', err)
-            //         },
-            //         complete: function()
-            //         {
-            //         },
-            //     })
-            // });
 
             $(document).on('click', '#formEdit', function (event) {
                 var brandId = $(this).attr('brand')
@@ -436,7 +386,7 @@
                                 $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
                             });
                         }
-                        
+
                     },
                     error: function (err)
                     {

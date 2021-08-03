@@ -208,7 +208,7 @@
                 input.prop('checked', false);
             }
         });
-    </script>   
+    </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
@@ -262,6 +262,7 @@
     @endif
     <script>
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
+
         $(document).on('change', '#role', function(event) {
             event.preventDefault();
             var id = $( "#role option:selected" ).val()
@@ -273,6 +274,8 @@
         });
         function getSpecialty(id)
         {
+
+            console.log(id);
                 var form_data = new FormData();
                 form_data.append('id', id);
                  $.ajax({

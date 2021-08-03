@@ -258,8 +258,8 @@
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
     <script>
-        var globalValidateBusquedaStaff = '{{ route('staff.events.busquedaStaff') }}'
-        var globalValidateBusquedaPatient = '{{ route('staff.events.busquedaPatient') }}'
+        var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
+        var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
         var globalSetEvent = '{{ route('staff.events.store') }}'
         var globaleventSources = '{{ route('staff.events.eventSources') }}'
         var globalEventDrop = '{{ route('staff.events.eventDrop') }}'
@@ -321,7 +321,7 @@
             dataString.append('key', key);
             $.ajax({
                 type: "POST",
-                url: globalValidateBusquedaStaff,
+                url: globalSearchStaff,
                 method:"POST",
                 data:dataString,
                 dataType:'JSON',
@@ -367,7 +367,7 @@
             dataString.append('key', key);
             $.ajax({
                 type: "POST",
-                url: globalValidateBusquedaPatient,
+                url: globalSearchPatient,
                 method:"POST",
                 data:dataString,
                 dataType:'JSON',

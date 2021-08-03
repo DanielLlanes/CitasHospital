@@ -6,6 +6,7 @@ use DataTables;
 use App\Models\Staff\Staff;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Staff\Specialty;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

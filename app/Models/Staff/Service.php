@@ -6,16 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Brand extends Model
+class Service extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     protected $dates = ['deleted_at']; //Registramos la nueva columna
 
-
-    public function services()
+    public function specialties()
     {
-        return $this->hasMany(Service::class);
+        return $this->belongsToMany(Specialty::class)->withPivot('order');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

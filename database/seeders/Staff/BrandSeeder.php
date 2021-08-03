@@ -38,7 +38,7 @@ class BrandSeeder extends Seeder
         Brand::create([
             'brand' => 'a smiling me',
             'acronym' => 'aslm',
-            'color' => '#17a589',
+            'color' => '#1b4f72',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
         ]);
@@ -52,21 +52,14 @@ class BrandSeeder extends Seeder
         Brand::create([
             'brand' => 'a fixed me',
             'acronym' => 'afm',
-            'color' => '#d4ac0d',
-            'description_en' => 'Brand description',
-            'description_es' => 'Descripcion de la marca',
-        ]);
-        Brand::create([
-            'brand' => 'a scope for me',
-            'acronym' => 'asfm',
-            'color' => '#ca6f1e',
+            'color' => '#1ecac5',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
         ]);
         Brand::create([
             'brand' => 'labs',
             'acronym' => 'lab',
-            'color' => '#616a6b',
+            'color' => '#ca6Ffe',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
         ]);

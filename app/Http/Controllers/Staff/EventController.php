@@ -93,22 +93,7 @@ class EventController extends Controller
         }
         return response()->json($allEvents);
     }
-
-    public function busquedaStaff(Request $request)
-    {
-        $search = Staff::where("name",'like', "%".$request->key."%")
-        ->where('show', '=', 1)
-        ->get();
-        return $search;
-    }
-
-    public function busquedaPatient(Request $request)
-    {
-        $search = Patient::where("name",'like', "%".$request->key."%")
-        ->get();
-        return $search;
-    }
-
+    
     public function eventDrop(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;

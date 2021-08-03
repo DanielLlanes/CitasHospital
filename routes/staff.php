@@ -8,7 +8,9 @@ use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\ProfileController;
+use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
@@ -27,8 +29,6 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    Route::post('/register', [StaffRegisterController::class, 'register']);
 
 	    //Forgot Password Routes
-	    // Route::get('/password/reset','ForgotPasswordController@showLinkRequestForm')->name('password.request');
-	    // Route::post('/password/email','ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 	    Route::get('/password/reset', [StaffForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 	    Route::post('/password/email', [StaffForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
@@ -36,7 +36,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    Route::get('/password/reset/{token}', [StaffResetPasswordController::class, 'showResetForm'])->name('password.reset');
 	    Route::post('/password/reset', [StaffResetPasswordController::class, 'reset'])->name('password.update');
 
-	    // // Email Verification Route(s)
+	    // Email Verification Route(s)
 	    // Route::get('email/verify','VerificationController@show')->name('verification.notice');
 	    // Route::get('email/verify/{id}','VerificationController@verify')->name('verification.verify');
 	    // Route::get('email/resend','VerificationController@resend')->name('verification.resend');
@@ -44,6 +44,12 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 
 	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
+
+    Route::name('autocomplete.')->group(function(){
+        Route::post('/search-Staff', [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
+		Route::post('/search-Patient', [AutocompleteController::class, 'searchPatient'])->name('AutocompletePatient');
+        Route::post('/search-brand', [AutocompleteController::class, 'searchBrand'])->name('AutocompleteBrand');
+    });
 
 	Route::name('staff.')->group(function(){
 		Route::get('/staff/listar', [StaffController::class, 'index'])->name('staff');
@@ -58,20 +64,11 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	});
 	Route::name('events.')->group(function(){
 		Route::get('/events/listar', [EventController::class, 'index'])->name('events');
-		Route::post('/events/busquedaStaff', [EventController::class, 'busquedaStaff'])->name('busquedaStaff');
-		Route::post('/events/busquedaPatient', [EventController::class, 'busquedaPatient'])->name('busquedaPatient');
 		Route::post('/event/store', [EventController::class, 'store'])->name('store');
 		Route::get('/event/sources', [EventController::class, 'eventSources'])->name('eventSources');
 		Route::post('/event/event-drop', [EventController::class, 'eventDrop'])->name('eventDrop');
 		Route::post('/enent/update/', [EventController::class, 'update'])->name('editEvent');
 		Route::post('/event/destroy', [EventController::class, 'destroy'])->name('destroy');
-
-
-		// Route::get('/staff/get-staff-list', [StaffController::class, 'getStaffList'])->name('getStaffList');
-		// Route::get('/staff/add', [StaffController::class, 'create'])->name('add');
-		// Route::post('/staff/get-specialty', [StaffController::class, 'getSpecialty'])->name('getSpecialty');
-		// Route::post('/staff/destroy', [StaffController::class, 'destroy'])->name('destroy');
-		// Route::post('/staff/activte', [StaffController::class, 'activate'])->name('activate');
 	});
 	Route::name('profile.')->group(function(){
 		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');
@@ -80,7 +77,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
 	});
+
     Route::name('products.')->group( function(){
+        //brand
         Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
         Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
         Route::post('/brand/store', [BrandController::class, 'store'])->name('store');
@@ -88,6 +87,14 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/brand/edit', [BrandController::class, 'edit'])->name('edit');
         Route::post('/brand/update', [BrandController::class, 'update'])->name('update');
         Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('destroy');
+        //service
+        Route::get('/service/listar', [ServiceController::class, 'service'])->name('service');
+        Route::get('/service/get-brand-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
+        Route::post('/service/store', [ServiceController::class, 'store'])->name('storeService');
+        Route::post('/service/activate', [ServiceController::class, 'activate'])->name('activateService');
+        Route::post('/service/edit', [ServiceController::class, 'edit'])->name('editService');
+        Route::post('/service/update', [ServiceController::class, 'update'])->name('updateService');
+        Route::post('/service/destroy', [ServiceController::class, 'destroy'])->name('destroyService');
     });
 
 });

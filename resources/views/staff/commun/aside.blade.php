@@ -119,7 +119,7 @@
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="payments.html" class="nav-link "> <span class="title">@lang("Services") </span>
+                            <a href="{{ route('staff.products.service') }}" class="nav-link "> <span class="title">@lang("Services") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
