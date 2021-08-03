@@ -3,13 +3,16 @@
 
 
 
+
 use App\Http\Controllers\Staff\LangController;
 use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
 use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\PackageController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\ProcedureController;
 use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
@@ -49,6 +52,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/search-Staff', [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
 		Route::post('/search-Patient', [AutocompleteController::class, 'searchPatient'])->name('AutocompletePatient');
         Route::post('/search-brand', [AutocompleteController::class, 'searchBrand'])->name('AutocompleteBrand');
+        Route::post('/search-service', [AutocompleteController::class, 'searchService'])->name('AutocompleteService');
     });
 
 	Route::name('staff.')->group(function(){
@@ -95,6 +99,22 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/service/edit', [ServiceController::class, 'edit'])->name('editService');
         Route::post('/service/update', [ServiceController::class, 'update'])->name('updateService');
         Route::post('/service/destroy', [ServiceController::class, 'destroy'])->name('destroyService');
+        //procedures
+        Route::get('/procedure/listar', [ProcedureController::class, 'procedure'])->name('procedure');
+        Route::get('/procedure/get-brand-list', [ProcedureController::class, 'getProcedureList'])->name('getProcedureList');
+        Route::post('/procedure/store', [ProcedureController::class, 'store'])->name('storeProcedure');
+        Route::post('/procedure/activate', [ProcedureController::class, 'activate'])->name('activateProcedure');
+        Route::post('/procedure/edit', [ProcedureController::class, 'edit'])->name('editProcedure');
+        Route::post('/procedure/update', [ProcedureController::class, 'update'])->name('updateProcedure');
+        Route::post('/procedure/destroy', [ProcedureController::class, 'destroy'])->name('destroyProcedure');
+        //packages
+        Route::get('/packages/listar', [PackageController::class, 'package'])->name('package');
+        Route::get('/packages/get-brand-list', [PackageController::class, 'getPackageList'])->name('getPackageList');
+        Route::post('/packages/store', [PackageController::class, 'store'])->name('storePackage');
+        Route::post('/packages/activate', [PackageController::class, 'activate'])->name('activatePackage');
+        Route::post('/packages/edit', [PackageController::class, 'edit'])->name('editPackage');
+        Route::post('/packages/update', [PackageController::class, 'update'])->name('updatePackage');
+        Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
     });
 
 });

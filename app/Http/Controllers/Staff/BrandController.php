@@ -84,16 +84,6 @@ class BrandController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -150,17 +140,6 @@ class BrandController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -197,7 +176,6 @@ class BrandController extends Controller
      */
     public function update(Request $request)
     {
-        
         $brand = Brand::find($request->id);
         if ($brand) {
             $validator = Validator::make($request->all(), [

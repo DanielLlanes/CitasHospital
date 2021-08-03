@@ -123,11 +123,11 @@
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_payment.html" class="nav-link "> <span class="title">@lang("Procedures") </span>
+                            <a href="{{ route('staff.products.procedure') }}" class="nav-link "> <span class="title">@lang("Procedures") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="invoice_payment.html" class="nav-link "> <span class="title">@lang("Packages") </span>
+                            <a href="{{ route('staff.products.package') }}" class="nav-link "> <span class="title">@lang("Packages") </span>
                             </a>
                         </li>
                     </ul>

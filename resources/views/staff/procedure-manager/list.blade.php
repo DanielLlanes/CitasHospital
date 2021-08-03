@@ -1,17 +1,17 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('Services')
+	@lang('Procedures')
 @endsection
 @section('content')
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">@lang('Services Manager')</div>
+            <div class="page-title">@lang('Procedures Manager')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">@lang('Services Manager')</li>
+            <li class="active">@lang('Procedures Manager')</li>
         </ol>
     </div>
 </div>
@@ -34,14 +34,14 @@
                                     </div>
                                     <div class="card-body ">
                                       <div class="table-scrollable responsive" >
-                                        <table class="table table-hover table-checkable order-column full-width" id="serviceTable">
+                                        <table class="table table-hover table-checkable order-column full-width" id="procedureTable">
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
-                                                    <th> @lang('Service') </th>
                                                     <th> @lang('Brand') </th>
-                                                    <th> @lang('Need Image') </th>
-                                                    <th> @lang('Qty Images') </th>
+                                                    <th> @lang('Service') </th>
+                                                    <th> @lang('Procedure') </th>
+                                                    <th> @lang('Has package') </th>
                                                     <th> @lang('Description') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
@@ -62,53 +62,64 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                <div class="form-group mb-2">
+                                                {{-- <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
                                                         <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
                                                         <div class="error text-danger col-form-label-sm"></div>
-                                                        <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
+                                                        <div id="" class="autocomplete-items myInputautocomplete-list brand" style="overflow-x: auto; max-height: 200px">
+                                                        </div>
+                                                    </div>
+                                                </div> --}}
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="service" id="service" placeholder="@lang('Service')" class="form-control input-sm" />
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                        <div id="" class="autocomplete-items myInputautocomplete-list service" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service english')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('procedure english')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="service_en" id="service_en" placeholder="@lang('Service english')" class="form-control input-sm" />
+                                                        <input type="text" name="procerdure_en" id="procerdure_en" placeholder="@lang('procedure english')" class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service spanish')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('procedure spanish')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="service_es" id="service_es" placeholder="@lang('Service spanish')" class="form-control input-sm" />
+                                                        <input type="text" name="procerdure_es" id="procerdure_es" placeholder="@lang('procedure spanish')" class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Need images')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('haz packages')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="need_images" id="need_images-no" value="0" checked>
-                                                            <label class="form-check-label" for="need_images-no">No</label>
+                                                            <input class="form-check-input" type="radio" name="has_packages" id="has_packages-no" value="0" checked>
+                                                            <label class="form-check-label" for="has_packages-no">No</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="need_images" id="need_images-yes" value="1">
-                                                            <label class="form-check-label" for="need_images-yes">Yes</label>
+                                                            <input class="form-check-input" type="radio" name="has_packages" id="has_packages-yes" value="1">
+                                                            <label class="form-check-label" for="has_packages-yes">Yes</label>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group mb-2" style="display: none">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Quantity of images')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Packages')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
@@ -136,7 +147,7 @@
                                                     <div class="clone-area">
                                                     </div>
                                                     <div class="col-md-12 d-flex justify-content-end mt-2">
-                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add specialtie <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
+                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add Packages <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -263,13 +274,14 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.getServiceList') }}";
-        var globalRouteStore = "{{ route('staff.products.storeService') }}";
-        var globalRouteActivar = "{{ route('staff.products.activateService') }}"
-        var globalRouteEditar = "{{ route('staff.products.editService') }}"
-        var globalRouteUpdate = "{{ route('staff.products.updateService') }}"
-        var globalRouteDestroy = "{{ route('staff.products.destroyService') }}"
+        var globalRouteobtenerLista = "{{ route('staff.products.getProcedureList') }}";
+        var globalRouteStore = "{{ route('staff.products.storeProcedure') }}";
+        var globalRouteActivar = "{{ route('staff.products.activateProcedure') }}"
+        var globalRouteEditar = "{{ route('staff.products.editProcedure') }}"
+        var globalRouteUpdate = "{{ route('staff.products.updateProcedure') }}"
+        var globalRouteDestroy = "{{ route('staff.products.destroyProcedure') }}"
         var globalRouteSearchBrand = "{{ route('staff.autocomplete.AutocompleteBrand') }}";
+        var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
 
 
 
@@ -296,36 +308,36 @@
             }
             cloneSpecialyArea()
             var codigo = 1;
-		    var serviceTable = $('#serviceTable').DataTable({
-				responsive: true,
-		        processing: true,
-		        serverSide: true,
-		    	ajax:{
-		            url : globalRouteobtenerLista,
-		            type: "get",
-		            data: {"estable": codigo},
-		            error: function (xhr, error, thrown) {
-		            },
-		         },
-		        language: {
-		            "url": dataTablesLangEs
-		        },
-		        "columns": [
+		    // var procedureTable = $('#procedureTable').DataTable({
+			// 	responsive: true,
+		    //     processing: true,
+		    //     serverSide: true,
+		    // 	ajax:{
+		    //         url : globalRouteobtenerLista,
+		    //         type: "get",
+		    //         data: {"estable": codigo},
+		    //         error: function (xhr, error, thrown) {
+		    //         },
+		    //      },
+		    //     language: {
+		    //         "url": dataTablesLangEs
+		    //     },
+		    //     "columns": [
 
-					{ data: 'DT_RowIndex' },
-		            { data: "service" },
-		            { data: "brand" },
-		            { data: "need_images" },
-		            { data: "qty_images" },
-		            { data: "description" },
-		            { data: "active", className: 'center' },
-		            { data: "action", orderable: false, searchable: false, className: 'center' },
+			// 		{ data: 'DT_RowIndex' },
+		    //         { data: "Procedure" },
+		    //         { data: "service" },
+		    //         { data: "brand" },
+		    //         { data: "Has Packages" },
+		    //         { data: "description" },
+		    //         { data: "active", className: 'center' },
+		    //         { data: "action", orderable: false, searchable: false, className: 'center' },
 
-		        ],
-		        createdRow: function (row, data, dataIndex) {
-		            $(row).addClass('odd gradeX');
-		        },
-		    });
+		    //     ],
+		    //     createdRow: function (row, data, dataIndex) {
+		    //         $(row).addClass('odd gradeX');
+		    //     },
+		    // });
 
             $(document).on("click", "#formSubmit", function () {
 
@@ -336,11 +348,11 @@
                 form_data.append('service_en', $('#service_en').val())
                 form_data.append('service_es', $('#service_es').val())
 
-                if ($("input[name='need_images']:checked").val() == '1') {
-                    form_data.append('need_images', 1)
+                if ($("input[name='has_packages']:checked").val() == '1') {
+                    form_data.append('has_packages', 1)
                     form_data.append('qty_images', $('#qty_images').val())
                 } else {
-                    form_data.append('need_images', 0)
+                    form_data.append('has_packages', 0)
                     form_data.append('qty_images', 0)
                 }
 
@@ -377,7 +389,7 @@
                           title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            procedureTable.ajax.reload( null, false );
                             clearForm()
                         } else {
 
@@ -416,7 +428,7 @@
                     },
                     processData: false,
                     beforeSend: function(){
-                        $('#myInputautocomplete-list.brand').html('');
+                        $('.myInputautocomplete-list.brand').html('');
                     },
                     success: function(data) {
                         console.log(data);
@@ -428,12 +440,12 @@
                         } else {
                             sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
                         }
-                        $('#myInputautocomplete-list.brand').fadeIn(1000).append(sugerencias);
+                        $('.myInputautocomplete-list.brand').fadeIn(1000).append(sugerencias);
                         $('.suggest-element').not('.no-show-patient').on('click', function(){
                             var id = $(this).attr('data');
                             var brand = $(this).text();
                             $('.autocomplete.brand').val(brand).attr('data-id', id);
-                            $('#myInputautocomplete-list.brand').fadeOut(1000).html('');
+                            $('.myInputautocomplete-list.brand').fadeOut(1000).html('');
                             return false;
                         });
                     }
@@ -457,7 +469,7 @@
                 cloneSpecialyArea()
             }
 
-            $('input[name=need_images]').on('change', function() {
+            $('input[name=has_packages]').on('change', function() {
                 $('#qty_images').val('')
                 if($(this).val() == '1'){
                     $('#qty_images').parents('.form-group').show('fast');
@@ -510,7 +522,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            procedureTable.ajax.reload( null, false );
                         }
                     },
                     complete: function()
@@ -549,14 +561,14 @@
                             $('#service_es').val(data.info.service_es);
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
-                            $('#need_images').val(data.info.need_images);
+                            $('#has_packages').val(data.info.has_packages);
 
-                            if (data.info.need_images > 0) {
+                            if (data.info.has_packages > 0) {
                                 $('#qty_images').parents('.form-group').show('fast').val(data.info.qty_images)
-                                $("input[name=need_images][value='1']").prop("checked",true);
+                                $("input[name=has_packages][value='1']").prop("checked",true);
                             } else {
                                 $('#qty_images').parents('.form-group').hide('fast').val('')
-                                $("input[name=need_images][value='0']").prop("checked",true);
+                                $("input[name=has_packages][value='0']").prop("checked",true);
                             }
                             $('#qty_images').val(data.info.qty_images);
                             $('#description_es').val(data.info.description_es);
@@ -574,7 +586,7 @@
                                 icon: data.icon,
                                 title: data.msg
                             })
-                            serviceTable.ajax.reload( null, false );
+                            procedureTable.ajax.reload( null, false );
                             clearForm()
                         }
 
@@ -598,11 +610,11 @@
                 form_data.append('service_en', $('#service_en').val())
                 form_data.append('service_es', $('#service_es').val())
 
-                if ($("input[name='need_images']:checked").val() == '1') {
-                    form_data.append('need_images', 1)
+                if ($("input[name='has_packages']:checked").val() == '1') {
+                    form_data.append('has_packages', 1)
                     form_data.append('qty_images', $('#qty_images').val())
                 } else {
-                    form_data.append('need_images', 0)
+                    form_data.append('has_packages', 0)
                     form_data.append('qty_images', 0)
                 }
 
@@ -642,7 +654,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            procedureTable.ajax.reload( null, false );
                             clearForm()
                         } else {
                             $.each( data.errors, function( key, value ) {
@@ -712,7 +724,7 @@
                           title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            procedureTable.ajax.reload( null, false );
                             //adminTable.search('').draw();
                         }
                     },

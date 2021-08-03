@@ -32,4 +32,11 @@ class AutocompleteController extends Controller
         ->get();
         return $search;
     }
+
+    public function searchService(Request $request)
+    {
+        $search = Service::where("name",'like', "%".$request->key."%")
+        ->get();
+        return $search;
+    }
 }
