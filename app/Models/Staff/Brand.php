@@ -14,8 +14,8 @@ class Brand extends Model
     protected $dates = ['deleted_at']; //Registramos la nueva columna
 
 
-    public function services()
+    public function service()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasOne(Service::class);
     }
 }

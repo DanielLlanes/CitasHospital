@@ -22,6 +22,7 @@ class CreateBrandsTable extends Migration
             $table->text('description_en');
             $table->text('description_es');
             $table->string('active')->default(true);
+            $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

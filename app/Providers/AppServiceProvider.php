@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Staff\Brand;
+use App\Models\Staff\Service;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +26,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
+        $lang = app()->getLocale();
+
+        $brands = Brand::select("id", "brand", "acronym", "url")
+        ->with
+        (
+            [
+                'service' => function($q) use ($lang){
+                    $q->select(["id", "brand_id", "service_$lang AS service"]);
+                },
+            ]
+        )
+        ->get();
+
+        View::share('brands', $brands);
     }
 }

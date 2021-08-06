@@ -12,4 +12,14 @@ class Procedure extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at']; //Registramos la nueva columna
+
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class)->withPivot('order', 'price');
+
+    }
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

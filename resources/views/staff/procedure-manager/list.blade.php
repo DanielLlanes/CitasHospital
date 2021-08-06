@@ -11,6 +11,7 @@
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
+            <li class="active">@lang('Configuration')&nbsp;<i class="fa fa-angle-right"></i></li>
             <li class="active">@lang('Procedures Manager')</li>
         </ol>
     </div>
@@ -22,7 +23,7 @@
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
                         <div class="col-md-12 d-lg-flex">
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -41,7 +42,7 @@
                                                     <th> @lang('Brand') </th>
                                                     <th> @lang('Service') </th>
                                                     <th> @lang('Procedure') </th>
-                                                    <th> @lang('Has package') </th>
+                                                    <th> @lang('HasPackages') </th>
                                                     <th> @lang('Description') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
@@ -54,7 +55,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
                                         <header>@lang('Services Manager')</header>
@@ -62,93 +63,48 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                {{-- <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                        <div id="" class="autocomplete-items myInputautocomplete-list brand" style="overflow-x: auto; max-height: 200px">
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="service" id="service" placeholder="@lang('Service')" class="form-control input-sm" />
+                                                        <input type="text" name="service" id="service" placeholder="@lang('Service')" class="form-control input-sm autocomplete service" onclick="this.setSelectionRange(0, this.value.length)"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                         <div id="" class="autocomplete-items myInputautocomplete-list service" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('procedure english')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Procedure English')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="procerdure_en" id="procerdure_en" placeholder="@lang('procedure english')" class="form-control input-sm" />
+                                                        <input type="text" name="procedure_en" id="procedure_en" placeholder="@lang('Procedure English')" class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('procedure spanish')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Procedure Spanish')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="procerdure_es" id="procerdure_es" placeholder="@lang('procedure spanish')" class="form-control input-sm" />
+                                                        <input type="text" name="procedure_es" id="procedure_es" placeholder="@lang('Procedure Spanish')" class="form-control input-sm validanumericos" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('haz packages')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Haz packages')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="has_packages" id="has_packages-no" value="0" checked>
-                                                            <label class="form-check-label" for="has_packages-no">No</label>
+                                                            <input class="form-check-input" type="radio" name="has_package" id="has_package-no" value="0" checked>
+                                                            <label class="form-check-label" for="has_package-no">No</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="has_packages" id="has_packages-yes" value="1">
-                                                            <label class="form-check-label" for="has_packages-yes">Yes</label>
+                                                            <input class="form-check-input" type="radio" name="has_package" id="has_package-yes" value="1">
+                                                            <label class="form-check-label" for="has_package-yes">Yes</label>
                                                         </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-2" style="display: none">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Packages')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <input type="text" name="qty_images" id="qty_images" placeholder="@lang('Quantity of images')" class="form-control input-sm validanumericos" />
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Specialties')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12 d-none" id="clone_div">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control input-sm" onclick="this.setSelectionRange(0, this.value.length)" placeholder="Add specialties" list="valAutocomplete">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-danger btn-flat btn-sm" style="margin-top: 3px">
-                                                                    <i class="material-icons f-left" style="font-size: 8px">remove_circle</i>
-                                                                </button>
-                                                            </span>
-
-                                                        </div>
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
-                                                    <div class="clone-area">
-                                                    </div>
-                                                    <div class="col-md-12 d-flex justify-content-end mt-2">
-                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add Packages <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
-                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-3">
@@ -198,8 +154,8 @@
     </div>
 </div>
 <datalist id="valAutocomplete">
-    @foreach ($specialites as $specialty)
-        <option data-specialty="{{ $specialty->id }}" value="{{ $specialty->name }}"></option>
+    @foreach ($packages as $package)
+        <option data-package="{{ $package->id }}" value="{{ $package->name }}"></option>
     @endforeach
 </datalist>
 @endsection
@@ -274,99 +230,61 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.getProcedureList') }}";
-        var globalRouteStore = "{{ route('staff.products.storeProcedure') }}";
-        var globalRouteActivar = "{{ route('staff.products.activateProcedure') }}"
-        var globalRouteEditar = "{{ route('staff.products.editProcedure') }}"
-        var globalRouteUpdate = "{{ route('staff.products.updateProcedure') }}"
-        var globalRouteDestroy = "{{ route('staff.products.destroyProcedure') }}"
-        var globalRouteSearchBrand = "{{ route('staff.autocomplete.AutocompleteBrand') }}";
+        var globalRouteobtenerLista = "{{ route('staff.configuration.products.getProcedureList') }}";
+        var globalRouteStore = "{{ route('staff.configuration.products.storeProcedure') }}";
+        var globalRouteActivar = "{{ route('staff.configuration.products.activateProcedure') }}"
+        var globalRouteEditar = "{{ route('staff.configuration.products.editProcedure') }}"
+        var globalRouteUpdate = "{{ route('staff.configuration.products.updateProcedure') }}"
+        var globalRouteDestroy = "{{ route('staff.configuration.products.destroyProcedure') }}"
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
 
 
 
         $(document).ready(function () {
-            function cloneSpecialyArea(){
-                var newelw = $('#clone_div').clone();
-                newelw.removeAttr('id');
-                newelw.show('fast');
-                newelw.addClass('cloned')
-                newelw.removeClass('d-none')
-                newelw.find('input').val('').removeAttr('data-id').addClass('input_specialties').prop('name', 'input_specialties[]')
-                newelw.find('button').addClass('btn-remove-specialtie')
-                $(".clone-area").append(newelw)
-            }
-            function cloneSpecialyAreaEdit(inputValue, idValue){
-                var newelw = $('#clone_div').clone();
-                newelw.removeAttr('id');
-                newelw.show('fast');
-                newelw.addClass('cloned')
-                newelw.removeClass('d-none')
-                newelw.find('input').val(inputValue).attr('data-id', idValue).addClass('input_specialties').prop('name', 'input_specialties[]')
-                newelw.find('button').addClass('btn-remove-specialtie')
-                $(".clone-area").append(newelw)
-            }
-            cloneSpecialyArea()
             var codigo = 1;
-		    // var procedureTable = $('#procedureTable').DataTable({
-			// 	responsive: true,
-		    //     processing: true,
-		    //     serverSide: true,
-		    // 	ajax:{
-		    //         url : globalRouteobtenerLista,
-		    //         type: "get",
-		    //         data: {"estable": codigo},
-		    //         error: function (xhr, error, thrown) {
-		    //         },
-		    //      },
-		    //     language: {
-		    //         "url": dataTablesLangEs
-		    //     },
-		    //     "columns": [
+		    var procedureTable = $('#procedureTable').DataTable({
+				responsive: true,
+		        processing: true,
+		        serverSide: true,
+		    	ajax:{
+		            url : globalRouteobtenerLista,
+		            type: "get",
+		            data: {"estable": codigo},
+		            error: function (xhr, error, thrown) {
+		            },
+		         },
+		        language: {
+		            "url": dataTablesLangEs
+		        },
+		        "columns": [
 
-			// 		{ data: 'DT_RowIndex' },
-		    //         { data: "Procedure" },
-		    //         { data: "service" },
-		    //         { data: "brand" },
-		    //         { data: "Has Packages" },
-		    //         { data: "description" },
-		    //         { data: "active", className: 'center' },
-		    //         { data: "action", orderable: false, searchable: false, className: 'center' },
+					{ data: 'DT_RowIndex' },
+                    { data: "brand" },
+                    { data: "service" },
+		            { data: "procedure" },
+		            { data: "haspackage", className: 'center' },
+		            { data: "description" },
+		            { data: "active", className: 'center' },
+		            { data: "action", orderable: false, searchable: false, className: 'center' },
 
-		    //     ],
-		    //     createdRow: function (row, data, dataIndex) {
-		    //         $(row).addClass('odd gradeX');
-		    //     },
-		    // });
+		        ],
+		        createdRow: function (row, data, dataIndex) {
+		            $(row).addClass('odd gradeX');
+		        },
+		    });
 
             $(document).on("click", "#formSubmit", function () {
 
                 $('.error').html('')
 
                 var form_data = new FormData();
-                form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service_en', $('#service_en').val())
-                form_data.append('service_es', $('#service_es').val())
-
-                if ($("input[name='has_packages']:checked").val() == '1') {
-                    form_data.append('has_packages', 1)
-                    form_data.append('qty_images', $('#qty_images').val())
-                } else {
-                    form_data.append('has_packages', 0)
-                    form_data.append('qty_images', 0)
-                }
-
+                form_data.append('service', $('#service').attr('data-id'))
+                form_data.append('procedure_en', $('#procedure_en').val())
+                form_data.append('procedure_es', $('#procedure_es').val())
+                form_data.append('has_package', $("input[name='has_package']:checked").val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-                specialties_cadena = [];
-                $(".input_specialties").each(function(indice,elemento){
-                    if( $(this).attr('data-id') && $(this).val() ) {
-                        $(this).prop('id', 'input_specialties_'+indice)
-                        specialties_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
-                    }
-                });
-
-                form_data.append('input_specialties', JSON.stringify(specialties_cadena))
+                // return
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -394,10 +312,11 @@
                         } else {
 
                             $.each( data.errors, function( key, value ) {
-                                kFormat = key.replace(".", "_");
-                                console.log(kFormat);
-                                $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
-                                $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
+                                kFormat = key.replace('.', "_");
+                                fFormat = kFormat.replace('.', "_");
+
+                                $('*[id^='+fFormat+']').parent().find('.error').append('<p>'+value+'</p>')
+                                $('*[id^='+fFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                             });
                         }
                     },
@@ -411,13 +330,13 @@
                 })
             });
 
-            $('.autocomplete.brand').on('keyup', function() {
+            $('.autocomplete.service').on('keyup', function() {
                 var key = $(this).val();
                 var dataString = new FormData();
                 dataString.append('key', key);
                 $.ajax({
                     type: "POST",
-                    url: globalRouteSearchBrand,
+                    url: globalRouteSearchService,
                     method:"POST",
                     data:dataString,
                     dataType:'JSON',
@@ -428,24 +347,24 @@
                     },
                     processData: false,
                     beforeSend: function(){
-                        $('.myInputautocomplete-list.brand').html('');
+                        $('.myInputautocomplete-list.service').html('');
                     },
                     success: function(data) {
                         console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
-                                sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '">' + data[i].brand + '</a></div>';
+                                sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '">' + data[i].service + '</a></div>';
                             }
                         } else {
                             sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
                         }
-                        $('.myInputautocomplete-list.brand').fadeIn(1000).append(sugerencias);
+                        $('.myInputautocomplete-list.service').fadeIn(1000).append(sugerencias);
                         $('.suggest-element').not('.no-show-patient').on('click', function(){
                             var id = $(this).attr('data');
-                            var brand = $(this).text();
-                            $('.autocomplete.brand').val(brand).attr('data-id', id);
-                            $('.myInputautocomplete-list.brand').fadeOut(1000).html('');
+                            var service = $(this).text();
+                            $('.autocomplete.service').val(service).attr('data-id', id);
+                            $('.myInputautocomplete-list.service').fadeOut(1000).html('');
                             return false;
                         });
                     }
@@ -466,36 +385,7 @@
                 .removeAttr('service')
                 .html('Add')
                 .attr('id', 'formSubmit')
-                cloneSpecialyArea()
             }
-
-            $('input[name=has_packages]').on('change', function() {
-                $('#qty_images').val('')
-                if($(this).val() == '1'){
-                    $('#qty_images').parents('.form-group').show('fast');
-                } else {
-                    $('#qty_images').parents('.form-group').hide('fast');
-                }
-            });
-
-            $(document).on('click', '#btn-add-secialtie', function () {
-                cloneSpecialyArea()
-            });
-
-            $(document).on('click', '.btn-remove-specialtie', function () {
-                $(this).parents('.cloned').remove();
-
-                if(document.getElementsByClassName("cloned").length == 0){
-                    cloneSpecialyArea()
-                }
-            });
-
-            $(document).on('change', '.input_specialties', function(event) {
-                event.preventDefault();
-                var roleText = $(this).val();
-                var roleId = $("#valAutocomplete option[value='"+roleText+"']").attr('data-specialty');
-                $(this).attr('data-id', roleId);
-            });
 
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
@@ -553,42 +443,61 @@
                     {
                         console.log(data);
 
+
                         if (data.success) {
                             clearForm()
-
-                            $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
-                            $('#service_en').val(data.info.service_en);
-                            $('#service_es').val(data.info.service_es);
+                            $('#service').attr('data-id', data.info.service.id)
+                            $('#service').val(data.info.service.service)
+                            $('#procedure_en').val(data.info.procedure_en)
+                            $('#procedure_es').val(data.info.procedure_es)
+                            $("input[type='radio'][name='has_package'][value='"+data.info.has_package+"']").attr('checked',true);
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
-                            $('#has_packages').val(data.info.has_packages);
-
-                            if (data.info.has_packages > 0) {
-                                $('#qty_images').parents('.form-group').show('fast').val(data.info.qty_images)
-                                $("input[name=has_packages][value='1']").prop("checked",true);
-                            } else {
-                                $('#qty_images').parents('.form-group').hide('fast').val('')
-                                $("input[name=has_packages][value='0']").prop("checked",true);
-                            }
-                            $('#qty_images').val(data.info.qty_images);
-                            $('#description_es').val(data.info.description_es);
-                            $('#formSubmit').html('edit').attr({
-                                service: $.trim(serviceId),
-                                id: 'formEdit'
-                            });
-                            $(".clone-area .cloned").remove()
-                            $.each( data.info.specialties, function( key, value ) {
-                                cloneSpecialyAreaEdit(value.specialty_name,  value.id)
-                            });
-
                         } else {
-                            Toast.fire({
+                                Toast.fire({
                                 icon: data.icon,
                                 title: data.msg
                             })
                             procedureTable.ajax.reload( null, false );
                             clearForm()
                         }
+
+                        // if (data.success) {
+                        //
+
+                        //     $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
+                        //     $('#service_en').val(data.info.service_en);
+                        //     $('#service_es').val(data.info.service_es);
+                        //     $('#description_en').val(data.info.description_en);
+                        //     $('#description_es').val(data.info.description_es);
+                        //     $('#has_package').val(data.info.has_package);
+
+                        //     if (data.info.has_package > 0) {
+                        //         $('#qty_images').parents('.form-group').show('fast').val(data.info.qty_images)
+                        //         $("input[name=has_package][value='1']").prop("checked",true);
+                        //     } else {
+                        //         $('#qty_images').parents('.form-group').hide('fast').val('')
+                        //         $("input[name=has_package][value='0']").prop("checked",true);
+                        //     }
+                        //     $('#qty_images').val(data.info.qty_images);
+                        //     $('#description_es').val(data.info.description_es);
+                        //     $('#formSubmit').html('edit').attr({
+                        //         service: $.trim(serviceId),
+                        //         id: 'formEdit'
+                        //     });
+                        //     $(".clone-area .cloned").remove()
+                        //     $.each( data.info.specialties, function( key, value ) {
+                        //         cloneSpecialyAreaEdit(value.specialty_name,  value.id)
+                        //     });
+
+                        // } else {
+                        //     Toast.fire({
+                        //         icon: data.icon,
+                        //         title: data.msg
+                        //     })
+                        //     procedureTable.ajax.reload( null, false );
+                        //     clearForm()
+                        // }
 
                     },
                     error: function (err)
@@ -610,27 +519,27 @@
                 form_data.append('service_en', $('#service_en').val())
                 form_data.append('service_es', $('#service_es').val())
 
-                if ($("input[name='has_packages']:checked").val() == '1') {
-                    form_data.append('has_packages', 1)
+                if ($("input[name='has_package']:checked").val() == '1') {
+                    form_data.append('has_package', 1)
                     form_data.append('qty_images', $('#qty_images').val())
                 } else {
-                    form_data.append('has_packages', 0)
+                    form_data.append('has_package', 0)
                     form_data.append('qty_images', 0)
                 }
 
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
 
-                specialties_cadena = [];
-                $(".input_specialties").each(function(indice,elemento){
+                packages_cadena = [];
+                $(".input_packages").each(function(indice,elemento){
                     if( $(this).attr('data-id') && $(this).val() ) {
                         $(this).prop('id', 'input_specialties_'+indice)
-                        specialties_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
+                        packages_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
                     }
                 });
 
 
-                form_data.append('input_specialties', JSON.stringify(specialties_cadena))
+                form_data.append('input_packages', JSON.stringify(packages_cadena))
                 $.ajax({
                     url: globalRouteUpdate,
                     method:"POST",
@@ -737,19 +646,10 @@
                     },
                 })
             }
-
         });
 
-        onload = function(){
-            var ele = document.querySelectorAll('.validanumericos')[0];
-            ele.onkeypress = function(e) {
-                if(isNaN(this.value+String.fromCharCode(e.charCode)))
-                    return false;
-            }
-            ele.onpaste = function(e){
-                e.preventDefault();
-            }
+        function numbers(){
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
         }
-
     </script>
 @endsection

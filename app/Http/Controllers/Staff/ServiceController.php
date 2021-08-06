@@ -38,18 +38,6 @@ class ServiceController extends Controller
         ->select('id', 'role_id', "name_$lang AS name")
         ->get();
 
-        $service = Service::with([
-            'specialties' => function($q) use ($lang){
-                $q->selectRaw("name_$lang specialty_name");
-            },
-            'brand' => function($q) use ($lang){
-                $q->selectRaw("id, brand");
-            },
-        ])
-        ->selectRaw("id, service_$lang service, need_images, qty_images, active, description_$lang description, brand_id")
-        ->get();
-
-
         return view('staff.service-manager.list', ["specialites" => $specialites]);
     }
 
@@ -108,15 +96,6 @@ class ServiceController extends Controller
                 ->rawColumns(['DT_RowIndex', 'service', 'brand', 'need_images', 'qty_images', 'description', 'active', 'action'])
                 ->make(true);
         }
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

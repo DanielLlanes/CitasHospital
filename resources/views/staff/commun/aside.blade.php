@@ -109,7 +109,7 @@
                     </ul>
                 </li> --}}
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">local_parking</i>
                         <span class="title">@lang("Products") </span> <span class="arrow"></span>
                     </a>
@@ -129,6 +129,90 @@
                         <li class="nav-item  ">
                             <a href="{{ route('staff.products.package') }}" class="nav-link "> <span class="title">@lang("Packages") </span>
                             </a>
+                        </li>
+                    </ul>
+                </li> --}}
+                <li class="nav-item  ">
+                    <a href="widget.html" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
+                        <span class="title">Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="material-icons">settings</i>
+                        <span class="title">Configuration</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        {{-- <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-university"></i> Item 1
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a href="javascript:;" class="nav-link nav-toggle">
+                                        <i class="fa fa-bell-o"></i> Arrow Toggle
+                                        <span class="arrow "></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="nav-item">
+                                            <a href="javascript:;" class="nav-link">
+                                                <i class="fa fa-calculator"></i> Sample Link 1</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fa fa-clone"></i> Sample Link 2</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="fa fa-cogs"></i> Sample Link 3</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-file-pdf-o"></i> Sample Link 1</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-rss"></i> Sample Link 2</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-hdd-o"></i> Sample Link 3</a>
+                                </li>
+                            </ul>
+                        </li> --}}
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-product-hunt"></i> Products
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.configuration.products.brand') }}" class="nav-link">
+                                        <i class="ml-3"></i> Brand</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.configuration.products.service') }}" class="nav-link">
+                                        <i class="ml-3"></i> Services</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.configuration.products.procedure') }}" class="nav-link">
+                                        <i class="ml-3"></i> Procedures
+                                     </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.configuration.products.package') }}" class="nav-link">
+                                        <i class="ml-3"></i> Packages
+                                     </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fa fa-volume-up"></i> Item 3 </a>
                         </li>
                     </ul>
                 </li>

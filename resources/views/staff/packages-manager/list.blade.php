@@ -1,17 +1,18 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('Brand')
+	@lang('Packages')
 @endsection
 @section('content')
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">@lang('Brand Manager')</div>
+            <div class="page-title">@lang('Packages Manager')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">@lang('Brand Manager')</li>
+            <li class="active">@lang('Configuration')&nbsp;<i class="fa fa-angle-right"></i></li>
+            <li class="active">@lang('Packages Manager')</li>
         </ol>
     </div>
 </div>
@@ -22,7 +23,7 @@
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
                         <div class="col-md-12 d-lg-flex">
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -51,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
                                         <header>@lang('Brand Manager')</header>
@@ -151,12 +152,12 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.getPackageList') }}";
-        var globalRouteStore = "{{ route('staff.products.storePackage') }}";
-        var globalRouteActivar = "{{ route('staff.products.activatePackage') }}"
-        var globalRouteEditar = "{{ route('staff.products.editPackage') }}"
-        var globalRouteUpdate = "{{ route('staff.products.updatePackage') }}"
-        var globalRouteDestroy = "{{ route('staff.products.destroyPackage') }}"
+        var globalRouteobtenerLista = "{{ route('staff.configuration.products.getPackageList') }}";
+        var globalRouteStore = "{{ route('staff.configuration.products.storePackage') }}";
+        var globalRouteActivar = "{{ route('staff.configuration.products.activatePackage') }}"
+        var globalRouteEditar = "{{ route('staff.configuration.products.editPackage') }}"
+        var globalRouteUpdate = "{{ route('staff.configuration.products.updatePackage') }}"
+        var globalRouteDestroy = "{{ route('staff.configuration.products.destroyPackage') }}"
 
 		$(document).ready(function() {
 			var codigo = 1;

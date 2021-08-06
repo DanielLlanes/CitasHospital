@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Service;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AutocompleteController extends Controller
 {
@@ -35,7 +36,11 @@ class AutocompleteController extends Controller
 
     public function searchService(Request $request)
     {
-        $search = Service::where("name",'like', "%".$request->key."%")
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+        $search = Service::where("service_$lang",'like', "%".$request->key."%")
+        ->select('id', "service_$lang AS service")
         ->get();
         return $search;
     }

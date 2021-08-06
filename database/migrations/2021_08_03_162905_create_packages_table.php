@@ -20,6 +20,7 @@ class CreatePackagesTable extends Migration
             $table->string('description_en');
             $table->string('description_es');
             $table->boolean('active')->default(true);
+            $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

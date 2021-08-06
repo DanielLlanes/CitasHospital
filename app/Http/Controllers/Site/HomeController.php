@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 
-use App\Http\Controllers\Controller;
+use App\Models\Staff\Brand;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {
@@ -34,5 +35,23 @@ class HomeController extends Controller
     public function faqs()
     {
         return view('site.faqs');
+    }
+    public function brand($brand)
+    {
+        $lang = app()->getLocale();
+        $brand = Brand::with(
+            [
+                'service' => function($q) use ($lang){
+                    $q->select(["*", "service_$lang as service", "description_$lang as decription"]);
+                },
+            ]
+        )
+        ->firstOrFail();
+        if ($brand) {
+            $view = 'site.brand';
+            if(view()->exists($view)){
+                return view($view, ["brand" => $brand])->render();
+            }
+        }
     }
 }

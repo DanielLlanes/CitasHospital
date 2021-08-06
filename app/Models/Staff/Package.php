@@ -10,4 +10,10 @@ class Package extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    public function procedure()
+    {
+        return $this->belongsToMany(Procedure::class);
+    }
+
 }

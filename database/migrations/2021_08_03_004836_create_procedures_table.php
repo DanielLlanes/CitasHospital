@@ -20,12 +20,10 @@ class CreateProceduresTable extends Migration
             $table->string('procedure_en')->nullable();
             $table->longText('description_es');
             $table->longText('description_en')->nullable();
-            $table->boolean('haz_package')->default(false);
-            $table->longText('procedures_cadena')->nullable();
+            $table->boolean('has_package')->default(false);
             $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->timestamps();
-
         });
     }
 

@@ -82,39 +82,41 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
 	});
 
-    Route::name('products.')->group( function(){
-        //brand
-        Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
-        Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
-        Route::post('/brand/store', [BrandController::class, 'store'])->name('store');
-        Route::post('/brand/activate', [BrandController::class, 'activate'])->name('activate');
-        Route::post('/brand/edit', [BrandController::class, 'edit'])->name('edit');
-        Route::post('/brand/update', [BrandController::class, 'update'])->name('update');
-        Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('destroy');
-        //service
-        Route::get('/service/listar', [ServiceController::class, 'service'])->name('service');
-        Route::get('/service/get-brand-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
-        Route::post('/service/store', [ServiceController::class, 'store'])->name('storeService');
-        Route::post('/service/activate', [ServiceController::class, 'activate'])->name('activateService');
-        Route::post('/service/edit', [ServiceController::class, 'edit'])->name('editService');
-        Route::post('/service/update', [ServiceController::class, 'update'])->name('updateService');
-        Route::post('/service/destroy', [ServiceController::class, 'destroy'])->name('destroyService');
-        //procedures
-        Route::get('/procedure/listar', [ProcedureController::class, 'procedure'])->name('procedure');
-        Route::get('/procedure/get-brand-list', [ProcedureController::class, 'getProcedureList'])->name('getProcedureList');
-        Route::post('/procedure/store', [ProcedureController::class, 'store'])->name('storeProcedure');
-        Route::post('/procedure/activate', [ProcedureController::class, 'activate'])->name('activateProcedure');
-        Route::post('/procedure/edit', [ProcedureController::class, 'edit'])->name('editProcedure');
-        Route::post('/procedure/update', [ProcedureController::class, 'update'])->name('updateProcedure');
-        Route::post('/procedure/destroy', [ProcedureController::class, 'destroy'])->name('destroyProcedure');
-        //packages
-        Route::get('/packages/listar', [PackageController::class, 'package'])->name('package');
-        Route::get('/packages/get-brand-list', [PackageController::class, 'getPackageList'])->name('getPackageList');
-        Route::post('/packages/store', [PackageController::class, 'store'])->name('storePackage');
-        Route::post('/packages/activate', [PackageController::class, 'activate'])->name('activatePackage');
-        Route::post('/packages/edit', [PackageController::class, 'edit'])->name('editPackage');
-        Route::post('/packages/update', [PackageController::class, 'update'])->name('updatePackage');
-        Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
+    Route::name('configuration.')->group( function(){
+        Route::name('products.')->group( function(){
+            //brand
+            Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
+            Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
+            Route::post('/brand/store', [BrandController::class, 'store'])->name('store');
+            Route::post('/brand/activate', [BrandController::class, 'activate'])->name('activate');
+            Route::post('/brand/edit', [BrandController::class, 'edit'])->name('edit');
+            Route::post('/brand/update', [BrandController::class, 'update'])->name('update');
+            Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('destroy');
+            //service
+            Route::get('/service/listar', [ServiceController::class, 'service'])->name('service');
+            Route::get('/service/get-brand-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
+            Route::post('/service/store', [ServiceController::class, 'store'])->name('storeService');
+            Route::post('/service/activate', [ServiceController::class, 'activate'])->name('activateService');
+            Route::post('/service/edit', [ServiceController::class, 'edit'])->name('editService');
+            Route::post('/service/update', [ServiceController::class, 'update'])->name('updateService');
+            Route::post('/service/destroy', [ServiceController::class, 'destroy'])->name('destroyService');
+            //procedures
+            Route::get('/procedure/listar', [ProcedureController::class, 'procedure'])->name('procedure');
+            Route::get('/procedure/get-brand-list', [ProcedureController::class, 'getProcedureList'])->name('getProcedureList');
+            Route::post('/procedure/store', [ProcedureController::class, 'store'])->name('storeProcedure');
+            Route::post('/procedure/activate', [ProcedureController::class, 'activate'])->name('activateProcedure');
+            Route::post('/procedure/edit', [ProcedureController::class, 'edit'])->name('editProcedure');
+            Route::post('/procedure/update', [ProcedureController::class, 'update'])->name('updateProcedure');
+            Route::post('/procedure/destroy', [ProcedureController::class, 'destroy'])->name('destroyProcedure');
+            //packages
+            Route::get('/packages/listar', [PackageController::class, 'package'])->name('package');
+            Route::get('/packages/get-brand-list', [PackageController::class, 'getPackageList'])->name('getPackageList');
+            Route::post('/packages/store', [PackageController::class, 'store'])->name('storePackage');
+            Route::post('/packages/activate', [PackageController::class, 'activate'])->name('activatePackage');
+            Route::post('/packages/edit', [PackageController::class, 'edit'])->name('editPackage');
+            Route::post('/packages/update', [PackageController::class, 'update'])->name('updatePackage');
+            Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
+        });
     });
 
 });

@@ -9,7 +9,15 @@
             <div class="page-title">@lang('Services Manager')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li>
+                <i class="fa fa-home"></i>&nbsp;
+                <a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>
+                &nbsp;<i class="fa fa-angle-right">
+
+                </i>
+            </li>
+            <li class="active">@lang('Configuration')&nbsp;
+                <i class="fa fa-angle-right"></i>
             </li>
             <li class="active">@lang('Services Manager')</li>
         </ol>
@@ -22,7 +30,7 @@
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
                         <div class="col-md-12 d-lg-flex">
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -54,7 +62,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
                                         <header>@lang('Services Manager')</header>
@@ -263,12 +271,12 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.getServiceList') }}";
-        var globalRouteStore = "{{ route('staff.products.storeService') }}";
-        var globalRouteActivar = "{{ route('staff.products.activateService') }}"
-        var globalRouteEditar = "{{ route('staff.products.editService') }}"
-        var globalRouteUpdate = "{{ route('staff.products.updateService') }}"
-        var globalRouteDestroy = "{{ route('staff.products.destroyService') }}"
+        var globalRouteobtenerLista = "{{ route('staff.configuration.products.getServiceList') }}";
+        var globalRouteStore = "{{ route('staff.configuration.products.storeService') }}";
+        var globalRouteActivar = "{{ route('staff.configuration.products.activateService') }}"
+        var globalRouteEditar = "{{ route('staff.configuration.products.editService') }}"
+        var globalRouteUpdate = "{{ route('staff.configuration.products.updateService') }}"
+        var globalRouteDestroy = "{{ route('staff.configuration.products.destroyService') }}"
         var globalRouteSearchBrand = "{{ route('staff.autocomplete.AutocompleteBrand') }}";
 
 

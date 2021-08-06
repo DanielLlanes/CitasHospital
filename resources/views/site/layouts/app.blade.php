@@ -42,7 +42,9 @@
     <!-- ======= Header ======= -->
     @include('site.commun.header')
     <!-- End Header -->
+<code>
 
+</code>
     @yield('content')
 
     <!-- ======= Back to top ======= -->

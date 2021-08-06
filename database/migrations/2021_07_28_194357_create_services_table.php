@@ -21,9 +21,9 @@ class CreateServicesTable extends Migration
             $table->boolean('need_images')->default(false);
             $table->integer('qty_images')->default(0);
             $table->boolean('active')->default(true);
-            $table->longText('staff_cadena')->nullable();
             $table->longText('description_en')->nullable();
             $table->longText('description_es')->nullable();
+            $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

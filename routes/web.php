@@ -22,6 +22,8 @@ Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
+// brands Routes
 
+Route::get('/{brand}', [HomeController::class, 'brand']);
 
 Route::prefix('staff')->group(base_path('routes/staff.php'));

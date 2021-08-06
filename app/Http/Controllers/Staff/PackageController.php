@@ -24,7 +24,7 @@ class PackageController extends Controller
      */
     public function package()
     {
-        return view('staff.package-manager.list');
+        return view('staff.packages-manager.list');
     }
 
     public function getPackageList(Request $request)
