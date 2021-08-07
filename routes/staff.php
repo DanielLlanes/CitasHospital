@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\PackageController;
+use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
@@ -82,8 +83,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
 	});
 
-    Route::name('configuration.')->group( function(){
-        Route::name('products.')->group( function(){
+    Route::name('products.')->group( function(){
+        Route::name('configuration.')->group( function(){
             //brand
             Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
             Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
@@ -117,6 +118,14 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             Route::post('/packages/update', [PackageController::class, 'update'])->name('updatePackage');
             Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
         });
+        Route::get('/products/listar', [ProductController::class, 'products'])->name('products');
+        Route::get('/products/get-brand-list', [ProductController::class, 'getProductList'])->name('getProductList');
+        Route::post('/products/store', [ProductController::class, 'store'])->name('storeProduct');
+        Route::post('/products/activate', [ProductController::class, 'activate'])->name('activateProduct');
+        Route::post('/products/edit', [ProductController::class, 'edit'])->name('editProduct');
+        Route::post('/products/update', [ProductController::class, 'update'])->name('updateProduct');
+        Route::post('/products/destroy', [ProductController::class, 'destroy'])->name('destroyProduct');
     });
 
 });
+

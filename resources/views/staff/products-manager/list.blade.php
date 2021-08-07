@@ -1,12 +1,12 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('Services')
+	@lang('Products')
 @endsection
 @section('content')
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">@lang('Services Manager')</div>
+            <div class="page-title">@lang('Products Manager')</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li>
@@ -19,7 +19,7 @@
             <li class="active">@lang('Configuration')&nbsp;
                 <i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">@lang('Services Manager')</li>
+            <li class="active">@lang('Products Manager')</li>
         </ol>
     </div>
 </div>
@@ -47,9 +47,9 @@
                                                 <tr>
                                                     <th> ID </th>
                                                     <th> @lang('Service') </th>
-                                                    <th> @lang('Brand') </th>
-                                                    <th> @lang('Need Image') </th>
-                                                    <th> @lang('Qty Images') </th>
+                                                    <th> @lang('Procedure') </th>
+                                                    <th> @lang('Package') </th>
+                                                    <th> @lang('Price') </th>
                                                     <th> @lang('Description') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
@@ -65,7 +65,7 @@
                             <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
-                                        <header>@lang('Services Manager')</header>
+                                        <header>@lang('Products Manager')</header>
                                     </div>
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
@@ -77,7 +77,6 @@
                                                     <div class="col-md-12">
                                                         <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
                                                         <div class="error text-danger col-form-label-sm"></div>
-                                                        <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -194,11 +193,11 @@
         </div>
     </div>
 </div>
-<datalist id="valAutocomplete">
+{{-- <datalist id="valAutocomplete">
     @foreach ($specialites as $specialty)
         <option data-specialty="{{ $specialty->id }}" value="{{ $specialty->name }}"></option>
     @endforeach
-</datalist>
+</datalist> --}}
 @endsection
 @section('styles')
     <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
@@ -271,12 +270,12 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.configuration.getServiceList') }}";
-        var globalRouteStore = "{{ route('staff.products.configuration.storeService') }}";
-        var globalRouteActivar = "{{ route('staff.products.configuration.activateService') }}"
-        var globalRouteEditar = "{{ route('staff.products.configuration.editService') }}"
-        var globalRouteUpdate = "{{ route('staff.products.configuration.updateService') }}"
-        var globalRouteDestroy = "{{ route('staff.products.configuration.destroyService') }}"
+        var globalRouteobtenerLista = "{{ route('staff.products.getProductList') }}";
+        var globalRouteStore = "{{ route('staff.products.storeProduct') }}";
+        var globalRouteActivar = "{{ route('staff.products.activateProduct') }}"
+        var globalRouteEditar = "{{ route('staff.products.editProduct') }}"
+        var globalRouteUpdate = "{{ route('staff.products.updateProduct') }}"
+        var globalRouteDestroy = "{{ route('staff.products.destroyProduct') }}"
         var globalRouteSearchBrand = "{{ route('staff.autocomplete.AutocompleteBrand') }}";
 
 
@@ -304,36 +303,36 @@
             }
             cloneSpecialyArea()
             var codigo = 1;
-		    var serviceTable = $('#serviceTable').DataTable({
-				responsive: true,
-		        processing: true,
-		        serverSide: true,
-		    	ajax:{
-		            url : globalRouteobtenerLista,
-		            type: "get",
-		            data: {"estable": codigo},
-		            error: function (xhr, error, thrown) {
-		            },
-		         },
-		        language: {
-		            "url": dataTablesLangEs
-		        },
-		        "columns": [
+		    // var serviceTable = $('#serviceTable').DataTable({
+			// 	responsive: true,
+		    //     processing: true,
+		    //     serverSide: true,
+		    // 	ajax:{
+		    //         url : globalRouteobtenerLista,
+		    //         type: "get",
+		    //         data: {"estable": codigo},
+		    //         error: function (xhr, error, thrown) {
+		    //         },
+		    //      },
+		    //     language: {
+		    //         "url": dataTablesLangEs
+		    //     },
+		    //     "columns": [
 
-					{ data: 'DT_RowIndex' },
-		            { data: "service" },
-		            { data: "brand" },
-		            { data: "need_images" },
-		            { data: "qty_images" },
-		            { data: "description" },
-		            { data: "active", className: 'center' },
-		            { data: "action", orderable: false, searchable: false, className: 'center' },
+			// 		{ data: 'DT_RowIndex' },
+		    //         { data: "service" },
+		    //         { data: "brand" },
+		    //         { data: "need_images" },
+		    //         { data: "qty_images" },
+		    //         { data: "description" },
+		    //         { data: "active", className: 'center' },
+		    //         { data: "action", orderable: false, searchable: false, className: 'center' },
 
-		        ],
-		        createdRow: function (row, data, dataIndex) {
-		            $(row).addClass('odd gradeX');
-		        },
-		    });
+		    //     ],
+		    //     createdRow: function (row, data, dataIndex) {
+		    //         $(row).addClass('odd gradeX');
+		    //     },
+		    // });
 
             $(document).on("click", "#formSubmit", function () {
 

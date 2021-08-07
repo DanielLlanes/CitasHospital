@@ -133,7 +133,7 @@
                     </ul>
                 </li> --}}
                 <li class="nav-item  ">
-                    <a href="widget.html" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
+                    <a href="{{ route('staff.products.products') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
                         <span class="title">Products</span>
                     </a>
                 </li>
@@ -191,20 +191,20 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.configuration.products.brand') }}" class="nav-link">
+                                    <a href="{{ route('staff.products.configuration.brand') }}" class="nav-link">
                                         <i class="ml-3"></i> Brand</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.configuration.products.service') }}" class="nav-link">
+                                    <a href="{{ route('staff.products.configuration.service') }}" class="nav-link">
                                         <i class="ml-3"></i> Services</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.configuration.products.procedure') }}" class="nav-link">
+                                    <a href="{{ route('staff.products.configuration.procedure') }}" class="nav-link">
                                         <i class="ml-3"></i> Procedures
                                      </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.configuration.products.package') }}" class="nav-link">
+                                    <a href="{{ route('staff.products.configuration.package') }}" class="nav-link">
                                         <i class="ml-3"></i> Packages
                                      </a>
                                 </li>

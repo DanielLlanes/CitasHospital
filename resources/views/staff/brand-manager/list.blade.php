@@ -171,12 +171,12 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.configuration.products.getBrandList') }}";
-        var globalRouteStore = "{{ route('staff.configuration.products.storeBrand') }}";
-        var globalRouteActivar = "{{ route('staff.configuration.products.activateBrand') }}"
-        var globalRouteEditar = "{{ route('staff.configuration.products.editBrand') }}"
-        var globalRouteUpdate = "{{ route('staff.configuration.products.updateBrand') }}"
-        var globalRouteDestroy = "{{ route('staff.configuration.products.destroyBrand') }}"
+        var globalRouteobtenerLista = "{{ route('staff.products.configuration.getBrandList') }}";
+        var globalRouteStore = "{{ route('staff.products.configuration.storeBrand') }}";
+        var globalRouteActivar = "{{ route('staff.products.configuration.activateBrand') }}"
+        var globalRouteEditar = "{{ route('staff.products.configuration.editBrand') }}"
+        var globalRouteUpdate = "{{ route('staff.products.configuration.updateBrand') }}"
+        var globalRouteDestroy = "{{ route('staff.products.configuration.destroyBrand') }}"
 
 		$(document).ready(function() {
 			var codigo = 1;
