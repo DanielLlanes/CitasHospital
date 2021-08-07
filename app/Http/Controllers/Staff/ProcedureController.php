@@ -110,7 +110,6 @@ class ProcedureController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->merge(['input_packages' => json_decode($request->input_packages, true)]);
         $validator = Validator::make($request->all(), [
             'service' => 'required|exists:services,id',
@@ -202,7 +201,49 @@ class ProcedureController extends Controller
      */
     public function update(Request $request)
     {
+        $procedure = Procedure::find($request->id);
 
+        $validator = Validator::make($request->all(), [
+            'service' => 'required|exists:services,id',
+            'procedure_en' => 'required|string|unique:procedures,procedure_en,'.$request->id,
+            'procedure_es' => 'required|string|unique:procedures,procedure_es,'.$request->id,
+            'description_en' => 'required|string',
+            'description_es' => 'required|string',
+            'has_package' => 'required|integer',
+
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => $request,
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        $procedure->service_id = $request->service;
+        $procedure->procedure_en = $request->procedure_en;
+        $procedure->procedure_es = $request->procedure_es;
+        $procedure->price = $request->price;
+        $procedure->has_package = $request->has_package;
+        $procedure->description_en = $request->description_en;
+        $procedure->description_es = $request->description_es;
+
+        if ($procedure->save()) {
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('The procedure was successfully updated!'),
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('We couldn’t create the procedure please try again!'),
+                'reload' => false
+            ]
+        );
     }
 
     /**

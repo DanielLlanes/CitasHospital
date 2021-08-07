@@ -379,7 +379,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -391,7 +390,6 @@
 
                             $.each( data.errors, function( key, value ) {
                                 kFormat = key.replace(".", "_");
-                                console.log(kFormat);
                                 $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
                                 $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                             });
@@ -427,7 +425,6 @@
                         $('#myInputautocomplete-list.brand').html('');
                     },
                     success: function(data) {
-                        console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
@@ -547,8 +544,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
-
                         if (data.success) {
                             clearForm()
 
@@ -644,7 +639,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
@@ -694,6 +688,10 @@
                 })
             });
 
+            $(document).on('click', '#formCancel', function () {
+                clearForm()
+            });
+
             function deleteRecord(id)
             {
                 var form_data = new FormData();
@@ -714,7 +712,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg

@@ -211,7 +211,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -301,7 +300,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data.info)
                         if (data.success) {
                             clearForm()
                             $('#package_en').val(data.info.package_en);
@@ -357,7 +355,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
@@ -427,7 +424,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg

@@ -93,7 +93,7 @@ class EventController extends Controller
         }
         return response()->json($allEvents);
     }
-    
+
     public function eventDrop(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -119,16 +119,6 @@ class EventController extends Controller
                 'reload' => false
             ]
         );
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

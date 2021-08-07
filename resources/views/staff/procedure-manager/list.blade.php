@@ -284,7 +284,6 @@
                 form_data.append('has_package', $("input[name='has_package']:checked").val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-                // return
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -382,7 +381,7 @@
                 $(".clone-area").html('')
                 $("#formReset").click()
                 $('#formEdit')
-                .removeAttr('service')
+                .removeAttr('procedure')
                 .html('Add')
                 .attr('id', 'formSubmit')
             }
@@ -422,9 +421,9 @@
             });
 
             $(document).on('click', '.btn-tbl-edit', function (event) {
-                var serviceId = $(this).attr('data-id')
+                var procedureId = $(this).attr('data-id')
                 var form_data = new FormData();
-                form_data.append('id', serviceId);
+                form_data.append('id', procedureId);
                 $.ajax({
                     url: globalRouteEditar,
                     method:"POST",
@@ -441,11 +440,13 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
-
-
                         if (data.success) {
                             clearForm()
+                            $('#formSubmit').html('edit').attr({
+                                procedure: $.trim(procedureId),
+                                id: 'formEdit'
+                            });
+
                             $('#service').attr('data-id', data.info.service.id)
                             $('#service').val(data.info.service.service)
                             $('#procedure_en').val(data.info.procedure_en)
@@ -461,44 +462,6 @@
                             procedureTable.ajax.reload( null, false );
                             clearForm()
                         }
-
-                        // if (data.success) {
-                        //
-
-                        //     $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
-                        //     $('#service_en').val(data.info.service_en);
-                        //     $('#service_es').val(data.info.service_es);
-                        //     $('#description_en').val(data.info.description_en);
-                        //     $('#description_es').val(data.info.description_es);
-                        //     $('#has_package').val(data.info.has_package);
-
-                        //     if (data.info.has_package > 0) {
-                        //         $('#qty_images').parents('.form-group').show('fast').val(data.info.qty_images)
-                        //         $("input[name=has_package][value='1']").prop("checked",true);
-                        //     } else {
-                        //         $('#qty_images').parents('.form-group').hide('fast').val('')
-                        //         $("input[name=has_package][value='0']").prop("checked",true);
-                        //     }
-                        //     $('#qty_images').val(data.info.qty_images);
-                        //     $('#description_es').val(data.info.description_es);
-                        //     $('#formSubmit').html('edit').attr({
-                        //         service: $.trim(serviceId),
-                        //         id: 'formEdit'
-                        //     });
-                        //     $(".clone-area .cloned").remove()
-                        //     $.each( data.info.specialties, function( key, value ) {
-                        //         cloneSpecialyAreaEdit(value.specialty_name,  value.id)
-                        //     });
-
-                        // } else {
-                        //     Toast.fire({
-                        //         icon: data.icon,
-                        //         title: data.msg
-                        //     })
-                        //     procedureTable.ajax.reload( null, false );
-                        //     clearForm()
-                        // }
-
                     },
                     error: function (err)
                     {
@@ -512,34 +475,14 @@
 
             $(document).on('click', '#formEdit', function (event) {
                 $('.error').html('')
-
                 var form_data = new FormData();
-                form_data.append('id', $('#formEdit').attr('service'));
-                form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service_en', $('#service_en').val())
-                form_data.append('service_es', $('#service_es').val())
-
-                if ($("input[name='has_package']:checked").val() == '1') {
-                    form_data.append('has_package', 1)
-                    form_data.append('qty_images', $('#qty_images').val())
-                } else {
-                    form_data.append('has_package', 0)
-                    form_data.append('qty_images', 0)
-                }
-
+                form_data.append('id', $(this).attr('procedure'))
+                form_data.append('service', $('#service').attr('data-id'))
+                form_data.append('procedure_en', $('#procedure_en').val())
+                form_data.append('procedure_es', $('#procedure_es').val())
+                form_data.append('has_package', $("input[name='has_package']:checked").val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-
-                packages_cadena = [];
-                $(".input_packages").each(function(indice,elemento){
-                    if( $(this).attr('data-id') && $(this).val() ) {
-                        $(this).prop('id', 'input_specialties_'+indice)
-                        packages_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
-                    }
-                });
-
-
-                form_data.append('input_packages', JSON.stringify(packages_cadena))
                 $.ajax({
                     url: globalRouteUpdate,
                     method:"POST",
@@ -605,6 +548,10 @@
                         e.stopPropagation();
                     }
                 })
+            });
+
+            $(document).on('click', '#formCancel', function () {
+                clearForm()
             });
 
             function deleteRecord(id)

@@ -172,11 +172,11 @@
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
         var globalRouteobtenerLista = "{{ route('staff.configuration.products.getBrandList') }}";
-        var globalRouteStore = "{{ route('staff.configuration.products.store') }}";
-        var globalRouteActivar = "{{ route('staff.configuration.products.activate') }}"
-        var globalRouteEditar = "{{ route('staff.configuration.products.editService') }}"
-        var globalRouteUpdate = "{{ route('staff.configuration.products.updateService') }}"
-        var globalRouteDestroy = "{{ route('staff.configuration.products.destroy') }}"
+        var globalRouteStore = "{{ route('staff.configuration.products.storeBrand') }}";
+        var globalRouteActivar = "{{ route('staff.configuration.products.activateBrand') }}"
+        var globalRouteEditar = "{{ route('staff.configuration.products.editBrand') }}"
+        var globalRouteUpdate = "{{ route('staff.configuration.products.updateBrand') }}"
+        var globalRouteDestroy = "{{ route('staff.configuration.products.destroyBrand') }}"
 
 		$(document).ready(function() {
 			var codigo = 1;
@@ -234,7 +234,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -324,7 +323,6 @@
                     },
                     success:function(data)
                     {
-
                         if (data.success) {
                             clearForm()
                             $('#brand').val(data.info.brand);
@@ -382,7 +380,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
@@ -452,7 +449,6 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg

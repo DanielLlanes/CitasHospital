@@ -87,11 +87,11 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             //brand
             Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
             Route::get('/brand/get-brand-list', [BrandController::class, 'getBrandList'])->name('getBrandList');
-            Route::post('/brand/store', [BrandController::class, 'store'])->name('store');
-            Route::post('/brand/activate', [BrandController::class, 'activate'])->name('activate');
-            Route::post('/brand/edit', [BrandController::class, 'edit'])->name('edit');
-            Route::post('/brand/update', [BrandController::class, 'update'])->name('update');
-            Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('destroy');
+            Route::post('/brand/store', [BrandController::class, 'store'])->name('storeBrand');
+            Route::post('/brand/activate', [BrandController::class, 'activate'])->name('activateBrand');
+            Route::post('/brand/edit', [BrandController::class, 'edit'])->name('editBrand');
+            Route::post('/brand/update', [BrandController::class, 'update'])->name('updateBrand');
+            Route::post('/brand/destroy', [BrandController::class, 'destroy'])->name('destroyBrand');
             //service
             Route::get('/service/listar', [ServiceController::class, 'service'])->name('service');
             Route::get('/service/get-brand-list', [ServiceController::class, 'getServiceList'])->name('getServiceList');
