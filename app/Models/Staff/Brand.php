@@ -18,4 +18,8 @@ class Brand extends Model
     {
         return $this->hasOne(Service::class);
     }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

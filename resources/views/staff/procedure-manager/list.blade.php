@@ -63,6 +63,23 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
+                                                <div class="form-group mb-2" style="overflow: hidden">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image')
+                                                    <span class="required">  </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="file" name="image" id="image" placeholder="@lang('Procedure English')" class=""  style="overflow: hidden">
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2" style="display: none">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image preview')
+                                                    <span class="required">  </span>
+                                                    </label>
+                                                    <div class="col-md-12 imagePreview">
+
+                                                    </div>
+                                                </div>
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -214,6 +231,7 @@
     @endif
     <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ asset('staffFiles/assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
 	<script>
         $('.table').magnificPopup({
@@ -284,6 +302,10 @@
                 form_data.append('has_package', $("input[name='has_package']:checked").val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
+                var files = $('#image')[0].files;
+                if(files.length > 0 ){
+                    form_data.append('image',files[0]);
+                }
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -384,6 +406,9 @@
                 .removeAttr('procedure')
                 .html('Add')
                 .attr('id', 'formSubmit')
+                $('.holi').remove()
+                $('imagePreview').parents('.form-group').hide('fast')
+                $('#image').val('');
             }
 
             $(document).on('click', '.table-active', function(event) {
@@ -550,6 +575,32 @@
                 })
             });
 
+            $(document).on('change', '#image', function(event) {
+            readURL(this);
+            });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        //$('.foto-pac').attr('src', );
+                        $('.imagePreview').parents('.form-group').show('fast');
+
+                        var img = '<img class="rounded-3 holis img-fluid" src=" ' + e.target.result + ' " alt="" style="height: 169px;">';
+
+                        $('.holis').resizable({ aspectRatio:true, maxHeight:300 })
+
+                        $('.imagePreview').html(img);
+
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+
+                    //$('.foto-pac').attr('src',  document.location.origin+'/images/user-xs.png');
+                }
+            }
+
             $(document).on('click', '#formCancel', function () {
                 clearForm()
             });
@@ -598,5 +649,36 @@
         function numbers(){
             $(this).val($(this).val().replace(/[^0-9]/g, ''));
         }
+        $(document).ready(function(){
+
+            $("#but_upload").click(function(){
+
+                var fd = new FormData();
+                var files = $('#file')[0].files;
+
+                // Check file selected or not
+                if(files.length > 0 ){
+                    fd.append('file',files[0]);
+
+                    $.ajax({
+                        url: 'upload.php',
+                        type: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            if(response != 0){
+                                $("#img").attr("src",response);
+                                $(".preview img").show(); // Display image element
+                            }else{
+                                alert('file not uploaded');
+                            }
+                        },
+                    });
+                }else{
+                    alert("Please select a file.");
+                }
+            });
+        });
     </script>
 @endsection

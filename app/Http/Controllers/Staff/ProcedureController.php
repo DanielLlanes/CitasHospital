@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Staff;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Staff\Package;
 use App\Models\Staff\Service;
@@ -10,7 +11,9 @@ use App\Models\Staff\Specialty;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
 
 class ProcedureController extends Controller
@@ -118,6 +121,7 @@ class ProcedureController extends Controller
             'description_en' => 'required|string',
             'description_es' => 'required|string',
             'has_package' => 'required|integer',
+            'image' => 'sometimes|nullable|image|mimes:jpg,jpeg,bmp,png'
 
         ]);
         if ($validator->fails()) {
@@ -127,14 +131,31 @@ class ProcedureController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+
+        $image = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/staff/procedure-image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 680;
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '80');
+            $image = "storage/staff/procedure-image/$img_name";
+        }
+
         $procedure = new Procedure;
         $procedure->service_id = $request->service;
         $procedure->procedure_en = $request->procedure_en;
         $procedure->procedure_es = $request->procedure_es;
-        $procedure->price = $request->price;
         $procedure->has_package = $request->has_package;
         $procedure->description_en = $request->description_en;
         $procedure->description_es = $request->description_es;
+        $procedure->image = $image;
 
         if ($procedure->save()) {
             return response()->json(
@@ -223,7 +244,6 @@ class ProcedureController extends Controller
         $procedure->service_id = $request->service;
         $procedure->procedure_en = $request->procedure_en;
         $procedure->procedure_es = $request->procedure_es;
-        $procedure->price = $request->price;
         $procedure->has_package = $request->has_package;
         $procedure->description_en = $request->description_en;
         $procedure->description_es = $request->description_es;

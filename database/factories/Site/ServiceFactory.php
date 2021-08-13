@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories\Sfaff;
+namespace Database\Factories\Site;
 
-use App\Models\Sfaff\Product;
+use App\Models\Site\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProductFactory extends Factory
+class ServiceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Product::class;
+    protected $model = Service::class;
 
     /**
      * Define the model's default state.

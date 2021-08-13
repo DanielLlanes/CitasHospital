@@ -11,7 +11,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="text-capitalize">{{ $brand->brand }}</h2>
+                <h2 class="text-capitalize fw-bold">{{ $brand->brand }}</h2>
                 <ol>
                     <li><a href="index.html">Home</a></li>
                     <li>{{ $brand->brand }}</li>
@@ -22,95 +22,45 @@
     </section>
     <!-- End Breadcrumbs -->
 
-    <section id="team" class="team section-bg">
+    <section id="team" class="team">
         <div class="container">
 
             <div class="section-title m-5" data-aos="fade-up">
                 <h2><strong>{{ $brand->service->service }}</strong></h2>
                 <p>
-                    All of our doctors are certified surgeons with extensive experience in various surgical procedures. At JLP Surgical Center, the safety, well-being and quality of our service are the first commitment with our patients.
+                    {{ $brand->service->description }}
                 </p>
             </div>
-
-            <div class="row">
-
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="doctor" data-aos="fade-up" data-aos-delay="100">
-                        <img src="{{ asset('siteFiles/assets/img/team/team-1.jpg') }}" class="img-fluid" alt="">
-                        <div class="doctor-info">
-                            <div class="doctor-info-content">
-                                <h4>Lex Lutor</h4>
-                                <span>Plastic Surgeon</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
+            @if (count($products) > 0)
+                @foreach ($title as $item)
+                    <div class="section-title m-5 mb-0" data-aos="fade-up">
+                        <h2><strong>{{ $item->group }}</strong></h2>
                     </div>
-                </div>
+                    <div class="row">
+                        @foreach ($products as $product)
+                        @if ($product->procedure->procedure === $item->group)
+                                <div class="col-sm-3 mb-3 mb-md-0">
+                                    <div class="card">
+                                        @if (!is_null($product->procedure->image))
+                                            <img src="{{ asset($product->procedure->image) }}" class="card-img-top" alt="..." style="height: 200px">
+                                        @endif
+                                        <div class="card-body">
+                                            <h4 class="card-title text-center">{{ $product->procedure->procedure }}</h4>
+                                            <h5 class="card-title text-center">{{ is_null($product->package_id) ? '' : $product->package->package }}</h5>
+                                            <h6 class="card-title text-center">{{ is_null($product->price) ? '' : '$ '.$product->price }}</h6>
+                                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-                <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.1s">
-                    <div class="doctor" data-aos="fade-up" data-aos-delay="200">
-                        <img src="{{ asset('siteFiles/assets/img/team/team-2.jpg') }}" class="img-fluid" alt="">
-                        <div class="doctor-info">
-                            <div class="doctor-info-content">
-                                <h4>Selina Kyle</h4>
-                                <span>Plastic Surgeon</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
+                                        </div>
+                                    <a href="{{ route('appIndex', ['id' => $product->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
+                                    </div>
+                                </div>
+                        @endif
+                        @endforeach
                     </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.2s">
-                    <div class="doctor" data-aos="fade-up" data-aos-delay="300">
-                        <img src="{{ asset('siteFiles/assets/img/team/team-3.jpg') }}" class="img-fluid" alt="">
-                        <div class="doctor-info">
-                            <div class="doctor-info-content">
-                                <h4>Wally West</h4>
-                                <span>Bariatric General Surgeon</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.3s">
-                    <div class="doctor" data-aos="fade-up" data-aos-delay="400">
-                        <img src="{{ asset('siteFiles/assets/img/team/team-4.jpg') }}" class="img-fluid" alt="">
-                        <div class="doctor-info">
-                            <div class="doctor-info-content">
-                                <h4>Barbara Gordon</h4>
-                                <span>Accountant</span>
-                            </div>
-                            <div class="social">
-                                <a href=""><i class="bi bi-twitter"></i></a>
-                                <a href=""><i class="bi bi-facebook"></i></a>
-                                <a href=""><i class="bi bi-instagram"></i></a>
-                                <a href=""><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
+                @endforeach
+            @endif
         </div>
     </section>
-
 </main>
 
 @endsection

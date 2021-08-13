@@ -22,4 +22,8 @@ class Procedure extends Model
     {
         return $this->belongsTo(Service::class);
     }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

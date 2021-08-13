@@ -26,6 +26,7 @@ class PatientFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'sex' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
             'lang' => $this->faker->randomElement(['en', 'es']),

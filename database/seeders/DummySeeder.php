@@ -16,6 +16,6 @@ class DummySeeder extends Seeder
     {
         $patient = Patient::factory(50)->create()->each(function ($staff) {
 
-         });
+        });
     }
 }

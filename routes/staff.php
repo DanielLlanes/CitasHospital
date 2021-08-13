@@ -50,22 +50,24 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
 
     Route::name('autocomplete.')->group(function(){
-        Route::post('/search-Staff', [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
-		Route::post('/search-Patient', [AutocompleteController::class, 'searchPatient'])->name('AutocompletePatient');
-        Route::post('/search-brand', [AutocompleteController::class, 'searchBrand'])->name('AutocompleteBrand');
-        Route::post('/search-service', [AutocompleteController::class, 'searchService'])->name('AutocompleteService');
+        Route::post('/search-Staff',        [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
+		Route::post('/search-Patient',      [AutocompleteController::class, 'searchPatient'])->name('AutocompletePatient');
+        Route::post('/search-brand',        [AutocompleteController::class, 'searchBrand'])->name('AutocompleteBrand');
+        Route::post('/search-service',      [AutocompleteController::class, 'searchService'])->name('AutocompleteService');
+        Route::post('/search-procedure',    [AutocompleteController::class, 'searchProcedure'])->name('AutocompleteProcedure');
+        Route::post('/search-package',      [AutocompleteController::class, 'searchPackage'])->name('AutocompletePackage');
     });
 
 	Route::name('staff.')->group(function(){
-		Route::get('/staff/listar', [StaffController::class, 'index'])->name('staff');
-		Route::get('/staff/get-staff-list', [StaffController::class, 'getStaffList'])->name('getStaffList');
-		Route::get('/staff/add', [StaffController::class, 'create'])->name('add');
-		Route::post('/staff/get-specialty', [StaffController::class, 'getSpecialty'])->name('getSpecialty');
-		Route::post('/staff/store', [StaffController::class, 'store'])->name('store');
-		Route::get('/staff/edit/{id}', [StaffController::class, 'edit'])->name('edit');
-		Route::post('/staff/update/{id}', [StaffController::class, 'update'])->name('update');
-		Route::post('/staff/destroy', [StaffController::class, 'destroy'])->name('destroy');
-		Route::post('/staff/activte', [StaffController::class, 'activate'])->name('activate');
+		Route::get('/staff/listar',             [StaffController::class, 'index'])->name('staff');
+		Route::get('/staff/get-staff-list',     [StaffController::class, 'getStaffList'])->name('getStaffList');
+		Route::get('/staff/add',                [StaffController::class, 'create'])->name('add');
+		Route::post('/staff/get-specialty',     [StaffController::class, 'getSpecialty'])->name('getSpecialty');
+		Route::post('/staff/store',             [StaffController::class, 'store'])->name('store');
+		Route::get('/staff/edit/{id}',          [StaffController::class, 'edit'])->name('edit');
+		Route::post('/staff/update/{id}',       [StaffController::class, 'update'])->name('update');
+		Route::post('/staff/destroy',           [StaffController::class, 'destroy'])->name('destroy');
+		Route::post('/staff/activte',           [StaffController::class, 'activate'])->name('activate');
 	});
 	Route::name('events.')->group(function(){
 		Route::get('/events/listar', [EventController::class, 'index'])->name('events');

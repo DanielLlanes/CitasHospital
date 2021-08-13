@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\ApplicationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +22,8 @@ Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-post');
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
+Route::get('/applications/patient-data/{id}', [ApplicationController::class, 'index'])->name('appIndex');
 
 // brands Routes
 

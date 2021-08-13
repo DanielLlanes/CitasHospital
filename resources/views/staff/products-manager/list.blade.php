@@ -42,10 +42,11 @@
                                     </div>
                                     <div class="card-body ">
                                       <div class="table-scrollable responsive" >
-                                        <table class="table table-hover table-checkable order-column full-width" id="serviceTable">
+                                        <table class="table table-hover table-checkable order-column full-width" id="productsTable">
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
+                                                    <th> @lang('Brand') </th>
                                                     <th> @lang('Service') </th>
                                                     <th> @lang('Procedure') </th>
                                                     <th> @lang('Package') </th>
@@ -77,74 +78,50 @@
                                                     <div class="col-md-12">
                                                         <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
                                                         <div class="error text-danger col-form-label-sm"></div>
+                                                        <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service english')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="service_en" id="service_en" placeholder="@lang('Service english')" class="form-control input-sm" />
+                                                        <input type="text" name="service" id="service" placeholder="@lang('Enter service name')" class="form-control input-sm autocomplete service" onclick="this.setSelectionRange(0, this.value.length)"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service spanish')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <input type="text" name="service_es" id="service_es" placeholder="@lang('Service spanish')" class="form-control input-sm" />
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Need images')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="need_images" id="need_images-no" value="0" checked>
-                                                            <label class="form-check-label" for="need_images-no">No</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="need_images" id="need_images-yes" value="1">
-                                                            <label class="form-check-label" for="need_images-yes">Yes</label>
+                                                        <div id="" class="autocomplete-items myInputautocomplete-list service" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group mb-2" style="display: none">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Quantity of images')
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Procedure')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="qty_images" id="qty_images" placeholder="@lang('Quantity of images')" class="form-control input-sm validanumericos" />
+                                                        <input type="text" name="procedure" id="procedure" placeholder="@lang('Enter procedure name')" class="form-control input-sm autocomplete procedure" onclick="this.setSelectionRange(0, this.value.length)"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
+                                                        <div id="" class="autocomplete-items myInputautocomplete-list procedure" style="overflow-x: auto; max-height: 200px">
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Specialties')
+                                                <div class="form-group mb-2 pack_div" style="display: none">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Package')
                                                         <span class="required"> * </span>
                                                     </label>
-                                                    <div class="col-md-12 d-none" id="clone_div">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control input-sm" onclick="this.setSelectionRange(0, this.value.length)" placeholder="Add specialties" list="valAutocomplete">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-danger btn-flat btn-sm" style="margin-top: 3px">
-                                                                    <i class="material-icons f-left" style="font-size: 8px">remove_circle</i>
-                                                                </button>
-                                                            </span>
-
-                                                        </div>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="package" id="package" placeholder="@lang('Enter package name')" class="form-control input-sm autocomplete package" onclick="this.setSelectionRange(0, this.value.length)"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
+                                                        <div id="" class="autocomplete-items myInputautocomplete-list package" style="overflow-x: auto; max-height: 200px">
+                                                        </div>
                                                     </div>
-                                                    <div class="clone-area">
-                                                    </div>
-                                                    <div class="col-md-12 d-flex justify-content-end mt-2">
-                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add specialtie <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
-                                                        </button>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Price')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="price" id="price" placeholder="@lang('Enter price')" class="form-control input-sm" />
+                                                        <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-3">
@@ -235,7 +212,6 @@
           /*when hovering an item:*/
           background-color: #e9e9e9;
         }
-
         .autocomplete-active {
           /*when navigating through the items using the arrow keys:*/
           background-color: DodgerBlue !important;
@@ -277,62 +253,45 @@
         var globalRouteUpdate = "{{ route('staff.products.updateProduct') }}"
         var globalRouteDestroy = "{{ route('staff.products.destroyProduct') }}"
         var globalRouteSearchBrand = "{{ route('staff.autocomplete.AutocompleteBrand') }}";
-
+        var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
+        var globalRouteSearchProcedure = "{{ route('staff.autocomplete.AutocompleteProcedure') }}";
+        var globalRouteSearchPackage = "{{ route('staff.autocomplete.AutocompletePackage') }}";
 
 
         $(document).ready(function () {
-            function cloneSpecialyArea(){
-                var newelw = $('#clone_div').clone();
-                newelw.removeAttr('id');
-                newelw.show('fast');
-                newelw.addClass('cloned')
-                newelw.removeClass('d-none')
-                newelw.find('input').val('').removeAttr('data-id').addClass('input_specialties').prop('name', 'input_specialties[]')
-                newelw.find('button').addClass('btn-remove-specialtie')
-                $(".clone-area").append(newelw)
-            }
-            function cloneSpecialyAreaEdit(inputValue, idValue){
-                var newelw = $('#clone_div').clone();
-                newelw.removeAttr('id');
-                newelw.show('fast');
-                newelw.addClass('cloned')
-                newelw.removeClass('d-none')
-                newelw.find('input').val(inputValue).attr('data-id', idValue).addClass('input_specialties').prop('name', 'input_specialties[]')
-                newelw.find('button').addClass('btn-remove-specialtie')
-                $(".clone-area").append(newelw)
-            }
-            cloneSpecialyArea()
+
             var codigo = 1;
-		    // var serviceTable = $('#serviceTable').DataTable({
-			// 	responsive: true,
-		    //     processing: true,
-		    //     serverSide: true,
-		    // 	ajax:{
-		    //         url : globalRouteobtenerLista,
-		    //         type: "get",
-		    //         data: {"estable": codigo},
-		    //         error: function (xhr, error, thrown) {
-		    //         },
-		    //      },
-		    //     language: {
-		    //         "url": dataTablesLangEs
-		    //     },
-		    //     "columns": [
+		    var productsTable = $('#productsTable').DataTable({
+				responsive: true,
+		        processing: true,
+		        serverSide: true,
+		    	ajax:{
+		            url : globalRouteobtenerLista,
+		            type: "get",
+		            data: {"estable": codigo},
+		            error: function (xhr, error, thrown) {
+		            },
+		         },
+		        language: {
+		            "url": dataTablesLangEs
+		        },
+		        "columns": [
 
-			// 		{ data: 'DT_RowIndex' },
-		    //         { data: "service" },
-		    //         { data: "brand" },
-		    //         { data: "need_images" },
-		    //         { data: "qty_images" },
-		    //         { data: "description" },
-		    //         { data: "active", className: 'center' },
-		    //         { data: "action", orderable: false, searchable: false, className: 'center' },
+					   { data: 'DT_RowIndex' },
+		            { data: "brand" },
+		            { data: "service" },
+		            { data: "procedure" },
+		            { data: "package" },
+		            { data: "price" },
+		            { data: "description" },
+		            { data: "active", className: 'center' },
+		            { data: "action", orderable: false, searchable: false, className: 'center' },
 
-		    //     ],
-		    //     createdRow: function (row, data, dataIndex) {
-		    //         $(row).addClass('odd gradeX');
-		    //     },
-		    // });
+		        ],
+		        createdRow: function (row, data, dataIndex) {
+		            $(row).addClass('odd gradeX');
+		        },
+		    });
 
             $(document).on("click", "#formSubmit", function () {
 
@@ -340,28 +299,12 @@
 
                 var form_data = new FormData();
                 form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service_en', $('#service_en').val())
-                form_data.append('service_es', $('#service_es').val())
-
-                if ($("input[name='need_images']:checked").val() == '1') {
-                    form_data.append('need_images', 1)
-                    form_data.append('qty_images', $('#qty_images').val())
-                } else {
-                    form_data.append('need_images', 0)
-                    form_data.append('qty_images', 0)
-                }
-
+                form_data.append('service', $('#service').attr('data-id'))
+                form_data.append('procedure', $('#procedure').attr('data-id'))
+                form_data.append('package', $('#package').attr('data-id'))
+                form_data.append('price', $('#price').val())
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-                specialties_cadena = [];
-                $(".input_specialties").each(function(indice,elemento){
-                    if( $(this).attr('data-id') && $(this).val() ) {
-                        $(this).prop('id', 'input_specialties_'+indice)
-                        specialties_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
-                    }
-                });
-
-                form_data.append('input_specialties', JSON.stringify(specialties_cadena))
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -378,12 +321,13 @@
                     },
                     success:function(data)
                     {
+                        console.log(data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            productsTable.ajax.reload( null, false );
                             clearForm()
                         } else {
 
@@ -404,9 +348,16 @@
                 })
             });
 
+            $( document ).on('focus', 'input', function() {
+                $('.error').html('')
+            });
+
             $('.autocomplete.brand').on('keyup', function() {
                 var key = $(this).val();
                 var dataString = new FormData();
+                $('.service').val('').removeAttr('data-id')
+                $('.procedure').val('').removeAttr('data-id')
+                $('.package').val('').removeAttr('data-id')
                 dataString.append('key', key);
                 $.ajax({
                     type: "POST",
@@ -444,50 +395,156 @@
                 });
             });
 
+            $('.autocomplete.service').on('keyup', function() {
+                var key = $(this).val();
+                var dataString = new FormData();
+                dataString.append('key', key);
+                dataString.append('brand', $('#brand').attr('data-id'));
+                $('.procedure').val('').removeAttr('data-id')
+                $.ajax({
+                    type: "POST",
+                    url: globalRouteSearchService,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+                        $('.myInputautocomplete-list.service').html('');
+                    },
+                    success: function(data) {
+                        var sugerencias = '';
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '">' + data[i].service + '</a></div>';
+                            }
+                        } else {
+                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
+                        }
+                        $('.myInputautocomplete-list.service').fadeIn(1000).append(sugerencias);
+                        $('.suggest-element').not('.no-show-patient').on('click', function(){
+                            var id = $(this).attr('data');
+                            var service = $(this).text();
+                            $('.autocomplete.service').val(service).attr('data-id', id);
+                            $('.myInputautocomplete-list.service').fadeOut(1000).html('');
+                            return false;
+                        });
+                    }
+                });
+            });
+
+            $('.autocomplete.procedure').on('keyup', function() {
+                var key = $(this).val();
+                var dataString = new FormData();
+                dataString.append('key', key);
+                dataString.append('service', $('#service').attr('data-id'));
+                $('.package').val('').removeAttr('data-id')
+                $.ajax({
+                    type: "POST",
+                    url: globalRouteSearchProcedure,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+                        $('.myInputautocomplete-list.procedure').html('');
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        var sugerencias = '';
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                sugerencias += '<div><a class="suggest-element getpack" pack="' + data[i].package + '" data="' + data[i].id + '">' + data[i].procedure + '</a></div>';
+                            }
+
+                        } else {
+                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
+                        }
+                        $('.myInputautocomplete-list.procedure').fadeIn(1000).append(sugerencias);
+                        $('.suggest-element').not('.no-show-patient').on('click', function(){
+                            var id = $(this).attr('data');
+                            var procedure = $(this).text();
+                            var pack = $(this).attr('pack');
+                            $('.autocomplete.procedure').val(procedure).attr('data-id', id);
+                            $('.autocomplete.procedure').attr('pack', pack);
+                            $('.myInputautocomplete-list.procedure').fadeOut(1000).html('');
+                            if (pack == '1') {
+                                $('.pack_div').show('fast')
+                            } else {
+                                $('.pack_div').hide('fast')
+                            }
+                            return false;
+                        });
+                    }
+                });
+            });
+
+            $('.autocomplete.package').on('keyup', function() {
+                var key = $(this).val();
+                var dataString = new FormData();
+                dataString.append('key', key);
+                dataString.append('procedure', $('#procedure').attr('data-id'));
+                $.ajax({
+                    type: "POST",
+                    url: globalRouteSearchPackage,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+                        $('.myInputautocomplete-list.package').html('');
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        var sugerencias = '';
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '">' + data[i].package + '</a></div>';
+                            }
+                        } else {
+                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
+                        }
+                        $('.myInputautocomplete-list.package').fadeIn(1000).append(sugerencias);
+                        $('.suggest-element').not('.no-show-patient').on('click', function(){
+                            var id = $(this).attr('data');
+                            var package = $(this).text();
+                            $('.autocomplete.package').val(package).attr('data-id', id);
+                            $('.myInputautocomplete-list.package').fadeOut(1000).html('');
+                            return false;
+                        });
+                    }
+                });
+            });
+
             function clearForm(){
-                $('#brand').val('')
-                $('#brand').removeAttr('data-id')
-                $('#service_en').val('')
-                $('#service_es').val('')
-                $('#qty_images').val('')
+                $('#brand').val('').removeAttr('data-id')
+                $('#service').val('').removeAttr('data-id')
+                $('#procedure').val('').removeAttr('data-id')
+                $('#package').val('').removeAttr('data-id')
+                $('#price').val('')
                 $('#description_en').val('')
                 $('#description_es').val('')
-                $(".clone-area").html('')
                 $("#formReset").click()
                 $('#formEdit')
                 .removeAttr('service')
                 .html('Add')
                 .attr('id', 'formSubmit')
-                cloneSpecialyArea()
+
             }
-
-            $('input[name=need_images]').on('change', function() {
-                $('#qty_images').val('')
-                if($(this).val() == '1'){
-                    $('#qty_images').parents('.form-group').show('fast');
-                } else {
-                    $('#qty_images').parents('.form-group').hide('fast');
-                }
-            });
-
-            $(document).on('click', '#btn-add-secialtie', function () {
-                cloneSpecialyArea()
-            });
-
-            $(document).on('click', '.btn-remove-specialtie', function () {
-                $(this).parents('.cloned').remove();
-
-                if(document.getElementsByClassName("cloned").length == 0){
-                    cloneSpecialyArea()
-                }
-            });
-
-            $(document).on('change', '.input_specialties', function(event) {
-                event.preventDefault();
-                var roleText = $(this).val();
-                var roleId = $("#valAutocomplete option[value='"+roleText+"']").attr('data-specialty');
-                $(this).attr('data-id', roleId);
-            });
 
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
@@ -514,7 +571,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            productsTable.ajax.reload( null, false );
                         }
                     },
                     complete: function()
@@ -524,9 +581,9 @@
             });
 
             $(document).on('click', '.btn-tbl-edit', function (event) {
-                var serviceId = $(this).attr('data-id')
+                var productId = $(this).attr('data-id')
                 var form_data = new FormData();
-                form_data.append('id', serviceId);
+                form_data.append('id', productId);
                 $.ajax({
                     url: globalRouteEditar,
                     method:"POST",
@@ -543,32 +600,24 @@
                     },
                     success:function(data)
                     {
+                        console.log(data);
                         if (data.success) {
                             clearForm()
-
                             $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
-                            $('#service_en').val(data.info.service_en);
-                            $('#service_es').val(data.info.service_es);
+                            $('#service').val(data.info.service.service).attr('data-id', data.info.service.id);
+                            $('#procedure').attr('pack', data.info.procedure.package);
+                            $('#procedure').val(data.info.procedure.procedur).attr('data-id', data.info.procedure.id);
+                            if (data.info.package_id !== null) {
+                                $('#package').val(data.info.package.package).attr('data-id', data.info.package.id).parents('.pack_div').show('fast')
+                            } else {
+                                $('#package').parents('.pack_div').hide('fast').val('').removeAttr('data-id')
+                            }
+                            $('#price').val(data.info.price);
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
-                            $('#need_images').val(data.info.need_images);
-
-                            if (data.info.need_images > 0) {
-                                $('#qty_images').parents('.form-group').show('fast').val(data.info.qty_images)
-                                $("input[name=need_images][value='1']").prop("checked",true);
-                            } else {
-                                $('#qty_images').parents('.form-group').hide('fast').val('')
-                                $("input[name=need_images][value='0']").prop("checked",true);
-                            }
-                            $('#qty_images').val(data.info.qty_images);
-                            $('#description_es').val(data.info.description_es);
                             $('#formSubmit').html('edit').attr({
-                                service: $.trim(serviceId),
+                                product: $.trim(productId),
                                 id: 'formEdit'
-                            });
-                            $(".clone-area .cloned").remove()
-                            $.each( data.info.specialties, function( key, value ) {
-                                cloneSpecialyAreaEdit(value.specialty_name,  value.id)
                             });
 
                         } else {
@@ -576,7 +625,7 @@
                                 icon: data.icon,
                                 title: data.msg
                             })
-                            serviceTable.ajax.reload( null, false );
+                            productsTable.ajax.reload( null, false );
                             clearForm()
                         }
 
@@ -595,32 +644,14 @@
                 $('.error').html('')
 
                 var form_data = new FormData();
-                form_data.append('id', $('#formEdit').attr('service'));
                 form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service_en', $('#service_en').val())
-                form_data.append('service_es', $('#service_es').val())
-
-                if ($("input[name='need_images']:checked").val() == '1') {
-                    form_data.append('need_images', 1)
-                    form_data.append('qty_images', $('#qty_images').val())
-                } else {
-                    form_data.append('need_images', 0)
-                    form_data.append('qty_images', 0)
-                }
-
+                form_data.append('service', $('#service').attr('data-id'))
+                form_data.append('procedure', $('#procedure').attr('data-id'))
+                form_data.append('package', $('#package').attr('data-id'))
+                form_data.append('price', $('#price').val())
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-
-                specialties_cadena = [];
-                $(".input_specialties").each(function(indice,elemento){
-                    if( $(this).attr('data-id') && $(this).val() ) {
-                        $(this).prop('id', 'input_specialties_'+indice)
-                        specialties_cadena.push({id: $(this).attr('data-id'), name: $(this).val()})
-                    }
-                });
-
-
-                form_data.append('input_specialties', JSON.stringify(specialties_cadena))
+                form_data.append('id', $(this).attr('product'));
                 $.ajax({
                     url: globalRouteUpdate,
                     method:"POST",
@@ -638,12 +669,13 @@
                     },
                     success:function(data)
                     {
+                        console.log(data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            productsTable.ajax.reload( null, false );
                             clearForm()
                         } else {
                             $.each( data.errors, function( key, value ) {
@@ -716,7 +748,7 @@
                           title: data.msg
                         })
                         if (data.reload) {
-                            serviceTable.ajax.reload( null, false );
+                            productsTable.ajax.reload( null, false );
                             //adminTable.search('').draw();
                         }
                     },
@@ -732,16 +764,16 @@
 
         });
 
-        onload = function(){
-            var ele = document.querySelectorAll('.validanumericos')[0];
-            ele.onkeypress = function(e) {
-                if(isNaN(this.value+String.fromCharCode(e.charCode)))
-                    return false;
-            }
-            ele.onpaste = function(e){
-                e.preventDefault();
-            }
-        }
+        // onload = function(){
+        //     var ele = document.querySelectorAll('.validanumericos')[0];
+        //     ele.onkeypress = function(e) {
+        //         if(isNaN(this.value+String.fromCharCode(e.charCode)))
+        //             return false;
+        //     }
+        //     ele.onpaste = function(e){
+        //         e.preventDefault();
+        //     }
+        // }
 
     </script>
 @endsection

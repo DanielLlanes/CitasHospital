@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Staff\Product;
+use App\Models\Staff\Procedure;
+use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -20,6 +26,30 @@ class ProductController extends Controller
      */
     public function products()
     {
+        $lang = Auth::guard('staff')->user()->lang;
+            app()->setLocale($lang);
+        $products = Product::selectRaw("id, brand_id, service_id, procedure_id, package_id, price, description_$lang description")
+        ->with
+        (
+            [
+                'brand' => function($q) use ($lang){
+                    $q->selectRaw("id, brand, color");
+                },
+                'service' => function($q) use ($lang){
+                    $q->selectRaw("id, service_$lang service");
+                },
+                'procedure' => function($q) use ($lang){
+                    $q->selectRaw("id, procedure_$lang procedur");
+                },
+                'package' => function($q) use ($lang){
+                    $q->selectRaw("id, package_$lang package");
+                },
+            ]
+        )
+        ->get();
+
+        //return $products;
+
         return view('staff.products-manager.list');
     }
 
@@ -29,65 +59,69 @@ class ProductController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $service = Service::with([
-                'specialties' => function($q) use ($lang){
-                    $q->selectRaw("name_$lang specialty_name");
-                },
-                'brand' => function($q) use ($lang){
-                    $q->selectRaw("id, brand, color");
-                },
-            ])
-            ->selectRaw("id, service_$lang service, need_images, qty_images, active, description_$lang description, brand_id")
+            $products = Product::with
+            (
+                [
+                    'brand' => function($q) use ($lang){
+                        $q->selectRaw("id, brand, color");
+                    },
+                    'service' => function($q) use ($lang){
+                        $q->selectRaw("id, service_$lang service");
+                    },
+                    'procedure' => function($q) use ($lang){
+                        $q->selectRaw("id, procedure_$lang procedur");
+                    },
+                    'package' => function($q) use ($lang){
+                        $q->selectRaw("id, package_$lang package");
+                    },
+                ]
+            )
+            ->selectRaw("id, brand_id, service_id, procedure_id, package_id, price, active, description_$lang description")
             ->get();
-            return DataTables::of($service)
+            return DataTables::of($products)
                 ->addIndexColumn()
-                ->addColumn('service', function($service){
-                    return $service->service;
+                ->addColumn('brand', function($products){
+                    return '<span style="font-weight: 500; color: '.$products->brand->color.'">'.$products->brand->brand.'</span>';
                 })
-                ->addColumn('brand', function($service){
-                    return '<span style="font-weight: 500; color: '.$service->brand->color.'">'.$service->brand->brand.'</span>';
+                ->addColumn('service', function($products){
+                    return $products->service->service;
                 })
-                ->addColumn('need_images', function($service){
-                    $need_images = '';
-                    if ($service->need_images == 0) {
-                        $need_images .= 'No';
+                ->addColumn('procedure', function($products){
+                    return $products->procedure->procedur;
+                })
+                ->addColumn('package', function($products){
+                    if (!is_null($products->package_id)) {
+                        return $products->package->package;
                     } else {
-                        $need_images .= 'Yes';
+                        return 'N/A';
                     }
-                    return $need_images;
                 })
-                ->addColumn('qty_images', function($service){
-                    return $service->qty_images;
+                ->addColumn('price', function($products){
+                    if (is_null($products->price) || $products->price == '') {
+                        return 'Por cotizar';
+                    } else {
+                        return "$ $products->price";
+                    }
                 })
-                ->addColumn('description', function($service){
-                    return $service->description;
+                ->addColumn('description', function($products){
+                    return $products->description;
                 })
-                ->addColumn('active', function($service){
+                ->addColumn('active', function($products){
                     $table_active = 'table-active';
-                    $service_id = $service->id;
+                    $products_id = $products->id;
                     $cursor = "pointer";
 
-                    if ($service->active == '1') {
-                        $btn = '<span attr-id="'. $service_id .'" data="0" class="badge badge-success bg-success waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Activo</span>';
+                    if ($products->active == '1') {
+                        $btn = '<span attr-id="'. $products_id .'" data="0" class="badge badge-success bg-success waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Activo</span>';
                     } else {
-                        $btn = '<span attr-id="'. $service_id .'" data="1" class="badge badge-danger bg-danger waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Inactivo</span>';
+                        $btn = '<span attr-id="'. $products_id .'" data="1" class="badge badge-danger bg-danger waves-effect '.$table_active.'" style="border-radius:0;cursor:'. $cursor .'">Inactivo</span>';
                     }
                     return $btn;
                 })
                 ->addColumn('action', 'staff.service-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'service', 'brand', 'need_images', 'qty_images', 'description', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'package', 'price', 'description', 'active', 'action'])
                 ->make(true);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -98,7 +132,79 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $exist = Product::where("procedure_id", $request->procedure)
+        ->where('package_id', $request->package)
+        ->first();
+        if ($exist) {
+            return response()->json(
+                [
+                    'exist' => $exist,
+                    'icon' => 'error',
+                    'msg' => Lang::get('This procedure already exist!'),
+                    'reload' => false
+                ]
+            );
+        }
+
+        $has_package = Procedure::selectRaw("has_package")
+        ->find($request->procedure);
+        $request->request->add(['has_package' => $has_package->has_package]);
+
+        $validator = Validator::make($request->all(), [
+            'service' => 'required|integer|exists:services,id',
+            'procedure' => 'required|integer|exists:procedures,id',
+            'package' =>
+            [
+                'bail',
+                'required_if:has_package,0',
+                'nullable',
+                ($request->has_package == '1') ? 'exists:packages,id' : '',
+            ],
+            'description_en' => 'required|string',
+            'description_es' => 'required|string',
+            'price' => 'sometimes|numeric'
+          ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        $group = Procedure::find($request->procedure);
+
+
+        $products = new Product;
+        $products->brand_id = $request->brand;
+        $products->service_id = $request->service;
+        $products->procedure_id = $request->procedure;
+        $products->package_id = ($request->has_package == '1') ? $request->package : null;
+        $products->price = $request->price;
+        $products->group_es = $group->procedure_es;
+        $products->group_en = $group->procedure_en;
+        $products->description_en = $request->description_en;
+        $products->description_es = $request->description_es;
+
+        if ($products->save()) {
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('New product was successfully created!'),
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('We couldn’t create the product please try again!'),
+                'reload' => false
+            ]
+        );
+
     }
 
     /**
@@ -107,9 +213,46 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $product = Product::with
+            (
+                [
+                    'brand' => function($q) use ($lang){
+                        $q->selectRaw("id, brand, color");
+                    },
+                    'service' => function($q) use ($lang){
+                        $q->selectRaw("id, service_$lang service");
+                    },
+                    'procedure' => function($q) use ($lang){
+                        $q->selectRaw("id, procedure_$lang procedur");
+                    },
+                    'package' => function($q) use ($lang){
+                        $q->selectRaw("id, package_$lang package");
+                    },
+                ]
+            )
+            ->selectRaw("*")
+            ->find($request->id);
+
+
+        if ($product) {
+            return response()->json(
+                [
+                    'success' => true,
+                    'info' => $product,
+                ]
+            );
+        }
+
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => 'The selected product doesn\'t exist in the database',
+            ]
+        );
     }
 
     /**
@@ -119,9 +262,81 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $exist = Product::where("procedure_id", $request->procedure)
+        ->where('package_id', $request->package)
+        ->where('id', '<>', $request->id)
+        ->first();
+
+        if ($exist) {
+            return response()->json(
+                [
+                    'exist' => $exist,
+                    'icon' => 'error',
+                    'msg' => Lang::get('This procedure already exist!'),
+                    'reload' => false
+                ]
+            );
+        }
+        $has_package = Procedure::selectRaw("has_package")
+        ->find($request->procedure);
+        $request->request->add(['has_package' => $has_package->has_package]);
+
+        $validator = Validator::make($request->all(), [
+            'service' => 'required|integer|exists:services,id',
+            'procedure' => 'required|integer|exists:procedures,id',
+            'package' =>
+            [
+                'bail',
+                'required_if:has_package,0',
+                'nullable',
+                ($request->has_package == '1') ? 'exists:packages,id' : '',
+            ],
+            'description_en' => 'required|string',
+            'description_es' => 'required|string',
+            'price' => 'sometimes|numeric'
+          ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        $group = Procedure::find($request->procedure);
+
+        $products = Product::find($request->id);
+        $products->brand_id = $request->brand;
+        $products->service_id = $request->service;
+        $products->procedure_id = $request->procedure;
+        $products->package_id = ($request->has_package == '1') ? $request->package : null;
+        $products->price = $request->price;
+        $products->group_es = $group->procedure_es;
+        $products->group_en = $group->procedure_en;
+        $products->description_en = $request->description_en;
+        $products->description_es = $request->description_es;
+
+        if ($products->save()) {
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('The product was successfully edited!'),
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('We couldn’t edit this product please try again!'),
+                'reload' => false
+            ]
+        );
     }
 
     /**
@@ -130,8 +345,53 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $product = Product::find($request->id);
+        if($product->exists()){
+            $product->delete();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('Product successfully removed!'),
+                    'reload' => true
+                ]
+            );
+        }
+        return response()->json(
+            [
+                'icon' => 'error',
+                'msg' => Lang::get('The Product you are trying to delete doesn\'t exist or was previously deleted!'),
+                'reload' => false
+            ]
+        );
+    }
+
+    public function activate(Request $request)
+    {
+        $product = Product::find($request->id);
+        if ($product) {
+            if ($product->active == 1) {
+                $product->active = false;
+            } elseif ($product->active == 0) {
+                $product->active = true;
+            }
+            $product->save();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('The product status changed successfully'),
+                    'reload' => true
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => Lang::get('The selected product doesn\'t exist in the database'),
+                    'reload' => false
+                ]
+            );
+        }
     }
 }
