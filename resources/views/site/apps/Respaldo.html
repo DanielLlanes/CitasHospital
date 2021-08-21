@@ -1,0 +1,25 @@
+<script>
+    //datos de paciente
+    //getemail
+    // $("#sex option[value='"+data.info.sex+"']").prop('selected', true).attr('disabled', true);
+    // $("#sex").attr('disabled', true);
+    // $("#dob").val(data.info.dob).attr('disabled', true)
+    // $("#age").val(data.info.age).attr('disabled', true)
+    // $("#phone").val(data.info.phone).attr('disabled', true)
+    // $("#mobile").val(data.info.mobile).attr('disabled', true)
+    // $("#address").val(data.info.address).attr('disabled', true)
+    // $("#country_id option[value='"+data.info.country_id+"']").prop('selected', true)
+    // $("#country_id").attr('disabled', true)
+    // $("#city").val(data.info.city).attr('disabled', true)
+    // $("#zip").val(data.info.zip).attr('disabled', true)
+    // $("#ecn").val(data.info.ecn).attr('disabled', true)
+    // $("#ecp").val(data.info.ecp).attr('disabled', true)
+    // $('#state_id').append('<option value="'+data.info.state_id+'">'+data.info.state.name+'</option>');
+    // $("#state_id option[value='"+data.info.state_id+"']").prop('selected', true).text(data.info.state.name);
+    // $("#state_id").attr('disabled', true)
+</script>
+public function createPatientData(Request $request) { $this->validate($request, [ 'email' => 'required|max:255|email', ]); $exist_patient = Patient::where('email', $request->email)->first(); $unHashPassword = Str::random(8); $lang = app()->getLocale();
+$patient = Patient::firstOrCreate( ['email' => $request->email], [ 'treatmentBefore' => $request->get('treatmentBefore'), 'name' => $request->get('name'), 'sex' => $request->get('sex'), 'age' => $request->get('age'), 'dob' => $request->get('dob'), 'phone'
+=> $request->get('phone'), 'mobile' => $request->get('mobile'), 'address' => $request->get('address'), 'country_id' => $request->get('country_id'), 'state_id' => $request->get('state_id'), 'city' => $request->get('city'), 'zip' => $request->get('zip'),
+'ecn' => $request->get('ecn'), 'ecp' => $request->get('ecp'), 'lang' => $lang, 'password' => Hash::make($unHashPassword) ] ); return $patient; if(!Session::has('form_session')) { $app = new Application; $app->temp_code = Str::random(10); $app->patient_id
+= $patient->id; $app->product_id = Session::get('product')->id; $app->save(); $app->generalData = 1; Session::put('form_session', $app); } return redirect()->route('createServicesData'); }

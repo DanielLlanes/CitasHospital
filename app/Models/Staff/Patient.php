@@ -2,12 +2,13 @@
 
 namespace App\Models\Staff;
 
+use App\Models\Site\State;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Patient extends Authenticatable
 {
@@ -23,22 +24,25 @@ class Patient extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'photo',
-        'name',
-        'gender',
-        'age',
-        'phone',
-        'password',
-        'phone_cellphone',
+    protected $fillable =
+    [
         'email',
+        'treatmentBefore',
+        'name',
+        'sex',
+        'age',
+        'dob',
+        'phone',
+        'mobile',
         'address',
-        'city',
-        'region_id',
         'country_id',
-        'postcode',
-        'emergency_contact',
-        'contact_phone_number'
+        'state_id',
+        'city',
+        'zip',
+        'ecn',
+        'ecp',
+        'lang',
+        'password',
     ];
 
     /**
@@ -59,4 +63,9 @@ class Patient extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
 }

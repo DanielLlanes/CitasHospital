@@ -16,28 +16,29 @@ class CreatePatientsTable extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->boolean('treatmentBefore')->default(false);
-            $table->text('photo')->nullable();
+            $table->text('avatar')->nullable();
             $table->string('name');
-            $table->string('sex')->nullable();
-            $table->date('dob')->nullable();
-            $table->smallInteger('age')->nullable();
+            $table->string('sex');
+            $table->date('dob');
+            $table->smallInteger('age');
             $table->string('phone');
             $table->string('mobile');
             $table->string('email')->unique();
-            $table->string('address')->nullable();
+            $table->string('address');
             $table->bigInteger('country_id')->unsigned()->nullable();
-            $table->bigInteger('region_id')->unsigned()->nullable();
-            $table->string('city')->nullable();
-            $table->string('zip')->nullable();
-            $table->bigInteger('region_id')->unsigned()->nullable();
-            $table->bigInteger('country_id')->unsigned()->nullable();
-            $table->string('postcode')->nullable();
-            $table->string('emergency_contact')->nullable();
-            $table->string('contact_phone_number')->nullable();
-            $table->string('lang')->nullable();
+            $table->bigInteger('state_id')->unsigned()->nullable();
+            $table->string('city');
+            $table->string('zip');
+            $table->string('ecn');
+            $table->string('ecp');
+            $table->string('lang')->defalt('en');
             $table->string('password');
             $table->timestamps();
             $table->softDeletes();
+        });
+        Schema::table('patients', function($table) {
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -39,6 +39,12 @@ class AppServiceProvider extends ServiceProvider
         )
         ->get();
 
+
+        if (!$brands) {
+            abort(404);
+        }
+
+
         View::share('brands', $brands);
     }
 }

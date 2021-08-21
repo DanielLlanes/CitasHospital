@@ -24,6 +24,18 @@ Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::get('/applications/patient-data/{id}', [ApplicationController::class, 'index'])->name('appIndex');
+Route::post('/applications/create-patient-data', [ApplicationController::class, 'createPatientData'])->name('createPatientData');
+Route::get('/applications/create-services-data', [ApplicationController::class, 'createServicesData'])->name('createServicesData');
+Route::post('/applications/post-services-data', [ApplicationController::class, 'postServicesData'])->name('postServicesData');
+Route::get('/applications/create-health-data', [ApplicationController::class, 'createHealthData'])->name('createHealthData');
+Route::post('/applications/post-health-data', [ApplicationController::class, 'postHealthData'])->name('postHealthData');
+Route::post('/applications/delete-session-var-and-delete-app', [ApplicationController::class, 'deleteSessionVarAndDeleteApp'])->name('deleteSessionVarAndDeleteApp');
+
+
+
+
+Route::post('/applications/chek-if-patient-exist', [ApplicationController::class, 'chekIfPatientExist'])->name('chekIfPatientExist');
+Route::post('/search-states', [ApplicationController::class, 'getStates'])->name('getStates');
 
 // brands Routes
 
