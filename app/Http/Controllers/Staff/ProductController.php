@@ -81,7 +81,7 @@ class ProductController extends Controller
             return DataTables::of($products)
                 ->addIndexColumn()
                 ->addColumn('brand', function($products){
-                    return '<span style="font-weight: 500; color: '.$products->brand->color.'">'.$products->brand->brand.'</span>';
+                    return '<span style="font-size: .7vw; font-weight: 800; color: '.$products->brand->color.'">'.strtoupper($products->brand->brand).'</span>';
                 })
                 ->addColumn('service', function($products){
                     return $products->service->service;

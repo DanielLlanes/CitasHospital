@@ -30,8 +30,12 @@ Route::post('/applications/post-services-data', [ApplicationController::class, '
 Route::get('/applications/create-health-data', [ApplicationController::class, 'createHealthData'])->name('createHealthData');
 Route::post('/applications/post-health-data', [ApplicationController::class, 'postHealthData'])->name('postHealthData');
 Route::post('/applications/delete-session-var-and-delete-app', [ApplicationController::class, 'deleteSessionVarAndDeleteApp'])->name('deleteSessionVarAndDeleteApp');
-
-
+Route::get('/applications/create-surgical-data', [ApplicationController::class, 'createSurgicalData'])->name('createSurgicalData');
+Route::post('/applications/post-surgical-data', [ApplicationController::class, 'postSurgicalData'])->name('postSurgicalData');
+Route::get('/applications/create-medical-history-data', [ApplicationController::class, 'createMedicalHistoryData'])->name('createMedicalHistoryData');
+Route::post('/applications/post-medical-history-data', [ApplicationController::class, 'postMedicalHistoryData'])->name('postMedicalHistoryData');
+Route::get('/applications/create-general-health-data', [ApplicationController::class, 'createGeneralHealthData'])->name('createGeneralHealthData');
+Route::post('/applications/post-general-health-data', [ApplicationController::class, 'postGeneralHealthData'])->name('postGeneralHealthData');
 
 
 Route::post('/applications/chek-if-patient-exist', [ApplicationController::class, 'chekIfPatientExist'])->name('chekIfPatientExist');

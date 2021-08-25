@@ -36,6 +36,15 @@
         <div class="row">
             <div class="col-md-4 d-none d-md-block"></div>
             <div class="col-md-4 px-5 p-md-0">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form action="{{ route('postHealthData') }}" method="POST" id="formHealthData">
                     {{ csrf_field() }}
                     <div class="mb-2 row">
@@ -48,16 +57,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9 text-center">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="mesure_sistem" id="if_take_medication_yes" value="M">
-                                <label class="form-check-label" for="if_take_medication_yes">Metrico ( kg - meters )</label>
+                                <input class="form-check-input" type="radio" name="mesure_sistem" id="mesureSistemMetric" value="M" @if (old('mesure_sistem') == "M") checked @elseif(!empty($patient ?? '') && $patient->mesure_sistem == 'M') checked @endif>
+                                <label class="form-check-label" for="mesureSistemMetric">Metrico ( kg - meters )</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" checked name="mesure_sistem" id="mesureSistemimperial" value="I">
-                                <label class="form-check-label" for="mesureSistemimperial">Imperial ( lb - in )</label>
+                                <input class="form-check-input" type="radio" checked name="mesure_sistem" id="mesureSistemImperial" value="I" @if (old('mesure_sistem') == "I") checked @elseif(!empty($patient ?? '') && $patient->mesure_sistem == 'I') checked @endif>
+                                <label class="form-check-label" for="mesureSistemImperial">Imperial ( lb - in )</label>
                             </div>
                             @error('mesure_sistem')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -68,7 +77,7 @@
                             <input type="text" class="form-control form-control-sm" id="max_weigh" name="max_weigh" value="{{ $patient->max_weigh ?? old('max_weigh') }}" placeholder="">
                             @error('max_weigh')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -79,7 +88,7 @@
                             <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="{{ $patient->weight ?? old('weight') }}" placeholder="">
                             @error('weight')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -90,7 +99,7 @@
                             <input type="text" class="form-control form-control-sm" id="height" name="height" value="{{ $patient->height ?? old('height') }}" placeholder="">
                             @error('height')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -101,7 +110,7 @@
                             <input type="text" class="form-control form-control-sm" id="imc" name="imc" value="{{ $patient->imc ?? old('imc') }}" placeholder="">
                             @error('imc')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -117,20 +126,21 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_yes" value="1">
+                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_yes" value="1" @if (old('take_medication') == "1") checked @elseif(!empty($patient ?? '') && $patient->take_medication == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_no" value="0">
+                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_no" value="0" @if (old('take_medication') == "0") checked @elseif(!empty($patient ?? '') && $patient->take_medication == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('take_medication')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
                     </div>
+
                     <div class="col-12" id="medication_table" style="display: none">
                         <table class="table">
                             <thead>
@@ -144,12 +154,54 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if (!empty(old('medicationCadena')))
+                                    @for ($i = 0; $i < count(old('medicationCadena')); $i++)
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="medication_name[]" class="form-control form-control-sm" value="{{ old('medicationCadena')[$i]->medication_name }}">
+                                                @error('medication_name.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </th>
+                                            <td>
+                                                <input type="text" name="medication_reason[]" class="form-control form-control-sm" value="{{ old('medicationCadena')[$i]->medication_reason }}">
+                                                @error('medication_reason.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="medication_dosage[]" class="form-control form-control-sm" value="{{ old('medicationCadena')[$i]->medication_dosage }}">
+                                                @error('medication_dosage'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="medication_frecuency[]" class="form-control form-control-sm" value="{{ old('medicationCadena')[$i]->medication_frecuency }}">
+                                                @error('medication_frecuency.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
                             <button type="button" class="btn btn-second text-white mb-3" id="medicationTableAdd">Add Medication</button>
                         </div>
                     </div>
+
                     <div class="mb-2 row">
                         <div class="col-3 d-none d-md-block"></div>
                         <div class="col-sm-9">
@@ -161,16 +213,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_yes" value="1">
+                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_yes" value="1" @if (old('blood_thinners') == "1") checked @elseif(!empty($patient ?? '') && $patient->blood_thinners == '1') checked @endif>
                                 <label class="form-check-label" for="if_blood_thinners_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_no" value="0">
+                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_no" value="0" @if (old('blood_thinners') == "0") checked @elseif(!empty($patient ?? '') && $patient->blood_thinners == '0') checked @endif>
                                 <label class="form-check-label" for="if_blood_thinners_no">No</label>
                             </div>
-                            @error('blood-thinners')
+                            @error('blood_thinners')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -181,7 +233,7 @@
                             <input type="text" class="form-control form-control-sm" id="razon_blood_thinners" name="razon_blood_thinners" value="{{ $patient->razon_blood_thinners ?? old('razon_blood_thinners') }}" placeholder="">
                             @error('razon_blood_thinners')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -197,24 +249,24 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_ralery" value="rarely">
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_ralery" value="rarely" @if (old('acid_reflux') == "rarely") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'rarely') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_ralery">Rarely</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_occasionally" value="occasionally">
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_occasionally" value="occasionally" @if (old('acid_reflux') == "occasionally") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'occasionally') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_occasionally">Occasionally</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_frequently" value="frequently">
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_frequently" value="frequently" @if (old('acid_reflux') == "frequently") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'frequently') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_frequently">Frequently</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_no" value="no">
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_no" value="no" @if (old('acid_reflux') == "no") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'no') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_no">No</label>
                             </div>
                             @error('acid_reflux')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -230,16 +282,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_yes" value="1">
+                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_yes" value="1" @if (old('penicilin') == "1") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '1') checked @endif>
                                 <label class="form-check-label" for="if_penicilin_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_no" value="0">
+                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '0') checked @endif>
                                 <label class="form-check-label" for="if_penicilin_no">No</label>
                             </div>
                             @error('penicilin')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -254,16 +306,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_yes" value="1">
+                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_yes" value="1" @if (old('sulfa_drugs') == "1") checked @elseif(!empty($patient ?? '') && $patient->sulfa_drugs == '1') checked @endif>
                                 <label class="form-check-label" for="if_sulfa_drugs_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_no" value="0">
+                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_no" value="0" @if (old('sulfa_drugs') == "0") checked @elseif(!empty($patient ?? '') && $patient->sulfa_drugs == '0') checked @endif>
                                 <label class="form-check-label" for="if_sulfa_drugs_no">No</label>
                             </div>
                             @error('sulfa_drugs')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -278,16 +330,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_yes" value="1">
+                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_yes" value="1" @if (old('iodine') == "1") checked @elseif(!empty($patient ?? '') && $patient->iodine == '1') checked @endif>
                                 <label class="form-check-label" for="if_iodine_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_no" value="0">
+                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_no" value="0" @if (old('iodine') == "0") checked @elseif(!empty($patient ?? '') && $patient->iodine == '0') checked @endif>
                                 <label class="form-check-label" for="if_iodine_no">No</label>
                             </div>
                             @error('iodine')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -302,16 +354,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tape" id="if_tape_yes" value="1">
+                                <input class="form-check-input" type="radio" name="tape" id="if_tape_yes" value="1" @if (old('tape') == "1") checked @elseif(!empty($patient ?? '') && $patient->tape == '1') checked @endif>
                                 <label class="form-check-label" for="if_tape_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tape" id="if_tape_no" value="0">
+                                <input class="form-check-input" type="radio" name="tape" id="if_tape_no" value="0" @if (old('tape') == "0") checked @elseif(!empty($patient ?? '') && $patient->tape == '0') checked @endif>
                                 <label class="form-check-label" for="if_tape_no">No</label>
                             </div>
                             @error('tape')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -326,16 +378,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="latex" id="if_latex_yes" value="1">
+                                <input class="form-check-input" type="radio" name="latex" id="if_latex_yes" value="1" @if (old('latex') == "1") checked @elseif(!empty($patient ?? '') && $patient->latex == '1') checked @endif>
                                 <label class="form-check-label" for="if_latex_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0">
+                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '0') checked @endif>
                                 <label class="form-check-label" for="if_latex_no">No</label>
                             </div>
                             @error('latex')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -350,16 +402,16 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_yes" value="1">
+                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_yes" value="1" @if (old('aspirin') == "1") checked @elseif(!empty($patient ?? '') && $patient->aspirin == '1') checked @endif>
                                 <label class="form-check-label" for="if_aspirin_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_no" value="0">
+                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_no" value="0" @if (old('aspirin') == "0") checked @elseif(!empty($patient ?? '') && $patient->aspirin == '0') checked @endif>
                                 <label class="form-check-label" for="if_aspirin_no">No</label>
                             </div>
                             @error('aspirin')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -370,11 +422,12 @@
                             <input type="text" class="form-control form-control-sm" id="other_allergy" name="other_allergy" value="{{ $patient->other_allergy ?? old('other_allergy') }}" placeholder="">
                             @error('other_allergy')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong class="error">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
                     </div>
+
                     <div class="mb-3 row">
                         <div class="col-6">
                             @if (!$product->service->need_images)
@@ -382,11 +435,9 @@
                             @else
                                 <a href="{{ route('createServicesData') }}" class="btn btn-main btn-sm mx-1">Back</a>
                             @endif
-
-
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 send">Next</button>
                             <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
@@ -450,10 +501,11 @@
         var globalRoutechekIfPatientExist = "{{ route('chekIfPatientExist') }}";
         var globalRouteDeleteSessionVar = "{{ route('deleteSessionVarAndDeleteApp') }}";
     </script>
+
     <script>
         const containerMedicactionModal = document.getElementById("medicationModal");
         const medicationModal = new bootstrap.Modal(containerMedicactionModal);
-        const mediacation_cadena = [];
+        const medication_cadena = [];
         $(document).ready(function() {
             $('#imc').attr('readOnly', true);
         });
@@ -476,139 +528,22 @@
         $(document).on('click', '#medicationFormSave', function () {
             $('#medicationFormSave').show('fast');
             $('.formError').html('')
-            var medicationNameForm = $('#medicationNameForm').val();
-            var medicationRazonForm = $('#medicationRazonForm').val();
-            var medicationDoseForm = $('#medicationDoseForm').val();
-            var medicationFrecuencyForm = $('#medicationFrecuencyForm').val();
-            var nFilas = $("#medication_table tbody tr").length;
-            nFilas = (nFilas+1)
-            console.log(nFilas);
-            if (!medicationNameForm, !medicationRazonForm, !medicationDoseForm, !medicationFrecuencyForm) {
-                $('.formError').html('Please fill in all the fields')
-            } else {
-                mediacation_cadena.push(
-                    {
-                        id: nFilas,
-                        medication_name: medicationNameForm,
-                        medication_reason: medicationRazonForm,
-                        medication_dosage: medicationDoseForm ,
-                        medication_frecuency: medicationFrecuencyForm
-                    }
-                );
-            }
-            $('#medication_table .table tbody').html('');
-            medicationModal.hide()
-            $("#FormModalMedication")[0].reset();
-            for (var i = 0; i < mediacation_cadena.length; i++) {
-                var tableRow = '';
-                tableRow += '<tr>'
-                tableRow += '<th style="font-weight: 500; font-size: .9rem; display: none">' + mediacation_cadena[i].id + '</th>'
-                tableRow += '<th style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_name + '</th>'
-                tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_reason + '</td>'
-                tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_dosage + '</td>'
-                tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_frecuency + '</td>'
-                tableRow += '<td style="font-weight: 500; font-size: .9rem;">'
-                tableRow += '<div class="row">'
-                tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-trash text-danger deleteMedication" deleteMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-pencil text-info editMedication" editMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                tableRow += '</div>'
-                tableRow += '</td>'
-                tableRow += '</tr>'
-                $('#medication_table tbody').append(tableRow)
 
-            }
         });
 
         $(document).on('click', '.deleteMedication', function(event) {
-            event.preventDefault();
-            var index = $(this).attr('deleteMedication');
-            var objIndex = mediacation_cadena.findIndex((obj => obj.id == index));
-            mediacation_cadena.splice(objIndex,  1);
-            if (mediacation_cadena.length > 0) {
-                $('#medication_table tbody').html('');
-                for (var i = 0; i < mediacation_cadena.length; i++) {
-                    var tableRow = '';
-                    tableRow += '<tr>'
-                    tableRow += '<th style="font-weight: 500; font-size: .9rem; display: none">' + mediacation_cadena[i].id + '</th>'
-                    tableRow += '<th style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_name + '</th>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_reason + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_dosage + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_frecuency + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">'
-                    tableRow += '<div class="row">'
-                    tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-trash text-danger deleteMedication" deleteMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                    tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-pencil text-info editMedication" editMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                    tableRow += '</div>'
-                    tableRow += '</td>'
-                    tableRow += '</tr>'
-                    $('#medication_table tbody').append(tableRow)
-                }
-            } else {
-                $('#medication_table tbody').html('');
-                $('#medicationFormEdit').hide('fast');
-                $('#medication_table').hide('fast')
-                $("input[name=take_medication][value=0]").prop('checked', true);
+            console.log($("#medication_table tbody tr").length);
+            $(this).parents('tr').remove()
+
+            if ($("#medication_table tbody tr").length < 1) {
+                addMedicationFields()
             }
-        });
-
-        $(document).on('click', '.editMedication', function(event) {
-            event.preventDefault();
-            var index = $(this).attr('editMedication');
-            var objIndex = mediacation_cadena.findIndex((obj => obj.id == index));
-            $('#medicationFormSave').hide('fast')
-            $('#medicationFormEdit').show('fast').attr('edit', mediacation_cadena[objIndex].id)
-
-            $('#medicationModal').on('show.bs.modal', function (e) {
-                $(this).find('#medicationNameForm').val(mediacation_cadena[objIndex].medication_name)
-                $(this).find('#medicationRazonForm').val(mediacation_cadena[objIndex].medication_reason)
-                $(this).find('#medicationDoseForm').val(mediacation_cadena[objIndex].medication_dosage)
-                $(this).find('#medicationFrecuencyForm').val(mediacation_cadena[objIndex].medication_frecuency)
-                $('#modal-edit-table').show('fast');
-                $('#modal-edit-table').attr('edit', mediacation_cadena[objIndex].id);
-                $('#modal-medication-table').hide('fast');
-            }).modal('show');
-        });
-
-        $(document).on('click', '#medicationFormEdit',function () {
-            event.preventDefault();
-            var index = $(this).attr('edit');
-            var objIndex = mediacation_cadena.findIndex((obj => obj.id == index));
-            mediacation_cadena[objIndex].medication_name = $('#medicationNameForm').val();
-            mediacation_cadena[objIndex].medication_reason = $('#medicationRazonForm').val();
-            mediacation_cadena[objIndex].medication_dosage = $('#medicationDoseForm').val();
-            mediacation_cadena[objIndex].medication_frecuency = $("#medicationFrecuencyForm").val()
-            if (mediacation_cadena.length > 0) {
-                $('#medication_table tbody').html('');
-                for (var i = 0; i < mediacation_cadena.length; i++) {
-                    var tableRow = '';
-                    tableRow += '<tr>'
-                    tableRow += '<th style="font-weight: 500; font-size: .9rem; display: none">' + mediacation_cadena[i].id + '</th>'
-                    tableRow += '<th style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_name + '</th>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_reason + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_dosage + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">' + mediacation_cadena[i].medication_frecuency + '</td>'
-                    tableRow += '<td style="font-weight: 500; font-size: .9rem;">'
-                    tableRow += '<div class="row">'
-                    tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-trash text-danger deleteMedication" deleteMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                    tableRow += '<div class="col-6 g-0 text-center"><i class="bi bi-pencil text-info editMedication" editMedication="' + mediacation_cadena[i].id + '" style="cursor: pointer"></i></div>'
-                    tableRow += '</div>'
-                    tableRow += '</td>'
-                    tableRow += '</tr>'
-                $('#medication_table tbody').append(tableRow)
-                }
-            }
-            $('.reset').click();
-            medicationModal.hide()
-            $('#medicationFormEdit').removeAttr('edit').hide('fast')
-            $('#medicationFormSave').show('fast')
 
         });
 
         $(document).on('click', '#medicationTableAdd',function () {
             $('.formError').html('')
-            $("#FormModalMedication")[0].reset();
-            medicationModal.show()
-            $('.reset').click();
+            addMedicationFields()
         });
 
         function ImcCalculate(sistem) {
@@ -632,11 +567,10 @@
                 $('#medication_table').show('fast')
                 $('#medicationFormEdit').hide('fast');
                 $('.formError').html('')
-                medicationModal.show()
+                addMedicationFields()
             } else {
                 $('#medication_table').hide('fast')
                 $('#medication_table').find('tbody').html('');
-                mediacation_cadena = [];
             }
         });
 
@@ -671,18 +605,11 @@
             }
         });
 
-        // $(document).on('click', '.send', function(e){
-        //     e.preventDefault();
-        //     if (mediacation_cadena.length > 0) {
-        //         $('#formHealthData').append("<input type='hidden' name='mediacation_cadena' value='" + JSON.stringify(mediacation_cadena) +"'>")
-        //     }
-        //
-        // });
-
-        $(document).on('submit', '#formHealthData', function(){
+        $(document).on('click', '.send', function(e){
             e.preventDefault();
-            if (mediacation_cadena.length > 0) {
-                $('#formHealthData').append("<input type='hidden' name='mediacation_cadena[]' value='" + JSON.stringify(mediacation_cadena) +"'>")
+            console.log(medication_cadena.length);
+            if (medication_cadena.length > 0) {
+                $('#formHealthData').append("<input type='hidden' name='medication_cadena' value='" + JSON.stringify(medication_cadena) +"'>")
             }
             $('form#formHealthData').submit();
         });
@@ -741,6 +668,27 @@
             $("#FormModalMedication")[0].reset();
         });
 
+        function addMedicationFields() {
+            var medicationField = '';
+            medicationField += '<tr>'
+            medicationField += '<th>'
+            medicationField += '<input type="text" name="medication_name[]" class="form-control form-control-sm">'
+            medicationField += '</th>'
+            medicationField += '<td>'
+            medicationField += '<input type="text" name="medication_reason[]" class="form-control form-control-sm">'
+            medicationField += '</td>'
+            medicationField += '<td>'
+            medicationField += '<input type="text" name="medication_dosage[]" class="form-control form-control-sm">'
+            medicationField += '</td>'
+            medicationField += '<td>'
+            medicationField += '<input type="text" name="medication_frecuency[]" class="form-control form-control-sm">'
+            medicationField += '</td>'
+            medicationField += '<td class="text-center">'
+            medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            medicationField += '</td>'
+            medicationField += '</tr>'
+            $('#medication_table tbody').append(medicationField)
+        }
     </script>
 
 @if (!empty($sessionData))
@@ -794,6 +742,15 @@
             }
         });
     }
+    $(document).on('change', "input, select", function () {
+        alert();
+        //$(this).parents('.col-sm-9').find('.error').html('');
+    });
+</script>
+@endif
+@if (!empty(old('medicationCadena')))
+<script>
+    $("#medication_table").show('fast');
 </script>
 @endif
 

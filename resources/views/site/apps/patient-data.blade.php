@@ -49,11 +49,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9 text-center">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeYes" value="1" @if (old('treatmentBefore') == "1") selected @elseif(!empty($patient ?? '') && $patient ?? ''->treatmentBefore == '1') selected @endif>
+                                <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeYes" value="1" @if (old('treatmentBefore') == "1") checked @elseif(!empty($patient ?? '') && $patient->treatmentBefore == '1') checked @endif>
                                 <label class="form-check-label" for="treatmentBeforeYes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeNo" value="0" @if (old('treatmentBefore') == "0") selected @elseif(!empty($patient ?? '') && $patient ?? ''->treatmentBefore == '0') selected @endif>
+                                <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeNo" value="0" @if (old('treatmentBefore') == "0") checked @elseif(!empty($patient ?? '') && $patient->treatmentBefore == '0') checked @endif>
                                 <label class="form-check-label" for="treatmentBeforeNo">No</label>
                             </div>
                             @error('treatmentBefore')
@@ -77,7 +77,7 @@
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Name</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ $patient ?? ''->name ?? old('name') }}" placeholder="Name">
+                            <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ $patient->name ?? old('name') }}" placeholder="Name">
                             @error('name')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -91,8 +91,8 @@
                             <div class="col-sm-9">
                                 <select name="sex" id="sex" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
-                                    <option value="male" @if (old('sex') == "male") selected @elseif(!empty($patient ?? '') && $patient ?? ''->sex == 'male') selected @endif>Male</option>
-                                    <option value="female" @if (old('sex') == "female") selected @elseif(!empty($patient ?? '') && $patient ?? ''->sex == 'famale') selected @endif>Female</option>
+                                    <option value="male" @if (old('sex') == "male") selected @elseif(!empty($patient) && $patient->sex == 'male') selected @endif>Male</option>
+                                    <option value="female" @if (old('sex') == "female") selected @elseif(!empty($patient) && $patient->sex == 'famale') selected @endif>Female</option>
 
                                 </select>
                                 @error('sex')
@@ -105,7 +105,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Birth Date</label>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="{{ $patient ?? ''->dob ?? old('dob') }}" placeholder="Date of Birth">
+                                <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="{{ $patient->dob ?? old('dob') }}" placeholder="Date of Birth">
                                 @error('dob')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -116,7 +116,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Age</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="age" name="age" value="{{ $patient ?? ''->age ?? old('age') }}" placeholder="Age">
+                                <input type="text" class="form-control form-control-sm" id="age" name="age" value="{{ $patient->age ?? old('age') }}" placeholder="Age">
                                 @error('age')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -127,7 +127,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Phone</label>
                             <div class="col-sm-9">
-                                <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="{{ $patient ?? ''->phone ?? old('phone') }}" placeholder="phone">
+                                <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="{{ $patient->phone ?? old('phone') }}" placeholder="phone">
                                 @error('phone')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -138,7 +138,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Mobile</label>
                             <div class="col-sm-9">
-                                <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="{{ $patient ?? ''->mobile ?? old('mobile') }}" placeholder="Mobile">
+                                <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="{{ $patient->mobile ?? old('mobile') }}" placeholder="Mobile">
                                 @error('mobile')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -149,7 +149,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Address</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="address" name="address" value="{{ $patient ?? ''->address ?? old('address') }}" placeholder="Address">
+                                <input type="text" class="form-control form-control-sm" id="address" name="address" value="{{ $patient->address ?? old('address') }}" placeholder="Address">
                                 @error('address')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -160,7 +160,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Country</label>
                             <div class="col-sm-9">
-                                <select name="country_id" id="country_id" country="{{ $patient ?? ''->country_id ?? old('country_id') }}" class="form-control form-control-sm">
+                                <select name="country_id" id="country_id" country="{{ $patient->country_id ?? old('country_id') }}" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
                                     @foreach ($countries as $country)
                                         <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -176,7 +176,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
                             <div class="col-sm-9">
-                                <select name="state_id" state="{{ $patient ?? ''->state_id ?? old('state_id') }}" id="state_id" class="form-control form-control-sm">
+                                <select name="state_id" state="{{ $patient->state_id ?? old('state_id') }}" id="state_id" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
                                 </select>
                                 @error('state_id')
@@ -189,7 +189,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">City</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="city" name="city" value="{{ $patient ?? ''->city ?? old('city') }}" placeholder="City">
+                                <input type="text" class="form-control form-control-sm" id="city" name="city" value="{{ $patient->city ?? old('city') }}" placeholder="City">
                                 @error('city')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -200,7 +200,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Zip Code</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="zip" name="zip" value="{{ $patient ?? ''->zip ?? old('zip') }}" placeholder="Zip">
+                                <input type="text" class="form-control form-control-sm" id="zip" name="zip" value="{{ $patient->zip ?? old('zip') }}" placeholder="Zip">
                                 @error('zip')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -211,7 +211,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency Contact Name</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="ecn" name="ecn" value="{{ $patient ?? ''->ecn ?? old('ecn') }}" placeholder="Emergency Contact Name">
+                                <input type="text" class="form-control form-control-sm" id="ecn" name="ecn" value="{{ $patient->ecn ?? old('ecn') }}" placeholder="Emergency Contact Name">
                                 @error('ecn')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -222,7 +222,7 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency Contact Phone</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control form-control-sm" id="ecp" name="ecp" value="{{ $patient ?? ''->ecp ?? old('ecp') }}" placeholder="Emergency Contact Phone">
+                                <input type="text" class="form-control form-control-sm" id="ecp" name="ecp" value="{{ $patient->ecp ?? old('ecp') }}" placeholder="Emergency Contact Phone">
                                 @error('ecp')
                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -315,7 +315,7 @@
             getStates()
         });
         $(document).on('change', "input, select", function () {
-            $(this).parent().find('.invalid-feedback').html('');
+            $(this).parent().find('.invalid-feedback ').html('');
         });
         function getStates(state = null) {
             var form_data = new FormData();

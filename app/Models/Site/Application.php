@@ -18,4 +18,24 @@ class Application extends Model
     {
         return $this->hasMany(MedicationApplication::class);
     }
+
+    public function surgeries()
+    {
+        return $this->hasMany(SurgeryApplication::class);
+    }
+
+    public function illnessess()
+    {
+        return $this->hasMany(IllnsessApplication::class);
+    }
+
+    public function hormones()
+    {
+        return $this->hasMany(HormonesApplication::class);
+    }
+
+    public function exercices()
+    {
+        return $this->hasMany(ExerciseApplication::class);
+    }
 }
