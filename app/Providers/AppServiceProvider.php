@@ -26,25 +26,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $lang = app()->getLocale();
+        // $lang = app()->getLocale();
 
-        $brands = Brand::select("id", "brand", "acronym", "url")
-        ->with
-        (
-            [
-                'service' => function($q) use ($lang){
-                    $q->select(["id", "brand_id", "service_$lang AS service"]);
-                },
-            ]
-        )
-        ->get();
-
-
-        if (!$brands) {
-            $brands = [];
-        }
+        // $brands = Brand::select("id", "brand", "acronym", "url")
+        // ->with
+        // (
+        //     [
+        //         'service' => function($q) use ($lang){
+        //             $q->select(["id", "brand_id", "service_$lang AS service"]);
+        //         },
+        //     ]
+        // )
+        // ->get();
 
 
-        View::share('brands', $brands);
+        // if (!$brands) {
+        //     $brands = [];
+        // }
+
+
+        // View::share('brands', $brands);
     }
 }
