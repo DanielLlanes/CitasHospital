@@ -2,13 +2,14 @@
 
 namespace App\Models\Staff;
 
-use App\Notifications\StaffResetPasswordNotification as StaffResetPasswordNotification;
+use App\Models\Site\Application;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\StaffResetPasswordNotification as StaffResetPasswordNotification;
 
 class Staff extends Authenticatable
 {
@@ -70,6 +71,10 @@ class Staff extends Authenticatable
         return $this->belongsTo(Specialty::class);
     }
 
+    public function assignment()
+    {
+        return $this->belongsToMany(Application::class);
+    }
     /**
      * Send the password reset notification.
      *

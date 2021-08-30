@@ -45,7 +45,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('postSurgicalData') }}" method="POST" id="formHealthData">
+                <form action="{{ route('postGeneralHealthData') }}" method="POST" id="formHealthData">
                     {{ csrf_field() }}
 
                     <div class="mb-3 row">
@@ -69,8 +69,8 @@
                     <div class="mb-3 row mt-1 smoke" @if (old('smoke') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="smoke_cigars" name="smoke_cigars" value="{{ $patient->smoke_cigars ?? old('amount_cigarretes') }}" placeholder="">
-                            @error('amount_cigarretes')
+                            <input type="number" class="form-control form-control-sm" id="smoke_cigars" name="smoke_cigars" value="{{ $patient->smoke_cigars ?? old('smoke_cigars') }}" placeholder="">
+                            @error('smoke_cigars')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
                                 </span>
@@ -80,7 +80,7 @@
                     <div class="mb-3 row mt-1 smoke" @if (old('smoke') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Numer of years </span></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="smoke_years" name="smoke_years" value="{{ $patient->smoke_cigars ?? old('smoke_years') }}" placeholder="">
+                            <input type="number" class="form-control form-control-sm" id="smoke_years" name="smoke_years" value="{{ $patient->smoke_cigars ?? old('smoke_years') }}" placeholder="">
                             @error('smoke_years')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -88,7 +88,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="mb-3 row smoke" @if (old('smoke') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you quit smoking?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
@@ -106,10 +106,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3 row mt-1 smoke" @if (old('smoke') == 1)@else style="display: none"@endif>
+                    <div class="mb-3 row mt-1 smoke_quit" @if (old('stop_smoking') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How long </span></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
                             @error('when_stop_smoking')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -119,7 +119,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">do you drink alcohol?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you drink alcohol?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="alcohol" id="alcohol_yes" value="1" @if (old('alcohol') == "1") checked @elseif(!empty($patient ?? '') && $patient->alcohol == '1') checked @endif>
@@ -159,7 +159,7 @@
                     <div class="mb-3 row mt-1 recreative_drugs" @if (old('recreative_drugs') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="total_recreative_drugs" name="total_recreative_drugs" value="{{ $patient->total_recreative_drugs ?? old('total_recreative_drugs') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="total_recreative_drugs" name="total_recreative_drugs" value="{{ $patient->total_recreative_drugs ?? old('total_recreative_drugs') }}" placeholder="">
                             @error('total_recreative_drugs')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -167,18 +167,18 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="mb-3 row recreative_drugs" @if (old('recreative_drugs') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you ever used intravenous drugs (or skin-popping)?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="recreative_drugs" id="recreative_drugs_yes" value="1" @if (old('recreative_drugs') == "1") checked @elseif(!empty($patient ?? '') && $patient->recreative_drugs == '1') checked @endif>
-                                <label class="form-check-label" for="recreative_drugs_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="intravenous_drugs" id="intravenous_drugs_yes" value="1" @if (old('intravenous_drugs') == "1") checked @elseif(!empty($patient ?? '') && $patient->intravenous_drugs == '1') checked @endif>
+                                <label class="form-check-label" for="intravenous_drugs_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="recreative_drugs" id="recreative_drugs_no" value="0" @if (old('recreative_drugs') == "0") checked @elseif(!empty($patient ?? '') && $patient->recreative_drugs == '0') checked @endif>
-                                <label class="form-check-label" for="recreative_drugs_no">No</label>
+                                <input class="form-check-input" type="radio" name="intravenous_drugs" id="intravenous_drugs_no" value="0" @if (old('intravenous_drugs') == "0") checked @elseif(!empty($patient ?? '') && $patient->intravenous_drugs == '0') checked @endif>
+                                <label class="form-check-label" for="intravenous_drugs_no">No</label>
                             </div>
-                            @error('recreative_drugs')
+                            @error('intravenous_drugs')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
                                 </span>
@@ -289,50 +289,42 @@
                                     <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                     <th style="font-weight: 600; font-size: .9rem;">Type</th>
                                     <th style="font-weight: 600; font-size: .9rem;">How long</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">How</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">How frecuency</th>
                                     <th style="font-weight: 600; font-size: .9rem;">Hours per day</th>
                                     <th style="font-weight: 600; font-size: .9rem;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!empty(old('surgeyCadena')))
-                                    @for ($i = 0; $i < count(old('surgeyCadena')); $i++)
+                                @if (!empty(old('exerciseCadena')))
+                                    @for ($i = 0; $i < count(old('exerciseCadena')); $i++)
                                         <tr>
                                             <th>
-                                                <input type="text" name="surgey_type[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_type }}">
-                                                @error('surgey_type.'.$i)
+                                                <input type="text" name="exercise_type[]" class="form-control form-control-sm" value="{{ old('exerciseCadena')[$i]->exercise_type }}">
+                                                @error('exercise_type.'.$i)
                                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                                         <strong class="error">{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </th>
                                             <td>
-                                                <input type="text" name="surgey_name[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_name }}">
-                                                @error('surgey_name.'.$i)
+                                                <input type="text" name="exercise_how_long[]" class="form-control form-control-sm" value="{{ old('exerciseCadena')[$i]->exercise_how_long }}">
+                                                @error('exercise_how_long.'.$i)
                                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                                         <strong class="error">{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </td>
                                             <td>
-                                                <input type="text" name="surgey_age[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_age }}">
-                                                @error('surgey_age.'.$i)
+                                                <input type="text" name="exercise_how_frecuent[]" class="form-control form-control-sm" value="{{ old('exerciseCadena')[$i]->exercise_how_frecuent }}">
+                                                @error('exercise_how_frecuent.'.$i)
                                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                                         <strong class="error">{{ $message }}</strong>
                                                     </span>
                                                 @enderror
                                             </td>
                                             <td>
-                                                <input type="text" name="surgey_year[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_year }}">
-                                                @error('surgey_year.'.$i)
-                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                                        <strong class="error">{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </td>
-                                            <td>
-                                                <input type="text" name="surgey_complications[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_complications }}">
-                                                @error('surgey_complications.'.$i)
+                                                <input type="text" name="exercise_hours[]" class="form-control form-control-sm" value="{{ old('exerciseCadena')[$i]->exercise_hours }}">
+                                                @error('exercise_hours.'.$i)
                                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                                         <strong class="error">{{ $message }}</strong>
                                                     </span>
@@ -347,7 +339,7 @@
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-second text-white mb-3" id="surgeyTableAdd">Add surgery</button>
+                            <button type="button" class="btn btn-second text-white mb-3" id="exerciceTableAdd">Add exercice</button>
                         </div>
                     </div>
 
@@ -377,24 +369,58 @@
             $(this).parents('tr').remove()
 
             if ($("#medication_table tbody tr").length < 1) {
-                addMedicationFields()
+                addExerciseFields()
             }
 
         });
 
-        $(document).on('click', '#surgeyTableAdd',function () {
+        $(document).on('click', '#exerciceTableAdd',function () {
             $('.formError').html('')
-            addMedicationFields()
+            addExerciseFields()
         });
 
-        $(document).on('change', 'input[type=radio][name=previus_surgery]',  function (e) {
+        $(document).on('change', 'input[type=radio][name=smoke]',  function (e) {
 
-            if ($("input[type=radio][name=previus_surgery]:checked").val() == '1') {
+            if ($("input[type=radio][name=smoke]:checked").val() == '1') {
+                $('.smoke').show('fast')
+
+            } else {
+                $('.smoke').hide('fast')
+                $('#smoke_cigars').val('')
+                $('#smoke_years').val('')
+                $('.smoke_quit').hide('fast')
+                $('#when_stop_smoking').val('');
+
+            }
+        });
+
+        $(document).on('change', 'input[type=radio][name=exercise]',  function (e) {
+            if ($("input[type=radio][name=exercise]:checked").val() == '1') {
                 $('#medication_table').show('fast')
-                addMedicationFields()
+                addExerciseFields()
             } else {
                 $('#medication_table').hide('fast')
+                $('#when_stop_smoking').val('');
                 $('#medication_table').find('tbody').html('');
+            }
+        });
+
+        $(document).on('change', 'input[type=radio][name=stop_smoking]',  function (e) {
+            if ($("input[type=radio][name=stop_smoking]:checked").val() == '1') {
+                $('.smoke_quit').show('fast')
+            } else {
+                $('.smoke_quit').hide('fast')
+                $('#when_stop_smoking').val('');
+            }
+        });
+
+        $(document).on('change', 'input[type=radio][name=recreative_drugs]',  function (e) {
+            if ($("input[type=radio][name=recreative_drugs]:checked").val() == '1') {
+                $('.recreative_drugs').show('fast')
+            } else {
+                $('.recreative_drugs').hide('fast')
+                $('#total_recreative_drugs').val('');
+                $("input[name=intravenous_drugs][value=0]").prop('checked', true);
             }
         });
 
@@ -430,23 +456,20 @@
         }
 
 
-        function addMedicationFields() {
+        function addExerciseFields() {
             var medicationField = '';
             medicationField += '<tr>'
             medicationField += '<th>'
-            medicationField += '<input type="text" name="surgey_type[]" class="form-control form-control-sm">'
+            medicationField += '<input type="text" name="exercise_type[]" class="form-control form-control-sm">'
             medicationField += '</th>'
             medicationField += '<td>'
-            medicationField += '<input type="text" name="surgey_name[]" class="form-control form-control-sm">'
+            medicationField += '<input type="text" name="exercise_how_long[]" class="form-control form-control-sm">'
             medicationField += '</td>'
             medicationField += '<td>'
-            medicationField += '<input type="text" name="surgey_age[]" class="form-control form-control-sm">'
+            medicationField += '<input type="text" name="exercise_how_frecuent[]" class="form-control form-control-sm">'
             medicationField += '</td>'
             medicationField += '<td>'
-            medicationField += '<input type="text" name="surgey_year[]" class="form-control form-control-sm">'
-            medicationField += '</td>'
-            medicationField += '<td>'
-            medicationField += '<input type="text" name="surgey_complications[]" class="form-control form-control-sm">'
+            medicationField += '<input type="text" name="exercise_hours[]" class="form-control form-control-sm">'
             medicationField += '</td>'
             medicationField += '<td class="text-center">'
             medicationField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
@@ -513,7 +536,7 @@
     });
 </script>
 @endif
-@if (!empty(old('surgeyCadena')))
+@if (!empty(old('exerciseCadena')))
 <script>
     $("#medication_table").show('fast');
 </script>

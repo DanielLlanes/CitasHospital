@@ -45,9 +45,9 @@ class CreateApplicationsTable extends Migration
             $table->boolean('addiction')->nullable();
             $table->text('which_one_adiction')->nullable();
 
-            $table->boolean('high_lipd_levels')->nullable();
+            $table->boolean('high_lipid_levels')->nullable();
             $table->date('date_high_lipd_levels')->nullable();
-            $table->text('high_lipd_levels_treatment')->nullable();
+            $table->text('high_lipid_levels_treatment')->nullable();
 
             $table->boolean('cancer')->nullable();
             $table->date('date_cancer')->nullable();

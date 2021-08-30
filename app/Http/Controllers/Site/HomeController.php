@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Staff\Product;
 use App\Models\Staff\Procedure;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,9 @@ class HomeController extends Controller
     }
     public function brand($brand)
     {
+        Session::forget('form_session');
+        Session::forget('product');
+
         $lang = app()->getLocale();
 
         $products = Product::whereHas('brand', function($query) use ($brand) {
@@ -84,7 +88,7 @@ class HomeController extends Controller
                 },
             ]
         )
-        ->first();
+        ->firstOrFail();
 
 
         if ($brand) {

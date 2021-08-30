@@ -37,6 +37,12 @@ Route::post('/applications/post-medical-history-data', [ApplicationController::c
 Route::get('/applications/create-general-health-data', [ApplicationController::class, 'createGeneralHealthData'])->name('createGeneralHealthData');
 Route::post('/applications/post-general-health-data', [ApplicationController::class, 'postGeneralHealthData'])->name('postGeneralHealthData');
 
+Route::get('/applications/create-reference-data', [ApplicationController::class, 'createReferenceData'])->name('createReferenceData');
+Route::post('/applications/post-reference-data', [ApplicationController::class, 'postReferenceData'])->name('postReferenceData');
+
+Route::get('/applications/create-gynecological-data', [ApplicationController::class, 'createGynecologicalData'])->name('createGynecologicalData');
+Route::post('/applications/post-gynecological-data', [ApplicationController::class, 'postGynecologicalData'])->name('postGynecologicalData');
+
 
 Route::post('/applications/chek-if-patient-exist', [ApplicationController::class, 'chekIfPatientExist'])->name('chekIfPatientExist');
 Route::post('/search-states', [ApplicationController::class, 'getStates'])->name('getStates');

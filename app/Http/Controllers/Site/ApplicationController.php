@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Site;
 
 use Image;
 use App\Models\Site\State;
+use App\Models\Staff\Staff;
 use Illuminate\Support\Str;
 use App\Models\Site\Country;
 use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Product;
+use App\Models\Staff\Service;
 use App\Models\Site\Application;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Site\SurgeryApplication;
 use Illuminate\Support\Facades\Session;
+use App\Models\Site\ExerciseApplication;
 use App\Models\Site\IllnsessApplication;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Site\MedicationApplication;
@@ -101,7 +104,6 @@ class ApplicationController extends Controller
 
     public function createPatientData(Request $request)
     {
-        //$request->session()->forget('form-data');
         $this->validate($request, [
             'email' => 'required|max:255|email',
         ]);
@@ -167,6 +169,7 @@ class ApplicationController extends Controller
             $patient->save();
         }
 
+
         if(!Session::has('form_session'))
         {
             $app = new Application;
@@ -177,16 +180,19 @@ class ApplicationController extends Controller
             $app->save();
             $app->generalData = 1;
             Session::put('form_session', $app);
+        } else {
         }
+
+
 
         if (!$product->service->need_images) {
             $getData = Session::get('form_session');
             $product = Session::get('product');
             $app = Application::with('images', 'medications')->find($getData->id);
             Session::forget('form_session');
-            $app->ServicesData = 1;
+            $app->generalData = 1;
+            $app->servicesData = 1;
             Session::put('form_session', $app);
-            //return view('site.apps.health-data', ['product' => $product, 'app' => $app]);
             return redirect()->route('createHealthData');
         }
         return redirect()->route('createServicesData');
@@ -256,7 +262,7 @@ class ApplicationController extends Controller
 
             Session::forget('form_session');
             $app->generalData = 1;
-            $app->ServicesData = 1;
+            $app->servicesData = 1;
             Session::put('form_session', $app);
             $getData = Session::get('form_session');
             $app = Application::with('images', 'medications')->find($getData->id);
@@ -275,7 +281,7 @@ class ApplicationController extends Controller
 
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            if ($getData->generalData == 1 || $getData->ServicesData == 1) {
+            if ($getData->generalData == 1 || $getData->servicesData == 1) {
                 $product = Session::get('product');
                 $app = Application::with('images', 'medications')->find($getData->id);
                 return view('site.apps.health-data', ['product' => $product, 'app' => $app]);
@@ -392,7 +398,7 @@ class ApplicationController extends Controller
 
                 Session::forget('form_session');
                 $app->generalData = 1;
-                $app->ServicesData = 1;
+                $app->servicesData = 1;
                 $app->healthData = 1;
                 Session::put('form_session', $app);
                 $getData = Session::get('form_session');
@@ -411,7 +417,7 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            if ($getData->generalData == 1 || $getData->ServicesData == 1) {
+            if ($getData->generalData == 1 || $getData->servicesData == 1) {
                 $product = Session::get('product');
                 $app = Application::with('images', 'medications')->find($getData->id);
                 return view('site.apps.surgical-data', ['product' => $product, 'app' => $app]);
@@ -499,7 +505,7 @@ class ApplicationController extends Controller
 
                 Session::forget('form_session');
                 $app->generalData = 1;
-                $app->ServicesData = 1;
+                $app->servicesData = 1;
                 $app->healthData = 1;
                 $app->surgeyData = 1;
                 Session::put('form_session', $app);
@@ -517,7 +523,7 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            if ($getData->generalData == 1 && $getData->ServicesData == 1 && $getData->surgeyData == 1) {
+            if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1) {
                 $product = Session::get('product');
                 $app = Application::with('images', 'medications')->find($getData->id);
                 return view('site.apps.medical-history-data', ['product' => $product, 'app' => $app]);
@@ -624,9 +630,9 @@ class ApplicationController extends Controller
 
             $app->addiction = $request->addiction;
             $app->which_one_adiction = $request->which_one_adiction;
-            $app->high_lipd_levels = $request->high_lipid_levels;
+            $app->high_lipid_levels = $request->high_lipid_levels;
             $app->date_high_lipd_levels = $request->date_high_lipid_levels;
-            $app->high_lipd_levels_treatment = $request->high_lipid_levels_treatment;
+            $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
             $app->cancer = $request->cancer;
             $app->date_cancer = $request->date_cancer;
             $app->cancer_treatment = $request->cancer_treatment;
@@ -667,7 +673,7 @@ class ApplicationController extends Controller
 
 
             if ($app->save()) {
-                $insert_surgeries = [];
+                $insert_illnesses = [];
                 for ($i = 0; $i < count($illness_cadena); $i++) {
                     $insert_illnesses[] = [
                         'application_id' => $app->id,
@@ -681,7 +687,7 @@ class ApplicationController extends Controller
 
                 Session::forget('form_session');
                 $app->generalData = 1;
-                $app->ServicesData = 1;
+                $app->servicesData = 1;
                 $app->healthData = 1;
                 $app->surgeyData = 1;
                 $app->medicalHistoryData = 1;
@@ -699,13 +705,325 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            if ($getData->generalData == 1 && $getData->ServicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
+            if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
                 $product = Session::get('product');
                 $app = Application::with('images', 'medications')->find($getData->id);
                 return view('site.apps.general-health-data', ['product' => $product, 'app' => $app]);
             } else {
                 return 'not';
             }
+        }
+    }
+
+    public function postGeneralHealthData(Request $request)
+    {
+        $exercise_cadena = [];
+        $collection = new Collection();
+
+        if ($request->has('exercise_type') || $request->has('exercise_how_long') || $request->has('exercise_how_frecuen') || $request->has('exercise_hours')) {
+            for ($i=0; $i < count($request->exercise_type); $i++) {
+                $exercise_cadena[] = [
+                    'exercise_type' => $request->exercise_type[$i],
+                    'exercise_how_long' => $request->exercise_how_long[$i],
+                    'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
+                    'exercise_hours' => $request->exercise_hours[$i],
+                ];
+
+                $collection->push((object)[
+                    'exercise_type' => $request->exercise_type[$i],
+                    'exercise_how_long' => $request->exercise_how_long[$i],
+                    'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
+                    'exercise_hours' => $request->exercise_hours[$i],
+                ]);
+
+            }
+        }
+
+        $request->merge(["exercise_cadena" => $exercise_cadena]);
+        $request->merge(["exerciseCadena" => $collection]);
+
+        $validator = Validator::make($request->all(), [
+            "smoke" => "required|boolean",
+            "smoke_cigars" => "required_if:smoke,1|nullable|integer",
+            "smoke_years" => "required_if:smoke,1|nullable|integer",
+            "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+            "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
+            "alcohol" => "required|boolean",
+            "recreative_drugs" => "required|boolean",
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
+            "tire" => "required|boolean",
+            "trouble_breathe" => "required|boolean",
+            "asthma" => "required|boolean",
+            "bipap_cpap" => "required|boolean",
+            "exercise" => "required|boolean",
+
+            "exercise_type" => ['required_if:exercise,1','array'],
+            "exercise_type.*" => ['required_if:exercise,1','string'],
+            "exercise_how_long" => ['required_if:exercise,1','array'],
+            "exercise_how_long.*" => ['required_if:exercise,1','string'],
+            "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
+            "exercise_how_frecuent" => ['required_if:exercise,1','array'],
+            "exercise_hours.*" => ['required_if:exercise,1','string'],
+            "exercise_hours" => ['required_if:exercise,1','array'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        if (Session::has('form_session')) {
+            $getData = Session::get('form_session');
+            $app =  Application::
+            with('images', 'medications')
+            ->find($getData->id);
+            $product = Session::get('product');
+
+            $patient = Patient::select('sex')->find($app->patient_id);
+
+            if ($app->save()) {
+                $insert_exercise = [];
+                for ($i = 0; $i < count($exercise_cadena); $i++) {
+                    $insert_illnesses[] = [
+                        'application_id' => $app->id,
+                        'type' => $exercise_cadena[$i]['exercise_type'],
+                        'how_long' => $exercise_cadena[$i]['exercise_how_long'],
+                        'how_frecuency' => $exercise_cadena[$i]['exercise_how_frecuent'],
+                        'Hours_per_day' => $exercise_cadena[$i]['exercise_hours'],
+                    ];
+                }
+                $app->exercices()->delete();
+                ExerciseApplication::insert($insert_exercise);
+
+
+                if ($patient->sex != 'female') {
+                        Session::forget('form_session');
+                        $app->generalData = 1;
+                        $app->servicesData = 1;
+                        $app->healthData = 1;
+                        $app->surgeyData = 1;
+                        $app->medicalHistoryData = 1;
+                        $app->medicalHistoryData = 1;
+                        $app->gynecologicalData = 1;
+                        Session::put('form_session', $app);
+                        return redirect()->route('createReferenceData');
+
+                } else {
+                    Session::forget('form_session');
+                    $app->generalData = 1;
+                    $app->servicesData = 1;
+                    $app->healthData = 1;
+                    $app->surgeyData = 1;
+                    $app->medicalHistoryData = 1;
+                    Session::put('form_session', $app);
+                    return redirect()->route('createGynecologicalData');
+                }
+
+
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function createGynecologicalData()
+    {
+
+        if (Session::has('form_session')) {
+            $getData = Session::get('form_session');
+            if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 && $getData->medicalHistoryData = 1) {
+                $product = Session::get('product');
+                $app = Application::with('images', 'medications')->find($getData->id);
+                return view('site.apps.gynecological-data', ['product' => $product, 'app' => $app]);
+            } else {
+                return 'not';
+            }
+        }
+    }
+
+    public function postGynecologicalData(Request $request)
+    {
+
+        $birth_control_cadena = [];
+        $collection_bc = new Collection();
+
+        if ($request->has('birthControl_type') || $request->has('birthControl_how_long')) {
+            for ($i=0; $i < count($request->birthControl_type); $i++) {
+                $birth_control_cadena[] = [
+                    'birthControl_type' => $request->birthControl_type[$i],
+                    'birthControl_how_long' => $request->birthControl_how_long[$i],
+                ];
+
+                $collection_bc->push((object)[
+                    'birthControl_type' => $request->birthControl_type[$i],
+                    'birthControl_how_long' => $request->birthControl_how_long[$i]
+                ]);
+
+            }
+        }
+
+        $hormone_cadena = [];
+        $collectionHor = new Collection();
+
+        if ($request->has('hormone_type') || $request->has('hormone_how_long')) {
+            for ($i=0; $i < count($request->hormone_type); $i++) {
+                $hormone_cadena[] = [
+                    'hormone_type' => $request->hormone_type[$i],
+                    'hormone_how_long' => $request->hormone_how_long[$i],
+                ];
+
+                $collectionHor->push((object)[
+                    'hormone_type' => $request->hormone_type[$i],
+                    'hormone_how_long' => $request->hormone_how_long[$i]
+                ]);
+
+            }
+        }
+        $request->merge(["birth_cadena" => $birth_control_cadena]);
+        $request->merge(["birthCadena" => $collection_bc]);
+        $request->merge(["hormone_cadena" => $hormone_cadena]);
+        $request->merge(["hormoneCadena" => $collectionHor]);
+
+
+        $validator = Validator::make($request->all(), [
+
+            "last_menstrual_period" => "required|date",
+            "bleeding_whas" => "required|in:normal,light,heavy,irregular",
+            "have_you_been_pregnant" => "required|boolean",
+            "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
+            "c_section" => ['required_if:have_you_been_pregnant,1','nullable','string'],
+            "birth_control" => "required|boolean",
+
+            "birth_control" =>"required|boolean",
+            "birthControl_how_long" => ['required_if:birth_control,1','array'],
+            "birthControl_how_long.*" => ['required_if:birth_control,1','string'],
+            "birthControl_type.*" => ['required_if:birth_control,1','string'],
+            "birthControltype" => ['required_if:birth_control,1','array'],
+
+            "use_hormones" =>"required|boolean",
+            "hormone_how_long" => ['required_if:use_hormones,1','array'],
+            "hormone_how_long.*" => ['required_if:use_hormones,1','string'],
+            "hormone_type.*" => ['required_if:use_hormones,1','array'],
+            "hormone_type" => ['required_if:use_hormones,1','string'],
+
+            "is_or_can_be_pregman" => "required|boolean",
+        ]);
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else 'paso';
+    }
+
+    public function createReferenceData()
+    {
+        if (Session::has('form_session')) {
+            $getData = Session::get('form_session');
+            if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 == 1 && $getData->gynecologicalData  = 1) {
+                $product = Session::get('product');
+                $app = Application::with('images', 'medications')->find($getData->id);
+                return view('site.apps.reference-data', ['product' => $product, 'app' => $app]);
+            } else {
+                return 'not';
+            }
+        }
+    }
+
+    public function postReferenceData(Request $request)
+    {
+        if (Session::has('form_session')) {
+            $getData = Session::get('form_session');
+
+            $app = Application::find($getData->id);
+            $product = Session::get('product');
+
+
+            if ($request->about_us_other == 1) {
+                $this->validate($request, [
+                    "about_us_description_other" => "required|string",
+                ]);
+                $app->about_us_other = $request->about_us_other;
+                $app->about_us_description_other = $request->about_us_description_other;
+            }
+            if ($request->about_us_google == 1) {
+                $app->about_us_google = $request->about_us_google;
+            }
+            if ($request->about_us_youtube == 1) {
+                $app->about_us_youtube = $request->about_us_youtube;
+            }
+            if($request->about_us_facebook == 1)
+            {
+                $app->about_us_facebook = $request->about_us_facebook;
+            }
+            if($request->about_us_instagram == 1)
+            {
+                $app->about_us_instagram = $request->about_us_instagram;
+            }
+            if($request->about_us_twiter == 1)
+            {
+                $app->about_us_twiter = $request->about_us_twiter;
+            }
+            if($request->about_us_email == 1)
+            {
+                $app->about_us_email = $request->about_us_email;
+            }
+            if($request->about_us_radio == 1)
+            {
+                $app->about_us_radio = $request->about_us_radio;
+            }
+            if($request->about_us_forums == 1)
+            {
+                $app->about_us_forums = $request->about_us_forums;
+            }
+            if($request->about_us_friend == 1)
+            {
+                $this->validate($request, [
+                    "friend_name" => "required|string",
+                ]);
+                $app->about_us_friend = $request->about_us_friend;
+                $app->friend_name = $request->friend_name;
+            }
+
+            $lang = app()->getLocale();
+            $staff_assignment = Service::with(['specialties'])->find($product->service->id);
+
+            $staff_array = $staff_assignment->specialties;
+            $assignment = [];
+
+            for ($i=0; $i < count($staff_array); $i++) {
+                $staff = $staff_array[$i];
+                $order = $staff_array[$i]->pivot->order;
+
+                $assignment_staff = Staff::whereHas(
+                    "specialty", function($q) use ($lang, $staff){
+                        $q->where("name_en", $staff->name_en);
+                    })
+                ->orderBy('last_assignment', 'ASC')
+                ->first();
+
+                if ($assignment_staff) {
+                    $assignment[] = [
+                        'application_id' => $getData->id,
+                        'staff_id' => $assignment_staff->id,
+                        'orden' => $order
+                    ];
+                    $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+                    $assignment_staff->save();
+                }
+            }
+
+            $app->assignments()->sync($assignment);
+            $app->is_complete = true;
+            $app->save();
+            Session::forget('form_session');
+            Session::forget('product');
+            return redirect()->route('home');
+        } else {
+            abort(404);
         }
     }
 

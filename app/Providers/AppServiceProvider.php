@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
 
 
         if (!$brands) {
-            abort(404);
+            $brands = [];
         }
 
 

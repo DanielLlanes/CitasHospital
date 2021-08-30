@@ -2,8 +2,9 @@
 
 namespace App\Models\Site;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Staff\Staff;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Application extends Model
 {
@@ -37,5 +38,9 @@ class Application extends Model
     public function exercices()
     {
         return $this->hasMany(ExerciseApplication::class);
+    }
+    public function assignments()
+    {
+        return $this->belongsToMany(Staff::class)->withPivot('orden');
     }
 }
