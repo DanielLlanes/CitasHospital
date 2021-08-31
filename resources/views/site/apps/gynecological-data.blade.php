@@ -427,7 +427,7 @@
 @endif
 @if (!empty(old("use_hormones")))
 <script>
-    $("#birth_control_table").show('fast');
+    $("#hormones_table").show('fast');
 </script>
 @endif
 @endsection
