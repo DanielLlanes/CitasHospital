@@ -84,6 +84,17 @@ class ServiceSeeder extends Seeder
             [
                 'id' => '7',
                 'brand_id' => '7',
+				'service_en' => 'General Surgery',
+				'service_es' => 'Cirugia General',
+                'need_images' => false,
+                'qty_images' => 0,
+                'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                'url' => 'General-Surgery',
+            ],
+            [
+                'id' => '8',
+                'brand_id' => '8',
 				'service_en' => 'Blood Work',
 				'service_es' => 'análisis de sangre',
                 'need_images' => false,
@@ -182,6 +193,16 @@ class ServiceSeeder extends Seeder
             [
                 'service_id' => 7,
                 'specialty_id' => 14,
+                'order' => 2,
+            ],
+            [
+                'service_id' => 8,
+                'specialty_id' => 10,
+                'order' => 1,
+            ],
+            [
+                'service_id' => 8,
+                'specialty_id' => 15,
                 'order' => 2,
             ],
         ]);

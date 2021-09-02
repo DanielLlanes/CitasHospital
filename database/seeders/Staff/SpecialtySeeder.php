@@ -126,5 +126,13 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true
         ]);
+        Specialty::create([
+            'id' => '15',
+            'role_id' => '4',
+            'name_es' => 'General Surgery',
+            'name_en' => 'Cirugía General',
+            'active' => true,
+            'show' => true
+        ]);
     }
 }

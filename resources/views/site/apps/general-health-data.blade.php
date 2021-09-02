@@ -427,357 +427,358 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have erections at the morning?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_yes" value="1" @if (old('do_you_have_erections_at_the_morning') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_erections_at_the_morning_yes">Yes</label>
+                        @if ($patient->sex == 'male')
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have erections at the morning?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_yes" value="1" @if (old('do_you_have_erections_at_the_morning') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_erections_at_the_morning_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_no" value="0" @if (old('do_you_have_erections_at_the_morning') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_erections_at_the_morning_no">No</label>
+                                    </div>
+                                    @error('do_you_have_erections_at_the_morning')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_no" value="0" @if (old('do_you_have_erections_at_the_morning') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_erections_at_the_morning_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1" @if (old('do_you_have_erections_at_the_morning') == 1) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many per week?</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="{{ $patient->how_many_per_week ?? old('how_many_per_week') }}" placeholder="">
+                                    @error('how_many_per_week')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('do_you_have_erections_at_the_morning')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_have_erections_at_the_morning') == 1) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many per week?</label>
-                            <div class="col-sm-6">
-                                <input type="number" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="{{ $patient->how_many_per_week ?? old('how_many_per_week') }}" placeholder="">
-                                @error('how_many_per_week')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have problems getting erections?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_yes" value="1" @if (old('do_you_have_problems_getting_erections') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_getting_erections_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have problems getting erections?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_yes" value="1" @if (old('do_you_have_problems_getting_erections') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_getting_erections_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_no" value="0" @if (old('do_you_have_problems_getting_erections') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_getting_erections_no">No</label>
+                                    </div>
+                                    @error('do_you_have_problems_getting_erections')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_no" value="0" @if (old('do_you_have_problems_getting_erections') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_getting_erections_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control form-control-sm" id="since_when" name="since_when" value="{{ $patient->since_when ?? old('since_when') }}" placeholder="">
+                                    @error('since_when')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('do_you_have_problems_getting_erections')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
-                            <div class="col-sm-6">
-                                <input type="number" class="form-control form-control-sm" id="since_when" name="since_when" value="{{ $patient->since_when ?? old('since_when') }}" placeholder="">
-                                @error('since_when')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Describe</label>
-                            <div class="col-sm-6">
-                                <textarea class="form-control form-control-sm" id="describe_your_erection_problem" name="describe_your_erection_problem" value="{{ $patient->describe_your_erection_problem ?? old('describe_your_erection_problem') }}" placeholder=""></textarea>
-                                @error('describe_your_erection_problem')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have problems maintaining an erection?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_yes" value="1" @if (old('do_you_have_problems_maintaining_an_erection') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
+                            <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Describe</label>
+                                <div class="col-sm-6">
+                                    <textarea class="form-control form-control-sm" id="describe_your_erection_problem" name="describe_your_erection_problem" value="{{ $patient->describe_your_erection_problem ?? old('describe_your_erection_problem') }}" placeholder=""></textarea>
+                                    @error('describe_your_erection_problem')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_no" value="0" @if (old('do_you_have_problems_maintaining_an_erection') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_no">No</label>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have problems maintaining an erection?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_yes" value="1" @if (old('do_you_have_problems_maintaining_an_erection') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_no" value="0" @if (old('do_you_have_problems_maintaining_an_erection') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_no">No</label>
+                                    </div>
+                                    @error('do_you_have_problems_maintaining_an_erection')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('do_you_have_problems_maintaining_an_erection')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you take any natural remedy for Erectile dysfunction?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_yes" value="1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you take any natural remedy for Erectile dysfunction?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_yes" value="1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_no" value="0" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_no">No</label>
+                                    </div>
+                                    @error('do_you_take_any_natural_remedy_for_erectile_dysfunction')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_no" value="0" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">What kind?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="what_kind" name="what_kind" value="{{ $patient->what_kind ?? old('what_kind') }}" placeholder="">
+                                    @error('what_kind')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('do_you_take_any_natural_remedy_for_erectile_dysfunction')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">What kind?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="what_kind" name="what_kind" value="{{ $patient->what_kind ?? old('what_kind') }}" placeholder="">
-                                @error('what_kind')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
-                                @error('how_did_it_work')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Where did you get them?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="where_did_you_get_them" name="where_did_you_get_them" value="{{ $patient->where_did_you_get_them ?? old('where_did_you_get_them') }}" placeholder="">
-                                @error('where_did_you_get_them')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Has medication been injected for dysfunction erectile?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_yes" value="1" @if (old('has_medication_been_injected_for_dysfunction_erectile') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_yes">Yes</label>
+                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
+                                    @error('how_did_it_work')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_no" value="0" @if (old('has_medication_been_injected_for_dysfunction_erectile') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Where did you get them?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="where_did_you_get_them" name="where_did_you_get_them" value="{{ $patient->where_did_you_get_them ?? old('where_did_you_get_them') }}" placeholder="">
+                                    @error('where_did_you_get_them')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('has_medication_been_injected_for_dysfunction_erectile')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many times?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="how_many_times_have_injected" name="how_many_times_have_injected" value="{{ $patient->how_many_times_have_injected ?? old('how_many_times_have_injected') }}" placeholder="">
-                                @error('how_many_times_have_injected')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Has medication been injected for dysfunction erectile?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_yes" value="1" @if (old('has_medication_been_injected_for_dysfunction_erectile') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_no" value="0" @if (old('has_medication_been_injected_for_dysfunction_erectile') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_no">No</label>
+                                    </div>
+                                    @error('has_medication_been_injected_for_dysfunction_erectile')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
-                                @error('how_did_it_work')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many times?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="how_many_times_have_injected" name="how_many_times_have_injected" value="{{ $patient->how_many_times_have_injected ?? old('how_many_times_have_injected') }}" placeholder="">
+                                    @error('how_many_times_have_injected')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+                            <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
+                                    @error('how_did_it_work')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
 
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you had an erection longer than 6 hours?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_yes" value="1" @if (old('have_you_had_an_erection_longer_than_six_hours') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you had an erection longer than 6 hours?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_yes" value="1" @if (old('have_you_had_an_erection_longer_than_six_hours') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_no" value="0" @if (old('have_you_had_an_erection_longer_than_six_hours') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_no">No</label>
+                                    </div>
+                                    @error('have_you_had_an_erection_longer_than_six_hours')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_no" value="0" @if (old('have_you_had_an_erection_longer_than_six_hours') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">When?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="when_you_had_a_six_hours_erection" name="when_you_had_a_six_hours_erection" value="{{ $patient->when_you_had_a_six_hours_erection ?? old('when_you_had_a_six_hours_erection') }}" placeholder="">
+                                    @error('when_you_had_a_six_hours_erection')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('have_you_had_an_erection_longer_than_six_hours')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">When?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="when_you_had_a_six_hours_erection" name="when_you_had_a_six_hours_erection" value="{{ $patient->when_you_had_a_six_hours_erection ?? old('when_you_had_a_six_hours_erection') }}" placeholder="">
-                                @error('when_you_had_a_six_hours_erection')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How was it resolved?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="how_was_it_resolved" name="how_was_it_resolved" value="{{ $patient->how_was_it_resolved ?? old('how_was_it_resolved') }}" placeholder="">
-                                @error('how_was_it_resolved')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Did you get medical attention?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="did_you_get_medical_attention" name="did_you_get_medical_attention" value="{{ $patient->did_you_get_medical_attention ?? old('did_you_get_medical_attention') }}" placeholder="">
-                                @error('did_you_get_medical_attention')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you suffer from penile curvature?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_yes" value="1" @if (old('do_you_suffer_from_penile_curvature') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="do_you_suffer_from_penile_curvature_yes">Yes</label>
+                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How was it resolved?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="how_was_it_resolved" name="how_was_it_resolved" value="{{ $patient->how_was_it_resolved ?? old('how_was_it_resolved') }}" placeholder="">
+                                    @error('how_was_it_resolved')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_no" value="0" @if (old('do_you_suffer_from_penile_curvature') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="do_you_suffer_from_penile_curvature_no">No</label>
+                            </div>
+                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Did you get medical attention?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="did_you_get_medical_attention" name="did_you_get_medical_attention" value="{{ $patient->did_you_get_medical_attention ?? old('did_you_get_medical_attention') }}" placeholder="">
+                                    @error('did_you_get_medical_attention')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('do_you_suffer_from_penile_curvature')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How intense?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="how_intense" name="how_intense" value="{{ $patient->how_intense ?? old('how_intense') }}" placeholder="">
-                                @error('how_intense')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you suffer from penile curvature?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_yes" value="1" @if (old('do_you_suffer_from_penile_curvature') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="do_you_suffer_from_penile_curvature_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_no" value="0" @if (old('do_you_suffer_from_penile_curvature') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="do_you_suffer_from_penile_curvature_no">No</label>
+                                    </div>
+                                    @error('do_you_suffer_from_penile_curvature')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Which direction?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="which_direction" name="which_direction" value="{{ $patient->which_direction ?? old('which_direction') }}" placeholder="">
-                                @error('which_direction')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How intense?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="how_intense" name="how_intense" value="{{ $patient->how_intense ?? old('how_intense') }}" placeholder="">
+                                    @error('how_intense')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it hurt?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="does_it_hurt" name="does_it_hurt" value="{{ $patient->does_it_hurt ?? old('does_it_hurt') }}" placeholder="">
-                                @error('does_it_hurt')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Which direction?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="which_direction" name="which_direction" value="{{ $patient->which_direction ?? old('which_direction') }}" placeholder="">
+                                    @error('which_direction')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it prevent intercourse?</label>
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control form-control-sm" id="does_it_prevent_intercourse" name="does_it_prevent_intercourse" value="{{ $patient->does_it_prevent_intercourse ?? old('does_it_prevent_intercourse') }}" placeholder="">
-                                @error('does_it_prevent_intercourse')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it hurt?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="does_it_hurt" name="does_it_hurt" value="{{ $patient->does_it_hurt ?? old('does_it_hurt') }}" placeholder="">
+                                    @error('does_it_hurt')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it prevent intercourse?</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control form-control-sm" id="does_it_prevent_intercourse" name="does_it_prevent_intercourse" value="{{ $patient->does_it_prevent_intercourse ?? old('does_it_prevent_intercourse') }}" placeholder="">
+                                    @error('does_it_prevent_intercourse')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
 
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Has PRP been injected for erectile dysfunction?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_yes" value="1" @if (old('has_prp_been_injected_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Has PRP been injected for erectile dysfunction?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_yes" value="1" @if (old('has_prp_been_injected_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_no" value="0" @if (old('has_prp_been_injected_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_no">No</label>
+                                    </div>
+                                    @error('has_prp_been_injected_for_erectile_dysfunction')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_no" value="0" @if (old('has_prp_been_injected_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_no">No</label>
-                                </div>
-                                @error('has_prp_been_injected_for_erectile_dysfunction')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
 
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received stem cell treatment for erectile dysfunction</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes" value="1" @if (old('have_you_received_stem_cell_treatment_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received stem cell treatment for erectile dysfunction</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes" value="1" @if (old('have_you_received_stem_cell_treatment_for_erectile_dysfunction') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_no" value="0" @if (old('have_you_received_stem_cell_treatment_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_no">No</label>
+                                    </div>
+                                    @error('have_you_received_stem_cell_treatment_for_erectile_dysfunction')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_no" value="0" @if (old('have_you_received_stem_cell_treatment_for_erectile_dysfunction') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_no">No</label>
-                                </div>
-                                @error('have_you_received_stem_cell_treatment_for_erectile_dysfunction')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
 
-                        <div class="mb-3 row">
-                            <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received vascular regeneration therapy with low intensity wave therapy for erectile dysfunction?</label>
-                            <div class="col-sm-6">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_yes" value="1" @if (old('hyrvrntwliwtfed') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
-                                    <label class="form-check-label" for="hyrvrntwliwtfed_yes">Yes</label>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received vascular regeneration therapy with low intensity wave therapy for erectile dysfunction?</label>
+                                <div class="col-sm-6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_yes" value="1" @if (old('hyrvrntwliwtfed') == "1") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '1') checked @endif>
+                                        <label class="form-check-label" for="hyrvrntwliwtfed_yes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_no" value="0" @if (old('hyrvrntwliwtfed') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
+                                        <label class="form-check-label" for="hyrvrntwliwtfed_no">No</label>
+                                    </div>
+                                    @error('hyrvrntwliwtfed')
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                            <strong class="error">{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_no" value="0" @if (old('hyrvrntwliwtfed') == "0") checked @elseif(!empty($patient ?? '') && $patient->do_you_have_erections_in_the_moring == '0') checked @endif>
-                                    <label class="form-check-label" for="hyrvrntwliwtfed_no">No</label>
-                                </div>
-                                @error('hyrvrntwliwtfed')
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
-                                        <strong class="error">{{ $message }}</strong>
-                                    </span>
-                                @enderror
                             </div>
-                        </div>
-
+                        @endif
                     @endif
 
                     <div class="mb-3 row mt-5">

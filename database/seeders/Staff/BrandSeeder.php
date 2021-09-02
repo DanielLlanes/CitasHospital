@@ -15,12 +15,13 @@ class BrandSeeder extends Seeder
     public function run()
     {
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_slimmer_me',
             'brand' => 'a slimmer me',
             'acronym' => 'asm',
             'color' => '#a93226',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'asm',
+            'url' => 'a-slimmer-me',
         ]);
         Brand::create([
             'brand' => 'a beautiful me',
@@ -28,47 +29,61 @@ class BrandSeeder extends Seeder
             'color' => '#884ea0',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'abm',
+            'url' => 'a-beautiful-me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_better_me',
             'brand' => 'a better me',
             'acronym' => 'abtm',
             'color' => '#2471a3',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'abtm',
+            'url' => 'a-better-me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_smiling_me',
             'brand' => 'a smiling me',
             'acronym' => 'aslm',
             'color' => '#1b4f72',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'aslm',
+            'url' => 'a_smiling_me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_scope_for_me',
             'brand' => 'a scope for me',
-            'acronym' => 'aslm',
+            'acronym' => 'asfm',
             'color' => '#17a589',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'aslm',
+            'url' => 'a-scope-for-me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_fixed_me',
             'brand' => 'a fixed me',
             'acronym' => 'afm',
             'color' => '#1ecac5',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'afm',
+            'url' => 'a-fixed-me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_healed_me',
+            'brand' => 'a healed me',
+            'acronym' => 'lab',
+            'color' => '#ca6Ffe',
+            'description_en' => 'Brand description',
+            'description_es' => 'Descripcion de la marca',
+            'url' => 'a-healed-me',
+        ]);
+        Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/labs',
             'brand' => 'labs',
             'acronym' => 'lab',
             'color' => '#ca6Ffe',
             'description_en' => 'Brand description',
             'description_es' => 'Descripcion de la marca',
-            'url' => 'lab',
+            'url' => 'labs',
         ]);
 
     }
