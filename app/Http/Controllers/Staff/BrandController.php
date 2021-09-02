@@ -40,24 +40,16 @@ class BrandController extends Controller
             $brands = Brand::select(["*", "description_$lang AS description" ])->get();
             return DataTables::of($brands)
                 ->addIndexColumn()
-                ->addColumn('picture', function($brands){
-                    if (is_null($brands->image)) {
-                       $image ='
-                                <a href="'.asset("staffFiles/assets/img/user/user.jpg").'" data-effect="mfp-zoom-in" class="a">
-                                    <img src="'.asset("staffFiles/assets/img/user/user.jpg").'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
-                                </a>
-                            ';
-                    } else {
-                        $image = '
-                                    <a href="'.asset($brands->image).'" data-effect="mfp-zoom-in" class="a">
-                                        <img src="'.asset($brands->image).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
-                                    </a>
-                                ';
-                    }
-                    return $image;
+                ->addColumn('image', function($brands){
+                    $image ='
+                            <a href="'.asset($brands->image).'" data-effect="mfp-zoom-in" class="a">
+                                <img src="'.asset($brands->image).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
+                            </a>
+                        ';
+                        return $image;
                 })
                 ->addColumn('brand', function($brands){
-                    return $brands->brand;
+                    return '<span class"text-uppercase" style="font-weight: 500; color: '.$brands->color.'">'.$brands->brand.'</span>';;
                 })
                 ->addColumn('acronym', function($brands){
                     return $brands->acronym;
@@ -81,7 +73,7 @@ class BrandController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.brand-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'picture', 'brand', 'color', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'color', 'active', 'action'])
                 ->make(true);
         }
     }

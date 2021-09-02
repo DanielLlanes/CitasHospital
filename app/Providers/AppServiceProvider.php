@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $lang = app()->getLocale();
 
-        $brands = Brand::select("id", "brand", "acronym", "url")
+        $brands = Brand::select("*")
         ->with
         (
             [

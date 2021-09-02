@@ -21,17 +21,16 @@
         </div>
     </section>
     <!-- End Breadcrumbs -->
+    @if (count($products) > 0)
+        <section id="team" class="team">
+            <div class="container">
 
-    <section id="team" class="team">
-        <div class="container">
-
-            <div class="section-title m-5" data-aos="fade-up">
-                <h2><strong>{{ $brand->service->service }}</strong></h2>
-                <p>
-                    {{ $brand->service->description }}
-                </p>
-            </div>
-            @if (count($products) > 0)
+                <div class="section-title m-5" data-aos="fade-up">
+                    <h2><strong>{{ $brand->service->service }}</strong></h2>
+                    <p>
+                        {{ $brand->service->description }}
+                    </p>
+                </div>
                 @foreach ($title as $item)
                     <div class="section-title m-5 mb-0" data-aos="fade-up">
                         <h2><strong>{{ $item->group }}</strong></h2>
@@ -58,9 +57,20 @@
                         @endforeach
                     </div>
                 @endforeach
-            @endif
+            </div>
+        </section>
+    @else
+    <section id="team" class="team">
+        <div class="container">
+            <div class="section-title m-5" data-aos="fade-up">
+                <h2><strong>Cooming soon</strong></h2>
+                <p>
+                    Come back soon to see our amazing procedures
+                </p>
+            </div>
         </div>
     </section>
+    @endif
 </main>
 
 @endsection

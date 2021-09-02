@@ -183,89 +183,22 @@
     <section id="services" class="services section section-bg">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-
+                <h2>Our <strong>Brands</strong></h2>
             </div>
+
             <div class="row">
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-asm-1.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Bariatrics</h5>
+                @foreach ($brands as $brand)
+                    <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
+                        <a href="{{ url($brand->url) }}">
+                            <div class="card border-0 bg-transparent bg-transparent">
+                                <img src="{{ asset($brand->image) }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ $brand->service->service}}</h5>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-abm.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Plastic Surgery</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-asmm.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Dental</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-abetterm.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Urology</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2021/02/jlprado-img-services-gs-2.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">General Surgery</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-endoscopy.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Endoscopy</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-afm.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Traumatology</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
-                    <a href="">
-                        <div class="card border-0 bg-transparent">
-                            <img src="http://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-services-lab.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title text-center">Blood Work</h5>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                @endforeach
             </div>
 
         </div>

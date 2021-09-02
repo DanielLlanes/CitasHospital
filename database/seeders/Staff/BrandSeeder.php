@@ -15,7 +15,7 @@ class BrandSeeder extends Seeder
     public function run()
     {
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_slimmer_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_slimmer_me.jpg',
             'brand' => 'a slimmer me',
             'acronym' => 'asm',
             'color' => '#a93226',
@@ -24,6 +24,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-slimmer-me',
         ]);
         Brand::create([
+            'image' => 'siteFiles/assets/img/brands/image/a_beautiful_me.jpg',
             'brand' => 'a beautiful me',
             'acronym' => 'abm',
             'color' => '#884ea0',
@@ -32,7 +33,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-beautiful-me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_better_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_better_me.jpg',
             'brand' => 'a better me',
             'acronym' => 'abtm',
             'color' => '#2471a3',
@@ -41,7 +42,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-better-me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_smiling_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_smiling_me.jpg',
             'brand' => 'a smiling me',
             'acronym' => 'aslm',
             'color' => '#1b4f72',
@@ -50,7 +51,7 @@ class BrandSeeder extends Seeder
             'url' => 'a_smiling_me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_scope_for_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_scope_for_me.jpg',
             'brand' => 'a scope for me',
             'acronym' => 'asfm',
             'color' => '#17a589',
@@ -59,7 +60,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-scope-for-me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_fixed_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_fixed_me.jpg',
             'brand' => 'a fixed me',
             'acronym' => 'afm',
             'color' => '#1ecac5',
@@ -68,7 +69,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-fixed-me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/a_healed_me',
+            'image' => 'siteFiles/assets/img/brands/image/a_healed_me.jpg',
             'brand' => 'a healed me',
             'acronym' => 'lab',
             'color' => '#ca6Ffe',
@@ -77,7 +78,7 @@ class BrandSeeder extends Seeder
             'url' => 'a-healed-me',
         ]);
         Brand::create([
-            'image' => 'siteFiles/assets/img/brands/image/labs',
+            'image' => 'siteFiles/assets/img/brands/image/labs.jpg',
             'brand' => 'labs',
             'acronym' => 'lab',
             'color' => '#ca6Ffe',

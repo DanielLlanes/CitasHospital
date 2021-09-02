@@ -708,7 +708,8 @@ class ApplicationController extends Controller
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
                 $product = Session::get('product');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.general-health-data', ['product' => $product, 'app' => $app]);
+                $patient = Patient::find($getData->patient_id);
+                return view('site.apps.general-health-data', ['product' => $product, 'app' => $app, 'patient' => $patient]);
             } else {
                 return 'not';
             }

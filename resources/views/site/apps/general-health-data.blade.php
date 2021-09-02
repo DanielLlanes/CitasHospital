@@ -446,7 +446,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_have_erections_at_the_morning') == 1) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_have_erections_at_the_morning" @if (old('do_you_have_erections_at_the_morning') == 1) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many per week?</label>
                                 <div class="col-sm-6">
                                     <input type="number" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="{{ $patient->how_many_per_week ?? old('how_many_per_week') }}" placeholder="">
@@ -476,7 +476,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
                                 <div class="col-sm-6">
                                     <input type="number" class="form-control form-control-sm" id="since_when" name="since_when" value="{{ $patient->since_when ?? old('since_when') }}" placeholder="">
@@ -487,7 +487,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Describe</label>
                                 <div class="col-sm-6">
                                     <textarea class="form-control form-control-sm" id="describe_your_erection_problem" name="describe_your_erection_problem" value="{{ $patient->describe_your_erection_problem ?? old('describe_your_erection_problem') }}" placeholder=""></textarea>
@@ -534,7 +534,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">What kind?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="what_kind" name="what_kind" value="{{ $patient->what_kind ?? old('what_kind') }}" placeholder="">
@@ -545,18 +545,18 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
-                                    @error('how_did_it_work')
+                                    <input type="text" class="form-control form-control-sm" id="how_did_it_work_natural_remedy" name="how_did_it_work_natural_remedy" value="{{ $patient->how_did_it_work_natural_remedy ?? old('how_did_it_work_natural_remedy') }}" placeholder="">
+                                    @error('how_did_it_work_natural_remedy')
                                         <span class="invalid-feedback" style="display: block!important;" role="alert">
                                             <strong class="error">{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction" @if (old('do_you_take_any_natural_remedy_for_erectile_dysfunction')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Where did you get them?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="where_did_you_get_them" name="where_did_you_get_them" value="{{ $patient->where_did_you_get_them ?? old('where_did_you_get_them') }}" placeholder="">
@@ -585,7 +585,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 has_medication_been_injected_for_dysfunction_erectile" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many times?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="how_many_times_have_injected" name="how_many_times_have_injected" value="{{ $patient->how_many_times_have_injected ?? old('how_many_times_have_injected') }}" placeholder="">
@@ -596,7 +596,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 has_medication_been_injected_for_dysfunction_erectile" @if (old('has_medication_been_injected_for_dysfunction_erectile')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How did it work?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="{{ $patient->how_did_it_work ?? old('how_did_it_work') }}" placeholder="">
@@ -607,7 +607,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you had an erection longer than 6 hours?</label>
                                 <div class="col-sm-6">
@@ -626,7 +625,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">When?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="when_you_had_a_six_hours_erection" name="when_you_had_a_six_hours_erection" value="{{ $patient->when_you_had_a_six_hours_erection ?? old('when_you_had_a_six_hours_erection') }}" placeholder="">
@@ -637,7 +636,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How was it resolved?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="how_was_it_resolved" name="how_was_it_resolved" value="{{ $patient->how_was_it_resolved ?? old('how_was_it_resolved') }}" placeholder="">
@@ -648,7 +647,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours" @if (old('have_you_had_an_erection_longer_than_six_hours')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Did you get medical attention?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="did_you_get_medical_attention" name="did_you_get_medical_attention" value="{{ $patient->did_you_get_medical_attention ?? old('did_you_get_medical_attention') }}" placeholder="">
@@ -677,7 +676,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How intense?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="how_intense" name="how_intense" value="{{ $patient->how_intense ?? old('how_intense') }}" placeholder="">
@@ -688,7 +687,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Which direction?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="which_direction" name="which_direction" value="{{ $patient->which_direction ?? old('which_direction') }}" placeholder="">
@@ -699,7 +698,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it hurt?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="does_it_hurt" name="does_it_hurt" value="{{ $patient->does_it_hurt ?? old('does_it_hurt') }}" placeholder="">
@@ -710,7 +709,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="mb-3 row mt-1" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
+                            <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature" @if (old('do_you_suffer_from_penile_curvature')) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it prevent intercourse?</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm" id="does_it_prevent_intercourse" name="does_it_prevent_intercourse" value="{{ $patient->does_it_prevent_intercourse ?? old('does_it_prevent_intercourse') }}" placeholder="">
@@ -861,6 +860,69 @@
                 $("input[name=intravenous_drugs][value=0]").prop('checked', true);
             }
         });
+
+        $(document).on('change', 'input[type=radio][name=do_you_have_erections_at_the_morning]', function(){
+            if ($("input[type=radio][name=do_you_have_erections_at_the_morning]:checked").val() == '1') {
+                $('.do_you_have_erections_at_the_morning').show('fast')
+            } else {
+                $('.do_you_have_erections_at_the_morning').hide('fast')
+                $('#how_many_per_week').val('');
+            }
+        })
+        $(document).on('change', 'input[type=radio][name=do_you_have_problems_getting_erections]', function(){
+            if ($("input[type=radio][name=do_you_have_problems_getting_erections]:checked").val() == '1') {
+                $('.do_you_have_problems_getting_erections').show('fast')
+            } else {
+                $('.do_you_have_problems_getting_erections').hide('fast')
+                $('#since_when').val('');
+                $('#describe_your_erection_problem').val('');
+                $('#describe_your_erection_problem').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=do_you_take_any_natural_remedy_for_erectile_dysfunction]', function(){
+            if ($("input[type=radio][name=do_you_take_any_natural_remedy_for_erectile_dysfunction]:checked").val() == '1') {
+                $('.do_you_take_any_natural_remedy_for_erectile_dysfunction').show('fast')
+            } else {
+                $('.do_you_take_any_natural_remedy_for_erectile_dysfunction').hide('fast')
+                $('#what_kind').val('');
+                $('#how_did_it_work_natural_remedy').val('');
+                $('#where_did_you_get_them').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=has_medication_been_injected_for_dysfunction_erectile]', function(){
+            if ($("input[type=radio][name=has_medication_been_injected_for_dysfunction_erectile]:checked").val() == '1') {
+                $('.has_medication_been_injected_for_dysfunction_erectile').show('fast')
+            } else {
+                $('.has_medication_been_injected_for_dysfunction_erectile').hide('fast')
+                $('#how_many_times_have_injected').val('');
+                $('#how_did_it_work').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=have_you_had_an_erection_longer_than_six_hours]', function(){
+            if ($("input[type=radio][name=have_you_had_an_erection_longer_than_six_hours]:checked").val() == '1') {
+                $('.have_you_had_an_erection_longer_than_six_hours').show('fast')
+            } else {
+                $('.have_you_had_an_erection_longer_than_six_hours').hide('fast')
+                $('#when_you_had_a_six_hours_erection').val('');
+                $('#how_was_it_resolved').val('');
+                $('#did_you_get_medical_attention').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=do_you_suffer_from_penile_curvature]', function(){
+            if ($("input[type=radio][name=do_you_suffer_from_penile_curvature]:checked").val() == '1') {
+                $('.do_you_suffer_from_penile_curvature').show('fast')
+            } else {
+                $('.do_you_suffer_from_penile_curvature').hide('fast')
+                $('#how_intense').val('');
+                $('#which_direction').val('');
+                $('#does_it_hurt').val('');
+                $('#does_it_prevent_intercourse').val('');
+            }
+        })
 
         $(document).on('click', ".cancel", function(e) {
             e.preventDefault
