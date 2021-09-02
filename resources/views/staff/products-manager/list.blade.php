@@ -71,7 +71,7 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                <div class="form-group mb-2">
+                                                {{-- <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
                                                         <span class="required"> * </span>
                                                     </label>
@@ -81,7 +81,7 @@
                                                         <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -395,12 +395,14 @@
                 });
             });
 
-            $('.autocomplete.service').on('keyup', function() {
+            $('.autocomplete.service').on('keyup click', function() {
                 var key = $(this).val();
+                console.log('click');
                 var dataString = new FormData();
                 dataString.append('key', key);
-                dataString.append('brand', $('#brand').attr('data-id'));
+                //dataString.append('brand', $('#brand').attr('data-id'));
                 $('.procedure').val('').removeAttr('data-id')
+                $('.package').val('').removeAttr('data-id')
                 $.ajax({
                     type: "POST",
                     url: globalRouteSearchService,
@@ -417,6 +419,7 @@
                         $('.myInputautocomplete-list.service').html('');
                     },
                     success: function(data) {
+                        console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
@@ -437,7 +440,7 @@
                 });
             });
 
-            $('.autocomplete.procedure').on('keyup', function() {
+            $('.autocomplete.procedure').on('keyup click', function() {
                 var key = $(this).val();
                 var dataString = new FormData();
                 dataString.append('key', key);
@@ -488,7 +491,7 @@
                 });
             });
 
-            $('.autocomplete.package').on('keyup', function() {
+            $('.autocomplete.package').on('keyup click', function() {
                 var key = $(this).val();
                 var dataString = new FormData();
                 dataString.append('key', key);

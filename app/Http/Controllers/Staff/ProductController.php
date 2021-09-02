@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Models\Staff\Product;
+use App\Models\Staff\Service;
 use App\Models\Staff\Procedure;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
@@ -176,9 +177,12 @@ class ProductController extends Controller
 
         $group = Procedure::find($request->procedure);
 
+        $getBrand = Service::select('brand_id')
+        ->find($request->service);
+
 
         $products = new Product;
-        $products->brand_id = $request->brand;
+        $products->brand_id = $getBrand->brand_id;
         $products->service_id = $request->service;
         $products->procedure_id = $request->procedure;
         $products->package_id = ($request->has_package == '1') ? $request->package : null;

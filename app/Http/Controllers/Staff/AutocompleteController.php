@@ -31,35 +31,13 @@ class AutocompleteController extends Controller
 
     public function searchService(Request $request)
     {
+
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        if ($request->has('brand')) {
-
-            $brand = $request->brand;
-
-            $search = Service::whereHas(
-
-                    'brand', function($query) use ($brand)
-                    {
-                        $query->where('id', $brand)
-                        ->select(
-                            [
-                                "id", 'brand'
-                            ]
-                        );
-                    }
-
-            )
-            ->where("service_$lang",'like', "%".$request->key."%")
-            ->select('id', "service_$lang AS service")
-            ->get();
-        } else {
             $search = Service::where("service_$lang",'like', "%".$request->key."%")
             ->select('id', "service_$lang AS service")
             ->get();
-        }
-
 
         return $search;
     }
