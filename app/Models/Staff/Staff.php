@@ -17,6 +17,7 @@ class Staff extends Authenticatable
     use Notifiable;
     use HasRoles;
     use SoftDeletes; //Implementamos
+    public $timestamps = true;
 
     protected $dates = ['deleted_at']; //Registramos la nueva columna
 

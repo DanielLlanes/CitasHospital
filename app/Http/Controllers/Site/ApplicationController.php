@@ -718,6 +718,7 @@ class ApplicationController extends Controller
 
     public function postGeneralHealthData(Request $request)
     {
+        //return $request;
         $exercise_cadena = [];
         $collection = new Collection();
 
@@ -753,7 +754,7 @@ class ApplicationController extends Controller
             "recreative_drugs" => "required|boolean",
             "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
             "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
-            "tire" => "required|boolean",
+            "fatigue" => "required|boolean",
             "trouble_breathe" => "required|boolean",
             "asthma" => "required|boolean",
             "bipap_cpap" => "required|boolean",
@@ -767,7 +768,59 @@ class ApplicationController extends Controller
             "exercise_how_frecuent" => ['required_if:exercise,1','array'],
             "exercise_hours.*" => ['required_if:exercise,1','string'],
             "exercise_hours" => ['required_if:exercise,1','array'],
+
+            "hours_you_sleep_at_night" => ['required', 'numeric'],
+            'do_you_take_sleeping_pills' => ['required', 'boolean'],
+            'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
+            'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
+            'do_you_feel_under_stress' => ['required', 'boolean'],
+
+
+
+            'do_you_have_erections_at_the_morning' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_many_per_week' => ['required_if:do_you_have_erections_at_the_morning,1', 'nullable', 'string'],
+
+
+            'do_you_have_problems_getting_erections' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'since_when' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'describe_your_erection_problem' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+            'do_you_have_problems_maintaining_an_erection' => ['required', 'boolean'],
+            'do_you_take_any_natural_remedy_for_erectile_dysfunction' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'what_kind' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_did_it_work_natural_remedy' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'where_did_you_get_them' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+            'has_medication_been_injected_for_dysfunction_erectile' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_many_times_have_injected' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_did_it_work' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+            'have_you_had_an_erection_longer_than_six_hours' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'when_you_had_a_six_hours_erection' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_was_it_resolved' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+            'did_you_get_medical_attention' => ['required_if:have_you_had_an_erection_longer_than_six_hours, 1', 'nullable', 'string'],
+            'do_you_suffer_from_penile_curvature' => ['required', 'boolean'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'how_intense' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'which_direction' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'does_it_hurt' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            'does_it_prevent_intercourse' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+            'has_prp_been_injected_for_erectile_dysfunction' => ['required', 'boolean'],
+            'have_you_received_stem_cell_treatment_for_erectile_dysfunction' => ['required', 'boolean'],
+            'hyrvrntwliwtfed' => ['required', 'boolean'],
         ]);
+
+
 
         if ($validator->fails()) {
             return redirect()
@@ -783,6 +836,52 @@ class ApplicationController extends Controller
             $product = Session::get('product');
 
             $patient = Patient::select('sex')->find($app->patient_id);
+
+            $app->smoke = $request->smoke;
+            $app->smoke_cigars = $request->smoke_cigars;
+            $app->smoke_years = $request->smoke_years;
+            $app->stop_smoking = $request->stop_smoking;
+            $app->when_stop_smoking = $request->when_stop_smoking;
+            $app->alcohol = $request->alcohol;
+            $app->recreative_drugs = $request->recreative_drugs;
+            $app->total_recreative_drugs = $request->total_recreative_drugs;
+            $app->intravenous_drugs = $request->intravenous_drugs;
+            $app->fatigue = $request->fatigue;
+            $app->trouble_breathe = $request->trouble_breathe;
+            $app->asthma = $request->asthma;
+            $app->bipap_cpap = $request->bipap_cpap;
+            $app->exercise = $request->exercise;
+
+            $app->hours_you_sleep_at_night = $request->hours_you_sleep_at_night;
+            $app->do_you_take_sleeping_pills = $request->do_you_take_sleeping_pills;
+            $app->do_you_suffer_from_anxiety_or_depression = $request->do_you_suffer_from_anxiety_or_depression;
+            $app->do_you_take_pills_for_anxiety_or_depression = $request->do_you_take_pills_for_anxiety_or_depression;
+            $app->do_you_feel_under_stress = $request->do_you_feel_under_stress;
+            $app->do_you_have_erections_at_the_morning = $request->do_you_have_erections_at_the_morning;
+            $app->how_many_per_week = $request->how_many_per_week;
+            $app->do_you_have_problems_getting_erections = $request->do_you_have_problems_getting_erections;
+            $app->since_when = $request->since_when;
+            $app->describe_your_erection_problem = $request->describe_your_erection_problem;
+            $app->do_you_have_problems_maintaining_an_erection = $request->do_you_have_problems_maintaining_an_erection;
+            $app->do_you_take_any_natural_remedy_for_erectile_dysfunction = $request->do_you_take_any_natural_remedy_for_erectile_dysfunction;
+            $app->what_kind = $request->what_kind;
+            $app->how_did_it_work_natural_remedy = $request->how_did_it_work_natural_remedy;
+            $app->where_did_you_get_them = $request->where_did_you_get_them;
+            $app->has_medication_been_injected_for_dysfunction_erectile = $request->has_medication_been_injected_for_dysfunction_erectile;
+            $app->how_many_times_have_injected = $request->how_many_times_have_injected;
+            $app->how_did_it_work = $request->how_did_it_work;
+            $app->have_you_had_an_erection_longer_than_six_hours = $request->have_you_had_an_erection_longer_than_six_hours;
+            $app->when_you_had_a_six_hours_erection = $request->when_you_had_a_six_hours_erection;
+            $app->how_was_it_resolved = $request->how_was_it_resolved;
+            $app->did_you_get_medical_attention = $request->did_you_get_medical_attention;
+            $app->do_you_suffer_from_penile_curvature = $request->do_you_suffer_from_penile_curvature;
+            $app->how_intense = $request->how_intense;
+            $app->which_direction = $request->which_direction;
+            $app->does_it_hurt = $request->does_it_hurt;
+            $app->does_it_prevent_intercourse = $request->does_it_prevent_intercourse;
+            $app->has_prp_been_injected_for_erectile_dysfunction = $request->has_prp_been_injected_for_erectile_dysfunction;
+            $app->have_you_received_stem_cell_treatment_for_erectile_dysfunction = $request->have_you_received_stem_cell_treatment_for_erectile_dysfunction;
+            $app->hyrvrntwliwtfed = $request->hyrvrntwliwtfed;
 
             if ($app->save()) {
                 $insert_exercise = [];

@@ -748,7 +748,7 @@
     });
 </script>
 @endif
-@if (!empty(old('medicationCadena')))
+@if (old('medicationCadena') && count(old('medicationCadena')) )
 <script>
     $("#medication_table").show('fast');
 </script>

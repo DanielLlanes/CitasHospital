@@ -11,8 +11,10 @@ class Package extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public $timestamps = true;
+
     protected $dates = ['deleted_at']; //Registramos la nueva columna
-    
+
     public function procedure()
     {
         return $this->belongsToMany(Procedure::class);

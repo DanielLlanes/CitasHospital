@@ -17,6 +17,8 @@ class Patient extends Authenticatable
     use HasRoles;
     use SoftDeletes; //Implementamos
 
+    public $timestamps = true;
+
     protected $dates = ['deleted_at'];
 
     /**

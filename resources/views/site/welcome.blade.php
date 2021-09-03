@@ -207,6 +207,7 @@
 
     <!-- ======= Our Cordinators Section ======= -->
     <section id="cordinator" class="cordinator">
+
         <div class="container">
             <div class="section-title" data-aos="fade-up">
                 <h2>Our <strong>Cordinators</strong></h2>

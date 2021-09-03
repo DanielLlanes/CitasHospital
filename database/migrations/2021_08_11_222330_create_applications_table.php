@@ -123,7 +123,7 @@ class CreateApplicationsTable extends Migration
             $table->tinyInteger('total_recreative_drugs')->nullable();
             $table->boolean('intravenous_drugs')->nullable();
             $table->string('description_intravenous_drugs', 255)->nullable();
-            $table->boolean('tire')->nullable();
+            $table->boolean('fatigue')->nullable();
             $table->boolean('trouble_breathe')->nullable();
             $table->boolean('bipap_cpap')->nullable();
             $table->boolean('asthma')->nullable();
@@ -143,6 +143,38 @@ class CreateApplicationsTable extends Migration
             $table->boolean('use_hormones')->nullable();
 
             $table->boolean('is_or_can_be_pregmant')->nullable();
+
+            $table->string('hours_you_sleep_at_night')->nullable();
+            $table->boolean('do_you_take_sleeping_pills')->nullable();
+            $table->boolean('do_you_suffer_from_anxiety_or_depression')->nullable();
+            $table->boolean('do_you_take_pills_for_anxiety_or_depression')->nullable();
+            $table->boolean('do_you_feel_under_stress')->nullable();
+
+            $table->boolean('do_you_have_erections_at_the_morning')->nullable();
+            $table->string('how_many_per_week')->nullable();
+            $table->boolean('do_you_have_problems_getting_erections')->nullable();
+            $table->string('since_when')->nullable();
+            $table->string('describe_your_erection_problem')->nullable();
+            $table->boolean('do_you_have_problems_maintaining_an_erection')->nullable();
+            $table->boolean('do_you_take_any_natural_remedy_for_erectile_dysfunction')->nullable();
+            $table->string('what_kind')->nullable();
+            $table->string('how_did_it_work_natural_remedy')->nullable();
+            $table->string('where_did_you_get_them')->nullable();
+            $table->boolean('has_medication_been_injected_for_dysfunction_erectile')->nullable();
+            $table->string('how_many_times_have_injected')->nullable();
+            $table->string('how_did_it_work')->nullable();
+            $table->boolean('have_you_had_an_erection_longer_than_six_hours')->nullable();
+            $table->string('when_you_had_a_six_hours_erection')->nullable();
+            $table->string('how_was_it_resolved')->nullable();
+            $table->string('did_you_get_medical_attention')->nullable();
+            $table->boolean('do_you_suffer_from_penile_curvature')->nullable();
+            $table->string('how_intense')->nullable();
+            $table->string('which_direction')->nullable();
+            $table->string('does_it_hurt')->nullable();
+            $table->string('does_it_prevent_intercourse')->nullable();
+            $table->boolean('has_prp_been_injected_for_erectile_dysfunction')->nullable();
+            $table->boolean('have_you_received_stem_cell_treatment_for_erectile_dysfunction')->nullable();
+            $table->boolean('hyrvrntwliwtfed')->nullable();
 
 
             $table->boolean('about_us_google')->default(false);

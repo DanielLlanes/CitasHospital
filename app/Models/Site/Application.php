@@ -10,6 +10,8 @@ class Application extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     public function images()
     {
         return $this->hasMany(ImageApplication::class);

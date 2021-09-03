@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Specialty extends Model
 {
     use HasFactory;
+    public $timestamps = true;
 
     public function role()
     {

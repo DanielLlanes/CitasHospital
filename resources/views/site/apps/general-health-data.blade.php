@@ -190,14 +190,14 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you easily fatigued?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tire" id="tire_yes" value="1" @if (old('tire') == "1") checked @elseif(!empty($patient ?? '') && $patient->tire == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="fatigue" id="tire_yes" value="1" @if (old('fatigue') == "1") checked @elseif(!empty($patient ?? '') && $patient->fatigue == '1') checked @endif>
                                 <label class="form-check-label" for="tire_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tire" id="tire_no" value="0" @if (old('tire') == "0") checked @elseif(!empty($patient ?? '') && $patient->tire == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="fatigue" id="tire_no" value="0" @if (old('fatigue') == "0") checked @elseif(!empty($patient ?? '') && $patient->fatigue == '0') checked @endif>
                                 <label class="form-check-label" for="tire_no">No</label>
                             </div>
-                            @error('tire')
+                            @error('fatigue')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
                                 </span>
@@ -295,7 +295,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{ old('exerciseCadena') }}
                                 @if (!empty(old('exerciseCadena')))
+                                1
                                     @for ($i = 0; $i < count(old('exerciseCadena')); $i++)
                                         <tr>
                                             <th>
@@ -826,6 +828,7 @@
                 $('#smoke_cigars').val('')
                 $('#smoke_years').val('')
                 $('.smoke_quit').hide('fast')
+                $('input[name=stop_smoking]').prop('checked', false);
                 $('#when_stop_smoking').val('');
 
             }
@@ -847,6 +850,7 @@
                 $('.smoke_quit').show('fast')
             } else {
                 $('.smoke_quit').hide('fast')
+
                 $('#when_stop_smoking').val('');
             }
         });
@@ -1036,7 +1040,8 @@
     });
 </script>
 @endif
-@if (!empty(old('exerciseCadena')))
+@if (old('exerciseCadena') && count(old('exerciseCadena')))
+
 <script>
     $("#medication_table").show('fast');
 </script>

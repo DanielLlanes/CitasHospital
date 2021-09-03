@@ -420,12 +420,12 @@
         }
     </script>
 
-@if (!empty(old("birth_control")))
+@if (old("exerciseCadena") && count('exerciseCadena'))
 <script>
     $("#birth_control_table").show('fast');
 </script>
 @endif
-@if (!empty(old("use_hormones")))
+@if (old("exerciseCadena") && count('exerciseCadena'))
 <script>
     $("#hormones_table").show('fast');
 </script>
