@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\Site\FaqSeeder;
 use Database\Seeders\Site\StateSeeder;
 use Database\Seeders\Staff\BrandSeeder;
 use Database\Seeders\Staff\RolesSeeder;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProcedureSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(StateSeeder::class);
+        $this->call(FaqSeeder::class);
         //$this->call(DummySeeder::class);
     }
 }

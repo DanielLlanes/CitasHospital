@@ -86,6 +86,5 @@ class BrandSeeder extends Seeder
             'description_es' => 'Descripcion de la marca',
             'url' => 'labs',
         ]);
-
     }
 }

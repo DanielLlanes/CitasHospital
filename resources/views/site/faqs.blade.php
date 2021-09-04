@@ -22,7 +22,7 @@
     <!-- End Breadcrumbs -->
 
     <!-- ======= Faqs Section ======= -->
-    <section id="team" class="team section-bg">
+    <section id="team" class="">
         <div class="container">
 
             <div class="section-title m-5" data-aos="fade-up">
@@ -33,7 +33,30 @@
             </div>
 
             <div class="row">
-                <h1>Proximamente</h1>
+                @if (!empty($faqs) && count($faqs))
+                <div class="row">
+                    <div class="col-12 mb-5">
+                        <label class="visually-hidden" for="specificSizeInputGroupUsername">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="bi bi-search"></i></div>
+                                <input type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+                    @for ($i = 0; $i < count($faqs); $i++)
+                        <div class="col-sm-6">
+                            <div class="card bg-transparent border-0">
+                                <div class="card-body">
+                                    <h5 class="card-title text-main">{{ ($i+1) }}.- {{ $faqs[$i]->question }}</h5>
+                                    <p class="card-text">{{ $faqs[$i]->awnser }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endfor
+                </div>
+                @else
+                    <h1 class="text-center">@lang('Coming soon')</h1>
+                @endif
             </div>
 
         </div>

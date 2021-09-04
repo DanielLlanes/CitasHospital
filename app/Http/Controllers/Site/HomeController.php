@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
 use Illuminate\Http\Request;
 use App\Models\Staff\Product;
@@ -37,7 +38,11 @@ class HomeController extends Controller
     }
     public function faqs()
     {
-        return view('site.faqs');
+        $lang = app()->getLocale();
+        $faqs = Faq::where('active', true)
+        ->select('id', "question_$lang As question", "awnser_$lang As awnser")
+        ->get();
+        return view('site.faqs', ['faqs' => $faqs]);
     }
     public function brand($brand)
     {
