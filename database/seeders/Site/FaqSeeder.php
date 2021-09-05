@@ -123,10 +123,184 @@ class FaqSeeder extends Seeder
             'awnser_es' => 'Durante la dieta pre operatoria tienes que seguir tomando tus medicamentos habituales.',
         ]);
         Faq::create([
-            'question_en' => 'Can I have coffee on the pre op diet',
+            'question_en' => 'Can I have coffee on the pre op diet?',
             'awnser_en' => 'No.',
             'question_es' => '¿Puedo tomar café con la dieta preoperatoria?',
             'awnser_es' => 'No.',
+        ]);
+        Faq::create([
+            'question_en' => 'When can you have coffee after surgery?',
+            'awnser_en' => 'Preferably one year after surgery. Caffeine can stimulate hunger, and lead you to eat more, and that is why we prefer that you don’t drink coffee or caffeine based drinks.',
+            'question_es' => '¿Cuándo se puede tomar café después de una operación?',
+            'awnser_es' => 'Preferiblemente un año después de la cirugía. La cafeína puede estimular el hambre, y llevarle a comer más, y por eso preferimos que no tome café o bebidas con cafeína.',
+        ]);
+        Faq::create([
+            'question_en' => 'When can I start working?',
+            'awnser_en' => 'Most patients can return to work, with restrictions (no heavy lifting) one month after surgery.',
+            'question_es' => '¿Cuándo puedo empezar a trabajar?',
+            'awnser_es' => 'La mayoría de los pacientes pueden volver al trabajo, con restricciones (no levantar objetos pesados) un mes después de la cirugía.',
+        ]);
+        Faq::create([
+            'question_en' => 'How long after surgery can I go to my PCP?',
+            'awnser_en' => 'Regular visits with your PCP are encouraged, and the first visit is two weeks after surgery.',
+            'question_es' => '¿Cuánto tiempo después de la operación puedo acudir a mi médico de cabecera?',
+            'awnser_es' => 'Se recomienda visitar regularmente a su médico de cabecera, y la primera visita es dos semanas después de la cirugía.',
+        ]);
+        Faq::create([
+            'question_en' => 'When after surgery can I start taking vitamins?',
+            'awnser_en' => 'The body will require vitamins after surgery, and you can start taking them one month after surgery.',
+            'question_es' => '¿Puedo tomar café con la dieta preoperatoria?',
+            'awnser_es' => 'El cuerpo necesitará vitaminas después de la cirugía, y puede empezar a tomarlas un mes después de la cirugía.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I have the procedure done if I am on my period?',
+            'awnser_en' => 'Yes.',
+            'question_es' => '¿Puedo someterme a la intervención si estoy en periodo de menstruación?',
+            'awnser_es' => 'Yes.',
+        ]);
+        Faq::create([
+            'question_en' => 'If I am on my period can I use the blood thinner?',
+            'awnser_en' => 'Yes.',
+            'question_es' => 'Si estoy con la regla, ¿puedo utilizar el anti coagulante?',
+            'awnser_es' => 'Yes.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I use nails on surgery?',
+            'awnser_en' => 'Yes, although we get a better reading of your levels of oxygen if you don’t have long or painted nails.',
+            'question_es' => '¿Puedo utilizar las uñas en la cirugía?',
+            'awnser_es' => 'Sí, aunque obtendremos una mejor lectura de sus niveles de oxígeno si no tiene las uñas largas o pintadas.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I use nails on surgery?',
+            'awnser_en' => 'Yes, although we get a better reading of your levels of oxygen if you don’t have long or painted nails.',
+            'question_es' => '¿Puedo utilizar las uñas en la cirugía?',
+            'awnser_es' => 'Sí, aunque obtendremos una mejor lectura de sus niveles de oxígeno si no tiene las uñas largas o pintadas.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I chew gum before and after surgery?',
+            'awnser_en' => 'Preferably no. Chewing gum can lead your stomach to produce excess acid, and that in return can produce an ulcer in your stomach.',
+            'question_es' => '¿Puedo masticar chicle antes y después de la operación?',
+            'awnser_es' => 'Preferiblemente no. Masticar chicle puede hacer que su estómago produzca un exceso de ácido, y eso a su vez puede producir una úlcera en su estómago.',
+        ]);
+        Faq::create([
+            'question_en' => 'What is the boogie size the Dr. uses?',
+            'awnser_en' => '36 french.',
+            'question_es' => '¿Cuál es la talla de boogie que utiliza el Dr.?',
+            'awnser_es' => '36 francés.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I have the procedure if I have an ulcer?',
+            'awnser_en' => 'No. it’s a relative contraindication, but we do not perform surgery on patients with ulcers. You have to get treatment first.',
+            'question_es' => '¿Puedo someterme a la intervención si tengo una úlcera?',
+            'awnser_es' => 'No. Es una contraindicación relativa, pero no operamos a pacientes con úlceras. Primero tiene que recibir tratamiento.',
+        ]);
+        Faq::create([
+            'question_en' => 'How do I clean my incisions?',
+            'awnser_en' => 'During your daily bath, just as you would clean your body.',
+            'question_es' => '¿Cómo debo limpiar mis incisiones?',
+            'awnser_es' => 'Durante su baño diario, igual que limpiaría su cuerpo.',
+        ]);
+        Faq::create([
+            'question_en' => 'What is an endoscopy?',
+            'awnser_en' => 'It’s a medical procedure that uses a camera inside of a scope, to see the inside of the esophagus, stomach and first part of the intestine.',
+            'question_es' => '¿Qué es una endoscopia?',
+            'awnser_es' => 'Es un procedimiento médico que utiliza una cámara dentro de un endoscopio, para ver el interior del esófago, el estómago y la primera parte del intestino.',
+        ]);
+        Faq::create([
+            'question_en' => 'Does the endoscopy hurt?',
+            'awnser_en' => 'No, it’s done under sedation.',
+            'question_es' => '¿Duele la endoscopia?',
+            'awnser_es' => 'No, se realiza bajo sedición.',
+        ]);
+        Faq::create([
+            'question_en' => 'Is it normal to feel a pain on the left side of my tummy?',
+            'awnser_en' => 'Yes, because of the port sites, you can experience some pain there.',
+            'question_es' => '¿Es normal sentir un dolor en el lado izquierdo de mi vientre?',
+            'awnser_es' => 'Sí, debido a los sitios del puerto, puede experimentar algo de dolor allí.',
+        ]);
+        Faq::create([
+            'question_en' => 'Is sneezing pain normal?',
+            'awnser_en' => 'Yes, after surgery, any sudden movements can cause pain.',
+            'question_es' => '¿Es normal el dolor al estornudar?',
+            'awnser_es' => 'Sí, después de la cirugía, cualquier movimiento brusco puede causar dolor.',
+        ]);
+        Faq::create([
+            'question_en' => 'Is there a reversal for VSG?',
+            'awnser_en' => 'No, it’s a permanent surgery.',
+            'question_es' => '¿Existe una reversión para la VSG?',
+            'awnser_es' => 'No, es una cirugía permanente.',
+        ]);
+        Faq::create([
+            'question_en' => 'What can I do if I hit a Stall?',
+            'awnser_en' => 'Stay calm, continue to exercise and eat properly. In time, you will get out of the stall.',
+            'question_es' => '¿Qué puedo hacer si me encuentro con un estancamiento?',
+            'awnser_es' => 'Mantén la calma, sigue haciendo ejercicio y comiendo bien. Con el tiempo, saldrás del atasco.',
+        ]);
+        Faq::create([
+            'question_en' => 'What are the things we can’t eat after VSG?',
+            'awnser_en' => 'Try to stay away from sweets, greasy and high carb foods.',
+            'question_es' => '¿Qué cosas no podemos comer después de la VSG?',
+            'awnser_es' => 'Intenta mantenerte alejado de los dulces, los alimentos grasos y con alto contenido en carbohidratos.',
+        ]);
+        Faq::create([
+            'question_en' => 'What vitamins can I take post op?',
+            'awnser_en' => 'Any multivitamin is good.',
+            'question_es' => '¿Qué vitaminas puedo tomar después de la operación?',
+            'awnser_es' => 'Cualquier multivitamina es buena.',
+        ]);
+        Faq::create([
+            'question_en' => 'What lab works can I have after post-op?',
+            'awnser_en' => 'CBC, complete Blood chemistry, liver function tests, lipid profile, thyroid tests, coagulation tests, blood typing, urinalysis, folic acid, vitamin b12.',
+            'question_es' => '¿Qué pruebas de laboratorio puedo realizar después del post operatorio?',
+            'awnser_es' => 'Hemograma, química sanguínea completa, pruebas de función hepática, perfil lipídico, pruebas de tiroides, pruebas de coagulación, tipificación sanguínea, análisis de orina, ácido fólico, vitamina b12.',
+        ]);
+        Faq::create([
+            'question_en' => 'What are the risks of not taking the blood thinner?',
+            'awnser_en' => 'Getting a blood clot in your legs. That blood clots can travel to you brain, causing a stroke, travel to your heart, causing a heart attack, and travel to your lungs causing a pulmonary embolism.',
+            'question_es' => '¿Cuáles son los riesgos de no tomar el anticoagulante?',
+            'awnser_es' => 'Tener un coágulo de sangre en las piernas. Los coágulos de sangre pueden viajar a su cerebro, causando un derrame cerebral, viajar a su corazón, causar un ataque cardíaco y viajar a sus pulmones causando una embolia pulmonar.',
+        ]);
+        Faq::create([
+            'question_en' => 'What can I do for hair loss?',
+            'awnser_en' => 'If your start losing your hair during the first two years after the surgery, you can take biotin capsules, although they might not help. Eventually it will start regrowing by it self. If its after the two year mark of the surgery, take multivitamins and biotin capsules.',
+            'question_es' => '¿Qué puedo hacer por la caída del cabello?',
+            'awnser_es' => 'Si comienza a perder el cabello durante los primeros dos años después de la cirugía, puede tomar cápsulas de biotina, aunque es posible que no le ayuden. Con el tiempo, empezará a crecer por sí solo. Si es después de los dos años de la cirugía, tome multivitaminas y cápsulas de biotina.',
+        ]);
+        Faq::create([
+            'question_en' => 'How long until you can sleep on your tummy or side?',
+            'awnser_en' => 'One week average.',
+            'question_es' => '¿Cuánto tiempo hasta que pueda dormir boca abajo o de lado?',
+            'awnser_es' => 'Promedio de una semana.',
+        ]);
+        Faq::create([
+            'question_en' => 'What do I do in case a have a flu after pneumonia?',
+            'awnser_en' => 'Go to your primary physician and get checked out.',
+            'question_es' => '¿Qué hago en caso de que tenga gripe después de una neumonía?',
+            'awnser_es' => 'Vaya a su médico de cabecera y hágase un chequeo.',
+        ]);
+        Faq::create([
+            'question_en' => 'What are the risks of having a VSG?',
+            'awnser_en' => 'Leaks, bleeding, pain, hernia at trocar site.',
+            'question_es' => '¿Cuáles son los riesgos de tener un VSG?',
+            'awnser_es' => 'Fugas, hemorragia, dolor, hernia en el lugar del trocar.',
+        ]);
+        Faq::create([
+            'question_en' => 'Do I need to crush my pills?',
+            'awnser_en' => 'Yes, we recommend that you crush your pills the first 3 days after surgery.',
+            'question_es' => '¿Necesito triturar mis pastillas?',
+            'awnser_es' => 'Sí, le recomendamos que triture sus pastillas los primeros 3 días después de la cirugía.',
+        ]);
+        Faq::create([
+            'question_en' => 'Can I use a medical assistant at the airport?',
+            'awnser_en' => 'Yes you can.',
+            'question_es' => '¿Cuáles son los riesgos de tener un VSG?',
+            'awnser_es' => 'Sí puedes..',
+        ]);
+        Faq::create([
+            'question_en' => 'How long it takes for swelling to go down after surgery?',
+            'awnser_en' => 'It varies from person to person, but on average about 7 days',
+            'question_es' => '¿Cuánto tiempo tarda en bajar la hinchazón después de la operación?',
+            'awnser_es' => 'Varía de una persona a otra, pero la media es de unos 7 días.',
         ]);
     }
 }
