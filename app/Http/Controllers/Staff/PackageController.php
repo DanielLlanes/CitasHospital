@@ -39,9 +39,6 @@ class PackageController extends Controller
                 ->addColumn('package', function($packages){
                     return $packages->package;
                 })
-                ->addColumn('description', function($packages){
-                    return $packages->description;
-                })
                 ->addColumn('active', function($packages){
                     $table_active = 'table-active';
                     $package_id = $packages->id;
@@ -55,7 +52,7 @@ class PackageController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.brand-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'package', 'decription', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'package', 'active', 'action'])
                 ->make(true);
         }
     }
@@ -71,8 +68,6 @@ class PackageController extends Controller
         $validator = Validator::make($request->all(), [
             'package_en' => 'required|string|unique:packages',
             'package_es' => 'required|string|unique:packages',
-            'description_en' => 'required|string',
-            'description_en' => 'required|string',
           ]
         );
 
@@ -88,8 +83,6 @@ class PackageController extends Controller
 
         $package->package_en = $request->package_en;
         $package->package_es = $request->package_es;
-        $package->description_en = $request->description_en;
-        $package->description_es = $request->description_es;
 
         if ($package->save()) {
             return response()->json(
@@ -152,8 +145,6 @@ class PackageController extends Controller
                 [
                     'package_en' => 'required|string|unique:packages,package_en,'.$request->id,
                     'package_es' => 'required|string|unique:packages,package_es,'.$request->id,
-                    'description_en' => 'required|string',
-                    'description_en' => 'required|string',
                 ]
             );
 
@@ -167,8 +158,6 @@ class PackageController extends Controller
 
             $package->package_en = $request->package_en;
             $package->package_es = $request->package_es;
-            $package->description_en = $request->description_en;
-            $package->description_es = $request->description_es;
 
             if ($package->save()) {
                 return response()->json(

@@ -7,6 +7,7 @@ use App\Models\Staff\Brand;
 use Illuminate\Http\Request;
 use App\Models\Staff\Product;
 use App\Models\Staff\Procedure;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
@@ -63,26 +64,28 @@ class HomeController extends Controller
                     $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure", "description_$lang as description", "image");
                  },
                 'package' => function($query) use ($lang) {
-                    $query->select('id', "active", "package_$lang as package", "description_$lang as description");
+                    $query->select('id', "active", "package_$lang as package");
                  }
             ]
         )
         ->where('active', true)
         ->orderBy('procedure_id', 'ASC')
-        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
+        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price", "description_$lang as description")
         ->get();
 
-        $titles = "Coming soon";
+        $titles = new Collection();
 
         if (count($products) > 0) {
-            $titles = Product::select("group_$lang as group")
+            $titles = Product::select("procedure_id", "group_$lang as group")
             ->whereHas('brand', function($query) use ($brand) {
                 $query->where('url', $brand);
             })
+            ->with('procedure', function($query) use ($lang) {
+                $query->select('id', "procedure_$lang as procedure", "description_$lang as description");
+             })
             ->distinct()
             ->get();
         }
-
 
         $getBrand = Brand::where('url', $brand)
         ->select('id', 'brand', 'color')

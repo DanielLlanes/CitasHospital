@@ -15,11 +15,13 @@ class CreateFaqsTable extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-            $table->string('question_en')->nullable();
-            $table->string('awnser_en')->nullable();
-            $table->string('question_es')->nullable();
-            $table->string('awnser_es')->nullable();
+            $table->text('question_en')->nullable();
+            $table->text('awnser_en')->nullable();
+            $table->text('question_es')->nullable();
+            $table->text('awnser_es')->nullable();
             $table->boolean('active')->default(true);
+            $table->integer('order')->nullable();
+            $table->integer('column')->nullable();
             $table->timestamps();
         });
     }

@@ -12,8 +12,8 @@
         <div class="d-flex justify-content-between align-items-center">
           <h2>Blog Single</h2>
           <ol>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="{{ route('home') }}">Home</a></li>
+            <li><a href="{{ route('blog') }}">Blog</a></li>
             <li>Blog Single</li>
           </ol>
         </div>

@@ -40,7 +40,6 @@
                                                 <tr>
                                                     <th> ID </th>
                                                     <th> @lang('Package') </th>
-                                                    <th> @lang('Description') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
@@ -79,16 +78,6 @@
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
-                                               <div class="form-group mb-2">
-                                                   <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description English')
-                                                    <span class="required"> * </span>
-                                                   </label>
-                                                   <div class="col-md-12">
-                                                       <textarea name="address" class="form-control-textarea mb-3" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
-                                                       <div class="error text-danger col-form-label-sm"></div>
-                                                   </div>
-                                               </div>
-                                               <div class="form-group mb-2">
                                                 <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
                                                     <span class="required"> * </span>
                                                 </label>
@@ -179,7 +168,6 @@
 
 					{ data: 'DT_RowIndex' },
 		            { data: "package" },
-		            { data: "description" },
 		            { data: "active", className: 'center' },
 		            { data: "action", orderable: false, searchable: false, className: 'center' },
 
@@ -193,8 +181,6 @@
                 var form_data = new FormData();
                 form_data.append('package_en', $('#package_en').val());
                 form_data.append('package_es', $('#package_es').val());
-                form_data.append('description_en', $('#description_en').val());
-                form_data.append('description_es', $('#description_es').val());
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -304,8 +290,6 @@
                             clearForm()
                             $('#package_en').val(data.info.package_en);
                             $('#package_es').val(data.info.package_es);
-                            $('#description_en').val(data.info.description_en);
-                            $('#description_es').val(data.info.description_es);
                             $('#formSubmit').html('edit').attr({
                                 package: $.trim(packageId),
                                 id: 'formEdit'
@@ -335,8 +319,6 @@
                 var form_data = new FormData();
                 form_data.append('package_en', $('#package_en').val());
                 form_data.append('package_es', $('#package_es').val());
-                form_data.append('description_en', $('#description_en').val());
-                form_data.append('description_es', $('#description_es').val());
                 form_data.append('id', packageId);
                 $.ajax({
                     url: globalRouteUpdate,

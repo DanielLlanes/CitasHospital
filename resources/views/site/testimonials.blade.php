@@ -12,7 +12,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Testimonials</h2>
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
                     <li>Testimonials</li>
                 </ol>
             </div>

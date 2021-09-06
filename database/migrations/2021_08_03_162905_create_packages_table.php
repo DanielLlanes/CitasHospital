@@ -17,10 +17,7 @@ class CreatePackagesTable extends Migration
             $table->id();
             $table->string('package_en');
             $table->string('package_es');
-            $table->string('description_en');
-            $table->string('description_es');
             $table->boolean('active')->default(true);
-            $table->string('url')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

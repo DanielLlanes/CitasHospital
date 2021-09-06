@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->bigInteger('procedure_id')->unsigned()->nullable();
             $table->bigInteger('package_id')->unsigned()->nullable();
             $table->decimal('price', 16, 2)->nullable();
-            $table->text('description_en');
-            $table->text('description_es');
+            $table->text('description_en')->nullable();
+            $table->text('description_es')->nullable();
             $table->text('group_es');
             $table->text('group_en');
             $table->boolean('active')->default(true);

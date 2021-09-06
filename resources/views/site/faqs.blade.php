@@ -12,7 +12,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Contact</h2>
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{{ route('home') }}">Home</a></li>
                     <li>Faqs</li>
                 </ol>
             </div>
@@ -32,19 +32,19 @@
                 </p>
             </div>
 
-            <div class="row">
+            <div class="row" data-aos="fade-up">
                 @if (!empty($faqs) && count($faqs))
                 <div class="row">
-                    <div class="col-12 mb-5">
+                    {{-- <div class="col-12 mb-5">
                         <label class="visually-hidden" for="specificSizeInputGroupUsername">Username</label>
                         <div class="input-group">
                             <div class="input-group-text"><i class="bi bi-search"></i></div>
                                 <input type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="Search">
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     @for ($i = 0; $i < count($faqs); $i++)
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" data-aos="fade-up">
                             <div class="card bg-transparent border-0">
                                 <div class="card-body">
                                     <h5 class="card-title text-main">{{ ($i+1) }}.- {{ $faqs[$i]->question }}</h5>
