@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"><i class="material-icons">assignment</i>
+                    <a href="#" class="nav-link nav-toggle"><i class="material-icons">event_available</i>
                     <span class="title">@lang('Appointment') </span><span class="arrow"></span></a>
                     <ul class="sub-menu">
                         @can('calendar.list')
