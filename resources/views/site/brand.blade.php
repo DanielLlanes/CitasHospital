@@ -21,7 +21,6 @@
         </div>
     </section>
     <!-- End Breadcrumbs -->
-    {{ $products }}
     @if (count($products) > 0)
         <section id="team" class="team">
             <div class="container">

@@ -44,7 +44,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Dental',
             'name_en' => 'Dental',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
     	Specialty::create([
             'id' => '5',
@@ -52,7 +53,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Cardiología',
             'name_en' => 'Cardiology',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
     	Specialty::create([
             'id' => '6',
@@ -60,7 +62,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Bariatría',
             'name_en' => 'Bariatrics',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '7',
@@ -68,7 +71,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Urología',
             'name_en' => 'Urology',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '8',
@@ -76,7 +80,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Cirugía plástica',
             'name_en' => 'Plastic surgery',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '9',
@@ -84,15 +89,16 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Enfermería',
             'name_en' => 'Nursing',
             'active' => true,
-            'show' => true
+            'show' => true,
         ]);
         Specialty::create([
             'id' => '10',
             'role_id' => '6',
-            'name_es' => 'Cordinación',
-            'name_en' => 'Cordinator',
+            'name_es' => 'Coordinación',
+            'name_en' => 'Coordination',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '11',
@@ -100,7 +106,7 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Transporte',
             'name_en' => 'Transport',
             'active' => true,
-            'show' => true
+            'show' => true,
         ]);
         Specialty::create([
             'id' => '12',
@@ -108,7 +114,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Endoscopia',
             'name_en' => 'Endoscopy',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '13',
@@ -116,7 +123,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Traumatología',
             'name_en' => 'Traumatology',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '14',
@@ -124,7 +132,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Análisis de sangre',
             'name_en' => 'Blood Work',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
         Specialty::create([
             'id' => '15',
@@ -132,7 +141,8 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'General Surgery',
             'name_en' => 'Cirugía General',
             'active' => true,
-            'show' => true
+            'show' => true,
+            'assignable' => true,
         ]);
     }
 }

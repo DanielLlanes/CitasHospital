@@ -16,7 +16,7 @@ class Procedure extends Model
 
     public function packages()
     {
-        return $this->belongsToMany(Package::class)->withPivot('order', 'price');
+        return $this->belongsToMany(Package::class)->withPivot('order', 'price')->withTimestamps();
 
     }
     public function service()
@@ -26,5 +26,9 @@ class Procedure extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+    public function assignedTo()
+    {
+        return $this->belongsToMany(Staff::class)->withPivot('order')->withTimestamps();
     }
 }

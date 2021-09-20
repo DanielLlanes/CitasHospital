@@ -17,7 +17,11 @@ class Specialty extends Model
     }
     public function services()
     {
-        return $this->belongsToMany(Service::class)->withPivot('order');
+        return $this->belongsToMany(Service::class)->withPivot('order')->withTimestamps();
+    }
+    public function staff()
+    {
+        return $this->hasMany(Staff::class);
     }
 
 }

@@ -6,6 +6,7 @@ use DataTables;
 use App\Models\Staff\Staff;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeNewMemberOfStaff;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Eloquent\Collection;
 
 class StaffController extends Controller
 {
@@ -169,6 +171,8 @@ class StaffController extends Controller
      */
     public function create()
     {
+
+        //return Auth::guard('staff')->user()->getPermissionNames();
         if (!Auth::guard('staff')->user()->can('staff.create.admins') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
@@ -186,6 +190,7 @@ class StaffController extends Controller
         app()->setLocale($lang);
         $admin = "admins";
 
+
         if ($staff_create_permisions_admins && !$staff_create_permisions) {
             $admin = "admins";
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
@@ -195,9 +200,18 @@ class StaffController extends Controller
             $groups = Permission::select("group_$lang AS group")
             ->where('name', 'like', '%' . $admin . '%')
             ->distinct()->get();
+        } elseif (!$staff_create_permisions_admins && $staff_create_permisions) {
+            $admin = "admins";
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
+            ->where('name', 'not like', '%' . $admin . '%')
+            ->get();
+
+            $groups = Permission::select("group_$lang AS group")
+            ->where('name', 'not like', '%' . $admin . '%')
+            ->distinct()->get();
+
         } elseif ($staff_create_permisions_admins && $staff_create_permisions) {
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
-
 
             $groups = Permission::select("group_$lang AS group")
             ->distinct()->get();
@@ -206,25 +220,55 @@ class StaffController extends Controller
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
             $groups = Permission::select("group_$lang AS group")
             ->distinct()->get();
-            return 4;
         }
 
 
         if ($staff_create_admins && $staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name")
+            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
             ->where('show', '=', '1')
             ->get();
         } elseif ($staff_create_admins && !$staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name")
+            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
             ->where('show', '=', '1')
             ->where('name', '=', 'administrator')
             ->get();
         } elseif (!$staff_create_admins && $staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name")
+            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
             ->where('show', '=', '1')
             ->where('name', '!=', 'administrator')
             ->get();
         }
+
+        $specialty = Specialty::where
+        (
+            [
+                "show" => true,
+                "assignable" => true,
+            ]
+        )
+        ->with
+            (
+                [
+                    'services' => function($q) use ($lang){
+                        $q->select("service_$lang as service");
+
+                    }
+                ]
+            )
+        ->where("id", 6)
+        ->get();
+
+        $collection = new Collection;
+
+        foreach ($specialty as $key => $value) {
+            foreach ($value->services as $key => $valueDos) {
+                $collection->push((object)[
+                    'service' => $valueDos->service,
+                ]);
+            }
+        }
+
+        //return $collection->unique('service');
 
         return view('staff.staff-manager.add', ['groups' => $groups, 'permissions'=> $permissions, 'roles' => $roles ]);
     }
@@ -234,11 +278,11 @@ class StaffController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        $specialties = Specialty::select(["id", "name_$lang AS name"])
-        ->where('role_id', $request->id)
-        ->get();
+        $specialties = Specialty::select(["id", "name_$lang AS name", "assignable"])
+        ->where('role_id', $request->id)->get();
         if (count($specialties) <= 0) {
-            return response()->json(
+            return response()->json
+            (
                 [
                     'icon' => 'error',
                     'msg' => Lang::get('No specialties with that name have been found!'),
@@ -248,14 +292,60 @@ class StaffController extends Controller
             );
         };
 
-        return response()->json(
+        return response()->json
+        (
+            [
+                'icon' => 'success',
+                'msg' => Lang::get('User status changed successfully!'),
+                'reload' => false,
+                'data' => $specialties
+            ]
+        );
+    }
+
+    public function getAssignation(Request $request)
+    {
+        //return $request;
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+        $specialty = Specialty::where
+        (
+            [
+                "show" => true,
+                "assignable" => true,
+            ]
+        )
+        ->with
+            (
                 [
-                    'icon' => 'success',
-                    'msg' => Lang::get('User status changed successfully!'),
-                    'reload' => false,
-                    'data' => $specialties
+                    'services' => function($q) use ($lang){
+                        $q->select("service_$lang as service");
+
+                    }
                 ]
-            );
+            )
+        ->where("id", $request->id)
+        ->get();
+
+        $collection = new Collection;
+
+        foreach ($specialty as $key => $value) {
+            foreach ($value->services as $key => $valueDos) {
+                $collection->push((object)[
+                    'service' => $valueDos->service,
+                ]);
+            }
+        }
+
+        return response()->json
+        (
+            [
+                'icon' => 'success',
+                'reload' => false,
+                'data' => $collection->unique('service')
+            ]
+        );
     }
 
     /**
@@ -266,6 +356,17 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request;
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+
+
+        if ($request->has('specialty')) {
+            $assingnamentCheck = Specialty::select('assignable')
+            ->find($request->specialty);
+        }
+
         if (!Auth::guard('staff')->user()->can('staff.create.admins') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
@@ -289,7 +390,19 @@ class StaffController extends Controller
                 'unique:staff',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
+
+            "assigned_to" =>
+            [
+                ($assingnamentCheck->assignable == 1) ? 'array':'',
+            ],
+            "assigned_to.*" =>
+            [
+                ($assingnamentCheck->assignable == 1) ? "string" : '',
+                ($assingnamentCheck->assignable == 1) ? "distinct" : '',
+                ($assingnamentCheck->assignable == 1) ? "exists:services,service_$lang" : '',
+            ],
         ]);
+
         $avatar = "staffFiles/assets/img/user/user.jpg";
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
@@ -348,7 +461,34 @@ class StaffController extends Controller
         $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
 
+        $assignment = [];
+
+
+        if ($request->has('assigned_to')){
+            for ($i=0; $i < count($request->assigned_to); $i++) {
+                $id_service = Service::select('id', "service_$lang As name")->where("service_$lang", $request->assigned_to[$i])->first();
+                array_push($assignment, $id_service->id);
+            }
+
+        }
         if ($staff->save()) {
+            if (count($assignment) > 0) {
+                for ($i=0; $i < count($assignment); $i++) {
+                    $assignTo[] = [
+                        'service_id' => $assignment[$i],
+                        'staff_id' => $staff->id,
+                        'order' => ($i+1)
+                    ];
+                    // $assignToDos[] = [
+                    //     'specialty_id' => $assignment[$i],
+                    //     'staff_id' => $staff->id,
+                    //     'order' => ($i+1)
+                    // ];
+                }
+                $staff->assignToService()->sync($assignTo);
+                //$staff->assignToSpecialty()->sync($assignToDos);
+            }
+
             $dataMsg = array(
                 'reciver' => $request->email,
                 'reciverName' => $request->name,

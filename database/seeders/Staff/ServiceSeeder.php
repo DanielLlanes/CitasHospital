@@ -96,7 +96,7 @@ class ServiceSeeder extends Seeder
                 'id' => '8',
                 'brand_id' => '8',
 				'service_en' => 'Blood Work',
-				'service_es' => 'análisis de sangre',
+				'service_es' => 'Análisis de Sangre',
                 'need_images' => false,
                 'qty_images' => 0,
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

@@ -113,14 +113,14 @@ class CreateApplicationsTable extends Migration
 
 
             $table->boolean('smoke')->nullable();
-            $table->tinyInteger('smoke_cigars')->nullable();
-            $table->tinyInteger('smoke_years')->nullable();
+            $table->integer('smoke_cigars')->nullable();
+            $table->integer('smoke_years')->nullable();
             $table->boolean('stop_smoking')->nullable();
             $table->date('when_stop_smoking')->nullable();
             $table->boolean('alcohol')->nullable();
             $table->text('volumen_alcohol')->nullable();
             $table->boolean('recreative_drugs')->nullable();
-            $table->tinyInteger('total_recreative_drugs')->nullable();
+            $table->integer('total_recreative_drugs')->nullable();
             $table->boolean('intravenous_drugs')->nullable();
             $table->string('description_intravenous_drugs', 255)->nullable();
             $table->boolean('fatigue')->nullable();

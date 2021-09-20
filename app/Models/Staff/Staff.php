@@ -17,6 +17,7 @@ class Staff extends Authenticatable
     use Notifiable;
     use HasRoles;
     use SoftDeletes; //Implementamos
+
     public $timestamps = true;
 
     protected $dates = ['deleted_at']; //Registramos la nueva columna
@@ -76,6 +77,17 @@ class Staff extends Authenticatable
     {
         return $this->belongsToMany(Application::class);
     }
+
+    public function assignToService()
+    {
+        return $this->belongsToMany(Service::class)->withPivot('order')->withTimestamps();
+    }
+    public function assignToSpecialty()
+    {
+        return $this->belongsToMany(Specialty::class)->withPivot('order')->withTimestamps();
+    }
+
+
     /**
      * Send the password reset notification.
      *
