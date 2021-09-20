@@ -63,6 +63,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/staff/get-staff-list',     [StaffController::class, 'getStaffList'])->name('getStaffList');
 		Route::get('/staff/add',                [StaffController::class, 'create'])->name('add');
 		Route::post('/staff/get-specialty',     [StaffController::class, 'getSpecialty'])->name('getSpecialty');
+		Route::post('/staff/get-assignation',     [StaffController::class, 'getAssignation'])->name('getAssignation');
 		Route::post('/staff/store',             [StaffController::class, 'store'])->name('store');
 		Route::get('/staff/edit/{id}',          [StaffController::class, 'edit'])->name('edit');
 		Route::post('/staff/update/{id}',       [StaffController::class, 'update'])->name('update');

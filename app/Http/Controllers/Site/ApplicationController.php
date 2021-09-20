@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Product;
 use App\Models\Staff\Service;
+use App\Models\Staff\Specialty;
 use App\Models\Site\Application;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +22,7 @@ use App\Models\Site\SurgeryApplication;
 use Illuminate\Support\Facades\Session;
 use App\Models\Site\ExerciseApplication;
 use App\Models\Site\IllnsessApplication;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Site\MedicationApplication;
 use Illuminate\Database\Eloquent\Collection;
@@ -278,6 +281,45 @@ class ApplicationController extends Controller
 
     public function createHealthData()
     {
+        $lang = app()->getLocale();
+        $product = Session::get('product');
+
+            /*start test */
+
+            // $especialistas = Service::with('specialties')->first();
+
+
+            //     $assignment = [];
+
+            // foreach ($especialistas->specialties as $key => $special) {
+
+            //     $assignment_staff = Staff::with(
+            //         [
+            //             'assignToService'=>function($q){
+            //                 $q->where('service_id', 1);
+            //             }
+            //         ]
+            //     )
+            //     ->where('specialty_id', $special->id)
+            //     ->orderBy('last_assignment', 'ASC')
+            //     ->first();
+
+
+
+            //         if ($assignment_staff) {
+            //             $assignment[] = [
+            //                 'application_id' => $getData->id,
+            //                 'staff_id' => $assignment_staff->id,
+            //                 'orden' => $order
+            //             ];
+            //             $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+            //             $assignment_staff->save();
+            //         }
+
+            // }
+
+
+            /** End test */
 
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
@@ -466,9 +508,14 @@ class ApplicationController extends Controller
             "surgey_name" => ['required_if:take_medication,1','array'],
             "surgey_name.*" => ['required_if:take_medication,1','string'],
             "surgey_age" => ['required_if:take_medication,1','array'],
-            "surgey_age.*" => ['required_if:take_medication,1','string'],
+            "surgey_age.*" => ['required_if:take_medication,1','numeric'],
             "surgey_year" =>['required_if:take_medication,1','array'],
-            "surgey_year.*" => ['required_if:take_medication,1','string'],
+            "surgey_year.*" => [
+                'required_if:take_medication,1',
+                'numeric',
+                'min:' . (date("Y") - 100),
+                'max:' . date("Y")
+            ],
             "surgey_complications" =>['required_if:take_medication,1','array'],
             "surgey_complications.*" => ['required_if:take_medication,1','string']
         ]);
@@ -703,6 +750,7 @@ class ApplicationController extends Controller
 
     public function createGeneralHealthData()
     {
+
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
@@ -718,7 +766,6 @@ class ApplicationController extends Controller
 
     public function postGeneralHealthData(Request $request)
     {
-        //return $request;
         $exercise_cadena = [];
         $collection = new Collection();
 
@@ -751,9 +798,14 @@ class ApplicationController extends Controller
             "stop_smoking" => "required_if:smoke,1|nullable|boolean",
             "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
             "alcohol" => "required|boolean",
+
             "recreative_drugs" => "required|boolean",
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
+            //"total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|numeric",
+            "total_recreative_drugs" => [
+                ($request->recreative_drugs == '1') ? 'numeric': null
+            ],
             "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
+
             "fatigue" => "required|boolean",
             "trouble_breathe" => "required|boolean",
             "asthma" => "required|boolean",
@@ -769,59 +821,55 @@ class ApplicationController extends Controller
             "exercise_hours.*" => ['required_if:exercise,1','string'],
             "exercise_hours" => ['required_if:exercise,1','array'],
 
-            "hours_you_sleep_at_night" => ['required', 'numeric'],
-            'do_you_take_sleeping_pills' => ['required', 'boolean'],
-            'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
-            'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
-            'do_you_feel_under_stress' => ['required', 'boolean'],
 
-
-
-            'do_you_have_erections_at_the_morning' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_many_per_week' => ['required_if:do_you_have_erections_at_the_morning,1', 'nullable', 'string'],
-
-
-            'do_you_have_problems_getting_erections' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'since_when' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'describe_your_erection_problem' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
-            'do_you_have_problems_maintaining_an_erection' => ['required', 'boolean'],
-            'do_you_take_any_natural_remedy_for_erectile_dysfunction' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'what_kind' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_did_it_work_natural_remedy' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'where_did_you_get_them' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-            'has_medication_been_injected_for_dysfunction_erectile' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_many_times_have_injected' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_did_it_work' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
-            'have_you_had_an_erection_longer_than_six_hours' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'when_you_had_a_six_hours_erection' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_was_it_resolved' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
-            'did_you_get_medical_attention' => ['required_if:have_you_had_an_erection_longer_than_six_hours, 1', 'nullable', 'string'],
-            'do_you_suffer_from_penile_curvature' => ['required', 'boolean'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'how_intense' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'which_direction' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'does_it_hurt' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-            "total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|string",
-            'does_it_prevent_intercourse' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-            'has_prp_been_injected_for_erectile_dysfunction' => ['required', 'boolean'],
-            'have_you_received_stem_cell_treatment_for_erectile_dysfunction' => ['required', 'boolean'],
-            'hyrvrntwliwtfed' => ['required', 'boolean'],
         ]);
+        // if (Session::has('form_session') && Session::has('product')) {
+        //     $product = Session::get('product');
+        //     $getData = Session::get('form_session');
+        //     $patient = Patient::find($getData->patient_id);
+        //     if ($product->service_id == 3) {
+        //         $validator .= Validator::make($request->all(), [
+        //             "hours_you_sleep_at_night" => ['required', 'numeric'],
+        //             'do_you_take_sleeping_pills' => ['required', 'boolean'],
+        //             'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
+        //             'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
+        //             'do_you_feel_under_stress' => ['required', 'boolean'],
+        //         ]);
+        //     }
+        //     if ($patient->sex == 'male') {
+        //         $validator .= Validator::make($request->all(), [
+        //             'do_you_have_erections_at_the_morning' => ['required', 'boolean'],
+        //             'how_many_per_week' => ['required_if:do_you_have_erections_at_the_morning,1', 'nullable', 'string'],
 
 
-
+        //             'do_you_have_problems_getting_erections' => ['required', 'boolean'],
+        //             'since_when' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+        //             'describe_your_erection_problem' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+        //             'do_you_have_problems_maintaining_an_erection' => ['required', 'boolean'],
+        //             'do_you_take_any_natural_remedy_for_erectile_dysfunction' => ['required', 'boolean'],
+        //             'what_kind' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+        //             'how_did_it_work_natural_remedy' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+        //             'where_did_you_get_them' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+        //             'has_medication_been_injected_for_dysfunction_erectile' => ['required', 'boolean'],
+        //             'how_many_times_have_injected' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+        //             'how_did_it_work' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+        //             'have_you_had_an_erection_longer_than_six_hours' => ['required', 'boolean'],
+        //             'when_you_had_a_six_hours_erection' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+        //             'how_was_it_resolved' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+        //             'did_you_get_medical_attention' => ['required_if:have_you_had_an_erection_longer_than_six_hours, 1', 'nullable', 'string'],
+        //             'do_you_suffer_from_penile_curvature' => ['required', 'boolean'],
+        //             'how_intense' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+        //             'which_direction' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+        //             'does_it_hurt' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+        //             'does_it_prevent_intercourse' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+        //             'has_prp_been_injected_for_erectile_dysfunction' => ['required', 'boolean'],
+        //             'have_you_received_stem_cell_treatment_for_erectile_dysfunction' => ['required', 'boolean'],
+        //             'hyrvrntwliwtfed' => ['required', 'boolean'],
+        //         ]);
+        //     }
+        // } else {
+        //     abort(404);
+        // }
         if ($validator->fails()) {
             return redirect()
                 ->back()
@@ -830,8 +878,7 @@ class ApplicationController extends Controller
         }
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            $app =  Application::
-            with('images', 'medications')
+            $app =  Application::with('images', 'medications')
             ->find($getData->id);
             $product = Session::get('product');
 
@@ -930,7 +977,6 @@ class ApplicationController extends Controller
 
     public function createGynecologicalData()
     {
-
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 && $getData->medicalHistoryData = 1) {
@@ -945,7 +991,6 @@ class ApplicationController extends Controller
 
     public function postGynecologicalData(Request $request)
     {
-
         $birth_control_cadena = [];
         $collection_bc = new Collection();
 
@@ -1016,7 +1061,39 @@ class ApplicationController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        else 'paso';
+
+
+        if (Session::has('form_session')) {
+            $getData = Session::get('form_session');
+
+            $app = Application::find($getData->id);
+
+            //return $app;
+            $app->last_menstrual_period = $request->last_menstrual_period;
+            $app->bleeding_whas = $request->bleeding_whas;
+            $app->have_you_been_pregnant = $request->have_you_been_pregnant;
+            $app->how_many_times = $request->how_many_times;
+            $app->c_section = $request->c_section;
+            $app->birth_control = $request->birth_control;
+            $app->use_hormones = $request->use_hormones;
+            $app->is_or_can_be_pregmant = $request->is_or_can_be_pregman;
+            $product = Session::get('product');
+
+            if ($app->save()) {
+                Session::forget('form_session');
+                $app->generalData = 1;
+                $app->servicesData = 1;
+                $app->healthData = 1;
+                $app->surgeyData = 1;
+                $app->medicalHistoryData = 1;
+                $app->medicalHistoryData = 1;
+                $app->gynecologicalData = 1;
+                Session::put('form_session', $app);
+                return redirect()->route('createReferenceData');
+            }
+
+        }
+
     }
 
     public function createReferenceData()
@@ -1089,31 +1166,37 @@ class ApplicationController extends Controller
             }
 
             $lang = app()->getLocale();
-            $staff_assignment = Service::with(['specialties'])->find($product->service->id);
 
-            $staff_array = $staff_assignment->specialties;
+            $especialistas = Service::with('specialties')->first();
+
+
             $assignment = [];
 
-            for ($i=0; $i < count($staff_array); $i++) {
-                $staff = $staff_array[$i];
-                $order = $staff_array[$i]->pivot->order;
+            foreach ($especialistas->specialties as $key => $special) {
 
-                $assignment_staff = Staff::whereHas(
-                    "specialty", function($q) use ($lang, $staff){
-                        $q->where("name_en", $staff->name_en);
-                    })
+                $assignment_staff = Staff::with(
+                    [
+                        'assignToService'=>function($q){
+                            $q->where('service_id', 1);
+                        }
+                    ]
+                )
+                ->where('specialty_id', $special->id)
                 ->orderBy('last_assignment', 'ASC')
                 ->first();
 
-                if ($assignment_staff) {
-                    $assignment[] = [
-                        'application_id' => $getData->id,
-                        'staff_id' => $assignment_staff->id,
-                        'orden' => $order
-                    ];
-                    $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                    $assignment_staff->save();
-                }
+
+
+                    if ($assignment_staff) {
+                        $assignment[] = [
+                            'application_id' => $getData->id,
+                            'staff_id' => $assignment_staff->id,
+                            'order' => $key
+                        ];
+                        $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+                        $assignment_staff->save();
+                    }
+
             }
 
             $app->assignments()->sync($assignment);

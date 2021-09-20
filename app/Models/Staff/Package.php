@@ -17,7 +17,7 @@ class Package extends Model
 
     public function procedure()
     {
-        return $this->belongsToMany(Procedure::class);
+        return $this->belongsToMany(Procedure::class)->withTimestamps();
     }
 
 }

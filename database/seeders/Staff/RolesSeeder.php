@@ -22,10 +22,10 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Soporte Técnico',
             'name_en' => 'Tech support',
+            'assignable' => '0',
             'active' => false,
             'show' => false
         ]);
-
 
         $superAdmin = Role::create([
             'id' => 2,
@@ -33,6 +33,7 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Super Administrador',
             'name_en' => 'Super Administrador',
+            'assignable' => '0',
             'active' => false,
             'show' => false
         ]);
@@ -43,6 +44,7 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Administrador',
             'name_en' => 'Administrator',
+            'assignable' => '0',
         ]);
 
         $role = Role::create([
@@ -51,6 +53,7 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Doctor',
             'name_en' => 'Doctor',
+            'assignable' => '0',
         ]);
 
         $role = Role::create([
@@ -59,14 +62,16 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Emfermero',
             'name_en' => 'Nurse',
+            'assignable' => '0',
         ]);
 
         $role = Role::create([
             'id' => 6,
-           'name' => 'coordinador',
-           'guard_name' => 'staff',
-           'name_es' => 'Coordinador',
-           'name_en' => 'Coordinator',
+            'name' => 'coordinator',
+            'guard_name' => 'staff',
+            'name_es' => 'Coordinador',
+            'name_en' => 'Coordinator',
+            'assignable' => '1',
         ]);
 
         $role = Role::create([
@@ -75,6 +80,7 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Chofer',
             'name_en' => 'Driver',
+            'assignable' => '0',
         ]);
         $dios->givePermissionTo(Permission::all());
         $superAdmin->givePermissionTo(Permission::all());

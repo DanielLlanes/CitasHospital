@@ -28,4 +28,8 @@ class Service extends Model
     {
         return $this->hasMany(Procedure::class);
     }
+    public function seviceAssignedTo()
+    {
+        return $this->belongsToMany(Staff::class)->withPivot('order')->withTimestamps();
+    }
 }
