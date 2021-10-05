@@ -145,8 +145,6 @@
                             @enderror
                         </div>
                     </div>
-                    =
-                    > {{ old('birthCadena') }}
                     <div class="col-12" id="birth_control_table" style="display: none">
                         <table class="table">
                             <thead>
@@ -420,12 +418,12 @@
         }
     </script>
 
-@if (old("exerciseCadena") && count('exerciseCadena'))
+@if (old("birthCadena"))
 <script>
     $("#birth_control_table").show('fast');
 </script>
 @endif
-@if (old("exerciseCadena") && count('exerciseCadena'))
+@if (old("hormoneCadena"))
 <script>
     $("#hormones_table").show('fast');
 </script>

@@ -3,6 +3,7 @@
 namespace App\Models\Staff;
 
 use App\Models\Site\State;
+use App\Models\Site\Application;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -69,5 +70,13 @@ class Patient extends Authenticatable
     public function state()
     {
         return $this->belongsTo(State::class);
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
     }
 }

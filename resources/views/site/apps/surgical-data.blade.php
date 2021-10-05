@@ -232,7 +232,7 @@
             medicationField += '<input type="text" name="surgey_name[]" class="form-control form-control-sm">'
             medicationField += '</td>'
             medicationField += '<td>'
-            medicationField += '<input type="text" name="surgey_age[]" class="form-control form-control-sm">'
+            medicationField += '<input type="text" name="surgey_age[]" class="form-control form-control-sm" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">'
             medicationField += '</td>'
             medicationField += '<td>'
             medicationField += '<input type="text" name="surgey_year[]" class="form-control form-control-sm">'

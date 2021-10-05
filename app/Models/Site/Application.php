@@ -3,6 +3,8 @@
 namespace App\Models\Site;
 
 use App\Models\Staff\Staff;
+use App\Models\Staff\Patient;
+use App\Models\Staff\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,13 +38,26 @@ class Application extends Model
     {
         return $this->hasMany(HormonesApplication::class);
     }
-
+    public function birthcontrol()
+    {
+        return $this->hasMany(BirthControlApplication::class);
+    }
     public function exercices()
     {
         return $this->hasMany(ExerciseApplication::class);
     }
     public function assignments()
     {
-        return $this->belongsToMany(Staff::class)->withPivot('orden');
+        return $this->belongsToMany(Staff::class)->withPivot('order');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

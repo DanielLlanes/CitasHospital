@@ -58,7 +58,6 @@
                         </div>
                     @endif
                     
-
                     @if($product->service->need_images)
                         <div class="col-12 my-md-5">
                             <h5 class="text-center">Upload Images</h5>

@@ -21,16 +21,16 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Site\SurgeryApplication;
 use Illuminate\Support\Facades\Session;
 use App\Models\Site\ExerciseApplication;
+use App\Models\Site\HormonesApplication;
 use App\Models\Site\IllnsessApplication;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Site\MedicationApplication;
+use App\Models\Site\BirthControlApplication;
 use Illuminate\Database\Eloquent\Collection;
 
 class ApplicationController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -791,91 +791,167 @@ class ApplicationController extends Controller
         $request->merge(["exercise_cadena" => $exercise_cadena]);
         $request->merge(["exerciseCadena" => $collection]);
 
-        $validator = Validator::make($request->all(), [
-            "smoke" => "required|boolean",
-            "smoke_cigars" => "required_if:smoke,1|nullable|integer",
-            "smoke_years" => "required_if:smoke,1|nullable|integer",
-            "stop_smoking" => "required_if:smoke,1|nullable|boolean",
-            "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
-            "alcohol" => "required|boolean",
-
-            "recreative_drugs" => "required|boolean",
-            //"total_recreative_drugs" => "required_if:recreative_drugs,1|nullable|numeric",
-            "total_recreative_drugs" => [
-                ($request->recreative_drugs == '1') ? 'numeric': null
-            ],
-            "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
-
-            "fatigue" => "required|boolean",
-            "trouble_breathe" => "required|boolean",
-            "asthma" => "required|boolean",
-            "bipap_cpap" => "required|boolean",
-            "exercise" => "required|boolean",
-
-            "exercise_type" => ['required_if:exercise,1','array'],
-            "exercise_type.*" => ['required_if:exercise,1','string'],
-            "exercise_how_long" => ['required_if:exercise,1','array'],
-            "exercise_how_long.*" => ['required_if:exercise,1','string'],
-            "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-            "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-            "exercise_hours.*" => ['required_if:exercise,1','string'],
-            "exercise_hours" => ['required_if:exercise,1','array'],
 
 
-        ]);
-        // if (Session::has('form_session') && Session::has('product')) {
-        //     $product = Session::get('product');
-        //     $getData = Session::get('form_session');
-        //     $patient = Patient::find($getData->patient_id);
-        //     if ($product->service_id == 3) {
-        //         $validator .= Validator::make($request->all(), [
-        //             "hours_you_sleep_at_night" => ['required', 'numeric'],
-        //             'do_you_take_sleeping_pills' => ['required', 'boolean'],
-        //             'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
-        //             'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
-        //             'do_you_feel_under_stress' => ['required', 'boolean'],
-        //         ]);
-        //     }
-        //     if ($patient->sex == 'male') {
-        //         $validator .= Validator::make($request->all(), [
-        //             'do_you_have_erections_at_the_morning' => ['required', 'boolean'],
-        //             'how_many_per_week' => ['required_if:do_you_have_erections_at_the_morning,1', 'nullable', 'string'],
+
+//return $request;
+
+        if (Session::has('form_session') && Session::has('product')) {
+            $product = Session::get('product');
+            $getData = Session::get('form_session');
+            $patient = Patient::find($getData->patient_id);
+
+            if ($product->service_id != 3 && $patient->sex != 'male') {
+                $validator = Validator::make($request->all(), [
+                    "smoke" => "required|boolean",
+                    "smoke_cigars" => "required_if:smoke,1|nullable|integer",
+                    "smoke_years" => "required_if:smoke,1|nullable|integer",
+                    "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
+                    "alcohol" => "required|boolean",
+                    "volumen_alcohol" => "required_if:alcohol,1|string",
+
+                    "recreative_drugs" => "required|boolean",
+                    "total_recreative_drugs" => [
+                        ($request->recreative_drugs == '1') ? 'numeric': null
+                    ],
+                    "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
+                    "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
+
+                    "fatigue" => "required|boolean",
+                    "trouble_breathe" => "required|boolean",
+                    "asthma" => "required|boolean",
+                    "bipap_cpap" => "required|boolean",
+                    "exercise" => "required|boolean",
+
+                    "exercise_type" => ['required_if:exercise,1','array'],
+                    "exercise_type.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_long" => ['required_if:exercise,1','array'],
+                    "exercise_how_long.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent" => ['required_if:exercise,1','array'],
+                    "exercise_hours.*" => ['required_if:exercise,1','string'],
+                    "exercise_hours" => ['required_if:exercise,1','array'],
+                ]);
+
+                if ($validator->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator)
+                        ->withInput();
+                }
+            }
 
 
-        //             'do_you_have_problems_getting_erections' => ['required', 'boolean'],
-        //             'since_when' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
-        //             'describe_your_erection_problem' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
-        //             'do_you_have_problems_maintaining_an_erection' => ['required', 'boolean'],
-        //             'do_you_take_any_natural_remedy_for_erectile_dysfunction' => ['required', 'boolean'],
-        //             'what_kind' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-        //             'how_did_it_work_natural_remedy' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-        //             'where_did_you_get_them' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
-        //             'has_medication_been_injected_for_dysfunction_erectile' => ['required', 'boolean'],
-        //             'how_many_times_have_injected' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
-        //             'how_did_it_work' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
-        //             'have_you_had_an_erection_longer_than_six_hours' => ['required', 'boolean'],
-        //             'when_you_had_a_six_hours_erection' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
-        //             'how_was_it_resolved' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
-        //             'did_you_get_medical_attention' => ['required_if:have_you_had_an_erection_longer_than_six_hours, 1', 'nullable', 'string'],
-        //             'do_you_suffer_from_penile_curvature' => ['required', 'boolean'],
-        //             'how_intense' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-        //             'which_direction' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-        //             'does_it_hurt' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-        //             'does_it_prevent_intercourse' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
-        //             'has_prp_been_injected_for_erectile_dysfunction' => ['required', 'boolean'],
-        //             'have_you_received_stem_cell_treatment_for_erectile_dysfunction' => ['required', 'boolean'],
-        //             'hyrvrntwliwtfed' => ['required', 'boolean'],
-        //         ]);
-        //     }
-        // } else {
-        //     abort(404);
-        // }
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
+            if ($product->service_id == 3 && $patient->sex != 'male') {
+                $validator = Validator::make($request->all(), [
+
+                    "smoke" => "required|boolean",
+                    "smoke_cigars" => "required_if:smoke,1|nullable|integer",
+                    "smoke_years" => "required_if:smoke,1|nullable|integer",
+                    "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
+                    "alcohol" => "required|boolean",
+                    "volumen_alcohol" => "required_if:alcohol,1|string",
+
+                    "recreative_drugs" => "required|boolean",
+                    "total_recreative_drugs" => [
+                        ($request->recreative_drugs == '1') ? 'numeric': null
+                    ],
+                    "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
+                    "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
+
+                    "fatigue" => "required|boolean",
+                    "trouble_breathe" => "required|boolean",
+                    "asthma" => "required|boolean",
+                    "bipap_cpap" => "required|boolean",
+                    "exercise" => "required|boolean",
+
+                    "exercise_type" => ['required_if:exercise,1','array'],
+                    "exercise_type.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_long" => ['required_if:exercise,1','array'],
+                    "exercise_how_long.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent" => ['required_if:exercise,1','array'],
+                    "exercise_hours.*" => ['required_if:exercise,1','string'],
+                    "exercise_hours" => ['required_if:exercise,1','array'],
+                    ///////////////////////////////////////////////////////
+                    "hours_you_sleep_at_night" => ['required', 'numeric'],
+                    'do_you_take_sleeping_pills' => ['required', 'boolean'],
+                    'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
+                    'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
+                    'do_you_feel_under_stress' => ['required', 'boolean'],
+                ]);
+            }
+
+            if ($product->service_id == 3 && $patient->sex == 'male') {
+                $validator = Validator::make($request->all(), [
+
+                    "smoke" => "required|boolean",
+                    "smoke_cigars" => "required_if:smoke,1|nullable|integer",
+                    "smoke_years" => "required_if:smoke,1|nullable|integer",
+                    "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
+                    "alcohol" => "required|boolean",
+                    "volumen_alcohol" => "required_if:alcohol,1|string",
+
+                    "recreative_drugs" => "required|boolean",
+                    "total_recreative_drugs" => [
+                        ($request->recreative_drugs == '1') ? 'numeric': null
+                    ],
+                    "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
+                    "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
+
+                    "fatigue" => "required|boolean",
+                    "trouble_breathe" => "required|boolean",
+                    "asthma" => "required|boolean",
+                    "bipap_cpap" => "required|boolean",
+                    "exercise" => "required|boolean",
+                    "exercise_type" => ['required_if:exercise,1','array'],
+                    "exercise_type.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_long" => ['required_if:exercise,1','array'],
+                    "exercise_how_long.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
+                    "exercise_how_frecuent" => ['required_if:exercise,1','array'],
+                    "exercise_hours.*" => ['required_if:exercise,1','string'],
+                    "exercise_hours" => ['required_if:exercise,1','array'],
+                    ///////////////////////////////////////////////////////
+                    "hours_you_sleep_at_night" => ['required', 'numeric'],
+                    'do_you_take_sleeping_pills' => ['required', 'boolean'],
+                    'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
+                    'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
+                    'do_you_feel_under_stress' => ['required', 'boolean'],
+                    'do_you_have_erections_at_the_morning' => ['required', 'boolean'],
+                    'how_many_per_week' => ['required_if:do_you_have_erections_at_the_morning,1', 'nullable', 'string'],
+
+                    //////////////////////////////
+                    'do_you_have_problems_getting_erections' => ['required', 'boolean'],
+                    'since_when' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+                    'describe_your_erection_problem' => ['required_if:do_you_have_problems_getting_erections,1', 'nullable', 'string'],
+                    'do_you_have_problems_maintaining_an_erection' => ['required', 'boolean'],
+                    'do_you_take_any_natural_remedy_for_erectile_dysfunction' => ['required', 'boolean'],
+                    'what_kind' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+                    'how_did_it_work_natural_remedy' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+                    'where_did_you_get_them' => ['required_if:do_you_take_any_natural_remedy_for_erectile_dysfunction,1', 'nullable', 'string'],
+                    'has_medication_been_injected_for_dysfunction_erectile' => ['required', 'boolean'],
+                    'how_many_times_have_injected' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+                    'how_did_it_work' => ['required_if:has_medication_been_injected_for_dysfunction_erectile,1', 'nullable', 'string'],
+                    'have_you_had_an_erection_longer_than_six_hours' => ['required', 'boolean'],
+                    'when_you_had_a_six_hours_erection' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+                    'how_was_it_resolved' => ['required_if:have_you_had_an_erection_longer_than_six_hours,1', 'nullable', 'string'],
+                    'did_you_get_medical_attention' => ['required_if:have_you_had_an_erection_longer_than_six_hours, 1', 'nullable', 'string'],
+                    'do_you_suffer_from_penile_curvature' => ['required', 'boolean'],
+                    'how_intense' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+                    'which_direction' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+                    'does_it_hurt' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+                    'does_it_prevent_intercourse' => ['required_if:do_you_suffer_from_penile_curvature,1', 'nullable', 'string'],
+                    'has_prp_been_injected_for_erectile_dysfunction' => ['required', 'boolean'],
+                    'have_you_received_stem_cell_treatment_for_erectile_dysfunction' => ['required', 'boolean'],
+                    'hyrvrntwliwtfed' => ['required', 'boolean'],
+                ]);
+            }
         }
+
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             $app =  Application::with('images', 'medications')
@@ -890,9 +966,11 @@ class ApplicationController extends Controller
             $app->stop_smoking = $request->stop_smoking;
             $app->when_stop_smoking = $request->when_stop_smoking;
             $app->alcohol = $request->alcohol;
+            $app->volumen_alcohol = $request->volumen_alcohol;
             $app->recreative_drugs = $request->recreative_drugs;
             $app->total_recreative_drugs = $request->total_recreative_drugs;
             $app->intravenous_drugs = $request->intravenous_drugs;
+            $app->description_intravenous_drugs = $request->description_intravenous_drugs;
             $app->fatigue = $request->fatigue;
             $app->trouble_breathe = $request->trouble_breathe;
             $app->asthma = $request->asthma;
@@ -933,7 +1011,7 @@ class ApplicationController extends Controller
             if ($app->save()) {
                 $insert_exercise = [];
                 for ($i = 0; $i < count($exercise_cadena); $i++) {
-                    $insert_illnesses[] = [
+                    $insert_exe[] = [
                         'application_id' => $app->id,
                         'type' => $exercise_cadena[$i]['exercise_type'],
                         'how_long' => $exercise_cadena[$i]['exercise_how_long'],
@@ -942,7 +1020,7 @@ class ApplicationController extends Controller
                     ];
                 }
                 $app->exercices()->delete();
-                ExerciseApplication::insert($insert_exercise);
+                ExerciseApplication::insert($insert_exe);
 
 
                 if ($patient->sex != 'female') {
@@ -991,6 +1069,7 @@ class ApplicationController extends Controller
 
     public function postGynecologicalData(Request $request)
     {
+        //return $request;
         $birth_control_cadena = [];
         $collection_bc = new Collection();
 
@@ -1044,14 +1123,14 @@ class ApplicationController extends Controller
             "birth_control" =>"required|boolean",
             "birthControl_how_long" => ['required_if:birth_control,1','array'],
             "birthControl_how_long.*" => ['required_if:birth_control,1','string'],
+            "birthControl_type" => ['required_if:birth_control,1','array'],
             "birthControl_type.*" => ['required_if:birth_control,1','string'],
-            "birthControltype" => ['required_if:birth_control,1','array'],
 
             "use_hormones" =>"required|boolean",
             "hormone_how_long" => ['required_if:use_hormones,1','array'],
             "hormone_how_long.*" => ['required_if:use_hormones,1','string'],
-            "hormone_type.*" => ['required_if:use_hormones,1','array'],
-            "hormone_type" => ['required_if:use_hormones,1','string'],
+            "hormone_type" => ['required_if:use_hormones,1','array'],
+            "hormone_type.*" => ['required_if:use_hormones,1','string'],
 
             "is_or_can_be_pregman" => "required|boolean",
         ]);
@@ -1089,6 +1168,29 @@ class ApplicationController extends Controller
                 $app->medicalHistoryData = 1;
                 $app->gynecologicalData = 1;
                 Session::put('form_session', $app);
+
+                $insert_birth = [];
+                for ($i = 0; $i < count($birth_control_cadena); $i++) {
+                    $insert_bControl[] = [
+                        'application_id' => $app->id,
+                        'type' => $birth_control_cadena[$i]['birthControl_type'],
+                        'how_along_time' => $birth_control_cadena[$i]['birthControl_how_long'],
+                    ];
+                }
+                $app->birthcontrol()->delete();
+                BirthControlApplication::insert($insert_bControl);
+
+                $insert_hor = [];
+                for ($i = 0; $i < count($hormone_cadena); $i++) {
+                    $insert_hormone[] = [
+                        'application_id' => $app->id,
+                        'type' => $hormone_cadena[$i]['hormone_type'],
+                        'how_along_time' => $hormone_cadena[$i]['hormone_how_long'],
+                    ];
+                }
+                $app->hormones()->delete();
+                HormonesApplication::insert($insert_hormone);
+
                 return redirect()->route('createReferenceData');
             }
 
@@ -1185,8 +1287,6 @@ class ApplicationController extends Controller
                 ->orderBy('last_assignment', 'ASC')
                 ->first();
 
-
-
                     if ($assignment_staff) {
                         $assignment[] = [
                             'application_id' => $getData->id,
@@ -1252,5 +1352,13 @@ class ApplicationController extends Controller
             Session::forget('form_session');
             return response()->json(1);
         }
+    }
+
+    public function application()
+    {
+        return view
+                    (
+                        'staff.application-manager.list'
+                    );
     }
 }

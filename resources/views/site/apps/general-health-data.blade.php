@@ -109,7 +109,7 @@
                     <div class="mb-3 row mt-1 smoke_quit" @if (old('stop_smoking') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How long </span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
+                            <input type="date" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
                             @error('when_stop_smoking')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -136,7 +136,17 @@
                             @enderror
                         </div>
                     </div>
-
+                    <div class="mb-3 row mt-1 alcohol" @if (old('alcohol') == 1)@else style="display: none"@endif>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Volume of alcohol (frecuency) </span></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-sm" id="volumen_alcohol" name="volumen_alcohol" value="{{ $patient->volumen_alcohol ?? old('volumen_alcohol') }}" placeholder="">
+                            @error('volumen_alcohol')
+                                <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                    <strong class="error">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
                     <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Use recreational drugs?</label>
@@ -179,6 +189,18 @@
                                 <label class="form-check-label" for="intravenous_drugs_no">No</label>
                             </div>
                             @error('intravenous_drugs')
+                                <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                    <strong class="error">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row mt-1 intravenous_drugs" @if (old('recreative_drugs') == 1)@else style="display: none"@endif>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Describe intravenous drugs </span></label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control form-control-sm" id="description_intravenous_drugs" name="description_intravenous_drugs" value="{{ $patient->description_intravenous_drugs ?? old('description_intravenous_drugs') }}" placeholder=""></textarea>
+                            @error('description_intravenous_drugs')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
                                 </span>
@@ -902,6 +924,34 @@
                 $('.has_medication_been_injected_for_dysfunction_erectile').hide('fast')
                 $('#how_many_times_have_injected').val('');
                 $('#how_did_it_work').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=has_medication_been_injected_for_dysfunction_erectile]', function(){
+            if ($("input[type=radio][name=has_medication_been_injected_for_dysfunction_erectile]:checked").val() == '1') {
+                $('.has_medication_been_injected_for_dysfunction_erectile').show('fast')
+            } else {
+                $('.has_medication_been_injected_for_dysfunction_erectile').hide('fast')
+                $('#how_many_times_have_injected').val('');
+                $('#how_did_it_work').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=alcohol]', function(){
+            if ($("input[type=radio][name=alcohol]:checked").val() == '1') {
+                $('.alcohol').show('fast')
+            } else {
+                $('.alcohol').hide('fast')
+                $('#volumen_alcohol').val('');
+            }
+        })
+
+        $(document).on('change', 'input[type=radio][name=intravenous_drugs]', function(){
+            if ($("input[type=radio][name=intravenous_drugs]:checked").val() == '1') {
+                $('.intravenous_drugs').show('fast')
+            } else {
+                $('.intravenous_drugs').hide('fast')
+                $('#description_intravenous_drugs').val('');
             }
         })
 

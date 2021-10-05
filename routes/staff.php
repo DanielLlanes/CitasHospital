@@ -4,6 +4,7 @@
 
 
 
+use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\LangController;
 use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
@@ -128,6 +130,13 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/products/edit', [ProductController::class, 'edit'])->name('editProduct');
         Route::post('/products/update', [ProductController::class, 'update'])->name('updateProduct');
         Route::post('/products/destroy', [ProductController::class, 'destroy'])->name('destroyProduct');
+    });
+
+    Route::name('applications.')->group( function(){
+        Route::get('/applications/listar',      [AppController::class, 'index'])->name('application');
+        Route::get('/applications/get-list',    [AppController::class, 'getList'])->name('getList');
+        Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
+        Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
     });
 
 });

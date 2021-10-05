@@ -65,7 +65,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3 row" id="which_one" @if (old('which_one_adiction'))@else style="display: none" @endif>
+                    <div class="mb-3 row" id="which_one" @if (old('addiction') == 1)@else style="display: none" @endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Which one </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="which_one_adiction" name="which_one_adiction" value="{{ $patient->which_one_adiction ?? old('which_one_adiction') }}" placeholder="">
@@ -982,7 +982,7 @@
     });
 </script>
 @endif
-@if (old('surgeyCadena') && count(old('illnessCadena')))
+@if (old('illnessCadena') && count(old('illnessCadena')))
 <script>
     $("#medication_table").show('fast');
 </script>

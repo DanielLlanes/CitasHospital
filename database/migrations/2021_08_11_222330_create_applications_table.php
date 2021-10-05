@@ -116,7 +116,7 @@ class CreateApplicationsTable extends Migration
             $table->integer('smoke_cigars')->nullable();
             $table->integer('smoke_years')->nullable();
             $table->boolean('stop_smoking')->nullable();
-            $table->date('when_stop_smoking')->nullable();
+            $table->string('when_stop_smoking')->nullable();
             $table->boolean('alcohol')->nullable();
             $table->text('volumen_alcohol')->nullable();
             $table->boolean('recreative_drugs')->nullable();

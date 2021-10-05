@@ -120,7 +120,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="price" id="price" placeholder="@lang('Enter price')" class="form-control input-sm" />
+                                                        <input type="text" name="price" id="price"  class="form-control input-sm" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" placeholder="@lang('Enter price')"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>

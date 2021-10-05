@@ -41,10 +41,10 @@ var App = function() {
     /*************** Change theme color *************/
     var handleColorSetting = function() {
 
-    	jQuery( ".control-sidebar-btn" ).click(function() {
-    		jQuery( ".quick-setting" ).toggle( "slide");
+        jQuery(".control-sidebar-btn").click(function() {
+            jQuery(".quick-setting").toggle("slide");
 
-    	});
+        });
 
     };
 
@@ -203,16 +203,16 @@ var App = function() {
             var input = btn.closest('.spinner').find('input');
             var step = 1;
             if (input.attr('step') != undefined) {
-                step = parseInt(input.attr('step'),10);
+                step = parseInt(input.attr('step'), 10);
             }
             if (btn.attr('data-dir') == 'up') {
-                if (input.attr('max') == undefined || parseInt(input.val(),10) < parseInt(input.attr('max'),10)) {
+                if (input.attr('max') == undefined || parseInt(input.val(), 10) < parseInt(input.attr('max'), 10)) {
                     input.val(parseInt(input.val(), 10) + step);
                 } else {
                     btn.next("disabled", true);
                 }
             } else {
-                if (input.attr('min') == undefined || parseInt(input.val(),10) > parseInt(input.attr('min'),10)) {
+                if (input.attr('min') == undefined || parseInt(input.val(), 10) > parseInt(input.attr('min'), 10)) {
                     input.val(parseInt(input.val(), 10) - step);
                 } else {
                     btn.prev("disabled", true);
@@ -469,8 +469,8 @@ var App = function() {
             var items = $('[data-height]', parent);
             var height = 0;
             var mode = parent.attr('data-mode');
-			var data_offset = parent.attr('data-offset') ? parent.attr('data-offset') : 0;
-            var offset = parseInt(data_offset,10);
+            var data_offset = parent.attr('data-offset') ? parent.attr('data-offset') : 0;
+            var offset = parseInt(data_offset, 10);
 
             items.each(function() {
                 if ($(this).attr('data-height') == "height") {
@@ -509,14 +509,14 @@ var App = function() {
         });
         // close sidebar when click outside box
         $(document).on('click', '.page-content', function(e) {
-        	if($("body").hasClass("chat-sidebar-open")){
-        			$('body').toggleClass('chat-sidebar-open');
-        	}
+            if ($("body").hasClass("chat-sidebar-open")) {
+                $('body').toggleClass('chat-sidebar-open');
+            }
         });
         // close sidebar using esc key
-        $( document ).on( 'keydown', function ( e ) {
-            if ( e.keyCode === 27 && $("body").hasClass("chat-sidebar-open")) { // ESC
-            	$('body').toggleClass('chat-sidebar-open');
+        $(document).on('keydown', function(e) {
+            if (e.keyCode === 27 && $("body").hasClass("chat-sidebar-open")) { // ESC
+                $('body').toggleClass('chat-sidebar-open');
             }
         });
     };
@@ -584,14 +584,14 @@ var App = function() {
                 tpl += '<span class="arrow"></span>';
                 tpl += '<a href="#" class="name">' + name + '</a>&nbsp;';
                 tpl += '<span class="datetime">' + time + '</span>';
-                tpl += '<span class="body body-'+dir+'">';
+                tpl += '<span class="body body-' + dir + '">';
                 tpl += message;
                 tpl += '</span>';
                 tpl += '</div>';
                 tpl += '</div>';
                 $(".chat-sidebar-chat-user-messages").animate({
                     //scrollTop: $('.chat-sidebar-chat-user-messages').height()
-                scrollTop: $(document).height()
+                    scrollTop: $(document).height()
                 }, 1000);
                 return tpl;
             };
@@ -625,27 +625,29 @@ var App = function() {
 
     /********Sidebar slim-menu*********/
     var handleslimscroll_menu = function() {
-    	$(".slimscroll-style").slimscroll({
-            height: $( window ).height() - 90,
+        $(".slimscroll-style").slimscroll({
+            height: $(window).height() - 90,
             position: "right",
             size: "5px",
             color: "#9ea5ab",
             wheelStep: 5
         });
-    	$(".chat-sidebar-slimscroll-style").slimscroll({
-            height: $( window ).height() - 80,
+        $(".chat-sidebar-slimscroll-style").slimscroll({
+            height: $(window).height() - 80,
             position: "right",
             size: "5px",
             color: "#9ea5ab",
             wheelStep: 5
         });
-    	$(".small-slimscroll-style").slimscroll({
-            height: "260px",
+        $(".small-slimscroll-style").slimscroll({
+            height: "1000px",
             position: "right",
             size: "5px",
             color: "#9ea5ab",
+            start: 'bottom',
             wheelStep: 5
         });
+
     };
 
     handleChatScrollbar = function() {
@@ -691,7 +693,7 @@ var App = function() {
             handleInit(); // initialize core variables
             handleTheme();
             handleOnResize(); // set and handle responsive
-//            handleColorSetting();
+            //            handleColorSetting();
 
             //UI Component handlers
             handleBootstrapSwitch(); // handle bootstrap switch plugin
@@ -848,7 +850,7 @@ var App = function() {
 }();
 
 jQuery(document).ready(function() {
-	"use strict";
+    "use strict";
     App.init(); // init core componets
     $(".chat-sidebar-chat-user-messages").animate({
         scrollTop: $(document).height()
