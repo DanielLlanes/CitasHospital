@@ -2,9 +2,10 @@
 
 namespace App\Models\Staff;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Site\Application;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
@@ -22,5 +23,9 @@ class Event extends Model
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+    public function application()
+    {
+        return $this->belongsTo(Application::class);
     }
 }

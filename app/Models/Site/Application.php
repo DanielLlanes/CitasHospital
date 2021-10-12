@@ -5,6 +5,7 @@ namespace App\Models\Site;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Product;
+use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -56,8 +57,8 @@ class Application extends Model
         return $this->belongsTo(Patient::class);
     }
 
-    public function product()
+    public function treatment()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Treatment::class);
     }
 }

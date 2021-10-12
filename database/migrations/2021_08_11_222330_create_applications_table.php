@@ -18,7 +18,7 @@ class CreateApplicationsTable extends Migration
             $table->string('temp_code');
             $table->bigInteger('patient_id')->unsigned();
 
-            $table->bigInteger('product_id')->unsigned()->nullable();
+            $table->bigInteger('treatment_id')->unsigned()->nullable();
             $table->string('mesure_sistem')->nullable();
 
             $table->float('weight', 5, 2)->nullable();
@@ -196,8 +196,12 @@ class CreateApplicationsTable extends Migration
             $table->softDeletes();
         });
         Schema::table('applications', function($table) {
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('treatment_id')->references('id')->on('treatments')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::table('events', function($table) {
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

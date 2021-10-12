@@ -1,20 +1,19 @@
 <?php
 
 
-
-
-
 use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\LangController;
 use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\PackageController;
+use App\Http\Controllers\Staff\PaymentController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Staff\TreatmentController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
@@ -79,6 +78,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::post('/event/event-drop', [EventController::class, 'eventDrop'])->name('eventDrop');
 		Route::post('/enent/update/', [EventController::class, 'update'])->name('editEvent');
 		Route::post('/event/destroy', [EventController::class, 'destroy'])->name('destroy');
+        Route::get('/event/getApps',    [EventController::class, 'getApps'])->name('getApps');
 	});
 	Route::name('profile.')->group(function(){
 		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');
@@ -88,7 +88,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
 	});
 
-    Route::name('products.')->group( function(){
+    Route::name('treatments.')->group( function(){
         Route::name('configuration.')->group( function(){
             //brand
             Route::get('/brand/listar', [BrandController::class, 'brand'])->name('brand');
@@ -123,13 +123,13 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             Route::post('/packages/update', [PackageController::class, 'update'])->name('updatePackage');
             Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
         });
-        Route::get('/products/listar', [ProductController::class, 'products'])->name('products');
-        Route::get('/products/get-brand-list', [ProductController::class, 'getProductList'])->name('getProductList');
-        Route::post('/products/store', [ProductController::class, 'store'])->name('storeProduct');
-        Route::post('/products/activate', [ProductController::class, 'activate'])->name('activateProduct');
-        Route::post('/products/edit', [ProductController::class, 'edit'])->name('editProduct');
-        Route::post('/products/update', [ProductController::class, 'update'])->name('updateProduct');
-        Route::post('/products/destroy', [ProductController::class, 'destroy'])->name('destroyProduct');
+        Route::get('/treatments/listar', [TreatmentController::class, 'treatments'])->name('treatments');
+        Route::get('/treatments/get-brand-list', [TreatmentController::class, 'getProductList'])->name('getProductList');
+        Route::post('/treatments/store', [TreatmentController::class, 'store'])->name('storeProduct');
+        Route::post('/treatments/activate', [TreatmentController::class, 'activate'])->name('activateProduct');
+        Route::post('/treatments/edit', [TreatmentController::class, 'edit'])->name('editProduct');
+        Route::post('/treatments/update', [TreatmentController::class, 'update'])->name('updateProduct');
+        Route::post('/treatments/destroy', [TreatmentController::class, 'destroy'])->name('destroyProduct');
     });
 
     Route::name('applications.')->group( function(){
@@ -137,6 +137,12 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/get-list',    [AppController::class, 'getList'])->name('getList');
         Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
+    });
+
+    Route::name('payments.')->group( function(){
+        Route::get('/payments/listar',      [PaymentController::class, 'index'])->name('payments');
+        Route::get('/payments/get-list',    [PaymentController::class, 'getList'])->name('getList');
+        Route::get('/payments/view/{id}',   [PaymentController::class, 'show'])->name('show');
     });
 
 });

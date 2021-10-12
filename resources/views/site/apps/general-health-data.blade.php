@@ -367,7 +367,7 @@
                         </div>
                     </div>
 
-                    @if ($product->service_id == 3)
+                    @if ($treatment->service_id == 3)
                         <div class="mb-3 row mt-1">
                             <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Hours you sleep at night?</span></label>
                             <div class="col-sm-6">

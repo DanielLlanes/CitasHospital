@@ -90,6 +90,26 @@
                             <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
+                        <div class="form-group mb-2" style="display: none">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Is Application')
+                                <span class="required">  </span>
+                            </label>
+                            <div class="col-md-12">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="is_app">
+                                    <input type="checkbox" id="is_app" name="is_app" value="1" class="mdl-checkbox__input">
+                                    <span class="mdl-checkbox__label"></span>
+                                  </label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-2 eventApp" style="display: none">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Application')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-12">
+                                <input type="text" name="app" id="app" placeholder="@lang('Select application')" class="form-control input-sm" />
+                                <div class="error text-danger col-form-label-sm"></div>
+                            </div>
+                        </div>
                         <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Date Of Appointment
                                 <span class="required"> * </span>
@@ -158,6 +178,7 @@
      </div>
 
 </div>
+
 <div class="modal fade" id="viewEvantModal" tabindex="-1" role="dialog" aria-labelledby="viewEvantModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -168,7 +189,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="title text-center font-weight-bold">
+                <div class="title text-center font-weight-bold text-capitalize">
 
                 </div>
                 <div class="staffName">
@@ -196,12 +217,46 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="appsModal" tabindex="-1" role="dialog" aria-labelledby="appsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Modal title</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body position-relative" id="appsModalBody">
+                <div class="table-responsive p-3">
+                    <table class="table nowrap table-hover" style="width: 100%; overflow-x:auto" id="appsTable">
+                        <thead>
+                            <tr style="font-size: .8">
+                                <th> ID </th>
+                                <th> @lang('Action') </th>
+                                <th> @lang('Treatment') </th>
+                                <th> @lang('Date') </th>
+                                <th> @lang('Price') </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnAppsModal" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('styles')
 	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}">
     <style>
-
         .autocomplete {
           /*the container must be positioned relative:*/
           position: relative;
@@ -240,6 +295,23 @@
           background-color: DodgerBlue !important;
           color: #ffffff;
         }
+        .dataTableLayout {
+            table-layout:fixed;
+            width:100%;
+        }
+        .letras{
+            font-size: .8em;
+        }
+        table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+        table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+            font-family: "Courier New",Courier,monospace;
+            line-height: 1.2em;
+            content: "+";
+            background-color: #0275d8;
+        }
+        .fc-event {
+            border-width: .1px;
+        }
     </style>
 @endsection
 @section('scripts')
@@ -257,6 +329,7 @@
     <script src="{{ asset('staffFiles/assets/plugins/material/material.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+    <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
     <script>
         var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
@@ -265,6 +338,7 @@
         var globalEventDrop = '{{ route('staff.events.eventDrop') }}'
         var globalEditEvent = '{{ route('staff.events.editEvent') }}'
         var globalDestroyEvent = '{{ route('staff.events.destroy') }}'
+        var globalRouteobtenerLista = '{{ route('staff.events.getApps') }}'
     </script>
 	<script>
         var calendar;
@@ -303,6 +377,7 @@
                         url: globaleventSources,
                         method: 'get',
                         success: function(data) {
+                            console.log(data);
                         },
                         failure: function() {
                             alert('there was an error while fetching events!');
@@ -315,7 +390,15 @@
             });
             calendar.render();
         })
-        $('.autocomplete.staff').on('keyup', function() {
+
+        $.ajax({
+            type: "get",
+            url: globaleventSources,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+        $('.autocomplete.staff').on('keyup click', function() {
             var key = $(this).val();
             var dataString = new FormData();
             dataString.append('key', key);
@@ -359,7 +442,7 @@
                 }
             });
         });
-        $('.autocomplete.patient').on('keyup', function() {
+        $('.autocomplete.patient').on('keyup click', function() {
             var key = $(this).val();
             $('#email').val('').removeAttr('disabled')
             $('#phone').val('').removeAttr('disabled')
@@ -383,11 +466,15 @@
                     $('#phone').val('').prop('disabled', false);
                 },
                 success: function(data) {
-                    //console.log("data", data);
                     var sugerencias = '';
                     if (data.length > 0) {
                         for (var i = 0; i < data.length; i++) {
-                           sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '" id="" email="' + data[i].email + '" phone="' + data[i].phone + '">' + data[i].name + '</a></div>';
+                            console.log();
+                            var app = 0;
+                            if (data[i].applications.length > 0) {
+                                app = 1;
+                            }
+                           sugerencias += '<div><a class="suggest-element" app="'+ app +'" lang="'+ data[i].lang+'" data="' + data[i].id + '" id="" email="' + data[i].email + '" phone="' + data[i].phone + '">' + data[i].name + '</a></div>';
                         }
                     } else {
                         sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
@@ -398,10 +485,20 @@
                             var name = $(this).text();
                             var email = $(this).attr('email');
                             var phone = $(this).attr('phone');
+                            var lang = $(this).attr('lang');
+                            var app = $(this).attr('app')
                             $('.autocomplete.patient').val(name).attr('data-id', id);
                             $('#email').val(email).prop('disabled', true);
                             $('#phone').val(phone).prop('disabled', true);
+                            $('#lang option[value='+lang+']').attr('selected','selected');
+                            $('#lang').prop('disabled', true);
                             $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
+                            if (app == 1) {
+                                $('#is_app').parents('.form-group').show('fast')
+                            }
+                            else {
+                                $('#is_app').parents('.form-group').hide('fast')
+                            }
                             return false;
                     });
                 }
@@ -428,6 +525,8 @@
             dataString.append('phone', $('#phone').val())
             dataString.append('title', $('#title').val())
             dataString.append('email', $('#email').val())
+            dataString.append('isApp', $('#is_app').is(":checked")? '1':"0")
+            dataString.append('app', $('#app').attr("data-id"))
             dataString.append('lang', $("#lang option:selected" ).val())
             dataString.append('patient', $('#patient').val())
             dataString.append('start', formatdate)
@@ -463,6 +562,10 @@
                          $('#email').prop('disabled', false);
                         $('#phone').prop('disabled', false);
                         $('.error').html('')
+                        $('.eventApp').hide('fast');
+                        $("#is_app").prop('checked', false);
+                        $("#is_app").parent().removeClass('is-checked');
+                        $("#app").removeAttr("data-id")
                     } else {
                         $.each( data.errors, function( key, value ) {
                             $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -534,7 +637,6 @@
                     disabled: true,
                     'data-id': event.extendedProps.patient_id,
                 });
-
                 $('#phone').val(event.extendedProps.phone).attr('disabled', true);
                 $('#email').val(event.extendedProps.email).attr('disabled', true);
                 $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
@@ -543,6 +645,24 @@
                 $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
                 $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
                 $('#notes').val(event.extendedProps.notas);
+
+                $('#is_app').parents('.form-group').show('fast')
+
+                if (event.extendedProps.isapp == "si") {
+
+                    $("#is_app").prop('checked', true);
+                    $("#is_app").parent().addClass('is-checked');
+                    var brand = event.extendedProps.application_brand;
+                    var service = event.extendedProps.application_service;
+                    var procedure = event.extendedProps.application_procedure;
+                    var package = '';
+                    if (event.extendedProps.application_package != "no") {
+                        var package = event.extendedProps.application_package;
+                    }
+                    $('.eventApp').show('fast');
+                    $("#app").val(brand + ', ' +service + ', ' +procedure + ', ' +package)
+                    $("#app").attr("data-id", event.extendedProps.application_id)
+                }
 
                 $('#lang option[value="'+event.extendedProps.lang+'"]')
 
@@ -559,6 +679,9 @@
                 dataString.append('phone', $('#phone').val())
                 dataString.append('title', $('#title').val())
                 dataString.append('email', $('#email').val())
+                dataString.append('isApp', $('#is_app').is(":checked")? '1':"0")
+                dataString.append('app', $('#app').attr("data-id"))
+                dataString.append('lang', $("#lang option:selected" ).val())
                 dataString.append('lang', $("#lang option:selected" ).val())
                 dataString.append('patient', $('#patient').val())
                 dataString.append('start', formatdate)
@@ -584,6 +707,7 @@
 
                     },
                     success: function(data) {
+                        console.log(data);
                         $('input').removeAttr("disabled")
                         calendar.refetchEvents()
                         if (data.reload) {
@@ -592,6 +716,11 @@
                                 title: data.msg
                             })
                             $('#formReset').click();
+                            $('.eventApp').hide('fast');
+                            $("#is_app").prop('checked', false);
+                            $("#is_app").parent().removeClass('is-checked');
+                            $("#app").removeAttr("data-id")
+
                         } else {
                             $.each( data.errors, function( key, value ) {
                                 $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -605,8 +734,13 @@
             event.preventDefault();
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
             $('input').removeAttr("disabled")
+            $('#lang').removeAttr('disabled');
             $('#formReset').click();
             $('.error').html('')
+            $('.eventApp').hide('fast');
+            $("#is_app").prop('checked', false);
+            $("#is_app").parent().removeClass('is-checked');
+            $("#app").removeAttr("data-id")
         });
 
         function eventClick(arg) {
@@ -626,17 +760,103 @@
                 $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
             }).modal('show')
         }
+        $(document).on('change', '#is_app',function () {
+            if ($('#is_app').is(":checked")) {
+                $('.eventApp').show('fast');
+                getApps()
+            } else {
+                $('.eventApp').hide('fast');
+                $("#app").removeAttr("data-id")
+                $("#app").val("")
+            }
+        });
+
+        $(document).on("click", "#btnAppsModal",function () {
+            $('.eventApp').hide('fast');
+            $("#app").removeAttr("data-id")
+            $("#app").val("")
+            $("#is_app").prop('checked', false);
+            $("#is_app").parent().removeClass('is-checked');
+        });
+
+        function getApps(){
+            $('#appsModal').on('shown.bs.modal', function (e) {
+                var id = $('.autocomplete.patient').attr('data-id');
+
+                $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust()
+                .responsive.recalc();
+
+                var appsTable = $('#appsTable').DataTable({
+                    responsive: true,
+                    processing: true,
+                    serverSide: true,
+                    "autoWidth": false,
+                    "scrollX": true,
+                    "bDestroy": true,
+
+                    ajax:{
+                        url : globalRouteobtenerLista,
+                        type: "get",
+                        data: {"id": id},
+                        error: function (xhr, error, thrown) {
+                        },
+                    },
+                    language: {
+                        "url": dataTablesLangEs
+                    },
+                    "columns": [
+
+                        { data: 'DT_RowIndex' },
+                        { data: "action", orderable: false, searchable: false },
+                        { data: "treatment" },
+                        { data: "date" },
+                        { data: "price" }
+
+                    ],
+                    createdRow: function (row, data, dataIndex) {
+                        $(row).addClass('odd gradeX letras');
+                    },
+                    initComplete: function() {
+                        this.api().responsive.recalc()
+                    },
+                })
+
+                $("#appsTable").DataTable()
+                .columns.adjust()
+                .responsive.recalc();
+
+            }).modal(
+                {
+                        backdrop: 'static',
+                        keyboard: true,
+                        show: true
+                }
+            )
+        }
+
+        $('#appsModal').on('hide.bs.modal', function (e) {
+            $('#appsTable').empty();
+        })
+
+        $(document).on('click', ".btn-add", function () {
+            $("#app").val($(this).attr("name"))
+            $("#app").attr("data-id", $(this).attr("data-id"))
+            $('#appsModal').modal("hide")
+        });
+
         $(document).on('click', '.closeModal', function(event) {
             event.preventDefault();
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
             $('input').removeAttr("disabled")
+            $('#lang').removeAttr('disabled');
             $('#formReset').click();
             $('.error').html('')
         });
         @can('calendar.destroy')
             $(document).on('click', '.eventDelete', function(event) {
                 event.preventDefault();
-                //alert($(this).attr('data-id'))
+
                 $('#viewEvantModal').modal('hide')
                 Swal.fire({
                     title: 'Are you sure?',

@@ -47,7 +47,7 @@ class AppController extends Controller
                     'patient' => function($q){
                         $q->select('name', 'id');
                     },
-                    'product' => function($q) use($lang) {
+                    'treatment' => function($q) use($lang) {
                         $q->with(
                             [
                                 "brand" => function($q){
@@ -82,17 +82,17 @@ class AppController extends Controller
                     return '<span style="font-weight: 500;">'.$applications->patient->name.'</span>';
                 })
                 ->addColumn('brand', function($applications){
-                    return '<span style="font-weight: 500; color: '.$applications->product->brand->color.'">'.$applications->product->brand->brand.'</span>';
+                    return '<span style="font-weight: 500; color: '.$applications->treatment->brand->color.'">'.$applications->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('service', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->product->service->service.'</span>';
+                    return '<span style="font-weight: 500;">'.$applications->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedure', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->product->procedure->procedure.'</span>';
+                    return '<span style="font-weight: 500;">'.$applications->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('package', function($applications){
-                    if (!is_null($applications->product->package)) {
-                        return '<span style="font-weight: 500;">'.$applications->product->package->package.'</span>';
+                    if (!is_null($applications->treatment->package)) {
+                        return '<span style="font-weight: 500;">'.$applications->treatment->package->package.'</span>';
                     } else {
                         return '<span style="font-weight: 500;"> ---- </span>';
                     }
@@ -110,7 +110,7 @@ class AppController extends Controller
                     return '<span style="font-weight: 500;">'.$applications->created_at->toDayDateTimeString().'</span>';
                 })
                 ->addColumn('price', function($applications){
-                    return '<span style="font-weight: 500;">$ '.$applications->product->price.'</span>';
+                    return '<span style="font-weight: 500;">$ '.$applications->treatment->price.'</span>';
                 })
                 ->addColumn('status', function($applications){
                     return '<span style="font-weight: 500;" class="label label-sm label-warning">'.ucwords($applications->status).'</span>';
@@ -159,7 +159,7 @@ class AppController extends Controller
                 'patient' => function($q){
                     $q->with(['country', 'state']);
                 },
-                'product' => function($q) use($lang) {
+                'treatment' => function($q) use($lang) {
                     $q->with(
                         [
                             "brand" => function($q){
@@ -223,7 +223,7 @@ class AppController extends Controller
                 'patient' => function($q) {
                     $q->with(['country', 'state']);
                 },
-                'product' => function($q) use($lang) {
+                'treatment' => function($q) use($lang) {
                     $q->with(
                         [
                             "brand" => function($q){
@@ -259,17 +259,17 @@ class AppController extends Controller
             return DataTables::of($patientApp)
                 ->addIndexColumn()
                 ->addColumn('brand', function($patientApp){
-                    return '<span style="font-weight: 500; color: '.$patientApp->product->brand->color.'">'.$patientApp->product->brand->brand.'</span>';
+                    return '<span style="font-weight: 500; color: '.$patientApp->treatment->brand->color.'">'.$patientApp->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('service', function($patientApp){
-                    return '<span style="font-weight: 500;">'.$patientApp->product->service->service.'</span>';
+                    return '<span style="font-weight: 500;">'.$patientApp->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedure', function($patientApp){
-                    return '<span style="font-weight: 500;">'.$patientApp->product->procedure->procedure.'</span>';
+                    return '<span style="font-weight: 500;">'.$patientApp->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('package', function($patientApp){
-                    if (!is_null($patientApp->product->package)) {
-                        return '<span style="font-weight: 500;">'.$patientApp->product->package->package.'</span>';
+                    if (!is_null($patientApp->treatment->package)) {
+                        return '<span style="font-weight: 500;">'.$patientApp->treatment->package->package.'</span>';
                     } else {
                         return '<span style="font-weight: 500;"> ---- </span>';
                     }

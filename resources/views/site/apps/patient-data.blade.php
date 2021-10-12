@@ -20,9 +20,7 @@
         </div>
     </section>
     <!-- End Breadcrumbs -->
-@if (empty($sessionData ?? ''))
-{{ $sessionData ?? '' }}
-@endif
+
     <!-- ======= Contact Section ======= -->
 
     <section id="team" class="team">
@@ -233,21 +231,21 @@
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Service</label>
                             <div class="col-sm-9">
-                                <input type="text" disabled class="form-control form-control-sm" value="{{ $product->service->service }}">
+                                <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->service->service }}">
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Procedure</label>
                         <div class="col-sm-9">
-                            <input type="text" disabled class="form-control form-control-sm" value="{{ $product->procedure->procedure }}">
+                            <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->procedure->procedure }}">
                         </div>
                     </div>
-                    @if (!is_null($product->package))
+                    @if (!is_null($treatment->package))
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Package</label>
                             <div class="col-sm-9">
-                                <input type="text" disabled class="form-control form-control-sm" value="{{ $product->package->package}}">
+                                <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->package->package}}">
                             </div>
                         </div>
                     @endif

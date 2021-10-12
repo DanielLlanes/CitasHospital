@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
 use Illuminate\Http\Request;
-use App\Models\Staff\Product;
+use App\Models\Staff\Treatment;
 use App\Models\Staff\Procedure;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
@@ -48,11 +48,11 @@ class HomeController extends Controller
     public function brand($brand)
     {
         Session::forget('form_session');
-        Session::forget('product');
+        Session::forget('treatment');
 
         $lang = app()->getLocale();
 
-        $products = Product::whereHas('brand', function($query) use ($brand) {
+        $treatment = Treatment::whereHas('brand', function($query) use ($brand) {
             $query->where('url', $brand);
          })
         ->with
@@ -75,8 +75,8 @@ class HomeController extends Controller
 
         $titles = new Collection();
 
-        if (count($products) > 0) {
-            $titles = Product::select("procedure_id", "group_$lang as group")
+        if (count($treatment) > 0) {
+            $titles = Treatment::select("procedure_id", "group_$lang as group")
             ->whereHas('brand', function($query) use ($brand) {
                 $query->where('url', $brand);
             })
@@ -105,7 +105,7 @@ class HomeController extends Controller
                 return view($view,
                     [
                         "brand" => $getBrand,
-                        "products" => $products,
+                        "treatments" => $treatment,
                         "title" => $titles
                     ]
                 )->render();

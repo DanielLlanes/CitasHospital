@@ -23,9 +23,9 @@ class Procedure extends Model
     {
         return $this->belongsTo(Service::class);
     }
-    public function products()
+    public function treatment()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Treatment::class);
     }
     public function assignedTo()
     {

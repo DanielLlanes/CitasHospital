@@ -18,12 +18,14 @@ class CreateEventsTable extends Migration
             $table->string('title')->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
             $table->bigInteger('patient_id')->unsigned()->nullable();
+            $table->bigInteger('application_id')->unsigned()->nullable();
             $table->date('start_date')->nullable();
             $table->time('start_time')->nullable();
             $table->date('end_date')->nullable();
             $table->time('end_time')->nullable();
             $table->boolean('active')->default(true);
             $table->text('note')->nullable();
+            $table->boolean('is_application')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

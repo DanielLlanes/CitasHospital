@@ -430,8 +430,8 @@
 
                     <div class="mb-3 row">
                         <div class="col-6">
-                            @if (!$product->service->need_images)
-                                <a href="{{ route('appIndex', ['id' => $product->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            @if (!$treatment->service->need_images)
+                                <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
                             @else
                                 <a href="{{ route('createServicesData') }}" class="btn btn-main btn-sm mx-1">Back</a>
                             @endif

@@ -248,12 +248,12 @@
               closeOnContentClick: true,
               midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
         });
-        var globalRouteobtenerLista = "{{ route('staff.products.configuration.getProcedureList') }}";
-        var globalRouteStore = "{{ route('staff.products.configuration.storeProcedure') }}";
-        var globalRouteActivar = "{{ route('staff.products.configuration.activateProcedure') }}"
-        var globalRouteEditar = "{{ route('staff.products.configuration.editProcedure') }}"
-        var globalRouteUpdate = "{{ route('staff.products.configuration.updateProcedure') }}"
-        var globalRouteDestroy = "{{ route('staff.products.configuration.destroyProcedure') }}"
+        var globalRouteobtenerLista = "{{ route('staff.treatments.configuration.getProcedureList') }}";
+        var globalRouteStore = "{{ route('staff.treatments.configuration.storeProcedure') }}";
+        var globalRouteActivar = "{{ route('staff.treatments.configuration.activateProcedure') }}"
+        var globalRouteEditar = "{{ route('staff.treatments.configuration.editProcedure') }}"
+        var globalRouteUpdate = "{{ route('staff.treatments.configuration.updateProcedure') }}"
+        var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyProcedure') }}"
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
 
 

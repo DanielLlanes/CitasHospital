@@ -33,6 +33,11 @@
                         <span class="title">@lang('Aplications')</span>
                     </a>
                 </li>
+                <li class="nav-item  ">
+                    <a href="{{ route('staff.treatments.treatments') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
+                        <span class="title">Treatment</span>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"><i class="material-icons">event_available</i>
                     <span class="title">@lang('Appointment') </span><span class="arrow"></span></a>
@@ -70,7 +75,7 @@
                     </ul>
                 </li>
 
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">accessible</i>
                         <span class="title">@lang('Patients') </span> <span class="arrow"></span>
                     </a>
@@ -92,15 +97,15 @@
                             </a>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
 
-                {{-- <li class="nav-item  ">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">hotel</i>
-                        <span class="title">@lang("Room Allotment") </span> <span class="arrow"></span>
+                <li class="nav-item  ">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">attach_money</i>
+                        <span class="title">@lang("Payments") </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="room_allotment.html" class="nav-link "> <span class="title">@lang("Alloted Rooms") </span>
+                            <a href="{{ route('staff.payments.payments') }}"  class="nav-link "> <span class="title">@lang("All Payments") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
@@ -112,36 +117,32 @@
                             </a>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
 
                 {{-- <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">local_parking</i>
-                        <span class="title">@lang("Products") </span> <span class="arrow"></span>
+                        <span class="title">@lang("Treatment") </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="{{ route('staff.products.brand') }}" class="nav-link "> <span class="title">@lang("Brand") </span>
+                            <a href="{{ route('staff.Treatment.brand') }}" class="nav-link "> <span class="title">@lang("Brand") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="{{ route('staff.products.service') }}" class="nav-link "> <span class="title">@lang("Services") </span>
+                            <a href="{{ route('staff.Treatment.service') }}" class="nav-link "> <span class="title">@lang("Services") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="{{ route('staff.products.procedure') }}" class="nav-link "> <span class="title">@lang("Procedures") </span>
+                            <a href="{{ route('staff.Treatment.procedure') }}" class="nav-link "> <span class="title">@lang("Procedures") </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="{{ route('staff.products.package') }}" class="nav-link "> <span class="title">@lang("Packages") </span>
+                            <a href="{{ route('staff.Treatment.package') }}" class="nav-link "> <span class="title">@lang("Packages") </span>
                             </a>
                         </li>
                     </ul>
                 </li> --}}
-                <li class="nav-item  ">
-                    <a href="{{ route('staff.products.products') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
-                        <span class="title">Products</span>
-                    </a>
-                </li>
+
                 <li class="nav-item">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="material-icons">settings</i>
@@ -191,25 +192,25 @@
                         </li> --}}
                         <li class="nav-item">
                             <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-product-hunt"></i> Products
+                                <i class="fa fa-product-hunt"></i> Treatments
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.products.configuration.brand') }}" class="nav-link">
+                                    <a href="{{ route('staff.treatments.configuration.brand') }}" class="nav-link">
                                         <i class="ml-3"></i> Brand</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.products.configuration.service') }}" class="nav-link">
+                                    <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
                                         <i class="ml-3"></i> Services</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.products.configuration.procedure') }}" class="nav-link">
+                                    <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
                                         <i class="ml-3"></i> Procedures
                                      </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('staff.products.configuration.package') }}" class="nav-link">
+                                    <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
                                         <i class="ml-3"></i> Packages
                                      </a>
                                 </li>

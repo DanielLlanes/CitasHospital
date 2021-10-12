@@ -18,6 +18,7 @@ class AutocompleteController extends Controller
     {
         $search = Staff::where("name",'like', "%".$request->key."%")
         ->where('show', '=', 1)
+
         ->get();
         return $search;
     }
@@ -25,6 +26,11 @@ class AutocompleteController extends Controller
     public function searchPatient(Request $request)
     {
         $search = Patient::where("name",'like', "%".$request->key."%")
+        ->with(
+            [
+                'applications'
+            ]
+        )
         ->get();
         return $search;
     }

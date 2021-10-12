@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\Site\Country;
 use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
-use App\Models\Staff\Product;
+use App\Models\Staff\Treatment;
 use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
 use App\Models\Site\Application;
@@ -39,12 +39,12 @@ class ApplicationController extends Controller
     public function index($id)
     {
         $lang = app()->getLocale();
-        $exists = Product::where('active', true)
+        $exists = Treatment::where('active', true)
         ->findOrFail($id);
 
         $countries = Country::where('active', 1)->orderBy('name', 'desc')->select("id", "name")->get();
 
-        $product = Product::with
+        $treatment = Treatment::with
         (
             [
                 'service' => function($query) use ($lang) {
@@ -65,20 +65,20 @@ class ApplicationController extends Controller
 
         if ($exists) {
 
-            Session::put('product', $product);
+            Session::put('treatment', $treatment);
 
             if(Session::has('form_session'))
             {
                 $sessionData = Session::get('form_session');
                 $patient = Patient::find($sessionData->patient_id);
-                if ($sessionData->product_id == $id) {
+                if ($sessionData->treatment_id == $id) {
                     return view
                     (
                         'site.apps.patient-data',
                         [
                             'sessionData' => $sessionData,
                             'patient' => $patient,
-                            'product' => $product,
+                            'treatment' => $treatment,
                             'countries' => $countries
                         ]
                     );
@@ -88,7 +88,7 @@ class ApplicationController extends Controller
                     (
                         'site.apps.patient-data',
                         [
-                            'product' => $product,
+                            'treatment' => $treatment,
                             'countries' => $countries
                         ]
                     );
@@ -98,7 +98,7 @@ class ApplicationController extends Controller
             (
                 'site.apps.patient-data',
                 [
-                    'product' => $product,
+                    'treatment' => $treatment,
                     'countries' => $countries
                 ]
             );
@@ -114,7 +114,7 @@ class ApplicationController extends Controller
         $lang = app()->getLocale();
 
         $patient = Patient::where('email', $request->email)->first();
-        $product = Session::get('product');
+        $treatment = Session::get('treatment');
 
         if (!$patient) { //Sí el paciente no existe
             $this->validate($request, [
@@ -178,7 +178,7 @@ class ApplicationController extends Controller
             $app = new Application;
             $app->temp_code = Str::random(10);
             $app->patient_id = $patient->id;
-            $app->product_id = Session::get('product')->id;
+            $app->treatment_id = Session::get('treatment')->id;
 
             $app->save();
             $app->generalData = 1;
@@ -188,9 +188,9 @@ class ApplicationController extends Controller
 
 
 
-        if (!$product->service->need_images) {
+        if (!$treatment->service->need_images) {
             $getData = Session::get('form_session');
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
             $app = Application::with('images', 'medications')->find($getData->id);
             Session::forget('form_session');
             $app->generalData = 1;
@@ -210,8 +210,8 @@ class ApplicationController extends Controller
                 $app = Application::
                 with('images', 'medications')
                 ->find($getData->id);
-                $product = Session::get('product');
-                return view('site.apps.services-data', ['product' => $product, 'app' => $app]);
+                $treatment = Session::get('treatment');
+                return view('site.apps.services-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 abort(404);
             }
@@ -234,8 +234,8 @@ class ApplicationController extends Controller
             $app =  Application::
             with('images', 'medications')
             ->find($getData->id);
-            $product = Session::get('product');
-            $qty_images = $product->service->qty_images;
+            $treatment = Session::get('treatment');
+            $qty_images = $treatment->service->qty_images;
 
             foreach ($request->file('images') as $file) {
                 $image = $file;
@@ -269,9 +269,9 @@ class ApplicationController extends Controller
             Session::put('form_session', $app);
             $getData = Session::get('form_session');
             $app = Application::with('images', 'medications')->find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
-            return view('site.apps.health-data', ['product' => $product, 'app' => $app]);
+            return view('site.apps.health-data', ['treatment' => $treatment, 'app' => $app]);
 
         } else {
             abort(404);
@@ -282,7 +282,7 @@ class ApplicationController extends Controller
     public function createHealthData()
     {
         $lang = app()->getLocale();
-        $product = Session::get('product');
+        $treatment = Session::get('treatment');
 
             /*start test */
 
@@ -324,9 +324,9 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.health-data', ['product' => $product, 'app' => $app]);
+                return view('site.apps.health-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
             }
@@ -404,7 +404,7 @@ class ApplicationController extends Controller
             $app =  Application::
             with('images', 'medications')
             ->find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
             $app->mesure_sistem = $request->mesure_sistem;
             $app->weight = $request->max_weigh;
@@ -445,7 +445,7 @@ class ApplicationController extends Controller
                 Session::put('form_session', $app);
                 $getData = Session::get('form_session');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
 
                 return redirect()->route('createSurgicalData');
 
@@ -460,9 +460,9 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.surgical-data', ['product' => $product, 'app' => $app]);
+                return view('site.apps.surgical-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
             }
@@ -531,7 +531,7 @@ class ApplicationController extends Controller
             $app =  Application::
             with('images', 'medications')
             ->find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
             $app->if_have_surgeries = $request->previus_surgery;
 
@@ -571,9 +571,9 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.medical-history-data', ['product' => $product, 'app' => $app]);
+                return view('site.apps.medical-history-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
             }
@@ -673,7 +673,7 @@ class ApplicationController extends Controller
             $app =  Application::
             with('images', 'medications')
             ->find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
             $app->addiction = $request->addiction;
             $app->which_one_adiction = $request->which_one_adiction;
@@ -754,10 +754,10 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
                 $patient = Patient::find($getData->patient_id);
-                return view('site.apps.general-health-data', ['product' => $product, 'app' => $app, 'patient' => $patient]);
+                return view('site.apps.general-health-data', ['treatment' => $treatment, 'app' => $app, 'patient' => $patient]);
             } else {
                 return 'not';
             }
@@ -796,12 +796,12 @@ class ApplicationController extends Controller
 
 //return $request;
 
-        if (Session::has('form_session') && Session::has('product')) {
-            $product = Session::get('product');
+        if (Session::has('form_session') && Session::has('treatment')) {
+            $treatment = Session::get('treatment');
             $getData = Session::get('form_session');
             $patient = Patient::find($getData->patient_id);
 
-            if ($product->service_id != 3 && $patient->sex != 'male') {
+            if ($treatment->service_id != 3 && $patient->sex != 'male') {
                 $validator = Validator::make($request->all(), [
                     "smoke" => "required|boolean",
                     "smoke_cigars" => "required_if:smoke,1|nullable|integer",
@@ -843,7 +843,7 @@ class ApplicationController extends Controller
             }
 
 
-            if ($product->service_id == 3 && $patient->sex != 'male') {
+            if ($treatment->service_id == 3 && $patient->sex != 'male') {
                 $validator = Validator::make($request->all(), [
 
                     "smoke" => "required|boolean",
@@ -884,7 +884,7 @@ class ApplicationController extends Controller
                 ]);
             }
 
-            if ($product->service_id == 3 && $patient->sex == 'male') {
+            if ($treatment->service_id == 3 && $patient->sex == 'male') {
                 $validator = Validator::make($request->all(), [
 
                     "smoke" => "required|boolean",
@@ -956,7 +956,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             $app =  Application::with('images', 'medications')
             ->find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
             $patient = Patient::select('sex')->find($app->patient_id);
 
@@ -1011,7 +1011,7 @@ class ApplicationController extends Controller
             if ($app->save()) {
                 $insert_exercise = [];
                 for ($i = 0; $i < count($exercise_cadena); $i++) {
-                    $insert_exe[] = [
+                    $insert_exercise[] = [
                         'application_id' => $app->id,
                         'type' => $exercise_cadena[$i]['exercise_type'],
                         'how_long' => $exercise_cadena[$i]['exercise_how_long'],
@@ -1020,7 +1020,7 @@ class ApplicationController extends Controller
                     ];
                 }
                 $app->exercices()->delete();
-                ExerciseApplication::insert($insert_exe);
+                ExerciseApplication::insert($insert_exercise);
 
 
                 if ($patient->sex != 'female') {
@@ -1058,9 +1058,9 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 && $getData->medicalHistoryData = 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.gynecological-data', ['product' => $product, 'app' => $app]);
+                return view('site.apps.gynecological-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
             }
@@ -1156,7 +1156,7 @@ class ApplicationController extends Controller
             $app->birth_control = $request->birth_control;
             $app->use_hormones = $request->use_hormones;
             $app->is_or_can_be_pregmant = $request->is_or_can_be_pregman;
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
             if ($app->save()) {
                 Session::forget('form_session');
@@ -1203,9 +1203,9 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 == 1 && $getData->gynecologicalData  = 1) {
-                $product = Session::get('product');
+                $treatment = Session::get('treatment');
                 $app = Application::with('images', 'medications')->find($getData->id);
-                return view('site.apps.reference-data', ['product' => $product, 'app' => $app]);
+                return view('site.apps.reference-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
             }
@@ -1218,7 +1218,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
 
             $app = Application::find($getData->id);
-            $product = Session::get('product');
+            $treatment = Session::get('treatment');
 
 
             if ($request->about_us_other == 1) {
@@ -1303,7 +1303,7 @@ class ApplicationController extends Controller
             $app->is_complete = true;
             $app->save();
             Session::forget('form_session');
-            Session::forget('product');
+            Session::forget('treatment');
             return redirect()->route('home');
         } else {
             abort(404);

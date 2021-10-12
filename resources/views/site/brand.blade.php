@@ -21,7 +21,7 @@
         </div>
     </section>
     <!-- End Breadcrumbs -->
-    @if (count($products) > 0)
+    @if (count($treatments) > 0)
         <section id="team" class="team">
             <div class="container">
 
@@ -39,21 +39,21 @@
                         </p>
                     </div>
                     <div class="row" data-aos="fade-up">
-                        @foreach ($products as $product)
-                        @if ($product->procedure->procedure === $item->procedure->procedure)
+                        @foreach ($treatments as $treatment)
+                        @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card">
-                                        @if (!is_null($product->procedure->image))
-                                            <img src="{{ asset($product->procedure->image) }}" class="card-img-top" alt="..." style="height: 200px">
+                                        @if (!is_null($treatment->procedure->image))
+                                            <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="..." style="height: 200px">
                                         @endif
                                         <div class="card-body">
-                                            <h4 class="card-title text-center">{{ $product->procedure->procedure }}</h4>
-                                            <h5 class="card-title text-center" style="color: {{ $product->brand->color }}">{{ is_null($product->package_id) ? '' : $product->package->package }}</h5>
-                                            <h6 class="card-title text-center">{{ is_null($product->price) ? '' : '$ '.$product->price }}</h6>
-                                            <p class="card-text">{!! $product->description !!}</p>
+                                            <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
+                                            <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
+                                            <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }}</h6>
+                                            <p class="card-text">{!! $treatment->description !!}</p>
 
                                         </div>
-                                    <a href="{{ route('appIndex', ['id' => $product->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
+                                    <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
                                     </div>
                                 </div>
                         @endif

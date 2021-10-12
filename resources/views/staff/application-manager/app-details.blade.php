@@ -161,19 +161,19 @@
                                     <div class="row">
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Brand</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->product->brand->brand }}</p>
+                                            <p class="text-muted">{{ $appInfo->treatment->brand->brand }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Service</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->product->service->service }}</p>
+                                            <p class="text-muted">{{ $appInfo->treatment->service->service }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Procedure</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->product->procedure->procedure }}</p>
+                                            <p class="text-muted">{{ $appInfo->treatment->procedure->procedure }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Package</strong>
                                             <br>
-                                            <p class="text-muted">{{ (is_null($appInfo->product->package) ? " ----- ": $appInfo->product->package->package) }}</p>
+                                            <p class="text-muted">{{ (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) }}</p>
                                         </div>
                                     </div>
                                     @if (count($appInfo->images) > 0)
@@ -244,7 +244,7 @@
                                                 <br>
                                                 <div class="table-wrap">
                                                     <div class="table-responsive">
-                                                        <table class="table display product-overview mb-30" id="support_table">
+                                                        <table class="table display treatment-overview mb-30" id="support_table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
@@ -318,7 +318,7 @@
                                                 <br>
                                                 <div class="table-wrap">
                                                     <div class="table-responsive">
-                                                        <table class="table display product-overview mb-30" id="support_table">
+                                                        <table class="table display treatment-overview mb-30" id="support_table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
@@ -555,7 +555,7 @@
                                                 <br>
                                                 <div class="table-wrap">
                                                     <div class="table-responsive">
-                                                        <table class="table display product-overview mb-30" id="support_table">
+                                                        <table class="table display treatment-overview mb-30" id="support_table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
@@ -672,7 +672,7 @@
                                                 <br>
                                                 <div class="table-wrap">
                                                     <div class="table-responsive">
-                                                        <table class="table display product-overview mb-30" id="support_table">
+                                                        <table class="table display treatment-overview mb-30" id="support_table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
@@ -698,7 +698,7 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        @if ($appInfo->product->service_id == 3)
+                                        @if ($appInfo->treatment->service_id == 3)
                                             <div class="col-md-3 col-6 mb-2"> <strong>Hours sleep at night</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->hours_you_sleep_at_night }}</p>
@@ -721,7 +721,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    @if ($appInfo->product->service_id == 3 && $appInfo->patient->sex == "male")
+                                    @if ($appInfo->treatment->service_id == 3 && $appInfo->patient->sex == "male")
                                         <div class="row">
                                             <div class="col-md-3 col-6 mb-2"> <strong>Have erections at the morning</strong>
                                                 <br>
@@ -893,7 +893,7 @@
                                                     <br>
                                                     <div class="table-wrap">
                                                         <div class="table-responsive">
-                                                            <table class="table display product-overview mb-30" id="support_table">
+                                                            <table class="table display treatment-overview mb-30" id="support_table">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>No</th>
@@ -1059,11 +1059,11 @@
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
     var globalRouteobtenerLista = "{{ route('staff.applications.patientApss') }}";
-    var globalRouteStore = "{{ route('staff.products.configuration.storePackage') }}";
-    var globalRouteActivar = "{{ route('staff.products.configuration.activatePackage') }}"
-    var globalRouteEditar = "{{ route('staff.products.configuration.editPackage') }}"
-    var globalRouteUpdate = "{{ route('staff.products.configuration.updatePackage') }}"
-    var globalRouteDestroy = "{{ route('staff.products.configuration.destroyPackage') }}"
+    var globalRouteStore = "{{ route('staff.treatments.configuration.storePackage') }}";
+    var globalRouteActivar = "{{ route('staff.treatments.configuration.activatePackage') }}"
+    var globalRouteEditar = "{{ route('staff.treatments.configuration.editPackage') }}"
+    var globalRouteUpdate = "{{ route('staff.treatments.configuration.updatePackage') }}"
+    var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
 
     $(document).ready(function() {
         var codigo = {{ $appInfo->patient->id }};

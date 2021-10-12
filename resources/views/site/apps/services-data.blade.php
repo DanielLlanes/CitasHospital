@@ -39,46 +39,46 @@
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Service</label>
                         <div class="col-sm-9">
-                            <input type="text" disabled class="form-control form-control-sm" value="{{ $product->service->service }}">
+                            <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->service->service }}">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
                         <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Procedure</label>
                         <div class="col-sm-9">
-                            <input type="text" disabled class="form-control form-control-sm" value="{{ $product->procedure->procedure }}">
+                            <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->procedure->procedure }}">
                         </div>
                     </div>
-                    @if (!is_null($product->package))
+                    @if (!is_null($treatment->package))
                         <div class="mb-3 row">
                             <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Package</label>
                             <div class="col-sm-9">
-                                <input type="text" disabled class="form-control form-control-sm" value="{{ $product->package->package}}">
+                                <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->package->package}}">
                             </div>
                         </div>
                     @endif
-                    
-                    @if($product->service->need_images)
+
+                    @if($treatment->service->need_images)
                         <div class="col-12 my-md-5">
                             <h5 class="text-center">Upload Images</h5>
                         </div>
                         <div class="row">
                     @endif
 
-                    @for ($i = 0; $i < $product->service->qty_images; $i++)
+                    @for ($i = 0; $i < $treatment->service->qty_images; $i++)
                         <div class="col-md-6 my-3">
                             image {{ ($i + 1) }}
                             <input type="file" name="images[]" class="dropify" data-height="200" data-default-file="{{ asset($app->images[0]->local_image) ?? '' }}" />
                         </div>
                     @endfor
 
-                    @if($product->service->need_images)
+                    @if($treatment->service->need_images)
                         <div class="row">
                     @endif
 
                     <div class="mb-3 row">
                         <div class="col-6">
-                            <a href="{{ route('appIndex', ['id' => $product->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <button type="submit" class="btn btn-main btn-sm mx-1">Next</button>
