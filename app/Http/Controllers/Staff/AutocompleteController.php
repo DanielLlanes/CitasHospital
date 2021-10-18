@@ -17,6 +17,7 @@ class AutocompleteController extends Controller
     public function searchStaff(Request $request)
     {
         $search = Staff::where("name",'like', "%".$request->key."%")
+        ->orWhere("email",'like', "%".$request->key."%")
         ->where('show', '=', 1)
 
         ->get();
@@ -25,10 +26,35 @@ class AutocompleteController extends Controller
 
     public function searchPatient(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $search = Patient::where("name",'like', "%".$request->key."%")
         ->with(
             [
-                'applications'
+                'applications' => function ($q) use ($lang){
+                    $q->with(
+                        [
+                            'treatment' => function($q) use($lang) {
+                                $q->with(
+                                    [
+                                        "brand" => function($q){
+                                            $q->select("brand", "id", "color");
+                                        },
+                                        "service" => function($q) use($lang) {
+                                            $q->select("service_$lang AS service", "id");
+                                        },
+                                        "procedure" => function($q) use($lang) {
+                                            $q->select("procedure_$lang AS procedure", "id");
+                                        },
+                                        "package" => function($q) use($lang) {
+                                            $q->select("package_$lang AS package", "id");
+                                        },
+                                    ]
+                                );
+                            },
+                        ]
+                    );
+                }
             ]
         )
         ->get();

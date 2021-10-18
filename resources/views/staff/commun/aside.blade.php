@@ -81,19 +81,11 @@
                     </a>
                     <ul class="sub-menu">
                         <li class="nav-item  ">
-                            <a href="all_patients.html" class="nav-link "> <span class="title">@lang('All Patients') </span>
+                            <a href="{{ route('staff.patients.patient') }}" class="nav-link "> <span class="title">@lang('All Patients') </span>
                             </a>
                         </li>
                         <li class="nav-item  ">
-                            <a href="add_patient.html" class="nav-link "> <span class="title">@lang('Add Patient') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="edit_patient.html" class="nav-link "> <span class="title">@lang('Edit Patient') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="patient_profile.html" class="nav-link "> <span class="title">@lang('Patient Profile') </span>
+                            <a href="{{ route('staff.patients.add') }}" class="nav-link "> <span class="title">@lang('Add Patient') </span>
                             </a>
                         </li>
                     </ul>

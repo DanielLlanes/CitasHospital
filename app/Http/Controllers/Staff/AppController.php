@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
+use App\Traits\DatesLangTrait;
+use App\Traits\StatusAppsTrait;
 use App\Models\Site\Application;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
@@ -11,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 class AppController extends Controller
 {
+    use StatusAppsTrait,
+        DatesLangTrait;
+
     public function __construct()
     {
         $this->middleware('auth:staff');
@@ -78,45 +83,48 @@ class AppController extends Controller
             ->get();
             return DataTables::of($applications)
                 ->addIndexColumn()
+                ->addColumn('code', function($applications){
+                    return '<span>'.$applications->temp_code.'</span>';
+                })
                 ->addColumn('patient', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->patient->name.'</span>';
+                    return '<span>'.$applications->patient->name.'</span>';
                 })
                 ->addColumn('brand', function($applications){
-                    return '<span style="font-weight: 500; color: '.$applications->treatment->brand->color.'">'.$applications->treatment->brand->brand.'</span>';
+                    return '<span style="color: '.$applications->treatment->brand->color.'">'.$applications->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('service', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->treatment->service->service.'</span>';
+                    return '<span>'.$applications->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedure', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->treatment->procedure->procedure.'</span>';
+                    return '<span>'.$applications->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('package', function($applications){
                     if (!is_null($applications->treatment->package)) {
-                        return '<span style="font-weight: 500;">'.$applications->treatment->package->package.'</span>';
+                        return '<span>'.$applications->treatment->package->package.'</span>';
                     } else {
-                        return '<span style="font-weight: 500;"> ---- </span>';
+                        return '<span> ---- </span>';
                     }
 
                 })
                 ->addColumn('coordinator', function($applications){
                     if (count($applications->assignments) < 1) {
-                        return '<span style="font-weight: 500;">Not Assigned</span>';
+                        return '<span>Not Assigned</span>';
                     } else {
-                        return '<span style="font-weight: 500; color: '.$applications->assignments[0]->color.'">'.$applications->assignments[0]->name.'</span>';
+                        return '<span style="color: '.$applications->assignments[0]->color.'">'.$applications->assignments[0]->name.'</span>';
                     }
 
                 })
                 ->addColumn('date', function($applications){
-                    return '<span style="font-weight: 500;">'.$applications->created_at->toDayDateTimeString().'</span>';
+                    return '<span>'. $this->datesLangTrait($applications->created_at, Auth::guard('staff')->user()->lang). '</span>';
                 })
                 ->addColumn('price', function($applications){
-                    return '<span style="font-weight: 500;">$ '.$applications->treatment->price.'</span>';
+                    return '<span>$ '.$applications->treatment->price.'</span>';
                 })
                 ->addColumn('status', function($applications){
-                    return '<span style="font-weight: 500;" class="label label-sm label-warning">'.ucwords($applications->status).'</span>';
+                    return $this->statusAppTrait($applications->status);
                 })
                 ->addColumn('action', 'staff.application-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'patient', 'brand', 'service', 'procedure', 'package', "coordinator", 'date', 'price',  'status', 'action'])
+                ->rawColumns(['DT_RowIndex', 'code', 'patient', 'brand', 'service', 'procedure', 'package', "coordinator", 'date', 'price',  'status', 'action'])
                 ->make(true);
         }
     }
@@ -259,36 +267,38 @@ class AppController extends Controller
             return DataTables::of($patientApp)
                 ->addIndexColumn()
                 ->addColumn('brand', function($patientApp){
-                    return '<span style="font-weight: 500; color: '.$patientApp->treatment->brand->color.'">'.$patientApp->treatment->brand->brand.'</span>';
+                    return '<span style="color: '.$patientApp->treatment->brand->color.'">'.$patientApp->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('service', function($patientApp){
-                    return '<span style="font-weight: 500;">'.$patientApp->treatment->service->service.'</span>';
+                    return '<span >'.$patientApp->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedure', function($patientApp){
-                    return '<span style="font-weight: 500;">'.$patientApp->treatment->procedure->procedure.'</span>';
+                    return '<span>'.$patientApp->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('package', function($patientApp){
                     if (!is_null($patientApp->treatment->package)) {
-                        return '<span style="font-weight: 500;">'.$patientApp->treatment->package->package.'</span>';
+                        return '<span>'.$patientApp->treatment->package->package.'</span>';
                     } else {
-                        return '<span style="font-weight: 500;"> ---- </span>';
+                        return '<span> ---- </span>';
                     }
                 })
                 ->addColumn('coordinator', function($patientApp){
                     if (count($patientApp->assignments) < 1) {
-                        return '<span style="font-weight: 500;">Not Assigned</span>';
+                        return '<span>Not Assigned</span>';
                     } else {
-                        return '<span style="font-weight: 500; color: '.$patientApp->assignments[0]->color.'">'.$patientApp->assignments[0]->name.'</span>';
+                        return '<span style="color: '.$patientApp->assignments[0]->color.'">'.$patientApp->assignments[0]->name.'</span>';
                     }
-
                 })
                 ->addColumn('date', function($patientApp){
-                    return '<span style="font-weight: 500;">'.$patientApp->created_at->toDayDateTimeString().'</span>';
+                    return '<span>'.$patientApp->created_at->toDayDateTimeString().'</span>';
+                })
+                ->addColumn('code', function($patientApp){
+                    return '<span>'.$patientApp->temp_code.'</span>';
                 })
                 ->addColumn('status', function($patientApp){
-                    return '<span style="font-weight: 500;">'.ucwords($patientApp->status).'</span>';
+                    return '<span class="label label-sm label-danger">'.ucwords($patientApp->status).'</span>';
                 })
-                ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'package', "coordinator", 'date', 'status'])
+                ->rawColumns(['DT_RowIndex', 'code', 'brand', 'service', 'procedure', 'package', "coordinator", 'date', 'status'])
                 ->make(true);
         }
 

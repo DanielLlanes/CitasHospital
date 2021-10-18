@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Staff;
 
+use DataTables;
 use App\Mail\NewEventStaff;
 use App\Models\Staff\Event;
 use App\Models\Staff\Staff;
@@ -9,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\NewEventPatient;
 use App\Models\Staff\Patient;
+use App\Traits\DatesLangTrait;
 use App\Models\Site\Application;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -16,10 +18,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use DataTables;
 
 class EventController extends Controller
 {
+    use DatesLangTrait;
 
     public function __construct()
     {
@@ -122,13 +124,7 @@ class EventController extends Controller
                 $data = $events[$i]->application->treatment->package->package;
             }
             $extendedProps['application_package'] = $data;
-            //$extendedProps['endTime'] = $events[$i]->end_time;
-
-            if (Auth::guard('staff')->user()->lang == 'es') {
-                $extendedProps['formatedDate'] = $this->fechaEspanol($events[$i]->start_date);
-            } else {
-                $extendedProps['formatedDate'] = $this->fechaIngles($events[$i]->end_time);
-            }
+            $extendedProps['formatedDate'] = $this->datesLangTrait($events[$i]->start_date, Auth::guard('staff')->user()->lang);
 
             $singleEvent['extendedProps'] = $extendedProps;
             $allEvents[] = $singleEvent;
@@ -163,12 +159,6 @@ class EventController extends Controller
         );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -366,12 +356,6 @@ class EventController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -470,38 +454,5 @@ class EventController extends Controller
                 )
                 ->make(true);
         }
-    }
-
-    public function fechaEspanol($fecha)
-    {
-        $fecha = substr($fecha, 0, 10);
-        $numeroDia = date('d', strtotime($fecha));
-        $dia = date('l', strtotime($fecha));
-        $mes = date('F', strtotime($fecha));
-        $anio = date('Y', strtotime($fecha));
-        $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
-        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-        $nombredia = str_replace($dias_EN, $dias_ES, $dia);
-        $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-        $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-        $nombreMes = str_replace($meses_EN, $meses_ES, $mes);
-        return $nombredia." ".$numeroDia." de ".$nombreMes." de ".$anio;
-    }
-
-    public function fechaIngles($fecha)
-    {
-        $fecha = substr($fecha, 0, 10);
-        $numeroDia = date('d', strtotime($fecha));
-        $dia = date('l', strtotime($fecha));
-        $mes = date('F', strtotime($fecha));
-        $anio = date('Y', strtotime($fecha));
-        $dias_ES = array("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
-        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-        $nombredia = str_replace($dias_ES, $dias_EN, $dia);
-        $meses_ES = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-        $meses_EN = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-        $nombreMes = str_replace($meses_ES, $meses_EN, $mes);
-        //return $nombredia.", ".$numeroDia." de ".$nombreMes." de ".$anio;
-        return $nombredia.", ".$nombreMes." ".$numeroDia.", ".$anio;
     }
 }

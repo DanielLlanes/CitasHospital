@@ -445,7 +445,7 @@
                 })
             });
 
-            $(document).on('click', '.btn-tbl-edit', function (event) {
+            $(document).on('click', '.tbl-edit', function (event) {
                 var procedureId = $(this).attr('data-id')
                 var form_data = new FormData();
                 form_data.append('id', procedureId);

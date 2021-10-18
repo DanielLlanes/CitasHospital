@@ -14,14 +14,14 @@
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
     <!-- icons -->
-    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/font-awesome/css/font-awesome.css') }}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="{{ asset('staffFiles/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
     <!--bootstrap -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Material Design Lite CSS -->
-    <link href="{{ asset('staffFiles/assets/plugins/material/material.min.css') }}" rel="stylesheet" >
-    <link href="{{ asset('staffFiles/assets/css/material_style.css') }}" rel="stylesheet">
+    <link href="{{ asset('staffFiles/assets/plugins/material/material.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/css/material_style.css') }}" rel="stylesheet" type="text/css" />
     <!-- morris chart -->
     <link href="{{ asset('staffFiles/assets/plugins/morris/morris.css') }}" rel="stylesheet" type="text/css" />
     <!-- Theme Styles -->
@@ -29,13 +29,17 @@
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}">
+    <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
+
     <style type="text/css">
         .swal2-title{
             font-size: .8rem!important;
         }
     </style>
     @yield('styles')
+
     <!-- favicon -->
 </head>
 <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-color logo-dark">
@@ -92,6 +96,7 @@
         <script src="{{ asset('staffFiles/assets/plugins/morris/morris.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/morris/raphael-min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert2.js') }}"></script>
+        <script src="{{ asset('staffFiles/assets/plugins/dropify/dist/js/dropify.min.js') }}"></script>
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- end js include path -->
         {{-- plugins Langs --}}
@@ -117,6 +122,10 @@
         </script>
         @yield('scripts')
         <script type="text/javascript">
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
             var url = window.location;
             $('.sidemenu .nav-item a').each( function(index, val) {
                 if (this.href === url.href || url.href.indexOf(this.href) === 0) {

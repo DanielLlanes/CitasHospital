@@ -135,25 +135,6 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <h4 class="font-bold">Patient applications</h4>
-                                    <div class="table-scrollable responsive" >
-                                        <table class="table table-hover table-checkable order-column full-width" id="appsTable">
-                                            <thead>
-                                                <tr>
-                                                    <th> ID </th>
-                                                    <th> @lang('Brand') </th>
-                                                    <th> @lang('Service') </th>
-                                                    <th> @lang('Procedure') </th>
-                                                    <th> @lang('Package') </th>
-                                                    <th> @lang('Coordinator') </th>
-                                                    <th> @lang('Date') </th>
-                                                    <th> @lang('Status') </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fontawesome-demo" id="services">
@@ -1066,69 +1047,6 @@
     var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
 
     $(document).ready(function() {
-        var codigo = {{ $appInfo->patient->id }};
-        var appsTable = $('#appsTable').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ajax:{
-                url : globalRouteobtenerLista,
-                type: "get",
-                data: {"id": codigo},
-                error: function (xhr, error, thrown) {
-                },
-             },
-            language: {
-                "url": dataTablesLangEs
-            },
-            "columns": [
-
-                { data: 'DT_RowIndex' },
-                { data: "brand" },
-                { data: "service" },
-                { data: "procedure" },
-                { data: "package" },
-                { data: "coordinator" },
-                { data: "date" },
-                { data: "status" },
-
-            ],
-            createdRow: function (row, data, dataIndex) {
-                $(row).addClass('odd gradeX');
-            },
-        });
-
-
-            var form_data = new FormData();
-            form_data.append('id', 2);
-            $.ajax({
-                url: globalRouteobtenerLista,
-                method:"get",
-                data:form_data,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function()
-                {
-                },
-                success:function(data)
-                {
-                    console.log('data', data);
-                },
-                error: function (err)
-                {
-                    console.log('err', err)
-                },
-                complete: function()
-                {
-                },
-            })
-
-
         $(document).on('click', '#formCancel', function () {
             clearForm()
         });

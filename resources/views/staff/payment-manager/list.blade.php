@@ -88,7 +88,7 @@
                                                        <span class="required"> * </span>
                                                    </label>
                                                    <div class="col-md-12">
-                                                       <input type="text" name="phone" id="phone" placeholder="@lang('Enter patient phone')" class="form-control input-sm" />
+                                                       <input type="text" name="phone" id="phone" placeholder="@lang('Enter patient phone')" disabled class="form-control input-sm" />
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
@@ -97,16 +97,27 @@
                                                        <span class="required"> * </span>
                                                    </label>
                                                    <div class="col-md-12">
-                                                       <input type="email" name="email" id="email" placeholder="@lang('Enter patient email')" class="form-control input-sm" />
+                                                       <input type="email" name="email" id="email" placeholder="@lang('Enter patient email')"  disabled class="form-control input-sm" />
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Application')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <select name="applications" id="applications" class="form-control input-sm">
+                                                            <option value="" disabled selected>Select....</option>
+                                                        </select>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="email" name="email" id="email" placeholder="@lang('Enter Brand')" class="form-control input-sm" />
+                                                        <input type="text" name="brand" id="brand" placeholder="@lang('Enter Brand')" disabled class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -115,7 +126,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="email" name="email" id="email" placeholder="@lang('Enter Service')" class="form-control input-sm" />
+                                                        <input type="text" name="service" id="service" placeholder="@lang('Enter Service')" disabled class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -124,7 +135,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="email" name="email" id="email" placeholder="@lang('Enter Precedure')" class="form-control input-sm" />
+                                                        <input type="text" name="procedure" id="procedure" placeholder="@lang('Enter Precedure')" disabled class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -133,7 +144,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="email" name="email" id="email" placeholder="@lang('Enter Package')" class="form-control input-sm" />
+                                                        <input type="text" name="package" id="package" placeholder="@lang('Enter Package')" disabled class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -142,7 +153,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="email" name="email" id="email" placeholder="@lang('Enter Price')" class="form-control input-sm" />
+                                                        <input type="text" name="price" id="price" placeholder="@lang('Enter Price')" disabled class="form-control input-sm" />
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -251,12 +262,9 @@
     <script>
         var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
-        var globalSetEvent = '{{ route('staff.events.store') }}'
-        var globaleventSources = '{{ route('staff.events.eventSources') }}'
-        var globalEventDrop = '{{ route('staff.events.eventDrop') }}'
-        var globalEditEvent = '{{ route('staff.events.editEvent') }}'
         var globalDestroyEvent = '{{ route('staff.events.destroy') }}'
-        var globalRouteobtenerLista = '{{ route('staff.events.getApps') }}'
+        var globalRouteobtenerApps = '{{ route('staff.payments.patientsApps') }}'
+        var globalRoutesearchPatientWithApps = '{{ route('staff.payments.searchPatientWithApps') }}'
     </script>
 	<script>
 
@@ -281,8 +289,6 @@
                 processData: false,
                 beforeSend: function(){
                     $('#myInputautocomplete-list.patient').html('');
-                    $('#email').val('').prop('disabled', false);
-                    $('#phone').val('').prop('disabled', false);
                 },
                 success: function(data) {
                     var sugerencias = '';
@@ -306,20 +312,75 @@
                         var phone = $(this).attr('phone');
                         var lang = $(this).attr('lang');
                         var app = $(this).attr('app')
+                        patientGetApps(id)
                         $('.autocomplete.patient').val(name).attr('data-id', id);
-                        $('#email').val(email).prop('disabled', true);
-                        $('#phone').val(phone).prop('disabled', true);
+                        $('#email').val(email);
+                        $('#phone').val(phone);
                         $('#lang option[value='+lang+']').attr('selected','selected');
                         $('#lang').prop('disabled', true);
                         $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
-                        if (app == 1) {
-                            $('#is_app').parents('.form-group').show('fast')
-                        }
-                        else {
-                            $('#is_app').parents('.form-group').hide('fast')
-                        }
+
                         return false;
                     });
+                }
+            });
+        });
+
+        function patientGetApps(id){
+            var dataString = new FormData();
+            dataString.append('id', id);
+            $.ajax({
+                url: globalRouteobtenerApps,
+                type: "POST",
+                method:"POST",
+                data:dataString,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                    $("#applications option:not(:first)").remove();
+                    $("#applications").prop("selectedIndex", 0);
+                },
+                success: function(data) {
+                    for (let i = 0; i < data.data.length; i++) {
+                        $('#applications').append('<option value="'+data.data[i].id+'">'+data.data[i].temp_code+'</option>')
+                    }
+                }
+            });
+        }
+
+        $(document).on('click', '#applications', function () {
+            var appId = $( "#applications option:selected" ).val();
+            var e = document.getElementById("applications").value;
+            //alert(e.value);
+            var dataString = new FormData();
+            dataString.append('id', appId);
+            $.ajax({
+                url: globalRoutesearchPatientWithApps,
+                type: "POST",
+                method:"POST",
+                data:dataString,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#brand').val(data.treatment.brand.brand)
+                    $('#service').val(data.treatment.service.service)
+                    $('#procedure').val(data.treatment.procedure.procedure)
+                    $('#package').val(data.treatment.package.package)
+                    $('#price').val(data.treatment.price)
                 }
             });
         });

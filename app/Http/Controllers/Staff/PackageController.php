@@ -24,6 +24,9 @@ class PackageController extends Controller
      */
     public function package()
     {
+        $lang = Auth::guard('staff')->user()->lang;
+            app()->setLocale($lang);
+
         return view('staff.packages-manager.list');
     }
 
@@ -33,7 +36,7 @@ class PackageController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $packages = Package::select(["id", "active",  "package_$lang As package", "description_$lang AS description" ])->get();
+            $packages = Package::select(["id", "active",  "package_$lang As package" ])->get();
             return DataTables::of($packages)
                 ->addIndexColumn()
                 ->addColumn('package', function($packages){
@@ -51,7 +54,7 @@ class PackageController extends Controller
                     }
                     return $btn;
                 })
-                ->addColumn('action', 'staff.brand-manager.actions-list')
+                ->addColumn('action', 'staff.packages-manager.actions-list')
                 ->rawColumns(['DT_RowIndex', 'package', 'active', 'action'])
                 ->make(true);
         }

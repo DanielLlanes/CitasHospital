@@ -273,7 +273,6 @@
                 },
                 success:function(data)
                 {
-                    console.log(data.data);
                     if (data.data.length > 0) {
                         $('.assignable_area_div').show('fast').html('');
 

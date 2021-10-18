@@ -118,7 +118,7 @@ class TreatmentController extends Controller
                     }
                     return $btn;
                 })
-                ->addColumn('action', 'staff.service-manager.actions-list')
+                ->addColumn('action', 'staff.treatments-manager.actions-list')
                 ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'package', 'price', 'description', 'active', 'action'])
                 ->make(true);
         }

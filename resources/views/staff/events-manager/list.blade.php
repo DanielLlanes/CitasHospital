@@ -188,21 +188,24 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="title text-center font-weight-bold text-capitalize">
-
+            <div class="modal-body" id="eventModalBody">
+                <div class="col-12">
+                    <div class="title text-center font-weight-bold text-capitalize"></div>
                 </div>
-                <div class="staffName">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="staffName"></div>
+                            <div class="patient"></div>
+                            <div class="fechaInicio"></div>
+                        </div>
+                        <div class="col-7">
 
+                        </div>
+                    </div>
                 </div>
-                <div class="patient">
-
-                </div>
-                <div class="fechaInicio">
-
-                </div>
-                <div class="notas">
-
+                <div class="col-12 text-center">
+                    <div class="notas text"></div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -210,7 +213,7 @@
                 @can('calendar.edit')
                     <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
                 @endcan
-                @can('calendar.destroy')
+                @can('calendar.destroyx')
                     <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
                 @endcan
             </div>
@@ -752,12 +755,39 @@
                 $('#formReset').click();
                 $('.error').html('')
                 //$('#viewEvantModal').find('.modal-body').html('')
-                $(".title").html(arg.event.title)
-                $(".staffName").html(arg.event.extendedProps.staff)
-                $(".patient").html(arg.event.extendedProps.patient)
-                $(".fechaInicio").html(arg.event.extendedProps.formatedDate)
-                $(".notas").html(arg.event.extendedProps.notas)
+                // $(".title").html(arg.event.title)
+                // $(".staffName").html('Staff: '+arg.event.extendedProps.staff)
+                // $(".patient").html('Patient: '+arg.event.extendedProps.patient)
+                // $(".fechaInicio").html('Date: '+arg.event.extendedProps.formatedDate)
+                // $(".notas").html('Notes: '+arg.event.extendedProps.notas)
                 $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
+
+                var eventModalBody =' <div class="col-12">\
+                                    <div class="title text-center font-weight-bold text-capitalize">' + arg.event.title + '</div>\
+                                    </div>\
+                                    <div class="col-12">\
+                                    <div class="row">\
+                                    <div class="col-6">\
+                                    <div class="staffName">Staff: ' + arg.event.extendedProps.staff + '</div>\
+                                    <div class="patient">Patient: ' + arg.event.extendedProps.patient + '</div>\
+                                    <div class="fechaInicio">Date: ' +arg.event.extendedProps.formatedDate + '</div>\
+                                    </div>\
+                                    <div class="col-6">';
+                                if (arg.event.extendedProps.isapp == 'si') {
+                                    eventModalBody += '<div class="staffName">Brand: ' + arg.event.extendedProps.application_brand + '</div>';
+                                    eventModalBody += '<div class="staffName">Service: ' + arg.event.extendedProps.application_service + '</div>';
+                                    eventModalBody += '<div class="staffName">Procedure: ' + arg.event.extendedProps.application_procedure + '</div>';
+                                    eventModalBody += '<div class="staffName">Package: ' + arg.event.extendedProps.application_package + '</div>';
+                                }
+                eventModalBody += '</div>\
+                        </div>\
+                    </div>\
+                    <div class="col-12 text-center">\
+                        <div class="notas text">Notes: ' + arg.event.extendedProps.notas + '</div>\
+                    </div>\
+                ';
+                $('#eventModalBody').html('')
+                $('#eventModalBody').html(eventModalBody);
             }).modal('show')
         }
         $(document).on('change', '#is_app',function () {

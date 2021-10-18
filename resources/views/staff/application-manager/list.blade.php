@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="card-body ">
                                       <div class="table-scrollable responsive" >
-                                        <table class="table table-hover table-checkable order-column full-width" id="PackageTable">
+                                        <table style="width:100%; min-width:100% height:20px;" class="table table-hover dt-responsive nowrap" id="PackageTable">
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
@@ -48,6 +48,7 @@
                                                     <th> @lang('Date') </th>
                                                     <th> @lang('Price') </th>
                                                     <th> @lang('Status') </th>
+                                                    <th> @lang('Code') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
                                             </thead>
@@ -76,11 +77,19 @@
         box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
     }
     a .btn-tbl-view:hover,
-    .btn-tbl-editPrice:hover{
+    .btn-tbl-editPrice:hover,
+    .btn-tbl-payment:hover{
         color: #fff;
     }
     .btn-tbl-editPrice{
         background-color: rgb(250, 152, 73);
+        border-radius: 50% !important;
+        padding: 5px !important;
+        color: #fff;
+        box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
+    }
+    .btn-tbl-payment{
+        background-color: rgb(218, 110, 218);
         border-radius: 50% !important;
         padding: 5px !important;
         color: #fff;
@@ -143,7 +152,7 @@
 		        },
 		        "columns": [
 
-					{ data: 'DT_RowIndex' },
+					{ data: 'id' },
                     { data: "patient" },
                     { data: "brand" },
                     { data: "service" },
@@ -153,7 +162,8 @@
                     { data: "date" },
                     { data: "price" },
                     { data: "status" },
-		            { data: "action", orderable: false, searchable: false, className: 'center' },
+                    { data: "code" },
+		            { data: "action", orderable: false, searchable: false },
 
 		        ],
 		        createdRow: function (row, data, dataIndex) {
@@ -164,32 +174,37 @@
 
                 var form_data = new FormData();
                 form_data.append('package_en', 1);
-                $.ajax({
-                    url: globalRouteobtenerLista,
-                    method:"get",
-                    data:form_data,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function()
-                    {
-                    },
-                    success:function(data)
-                    {
-                        console.log('data', data);
-                    },
-                    error: function (err)
-                    {
-                        console.log('err', err)
-                    },
-                    complete: function()
-                    {
-                    },
-                })
+                // $.ajax({
+                //     url: globalRouteobtenerLista,
+                //     method:"get",
+                //     data:form_data,
+                //     dataType:'JSON',
+                //     contentType: false,
+                //     cache: false,
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     },
+                //     processData: false,
+                //     beforeSend: function()
+                //     {
+                //     },
+                //     success:function(data)
+                //     {
+
+                //     },
+                //     error: function (err)
+                //     {
+                //         console.log('err', err)
+                //     },
+                //     complete: function()
+                //     {
+                //     },
+                // })
+
+                $.getJSON(globalRouteobtenerLista, function(resp) {
+                    console.log(resp);
+                });
+
 
 
             $(document).on('click', '#formCancel', function () {

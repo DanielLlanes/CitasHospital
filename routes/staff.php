@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\PackageController;
 use App\Http\Controllers\Staff\PaymentController;
 use App\Http\Controllers\Staff\ProductController;
+use App\Http\Controllers\Staff\PatientController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\DashboardController;
@@ -140,9 +141,22 @@ Route::name('staff.')->namespace('Staff')->group(function(){
     });
 
     Route::name('payments.')->group( function(){
-        Route::get('/payments/listar',      [PaymentController::class, 'index'])->name('payments');
-        Route::get('/payments/get-list',    [PaymentController::class, 'getList'])->name('getList');
-        Route::get('/payments/view/{id}',   [PaymentController::class, 'show'])->name('show');
+        Route::get('/payments/listar',                  [PaymentController::class, 'index'])->name('payments');
+        Route::get('/payments/get-list',                [PaymentController::class, 'getList'])->name('getList');
+        Route::get('/payments/view/{id}',               [PaymentController::class, 'show'])->name('show');
+        Route::post('/payments/patientApps',            [PaymentController::class, 'patientsApps'])->name('patientsApps');
+        Route::post('/payments/searchPatientWithApps',  [PaymentController::class, 'searchPatientWithApps'])->name('searchPatientWithApps');
+    });
+
+    Route::name('patients.')->group( function(){
+        Route::get('/patient/listar',      [PatientController::class, 'index'])->name('patient');
+        Route::get('/patient/get-list',    [PatientController::class, 'getList'])->name('getList');
+        Route::get('/patient/view/{id}',   [PatientController::class, 'show'])->name('show');
+        Route::get('/patient/add',         [PatientController::class, 'create'])->name('add');
+        Route::post('/patient/store',      [PatientController::class, 'store'])->name('store');
+		Route::get('/patient/edit/{id}',   [PatientController::class, 'edit'])->name('edit');
+		Route::post('/patient/update/{id}',[PatientController::class, 'update'])->name('update');
+		Route::post('/patient/destroy',    [PatientController::class, 'destroy'])->name('destroy');
     });
 
 });

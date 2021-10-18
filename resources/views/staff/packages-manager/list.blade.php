@@ -78,13 +78,7 @@
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
-                                                <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
-                                                    <span class="required"> * </span>
-                                                </label>
-                                                <div class="col-md-12">
-                                                    <textarea name="address" class="form-control-textarea mb-5" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
-                                                    <div class="error text-danger col-form-label-sm"></div>
-                                                </div>
+                                                
                                             </div>
                                            </div>
                                            <div class="form-actions">
@@ -265,7 +259,7 @@
                 })
             });
 
-            $(document).on('click', '.btn-tbl-edit', function (event) {
+            $(document).on('click', '.tbl-edit', function (event) {
                 var packageId = $(this).attr('data-id')
                 var form_data = new FormData();
                 form_data.append('id', packageId);
