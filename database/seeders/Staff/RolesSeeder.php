@@ -38,7 +38,7 @@ class RolesSeeder extends Seeder
             'show' => false
         ]);
 
-        $Admin = Role::create([
+        $admin = Role::create([
             'id' => 3,
             'name' => 'administrator',
             'guard_name' => 'staff',
@@ -47,7 +47,7 @@ class RolesSeeder extends Seeder
             'assignable' => '0',
         ]);
 
-        $role = Role::create([
+        $doctor = Role::create([
             'id' => 4,
             'name' => 'doctor',
             'guard_name' => 'staff',
@@ -56,7 +56,7 @@ class RolesSeeder extends Seeder
             'assignable' => '0',
         ]);
 
-        $role = Role::create([
+        $nurse = Role::create([
             'id' => 5,
             'name' => 'nurse',
             'guard_name' => 'staff',
@@ -65,7 +65,7 @@ class RolesSeeder extends Seeder
             'assignable' => '0',
         ]);
 
-        $role = Role::create([
+        $coordinator = Role::create([
             'id' => 6,
             'name' => 'coordinator',
             'guard_name' => 'staff',
@@ -74,7 +74,7 @@ class RolesSeeder extends Seeder
             'assignable' => '1',
         ]);
 
-        $role = Role::create([
+        $driver = Role::create([
             'id' => 7,
             'name' => 'driver',
             'guard_name' => 'staff',
@@ -84,5 +84,95 @@ class RolesSeeder extends Seeder
         ]);
         $dios->givePermissionTo(Permission::all());
         $superAdmin->givePermissionTo(Permission::all());
+        $doctorpermissions = [
+            "calendar.edit",
+            "calendar.list",
+            "applications.list",
+            "applications.show",
+        ];
+        $doctor->givePermissionTo($doctorpermissions);
+
+
+        $adminRole = [
+            "calendar.edit",
+            "calendar.list",
+            "calendar.create",
+            "calendar.destroy",
+            "calendar.show",
+
+            "staff.list",
+            "staff.create",
+            "staff.edit",
+            "staff.destroy",
+            "staff.activate",
+            "staff.show",
+            "staff.reset.password",
+            "staff.create.permisions",
+            "staff.edit.permisions",
+
+            "staff.list.admins",
+            "staff.create.admins",
+            "staff.edit.admins",
+            "staff.destroy.admins",
+            "staff.activate.admins",
+            "staff.show.admins",
+            "staff.reset.password.admins",
+            "staff.create.permisions.admins",
+            "staff.edit.permisions.admins",
+
+            "applications.list",
+            "applications.details",
+            "applications.create",
+            "applications.edit",
+            "applications.setprice",
+            "applications.changeStaff",
+            "applications.destroy",
+            "applications.show",
+            "applications.timeLine",
+            "applications.logisticsNotes",
+
+            "patients.list",
+            "patients.create",
+            "patients.edit",
+            "patients.destroy",
+            "patients.details",
+            "patient.show",
+
+            "procedures.list",
+            "procedures.create",
+            "procedures.edit",
+            "procedures.destroy",
+            "procedures.activate",
+
+            "payments.list",
+            "payments.create",
+            "payments.edit",
+            "payments.destroy",
+            "payments.show",
+
+            "specialties.list",
+            "specialties.create",
+            "specialties.edit",
+            "specialties.destroy",
+            "specialties.activate",
+
+            "services.list",
+            "services.create",
+            "services.edit",
+            "services.destroy",
+            "services.activate",
+
+            "packages.list",
+            "packages.create",
+            "packages.edit",
+            "packages.destroy",
+            "packages.activate",
+
+            "brand.list",
+            "brand.create",
+            "brand.edit",
+            "brand.destroy",
+            "brand.activate",
+        ];
     }
 }

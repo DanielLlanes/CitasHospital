@@ -888,7 +888,7 @@ class ApplicationController extends Controller
                 $validator = Validator::make($request->all(), [
 
                     "smoke" => "required|boolean",
-                    "smoke_cigars" => "required_if:smoke,1|nullable|integer",
+                    "smoke_cigars" => "required_if:smoke,1|nullable|string",
                     "smoke_years" => "required_if:smoke,1|nullable|integer",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
@@ -897,8 +897,9 @@ class ApplicationController extends Controller
 
                     "recreative_drugs" => "required|boolean",
                     "total_recreative_drugs" => [
-                        ($request->recreative_drugs == '1') ? 'numeric': null
+                        ($request->recreative_drugs == '1') ? 'string': null
                     ],
+
                     "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
                     "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
 
@@ -907,16 +908,18 @@ class ApplicationController extends Controller
                     "asthma" => "required|boolean",
                     "bipap_cpap" => "required|boolean",
                     "exercise" => "required|boolean",
+
                     "exercise_type" => ['required_if:exercise,1','array'],
                     "exercise_type.*" => ['required_if:exercise,1','string'],
                     "exercise_how_long" => ['required_if:exercise,1','array'],
                     "exercise_how_long.*" => ['required_if:exercise,1','string'],
                     "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
                     "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                    "exercise_hours.*" => ['required_if:exercise,1','string'],
+                    "exercise_hours.*" => ['required_if:exercise,1','numeric'],
                     "exercise_hours" => ['required_if:exercise,1','array'],
                     ///////////////////////////////////////////////////////
                     "hours_you_sleep_at_night" => ['required', 'numeric'],
+                    
                     'do_you_take_sleeping_pills' => ['required', 'boolean'],
                     'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
                     'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
@@ -1117,7 +1120,7 @@ class ApplicationController extends Controller
             "bleeding_whas" => "required|in:normal,light,heavy,irregular",
             "have_you_been_pregnant" => "required|boolean",
             "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
-            "c_section" => ['required_if:have_you_been_pregnant,1','nullable','string'],
+            "c_section" => ['required_if:have_you_been_pregnant,1','nullable','string'], //boleano
             "birth_control" => "required|boolean",
 
             "birth_control" =>"required|boolean",
@@ -1169,7 +1172,7 @@ class ApplicationController extends Controller
                 $app->gynecologicalData = 1;
                 Session::put('form_session', $app);
 
-                $insert_birth = [];
+                $insert_bControl = [];
                 for ($i = 0; $i < count($birth_control_cadena); $i++) {
                     $insert_bControl[] = [
                         'application_id' => $app->id,
@@ -1180,7 +1183,7 @@ class ApplicationController extends Controller
                 $app->birthcontrol()->delete();
                 BirthControlApplication::insert($insert_bControl);
 
-                $insert_hor = [];
+                $insert_hormone = [];
                 for ($i = 0; $i < count($hormone_cadena); $i++) {
                     $insert_hormone[] = [
                         'application_id' => $app->id,

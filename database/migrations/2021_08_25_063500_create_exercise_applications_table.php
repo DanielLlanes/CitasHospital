@@ -18,8 +18,8 @@ class CreateExerciseApplicationsTable extends Migration
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->string('type')->nullable();
             $table->string('how_long')->nullable();
-            $table->integer('how_frecuency')->nullable();
-            $table->integer('Hours_per_day')->nullable();
+            $table->text('how_frecuency')->nullable();
+            $table->string('Hours_per_day')->nullable();
             $table->timestamps();
         });
         Schema::table('exercise_applications', function($table) {

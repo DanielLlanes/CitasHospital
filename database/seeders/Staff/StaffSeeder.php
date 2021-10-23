@@ -111,7 +111,6 @@ class StaffSeeder extends Seeder
             "staff.create.permisions.admins",
             "staff.edit.permisions.admins",
 
-
             "applications.list",
             "applications.details",
             "applications.create",
@@ -127,7 +126,6 @@ class StaffSeeder extends Seeder
             "patients.destroy",
             "patients.details",
             "patient.show",
-
 
             "procedures.list",
             "procedures.create",

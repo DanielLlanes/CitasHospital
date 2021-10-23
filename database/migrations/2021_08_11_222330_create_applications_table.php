@@ -113,16 +113,23 @@ class CreateApplicationsTable extends Migration
 
 
             $table->boolean('smoke')->nullable();
-            $table->integer('smoke_cigars')->nullable();
-            $table->integer('smoke_years')->nullable();
+            $table->text('smoke_cigars')->nullable();
+            $table->text('smoke_years')->nullable();
+
             $table->boolean('stop_smoking')->nullable();
-            $table->string('when_stop_smoking')->nullable();
+            $table->text('when_stop_smoking')->nullable();
+
             $table->boolean('alcohol')->nullable();
             $table->text('volumen_alcohol')->nullable();
+
             $table->boolean('recreative_drugs')->nullable();
-            $table->integer('total_recreative_drugs')->nullable();
+            $table->text('total_recreative_drugs')->nullable();
+
+
             $table->boolean('intravenous_drugs')->nullable();
-            $table->string('description_intravenous_drugs', 255)->nullable();
+            $table->text('description_intravenous_drugs', 255)->nullable();
+
+
             $table->boolean('fatigue')->nullable();
             $table->boolean('trouble_breathe')->nullable();
             $table->boolean('bipap_cpap')->nullable();
@@ -132,8 +139,8 @@ class CreateApplicationsTable extends Migration
             $table->date('last_menstrual_period')->nullable();
             $table->enum('bleeding_whas', ["normal", "light", "heavy", "irregular"])->default("normal");
             $table->boolean('have_you_been_pregnant')->nullable();
-            $table->integer('how_many_times')->nullable();
-            $table->integer('c_section')->nullable();
+            $table->text('how_many_times')->nullable();
+            $table->text('c_section')->nullable();
             $table->boolean('caesarean')->nullable();
             $table->boolean('birth_control')->nullable();
 

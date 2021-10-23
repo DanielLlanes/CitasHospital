@@ -69,7 +69,7 @@
                     <div class="mb-3 row mt-1 smoke" @if (old('smoke') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control form-control-sm" id="smoke_cigars" name="smoke_cigars" value="{{ $patient->smoke_cigars ?? old('smoke_cigars') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="smoke_cigars" name="smoke_cigars" value="{{ $patient->smoke_cigars ?? old('smoke_cigars') }}" placeholder="">
                             @error('smoke_cigars')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -109,7 +109,7 @@
                     <div class="mb-3 row mt-1 smoke_quit" @if (old('stop_smoking') == 1)@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How long </span></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="{{ $patient->when_stop_smoking ?? old('when_stop_smoking') }}" placeholder="">
                             @error('when_stop_smoking')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -137,7 +137,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 alcohol" @if (old('alcohol') == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Volume of alcohol (frecuency) </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="volumen_alcohol" name="volumen_alcohol" value="{{ $patient->volumen_alcohol ?? old('volumen_alcohol') }}" placeholder="">
                             @error('volumen_alcohol')
@@ -473,7 +473,7 @@
                             <div class="mb-3 row mt-1 do_you_have_erections_at_the_morning" @if (old('do_you_have_erections_at_the_morning') == 1) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many per week?</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="{{ $patient->how_many_per_week ?? old('how_many_per_week') }}" placeholder="">
+                                    <input type="text" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="{{ $patient->how_many_per_week ?? old('how_many_per_week') }}" placeholder="">
                                     @error('how_many_per_week')
                                         <span class="invalid-feedback" style="display: block!important;" role="alert">
                                             <strong class="error">{{ $message }}</strong>
@@ -503,7 +503,7 @@
                             <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"  @if (old('do_you_have_problems_getting_erections') == 1) @else style="display: none" @endif>
                                 <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control form-control-sm" id="since_when" name="since_when" value="{{ $patient->since_when ?? old('since_when') }}" placeholder="">
+                                    <input type="text" class="form-control form-control-sm" id="since_when" name="since_when" value="{{ $patient->since_when ?? old('since_when') }}" placeholder="">
                                     @error('since_when')
                                         <span class="invalid-feedback" style="display: block!important;" role="alert">
                                             <strong class="error">{{ $message }}</strong>
@@ -825,7 +825,18 @@
 @section('scripts')
 
     <script>
+        var amount = $('#smoke_cigars').val();
+        var present=0;
 
+        $(document).on('keypress', '#smoke_cigars', function (evt) {
+            var code = (evt.which) ? evt.which : evt.keyCode;
+            var amount = $('#smoke_cigars').val();
+            if ((amount.indexOf('.') >= 0)) {
+                console.log('ke', amount);
+            } else {
+                console.log('no');
+            }
+        });
         $(document).on('click', '.deleteSurgey', function(event) {
             $(this).parents('tr').remove()
 

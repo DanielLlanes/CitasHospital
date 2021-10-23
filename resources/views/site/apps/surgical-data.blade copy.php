@@ -27,7 +27,7 @@
         <div class="container">
 
             <div class="section-title mb-5" data-aos="fade-up">
-                <h2>Health<strong> Data</strong></h2>
+                <h2>Surgical<strong> Data</strong></h2>
                 <p>
 
                 </p>

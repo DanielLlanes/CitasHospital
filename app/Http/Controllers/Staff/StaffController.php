@@ -627,7 +627,6 @@ class StaffController extends Controller
 
         return view('staff.staff-manager.edit', ['staff' => $staff, 'groups' => $groups, 'permissions' => $permissions,'roles' => $roles]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -747,7 +746,6 @@ class StaffController extends Controller
            ]
        );
     }
-
     /**
      * Remove the specified resource from storage.
      *

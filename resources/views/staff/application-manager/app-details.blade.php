@@ -1,19 +1,19 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('User Profile')
+	@lang('Application Details')
 @endsection
 @section('content')
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Doctor Profile</div>
+            <div class="page-title">Application Details</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
             <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li><a class="parent-item" href="#">Doctors</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><a class="parent-item" href="#">Application List</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">Doctor Profile</li>
+            <li class="active">Application Details</li>
         </ol>
     </div>
 </div>
@@ -67,6 +67,12 @@
                             @endif
                             <li class="nav-item tab-all p-l-20">
                                 <a class="nav-link" href="#debateChat" data-toggle="tab">Debate</a>
+                            </li>
+                            <li class="nav-item tab-all p-l-20">
+                                <a class="nav-link" href="#timeLine" data-toggle="tab">Time line</a>
+                            </li>
+                            <li class="nav-item tab-all p-l-20">
+                                <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Logistics notes</a>
                             </li>
                         </ul>
                     </div>
@@ -132,6 +138,12 @@
                                         <div class="col-md-3 col-6 mb-2"> <strong>Emergency contact phone</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->patient->ecp }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-md-12 col-12 mb-2 mt-5 d-flex justify-content-end">
+                                            <br>
+                                            <button type="button" class="btn btn-danger">Change Patient</button>
                                         </div>
                                     </div>
                                     <hr>
@@ -900,7 +912,6 @@
                                     </div>
                                 </div>
                             @endif
-
                             <div class="tab-pane fontawesome-demo" id="debateChat">
                                 <div id="biography">
                                     <div class="row">
@@ -994,6 +1005,224 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fontawesome-demo" id="timeLine">
+                                <div id="biography">
+                                    <div class="row">
+                                        <div class="full-width p-l-20">
+                                            <div class="panel">
+                                                <form>
+                                                    <textarea class="form-control p-text-area" rows="4" placeholder="Add time line notes"></textarea>
+                                                </form>
+                                                <footer class="panel-footer">
+                                                    <button class="btn btn-post pull-right">Post</button>
+                                                    <ul class="nav nav-pills p-option">
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-user"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-camera"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa  fa-location-arrow"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-meh-o"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </footer>
+                                            </div>
+                                        </div>
+                                        <div class="full-width p-l-20">
+                                            <ul class="activity-list">
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Rajesh</a> <span>Uploaded 3 new photos</span></h5>
+                                                        <p class="text-muted">7 minutes ago near Alaska, USA</p>
+                                                        <div class="album">
+                                                            <a href="#">
+                                                                <img alt="" src="https://www.orliman.com/wp-content/uploads/post13042017_quirofano-inteligente.jpg">
+                                                            </a>
+                                                            <a href="#">
+                                                                <img alt="" src="https://2.bp.blogspot.com/-KN8x77y7Qx4/TrMHGh9BUCI/AAAAAAAAD5M/rqTY3ZmwrIs/w1200-h630-p-k-no-nu/Imagen+or1.jpg">
+                                                            </a>
+                                                            <a href="#">
+                                                                <img alt="" src="https://i0.wp.com/yoamoenfermeriablog.com/wp-content/uploads/2018/10/quirofano_moncloa1_15_1000x564.jpg?resize=790%2C446&ssl=1">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">John Doe</a> <span>attended a meeting with</span>
+                                                                        <a href="#">Lina Smith.</a></h5>
+                                                        <p class="text-muted">2 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Kehn Anderson</a> <span>completed the task “wireframe design” within the dead line</span></h5>
+                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Jacob Ryan</a> <span>was absent office due to sickness</span></h5>
+                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 13 minutes ago</span>
+                                                <div class="post-img"><img src="https://previews.123rf.com/images/siraphol/siraphol1704/siraphol170400471/75206739-interior-borroso-abstracto-del-hospital-y-de-la-cl%C3%ADnica-para-el-fondo.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 37 minutes ago</span>
+                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 53 minutes ago</span>
+                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 p-t-20 text-center">
+                                                  <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-info">Load More</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fontawesome-demo" id="logisticsNotes">
+                                <div id="biography">
+                                    <div class="row">
+                                        <div class="full-width p-l-20">
+                                            <div class="panel">
+                                                <form>
+                                                    <textarea class="form-control p-text-area" rows="4" placeholder="Add logistics notes"></textarea>
+                                                </form>
+                                                <footer class="panel-footer">
+                                                    <button class="btn btn-post pull-right">Post</button>
+                                                    <ul class="nav nav-pills p-option">
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-user"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-camera"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa  fa-location-arrow"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#"><i class="fa fa-meh-o"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </footer>
+                                            </div>
+                                        </div>
+                                        <div class="full-width p-l-20">
+                                            <ul class="activity-list">
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Rajesh</a> <span>Uploaded 3 new photos</span></h5>
+                                                        <p class="text-muted">7 minutes ago near Alaska, USA</p>
+                                                        <div class="album">
+                                                            <a href="#">
+                                                                <img alt="" src="https://www.orliman.com/wp-content/uploads/post13042017_quirofano-inteligente.jpg">
+                                                            </a>
+                                                            <a href="#">
+                                                                <img alt="" src="https://2.bp.blogspot.com/-KN8x77y7Qx4/TrMHGh9BUCI/AAAAAAAAD5M/rqTY3ZmwrIs/w1200-h630-p-k-no-nu/Imagen+or1.jpg">
+                                                            </a>
+                                                            <a href="#">
+                                                                <img alt="" src="https://i0.wp.com/yoamoenfermeriablog.com/wp-content/uploads/2018/10/quirofano_moncloa1_15_1000x564.jpg?resize=790%2C446&ssl=1">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">John Doe</a> <span>attended a meeting with</span>
+                                                                        <a href="#">Lina Smith.</a></h5>
+                                                        <p class="text-muted">2 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Kehn Anderson</a> <span>completed the task “wireframe design” within the dead line</span></h5>
+                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="avatar">
+                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
+                                                    </div>
+                                                    <div class="activity-desk">
+                                                        <h5><a href="#">Jacob Ryan</a> <span>was absent office due to sickness</span></h5>
+                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 13 minutes ago</span>
+                                                <div class="post-img"><img src="https://previews.123rf.com/images/siraphol/siraphol1704/siraphol170400471/75206739-interior-borroso-abstracto-del-hospital-y-de-la-cl%C3%ADnica-para-el-fondo.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 37 minutes ago</span>
+                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 53 minutes ago</span>
+                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
+                                                <div>
+                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 p-t-20 text-center">
+                                                  <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-info">Load More</button>
                                             </div>
                                         </div>
                                     </div>
