@@ -202,9 +202,9 @@
                                 @enderror
                             </div>
                         </div>
-                        @if (Auth::guard('staff')->user()->can('staff.create.permisions.admins') || Auth::guard('staff')->user()->can('staff.create.permisions'))
+                        {{-- @if (Auth::guard('staff')->user()->can('staff.create.permisions.admins') || Auth::guard('staff')->user()->can('staff.create.permisions'))
                             @include('staff.staff-manager.permissions-add')
-                        @endif
+                        @endif --}}
 						<div class="form-actions">
                             <div class="row justify-content-md-center col-12">
                                 <div class="offset-md-6 col-md-9">

@@ -52,7 +52,6 @@ class StaffSeeder extends Seeder
         ]);
 
         $janlu = Staff::create([
-
                 'name' => 'Janlu Prado',
                 'username' => 'janlu',
                 'cellphone' => '+199222356',
@@ -168,8 +167,5 @@ class StaffSeeder extends Seeder
         $admin->assignRole('super-administrator');
         $janlu->assignRole('administrator');
         $ismael->assignRole('administrator');
-
-        $janlu->givePermissionTo($adminRole);
-        $ismael->givePermissionTo($adminRole);
     }
 }

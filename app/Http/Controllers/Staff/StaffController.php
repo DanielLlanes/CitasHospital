@@ -500,7 +500,7 @@ class StaffController extends Controller
             );
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
             $staff->syncRoles([$request->role]);
-            $staff->syncPermissions($request->permissions);
+            //$staff->syncPermissions($request->permissions);
             app()->setLocale($lang);
             return redirect()->route('staff.staff.staff')->with(
                 [
@@ -728,7 +728,7 @@ class StaffController extends Controller
         if ($staff->save()) {
 
             $staff->syncRoles([$request->role]);
-            $staff->syncPermissions($request->permissions);
+            //$staff->syncPermissions($request->permissions);
 
             return redirect()->route('staff.staff.staff')->with(
                 [

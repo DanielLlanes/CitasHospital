@@ -82,18 +82,29 @@ class RolesSeeder extends Seeder
             'name_en' => 'Driver',
             'assignable' => '0',
         ]);
-        $dios->givePermissionTo(Permission::all());
-        $superAdmin->givePermissionTo(Permission::all());
-        $doctorpermissions = [
-            "calendar.edit",
+
+        $doctorPermissions = [
+            "calendar.show",
             "calendar.list",
             "applications.list",
             "applications.show",
+            "applications.details"
         ];
-        $doctor->givePermissionTo($doctorpermissions);
 
+        $nursePermissions = [
+            "applications.list",
+            "applications.show",
+            "applications.details",
+            "calendar.show",
+            "calendar.list",
+        ];
 
-        $adminRole = [
+        $driverPermissions = [
+            "calendar.show",
+            "calendar.list",
+        ];
+
+        $adminPermissions = [
             "calendar.edit",
             "calendar.list",
             "calendar.create",
@@ -128,8 +139,6 @@ class RolesSeeder extends Seeder
             "applications.changeStaff",
             "applications.destroy",
             "applications.show",
-            "applications.timeLine",
-            "applications.logisticsNotes",
 
             "patients.list",
             "patients.create",
@@ -174,5 +183,32 @@ class RolesSeeder extends Seeder
             "brand.destroy",
             "brand.activate",
         ];
+
+        $coordinatorPermissions = [
+            "calendar.edit",
+            "calendar.list",
+            "calendar.create",
+            "calendar.show",
+            "applications.list",
+            "applications.details",
+            "applications.create",
+            "applications.edit",
+            "applications.changeStaff",
+            "applications.show",
+            "patients.list",
+            "patients.create",
+            "patients.edit",
+            "patients.details",
+            "patient.show",
+        ];
+
+        $dios->givePermissionTo(Permission::all());
+        $superAdmin->givePermissionTo(Permission::all());
+        $doctor->givePermissionTo($doctorPermissions);
+        $nurse->givePermissionTo($nursePermissions);
+        $driver->givePermissionTo($driverPermissions);
+        $admin->givePermissionTo($adminPermissions);
+        $coordinator->givePermissionTo($coordinatorPermissions);
+
     }
 }
