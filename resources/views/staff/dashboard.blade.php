@@ -15,7 +15,6 @@
         </ol>
     </div>
 </div>
-{{ auth()->user()->getAllPermissions() }}
 <!-- start widget -->
 <div class="state-overview">
     <div class="row">
