@@ -29,21 +29,21 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('America/Tijuana');
         $lang = app()->getLocale();
 
-        // $brands = Brand::select("*")
-        // ->with
-        // (
-        //     [
-        //         'service' => function($q) use ($lang){
-        //             $q->select(["id", "brand_id", "service_$lang AS service"]);
-        //         },
-        //     ]
-        // )
-        // ->get();
+        $brands = Brand::select("*")
+        ->with
+        (
+            [
+                'service' => function($q) use ($lang){
+                    $q->select(["id", "brand_id", "service_$lang AS service"]);
+                },
+            ]
+        )
+        ->get();
 
 
-        //if (!$brands) {
+        if (!$brands) {
             $brands = [];
-        //}
+        }
 
 
         View::share('brands', $brands);
