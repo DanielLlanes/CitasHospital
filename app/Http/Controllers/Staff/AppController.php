@@ -35,9 +35,9 @@ class AppController extends Controller
     public function index()
     {
         return view
-                    (
-                        'staff.application-manager.list'
-                    );
+        (
+            'staff.application-manager.list'
+        );
     }
 
     public function getList(Request $request)
@@ -72,7 +72,7 @@ class AppController extends Controller
                     },
                     'assignments' => function($q) use($lang) {
                         $q->whereHas(
-                            'specialty', function($q){
+                            'specialties', function($q){
                                 $q->where("name_en", "Coordination");
                             }
                         );
@@ -195,7 +195,7 @@ class AppController extends Controller
                 'assignments' => function($q)use($lang){
                     $q->with(
                         [
-                            'specialty' => function($q)use($lang){
+                            'specialties' => function($q)use($lang){
                                 $q->select("*", "name_$lang AS name");
                             },
                         ]

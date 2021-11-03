@@ -27,7 +27,7 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 2,
 				'code' => '02',
 				'description_es' => 'Cheque nominativo',
-				'description_es' => 'Check',
+				'description_en' => 'Check',
 				'active' => true
 			],
 			[
@@ -41,7 +41,7 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 4,
 				'code' => '04',
 				'description_es' => 'Tarjeta de crédito',
-				'description_es' => 'Credid Card',
+				'description_en' => 'Credid Card',
 				'active' => true
 			],
 			[
@@ -69,7 +69,7 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 8,
 				'code' => '12',
 				'description_es' => 'Dación en pago',
-				'description_es' => 'Dación en pago',
+				'description_en' => 'Dación en pago',
 				'active' => true
 			],
 			[
@@ -83,7 +83,7 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 10,
 				'code' => '14',
 				'description_es' => 'Pago por consignación',
-				'description_es' => 'Payment by consignment',
+				'description_en' => 'Payment by consignment',
 				'active' => true
 			],
 			[
@@ -97,35 +97,35 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 12,
 				'code' => '17',
 				'description_es' => 'Compensación',
-				'description_es' => 'Compensation',
+				'description_en' => 'Compensation',
 				'active' => true
 			],
 			[
 				'id' => 13,
 				'code' => '23',
 				'description_es' => 'Novación',
-				'description_es' => 'Novation',
+				'description_en' => 'Novation',
 				'active' => true
 			],
 			[
 				'id' => 14,
 				'code' => '24',
 				'description_es' => 'Confusión',
-				'description_es' => 'Confusion',
+				'description_en' => 'Confusion',
 				'active' => true
 			],
 			[
 				'id' => 15,
 				'code' => '25',
 				'description_es' => 'Remisión de deuda',
-				'description_es' => 'Debt remittance',
+				'description_en' => 'Debt remittance',
 				'active' => true
 			],
 			[
 				'id' => 16,
 				'code' => '26',
 				'description_es' => 'Prescripción o caducidad',
-				'description_es' => 'Prescription or expiration',
+				'description_en' => 'Prescription or expiration',
 				'active' => true
 			],
 			[
@@ -139,7 +139,7 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 18,
 				'code' => '28',
 				'description_es' => 'Tarjeta de débito',
-				'description_es' => 'debit Card',
+				'description_en' => 'debit Card',
 				'active' => true
 			],
 			[
@@ -153,13 +153,14 @@ class PaymentMethodSeeder extends Seeder
 				'id' => 20,
 				'code' => '30',
 				'description_es' => 'Aplicación de anticipos',
-				'description_es' => 'Application of advances',
+				'description_en' => 'Application of advances',
 				'active' => true
 			],
 			[
 				'id' => 21,
 				'code' => '99',
-				'description_es' => 'To define                ',
+				'description_es' => 'Por definir',
+				'description_en' => 'To define',
 				'active' => true
 			],
         ]);

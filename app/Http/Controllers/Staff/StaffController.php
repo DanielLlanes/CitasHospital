@@ -25,12 +25,6 @@ class StaffController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        // $this->middleware('can:ListAdmins')->only(['getAdmins', 'index']);
-        // $this->middleware('can:CreateAdmins')->only(['create','store']);
-        // $this->middleware('can:EditAdmins')->only(['edit','update']);
-        // $this->middleware('can:DeleteAdmins')->only(['destroy']);
-        // $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
-        // $this->middleware('can:ShowAdmins')->only(['show']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -47,6 +41,35 @@ class StaffController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $can_list_admins = Auth::guard('staff')->user()->can('staff.list.admins');
+
+        $staff = Staff::whereHas(
+            'roles', function($query) use ($lang, $can_list_admins) {
+                if ($can_list_admins) {
+                    $query->where('show', true)
+                    ->select(["id", "name_$lang AS Rname", 'name']);
+                } else {
+                    $query->where('show', true)
+                    ->where('name', '!=', 'administrator')
+                    ->select(["id", "name_$lang AS Rname"]);
+                }
+
+            }
+        )
+        ->where('show', true)
+        ->with([
+            'roles' => function($query) use ($lang) {
+                $query->select(["id", "name_$lang AS Rname", "name"]);
+            },
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            }
+        ])
+        ->get();
+
+
+        //return $staff;
+
+
 
         return view('staff.staff-manager.list');
     }
@@ -78,8 +101,8 @@ class StaffController extends Controller
                 'roles' => function($query) use ($lang) {
                     $query->select(["id", "name_$lang AS Rname", "name"]);
                 },
-                'specialty' => function($query) use ($lang){
-                    $query->select(["id", "name_$lang AS Sname"]);
+                'specialties' => function($query) use ($lang){
+                    $query->select(["specialties.id", "name_$lang AS Sname"]);
                 }
             ])
             ->get();
@@ -111,7 +134,14 @@ class StaffController extends Controller
                     }
                 })
                 ->addColumn('specialization', function($staff) use ($lang){
-                    return $staff->specialty->Sname;
+                    //return $staff->specialties[0]->Sname;
+                    $specialties = "<ul style='list-style-type: none'>";
+                    foreach ($staff->specialties as $specialty) {
+                        $specialties .= "<li><span>$specialty->Sname</span></li>";
+                    }
+                    $specialties .= "</ul>";
+
+                    return $specialties;
                 })
                 ->addColumn('color', function($staff){
                     return '<i class="fa fa-circle" style="color: '.$staff->color.'" aria-hidden="true"></i>';
@@ -227,9 +257,16 @@ class StaffController extends Controller
             $roles = Role::selectRaw("id, name_$lang AS name, assignable")
             ->where('show', '=', '1')
             ->get();
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
+            ->get();
         } elseif ($staff_create_admins && !$staff_create) {
             $roles = Role::selectRaw("id, name_$lang AS name, assignable")
             ->where('show', '=', '1')
+            ->where('name', '=', 'administrator')
+            ->get();
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
             ->where('name', '=', 'administrator')
             ->get();
         } elseif (!$staff_create_admins && $staff_create) {
@@ -237,40 +274,15 @@ class StaffController extends Controller
             ->where('show', '=', '1')
             ->where('name', '!=', 'administrator')
             ->get();
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
+            ->where('name', '!=', 'administrator')
+            ->get();
         }
 
-        $specialty = Specialty::where
-        (
-            [
-                "show" => true,
-                "assignable" => true,
-            ]
-        )
-        ->with
-            (
-                [
-                    'services' => function($q) use ($lang){
-                        $q->select("service_$lang as service");
+        $services = Service::selectRaw("id, service_$lang AS service")->get();
 
-                    }
-                ]
-            )
-        ->where("id", 6)
-        ->get();
-
-        $collection = new Collection;
-
-        foreach ($specialty as $key => $value) {
-            foreach ($value->services as $key => $valueDos) {
-                $collection->push((object)[
-                    'service' => $valueDos->service,
-                ]);
-            }
-        }
-
-        //return $collection->unique('service');
-
-        return view('staff.staff-manager.add', ['groups' => $groups, 'permissions'=> $permissions, 'roles' => $roles ]);
+        return view('staff.staff-manager.add', ['groups' => $groups, 'permissions'=> $permissions, 'roles' => $roles, 'specialties' => $specialties, "services" => $services ]);
     }
 
     public function getSpecialty(Request $request)
@@ -360,11 +372,18 @@ class StaffController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
+        $assingnamentCheck = [];
+        //$assingnamentCheck = 0;
 
-
-        if ($request->has('specialty')) {
-            $assingnamentCheck = Specialty::select('assignable')
-            ->find($request->specialty);
+        if ($request->has('specialties')) {
+            
+            foreach ($request->specialties as $specialty) {
+                $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
+                //return $hasAssignable->assignable;
+                if ($hasAssignable->assignable == 1) {
+                     array_push($assingnamentCheck, $hasAssignable->assignable);
+                }
+            }
         }
 
         if (!Auth::guard('staff')->user()->can('staff.create.admins') && !Auth::guard('staff')->user()->can('staff.create')) {
@@ -384,22 +403,25 @@ class StaffController extends Controller
             'cellphone' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             'email' => 'required|email|unique:staff',
             'role' => 'required|exists:roles,id',
-            'specialty' => 'required|exists:specialties,id',
             'color' =>  [
                 'required',
                 'unique:staff',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
 
+            "specialties" => "required|array|min:1",
+            "specialties.*"  => "required|distinct|exists:specialties,id",
+
             "assigned_to" =>
             [
-                ($assingnamentCheck->assignable == 1) ? 'array':'',
+                ($assingnamentCheck > 0) ? 'array':'',
+                ($assingnamentCheck > 0) ? 'min:1':'',
             ],
             "assigned_to.*" =>
             [
-                ($assingnamentCheck->assignable == 1) ? "string" : '',
-                ($assingnamentCheck->assignable == 1) ? "distinct" : '',
-                ($assingnamentCheck->assignable == 1) ? "exists:services,service_$lang" : '',
+                ($assingnamentCheck > 0) ? "string" : '',
+                ($assingnamentCheck > 0) ? "distinct" : '',
+                ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
 
@@ -430,7 +452,6 @@ class StaffController extends Controller
                 return;
             }
         }
-
 
 
         if (!$staff_create_permisions_admins) {
@@ -479,14 +500,9 @@ class StaffController extends Controller
                         'staff_id' => $staff->id,
                         'order' => ($i+1)
                     ];
-                    // $assignToDos[] = [
-                    //     'specialty_id' => $assignment[$i],
-                    //     'staff_id' => $staff->id,
-                    //     'order' => ($i+1)
-                    // ];
                 }
                 $staff->assignToService()->sync($assignTo);
-                //$staff->assignToSpecialty()->sync($assignToDos);
+                $staff->specialties()->sync($request->specialties);
             }
 
             $dataMsg = array(
@@ -500,7 +516,6 @@ class StaffController extends Controller
             );
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
             $staff->syncRoles([$request->role]);
-            //$staff->syncPermissions($request->permissions);
             app()->setLocale($lang);
             return redirect()->route('staff.staff.staff')->with(
                 [
@@ -517,8 +532,6 @@ class StaffController extends Controller
                 'msg' => Lang::get('We couldn’t create the user please try again!')
             ]
         );
-
-
     }
 
     /**
@@ -562,10 +575,12 @@ class StaffController extends Controller
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname", "name"]);
             },
-            'permissions',
-            'specialty' => function($query) use ($lang){
-                $query->select(["id", "name_$lang AS Sname"]);
-            }
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS atsName"]);
+            },
         ])
         ->findOrFail($id);
 
@@ -576,56 +591,39 @@ class StaffController extends Controller
         }
 
 
-        if (!$staff_edit_permisions_admins && $staff_edit_permisions) {
-
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->distinct()->get();
-
-        } elseif ($staff_edit_permisions_admins && !$staff_edit_permisions) {
-            $admin = "admins";
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
-            ->where('name', 'like', '%' . $admin . '%')
-            ->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->where('name', 'like', '%' . $admin . '%')
-            ->distinct()->get();
-
-        } elseif ($staff_edit_permisions_admins && $staff_edit_permisions) {
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
-            $groups = Permission::select("group_$lang AS group")
-            ->distinct()->get();
-
-        } elseif (!$staff_edit_permisions_admins && !$staff_edit_permisions) {
-            $permissions = [];
-            $groups = [];
-        }
-
-
         if ($staff_edit_admins && $staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->get();
-
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
+            ->get();
+            
         } elseif ($staff_edit_admins && !$staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->where('name', '=', 'administrator')
             ->get();
-
+            
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
+            ->where('name', '=', 'administrator')
+            ->get();
+            
         } elseif (!$staff_edit_admins && $staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->where('name', '!=', 'administrator')
             ->get();
+            $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
+            ->where('show', 1)
+            ->where('name', '!=', 'administrator')
+            ->get();
         }
 
-        return view('staff.staff-manager.edit', ['staff' => $staff, 'groups' => $groups, 'permissions' => $permissions,'roles' => $roles]);
+        $services = Service::selectRaw("id, service_$lang AS service")->get();
+
+        return view('staff.staff-manager.edit', ['staff' => $staff, 'roles' => $roles, 'specialties' => $specialties, "services" => $services]);
     }
     /**
      * Update the specified resource in storage.
@@ -636,7 +634,7 @@ class StaffController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //return $request;
         if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
@@ -651,6 +649,20 @@ class StaffController extends Controller
 
         $staff = Staff::findOrFail($id);
 
+        $assingnamentCheck = [];
+        //$assingnamentCheck = 0;
+
+        if ($request->has('specialties')) {
+            
+            foreach ($request->specialties as $specialty) {
+                $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
+                //return $hasAssignable->assignable;
+                if ($hasAssignable->assignable == 1) {
+                     array_push($assingnamentCheck, $hasAssignable->assignable);
+                }
+            }
+        }
+
 
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
@@ -661,11 +673,24 @@ class StaffController extends Controller
             'cellphone' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             'email' => 'required|unique:staff,email,'.$staff->id,
             'role' => 'required|exists:roles,id',
-            'specialty' => 'required|exists:specialties,id',
             'color' =>  [
                 'required',
                 'unique:staff,color,'.$staff->id,
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
+            ],
+            "specialties" => "required|array|min:1",
+            "specialties.*"  => "required|distinct|exists:specialties,id",
+
+            "assigned_to" =>
+            [
+                ($assingnamentCheck > 0) ? 'array':'',
+                ($assingnamentCheck > 0) ? 'min:1':'',
+            ],
+            "assigned_to.*" =>
+            [
+                ($assingnamentCheck > 0) ? "string" : '',
+                ($assingnamentCheck > 0) ? "distinct" : '',
+                ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
 
@@ -677,19 +702,6 @@ class StaffController extends Controller
             if ($is_admin->name == "administrator") {
                 abort(403, 'Unauthorized action.');
 
-            }
-        }
-        if (!$staff_edit_permisions_admins) {
-            if ($request->permissions > 0) {
-                foreach ($request->permissions as $key => $value) {
-                    $per = Permission::findOrFail($value);
-                    $cadena_de_texto = $per->name;
-                    $cadena_buscada   = 'admin';
-                    $posicion_coincidencia = strpos($cadena_de_texto, $cadena_buscada);
-                    if ($posicion_coincidencia) {
-                        abort(403, 'Unauthorized action.');
-                    }
-                }
             }
         }
 
@@ -725,11 +737,32 @@ class StaffController extends Controller
         $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
 
+        $assignment = [];
+
+
+        if ($request->has('assigned_to')){
+            for ($i=0; $i < count($request->assigned_to); $i++) {
+                $id_service = Service::select('id', "service_$lang As name")->where("service_$lang", $request->assigned_to[$i])->first();
+                array_push($assignment, $id_service->id);
+            }
+        }
+
         if ($staff->save()) {
-
+            $staff->assignToService()->detach();
             $staff->syncRoles([$request->role]);
-            //$staff->syncPermissions($request->permissions);
-
+            if (count($assignment) > 0) {
+                for ($i=0; $i < count($assignment); $i++) {
+                    $assignTo[] = [
+                        'service_id' => $assignment[$i],
+                        'staff_id' => $staff->id,
+                        'order' => ($i+1)
+                    ];
+                }
+                //$staff->assignToService()->remove();
+                $staff->assignToService()->sync($assignTo);
+                
+            }
+            $staff->specialties()->sync($request->specialties);
             return redirect()->route('staff.staff.staff')->with(
                 [
                     'sys-message' => '',
@@ -783,13 +816,6 @@ class StaffController extends Controller
         ->find($request->id);
         $staff_activate = Auth::guard('staff')->user()->can('staff.activate');
         $staff_activate_admins = Auth::guard('staff')->user()->can('staff.activate.admins');
-
-
-        // if (    $staff_activate) {
-        //     if ($staff->roles[0]->name == 'administrator') {
-        //         // code...
-        //     }
-        // }
 
         if ($staff) {
             if ($staff->active == 1) {

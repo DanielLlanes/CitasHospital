@@ -794,7 +794,7 @@ class ApplicationController extends Controller
 
 
 
-//return $request;
+        //return $request;
 
         if (Session::has('form_session') && Session::has('treatment')) {
             $treatment = Session::get('treatment');
@@ -809,14 +809,20 @@ class ApplicationController extends Controller
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
-                    "volumen_alcohol" => "required_if:alcohol,1|string",
+                    "volumen_alcohol" => [
+                        ($request->alcohol == "1") ? "string" : null,
+                    ],
+
 
                     "recreative_drugs" => "required|boolean",
                     "total_recreative_drugs" => [
-                        ($request->recreative_drugs == '1') ? 'numeric': null
+                        ($request->recreative_drugs == '1') ? 'string': null
                     ],
+
                     "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
-                    "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
+                    "description_intravenous_drugs" => [
+                        ($request->intravenous_drugs == '1') ? 'numeric': null
+                    ],
 
                     "fatigue" => "required|boolean",
                     "trouble_breathe" => "required|boolean",
@@ -1276,34 +1282,48 @@ class ApplicationController extends Controller
 
 
             $assignment = [];
+            $treatment = Session::get('treatment');
 
-            foreach ($especialistas->specialties as $key => $special) {
+            $assignment_staff = Staff::whereHas
+            
+            (
+                
+                'specialties', function($q) use($treatment)
+                {
+                   $q->where('specialties.id', 10);
+                },
+            )
+            ->whereHas
+            (
+                'assignToService', function($q)
+                {
+                    $q->where("services.id", 1);
+                }  
+            )
+            ->orderBy('last_assignment', 'ASC')
+            // ->with
+            // (
+            //     [
+            //         'specialties',
+            //         'assignToService' 
+            //     ]
+            // )
+            ->first();
 
-                $assignment_staff = Staff::with(
-                    [
-                        'assignToService'=>function($q){
-                            $q->where('service_id', 1);
-                        }
-                    ]
-                )
-                ->where('specialty_id', $special->id)
-                ->orderBy('last_assignment', 'ASC')
-                ->first();
-
-                    if ($assignment_staff) {
-                        $assignment[] = [
-                            'application_id' => $getData->id,
-                            'staff_id' => $assignment_staff->id,
-                            'order' => $key
-                        ];
-                        $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                        $assignment_staff->save();
-                    }
-
+            if ($assignment_staff) {
+                $assignment[] = [
+                    'application_id' => $getData->id,
+                    'staff_id' => $assignment_staff->id,
+                    'order' => 1
+                ];
+                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+                $assignment_staff->save();
             }
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
+
+
             $app->save();
             Session::forget('form_session');
             Session::forget('treatment');

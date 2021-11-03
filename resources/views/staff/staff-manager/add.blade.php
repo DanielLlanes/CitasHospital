@@ -149,12 +149,28 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <select class="form-control input-height"  name="specialty" id="specialty">
-                                    <option value="" disabled selected>@lang('Select...')</option>
-                                </select>
-                                @error('specialty')
-                                    <span class="help-block text-danger"> {{ $message }} </span>
-                                @enderror
+                                <div class="col-sm-3 col-6">
+                                    <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                        <input id="checkbox-selectAll" class="form-check-input" type="checkbox">
+                                        <label for="checkbox-selectAll" class="form-check-label" style="font-size: 12px">@lang("Select All")</label>
+                                    </div>
+                                </div>
+                                @foreach($specialties as $specialty)
+                                    <div class="col-sm-3 col-6">
+                                        <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                            <input 
+                                                id="checkbox-{{ $specialty->id }}" 
+                                                assignable="{{ $specialty->assignable }}"  
+                                                name="specialties[]" 
+                                                class="form-check-input specialtyCheckbox" 
+                                                type="checkbox" 
+                                                value="{{ $specialty->id }}"
+                                                {{ ( is_array(old('specialties')) && in_array($specialty->id, old('specialties')) ) ? 'checked ' : '' }}
+                                                >
+                                            <label for="checkbox-{{ $specialty->id }}" class="form-check-label" style="font-size: 12px">{{ $specialty->Sname }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="assignable_area_div" style="display: none">
@@ -220,7 +236,9 @@
     </div>
 </div>
 <datalist id="valAutocomplete">
-
+    @foreach($services as $service)
+        <option  value="{{ $service->service }}"></option>
+    @endforeach
 </datalist>
 @endsection
 
@@ -244,6 +262,44 @@
                 input.prop('checked', false);
             }
         });
+
+        ////////////new/////////
+
+        $("#checkbox-selectAll").click(function() {
+            $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
+        });
+
+        $(".specialtyCheckbox").on("click", function(){
+            var checkboxs = $(".specialtyCheckbox");
+            var todos = checkboxs.length === checkboxs.filter(":checked").length;
+            var assignableArray = [];
+            todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
+
+            var cont = 0; 
+
+            for (var x=0; x < checkboxs.length; x++) {
+                if (checkboxs[x].checked) {
+                    cont = checkboxs[x].getAttribute("assignable");
+                    if (checkboxs[x].getAttribute("assignable") > 0) {
+                        assignableArray.push(checkboxs[x].getAttribute("assignable"))
+                    }
+                }
+            }
+
+            if (assignableArray.length > 0) {
+                console.log("assignableArray", assignableArray);
+                $('.assignable_area').show('fast')
+                $('.assignable_area_div').show('fast').html('');
+                add_asiggnable()
+            } else {
+                $('.assignable_area').hide('fast')
+                $('.assignable_area_div').hide('fast').html('');
+            }
+        })
+
+
+
+        
     </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
@@ -253,7 +309,6 @@
     <script>
         function get_assignable(id)
         {
-            console.log(id);
             var form_data = new FormData();
             form_data.append('id', id);
             $.ajax({
@@ -347,9 +402,9 @@
             event.preventDefault();
             var id = $( "#role option:selected" ).val()
             if (!isNaN(id)) {
-                getSpecialty(id)
-                $('.assignable_area').hide('fast')
-                $('.assignable_area_div').hide('fast').html('');
+                //getSpecialty(id)
+                //$('.assignable_area').hide('fast')
+                //$('.assignable_area_div').hide('fast').html('');
             } else {
                 location.reload(true);
             }

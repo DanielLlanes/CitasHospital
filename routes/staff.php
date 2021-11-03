@@ -146,6 +146,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/payments/view/{id}',               [PaymentController::class, 'show'])->name('show');
         Route::post('/payments/patientApps',            [PaymentController::class, 'patientsApps'])->name('patientsApps');
         Route::post('/payments/searchPatientWithApps',  [PaymentController::class, 'searchPatientWithApps'])->name('searchPatientWithApps');
+        Route::post('/payments/create',  [PaymentController::class, 'create'])->name('create');
     });
 
     Route::name('patients.')->group( function(){

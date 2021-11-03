@@ -2,18 +2,19 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use Database\Seeders\Site\CountrySeeder;
 use Database\Seeders\Site\FaqSeeder;
 use Database\Seeders\Site\StateSeeder;
 use Database\Seeders\Staff\BrandSeeder;
-use Database\Seeders\Staff\RolesSeeder;
-use Database\Seeders\Staff\StaffSeeder;
-use Database\Seeders\Site\CountrySeeder;
 use Database\Seeders\Staff\PackageSeeder;
-use Database\Seeders\Staff\ServiceSeeder;
-use Database\Seeders\Staff\ProcedureSeeder;
-use Database\Seeders\Staff\SpecialtySeeder;
 use Database\Seeders\Staff\PermissionsSeeder;
+use Database\Seeders\Staff\ProcedureSeeder;
+use Database\Seeders\Staff\RolesSeeder;
+use Database\Seeders\Staff\ServiceSeeder;
+use Database\Seeders\Staff\SpecialtySeeder;
+use Database\Seeders\Staff\StaffSeeder;
+use Database\Seeders\Staff\PaymentMethodSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySeeder::class);
         $this->call(StateSeeder::class);
         $this->call(FaqSeeder::class);
+        $this->call(PaymentMethodSeeder::class);
         //$this->call(DummySeeder::class);
     }
 }

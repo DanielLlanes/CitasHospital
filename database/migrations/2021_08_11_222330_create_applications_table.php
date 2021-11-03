@@ -24,7 +24,7 @@ class CreateApplicationsTable extends Migration
             $table->float('weight', 5, 2)->nullable();
             $table->float('max_weigh', 5, 2)->nullable();
             $table->float('height', 10, 2)->nullable();
-            $table->float('imc', 5, 2)->nullable();
+            $table->float('imc', 10, 2)->nullable();
             $table->boolean('if_take_medication')->nullable();
             $table->boolean('if_take_blood_thinners')->nullable();
             $table->text('razon_blood_thinners')->nullable();

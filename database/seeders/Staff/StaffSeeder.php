@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use DB;
 
 class StaffSeeder extends Seeder
 {
@@ -167,5 +168,22 @@ class StaffSeeder extends Seeder
         $admin->assignRole('super-administrator');
         $janlu->assignRole('administrator');
         $ismael->assignRole('administrator');
+
+        DB::table('specialty_staff')->insert([
+            'specialty_id' => 1,
+            'staff_id' => $dios->id,
+        ]);
+        DB::table('specialty_staff')->insert([
+            'specialty_id' => 2,
+            'staff_id' => $admin->id,
+        ]);
+        DB::table('specialty_staff')->insert([
+            'specialty_id' => 3,
+            'staff_id' => $janlu->id,
+        ]);
+        DB::table('specialty_staff')->insert([
+            'specialty_id' => 3,
+            'staff_id' => $ismael->id,
+        ]);
     }
 }

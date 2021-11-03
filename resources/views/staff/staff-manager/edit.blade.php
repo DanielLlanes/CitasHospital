@@ -144,16 +144,64 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">@lang('staff.Specialty')
+                            <label class="control-label col-md-3">@lang('Specialty')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <select class="form-control input-height"  name="specialty" id="specialty">
-                                    <option value="">@lang('staff.Select...')</option>
-                                </select>
-                                @error('specialty')
-                                    <span class="help-block text-danger"> {{ $message }} </span>
-                                @enderror
+                                <div class="col-sm-3 col-6">
+                                    <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                        <input id="checkbox-selectAll" class="form-check-input" type="checkbox">
+                                        <label for="checkbox-selectAll" class="form-check-label" style="font-size: 12px">@lang("Select All")</label>
+                                    </div>
+                                </div>
+                                @foreach($specialties as $specialty)
+                                    <div class="col-sm-3 col-6">
+                                        <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                            <input 
+                                                id="checkbox-{{ $specialty->id }}" 
+                                                assignable="{{ $specialty->assignable }}"  
+                                                name="specialties[]" 
+                                                class="form-check-input specialtyCheckbox" 
+                                                type="checkbox" 
+                                                value="{{ $specialty->id }}"
+                                                @if($staff->specialties->contains($specialty)) checked @endif
+                                                >
+                                            <label for="checkbox-{{ $specialty->id }}" class="form-check-label" style="font-size: 12px">{{ $specialty->Sname }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="assignable_area_div" @if(empty($staff->assignToService)) style="display: none" @endif>
+                            @if (!empty($staff->assignToService))
+                                @for ($i = 0; $i < count($staff->assignToService); $i++)
+                                    <div class="form-group row assigned_cloned">
+                                        <label class="control-label col-md-3">@lang("Assigned To")
+                                            <span class="required"> * </span>
+                                        </label>
+                                        <div class="col-md-5">
+                                            <div class="input-group">
+                                                <input autocomplete="off" list="valAutocomplete" type="text" onclick="this.setSelectionRange(0, this.value.length)" name="assigned_to[]" value="{{ $staff->assignToService[$i]->atsName }}" data-required="1" placeholder="@lang("Assigned To")" class="form-control input-height" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-danger btn-flat btn-remove-assign">
+                                                        <i class="material-icons f-left" style="">remove_circle</i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            @error('assigned_to.'.$i)
+                                                <span class="help-block text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+                        <div class="form-group row assignable_area" @if(count($staff->assignToService) < 1) style="display: none" @endif>
+                            <label class="control-label col-md-3">
+                                <span class="required">  </span>
+                            </label>
+                            <div class="col-md-5 d-flex justify-content-end">
+                                <button type="button" class="btn btn-info" id="add_asiggnament">@lang('Add Asiggnament')</button>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -167,9 +215,6 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- @if (Auth::guard('staff')->user()->can('staff.create.permisions.admins') || Auth::guard('staff')->user()->can('staff.create.permisions'))
-                            @include('staff.staff-manager.permissions-edit')
-                        @endif --}}
                         <div class="form-actions">
                         <div class="row justify-content-md-center col-12">
                             <div class="offset-md-6 col-md-9">
@@ -185,26 +230,85 @@
     </div>
 </div>
 
+<datalist id="valAutocomplete">
+    @foreach($services as $service)
+        <option  value="{{ $service->service }}"></option>
+    @endforeach
+</datalist>
+
 @endsection
 
 @section('scripts')
     <script>
-        $("#selectAll").click(function() {
-            $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+        // $("#selectAll").click(function() {
+        //     $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
+        // });
+        // $("input[type=checkbox]").click(function() {
+        //     if (!$(this).prop("checked")) {
+        //         $("#selectAll").prop("checked", false);
+        //         $(this).parents('.card-body').siblings().find('.selectAllGroup').prop("checked", false);
+        //     }
+        // });
+        // $(".selectAllGroup").click(function() {
+        //     var input = $(this).parents('.card-head').siblings().find('.check-group')
+        //     var checked = $(this).is(":checked")
+        //     if (checked) {
+        //         input.prop('checked', true);
+        //     } else {
+        //         input.prop('checked', false);
+        //     }
+        // });
+
+        $("#checkbox-selectAll").click(function() {
+            $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
         });
-        $("input[type=checkbox]").click(function() {
-            if (!$(this).prop("checked")) {
-                $("#selectAll").prop("checked", false);
-                $(this).parents('.card-body').siblings().find('.selectAllGroup').prop("checked", false);
+
+        $(".specialtyCheckbox").on("click", function(){
+            var checkboxs = $(".specialtyCheckbox");
+            var todos = checkboxs.length === checkboxs.filter(":checked").length;
+            var assignableArray = [];
+            todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
+
+            // var cont = 0; 
+
+            for (var x=0; x < checkboxs.length; x++) {
+                if (checkboxs[x].checked) {
+                    cont = checkboxs[x].getAttribute("assignable");
+                    if (checkboxs[x].getAttribute("assignable") > 0) {
+                        assignableArray.push(checkboxs[x].getAttribute("assignable"))
+                    }
+                }
             }
-        });
-        $(".selectAllGroup").click(function() {
-            var input = $(this).parents('.card-head').siblings().find('.check-group')
-            var checked = $(this).is(":checked")
-            if (checked) {
-                input.prop('checked', true);
+
+            if (assignableArray.length > 0) {
+                console.log("assignableArray", assignableArray);
+                $('.assignable_area').show('fast')
+                $('.assignable_area_div').show('fast');
+                if(document.getElementsByClassName("assigned_cloned").length == 0){
+                    add_asiggnable()
+                }
             } else {
-                input.prop('checked', false);
+                $('.assignable_area').hide('fast')
+                $('.assignable_area_div').hide('fast');
+            }
+        })
+
+        $(document).on('submit','form#add-staff',function(){
+           var cont = 0; 
+           var assignableArray = [];
+           var checkboxs = $(".specialtyCheckbox");
+            for (var x=0; x < checkboxs.length; x++) {
+                if (checkboxs[x].checked) {
+                    cont = checkboxs[x].getAttribute("assignable");
+                    if (checkboxs[x].getAttribute("assignable") > 0) {
+                        assignableArray.push(checkboxs[x].getAttribute("assignable"))
+                    }
+                }
+            }
+
+            if (assignableArray.length == 0) {
+                $('.assignable_area').hide('fast')
+                $('.assignable_area_div').hide('fast').html('');
             }
         });
     </script>   
@@ -213,98 +317,89 @@
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
     </script>
         <script>
-            getSpecialtyx({{ $staff->roles[0]->id }})
-            function getSpecialtyx(id)
-            {
-                var form_data = new FormData();
-                form_data.append('id', id);
-                 $.ajax({
-                     url: globalRouteGetSpecialty,
-                     method:"POST",
-                     data:form_data,
-                     dataType:'JSON',
-                     contentType: false,
-                     cache: false,
-                     headers: {
-                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                     },
-                     processData: false,
-                     beforeSend: function()
-                     {
-                     },
-                     success:function(data)
-                     {
-
-
-                        if (data.reload) {
-                            Toast.fire({
-                                icon: data.icon,
-                                title: data.msg
-                            })
-                            location.reload(true);
-                        } else {
-                            $("#specialty option:not(:first-child)").remove();
-                            $.each(data.data, function(index, val) {
-                                if (val.id == {{ $staff->specialty->id }}) {
-                                    var selected = 'selected'
-                                }
-                                $("#specialty").append('<option '+selected+' value="'+val.id+'">'+val.name+'</option>')
-                            });
-                        }
-                     },
-                     complete: function()
-                     {
-                     },
-                 })
-            }
+            
 
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
         $(document).on('change', '#role', function(event) {
             event.preventDefault();
             var id = $( "#role option:selected" ).val()
             if (!isNaN(id)) {
-                getSpecialty(id)
+                //getSpecialty(id)
             } else {
                 location.reload(true);
             }
         });
         function getSpecialty(id)
         {
-                var form_data = new FormData();
-                form_data.append('id', id);
-                 $.ajax({
-                     url: globalRouteGetSpecialty,
-                     method:"POST",
-                     data:form_data,
-                     dataType:'JSON',
-                     contentType: false,
-                     cache: false,
-                     headers: {
-                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                     },
-                     processData: false,
-                     beforeSend: function()
-                     {
-                     },
-                     success:function(data)
-                     {
-                        if (data.reload) {
-                            Toast.fire({
-                                icon: data.icon,
-                                title: data.msg
-                            })
-                            location.reload(true);
-                        } else {
-                            $("#specialty option:not(:first-child)").remove();
-                            $.each(data.data, function(index, val) {
-                                $("#specialty").append('<option value="'+val.id+'">'+val.name+'</option>')
-                            });
-                        }
-                     },
-                     complete: function()
-                     {
-                     },
-                 })
+            var form_data = new FormData();
+            form_data.append('id', id);
+             $.ajax({
+                 url: globalRouteGetSpecialty,
+                 method:"POST",
+                 data:form_data,
+                 dataType:'JSON',
+                 contentType: false,
+                 cache: false,
+                 headers: {
+                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                 },
+                 processData: false,
+                 beforeSend: function()
+                 {
+                 },
+                 success:function(data)
+                 {
+                    if (data.reload) {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        location.reload(true);
+                    } else {
+                        $("#specialty option:not(:first-child)").remove();
+                        $.each(data.data, function(index, val) {
+                            $("#specialty").append('<option value="'+val.id+'">'+val.name+'</option>')
+                        });
+                    }
+                 },
+                 complete: function()
+                 {
+                 },
+             })
+        }
+        $(document).on("click", ".btn-remove-assign", function () {
+            $(this).parents('.assigned_cloned').remove();
+
+            if(document.getElementsByClassName("assigned_cloned").length == 0){
+                add_asiggnable()
+            }
+        });
+
+        $('#add_asiggnament').on('click', function(e){
+            add_asiggnable()
+        })
+
+        function add_asiggnable() {
+            $assing = '';
+            $assing += '<div class="form-group row assigned_cloned">'
+            $assing += '<label class="control-label col-md-3">@lang("Assigned To")'
+            $assing += '<span class="required"> * </span>'
+            $assing += '</label>'
+            $assing += '<div class="col-md-5">'
+            $assing += '<div class="input-group">'
+            $assing += '<input autocomplete="off" list="valAutocomplete" type="text" onclick="this.setSelectionRange(0, this.value.length)" name="assigned_to[]" value="" data-required="1" placeholder="@lang("Assigned To")" class="form-control input-height" />'
+            $assing += '<span class="input-group-btn">'
+            $assing += '<button type="button" class="btn btn-danger btn-flat btn-remove-assign">'
+            $assing += '<i class="material-icons f-left" style="">remove_circle</i>'
+            $assing += '</button>'
+            $assing += '</span>'
+            $assing += '</div>'
+            $assing += '@error("color")'
+            $assing += '<span class="help-block text-danger"> holis </span>'
+            $assing += '@enderror'
+            $assing += '</div>'
+            $assing += '</div>'
+            $('.assignable_area_div').append($assing);
         }
     </script>
 @endsection

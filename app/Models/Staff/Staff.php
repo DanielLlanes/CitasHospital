@@ -63,14 +63,9 @@ class Staff extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Staff belongs to .
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function specialty()
+    public function specialties()
     {
-        return $this->belongsTo(Specialty::class);
+        return $this->belongsToMany(Specialty::class);
     }
 
     public function assignment()

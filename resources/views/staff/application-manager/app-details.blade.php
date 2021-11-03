@@ -140,12 +140,12 @@
                                             <p class="text-muted">{{ $appInfo->patient->ecp }}</p>
                                         </div>
                                     </div>
-                                    <div class="row ">
+                                    {{-- <div class="row ">
                                         <div class="col-md-12 col-12 mb-2 mt-5 d-flex justify-content-end">
                                             <br>
                                             <button type="button" class="btn btn-danger">Change Patient</button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <hr>
                                 </div>
                             </div>
@@ -184,13 +184,15 @@
                                             </strong>
                                         </div>
                                         @foreach ($appInfo->assignments as $item)
-                                            <div class="col-md-3 col-6 mb-2 b-r"> <strong>{{ $item->specialty->name }}</strong>
-                                                <br>
-                                                <p class="text-muted">{{ $item->name }}</p>
-                                            </div>
+                                            @foreach($item->specialties as $specialty)
+                                                <div class="col-md-3 col-6 mb-2 b-r"> <strong>{{ $specialty->name }}</strong>
+                                                    <br>
+                                                    <p class="text-muted">{{ $item->name }}</p>
+                                                </div>
+                                            @endforeach
                                         @endforeach
                                         <div class="col-md-3 col-6 mb-2 b-r offset-md-9 mt-2">
-                                            <button type="button" class="btn btn-success">Change Staff</button>
+                                            <button type="button" class="btn btn-success">Assing / Change Staff</button>
                                         </div>
                                     </div>
                                 </div>
@@ -920,15 +922,15 @@
                                                 <div class="card-head">
                                                     <header>STAFF</header>
                                                 </div>
-                                                <div class="card-body no-padding height-9">
-                                                    <div class="row">
-                                                        <ul class="chat nice-chat small-slimscroll-style">
+                                                <div class="card-body no-padding height-9" id="listChat">
+                                                    <div class="">
+                                                        <ul class="list-unstyled"></ul>
                                                             @foreach ($appInfo->assignments as $item)
-                                                                <li>
-                                                                    <strong>{{ $item->specialty->name }}</strong>
-                                                                    <br>
-                                                                    {{ $item->name }}
-                                                                </li>
+                                                                @foreach($item->specialties as $specialty)
+                                                                    <p class="p-0 mb-0"><strong>{{ $specialty->name }}</strong></p>
+                                                                    
+                                                                    <p class="p-0 mt-0">{{ $item->name }}</p>
+                                                                @endforeach
                                                             @endforeach
                                                         </ul>
                                                     </div>
@@ -942,7 +944,7 @@
                                                 </div>
                                                 <div class="card-body no-padding height-9">
                                                     <div class="row">
-                                                        <ul class="chat nice-chat small-slimscroll-style">
+                                                        <ul class="chat nice-chat small-slimscroll-style" id="chatDiv">
                                                             <li class="in">
                                                                 <img src="{{ asset( auth()->guard('staff')->user()->avatar )}}" class="avatar" alt="">
                                                                 <div class="message">
@@ -1275,6 +1277,12 @@
     var globalRouteUpdate = "{{ route('staff.treatments.configuration.updatePackage') }}"
     var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
 
+    var chatDiv = document.getElementById("chatDiv");
+    var panelDerecha = document.getElementById("PanelDerecha");
+
+    $("#listChat").height($("#chatDiv").height()+34)
+    console.log("height()", $('.chat-box-submit').height());
+      
     
 </script>
 @endsection
