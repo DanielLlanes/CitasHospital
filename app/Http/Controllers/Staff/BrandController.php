@@ -114,6 +114,7 @@ class BrandController extends Controller
         $brand->color = $request->color;
         $brand->description_en = $request->description_en;
         $brand->description_es = $request->description_es;
+        $brand->url = Str::slug($request->brand, '-');
 
         if ($brand->save()) {
             return response()->json(
@@ -197,6 +198,7 @@ class BrandController extends Controller
             $brand->color = $request->color;
             $brand->description_en = $request->description_en;
             $brand->description_es = $request->description_es;
+            $brand->url = Str::slug($request->brand, '-');
 
             if ($brand->save()) {
                 return response()->json(

@@ -28,9 +28,7 @@ class CreateSpecialtiesTable extends Migration
            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
         });
 
-        Schema::table('staff', function($table) {
-           $table->foreign('Specialty_id')->references('id')->on('specialties')->onDelete('cascade')->onUpdate('cascade');
-        });
+        
     }
 
     /**

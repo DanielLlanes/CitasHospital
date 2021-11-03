@@ -12,4 +12,6 @@ trait UrlCreatorTrait {
         $slug = Str::of($slug)->slug("-");
 		return $slug;
     }
+
+    public function stractCreatorTrait($text)
 }

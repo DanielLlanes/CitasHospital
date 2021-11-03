@@ -64,7 +64,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="name" value="{{ old('name') }}" data-required="1" placeholder="@lang('Enter Name')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="name" id="name" value="{{ old('name') }}" data-required="1" placeholder="@lang('Enter Name')" class="form-control input-height" />
                                 @error('name')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -209,6 +209,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3">@lang('url')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-url-span"></span>
+                                    </div>
+                                    <input type="text" name="url" id="url" value="{{ old("url") }}" class="form-control" id="basic-url" aria-describedby="basic-url">
+                                </div>
+                                @error('url')
+                                <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3">@lang('Color')
                                 <span class="required"> * </span>
                             </label>
@@ -298,8 +314,13 @@
             }
         })
 
-
-
+        var domain = window.location.protocol+"//"+window.location.hostname+"/";
+        $('#basic-url-span').html(domain)
+        $(document).on('keyup', '#name', function(){
+            var value = $(this).val();
+            
+            $("#url").val(value.stringToSlug(value))
+        })
         
     </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
@@ -512,6 +533,8 @@
             //     $('.assignable_area_div').hide('fast').html('');
 
             // }
+            // 
+            
         </script>
     @endif
 @endsection

@@ -205,6 +205,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3">@lang('url')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-url-span"></span>
+                                    </div>
+                                    <input type="text" name="url" id="url" value="{{ $staff->url }}" class="form-control" id="basic-url" aria-describedby="basic-url">
+                                </div>
+                                @error('url')
+                                <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3">@lang('staff.Color')
                                 <span class="required"> * </span>
                             </label>
@@ -258,6 +274,14 @@
         //         input.prop('checked', false);
         //     }
         // });
+        // 
+        var domain = window.location.protocol+"//"+window.location.hostname+"/";
+        $('#basic-url-span').html(domain)
+        $(document).on('keyup', '#name', function(){
+            var value = $(this).val();
+            
+            $("#url").val(value.stringToSlug(value))
+        })
 
         $("#checkbox-selectAll").click(function() {
             $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));

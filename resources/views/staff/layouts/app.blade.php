@@ -108,6 +108,8 @@
         <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
         <!-- Magnific PopUp -->
         <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
+        <!-- slugify-->
+        <script src="{{ asset('staffFiles/assets/js/slugify.js') }}"></script>
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- end js include path -->
         {{-- plugins Langs --}}

@@ -27,8 +27,9 @@ class CreateStaffTable extends Migration
             $table->boolean('show')->default(true);
             $table->boolean('set_pass')->default(false);
             $table->string('color')->nullable();
-            $table->bigInteger('specialty_id')->unsigned()->nullable();
             $table->timestamp('last_assignment')->default(date("Y-m-d H:i:s"));
+            $table->text('url')->nullable();
+            $table->boolean('public_profile')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
@@ -42,6 +43,8 @@ class CreateStaffTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('staff');
+        Schema::enableForeignKeyConstraints();
     }
 }

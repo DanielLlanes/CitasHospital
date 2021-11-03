@@ -369,6 +369,7 @@ class StaffController extends Controller
     public function store(Request $request)
     {
         //return $request;
+        //
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
@@ -481,6 +482,7 @@ class StaffController extends Controller
         $staff->avatar = $avatar;
         $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
+        $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];
 
@@ -736,6 +738,7 @@ class StaffController extends Controller
         $staff->lang = $request->language;
         $staff->color = strtolower($request->color);
         $staff->specialty_id = $request->specialty;
+        $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];
 

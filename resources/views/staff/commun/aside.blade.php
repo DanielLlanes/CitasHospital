@@ -48,10 +48,6 @@
                                 </a>
                             </li>
                         @endcan
-                        <li class="nav-item  ">
-                            <a href="view_appointment.html" class="nav-link "> <span class="title">@lang('View All my Appointments') </span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item  ">
@@ -100,40 +96,8 @@
                             <a href="{{ route('staff.payments.payments') }}"  class="nav-link "> <span class="title">@lang("All Payments") </span>
                             </a>
                         </li>
-                        <li class="nav-item  ">
-                            <a href="add_room_allotment.html" class="nav-link "> <span class="title">@lang("New Allotment") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="edit_room_allotment.html" class="nav-link "> <span class="title">@lang("Edit Allotment") </span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
-
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">local_parking</i>
-                        <span class="title">@lang("Treatment") </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.Treatment.brand') }}" class="nav-link "> <span class="title">@lang("Brand") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.Treatment.service') }}" class="nav-link "> <span class="title">@lang("Services") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.Treatment.procedure') }}" class="nav-link "> <span class="title">@lang("Procedures") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.Treatment.package') }}" class="nav-link "> <span class="title">@lang("Packages") </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
 
                 <li class="nav-item">
                     <a href="javascript:;" class="nav-link nav-toggle">
@@ -142,46 +106,6 @@
                         <span class="arrow "></span>
                     </a>
                     <ul class="sub-menu">
-                        {{-- <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-university"></i> Item 1
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item">
-                                    <a href="javascript:;" class="nav-link nav-toggle">
-                                        <i class="fa fa-bell-o"></i> Arrow Toggle
-                                        <span class="arrow "></span>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="nav-item">
-                                            <a href="javascript:;" class="nav-link">
-                                                <i class="fa fa-calculator"></i> Sample Link 1</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="fa fa-clone"></i> Sample Link 2</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="fa fa-cogs"></i> Sample Link 3</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-file-pdf-o"></i> Sample Link 1</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-rss"></i> Sample Link 2</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fa fa-hdd-o"></i> Sample Link 3</a>
-                                </li>
-                            </ul>
-                        </li> --}}
                         <li class="nav-item">
                             <a href="javascript:;" class="nav-link nav-toggle">
                                 <i class="fa fa-product-hunt"></i> Treatments
@@ -208,59 +132,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-volume-up"></i> Item 3 </a>
-                        </li>
                     </ul>
                 </li>
-
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">monetization_on</i>
-                        <span class="title">@lang("Payments") </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="payments.html" class="nav-link "> <span class="title">@lang("Payments") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="add_payment.html" class="nav-link "> <span class="title">@lang("Add Payments") </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="invoice_payment.html" class="nav-link "> <span class="title">@lang("Patient Invoice") </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-
-                {{-- <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">extension</i>
-                        <span class="title">@lang("Configuration") </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="payments.html" class="nav-link "> <span class="title">Pasarelas de pago </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="invoice_payment.html" class="nav-link "> <span class="title">Roles </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="invoice_payment.html" class="nav-link "> <span class="title">Permisos </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
-
-                {{-- <li class="nav-item  ">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">widgets</i>
-                        <span class="title">@lang("Widget") </span>
-                    </a>
-                </li> --}}
-
             </ul>
         </div>
     </div>

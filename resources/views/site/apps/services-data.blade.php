@@ -67,8 +67,7 @@
 
                     @for ($i = 0; $i < $treatment->service->qty_images; $i++)
                         <div class="col-md-6 my-3">
-                            image {{ ($i + 1) }}
-                            <input type="file" name="images[]" class="dropify" data-height="200" data-default-file="{{ asset($app->images[0]->local_image) ?? '' }}" />
+                            <input type="file" name="images[]" class="dropify" data-height="200" data-default-file="" />
                         </div>
                     @endfor
 
