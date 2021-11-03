@@ -68,7 +68,7 @@
                                                     <span class="required">  </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="file" name="image" id="image" placeholder="@lang('Procedure English')" class=""  style="overflow: hidden">
+                                                        <input type="file" name="image" id="image" placeholder="@lang('Procedure English')" class="dropify"  style="overflow: hidden">
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -259,6 +259,7 @@
 
 
         $(document).ready(function () {
+            $('.dropify').dropify();
             var codigo = 1;
 		    var procedureTable = $('#procedureTable').DataTable({
 				responsive: true,

@@ -48,16 +48,19 @@
                 <form method="POST" action="{{ route('staff.patients.store') }}" id="add-patient" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="form-body">
-                    	<div class="form-group row">
-                    		<label class="control-label col-md-3">@lang('Profile Picture')
-                    		</label>
-                    		<div class="compose-editor">
-                    			<input type="file" class="default" name="avatar">
-                    		</div>
-                            @error('avatar')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                    	</div>
+
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">@lang('Profile Picture')
+                                <span class="required">  </span>
+                            </label>
+                            <div class="col-md-5">
+                                <input autocomplete="off" type="file" name="avatar" value="" data-required="1" class="form-control input-height dropify" />
+                                @error('avatar')
+                                    <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="control-label col-md-3">@lang('Email')
                                 <span class="required"> * </span>
@@ -310,6 +313,7 @@
         $(document).on('change', "input, select", function () {
             $(this).parent().find('.invalid-feedback ').html('');
         });
+        $('.dropify').dropify();
         function getStates(state = null) {
             var form_data = new FormData();
             form_data.append('id', $( "#country_id option:selected" ).val());

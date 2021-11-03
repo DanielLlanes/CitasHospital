@@ -48,16 +48,17 @@
                 <form method="POST" action="{{ route('staff.staff.store') }}" id="add-staff" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="form-body">
-                    	<div class="form-group row">
-                    		<label class="control-label col-md-3">@lang('Profile Picture')
-                    		</label>
-                    		<div class="compose-editor">
-                    			<input type="file" class="default" name="avatar">
-                    		</div>
-                            @error('avatar')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                    	</div>
+                    	<<div class="form-group row">
+                            <label class="control-label col-md-3">@lang('Profile Picture')
+                                <span class="required">  </span>
+                            </label>
+                            <div class="col-md-5">
+                                <input autocomplete="off" type="file" name="avatar" value="" data-required="1" class="form-control input-height dropify" />
+                                @error('avatar')
+                                    <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
                     	<div class="form-group row">
                             <label class="control-label col-md-3">@lang('Name')
                                 <span class="required"> * </span>
@@ -433,7 +434,7 @@
         $('#add_asiggnament').on('click', function(e){
             add_asiggnable()
         })
-
+        $('.dropify').dropify();
         function add_asiggnable() {
             $assing = '';
             $assing += '<div class="form-group row assigned_cloned">'
