@@ -176,49 +176,6 @@
     @endforeach
 </datalist> --}}
 @endsection
-@section('styles')
-    <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
-    <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
-    <style>
-        .autocomplete {
-          /*the container must be positioned relative:*/
-          position: relative;
-          display: inline-block;
-        }
-        .autocomplete-items {
-          position:absolute;
-          border: 1px solid #d4d4d4;
-          border-bottom: none;
-          border-top: none;
-          z-index: 16777271;
-          /*position the autocomplete items to be the same width as the container:*/
-          top: 100%;
-          left: 0;
-          right: 0;
-         /* width: 100%*/
-         margin-left: 15px;
-         margin-right: 15px;
-        }
-        .autocomplete-items div {
-          cursor: pointer;
-          background-color: #fff;
-          border-bottom: 1px solid #d4d4d4;
-          height: 30px;
-          padding: 5px 10px;
-          font-size: 12px;
-          line-height: 1.5;
-        }
-        .autocomplete-items div:hover {
-          /*when hovering an item:*/
-          background-color: #e9e9e9;
-        }
-        .autocomplete-active {
-          /*when navigating through the items using the arrow keys:*/
-          background-color: DodgerBlue !important;
-          color: #ffffff;
-        }
-    </style>
-@endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
         <script>
@@ -228,24 +185,9 @@
             })
         </script>
     @endif
-    <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
 
 	<script>
-        $('.table').magnificPopup({
-              delegate: 'a.a',
-              type: 'image',
-              removalDelay: 500, //delay removal by X to allow out-animation
-              callbacks: {
-                beforeOpen: function() {
-                  // just a hack that adds mfp-anim class to markup
-                   this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
-                   this.st.mainClass = this.st.el.attr('data-effect');
-                }
-              },
-              closeOnContentClick: true,
-              midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
-        });
+        
         var globalRouteobtenerLista = "{{ route('staff.treatments.getProductList') }}";
         var globalRouteStore = "{{ route('staff.treatments.storeProduct') }}";
         var globalRouteActivar = "{{ route('staff.treatments.activateProduct') }}"

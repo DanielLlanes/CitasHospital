@@ -27,6 +27,10 @@
     <link href="{{ asset('staffFiles/assets/plugins/morris/morris.css') }}" rel="stylesheet" type="text/css" />
     <!-- Drppify -->
     <link href="{{ asset('staffFiles/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- Data Tables -->
+    <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
+    <!-- Magnific PopUp -->
+    <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('staffFiles/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
@@ -34,7 +38,6 @@
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('staffFiles/assets/plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
 
     <style type="text/css">
         .swal2-title{
@@ -101,6 +104,10 @@
         <script src="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert2.js') }}"></script>
         <!-- Drppify -->
         <script src="{{ asset('staffFiles/assets/plugins/dropify/dist/js/dropify.min.js') }}"></script>
+        <!-- Data Tables -->
+        <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
+        <!-- Magnific PopUp -->
+        <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- end js include path -->
         {{-- plugins Langs --}}
@@ -123,6 +130,21 @@
                 toast.addEventListener('mouseleave', Swal.resumeTimer)
               }
             })
+            $('.table').magnificPopup({
+                  delegate: 'a.a',
+                  type: 'image',
+                  removalDelay: 500, //delay removal by X to allow out-animation
+                  callbacks: {
+                    beforeOpen: function() {
+                      // just a hack that adds mfp-anim class to markup
+                       this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+                       this.st.mainClass = this.st.el.attr('data-effect');
+                    }
+                  },
+                  closeOnContentClick: true,
+                  midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
+            });
+            $('.dropify').dropify();
         </script>
         @yield('scripts')
         <script type="text/javascript">

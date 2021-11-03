@@ -53,7 +53,7 @@
                                 <span class="required">  </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="file" name="avatar" value="" data-required="1" class="form-control input-height dropify" />
+                                <input type="file" name="avatar" class="dropify" />
                                 @error('avatar')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -434,7 +434,6 @@
         $('#add_asiggnament').on('click', function(e){
             add_asiggnable()
         })
-        $('.dropify').dropify();
         function add_asiggnable() {
             $assing = '';
             $assing += '<div class="form-group row assigned_cloned">'

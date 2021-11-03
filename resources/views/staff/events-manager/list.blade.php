@@ -258,64 +258,6 @@
 @section('styles')
 	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
     <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}">
-    <style>
-        .autocomplete {
-          /*the container must be positioned relative:*/
-          position: relative;
-          display: inline-block;
-        }
-        .autocomplete-items {
-          position:absolute;
-          border: 1px solid #d4d4d4;
-          border-bottom: none;
-          border-top: none;
-          z-index: 16777271;
-          /*position the autocomplete items to be the same width as the container:*/
-          top: 100%;
-          left: 0;
-          right: 0;
-         /* width: 100%*/
-         margin-left: 15px;
-         margin-right: 15px;
-        }
-        .autocomplete-items div {
-          cursor: pointer;
-          background-color: #fff;
-          border-bottom: 1px solid #d4d4d4;
-          height: 30px;
-          padding: 5px 10px;
-          font-size: 12px;
-          line-height: 1.5;
-        }
-        .autocomplete-items div:hover {
-          /*when hovering an item:*/
-          background-color: #e9e9e9;
-        }
-
-        .autocomplete-active {
-          /*when navigating through the items using the arrow keys:*/
-          background-color: DodgerBlue !important;
-          color: #ffffff;
-        }
-        .dataTableLayout {
-            table-layout:fixed;
-            width:100%;
-        }
-        .letras{
-            font-size: .8em;
-        }
-        table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
-        table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
-            font-family: "Courier New",Courier,monospace;
-            line-height: 1.2em;
-            content: "+";
-            background-color: #0275d8;
-        }
-        .fc-event {
-            border-width: .1px;
-        }
-    </style>
 @endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
@@ -332,7 +274,6 @@
     <script src="{{ asset('staffFiles/assets/plugins/material/material.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
-    <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
     <script>
         var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'

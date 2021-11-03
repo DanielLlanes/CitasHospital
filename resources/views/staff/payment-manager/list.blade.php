@@ -250,9 +250,6 @@
 </div>
 @endsection
 @section('styles')
-	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}">
-    <link  rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}">
 @endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
@@ -263,11 +260,6 @@
             })
         </script>
     @endif
-    <script src="{{ asset('staffFiles/assets/plugins/moment/moment.min.js') }}" ></script>
-    <!-- Material -->
-    <script src="{{ asset('staffFiles/assets/plugins/material/material.min.js') }}"></script>
-    <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
-    <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
     <script>
         var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
@@ -277,23 +269,6 @@
         var globalRoutesearchPatientWithApps = '{{ route('staff.payments.searchPatientWithApps') }}'
     </script>
 	<script>
-
-        $('.table').magnificPopup({
-              delegate: 'a.a',
-              type: 'image',
-              removalDelay: 500, //delay removal by X to allow out-animation
-              callbacks: {
-                beforeOpen: function() {
-                  // just a hack that adds mfp-anim class to markup
-                   this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
-                   this.st.mainClass = this.st.el.attr('data-effect');
-                }
-              },
-              closeOnContentClick: true,
-              midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
-        });
-
-        
         $(document).ready(function() {
             var codigo = 1;
             var paymentTable = $('#paymentTable').DataTable({
@@ -355,7 +330,6 @@
                     }
                 });
             }
-            $('.dropify').dropify();
             $('.autocomplete.patient').on('keyup click', function() {
                 var key = $(this).val();
                 $('#email').val('').removeAttr('disabled')

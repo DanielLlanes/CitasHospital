@@ -54,7 +54,7 @@
                                 <span class="required">  </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="file" name="avatar" value="" data-required="1" class="form-control input-height dropify" />
+                                <input type="file" name="avatar" class="dropify" />
                                 @error('avatar')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -313,7 +313,6 @@
         $(document).on('change', "input, select", function () {
             $(this).parent().find('.invalid-feedback ').html('');
         });
-        $('.dropify').dropify();
         function getStates(state = null) {
             var form_data = new FormData();
             form_data.append('id', $( "#country_id option:selected" ).val());
