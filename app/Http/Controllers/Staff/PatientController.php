@@ -177,7 +177,7 @@ class PatientController extends Controller
                 File::exists($destinationPath) or File::makeDirectory($destinationPath,0777,true);
                 $img->save($destinationPath.'/'.$img_name);
                 $patient->photo = '/uploads/patient/'.$img_name;
-
+                $img->destroy();
             }
 
             if ($patient->save()) {

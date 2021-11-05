@@ -441,6 +441,7 @@ class StaffController extends Controller
 
             $img->save($destinationPath."/".$img_name, '80');
             $avatar = "storage/staff/avatar/$img_name";
+            $img->destroy();
         }
 
         $admin = "admins";
@@ -516,7 +517,10 @@ class StaffController extends Controller
                 'senderName' => Auth::guard('staff')->user()->name,
                 'lang' => $request->language
             );
+            
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
+
+
             $staff->syncRoles([$request->role]);
             app()->setLocale($lang);
             return redirect()->route('staff.staff.staff')->with(
@@ -727,6 +731,7 @@ class StaffController extends Controller
 
                 unlink(public_path($lastPhoto));
             }
+            $img->destroy();
             $staff->avatar = $avatar;
         }
 

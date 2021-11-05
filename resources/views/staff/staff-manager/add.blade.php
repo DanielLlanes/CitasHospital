@@ -48,7 +48,7 @@
                 <form method="POST" action="{{ route('staff.staff.store') }}" id="add-staff" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
                     <div class="form-body">
-                    	<<div class="form-group row">
+                    	<div class="form-group row">
                             <label class="control-label col-md-3">@lang('Profile Picture')
                                 <span class="required">  </span>
                             </label>
