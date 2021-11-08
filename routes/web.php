@@ -51,4 +51,10 @@ Route::post('/search-states', [ApplicationController::class, 'getStates'])->name
 
 Route::get('/{brand}', [HomeController::class, 'brand']);
 
+
+// public profile
+
+route::get('/{profile}', [HomeController::class, 'profile']);
+
 Route::prefix('staff')->group(base_path('routes/staff.php'));
+

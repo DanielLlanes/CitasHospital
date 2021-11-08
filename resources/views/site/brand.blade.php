@@ -62,6 +62,36 @@
                 @endforeach
             </div>
         </section>
+        <section id="team" class="team section-bg">
+            <div class="container">
+
+                <div class="section-title m-5" data-aos="fade-up">
+                    <h2>Our<strong> Doctors</strong></h2>
+                    <p>
+                        All of our doctors are certified surgeons with extensive experience in various surgical procedures. At JLP Surgical Center, the safety, well-being and quality of our service are the first commitment with our patients.
+                    </p>
+                </div>
+                <code>
+                    
+                </code>
+                <div class="row">
+                    @foreach($doctors as $doctor)
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="doctor" data-aos="fade-up" data-aos-delay="100">
+                                <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
+                                <div class="doctor-info">
+                                    <div class="doctor-info-content">
+                                        <h4>{{ $doctor->name }}</h4>
+                                        <a class="btn btn-primary btn-sm" href="{{ url($doctor->url) }}">View profile</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    
     @else
     <section id="team" class="team">
         <div class="container">

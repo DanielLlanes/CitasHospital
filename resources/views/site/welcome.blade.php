@@ -218,75 +218,27 @@
             <div class="splide" id="splide" data-aos="fade-up">
                 <div class="splide__track">
                     <ul class="splide__list">
+                        @foreach($coordinators as $coordinator)
                         <li class="splide__slide">
                             <div class="member d-flex align-items-start">
-                                <div class="pic"><img src="{{ asset('siteFiles/assets/img/team/team-1.jpg') }}" class="img-fluid" alt=""></div>
+                                <div class="pic"><img src="{{ asset($coordinator->avatar) }}" class="img-fluid" alt="{{ $coordinator->name }}"></div>
                                 <div class="member-info">
-                                    <h4>Clark Kent</h4>
-                                    <span>Cordinator</span>
-                                    <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                                    <div class="social">
-                                        <a href=""><i class="bi bi-twitter"></i></a>
-                                        <a href=""><i class="bi bi-facebook"></i></a>
-                                        <a href=""><i class="bi bi-instagram"></i></a>
-                                        <a href=""> <i class="bi bi-linkedin"></i> </a>
+                                    <h4>{{ $coordinator->name }}</h4>
+                                    <span>Coordinator</span>
+                                    <p style="margin-block-end: 0"><a href="tel:{{ $coordinator->cellphone }}">Call me</a></p>
+                                    <p><a href="mailto:{{ $coordinator->email }}">@lang('Send me a email')</a></p>
+                                    <div class="mt-3">
+                                        @foreach($coordinator->assignToService as $service)
+                                        <a style="text-decoration: none" href="{{ asset($service->brand->url) }}" class="me-2">{{ $service->service }}</a>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li class="splide__slide">
-                            <div class="member d-flex align-items-start">
-                                <div class="pic"><img src="{{ asset('siteFiles/assets/img/team/team-2.jpg') }}" class="img-fluid" alt=""></div>
-                                <div class="member-info">
-                                    <h4>Diana Prince</h4>
-                                    <span>Cordinator</span>
-                                    <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                                    <div class="social">
-                                        <a href=""><i class="bi bi-twitter"></i></a>
-                                        <a href=""><i class="bi bi-facebook"></i></a>
-                                        <a href=""><i class="bi bi-instagram"></i></a>
-                                        <a href=""> <i class="bi bi-linkedin"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="member d-flex align-items-start">
-                                <div class="pic"><img src="{{ asset('siteFiles/assets/img/team/team-3.jpg') }}" class="img-fluid" alt=""></div>
-                                <div class="member-info">
-                                    <h4>Bruce Wayne</h4>
-                                    <span>Cordinator</span>
-                                    <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                                    <div class="social">
-                                        <a href=""><i class="bi bi-twitter"></i></a>
-                                        <a href=""><i class="bi bi-facebook"></i></a>
-                                        <a href=""><i class="bi bi-instagram"></i></a>
-                                        <a href=""> <i class="bi bi-linkedin"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="splide__slide">
-                            <div class="member d-flex align-items-start">
-                                <div class="pic"><img src="{{ asset('siteFiles/assets/img/team/team-4.jpg') }}" class="img-fluid" alt=""></div>
-                                <div class="member-info">
-                                    <h4>Harleen Frances</h4>
-                                    <span>Cordinator</span>
-                                    <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                                    <div class="social">
-                                        <a href=""><i class="bi bi-twitter"></i></a>
-                                        <a href=""><i class="bi bi-facebook"></i></a>
-                                        <a href=""><i class="bi bi-instagram"></i></a>
-                                        <a href=""> <i class="bi bi-linkedin"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
-
-
     </section>
     <!-- End Our Cordinators Section -->
 </main>

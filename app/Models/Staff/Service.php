@@ -32,4 +32,5 @@ class Service extends Model
     {
         return $this->belongsToMany(Staff::class)->withPivot('order')->withTimestamps();
     }
+
 }

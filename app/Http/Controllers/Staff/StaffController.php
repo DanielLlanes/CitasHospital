@@ -473,16 +473,16 @@ class StaffController extends Controller
 
         $unHashPassword = Str::random(8);
         $staff = New Staff;
-        $staff->name = $request->name;
+        $staff->name = Str::ucfirst($request->name);
         $staff->username = $request->username;
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
-        $staff->email = $request->email;
+        $staff->email = Str::of($request->email)->lower();
         $staff->password = Hash::make($unHashPassword);
         $staff->lang = $request->language;
         $staff->avatar = $avatar;
         $staff->color = strtolower($request->color);
-        $staff->specialty_id = $request->specialty;
+        //$staff->specialty_id = $request->specialty;
         $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];
@@ -727,22 +727,23 @@ class StaffController extends Controller
             $img->save($destinationPath."/".$img_name, '80');
             $avatar = "storage/staff/avatar/$img_name";
 
-            if ($lastPhoto != null || $lastPhoto != 'staffFiles/assets/img/user/user.jpg') {
 
+            if ($lastPhoto != 'staffFiles/assets/img/user/user.jpg') {
+                return $lastPhoto;
                 unlink(public_path($lastPhoto));
             }
-            $img->destroy();
             $staff->avatar = $avatar;
+            $img->destroy();
         }
 
-        $staff->name = $request->name;
+        $staff->name = Str::ucfirst($request->name);;
         $staff->username = $request->username;
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
-        $staff->email = $request->email;
+        $staff->email = Str::of($request->email)->lower();
         $staff->lang = $request->language;
         $staff->color = strtolower($request->color);
-        $staff->specialty_id = $request->specialty;
+        //$staff->specialty_id = $request->specialty;
         $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];

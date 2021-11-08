@@ -1,6 +1,6 @@
 @extends('site.layouts.app')
 @section('title')
- - Team
+ - profile
 @endsection
 @section('content')
     <main id="main">
@@ -10,10 +10,10 @@
             <div class="container">
 
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Team</h2>
+                    <h2>profile</h2>
                     <ol>
                         <li><a href="{{ route('home') }}">Home</a></li>
-                        <li>Team</li>
+                        <li>profile</li>
                     </ol>
                 </div>
 
@@ -21,7 +21,7 @@
         </section>
         <!-- End Breadcrumbs -->
 
-        <!-- ======= Our Team Section ======= -->
+        <!-- ======= Our profile Section ======= -->
         <section id="team" class="team section-bg">
             <div class="container">
 
@@ -29,7 +29,7 @@
                     <h2>Our<strong> Doctors</strong></h2>
                     <p>
                         All of our doctors are certified surgeons with extensive experience in various surgical procedures. At JLP Surgical Center, the safety, well-being and quality of our service are the first commitment with our patients.
-
+                        {{ url() }}
                     </p>
                 </div>
 

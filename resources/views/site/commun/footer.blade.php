@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-6 footer-contact">
+                <div class="col-lg-3 col-md-12 footer-contact">
                     <h3>Jl Prado</h3>
                     <p>
                         Erasmo Castellanos 874 - 102<br> Zona Rio Tijuana,<br> BC, México<br><br>
@@ -16,30 +16,22 @@
                         <strong>Email:</strong> info@example.com<br>
                     </p>
                 </div>
-
-                <div class="col-lg-2 col-md-6 footer-links">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
-                    </ul>
+                <div class="col-lg-5 col-md-12 d-flex flex-column">
+                    <h4>Corrdinators</h4>
+                    <div class="d-md-flex justify-content-md-around">
+                        @foreach($coordinatorFooter as $coordinator)
+                        <div class="col-6 d">
+                            <p>
+                                <strong>{{ $coordinator->name }}</strong><br> 
+                                {{ $coordinator->cellphone }} <br>
+                                {{ $coordinator->email }}<br>
+                            </p>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 footer-links">
-                    <h4>Our Services</h4>
-                    <ul>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 col-md-6 footer-newsletter">
+                <div class="col-lg-4 col-md-12 footer-newsletter">
                     <h4>Join Our Newsletter</h4>
                     <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     <form action="" method="post">

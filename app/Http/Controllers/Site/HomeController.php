@@ -2,24 +2,64 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Controllers\Controller;
 use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
-use Illuminate\Http\Request;
-use App\Models\Staff\Treatment;
 use App\Models\Staff\Procedure;
+use App\Models\Staff\Staff;
+use App\Models\Staff\Treatment;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        return view('site.welcome');
+        $lang = app()->getLocale();
+        $coordinator = Staff::role('coordinator')
+        ->with
+        (
+            [
+                'assignToService' => function($q) use($lang) 
+                {
+                    $q->selectRaw("services.id, service_$lang as service, brand_id");
+                    $q->with
+                    (
+                        [
+                            'brand'
+                        ]
+                    );
+                }
+            ]
+        )
+        ->get();
+        //return($coordinator);
+        return view('site.welcome', ["coordinators" => $coordinator]);
     }
     public function team()
     {
-        return view('site.team');
+        $lang = app()->getLocale();
+        $doctors = Staff::role('doctor')
+        ->with
+        (
+            [
+                'assignToService' => function($q) use($lang) 
+                {
+                    $q->selectRaw("services.id, service_$lang as service, brand_id");
+                    $q->with
+                    (
+                        [
+                            'brand',
+                        ]
+                    );
+                },
+                'specialties'
+            ]
+         )
+        ->get();
+        //return($doctors);
+        return view('site.team', ['doctors' => $doctors]);
     }
     public function testimonials()
     {
@@ -65,12 +105,33 @@ class HomeController extends Controller
                  },
                 'package' => function($query) use ($lang) {
                     $query->select('id', "active", "package_$lang as package");
-                 }
+                 },
             ]
         )
         ->where('active', true)
         ->orderBy('procedure_id', 'ASC')
         ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price", "description_$lang as description")
+        ->get();
+        
+
+        $service = Brand::where('url', $brand)
+        ->with(
+            'service', function($q)
+            {
+                $q->selectRaw("service_en AS service, brand_id");
+            }
+        )
+        ->selectRaw("id")
+        ->first();
+
+        $doctors = Staff::role('doctor')
+        ->whereHas
+        (
+            'assignToService', function($q)use($service)
+            {
+                $q->where("service_en", $service->service->service);
+            }
+        )
         ->get();
 
         $titles = new Collection();
@@ -106,10 +167,15 @@ class HomeController extends Controller
                     [
                         "brand" => $getBrand,
                         "treatments" => $treatment,
-                        "title" => $titles
+                        "title" => $titles,
+                        "doctors" => $doctors
                     ]
                 )->render();
             }
         }
+    }
+    public function profile()
+    {
+        return view('site.profile');
     }
 }

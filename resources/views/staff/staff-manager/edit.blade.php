@@ -48,14 +48,15 @@
                     @csrf
                     <div class="form-body">
                         <div class="form-group row">
-                            <label class="control-label col-md-3">@lang('staff.Profile Picture')
+                            <label class="control-label col-md-3">@lang('Profile Picture')
+                                <span class="required">  </span>
                             </label>
-                            <div class="compose-editor">
-                                <input type="file" class="default" name="avatar">
+                            <div class="col-md-5">
+                                <input type="file" name="avatar" class="dropify" data-default-file="{{ asset($staff->avatar) }}" />
+                                @error('avatar')
+                                    <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
-                            @error('avatar')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
                         </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3">@lang('staff.Name')

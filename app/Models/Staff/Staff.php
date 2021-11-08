@@ -3,6 +3,7 @@
 namespace App\Models\Staff;
 
 use App\Models\Site\Application;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -81,8 +82,6 @@ class Staff extends Authenticatable
     {
         return $this->belongsToMany(Specialty::class)->withPivot('order')->withTimestamps();
     }
-
-
     /**
      * Send the password reset notification.
      *
@@ -93,4 +92,6 @@ class Staff extends Authenticatable
     {
         $this->notify(new StaffResetPasswordNotification($token));
     }
+
+
 }

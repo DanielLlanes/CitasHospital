@@ -148,13 +148,13 @@ class PatientController extends Controller
             $unHashPassword = Str::random(8);
             $patient = new Patient;
             $patient->treatmentBefore = $treatmentBefore;
-            $patient->name = $request->name;
+            $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
             $patient->dob = $request->dob;
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
-            $patient->email = $request->email;
+            $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
             $patient->country_id = $request->country_id;
             $patient->state_id = $request->state_id;
@@ -251,13 +251,13 @@ class PatientController extends Controller
             'ecp' => ['required', 'different:phone', 'different:mobile','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
         ]);
         $patient = Patient::find($id);
-        $patient->name = $request->name;
+        $patient->name = Str::ucfirst($request->name);
         $patient->sex = $request->sex;
         $patient->age = $request->age;
         $patient->dob = $request->dob;
         $patient->phone = $request->phone;
         $patient->mobile = $request->mobile;
-        $patient->email = $request->email;
+        $patient->email = Str::of($request->email)->lower();
         $patient->address = $request->address;
         $patient->country_id = $request->country_id;
         $patient->state_id = $request->state_id;

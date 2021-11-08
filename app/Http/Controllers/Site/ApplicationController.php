@@ -138,13 +138,13 @@ class ApplicationController extends Controller
             $unHashPassword = Str::random(8);
             $patient = new Patient;
             $patient->treatmentBefore = $request->treatmentBefore;
-            $patient->name = $request->name;
+            $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
             $patient->dob = $request->dob;
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
-            $patient->email = $request->email;
+            $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
             $patient->country_id = $request->country_id;
             $patient->state_id = $request->state_id;
