@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Site\Application;
 use App\Models\Staff\Patient;
 use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
-use App\Models\Site\Application;
-use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class AppController extends Controller
 {

@@ -23,6 +23,10 @@ class PaymentController extends Controller
     {
         $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+
+        $this->middleware('can:payments.list')->only(['getList', 'index']);
+        $this->middleware('can:payments.create')->only(['store']);
+        
     }
     public function index()
     {
@@ -215,9 +219,8 @@ class PaymentController extends Controller
         return $apps;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        //return $request;
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'id' => 'required|integer|exists:applications,id',
@@ -283,7 +286,6 @@ class PaymentController extends Controller
                     'reload' => true
                 ]
             );
-        }
-        
+        }      
     }
 }

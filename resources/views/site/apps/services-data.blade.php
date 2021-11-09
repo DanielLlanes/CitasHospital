@@ -65,9 +65,14 @@
                         <div class="row">
                     @endif
 
+                    <div class="error text-danger"></div>
                     @for ($i = 0; $i < $treatment->service->qty_images; $i++)
                         <div class="col-md-6 my-3">
-                            <input type="file" name="images[]" class="dropify" data-height="200" data-default-file="" />
+                            <input type="file" name="images[]" order="{{ ($i + 1) }}" class="dropify" id="dropify_{{ ($i + 1) }}" 
+                            data-height="200" 
+                            @if (count($app->images) > 0)
+                                 data-default-file="{{ asset($app->images[$i]->local_image) }}"
+                             @endif />
                         </div>
                     @endfor
 
@@ -80,7 +85,7 @@
                             <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1">Next</button>
+                            <button type="button" id="next" class="btn btn-main btn-sm mx-1">Next</button>
                             <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
@@ -98,12 +103,24 @@
 @section('scripts')
 <script src="{{ asset('siteFiles/assets/vendor/dropify/dist/js/dropify.min.js') }}"></script>
     <script>
-        var globalRouteobtenerEstados = "{{ route('getStates') }}";
-        var globalRoutechekIfPatientExist = "{{ route('chekIfPatientExist') }}";
+        var globalRouteupLoasImage = "{{ route('postServicesData') }}";
+        var globalRouteNextStep = "{{ route('imagesNextStep') }}"
+        var globalRouteDeleteFile = "{{ route('destroy') }}"
     </script>
     <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
         $(document).ready(function() {
-            $('.dropify').dropify({
+            var drEvent = $('.dropify').dropify({
                 messages: {
                     'default': 'Drag and drop a file here or click',
                     'replace': 'Drag and drop or click to replace',
@@ -115,32 +132,102 @@
 
                 }
             });
+
+            drEvent.on('dropify.beforeClear', function(event, element){
+
+                var form_data = new FormData();
+                form_data.append('order', $(this).attr('order'));
+                $.ajax({
+                    url: globalRouteDeleteFile,
+                    method:"POST",
+                    dataType:'JSON',
+                    data:form_data,
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+
+                    },
+                    success:function(data)
+                    {
+                       if(data.success){
+                        window.location.href = data.go;
+                       } else {
+                        $('.error').html(data.go)
+                       }
+                    },
+                })
+            });
         });
 
-        function clearForm() {
-            $("input[name=treatmentBefore][value=0]").prop('checked', true);
-            $("input[name=treatmentBefore]").attr('disabled', false);
-            $("#name").val('').attr('disabled', false);
-            $('#sex').find('option').not(':first').remove();
-            $('#sex').val($("#target option:first").val());
-            $("#sex").attr('disabled', false);
-            $("#dob").val('').attr('disabled', false)
-            $("#age").val('').attr('disabled', false)
-            $("#phone").val('').attr('disabled', false)
-            $("#mobile").val('').attr('disabled', false)
-            $("#address").val('').attr('disabled', false)
-            $('#country_id').find('option').not(':first').remove();
-            $('#country_id').val($("#target option:first").val());
-            $("#country_id").attr('disabled', false)
-            $("#city").val('').attr('disabled', false)
-            $("#zip").val('').attr('disabled', false)
-            $("#ecn").val('').attr('disabled', false)
-            $("#ecp").val('').attr('disabled', false)
+        $(document).on('change', ".dropify", function(e){
+            
+            var form_data = new FormData();
+            var dropyfy = $(this).prop('files')[0];
 
-            $('#state_id').find('option').not(':first').remove();
-            $('#state_id').val($("#target option:first").val());
-            $("#state_id").attr('disabled', false)
-        }
+            form_data.append('dropify', dropyfy);
+            form_data.append('id', $(this).attr('id'));
+            form_data.append('order', $(this).attr('order'));
+            $.ajax({
+                url: globalRouteupLoasImage,
+                method:"POST",
+                dataType:'JSON',
+                data:form_data,
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function()
+                {
+
+                },
+                success:function(data)
+                {
+                    console.log(data);
+                    Toast.fire({
+                        icon: data.icon,
+                        title: data.msg
+                    })
+                },
+            })
+        })
+
+        $(document).on('click', '#next', function(event) {
+            event.preventDefault();
+            var form_data = new FormData();
+            var dropyfy = "holi";
+            form_data.append('dropify', dropyfy);
+            $.ajax({
+                url: globalRouteNextStep,
+                method:"POST",
+                dataType:'JSON',
+                data:form_data,
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function()
+                {
+
+                },
+                success:function(data)
+                {
+                   if(data.success){
+                    window.location.href = data.go;
+                   } else {
+                    $('.error').html(data.go)
+                   }
+                },
+            })
+        });
     </script>
 
 @endsection

@@ -313,54 +313,14 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Patients'
         ]);
         Permission::create([
-            'name' => 'patient.show',
+            'name' => 'patients.show',
             'guard_name' => 'staff',
             'description_es' => 'ver datos generales de patientes',
             'group_es' => 'Pacientes',
             'description_en' => 'view general patient data',
             'group_en' => 'Patients'
         ]);
-        //procedures
-        Permission::create([
-            'name' => 'procedures.list',
-            'guard_name' => 'staff',
-            'description_es' => 'Mostrar listade Procedimientos',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Show procedures list',
-            'group_en' => 'Procedures'
-        ]);
-        Permission::create([
-            'name' => 'procedures.edit',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar Procedimientos',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Edit procedures',
-            'group_en' => 'Procedures'
-        ]);
-        Permission::create([
-            'name' => 'procedures.create',
-            'guard_name' => 'staff',
-            'description_es' => 'Crear nuevos Procedimientos',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Create new procedures',
-            'group_en' => 'Procedures'
-        ]);
-        Permission::create([
-            'name' => 'procedures.destroy',
-            'guard_name' => 'staff',
-            'description_es' => 'Eliminar Procedimientos',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Delete procedures',
-            'group_en' => 'Procedures'
-        ]);
-        Permission::create([
-            'name' => 'procedures.activate',
-            'guard_name' => 'staff',
-            'description_es' => 'Activar Procedimientos',
-            'group_es' => 'Procedimientos',
-            'description_en' => 'Activate procedures',
-            'group_en' => 'Procedures'
-        ]);
+        
         //payments
         Permission::create([
             'name' => 'payments.list',
@@ -565,6 +525,98 @@ class PermissionsSeeder extends Seeder
             'group_es' => 'Marcas',
             'description_en' => 'Activate brand',
             'group_en' => 'Brands'
+        ]);
+        //procedures
+        Permission::create([
+            'name' => 'procedures.list',
+            'guard_name' => 'staff',
+            'description_es' => 'Mostrar listade Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Show procedures list',
+            'group_en' => 'Procedures'
+        ]);
+        Permission::create([
+            'name' => 'procedures.edit',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Edit procedures',
+            'group_en' => 'Procedures'
+        ]);
+        Permission::create([
+            'name' => 'procedures.create',
+            'guard_name' => 'staff',
+            'description_es' => 'Crear nuevos Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Create new procedures',
+            'group_en' => 'Procedures'
+        ]);
+        Permission::create([
+            'name' => 'procedures.destroy',
+            'guard_name' => 'staff',
+            'description_es' => 'Eliminar Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Delete procedures',
+            'group_en' => 'Procedures'
+        ]);
+        Permission::create([
+            'name' => 'procedures.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar Procedimientos',
+            'group_es' => 'Procedimientos',
+            'description_en' => 'Activate procedures',
+            'group_en' => 'Procedures'
+        ]);
+        //Treatment
+        Permission::create([
+            'name' => 'treatment.list',
+            'guard_name' => 'staff',
+            'description_es' => 'Mostrar Lista de tratamientos',
+            'group_es' => 'Tratamientos',
+            'description_en' => 'Show treatment list',
+            'group_en' => 'Treatment'
+        ]);
+        Permission::create([
+            'name' => 'treatment.edit',
+            'guard_name' => 'staff',
+            'description_es' => 'Editar tratamientos',
+            'group_es' => 'Tratamientos',
+            'description_en' => 'Edit treatment',
+            'group_en' => 'Treatment'
+        ]);
+        Permission::create([
+            'name' => 'treatment.create',
+            'guard_name' => 'staff',
+            'description_es' => 'Crear nuevos tratamientos',
+            'group_es' => 'Tratamientos',
+            'description_en' => 'create new treatment',
+            'group_en' => 'Treatment'
+        ]);
+        Permission::create([
+            'name' => 'treatment.destroy',
+            'guard_name' => 'staff',
+            'description_es' => 'Eliminar tratamientos',
+            'group_es' => 'Tratamientos',
+            'description_en' => 'Edit treatment',
+            'group_en' => 'Treatment'
+        ]);
+        Permission::create([
+            'name' => 'treatment.activate',
+            'guard_name' => 'staff',
+            'description_es' => 'Activar tratamientos',
+            'group_es' => 'Tratamientos',
+            'description_en' => 'Activate treatment',
+            'group_en' => 'Treatment'
+        ]);
+
+        //Dashboard
+        Permission::create([
+            'name' => 'dashboard.wiew',
+            'guard_name' => 'staff',
+            'description_es' => 'Ver tablero',
+            'group_es' => 'Tablero',
+            'description_en' => 'view dashboard',
+            'group_en' => 'Dashboard'
         ]);
 
     }

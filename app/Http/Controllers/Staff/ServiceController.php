@@ -15,8 +15,13 @@ class ServiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+        $this->middleware('auth:staff');
+        $this->middleware('can:services.list')->only(['getServiceList', 'service']);
+        $this->middleware('can:services.edit')->only(['edit','update']);
+        $this->middleware('can:services.create')->only(['create','store']);
+        $this->middleware('can:services.destroy')->only(['destroy']);
+        $this->middleware('can:services.activate')->only(['activate']);
     }
 
     /**
@@ -24,7 +29,7 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function Service()
+    public function service()
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);

@@ -26,10 +26,21 @@
                         <div class="profile-userpic">
                             <img src="{{ asset($staff->avatar) }}" class="img-responsive" alt=""> </div>
                     </div>
+                    
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-name">{{ $staff->name }} </div>
-                        <div class="profile-usertitle-job"> {{ $staff->roles[0]->Rname }} </div>
-                        <div class="profile-usertitle-job"> {{ $staff->specialty->Sname }} </div>
+                        <h3 class="m-0">Role</h3>
+                        @foreach ($staff->roles as $role)
+                            <div class="profile-usertitle-job"> {{ $role->Rname }} </div>
+                        @endforeach
+                        <h3 class="m-0">Specialies</h3>
+                        @foreach ($staff->specialties as $specialty)
+                            <div class="profile-usertitle-job"> {{ $specialty->Sname }} </div>
+                        @endforeach
+                        <h3 class="m-0">Assigned to</h3>
+                        @foreach ($staff->assignToService as $service)
+                           <div class="profile-usertitle-job"> {{ $service->service }} </div>
+                        @endforeach
                     </div>
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
@@ -198,99 +209,8 @@
                             <header>{{-- User Activity --}}</header>
                         </div>
                         <div class="card-body no-padding height-9">
-                            <div class="container-fluid">{{--
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="panel">
-                                            <form>
-                                                <textarea class="form-control p-text-area" rows="4" placeholder="Whats in your mind today?"></textarea>
-                                            </form>
-                                            <footer class="panel-footer">
-                                                <button class="btn btn-post pull-right">Post</button>
-                                                <ul class="nav nav-pills p-option">
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-user"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-camera"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa  fa-location-arrow"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-meh-o"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </footer>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <ul class="activity-list">
-                                            <li>
-                                                <div class="avatar">
-                                                    <img src="../assets/img/user/user1.jpg" alt="" />
-                                                </div>
-                                                <div class="activity-desk">
-                                                    <h5><a href="#">Rajesh</a> <span>Uploaded 5 new photos</span></h5>
-                                                    <p class="text-muted">7 minutes ago near Alaska, USA</p>
-                                                    <div class="album">
-                                                        <a href="#">
-                                                            <img alt="" src="../assets/img/mega-img1.jpg">
-                                                        </a>
-                                                        <a href="#">
-                                                            <img alt="" src="../assets/img/mega-img2.jpg">
-                                                        </a>
-                                                        <a href="#">
-                                                            <img alt="" src="../assets/img/mega-img3.jpg">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="avatar">
-                                                    <img src="../assets/img/user/user2.jpg" alt="" />
-                                                </div>
-                                                <div class="activity-desk">
-                                                    <h5><a href="#">Sarah Smith</a> <span>Completed the Sight visit.</span></h5>
-                                                    <p class="text-muted">2 minutes ago near Alaska, USA</p>
-                                                    <div class="location-map">
-                                                        <div id="map-canvas"></div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="avatar">
-                                                    <img src="../assets/img/user/user3.jpg" alt="" />
-                                                </div>
-                                                <div class="activity-desk">
-                                                    <h5><a href="#">John Doe</a> <span>attended a meeting with</span>
-                                                                    <a href="#">Lina Smith.</a></h5>
-                                                    <p class="text-muted">2 days ago near Alaska, USA</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="avatar">
-                                                    <img src="../assets/img/user/user4.jpg" alt="" />
-                                                </div>
-                                                <div class="activity-desk">
-                                                    <h5><a href="#">Kehn Anderson</a> <span>completed the task “wireframe design” within the dead line</span></h5>
-                                                    <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="avatar">
-                                                    <img src="../assets/img/user/user5.jpg" alt="" />
-                                                </div>
-                                                <div class="activity-desk">
-                                                    <h5><a href="#">Jacob Ryan</a> <span>was absent office due to sickness</span></h5>
-                                                    <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> --}}
+                            <div class="container-fluid">
+                                {{ $staff }}
                             </div>
                         </div>
                     </div>

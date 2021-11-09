@@ -145,7 +145,7 @@ class RolesSeeder extends Seeder
             "patients.edit",
             "patients.destroy",
             "patients.details",
-            "patient.show",
+            "patients.show",
 
             "procedures.list",
             "procedures.create",
@@ -182,6 +182,14 @@ class RolesSeeder extends Seeder
             "brand.edit",
             "brand.destroy",
             "brand.activate",
+
+            'treatment.list',
+            'treatment.edit',
+            'treatment.create',
+            'treatment.destroy',
+            'treatment.activate',
+
+            'dashboard.wiew',
         ];
 
         $coordinatorPermissions = [
@@ -199,7 +207,7 @@ class RolesSeeder extends Seeder
             "patients.create",
             "patients.edit",
             "patients.details",
-            "patient.show",
+            "patients.show",
         ];
 
         $dios->givePermissionTo(Permission::all());

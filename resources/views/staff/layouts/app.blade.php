@@ -165,8 +165,18 @@
             $.each(sub, function(index, val) {
                 let len = $(this).find('.nav-item').length;
                 if (len == 0) {
-                    $(this).parent().remove()
+                    $(this).parent().remove();
                 }
+            });
+
+            var masterMenuSub = $('.master-menu>.sub-menu')
+            var masterMenu = $('.master-menu')
+
+            $.each(masterMenuSub, function(index, val) {
+                 let count = $(this).find('.nav-item').length
+                 if (count == 0) {
+                     $(this).parent().remove();
+                 }
             });
         </script>
 

@@ -15,8 +15,13 @@ class BrandController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+        $this->middleware('auth:staff');
+        $this->middleware('can:brand.list')->only(['getBrandList', 'brand']);
+        $this->middleware('can:brand.edit')->only(['edit','update']);
+        $this->middleware('can:brand.create')->only(['create','store']);
+        $this->middleware('can:brand.destroy')->only(['destroy']);
+        $this->middleware('can:brand.activate')->only(['activate']);
     }
     /**
      * Display a listing of the resource.

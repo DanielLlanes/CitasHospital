@@ -2,32 +2,34 @@
 
 namespace App\Http\Controllers\Site;
 
-use Image;
-use App\Models\Site\State;
-use App\Models\Staff\Staff;
-use Illuminate\Support\Str;
-use App\Models\Site\Country;
-use Illuminate\Http\Request;
-use App\Models\Staff\Patient;
-use App\Models\Staff\Treatment;
-use App\Models\Staff\Service;
-use App\Models\Staff\Specialty;
-use App\Models\Site\Application;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Site\SurgeryApplication;
-use Illuminate\Support\Facades\Session;
+use App\Models\Site\Application;
+use App\Models\Site\BirthControlApplication;
+use App\Models\Site\Country;
 use App\Models\Site\ExerciseApplication;
 use App\Models\Site\HormonesApplication;
 use App\Models\Site\IllnsessApplication;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Site\ImageApplication;
 use App\Models\Site\MedicationApplication;
-use App\Models\Site\BirthControlApplication;
+use App\Models\Site\State;
+use App\Models\Site\SurgeryApplication;
+use App\Models\Staff\Patient;
+use App\Models\Staff\Service;
+use App\Models\Staff\Specialty;
+use App\Models\Staff\Staff;
+use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Image;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class ApplicationController extends Controller
 {
@@ -224,44 +226,61 @@ class ApplicationController extends Controller
     public function postServicesData(Request $request)
     {
 
-        // return $request;
-        // $this->validate($request, [
-        //     'images' => 'required|array',
-        //     'images.*' => 'image|mimes:jpg,jpeg,png'
-        // ]);
+        $this->validate($request, [
+            'dropify' => 'required|image|mimes:jpg,jpeg,png',
+            'order' => 'integer'
+        ]);
 
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             $app =  Application::
             with('images', 'medications')
             ->find($getData->id);
+
             $treatment = Session::get('treatment');
             $qty_images = $treatment->service->qty_images;
 
-            foreach ($request->file('images') as $file) {
-                $image = $file;
-                $destinationPath = storage_path('app/public').'/application/image';
-                $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
-                $img = Image::make($image->getRealPath());
-                $width = 1200;
-                $img->resize($width, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+            $image = $request->file('dropify');
 
-                $img->save($destinationPath."/".$img_name, '80');
-                $image = "storage/application/image/$img_name";
 
-                DB::table('image_applications')->insert(
-                    [
-                        'local_image' => $image,
-                        'dropbox_image' => null,
-                        'application_id' => $getData->id,
-                        'created_at' => date("Y-m-d H:i:s"),
-                        'updated_at' => date("Y-m-d H:i:s")
-                    ]
-                );
+            $destinationPath = storage_path('app/public').'/application/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = Image::make($image)->width();
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '80');
+            $image = "storage/application/image/$img_name";
+            $img->destroy();
+
+            
+            $getData = Session::get('form_session');
+            $app = Application::with('images', 'medications')->find($getData->id);
+
+            $imageExist = ImageApplication::where('application_id', $getData->id)
+            ->where('order', $request->order)
+            ->first();
+
+
+            if ($imageExist) {
+                unlink($imageExist->local_image);
+                $imageExist->delete();
             }
+
+            DB::table('image_applications')->insert(
+                [
+                    'local_image' => $image,
+                    'dropbox_image' => null,
+                    'application_id' => $getData->id,
+                    'order' => $request->order,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]
+            );
+
             $app = Application::find($getData->id);
 
             Session::forget('form_session');
@@ -272,12 +291,58 @@ class ApplicationController extends Controller
             $app = Application::with('images', 'medications')->find($getData->id);
             $treatment = Session::get('treatment');
 
-            return view('site.apps.health-data', ['treatment' => $treatment, 'app' => $app]);
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('the image processed and stored successfully!'),
+                    'data'=> $app->images
+                ]
+            );
 
         } else {
             abort(404);
         }
 
+    }
+
+    public function destroy(Request $request)
+    {
+        $getData = Session::get('form_session');
+        $app = Application::with('images', 'medications')->find($getData->id);
+
+        $imageExist = ImageApplication::where('application_id', $getData->id)
+        ->where('order', $request->order)
+        ->first();
+
+
+        if ($imageExist) {
+            unlink($imageExist->local_image);
+            $imageExist->delete();
+        }
+    }
+
+    public function nextStep(Request $request)
+    {
+        $getData = Session::get('form_session');
+        $app = Application::with('images', 'medications')->find($getData->id);
+
+        $treatment = Session::get('treatment');
+
+        if ($treatment->service->qty_images == count($app->images)) {
+
+            return response()->json(
+                [
+                    "success" => true,
+                    'go' => url('/applications/create-health-data'),
+                ]
+            );
+        }
+        return response()->json(
+            [
+                "success" => false,
+                'go' => Lang::get('You must upload all images'),
+            ]
+        );
     }
 
     public function createHealthData()

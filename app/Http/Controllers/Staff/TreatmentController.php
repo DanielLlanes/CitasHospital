@@ -16,8 +16,13 @@ class TreatmentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+        $this->middleware('auth:staff');
+        $this->middleware('can:treatment.list')->only(['getPackageList', 'treatments']);
+        $this->middleware('can:treatment.edit')->only(['edit','update']);
+        $this->middleware('can:treatment.create')->only(['create','store']);
+        $this->middleware('can:treatment.destroy')->only(['destroy']);
+        $this->middleware('can:treatment.activate')->only(['activate']);
     }
     /**
      * Display a listing of the resource.
@@ -53,7 +58,7 @@ class TreatmentController extends Controller
         return view('staff.treatments-manager.list');
     }
 
-    public function getProductList(Request $request)
+    public function getTreatmentsList(Request $request)
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;

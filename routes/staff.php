@@ -125,7 +125,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             Route::post('/packages/destroy', [PackageController::class, 'destroy'])->name('destroyPackage');
         });
         Route::get('/treatments/listar', [TreatmentController::class, 'treatments'])->name('treatments');
-        Route::get('/treatments/get-brand-list', [TreatmentController::class, 'getProductList'])->name('getProductList');
+        Route::get('/treatments/get-treatments-list', [TreatmentController::class, 'getTreatmentsList'])->name('getTreatmentsList');
         Route::post('/treatments/store', [TreatmentController::class, 'store'])->name('storeProduct');
         Route::post('/treatments/activate', [TreatmentController::class, 'activate'])->name('activateProduct');
         Route::post('/treatments/edit', [TreatmentController::class, 'edit'])->name('editProduct');
@@ -146,7 +146,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/payments/view/{id}',               [PaymentController::class, 'show'])->name('show');
         Route::post('/payments/patientApps',            [PaymentController::class, 'patientsApps'])->name('patientsApps');
         Route::post('/payments/searchPatientWithApps',  [PaymentController::class, 'searchPatientWithApps'])->name('searchPatientWithApps');
-        Route::post('/payments/create',  [PaymentController::class, 'create'])->name('create');
+        Route::post('/payments/create',  [PaymentController::class, 'create'])->name('store');
     });
 
     Route::name('patients.')->group( function(){

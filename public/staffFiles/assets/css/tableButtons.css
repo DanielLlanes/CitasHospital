@@ -128,3 +128,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
 .fc-event {
     border-width: .1px;
 }
+
+.dropify-wrapper .dropify-clear:hover {
+    background: #dc3545;
+}

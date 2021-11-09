@@ -18,6 +18,7 @@ class CreateImageApplicationsTable extends Migration
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->text('local_image')->nullable();
             $table->text('dropbox_image')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
 

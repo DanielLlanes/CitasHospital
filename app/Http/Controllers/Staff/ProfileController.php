@@ -37,9 +37,12 @@ class ProfileController extends Controller
                 $query->select(["id", "name_$lang AS Rname"]);
             },
             'permissions',
-            'specialty' => function($query) use ($lang){
-                $query->select(["id", "name_$lang AS Sname"]);
-            }
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS service"]);
+            },
         ])
         ->findOrFail(Auth::guard('staff')->user()->id);
         //return $staff;

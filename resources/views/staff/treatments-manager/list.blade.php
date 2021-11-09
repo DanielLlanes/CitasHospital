@@ -188,7 +188,7 @@
 
 	<script>
         
-        var globalRouteobtenerLista = "{{ route('staff.treatments.getProductList') }}";
+        var globalRouteobtenerLista = "{{ route('staff.treatments.getTreatmentsList') }}";
         var globalRouteStore = "{{ route('staff.treatments.storeProduct') }}";
         var globalRouteActivar = "{{ route('staff.treatments.activateProduct') }}"
         var globalRouteEditar = "{{ route('staff.treatments.editProduct') }}"

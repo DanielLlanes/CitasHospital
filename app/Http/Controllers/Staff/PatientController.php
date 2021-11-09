@@ -19,7 +19,13 @@ class PatientController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        date_default_timezone_set('America/Tijuana');
+        $this->middleware('can:patients.list')->only(['getList', 'index']);
+        $this->middleware('can:patients.edit')->only(['edit','update', 'eventDrop']);
+        $this->middleware('can:patients.create')->only(['create','store']);
+        $this->middleware('can:patients.destroy')->only(['destroy']);
+        $this->middleware('can:patients.details')->only(['details']);
+        $this->middleware('can:patients.show')->only(['show']);
+
     }
     /**
      * Display a listing of the resource.

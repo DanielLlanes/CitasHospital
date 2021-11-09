@@ -20,8 +20,13 @@ class ProcedureController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+        $this->middleware('auth:staff');
+        $this->middleware('can:procedures.list')->only(['getProcedureList', 'procedure']);
+        $this->middleware('can:procedures.edit')->only(['edit','update']);
+        $this->middleware('can:procedures.create')->only(['create','store']);
+        $this->middleware('can:procedures.destroy')->only(['destroy']);
+        $this->middleware('can:procedures.activate')->only(['activate']);
     }
 
     /**

@@ -265,7 +265,7 @@
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
         var globalRouteobtenerApps = '{{ route('staff.payments.patientsApps') }}'
         var globalRoutelistar = '{{ route('staff.payments.getList') }}'
-        var globalRoutecreate = '{{ route('staff.payments.create') }}'
+        var globalRouteStore = '{{ route('staff.payments.store') }}'
         var globalRoutesearchPatientWithApps = '{{ route('staff.payments.searchPatientWithApps') }}'
     </script>
 	<script>
@@ -481,7 +481,7 @@
                 fd.append('currency', $("#currency").val());
                 fd.append('patId', $("#patient").attr('data-id'));
                 $.ajax({
-                    url: globalRoutecreate,
+                    url: globalRouteStore,
                     type: "POST",
                     method:"POST",
                     data:fd,

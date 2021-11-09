@@ -23,6 +23,11 @@ Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
+
+Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');
+Route::post('/applications/destroy', [ApplicationController::class, 'destroy'])->name('destroy');
+
+
 Route::get('/applications/patient-data/{id}', [ApplicationController::class, 'index'])->name('appIndex');
 Route::post('/applications/create-patient-data', [ApplicationController::class, 'createPatientData'])->name('createPatientData');
 Route::get('/applications/create-services-data', [ApplicationController::class, 'createServicesData'])->name('createServicesData');
@@ -57,4 +62,3 @@ Route::get('/{brand}', [HomeController::class, 'brand']);
 route::get('/{profile}', [HomeController::class, 'profile']);
 
 Route::prefix('staff')->group(base_path('routes/staff.php'));
-

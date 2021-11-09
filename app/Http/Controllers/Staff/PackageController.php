@@ -14,8 +14,13 @@ class PackageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
+        $this->middleware('auth:staff');
+        $this->middleware('can:packages.list')->only(['getPackageList', 'package']);
+        $this->middleware('can:packages.edit')->only(['edit','update']);
+        $this->middleware('can:packages.create')->only(['create','store']);
+        $this->middleware('can:packages.destroy')->only(['destroy']);
+        $this->middleware('can:packages.activate')->only(['activate']);
     }
     /**
      * Display a listing of the resource.

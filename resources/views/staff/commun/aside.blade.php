@@ -33,11 +33,13 @@
                         <span class="title">@lang('Aplications')</span>
                     </a>
                 </li>
-                <li class="nav-item  ">
-                    <a href="{{ route('staff.treatments.treatments') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
-                        <span class="title">Treatment</span>
-                    </a>
-                </li>
+                @can('treatment.list')  
+                    <li class="nav-item  ">
+                        <a href="{{ route('staff.treatments.treatments') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
+                            <span class="title">Treatment</span>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"><i class="material-icons">event_available</i>
                     <span class="title">@lang('Appointment') </span><span class="arrow"></span></a>
@@ -76,30 +78,36 @@
                         <span class="title">@lang('Patients') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.patients.patient') }}" class="nav-link "> <span class="title">@lang('All Patients') </span>
-                            </a>
-                        </li>
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.patients.add') }}" class="nav-link "> <span class="title">@lang('Add Patient') </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item  ">
-                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">attach_money</i>
-                        <span class="title">@lang("Payments") </span> <span class="arrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item  ">
-                            <a href="{{ route('staff.payments.payments') }}"  class="nav-link "> <span class="title">@lang("All Payments") </span>
-                            </a>
-                        </li>
+                        @can('patient.list')
+                            <li class="nav-item  ">
+                                <a href="{{ route('staff.patients.patient') }}" class="nav-link "> <span class="title">@lang('All Patients') </span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('patient.edit')
+                            <li class="nav-item  ">
+                                <a href="{{ route('staff.patients.add') }}" class="nav-link "> <span class="title">@lang('Add Patient') </span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </li>
 
                 <li class="nav-item">
+                    <a href="#" class="nav-link nav-toggle"> <i class="material-icons">attach_money</i>
+                        <span class="title">@lang("Payments") </span> <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                    @can('payments.list')
+                        <li class="nav-item  ">
+                            <a href="{{ route('staff.payments.payments') }}"  class="nav-link "> <span class="title">@lang("All Payments") </span>
+                            </a>
+                        </li>
+                    @endcan
+                    </ul>
+                </li>
+
+                <li class="nav-item master-menu">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="material-icons">settings</i>
                         <span class="title">Configuration</span>
@@ -112,24 +120,32 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.treatments.configuration.brand') }}" class="nav-link">
-                                        <i class="ml-3"></i> Brand</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
-                                        <i class="ml-3"></i> Services</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
-                                        <i class="ml-3"></i> Procedures
-                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
-                                        <i class="ml-3"></i> Packages
-                                     </a>
-                                </li>
+                                @can('brand.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.brand') }}" class="nav-link">
+                                            <i class="ml-3"></i> Brand</a>
+                                    </li>
+                                @endcan
+                                @can('services.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
+                                            <i class="ml-3"></i> Services</a>
+                                    </li>
+                                @endcan
+                                @can('procedures.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
+                                            <i class="ml-3"></i> Procedures
+                                         </a>
+                                    </li>
+                                @endcan
+                                @can('packages.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
+                                            <i class="ml-3"></i> Packages
+                                         </a>
+                                    </li>
+                                @endcan
                             </ul>
                         </li>
                     </ul>
