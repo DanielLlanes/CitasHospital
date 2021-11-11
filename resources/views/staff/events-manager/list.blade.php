@@ -236,9 +236,9 @@
                             <tr style="font-size: .8">
                                 <th> ID </th>
                                 <th> @lang('Action') </th>
+                                <th> @lang('Code') </th>
                                 <th> @lang('Treatment') </th>
                                 <th> @lang('Date') </th>
-                                <th> @lang('Price') </th>
                             </tr>
                           </thead>
                           <tbody>
@@ -770,8 +770,9 @@
                         url : globalRouteobtenerLista,
                         type: "get",
                         data: {"id": id},
-                        error: function (xhr, error, thrown) {
-                        },
+                        // success: function (data) {
+                        //     console.log("data", data);
+                        // },
                     },
                     language: {
                         "url": dataTablesLangEs
@@ -780,9 +781,9 @@
 
                         { data: 'DT_RowIndex' },
                         { data: "action", orderable: false, searchable: false },
+                        { data: "code" },
                         { data: "treatment" },
                         { data: "date" },
-                        { data: "price" }
 
                     ],
                     createdRow: function (row, data, dataIndex) {

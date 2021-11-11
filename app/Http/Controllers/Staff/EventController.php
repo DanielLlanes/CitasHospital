@@ -382,6 +382,7 @@ class EventController extends Controller
 
     public function getApps(Request $request)
     {
+
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
@@ -411,7 +412,7 @@ class EventController extends Controller
                     },
                     'assignments' => function($q) use($lang) {
                         $q->whereHas(
-                            'specialty', function($q){
+                            'specialties', function($q){
                                 $q->where("name_en", "Coordination");
                             }
                         );
@@ -419,8 +420,10 @@ class EventController extends Controller
                 ]
             )
             ->where('is_complete', true)
-            ->where('patient_id', 1)
+            ->where('patient_id', $request->id)
             ->get();
+
+//return($applications);
             return DataTables::of($applications)
                 ->addIndexColumn()
                 ->addColumn('action', function($applications){
@@ -440,8 +443,8 @@ class EventController extends Controller
                 ->addColumn('date', function($applications){
                     return '<span style="font-weight: 500;">'.$applications->created_at->toDayDateTimeString().'</span>';
                 })
-                ->addColumn('price', function($applications){
-                    return '<span style="font-weight: 500;">$ '.$applications->treatment->price.'</span>';
+                ->addColumn('code', function($applications){
+                    return '<span style="font-weight: 500;">'.$applications->temp_code.'</span>';
                 })
                 ->rawColumns(
                     [
@@ -449,7 +452,7 @@ class EventController extends Controller
                         'action',
                         'treatment',
                         'date',
-                        'price'
+                        'code'
                     ]
                 )
                 ->make(true);
