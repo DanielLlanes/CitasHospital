@@ -4,45 +4,7 @@
 @endsection
 @section('content')
 
-@php
-    $requiredAssing = [];
-    $realAssing = [];
 
-    //convertimos el objeto en array
-    //echo '<pre>';
-    foreach($appInfo->treatment->service->specialties as $object){$requiredAssing[] = $object->toArray();}
-    foreach($appInfo->assignments as $object){$realAssing[] = $object->toArray();}
-    //retiramos a los cordinadores
-    $clave = array_search('Coordination', array_column($requiredAssing, 'specialty'));
-    unset($requiredAssing[$clave]);
-    for ($i = 0; $i < count($realAssing); $i++) {
-        foreach ($realAssing[$i]['specialties'] as $value) {
-            if ($value['name_en'] == 'Coordination') {
-                unset($realAssing[$i]);
-            }
-        }
-    }
-    //print_r($realAssing);
-    //creamos un array con los datos que necesitamos de las cedenas 
-    $nuevo_array = [];
-    for ($i = 0; $i < count($requiredAssing); $i++){
-        $nuevo_array[$i]['especialidad_name'] = $requiredAssing[$i]['specialty'];
-        $nuevo_array[$i]['order'] = $requiredAssing[$i]['pivot']['order'];
-        $nuevo_array[$i]['especialidad_All'] = $requiredAssing[$i];
-    }
-    
-    //print_r($nuevo_array);
-    $nuevo_array_dos = [];
-
-    $key_array = [];
-    $repetidos_array = [];
-    for ($i = 0; $i < count($requiredAssing) ; $i++){
-        
-    }
-
-//var_dump($nuevo_array)
-//echo '</pre>';
-@endphp
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
