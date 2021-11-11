@@ -37,10 +37,12 @@ class ServiceController extends Controller
         $specialites = Specialty::whereHas(
             'role', function($q) use ($lang){
                 $q->where("name", 'doctor');
+                $q->orWhere("name", 'coordinator');
         })
         ->where('active', '=', '1')
         ->where('show', '=', '1')
         ->select('id', 'role_id', "name_$lang AS name")
+        ->orderBy("name_$lang", 'ASC')
         ->get();
 
         return view('staff.service-manager.list', ["specialites" => $specialites]);
@@ -138,7 +140,7 @@ class ServiceController extends Controller
         $service->service_en = $request->service_en;
         $service->need_images = $request->need_images;
         $service->qty_images = $request->qty_images;
-        $service->staff_cadena = json_encode($request->input_specialties);
+        //$service->staff_cadena = json_encode($request->input_specialties);
         $service->description_en = $request->description_en;
         $service->description_es = $request->description_es;
 
@@ -246,7 +248,7 @@ class ServiceController extends Controller
             $service->service_en = $request->service_en;
             $service->need_images = $request->need_images;
             $service->qty_images = $request->qty_images;
-            $service->staff_cadena = json_encode($request->input_specialties);
+            //$service->staff_cadena = json_encode($request->input_specialties);
             $service->description_en = $request->description_en;
             $service->description_es = $request->description_es;
 

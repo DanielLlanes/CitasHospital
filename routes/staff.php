@@ -105,7 +105,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             Route::post('/service/store', [ServiceController::class, 'store'])->name('storeService');
             Route::post('/service/activate', [ServiceController::class, 'activate'])->name('activateService');
             Route::post('/service/edit', [ServiceController::class, 'edit'])->name('editService');
-            Route::post('/service/update', [ServiceController::class, 'update'])->name('updateService');
+            Route::POST('/service/update', [ServiceController::class, 'update'])->name('updateService');
             Route::post('/service/destroy', [ServiceController::class, 'destroy'])->name('destroyService');
             //procedures
             Route::get('/procedure/listar', [ProcedureController::class, 'procedure'])->name('procedure');

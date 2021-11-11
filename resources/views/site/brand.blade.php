@@ -45,6 +45,8 @@
                                     <div class="card">
                                         @if (!is_null($treatment->procedure->image))
                                             <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="..." style="height: 200px">
+                                        @else
+                                            <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="..." style="height: 200px">
                                         @endif
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>

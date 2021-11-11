@@ -1344,43 +1344,59 @@ class ApplicationController extends Controller
 
             $lang = app()->getLocale();
 
-            $especialistas = Service::with('specialties')->first();
+
+
+            $treatment = Session::get('treatment');
+
+            $order = Specialty::with
+            (
+                [ 
+                    'services' => function($q)use($treatment)
+                    {
+                        $q->where("services.id", $treatment->service->id);
+                    }
+                ]
+            )
+            //->with("services")
+            ->where("name_en", "Coordination")
+            ->first();
 
 
             $assignment = [];
-            $treatment = Session::get('treatment');
+
 
             $assignment_staff = Staff::whereHas
             
             (
                 
-                'specialties', function($q) use($treatment)
+                'specialties', function($q)
                 {
                    $q->where('specialties.id', 10);
                 },
             )
             ->whereHas
             (
-                'assignToService', function($q)
+                'assignToService', function($q) use($treatment)
                 {
-                    $q->where("services.id", 1);
+                    $q->where("services.id", $treatment->service->id);
                 }  
             )
             ->orderBy('last_assignment', 'ASC')
-            // ->with
-            // (
-            //     [
-            //         'specialties',
-            //         'assignToService' 
-            //     ]
-            // )
+            ->with
+            (
+                [
+                    'specialties',
+                    'assignToService' 
+                ]
+            )
             ->first();
+
 
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
                     'staff_id' => $assignment_staff->id,
-                    'order' => 1
+                    'order' => $order->services[0]->pivot->order
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();
