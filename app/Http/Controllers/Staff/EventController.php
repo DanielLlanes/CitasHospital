@@ -423,7 +423,7 @@ class EventController extends Controller
             ->where('patient_id', $request->id)
             ->get();
 
-//return($applications);
+
             return DataTables::of($applications)
                 ->addIndexColumn()
                 ->addColumn('action', function($applications){
