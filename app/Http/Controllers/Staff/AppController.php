@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Site\Application;
 use App\Models\Staff\Patient;
+use App\Models\Staff\Staff;
 use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
 class AppController extends Controller
@@ -212,14 +214,38 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($id);
-        //return $applications;
+        $treatment = $applications->treatment;
+        $cordinators = Staff::whereHas
+        (
+            'specialties', function($q)
+            {
+               $q->where('specialties.id', 10);
+            },
+        )
+        ->whereHas
+        (
+            'assignToService', function($q) use($treatment)
+            {
+                $q->where("services.id", $treatment->service->id);
+            }  
+        )
+        ->orderBy('last_assignment', 'ASC')
+        ->with
+        (
+            [
+                'specialties',
+                'assignToService' 
+            ]
+        )
+        ->get();
         return view
-            (
-                'staff.application-manager.app-details',
-                [
-                    'appInfo' => $applications,
-                ]
-            );
+        (
+            'staff.application-manager.app-details',
+            [
+                'appInfo' => $applications,
+                "cordinators" => $cordinators
+            ]
+        );
     }
 
     public function patientApss(Request $request)
@@ -304,37 +330,23 @@ class AppController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function setNewCoordinator(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'name' => 'string|required|exists:staff,name',
+            'app' => 'required|exists:applications,id',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $staff = Staff::where('name', $request->name)->first();
+        $app = Application::with('assignments')->find($request->app);
+        return($app);
     }
 }

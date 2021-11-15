@@ -15,11 +15,11 @@ $btn_payment = '<button type="submit" class="btn btn-tbl-payment btn-xs payment 
 
 <ul class="table_icons">
     <li>
-        <a href="{{ route('staff.applications.show', $id) }}" title="" class="bg-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete!">
+        <a href="{{ route('staff.applications.show', $id) }}" title="" class="bg-info" title="view details" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete!">
             <span class="icon fa fa-eye"></span>
         </a>
     </li>
-    <li>
+    {{-- <li>
         <button class="eliminar mb-1 bg-success">
             <span class="icon fa fa fa-money"></span>
         </button>
@@ -28,5 +28,5 @@ $btn_payment = '<button type="submit" class="btn btn-tbl-payment btn-xs payment 
         <button class="eliminar mb-1 bg-warning">
             <span class="icon fa fa-usd"></span>
         </button>
-    </li>
+    </li> --}}
 </ul>

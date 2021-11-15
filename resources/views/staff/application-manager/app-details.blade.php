@@ -43,6 +43,9 @@
 //var_dump($nuevo_array)
 //echo '</pre>';
 @endphp --}}
+
+
+{{ $cordinators }}
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
@@ -233,9 +236,14 @@
                                                 @endif
                                             @endforeach
                                         @endforeach
-                                        <div class="col-md-3 col-6 mb-2 b-r offset-md-9 mt-2">
-                                            <button type="button" class="btn btn-success">Assing / Change Staff</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 bb-2 b-r">
                                         </div>
+                                        <div class="col-md-3 col-6 mb-2 mt-2">
+                                            <button type="button" data-toggle="modal" data-target="#changeCorrdinatorApp" service="{{ $appInfo->id }}" class="btn btn-success">Assing / Change Coordinator</button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -1280,6 +1288,48 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="changeCorrdinatorApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">Assing or set coordinator</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label class="control-label col-md-12">@lang("Assign to")
+                    <span class="required"> * </span>
+                </label>
+                <div class="col-md-12">
+                    <div class="input-group">
+                        @foreach ($appInfo->assignments as $item)
+                            @foreach($item->specialties as $specialty)
+                                @if ($specialty->role_id == 6)
+                                <input autocomplete="off" list="valAutocomplete" type="text" onclick="this.setSelectionRange(0, this.value.length)" name="assignto" value="{{ $item->name }}" data-required="1" placeholder="@lang("Assign to")" class="form-control input-height" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-danger btn-flat btn-remove-assign">
+                                        <i class="material-icons f-left" style="">remove_circle</i>
+                                    </button>
+                                </span>
+                                @endif
+                            @endforeach
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" app="{{ $appInfo->id }}" id="setNewCoordinator">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<datalist id="valAutocomplete">
+    @foreach($cordinators as $coordinator)
+        <option  value="{{ $coordinator->name }}"></option>
+    @endforeach
+</datalist>
 @endsection
 @section('styles')
 <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
@@ -1312,18 +1362,51 @@
           closeOnContentClick: true,
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
-    var globalRouteobtenerLista = "{{ route('staff.applications.patientApss') }}";
-    var globalRouteStore = "{{ route('staff.treatments.configuration.storePackage') }}";
-    var globalRouteActivar = "{{ route('staff.treatments.configuration.activatePackage') }}"
-    var globalRouteEditar = "{{ route('staff.treatments.configuration.editPackage') }}"
-    var globalRouteUpdate = "{{ route('staff.treatments.configuration.updatePackage') }}"
-    var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
+    var globalRouteSetNewCoordinator = "{{ route('staff.applications.setNewCoordinator') }}";
+
 
     var chatDiv = document.getElementById("chatDiv");
     var panelDerecha = document.getElementById("PanelDerecha");
 
     $("#listChat").height($("#chatDiv").height()+34)
     console.log("height()", $('.chat-box-submit').height());
+
+    $(document).on('click', '#setNewCoordinator', function(event) {
+        event.preventDefault();
+        var cordinator = $('input[name="assignto"]').val();
+        var app = $('#setNewCoordinator').attr("app");
+        setNewCordinator(cordinator, app)
+    });
+
+    function setNewCordinator(name, app)
+    {
+        var form_data = new FormData();
+        form_data.append('name', name);
+        form_data.append('app', app);
+        $.ajax({
+            url: globalRouteSetNewCoordinator,
+            method:"POST",
+            data:form_data,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+            },
+            success:function(data)
+            {
+                data
+                console.log("data", data);
+            },
+            complete: function()
+            {
+            },
+        })
+    }
       
     
 </script>

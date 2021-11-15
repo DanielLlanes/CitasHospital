@@ -138,6 +138,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/get-list',    [AppController::class, 'getList'])->name('getList');
         Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
+        Route::POST('/applications/setNewCoordinator', [AppController::class, 'setNewCoordinator'])->name('setNewCoordinator'); 
     });
 
     Route::name('payments.')->group( function(){

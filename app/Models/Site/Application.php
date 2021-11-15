@@ -61,4 +61,9 @@ class Application extends Model
     {
         return $this->belongsTo(Treatment::class);
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }
