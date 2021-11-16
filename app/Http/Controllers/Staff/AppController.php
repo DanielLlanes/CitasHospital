@@ -10,6 +10,8 @@ use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -345,8 +347,51 @@ class AppController extends Controller
             ]);
         }
 
-        $staff = Staff::where('name', $request->name)->first();
-        $app = Application::with('assignments')->find($request->app);
-        return($app);
+        $newStaff = Staff::where('name', $request->name)->first();
+        $oldStaff = Application::with
+        ([
+            'assignments' => function($q)
+            {
+                $q->with('roles');
+            }
+        ])
+        ->find($request->app);
+        $idOldStaff = '';
+        foreach ($oldStaff->assignments as $old) {
+            if ($old->hasRole('coordinator')) {
+                $idOldStaff = $old->id;
+            }
+        }
+
+        Application::find($request->app)->assignments()->detach($idOldStaff);
+
+
+        $setNewCoor[] = [
+            'staff_id'=>$newStaff->id, 
+            'order' => 4
+        ];
+        Application::find($request->app)->assignments()->attach($setNewCoor);
+
+        // Application::find($request->app)->assignments()->updateExistingPivot($idOldStaff, array(
+        //     'staff_id'=>$newStaff->id, 
+        //     'order' => 4
+        // ));
+        $getNewCoor = Application::with
+        ([
+            'assignments' => function($q)
+            {
+                $q->whereHas
+                (
+                    'roles', function($q)
+                    {
+                        $q->where("name", "coordinator");
+                    }
+                );
+            }
+        ])
+        ->find($request->app);
+
+        //Enviar correo de assignacion
+        return $getNewCoor;
     }
 }

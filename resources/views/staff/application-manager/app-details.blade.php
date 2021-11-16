@@ -44,8 +44,6 @@
 //echo '</pre>';
 @endphp --}}
 
-
-{{ $cordinators }}
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
@@ -231,7 +229,7 @@
                                                 @if ($specialty->role_id == 6)
                                                     <div class="col-md-3 col-6 mb-2 b-r"> <strong>{{ $specialty->name }}</strong>
                                                         <br>
-                                                        <p class="text-muted">{{ $item->name }}</p>
+                                                        <p class="text-muted" id="coorName">{{ $item->name }}</p>
                                                     </div>
                                                 @endif
                                             @endforeach
@@ -1302,11 +1300,21 @@
                     <span class="required"> * </span>
                 </label>
                 <div class="col-md-12">
-                    <div class="input-group">
+                    <div class="input-group" id="inputNewCoor">
                         @foreach ($appInfo->assignments as $item)
                             @foreach($item->specialties as $specialty)
                                 @if ($specialty->role_id == 6)
-                                <input autocomplete="off" list="valAutocomplete" type="text" onclick="this.setSelectionRange(0, this.value.length)" name="assignto" value="{{ $item->name }}" data-required="1" placeholder="@lang("Assign to")" class="form-control input-height" />
+                                <input 
+                                    autocomplete="off" 
+                                    list="valAutocomplete" 
+                                    type="text" 
+                                    onclick="this.setSelectionRange(0, this.value.length)" 
+                                    name="assignto" 
+                                    value="{{ $item->name }}" 
+                                    data-required="1" 
+                                    placeholder="@lang("Assign to")" 
+                                    class="form-control input-height" 
+                                />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-danger btn-flat btn-remove-assign">
                                         <i class="material-icons f-left" style="">remove_circle</i>
@@ -1399,15 +1407,36 @@
             },
             success:function(data)
             {
-                data
-                console.log("data", data);
+                inputNewCoor(data)
             },
             complete: function()
             {
             },
         })
     }
-      
+    function inputNewCoor(data) {
+        $('#inputNewCoor').html('')
+        $('#coorName').html('')
+        var input = '<input \
+            autocomplete="off" \
+            list="valAutocomplete" \
+            type="text" \
+            onclick="this.setSelectionRange(0, this.value.length)" \
+            name="assignto" \
+            value="'+data.assignments[0].name+'" \
+            data-required="1" \
+            placeholder="" \
+            class="form-control input-height" \
+        />\
+        <span class="input-group-btn">\
+            <button type="button" class="btn btn-danger btn-flat btn-remove-assign">\
+                <i class="material-icons f-left" style="">remove_circle</i>\
+            </button>\
+        </span>';
+
+        $('#inputNewCoor').html(input)
+        $('#coorName').html(data.assignments[0].name)
+    }
     
 </script>
 @endsection
