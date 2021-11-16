@@ -136,7 +136,8 @@ class RolesSeeder extends Seeder
             "applications.create",
             "applications.edit",
             "applications.setprice",
-            "applications.changeStaff",
+            'applications.changeCoordinator',
+            'applications.changeStaff'
             "applications.destroy",
             "applications.show",
 

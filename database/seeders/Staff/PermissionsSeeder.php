@@ -256,9 +256,17 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Applications'
         ]);
         Permission::create([
+            'name' => 'applications.changeCoordinator',
+            'guard_name' => 'staff',
+            'description_es' => 'Establecer y editar cordinadores',
+            'group_es' => 'Aplicaciones',
+            'description_en' => 'Set and edit application coorfinators',
+            'group_en' => 'Applications'
+        ]);
+        Permission::create([
             'name' => 'applications.changeStaff',
             'guard_name' => 'staff',
-            'description_es' => 'Establecer y editar personal de aplicaciones',
+            'description_es' => 'Establecer y editar personal',
             'group_es' => 'Aplicaciones',
             'description_en' => 'Set and edit application staff',
             'group_en' => 'Applications'
