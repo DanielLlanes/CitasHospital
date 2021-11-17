@@ -210,9 +210,17 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'applications.list',
             'guard_name' => 'staff',
-            'description_es' => 'Listado aplicaciones',
+            'description_es' => 'Listado aplicacion por especialidades',
             'group_es' => 'Aplicaciones',
-            'description_en' => 'List applications',
+            'description_en' => 'List applications by specialies',
+            'group_en' => 'Applications'
+        ]);
+        Permission::create([
+            'name' => 'applications.list.all',
+            'guard_name' => 'staff',
+            'description_es' => 'Ver detalles de aplications',
+            'group_es' => 'Aplicaciones',
+            'description_en' => 'View aplication details',
             'group_en' => 'Applications'
         ]);
         Permission::create([
