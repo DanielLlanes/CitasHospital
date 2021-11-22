@@ -145,37 +145,21 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group row" id="specialyiesRow">
                             <label class="control-label col-md-3">@lang('Specialty')
                                 <span class="required"> * </span>
                             </label>
-                            <div class="col-md-5">
-                                <div class="col-sm-3 col-6">
+
+                            <div class="col-md-5" id="specialtiesArea">
+                                <div class="col-12" >
                                     <div class="checkbox checkbox-icon-red form-check form-check-inline">
                                         <input id="checkbox-selectAll" class="form-check-input" type="checkbox">
                                         <label for="checkbox-selectAll" class="form-check-label" style="font-size: 12px">@lang("Select All")</label>
                                     </div>
                                 </div>
-                                @foreach($specialties as $specialty)
-                                    <div class="col-sm-3 col-6">
-                                        <div class="checkbox checkbox-icon-red form-check form-check-inline">
-                                            <input 
-                                                id="checkbox-{{ $specialty->id }}" 
-                                                assignable="{{ $specialty->assignable }}"  
-                                                name="specialties[]" 
-                                                class="form-check-input specialtyCheckbox" 
-                                                type="checkbox" 
-                                                value="{{ $specialty->id }}"
-                                                {{ ( is_array(old('specialties')) && in_array($specialty->id, old('specialties')) ) ? 'checked ' : '' }}
-                                                >
-                                            <label for="checkbox-{{ $specialty->id }}" class="form-check-label" style="font-size: 12px">{{ $specialty->Sname }}</label>
-                                        </div>
-                                    </div>
-                                @endforeach
                             </div>
                         </div>
-                        <div class="assignable_area_div" style="display: none">
-
+                        <div class="assignable_area_div" @if (old('assigned_to')) @else style="display: none" @endif >
                             @if (!empty(old('assigned_to')))
                                 @for ($i = 0; $i < count(old('assigned_to')); $i++)
                                     <div class="form-group row assigned_cloned">
@@ -198,7 +182,6 @@
                                     </div>
                                 @endfor
                             @endif
-
                         </div>
                         <div class="form-group row assignable_area" style="display: none">
                             <label class="control-label col-md-3">
@@ -286,33 +269,33 @@
             $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
         });
 
-        $(".specialtyCheckbox").on("click", function(){
-            var checkboxs = $(".specialtyCheckbox");
-            var todos = checkboxs.length === checkboxs.filter(":checked").length;
-            var assignableArray = [];
-            todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
+        // $(document).on("click", ".specialtyCheckbox", function(){
+        //     alert()
+        //     var checkboxs = $(".specialtyCheckbox");
+        //     var todos = checkboxs.length === checkboxs.filter(":checked").length;
+        //     var assignableArray = [];
+        //     todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
 
-            var cont = 0; 
+        //     var cont = 0; 
 
-            for (var x=0; x < checkboxs.length; x++) {
-                if (checkboxs[x].checked) {
-                    cont = checkboxs[x].getAttribute("assignable");
-                    if (checkboxs[x].getAttribute("assignable") > 0) {
-                        assignableArray.push(checkboxs[x].getAttribute("assignable"))
-                    }
-                }
-            }
+        //     for (var x=0; x < checkboxs.length; x++) {
+        //         if (checkboxs[x].checked) {
+        //             cont = checkboxs[x].getAttribute("assignable");
+        //             if (checkboxs[x].getAttribute("assignable") > 0) {
+        //                 assignableArray.push(checkboxs[x].getAttribute("assignable"))
+        //             }
+        //         }
+        //     }
 
-            if (assignableArray.length > 0) {
-                console.log("assignableArray", assignableArray);
-                $('.assignable_area').show('fast')
-                $('.assignable_area_div').show('fast').html('');
-                add_asiggnable()
-            } else {
-                $('.assignable_area').hide('fast')
-                $('.assignable_area_div').hide('fast').html('');
-            }
-        })
+        //     if (assignableArray.length > 0) {
+        //         $('.assignable_area').show('fast')
+        //         $('.assignable_area_div').show('fast').html('');
+        //         add_asiggnable()
+        //     } else {
+        //         $('.assignable_area').hide('fast')
+        //         $('.assignable_area_div').hide('fast').html('');
+        //     }
+        // })
 
         var domain = window.location.protocol+"//"+window.location.hostname+"/";
         $('#basic-url-span').html(domain)
@@ -372,6 +355,7 @@
         function getSpecialty(id)
         {
             var form_data = new FormData();
+            var assignableArray = [];
             form_data.append('id', id);
             $.ajax({
                 url: globalRouteGetSpecialty,
@@ -385,14 +369,15 @@
                 },
                 processData: false,
                 beforeSend: function()
-                {
-                    $("#specialty option:not(:first)").remove();
+                { 
+                    $("#specialtiesArea .col-12:not(:first)").remove();
                     $("#specialty").prop("selectedIndex", 0);
                     $('.assignable_area').hide('fast')
                     $('.assignable_area_div').hide('fast').html('');
                 },
                 success:function(data)
                 {
+                console.log("data", data);
                     if (data.reload) {
                         Toast.fire({
                             icon: data.icon,
@@ -400,21 +385,33 @@
                         })
                         location.reload(true);
                     } else {
-                        $("#specialty option:not(:first-child)").remove();
-                        var selected;
+                        var selected = '';
                         var one = false;
                         if (data.data.length == 1) {
-                            selected = 'selected'
+                            selected = 'checked'
                             one = true;
                         }
+                        var assignables = [];
                         $.each(data.data, function(index, val) {
-                            $("#specialty").append('<option '+selected+' assignable="'+val.assignable+'" value="'+val.id+'">'+val.name+'</option>')
-                            if (one) {
-                                if (val.assignable == '1') {
-                                    get_assignable(val.id)
-                                }
+                            var  ckhbx = '<div class="col-12">';
+                                 ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
+                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
+                                 ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
+                                 ckhbx += '</div">';
+                                 ckhbx += '</div">';
+
+                            if (val.assignable) {
+                                assignableArray.push(val.assignable)
                             }
+                            $('#specialtiesArea').append(ckhbx);
                         });
+
+                        $('#specialyiesRow').show('fast');
+                        if (assignableArray.length > 0) {
+                            $('.assignable_area').show('fast')
+                            $('.assignable_area_div').show('fast').html('');
+                            add_asiggnable()
+                        }
                     }
                 },
             })
@@ -424,7 +421,7 @@
             event.preventDefault();
             var id = $( "#role option:selected" ).val()
             if (!isNaN(id)) {
-                //getSpecialty(id)
+                getSpecialty(id)
                 //$('.assignable_area').hide('fast')
                 //$('.assignable_area_div').hide('fast').html('');
             } else {
@@ -432,17 +429,17 @@
             }
         });
 
-        $(document).on('change', '#specialty', function(event) {
-            event.preventDefault();
-            var id = $( "#specialty option:selected" ).val()
-            var assignable = $( "#specialty option:selected" ).attr('assignable')
-            if (assignable == 1) {
-                get_assignable(id)
-            } else {
-                $('.assignable_area').hide('fast')
-                $('.assignable_area_div').hide('fast').html('');
-            }
-        });
+        // $(document).on('change', '#specialty', function(event) {
+        //     event.preventDefault();
+        //     var id = $( "#specialty option:selected" ).val()
+        //     var assignable = $( "#specialty option:selected" ).attr('assignable')
+        //     if (assignable == 1) {
+        //         get_assignable(id)
+        //     } else {
+        //         $('.assignable_area').hide('fast')
+        //         $('.assignable_area_div').hide('fast').html('');
+        //     }
+        // });
 
         $(document).on("click", ".btn-remove-assign", function () {
             $(this).parents('.assigned_cloned').remove();
@@ -481,60 +478,77 @@
     </script>
     @if ($errors->any())
         <script>
+            
+            @if (old('specialties')) 
+                var array = {!!json_encode(old('specialties'))!!};
+            @endif
+
+
             getSpecialty({{ old('role') }})
             function getSpecialty(id)
             {
-                    var form_data = new FormData();
-                    form_data.append('id', id);
-                    $.ajax({
-                        url: globalRouteGetSpecialty,
-                        method:"POST",
-                        data:form_data,
-                        dataType:'JSON',
-                        contentType: false,
-                        cache: false,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        processData: false,
-                        beforeSend: function()
-                        {
-                        },
-                        success:function(data)
-                        {
-                            if (data.reload) {
-                                Toast.fire({
-                                    icon: data.icon,
-                                    title: data.msg
-                                })
-                                location.reload(true);
-                            } else {
-                                $("#specialty option:not(:first-child)").remove();
-                                $.each(data.data, function(index, val) {
-                                    if (val.id == '{{ old('specialty') }}') {
-                                        var selected = 'selected'
-                                    }
-                                    $("#specialty").append('<option '+selected+' assignable="'+val.assignable+'" value="'+val.id+'">'+val.name+'</option>')
+                var form_data = new FormData();
+                var assignableArray = [];
+                form_data.append('id', id);
+                $.ajax({
+                    url: globalRouteGetSpecialty,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        if (data.reload) {
+                            Toast.fire({
+                                icon: data.icon,
+                                title: data.msg
+                            })
+                            location.reload(true);
+                        } else {
+                            var selected = '';
+                            var one = false;
+                            if (data.data.length == 1) {
+                                selected = 'checked'
+                                one = true;
+                            }
+                            var assignables = [];
+                            $.each(data.data, function(index, val) {
+                                var  ckhbx = '<div class="col-12">';
+                                     ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
+                                     ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
+                                     ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
+                                     ckhbx += '</div">';
+                                     ckhbx += '</div">';
+
+                                if (val.assignable) {
+                                    assignableArray.push(val.assignable)
+                                }
+                                $('#specialtiesArea').append(ckhbx);
+                            });
+
+                            $('#specialyiesRow').show('fast');
+                            var checkboxs = $('#specialtiesArea').find($('.specialtyCheckbox'));
+                            if (typeof array !== 'undefined') {
+                                $.each(array, function(index, val) {
+                                    $('#checkbox-'+val).prop("checked", true)
                                 });
                             }
-                        },
-                        complete: function()
-                        {
-                        },
-                    })
+                        }
+                    },
+                    complete: function()
+                    {
+                    },
+                })
             }
-
-            // if ($( "#role option:selected" ).attr('assignable') == 1) {
-            //     $('.assignable_area').show('fast')
-            //     $('.assignable_area_div').show('fast')
-
-            // } else {
-            //     $('.assignable_area').hide('fast')
-            //     $('.assignable_area_div').hide('fast').html('');
-
-            // }
-            // 
-            
+            var oldSpecialties = [];
         </script>
     @endif
 @endsection

@@ -22,7 +22,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Soporte Técnico',
             'name_en' => 'Tech support',
-            'assignable' => '0',
             'active' => false,
             'show' => false
         ]);
@@ -33,7 +32,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Super Administrador',
             'name_en' => 'Super Administrador',
-            'assignable' => '0',
             'active' => false,
             'show' => false
         ]);
@@ -44,7 +42,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Administrador',
             'name_en' => 'Administrator',
-            'assignable' => '0',
         ]);
 
         $doctor = Role::create([
@@ -52,8 +49,7 @@ class RolesSeeder extends Seeder
             'name' => 'doctor',
             'guard_name' => 'staff',
             'name_es' => 'Doctor',
-            'name_en' => 'Doctor',
-            'assignable' => '0',
+            'name_en' => 'Doctor',            
         ]);
 
         $nurse = Role::create([
@@ -62,7 +58,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Emfermero',
             'name_en' => 'Nurse',
-            'assignable' => '0',
         ]);
 
         $coordinator = Role::create([
@@ -71,7 +66,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Coordinador',
             'name_en' => 'Coordinator',
-            'assignable' => '1',
         ]);
 
         $driver = Role::create([
@@ -80,7 +74,6 @@ class RolesSeeder extends Seeder
             'guard_name' => 'staff',
             'name_es' => 'Chofer',
             'name_en' => 'Driver',
-            'assignable' => '0',
         ]);
 
         $doctorPermissions = [

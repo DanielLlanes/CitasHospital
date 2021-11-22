@@ -115,11 +115,11 @@ class ServiceSeeder extends Seeder
                 'specialty_id' => 6,
                 'order' => 2,
             ],
-            [
-                'service_id' => 1,
-                'specialty_id' => 6,
-                'order' => 3,
-            ],
+            // [
+            //     'service_id' => 1,
+            //     'specialty_id' => 6,
+            //     'order' => 3,
+            // ],
             [
                 'service_id' => 1,
                 'specialty_id' => 5,
@@ -140,11 +140,11 @@ class ServiceSeeder extends Seeder
                 'specialty_id' => 8,
                 'order' => 3,
             ],
-            [
-                'service_id' => 2,
-                'specialty_id' => 8,
-                'order' => 4,
-            ],
+            // [
+            //     'service_id' => 2,
+            //     'specialty_id' => 8,
+            //     'order' => 4,
+            // ],
             [
                 'service_id' => 3,
                 'specialty_id' => 10,

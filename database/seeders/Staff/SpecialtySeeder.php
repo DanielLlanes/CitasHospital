@@ -17,10 +17,12 @@ class SpecialtySeeder extends Seeder
         Specialty::create([
             'id' => '1',
             'role_id' => '1',
+            
             'name_es' => 'Soporte Técnico',
             'name_en' => 'Tech support',
             'active' => true,
-            'show' => false
+            'show' => false,
+            'many_specialties' => false,
         ]);
         Specialty::create([
             'id' => '2',
@@ -28,7 +30,7 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Super Admin',
             'name_en' => 'Super Admin',
             'active' => true,
-            'show' => false
+            'show' => false,
         ]);
     	Specialty::create([
             'id' => '3',
@@ -36,7 +38,7 @@ class SpecialtySeeder extends Seeder
             'name_es' => 'Administración',
             'name_en' => 'Administration',
             'active' => true,
-            'show' => true
+            'show' => true,
         ]);
     	Specialty::create([
             'id' => '4',
@@ -46,6 +48,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
     	Specialty::create([
             'id' => '5',
@@ -55,6 +58,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
     	Specialty::create([
             'id' => '6',
@@ -64,6 +68,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '7',
@@ -73,6 +78,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '8',
@@ -82,6 +88,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '9',
@@ -99,6 +106,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+
         ]);
         Specialty::create([
             'id' => '11',
@@ -116,6 +124,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '13',
@@ -125,6 +134,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '14',
@@ -134,6 +144,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
         Specialty::create([
             'id' => '15',
@@ -143,6 +154,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'many_specialties' => true
         ]);
     }
 }

@@ -225,7 +225,6 @@ class ApplicationController extends Controller
 
     public function postServicesData(Request $request)
     {
-
         $this->validate($request, [
             'dropify' => 'required|image|mimes:jpg,jpeg,png',
             'order' => 'integer'
@@ -1144,7 +1143,6 @@ class ApplicationController extends Controller
 
     public function postGynecologicalData(Request $request)
     {
-        //return $request;
         $birth_control_cadena = [];
         $collection_bc = new Collection();
 
@@ -1270,12 +1268,12 @@ class ApplicationController extends Controller
             }
 
         }
-
     }
 
     public function createReferenceData()
     {
         if (Session::has('form_session')) {
+
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 == 1 && $getData->gynecologicalData  = 1) {
                 $treatment = Session::get('treatment');
@@ -1289,6 +1287,7 @@ class ApplicationController extends Controller
 
     public function postReferenceData(Request $request)
     {
+    //return($request);
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
 
@@ -1347,26 +1346,9 @@ class ApplicationController extends Controller
 
 
             $treatment = Session::get('treatment');
-
-            $order = Specialty::with
-            (
-                [ 
-                    'services' => function($q)use($treatment)
-                    {
-                        $q->where("services.id", $treatment->service->id);
-                    }
-                ]
-            )
-            //->with("services")
-            ->where("name_en", "Coordination")
-            ->first();
-
-
             $assignment = [];
 
-
             $assignment_staff = Staff::whereHas
-            
             (
                 
                 'specialties', function($q)
@@ -1386,17 +1368,19 @@ class ApplicationController extends Controller
             (
                 [
                     'specialties',
-                    'assignToService' 
+                    'assignToService' => function($q)
+                    {
+                        $q->first();
+                    }
                 ]
             )
             ->first();
-
 
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
                     'staff_id' => $assignment_staff->id,
-                    'order' => $order->services[0]->pivot->order
+                    'order' => $assignment_staff->assignToService[0]->pivot->order
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();

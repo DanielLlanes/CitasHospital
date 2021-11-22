@@ -4,45 +4,45 @@
 @endsection
 @section('content')
 
-{{-- @php
+@php
     $requiredAssing = [];
     $realAssing = [];
 
     //convertimos el objeto en array
-    //echo '<pre>';
+    echo '<pre>';
     foreach($appInfo->treatment->service->specialties as $object){$requiredAssing[] = $object->toArray();}
     foreach($appInfo->assignments as $object){$realAssing[] = $object->toArray();}
     //retiramos a los cordinadores
     $clave = array_search('Coordination', array_column($requiredAssing, 'specialty'));
     unset($requiredAssing[$clave]);
+
+    $array = [];
     for ($i = 0; $i < count($realAssing); $i++) {
-        foreach ($realAssing[$i]['specialties'] as $value) {
-            if ($value['name_en'] == 'Coordination') {
-                unset($realAssing[$i]);
+        //print_r($realAssing[$i]);
+        $array[$i]['name'] = $realAssing[$i]['name'];
+        $array[$i]['id'] = $realAssing[$i]['id'];
+        $array[$i]['email'] = $realAssing[$i]['email'];
+        $array[$i]['color'] = $realAssing[$i]['color'];
+        $array[$i]['avatar'] = $realAssing[$i]['avatar'];
+
+        for ($j = 0; $j < count($realAssing[$i]['specialties']); $j++) {
+            if ($realAssing[$i]['specialties'][$j]['name'] == "Coordination") {
+               // unset($array[$i]);
+            } else {
+                $array[$i][$j]['specialty'] = $realAssing[$i]['specialties'][$j]['name'];
+                $array[$i][$j]['specialty_id'] = $realAssing[$i]['specialties'][$j]['id'];
+                $array[$i]['key'] = $i;
             }
         }
     }
+
+    $clave = array_search('Coordination', array_column($array, 'specialty'));
+    print_r($clave);
+    //unset($array[$clave]);
+    print_r($array);
     //print_r($realAssing);
-    //creamos un array con los datos que necesitamos de las cedenas 
-    $nuevo_array = [];
-    for ($i = 0; $i < count($requiredAssing); $i++){
-        $nuevo_array[$i]['especialidad_name'] = $requiredAssing[$i]['specialty'];
-        $nuevo_array[$i]['order'] = $requiredAssing[$i]['pivot']['order'];
-        $nuevo_array[$i]['especialidad_All'] = $requiredAssing[$i];
-    }
-    
-    //print_r($nuevo_array);
-    $nuevo_array_dos = [];
-
-    $key_array = [];
-    $repetidos_array = [];
-    for ($i = 0; $i < count($requiredAssing) ; $i++){
-        
-    }
-
-//var_dump($nuevo_array)
-//echo '</pre>';
-@endphp --}}
+    echo '</pre>';
+@endphp
 
 <div class="page-bar">
     <div class="page-title-breadcrumb">
@@ -1414,16 +1414,17 @@
             },
         })
     }
-    function inputNewCoor(data) {
+    function inputNewCoor(data = null) {
         $('#inputNewCoor').html('')
         $('#coorName').html('')
+        var assignment = (data == null ) ? '' : data.assignments[0].name;
         var input = '<input \
             autocomplete="off" \
             list="valAutocomplete" \
             type="text" \
             onclick="this.setSelectionRange(0, this.value.length)" \
             name="assignto" \
-            value="'+data.assignments[0].name+'" \
+            value="'+assignment+'" \
             data-required="1" \
             placeholder="" \
             class="form-control input-height" \
@@ -1435,8 +1436,16 @@
         </span>';
 
         $('#inputNewCoor').html(input)
-        $('#coorName').html(data.assignments[0].name)
+        $('#coorName').html(assignment)
+        $("#changeCorrdinatorApp").modal('hide')
+
     }
+
+    $(function() {
+        if ($('#inputNewCoor').children().length < 1) {
+            inputNewCoor(data = null)
+        }
+    });
     
 </script>
 @endsection

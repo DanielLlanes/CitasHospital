@@ -49,7 +49,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	});
 
 	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
-	Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
+	Route::get('/staff', [DashboardController::class, 'dashboard']);
 
     Route::name('autocomplete.')->group(function(){
         Route::post('/search-Staff',        [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
@@ -139,6 +140,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
         Route::POST('/applications/setNewCoordinator', [AppController::class, 'setNewCoordinator'])->name('setNewCoordinator'); 
+        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewDoctor'])->name('setNewDoctor'); 
     });
 
     Route::name('payments.')->group( function(){

@@ -254,14 +254,14 @@ class StaffController extends Controller
 
 
         if ($staff_create_admins && $staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
+            $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->get();
             $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
             ->where('show', 1)
             ->get();
         } elseif ($staff_create_admins && !$staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
+            $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->where('name', '=', 'administrator')
             ->get();
@@ -270,7 +270,7 @@ class StaffController extends Controller
             ->where('name', '=', 'administrator')
             ->get();
         } elseif (!$staff_create_admins && $staff_create) {
-            $roles = Role::selectRaw("id, name_$lang AS name, assignable")
+            $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->where('name', '!=', 'administrator')
             ->get();
@@ -368,8 +368,8 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
+        
         //return $request;
-        //
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
@@ -380,7 +380,6 @@ class StaffController extends Controller
             
             foreach ($request->specialties as $specialty) {
                 $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
-                //return $hasAssignable->assignable;
                 if ($hasAssignable->assignable == 1) {
                      array_push($assingnamentCheck, $hasAssignable->assignable);
                 }
@@ -425,7 +424,7 @@ class StaffController extends Controller
                 ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
-
+        //return $request;
         $avatar = "staffFiles/assets/img/user/user.jpg";
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
@@ -495,6 +494,7 @@ class StaffController extends Controller
             }
 
         }
+        //return $request;
         if ($staff->save()) {
             if (count($assignment) > 0) {
                 for ($i=0; $i < count($assignment); $i++) {
@@ -505,9 +505,10 @@ class StaffController extends Controller
                     ];
                 }
                 $staff->assignToService()->sync($assignTo);
-                $staff->specialties()->sync($request->specialties);
+                
             }
 
+            $staff->specialties()->sync($request->specialties);
             $dataMsg = array(
                 'reciver' => $request->email,
                 'reciverName' => $request->name,
@@ -590,6 +591,7 @@ class StaffController extends Controller
         ])
         ->findOrFail($id);
 
+//return($staff);
         if ($staff->roles[0]->name == 'administrator') {
             if (!$staff_edit_admins) {
                 abort(403, 'Unauthorized action.');

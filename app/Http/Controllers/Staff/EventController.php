@@ -161,7 +161,6 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
