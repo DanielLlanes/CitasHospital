@@ -4,45 +4,28 @@
 @endsection
 @section('content')
 
-@php
-    $requiredAssing = [];
-    $realAssing = [];
+@foreach ($appInfo->treatment->service->specialties as $element)
+    {{ $element }}
+@endforeach
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    //convertimos el objeto en array
-    echo '<pre>';
-    foreach($appInfo->treatment->service->specialties as $object){$requiredAssing[] = $object->toArray();}
-    foreach($appInfo->assignments as $object){$realAssing[] = $object->toArray();}
-    //retiramos a los cordinadores
-    $clave = array_search('Coordination', array_column($requiredAssing, 'specialty'));
-    unset($requiredAssing[$clave]);
+{{ $appInfo->assignments }}
 
-    $array = [];
-    for ($i = 0; $i < count($realAssing); $i++) {
-        //print_r($realAssing[$i]);
-        $array[$i]['name'] = $realAssing[$i]['name'];
-        $array[$i]['id'] = $realAssing[$i]['id'];
-        $array[$i]['email'] = $realAssing[$i]['email'];
-        $array[$i]['color'] = $realAssing[$i]['color'];
-        $array[$i]['avatar'] = $realAssing[$i]['avatar'];
 
-        for ($j = 0; $j < count($realAssing[$i]['specialties']); $j++) {
-            if ($realAssing[$i]['specialties'][$j]['name'] == "Coordination") {
-               // unset($array[$i]);
-            } else {
-                $array[$i][$j]['specialty'] = $realAssing[$i]['specialties'][$j]['name'];
-                $array[$i][$j]['specialty_id'] = $realAssing[$i]['specialties'][$j]['id'];
-                $array[$i]['key'] = $i;
-            }
-        }
-    }
+@foreach ($appInfo->assignments as $element)
+    @foreach ($element->specialties as $cosa)
+        @if ($appInfo->treatment->service->specialties->contains('specialty', $cosa->name))
+            pp
+            <br>
+        @endif
+    @endforeach
+@endforeach
 
-    $clave = array_search('Coordination', array_column($array, 'specialty'));
-    print_r($clave);
-    //unset($array[$clave]);
-    print_r($array);
-    //print_r($realAssing);
-    echo '</pre>';
-@endphp
+
 
 <div class="page-bar">
     <div class="page-title-breadcrumb">

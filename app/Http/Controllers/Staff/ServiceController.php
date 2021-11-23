@@ -123,7 +123,7 @@ class ServiceController extends Controller
             'need_images' => 'required|integer',
             'qty_images' => 'required_if:need_images,1',
             'input_specialties' => 'required|array',
-            'input_specialties.*' => "required|diferent",
+            'input_specialties.*' => "required|distinct",
         ]);
 
         if ($validator->fails()) {
@@ -232,7 +232,7 @@ class ServiceController extends Controller
                 'need_images' => 'required|integer',
                 'qty_images' => 'required_if:need_images,1',
                 'input_specialties' => 'required|array',
-                'input_specialties.*' => "required|diferent",
+                'input_specialties.*' => "required|distinct",
             ]);
 
             if ($validator->fails()) {
