@@ -140,7 +140,6 @@ class ServiceController extends Controller
         $service->service_en = $request->service_en;
         $service->need_images = $request->need_images;
         $service->qty_images = $request->qty_images;
-        //$service->staff_cadena = json_encode($request->input_specialties);
         $service->description_en = $request->description_en;
         $service->description_es = $request->description_es;
 
@@ -150,10 +149,9 @@ class ServiceController extends Controller
             for ($i = 0; $i < count($staff); $i++) {
                 $insert_staff[] = [
                     'specialty_id' => $staff[$i]['id'],
-                    'order' => ($i+1)
                 ];
             }
-            $service->specialties()->sync($insert_staff);
+            $service->specialties()->sync($insert_staff); //
             return response()->json(
                 [
                     'icon' => 'success',
@@ -258,7 +256,6 @@ class ServiceController extends Controller
                 for ($i = 0; $i < count($staff); $i++) {
                     $insert_staff[] = [
                         'specialty_id' => $staff[$i]['id'],
-                        'order' => ($i+1)
                     ];
                 }
                 $service->specialties()->sync($insert_staff);

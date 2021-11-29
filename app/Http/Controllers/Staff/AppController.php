@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Site\Application;
 use App\Models\Staff\Patient;
+use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
@@ -85,6 +86,7 @@ class AppController extends Controller
             )
             ->where('is_complete', true)
             ->get();
+            
             return DataTables::of($applications)
                 ->addIndexColumn()
                 ->addColumn('code', function($applications){
@@ -332,13 +334,24 @@ class AppController extends Controller
 
     }
 
-    public function setNewCoordinator(Request $request)
+    public function setNewStaff(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang); 
+
+        $oldStaff = !is_null($request->oldName);
+
+        //return response()->json($oldStaff);
         $validator = Validator::make($request->all(), [
             'name' => 'string|required|exists:staff,name',
+            'id' => 'string|required|exists:staff,id',
             'app' => 'required|exists:applications,id',
+            'specialty' => 'required|exists:specialties,name_'.$lang,
+            'oldName' => [
+                ($oldStaff) ? 'exists:staff,name': null
+            ],
         ]);
-
+        $specialty = $request->specialty;
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -346,52 +359,97 @@ class AppController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-
-        $newStaff = Staff::where('name', $request->name)->first();
-        $oldStaff = Application::with
-        ([
-            'assignments' => function($q)
-            {
-                $q->with('roles');
-            }
-        ])
-        ->find($request->app);
-        $idOldStaff = '';
-        foreach ($oldStaff->assignments as $old) {
-            if ($old->hasRole('coordinator')) {
-                $idOldStaff = $old->id;
-            }
+        if ($oldStaff) {
+            $oldStaff = $newStaff = Staff::where('name', $request->oldName)->first();
+            Application::find($request->app)->assignments()->detach($oldStaff->id);
         }
 
-        Application::find($request->app)->assignments()->detach($idOldStaff);
+        $newStaff = Staff::where('name', $request->name)->first();
 
+        //Application::find($request->app)->assignments()->detach($idOldStaff);
 
-        $setNewCoor[] = [
+        $order = Specialty::where("name_$lang", $specialty)->first();
+
+        $setNewStaff[] = [
             'staff_id'=>$newStaff->id, 
-            'order' => 4
+            'ass_as' => $order->id
         ];
-        Application::find($request->app)->assignments()->attach($setNewCoor);
+        Application::find($request->app)->assignments()->attach($setNewStaff);
 
-        // Application::find($request->app)->assignments()->updateExistingPivot($idOldStaff, array(
-        //     'staff_id'=>$newStaff->id, 
-        //     'order' => 4
-        // ));
-        $getNewCoor = Application::with
-        ([
-            'assignments' => function($q)
-            {
-                $q->whereHas
-                (
-                    'roles', function($q)
-                    {
-                        $q->where("name", "coordinator");
-                    }
-                );
-            }
-        ])
-        ->find($request->app);
+        return response()->json($newStaff);
+    }
 
-        //Enviar correo de assignacion
-        return $getNewCoor;
+    public function getNewStaff(Request $request)
+    {
+        $search = $request->search;
+        $specialty = $request->specialty;
+
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+        $app = $applications = Application::with(
+            [
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
+                                $q->with(
+                                    [
+                                        'specialties' => function($q) use($lang) {
+                                            $q->select("name_$lang AS specialty", "specialties.id");
+                                        }
+                                    ]
+                                );
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->findOrFail($request->app);
+
+        $treatment = $applications->treatment;
+
+        if($search == ''){
+            $staff = Staff::orderby('name','asc')->select('id','name')->limit(5)
+            ->whereHas
+            (
+                'specialties', function($q)use($lang, $specialty)
+                {
+                   $q->where("specialties.name_$lang", $specialty);
+                },
+            )
+            ->whereHas
+            (
+                'assignToService', function($q) use($treatment)
+                {
+                    $q->where("services.id", $treatment->service->id);
+                }  
+            )
+            ->get();
+        }else{
+            $staff = Staff::orderby('name','asc')->select('id','name')
+            ->where('name', 'like', '%' .$search . '%')->limit(5)
+            ->whereHas
+            (
+                'specialties', function($q)use($lang, $specialty)
+                {
+                   $q->where("specialties.name_$lang", $specialty);
+                },
+            )
+            ->whereHas
+            (
+                'assignToService', function($q) use($treatment)
+                {
+                    $q->where("services.id", $treatment->service->id);
+                }  
+            )
+            ->get();
+        }
+
+
+
+        return($staff);
     }
 }

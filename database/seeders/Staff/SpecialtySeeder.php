@@ -64,7 +64,7 @@ class SpecialtySeeder extends Seeder
             'id' => '6',
             'role_id' => '4',
             'name_es' => 'Bariatría',
-            'name_en' => 'Bariatrics',
+            'name_en' => 'Bariatric',
             'active' => true,
             'show' => true,
             'assignable' => true,

@@ -49,7 +49,7 @@ class Application extends Model
     }
     public function assignments()
     {
-        return $this->belongsToMany(Staff::class)->withPivot('order');
+        return $this->belongsToMany(Staff::class)->withPivot('ass_as');
     }
 
     public function patient()

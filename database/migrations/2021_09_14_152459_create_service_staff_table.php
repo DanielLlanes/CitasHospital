@@ -17,7 +17,6 @@ class CreateServiceStaffTable extends Migration
             $table->id();
             $table->bigInteger('service_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
-            $table->integer('order')->nullable();
             $table->timestamps();
         });
         Schema::table('service_staff', function($table) {

@@ -501,7 +501,6 @@ class StaffController extends Controller
                     $assignTo[] = [
                         'service_id' => $assignment[$i],
                         'staff_id' => $staff->id,
-                        'order' => ($i+1)
                     ];
                 }
                 $staff->assignToService()->sync($assignTo);
@@ -766,7 +765,6 @@ class StaffController extends Controller
                     $assignTo[] = [
                         'service_id' => $assignment[$i],
                         'staff_id' => $staff->id,
-                        'order' => ($i+1)
                     ];
                 }
                 //$staff->assignToService()->remove();

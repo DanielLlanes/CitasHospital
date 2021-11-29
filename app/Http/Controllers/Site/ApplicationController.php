@@ -1376,11 +1376,14 @@ class ApplicationController extends Controller
             )
             ->first();
 
+
+            //return $assignment_staff;
+
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
                     'staff_id' => $assignment_staff->id,
-                    'order' => $assignment_staff->assignToService[0]->pivot->order
+                    'ass_as' => $assignment_staff->specialties[0]->id
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();

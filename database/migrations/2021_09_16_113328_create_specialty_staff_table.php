@@ -17,7 +17,6 @@ class CreateSpecialtyStaffTable extends Migration
             $table->id();
             $table->bigInteger('specialty_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
-            $table->integer('order')->nullable();
             $table->timestamps();
         });
         Schema::table('specialty_staff', function($table) {

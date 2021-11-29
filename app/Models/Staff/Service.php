@@ -16,7 +16,7 @@ class Service extends Model
 
     public function specialties()
     {
-        return $this->belongsToMany(Specialty::class)->withPivot('order');
+        return $this->belongsToMany(Specialty::class);
     }
 
     public function brand()

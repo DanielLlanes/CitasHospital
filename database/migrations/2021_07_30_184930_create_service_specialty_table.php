@@ -17,7 +17,6 @@ class CreateServiceSpecialtyTable extends Migration
             $table->id();
             $table->bigInteger('service_id')->unsigned()->nullable();
             $table->bigInteger('specialty_id')->unsigned()->nullable();
-            $table->integer('order')->nullable();
             $table->timestamps();
         });
         Schema::table('service_specialty', function($table) {

@@ -4,27 +4,32 @@
 @endsection
 @section('content')
 
-@foreach ($appInfo->treatment->service->specialties as $element)
-    {{ $element }}
-@endforeach
-<br>
-<br>
-<br>
-<br>
-<br>
+@php
+echo "<pre>";
+    $arrays = [];
+    $arraysDos = [];
+    foreach($appInfo->treatment->service->specialties as $object){$arrays[] = $object->toArray();}
+    foreach($appInfo->assignments as $object){$arraysDos[] = $object->toArray();}
+    for ($i = 0; $i < count($arrays); $i++) {
+        unset($arrays[$i]['pivot']);
+    }
+    for ($i = 0; $i < count($arraysDos); $i++) {
+        $arraysDos[$i]['ass'] = $arraysDos[$i]['pivot']['ass_as'];
+        $arraysDos[$i]['staff_id'] = $arraysDos[$i]['id'];
+        unset($arraysDos[$i]['pivot']);
+        unset($arraysDos[$i]['specialties']);
+    }
 
-{{ $appInfo->assignments }}
-
-
-@foreach ($appInfo->assignments as $element)
-    @foreach ($element->specialties as $cosa)
-        @if ($appInfo->treatment->service->specialties->contains('specialty', $cosa->name))
-            pp
-            <br>
-        @endif
-    @endforeach
-@endforeach
-
+    $ass = array_column($arraysDos, 'name', 'ass');
+    $otro = array_column($arraysDos, 'id', 'ass');
+    // A cada persona en el arreglo le agregamos "color_significado"
+    array_walk($arrays, function(&$staff) use ($ass, $otro) {
+        $id = $staff['id'];
+        $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
+        $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
+    });
+echo '</pre>';
+@endphp
 
 
 <div class="page-bar">
@@ -202,29 +207,24 @@
 
                                     <hr>
                                     <div class="row">
-                                        <div class="col-12 mb-2 b-r">
+                                        <div class="col-12 mb-2 b-r text-center">
                                             <strong>
                                                 Assigned staff
                                             </strong>
                                         </div>
-                                        @foreach ($appInfo->assignments as $item)
-                                            @foreach($item->specialties as $specialty)
-                                                @if ($specialty->role_id == 6)
-                                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>{{ $specialty->name }}</strong>
-                                                        <br>
-                                                        <p class="text-muted" id="coorName">{{ $item->name }}</p>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 bb-2 b-r">
-                                        </div>
-                                        <div class="col-md-3 col-6 mb-2 mt-2">
-                                            <button type="button" data-toggle="modal" data-target="#changeCorrdinatorApp" service="{{ $appInfo->id }}" class="btn btn-success">Assing / Change Coordinator</button>
-                                        </div>
-
+                                        
+                                       @php 
+                                           foreach ($arrays as $value) {
+                                               echo '<div class="col-md-3 col-6 mb-2 b-r text-center"> <strong>'.$value['specialty'].'</strong>';
+                                               echo '<br>';
+                                               $staff_name = is_null($value['name']) ? "": $value['name'];
+                                               $staff_id = is_null($value['id']) ? "": $value['id'];
+                                               if ($staff_name == "") {echo "<br>";}
+                                               echo '<p class="text-muted" id="nameStaff'.$value['specialty'].'">'.$staff_name.'</p>';
+                                               echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
+                                               echo '</div>';
+                                           }
+                                       @endphp
                                     </div>
                                 </div>
                             </div>
@@ -1316,6 +1316,38 @@
         </div>
     </div>
 </div>
+@php
+    foreach ($arrays as $value) {
+        echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Assing or set '.$value['specialty'].' staff</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="control-label col-md-12">Select '.$value['specialty'].'
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-12">
+                                <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
+                                </select>
+                                <span class="help-block text-danger">  </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>';
+    }
+@endphp
 <datalist id="valAutocomplete">
     @foreach($cordinators as $coordinator)
         <option  value="{{ $coordinator->name }}"></option>
@@ -1353,29 +1385,71 @@
           closeOnContentClick: true,
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
-    var globalRouteSetNewCoordinator = "{{ route('staff.applications.setNewCoordinator') }}";
-
+    var globalRouteSetNewStaff = "{{ route('staff.applications.setNewStaff') }}";
+    var globalRouteGetNewStaff = "{{ route('staff.applications.getNewStaff') }}";
 
     var chatDiv = document.getElementById("chatDiv");
     var panelDerecha = document.getElementById("PanelDerecha");
 
     $("#listChat").height($("#chatDiv").height()+34)
-    console.log("height()", $('.chat-box-submit').height());
 
-    $(document).on('click', '#setNewCoordinator', function(event) {
-        event.preventDefault();
-        var cordinator = $('input[name="assignto"]').val();
-        var app = $('#setNewCoordinator').attr("app");
-        setNewCordinator(cordinator, app)
+    $(document).on('click', '[id^="setNew"]', function(event) {
+        alert($(this).attr('id'))
+        // event.preventDefault();
+        // var cordinator = $('input[name="assignto"]').val();
+        // var app = $('#setNewCoordinator').attr("app");
+        setNewStaff(cordinator, app)
     });
 
-    function setNewCordinator(name, app)
+    $(document).on('click', '[id^="appChange"]', function(event) {
+        event.preventDefault();
+        var specialty = $(this).attr('id').split("appChange")
+        //console.log("specialty", specialty[1]);
+        $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
+            $('#getStaff'+specialty[1]).select2({
+                dropdownParent: $('#change'+specialty[1]+"App"),
+                placeholder: "Select click here",
+                ajax: {
+                    url: globalRouteGetNewStaff,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term, 
+                            specialty: specialty[1],
+                            app: {{ $appInfo->id }},
+                        }
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.name
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            }).on("change", function(e) {
+              var lastValue = $.trim(e.currentTarget.value);
+              var lastText = e.currentTarget.textContent;
+              setNewStaff(lastValue, lastText, specialty[1])
+             });
+        }).modal('show');
+    });
+
+    function setNewStaff(lastValue, lastText, specialty)
     {
         var form_data = new FormData();
-        form_data.append('name', name);
-        form_data.append('app', app);
+        form_data.append('name', lastText);
+        form_data.append('id', lastValue);
+        form_data.append('app', '{{ $appInfo->id }}');
+        form_data.append('oldName', ($('#nameStaff'+specialty).text() ? $('#nameStaff'+specialty).text():""));
+        form_data.append('specialty', specialty);
         $.ajax({
-            url: globalRouteSetNewCoordinator,
+            url: globalRouteSetNewStaff,
             method:"POST",
             data:form_data,
             dataType:'JSON',
@@ -1390,45 +1464,13 @@
             },
             success:function(data)
             {
-                inputNewCoor(data)
+                $('#nameStaff'+specialty).text(data.name)
+                $('#change'+specialty+"App").modal('hide')
             },
             complete: function()
             {
             },
         })
     }
-    function inputNewCoor(data = null) {
-        $('#inputNewCoor').html('')
-        $('#coorName').html('')
-        var assignment = (data == null ) ? '' : data.assignments[0].name;
-        var input = '<input \
-            autocomplete="off" \
-            list="valAutocomplete" \
-            type="text" \
-            onclick="this.setSelectionRange(0, this.value.length)" \
-            name="assignto" \
-            value="'+assignment+'" \
-            data-required="1" \
-            placeholder="" \
-            class="form-control input-height" \
-        />\
-        <span class="input-group-btn">\
-            <button type="button" class="btn btn-danger btn-flat btn-remove-assign">\
-                <i class="material-icons f-left" style="">remove_circle</i>\
-            </button>\
-        </span>';
-
-        $('#inputNewCoor').html(input)
-        $('#coorName').html(assignment)
-        $("#changeCorrdinatorApp").modal('hide')
-
-    }
-
-    $(function() {
-        if ($('#inputNewCoor').children().length < 1) {
-            inputNewCoor(data = null)
-        }
-    });
-    
 </script>
 @endsection

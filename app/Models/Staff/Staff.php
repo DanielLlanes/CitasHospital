@@ -71,16 +71,16 @@ class Staff extends Authenticatable
 
     public function assignment()
     {
-        return $this->belongsToMany(Application::class);
+        return $this->belongsToMany(Application::class)->withPivot('ass_as');
     }
 
     public function assignToService()
     {
-        return $this->belongsToMany(Service::class)->withPivot('order')->withTimestamps();
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
     public function assignToSpecialty()
     {
-        return $this->belongsToMany(Specialty::class)->withPivot('order')->withTimestamps();
+        return $this->belongsToMany(Specialty::class)->withTimestamps();
     }
     /**
      * Send the password reset notification.

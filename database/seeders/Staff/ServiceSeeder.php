@@ -108,102 +108,82 @@ class ServiceSeeder extends Seeder
             [
                 'service_id' => 1,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 1,
                 'specialty_id' => 6,
-                'order' => 2,
             ],
             // [
             //     'service_id' => 1,
             //     'specialty_id' => 6,
-            //     'order' => 3,
             // ],
             [
                 'service_id' => 1,
                 'specialty_id' => 5,
-                'order' => 4,
             ],
             [
                 'service_id' => 2,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 2,
                 'specialty_id' => 5,
-                'order' => 2,
             ],
             [
                 'service_id' => 2,
                 'specialty_id' => 8,
-                'order' => 3,
             ],
             // [
             //     'service_id' => 2,
             //     'specialty_id' => 8,
-            //     'order' => 4,
             // ],
             [
                 'service_id' => 3,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 3,
                 'specialty_id' => 7,
-                'order' => 2,
             ],
             [
                 'service_id' => 4,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 4,
                 'specialty_id' => 4,
-                'order' => 2,
             ],
             [
                 'service_id' => 5,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 5,
                 'specialty_id' => 12,
-                'order' => 2,
             ],
             [
                 'service_id' => 6,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 6,
                 'specialty_id' => 13,
-                'order' => 2,
             ],
             [
                 'service_id' => 7,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 7,
                 'specialty_id' => 14,
-                'order' => 2,
             ],
             [
                 'service_id' => 8,
                 'specialty_id' => 10,
-                'order' => 1,
             ],
             [
                 'service_id' => 8,
                 'specialty_id' => 15,
-                'order' => 2,
             ],
         ]);
     }

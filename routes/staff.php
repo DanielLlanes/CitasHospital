@@ -139,8 +139,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/get-list',    [AppController::class, 'getList'])->name('getList');
         Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
-        Route::POST('/applications/setNewCoordinator', [AppController::class, 'setNewCoordinator'])->name('setNewCoordinator'); 
-        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewDoctor'])->name('setNewDoctor'); 
+        Route::post('/applications/getNewStaff', [AppController::class, 'getNewStaff'])->name('getNewStaff'); 
+        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewStaff'])->name('setNewStaff'); 
     });
 
     Route::name('payments.')->group( function(){

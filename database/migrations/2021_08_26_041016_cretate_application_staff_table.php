@@ -17,7 +17,7 @@ class CretateApplicationStaffTable extends Migration
             $table->id();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
-            $table->integer('order')->nullable();
+            $table->integer('ass_as')->nullable();
             $table->timestamps();
         });
         Schema::table('application_staff', function($table) {
