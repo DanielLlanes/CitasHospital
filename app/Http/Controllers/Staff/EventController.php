@@ -388,6 +388,7 @@ class EventController extends Controller
 
             $applications = Application::with(
                 [
+                    'payments',
                     'patient' => function($q){
                         $q->select('name', 'id');
                     },
@@ -418,7 +419,12 @@ class EventController extends Controller
                     }
                 ]
             )
-            ->where('is_complete', true)
+            ->where(
+                [
+                    ['is_complete', true],
+                    ['status', '=', 'accepted']
+                ]
+            )
             ->where('patient_id', $request->id)
             ->get();
 
