@@ -16,9 +16,20 @@ class AutocompleteController extends Controller
 {
     public function searchStaff(Request $request)
     {
-        $search = Staff::where('show', '=', 1)
-        ->where("name",'like', "%".$request->key."%")
-        ->orWhere("email",'like', "%".$request->key."%")
+        $search = Staff::where
+        (
+            [
+                ["name",'like', "%".$request->key."%"],
+                ['show', "=", 1]
+            ]
+        )
+        ->orWhere
+        (
+            [
+                ["email",'like', "%".$request->key."%"],
+                ['show', "=", 1]
+            ]
+        )
         ->get();
         return $search;
     }
