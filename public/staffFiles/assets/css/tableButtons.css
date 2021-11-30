@@ -138,3 +138,8 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
     width: 100% !important;
         padding: 0;
 }
+.select2-selection__rendered{
+    border: 1px;
+    border-color: #eee;
+    border-style: solid;
+}

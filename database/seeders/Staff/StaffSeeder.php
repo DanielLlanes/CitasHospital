@@ -116,6 +116,7 @@ class StaffSeeder extends Seeder
             "applications.edit",
             "applications.setprice",
             "applications.changeStaff",
+            "applications.changeCoordinator",
             "applications.destroy",
             "applications.show",
 

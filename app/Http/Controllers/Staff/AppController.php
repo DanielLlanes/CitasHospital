@@ -387,6 +387,8 @@ class AppController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
+        
+
         $app = $applications = Application::with(
             [
                 'treatment' => function($q) use($lang) {
@@ -447,8 +449,6 @@ class AppController extends Controller
             )
             ->get();
         }
-
-
 
         return($staff);
     }

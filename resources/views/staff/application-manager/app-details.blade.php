@@ -22,7 +22,6 @@ echo "<pre>";
 
     $ass = array_column($arraysDos, 'name', 'ass');
     $otro = array_column($arraysDos, 'id', 'ass');
-    // A cada persona en el arreglo le agregamos "color_significado"
     array_walk($arrays, function(&$staff) use ($ass, $otro) {
         $id = $staff['id'];
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
@@ -215,13 +214,22 @@ echo '</pre>';
                                         
                                        @php 
                                            foreach ($arrays as $value) {
+                                                Auth::guard('staff')->user()->id;
                                                echo '<div class="col-md-3 col-6 mb-2 b-r text-center"> <strong>'.$value['specialty'].'</strong>';
                                                echo '<br>';
                                                $staff_name = is_null($value['name']) ? "": $value['name'];
                                                $staff_id = is_null($value['id']) ? "": $value['id'];
                                                if ($staff_name == "") {echo "<br>";}
                                                echo '<p class="text-muted" id="nameStaff'.$value['specialty'].'">'.$staff_name.'</p>';
-                                               echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
+                                               if ($value['id'] == 10) {
+                                                  if (Auth::guard('staff')->user()->can('applications.changeCoordinator')) {
+                                                       echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
+                                                   } 
+                                               } else {
+                                                    if (Auth::guard('staff')->user()->can('applications.changeStaff')) {
+                                                         echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
+                                                     } 
+                                               }
                                                echo '</div>';
                                            }
                                        @endphp
@@ -1269,83 +1277,69 @@ echo '</pre>';
         </div>
     </div>
 </div>
-<div class="modal fade" id="changeCorrdinatorApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLongTitle">Assing or set coordinator</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <label class="control-label col-md-12">@lang("Assign to")
-                    <span class="required"> * </span>
-                </label>
-                <div class="col-md-12">
-                    <div class="input-group" id="inputNewCoor">
-                        @foreach ($appInfo->assignments as $item)
-                            @foreach($item->specialties as $specialty)
-                                @if ($specialty->role_id == 6)
-                                <input 
-                                    autocomplete="off" 
-                                    list="valAutocomplete" 
-                                    type="text" 
-                                    onclick="this.setSelectionRange(0, this.value.length)" 
-                                    name="assignto" 
-                                    value="{{ $item->name }}" 
-                                    data-required="1" 
-                                    placeholder="@lang("Assign to")" 
-                                    class="form-control input-height" 
-                                />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-danger btn-flat btn-remove-assign">
-                                        <i class="material-icons f-left" style="">remove_circle</i>
-                                    </button>
-                                </span>
-                                @endif
-                            @endforeach
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" app="{{ $appInfo->id }}" id="setNewCoordinator">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 @php
     foreach ($arrays as $value) {
-        echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Assing or set '.$value['specialty'].' staff</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="control-label col-md-12">Select '.$value['specialty'].'
-                                <span class="required"> * </span>
-                            </label>
-                            <div class="col-md-12">
-                                <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
-                                </select>
-                                <span class="help-block text-danger">  </span>
+        if ($value['id'] == 10) {
+            if (Auth::guard('staff')->user()->can('applications.changeCoordinator')) {
+                echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Assing or set '.$value['specialty'].' staff</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <label class="control-label col-md-12">Select '.$value['specialty'].'
+                                        <span class="required"> * </span>
+                                    </label>
+                                    <div class="col-md-12">
+                                        <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
+                                        </select>
+                                        <span class="help-block text-danger">  </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>';
+            } 
+        } elseif(Auth::guard('staff')->user()->can('applications.changeStaff')){
+            echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Assing or set '.$value['specialty'].' staff</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="control-label col-md-12">Select '.$value['specialty'].'
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-12">
+                                    <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
+                                    </select>
+                                    <span class="help-block text-danger">  </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>';
+            </div>';
+        }
     }
 @endphp
 <datalist id="valAutocomplete">
@@ -1392,14 +1386,6 @@ echo '</pre>';
     var panelDerecha = document.getElementById("PanelDerecha");
 
     $("#listChat").height($("#chatDiv").height()+34)
-
-    $(document).on('click', '[id^="setNew"]', function(event) {
-        alert($(this).attr('id'))
-        // event.preventDefault();
-        // var cordinator = $('input[name="assignto"]').val();
-        // var app = $('#setNewCoordinator').attr("app");
-        setNewStaff(cordinator, app)
-    });
 
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
