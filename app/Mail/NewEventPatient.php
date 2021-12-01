@@ -13,7 +13,7 @@ class NewEventPatient extends Mailable implements ShouldQueue
 
     /**
      * Create a new message instance.
-     *
+     * testing
      * @return void
      */
     public $dataMsg;
