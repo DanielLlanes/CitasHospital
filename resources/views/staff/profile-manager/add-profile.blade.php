@@ -238,13 +238,10 @@
         });
         $(document).on('click', '.delBtn', function(event) {
             event.preventDefault();
-            var $element = $(this).parent().parent().parent().parent().attr('id');
-            console.log("$element", $element);
+            var $element = $(this).parents('.cloned').parent().parent().attr('id');
             var $fistChild = $('#'+$element).children(":first").attr('id');
-            console.log("$fistChild", $fistChild);
             $(this).parents(".cloned").remove();
             var count = $('#'+$element).find('.cloned').length;
-            console.log("count", count);
             if (count == 0) {
                 if ($fistChild == 'workHistoryForm') {workHistory()}
                 if ($fistChild == 'educationBackgroundForm') {educationBackground()}
@@ -290,13 +287,13 @@
         }
 
         function workHistory(){
-            var workHistory = '';
             var delBtn =  '<div class="col-12" id="delbtn">'
             delBtn += '<div class="form-group text-right" id="delBtnDiv">'
             delBtn += '<button type="button" class="btn delBtn btn-danger">@lang('delete')</button>'
             delBtn += '</div>'
             delBtn += '<hr>'
             delBtn += '</div>'
+            var workHistory = '';
             workHistory += '<div class="cloned" style="display: contents">';
             workHistory += '<div class="col-md-6">';
             workHistory += '<div class="form-group">';
@@ -337,6 +334,12 @@
 
         }
         function educationBackground(){
+            var delBtn =  '<div class="col-12" id="delbtn">'
+            delBtn += '<div class="form-group text-right" id="delBtnDiv">'
+            delBtn += '<button type="button" class="btn delBtn btn-danger">@lang('delete')</button>'
+            delBtn += '</div>'
+            delBtn += '<hr>'
+            delBtn += '</div>'
             var educationBackground = '';
             educationBackground += '<div class="cloned" style="display: contents">';
             educationBackground += '<div class="col-md-6">';
@@ -368,19 +371,20 @@
             educationBackground += '<label for="simpleFormPassword">Notes</label>';
             educationBackground += '<textarea class="form-control summernote-education-notes mb-3" id="simpleFormPassword" name="education_notes[]" style="width: 100%;"></textarea> ';
             educationBackground += '</div>';
+            educationBackground += '</div>';delBtn
+            educationBackground +=  delBtn
             educationBackground += '</div>';
-            educationBackground += '</div>';
+            
+            $('#educationBackgroundForm').append(educationBackground);
+            summernote("summernote-education-notes", "Educaion Notes")
+        }
+        function postgraduateStudies(){
             var delBtn =  '<div class="col-12" id="delbtn">'
             delBtn += '<div class="form-group text-right" id="delBtnDiv">'
             delBtn += '<button type="button" class="btn delBtn btn-danger">@lang('delete')</button>'
             delBtn += '</div>'
             delBtn += '<hr>'
             delBtn += '</div>'
-            $('#educationBackgroundForm').append(educationBackground);
-            $('#educationBackgroundForm').append(delBtn);
-            summernote("summernote-education-notes", "Educaion Notes")
-        }
-        function postgraduateStudies(){
             var postgraduateStudies = '';
             postgraduateStudies += '<div class="cloned" style="display: contents">';
             postgraduateStudies += '<div class="col-md-6">';
@@ -413,18 +417,18 @@
             postgraduateStudies += '<textarea class="form-control summernote-posgraduate-notes mb-3" id="simpleFormPassword" name="postgraduate_notes[]" style="width: 100%;"></textarea> ';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
+            postgraduateStudies +=  delBtn;
             postgraduateStudies += '</div>';
+            $('#postgraduateStudiesForm').append(postgraduateStudies);
+            summernote("summernote-posgraduate-notes", "Postgraduate Studies Notes")
+        }
+        function updateCourses(){
             var delBtn =  '<div class="col-12" id="delbtn">'
             delBtn += '<div class="form-group text-right" id="delBtnDiv">'
             delBtn += '<button type="button" class="btn delBtn btn-danger">@lang('delete')</button>'
             delBtn += '</div>'
             delBtn += '<hr>'
             delBtn += '</div>'
-            $('#postgraduateStudiesForm').append(postgraduateStudies);
-            $('#postgraduateStudiesForm').append(delBtn);
-            summernote("summernote-posgraduate-notes", "Postgraduate Studies Notes")
-        }
-        function updateCourses(){
             var updateCourses = '';
             updateCourses += '<div class="cloned" style="display: contents">';
             updateCourses += '<div class="col-md-4">';
@@ -445,15 +449,10 @@
             updateCourses += '<input type="date" class="form-control datepicker" name="course_year[]">';
             updateCourses += '</div>';
             updateCourses += '</div>';
+            updateCourses +=    delBtn
             updateCourses += '</div>';
-            var delBtn =  '<div class="col-12" id="delbtn">'
-            delBtn += '<div class="form-group text-right" id="delBtnDiv">'
-            delBtn += '<button type="button" class="btn delBtn btn-danger">@lang('delete')</button>'
-            delBtn += '</div>'
-            delBtn += '<hr>'
-            delBtn += '</div>'
+            
             $('#updateCoursesForm').append(updateCourses);
-            $('#updateCoursesForm').append(delBtn);
         }
     </script>
 @endsection
