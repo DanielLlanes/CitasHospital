@@ -71,6 +71,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label class="control-label col-md-3">@lang('url')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-url-span"></span>
+                                    </div>
+                                    <input type="text" name="url" id="url" value="{{ old("url") }}" class="form-control" id="basic-url" aria-describedby="basic-url">
+                                </div>
+                                @error('url')
+                                <span class="help-block text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label class="control-label col-md-3">@lang('Language')
                                 <span class="required"> * </span>
                             </label>
@@ -192,22 +208,6 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="control-label col-md-3">@lang('url')
-                                <span class="required"> * </span>
-                            </label>
-                            <div class="col-md-5">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-url-span"></span>
-                                    </div>
-                                    <input type="text" name="url" id="url" value="{{ old("url") }}" class="form-control" id="basic-url" aria-describedby="basic-url">
-                                </div>
-                                @error('url')
-                                <span class="help-block text-danger"> {{ $message }} </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="control-label col-md-3">@lang('Color')
                                 <span class="required"> * </span>
                             </label>
@@ -216,6 +216,19 @@
                                 @error('color')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-md-3">@lang('staff.Public Profile')
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-5">
+                                <div class="col-12" >
+                                    <div class="checkbox checkbox-icon-red form-check form-check-inline" style="padding-top: 2%;">
+                                        <input id="checkbox-public-profile" name="public_profile" class="form-check-input" type="checkbox" {{ old('public_profile') == "on" ? "checked" : "" }}>
+                                        <label for="checkbox-public-profile" class="form-check-label" style="font-size: 12px">@lang("Yes")</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         {{-- @if (Auth::guard('staff')->user()->can('staff.create.permisions.admins') || Auth::guard('staff')->user()->can('staff.create.permisions'))

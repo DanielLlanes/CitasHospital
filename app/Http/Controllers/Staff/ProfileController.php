@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\Staff\Staff;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -53,9 +54,8 @@ class ProfileController extends Controller
      *
     */
     public function changeOwnPassStaff(Request $request){
-        //return ($request);
         $validator = Validator::make($request->all(), [
-            'current_password' => 'required|string|min:8',
+            'current_password' => 'required|string',
             'new_password' => 'required|string|min:8|different:current_password',
             'password_confirmation' => 'required|required_with:new_password|same:new_password|string|min:8',
 
@@ -68,8 +68,10 @@ class ProfileController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+        $user = Auth::guard('staff')->user();
+        //return($user);
 
-        if (Hash::check($request->current_password, Auth::user()->password)) {
+        if (Hash::check($request->current_password, $user->password)) {
             $staff = Auth::guard('staff')->user();
             $staff->password = Hash::make($request->new_password);
             $staff->set_pass = true;
@@ -83,15 +85,15 @@ class ProfileController extends Controller
                     ]
                 );
             }
-            return response()->json(
-                [
-
-                    'icon' => 'error',
-                    'msg' => Lang::get('Your current password does not match our records!'),
-                    'reload' => true
-                ]
-            );
         }
+        return response()->json(
+            [
+
+                'icon' => 'error',
+                'msg' => Lang::get('Your current password does not match our records!'),
+                'reload' => true
+            ]
+        );
     }
 
     /**
@@ -101,7 +103,22 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $staff = Staff::with([
+            'roles' => function($query) use ($lang) {
+                $query->select(["id", "name_$lang AS Rname"]);
+            },
+            'permissions',
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS service"]);
+            },
+        ])
+        ->findOrFail(Auth::guard('staff')->user()->id);
+        return view('staff.profile-manager.add-profile', ['staff' => $staff]);
     }
 
     /**
@@ -112,7 +129,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

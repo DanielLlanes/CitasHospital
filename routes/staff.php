@@ -84,7 +84,10 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	});
 	Route::name('profile.')->group(function(){
 		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');
-		Route::post('/profile/change-own-pass', [ProfileController::class, 'changeOwnPassStaff'])->name('changeOwnPassStaff');
+        Route::post('/profile/change-own-pass', [ProfileController::class, 'changeOwnPassStaff'])->name('changeOwnPassStaff');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('editPublicProfile');
+        Route::get('/profile/create', [ProfileController::class, 'create'])->name('createPublicProfile');
+		Route::post('/profile/store', [ProfileController::class, 'store'])->name('storePublicProfile');
 	});
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');

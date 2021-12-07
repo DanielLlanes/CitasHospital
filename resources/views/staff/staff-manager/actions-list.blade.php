@@ -5,14 +5,14 @@
 	// $btn_reset_password = '<button type="submit" class="btn btn-tbl-delete btn-xs ressetPass bg-info" data-id="$id"><i class="fa fa-refresh"></i></button>';
 
 	$staff_edit = Auth::guard('staff')->user()->can('staff.edit');
-	$staff_edit_admins = Auth::guard('staff')->user()->can('staff.edit.admins');
+	$staff_edit_admins = Auth::guard('staff')->user()->can('admin.edit');
 
 	$staff_destroy = Auth::guard('staff')->user()->can('staff.destroy');
-	$staff_destroy_admins = Auth::guard('staff')->user()->can('staff.destroy.admins');
+	$staff_destroy_admins = Auth::guard('staff')->user()->can('admin.destroy');
 	
 
 	$staff_reset_password = Auth::guard('staff')->user()->can('staff.reset.password');
-	$staff_reset_password_admins = Auth::guard('staff')->user()->can('staff.reset.password.admins');
+	$staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
 
 
 	$myselfId = Auth::guard('staff')->user()->id;

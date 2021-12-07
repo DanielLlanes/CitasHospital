@@ -37,10 +37,10 @@ class StaffController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        if (!Auth::guard('staff')->user()->can('admin.list') && !Auth::guard('staff')->user()->can('staff.list')) {
+        if (!Auth::guard('staff')->user()->can('staff.list.admins') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
         }
-        $can_list_admins = Auth::guard('staff')->user()->can('admin.list');
+        $can_list_admins = Auth::guard('staff')->user()->can('staff.list.admins');
 
         $staff = Staff::whereHas(
             'roles', function($query) use ($lang, $can_list_admins) {
@@ -79,7 +79,7 @@ class StaffController extends Controller
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
-            $can_list_admins = Auth::guard('staff')->user()->can('admin.list');
+            $can_list_admins = Auth::guard('staff')->user()->can('staff.list.admins');
 
 
 
@@ -154,7 +154,7 @@ class StaffController extends Controller
                 })
                 ->addColumn('active', function($staff){
                     $staff_activate = Auth::guard('staff')->user()->can('staff.activate');
-                    $staff_activate_admins = Auth::guard('staff')->user()->can('admin.activate');
+                    $staff_activate_admins = Auth::guard('staff')->user()->can('staff.activate.admins');
                     $table_active = 'table-active';
                     $staff_id = $staff->id;
                     $cursor = 'pointer';
@@ -203,7 +203,7 @@ class StaffController extends Controller
     {
 
         //return Auth::guard('staff')->user()->getPermissionNames();
-        if (!Auth::guard('staff')->user()->can('admin.create') && !Auth::guard('staff')->user()->can('staff.create')) {
+        if (!Auth::guard('staff')->user()->can('staff.create.admins') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -213,8 +213,8 @@ class StaffController extends Controller
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.create.permisions');
 
-        $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
-        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.create.permisions');
+        $staff_create_admins = Auth::guard('staff')->user()->can('staff.create.admins');
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('staff.create.permisions.admins');
 
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
@@ -386,11 +386,11 @@ class StaffController extends Controller
             }
         }
 
-        if (!Auth::guard('staff')->user()->can('admin.create') && !Auth::guard('staff')->user()->can('staff.create')) {
+        if (!Auth::guard('staff')->user()->can('staff.create.admins') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
-        $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
-        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.create.permisions');
+        $staff_create_admins = Auth::guard('staff')->user()->can('staff.create.admins');
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('staff.create.permisions.admins');
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
@@ -561,7 +561,7 @@ class StaffController extends Controller
     public function edit($id)
     {
 
-        if (!Auth::guard('staff')->user()->can('admin.edit') && !Auth::guard('staff')->user()->can('staff.edit')) {
+        if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
         $lang = Auth::guard('staff')->user()->lang;
@@ -570,8 +570,8 @@ class StaffController extends Controller
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
 
-        $staff_edit_admins = Auth::guard('staff')->user()->can('admin.edit');
-        $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('admin.edit.permisions');
+        $staff_edit_admins = Auth::guard('staff')->user()->can('staff.edit.admins');
+        $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('staff.edit.permisions.admins');
         $admin = "admins";
 
         $lang = Auth::guard('staff')->user()->lang;
@@ -643,7 +643,7 @@ class StaffController extends Controller
     public function update(Request $request, $id)
     {
         //return $request;
-        if (!Auth::guard('staff')->user()->can('admin.edit') && !Auth::guard('staff')->user()->can('staff.edit')) {
+        if (!Auth::guard('staff')->user()->can('staff.edit.admins') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
         $lang = Auth::guard('staff')->user()->lang;
@@ -652,8 +652,8 @@ class StaffController extends Controller
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
 
-        $staff_edit_admins = Auth::guard('staff')->user()->can('admin.edit');
-        $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('admin.edit.permisions');
+        $staff_edit_admins = Auth::guard('staff')->user()->can('staff.edit.admins');
+        $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('staff.edit.permisions.admins');
 
         $staff = Staff::findOrFail($id);
 
@@ -825,7 +825,7 @@ class StaffController extends Controller
         $staff = Staff::with(['roles'])
         ->find($request->id);
         $staff_activate = Auth::guard('staff')->user()->can('staff.activate');
-        $staff_activate_admins = Auth::guard('staff')->user()->can('admin.activate');
+        $staff_activate_admins = Auth::guard('staff')->user()->can('staff.activate.admins');
 
         if ($staff) {
             if ($staff->active == 1) {

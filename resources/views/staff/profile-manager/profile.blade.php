@@ -65,35 +65,37 @@
                     <!-- END SIDEBAR BUTTONS -->
                 </div>
             </div>
-            <div class="card">
-                <div class="card-head ">
-                    <header>@lang('Change my Password')</header>
-                </div>
-                <div class="card-body no-padding height-9">
-                    <div class="profile-desc">
-                        @lang('Change your password to access the system, with at least 8 characters and easy to remember')
+            @if (auth()->guard('staff')->user()->id === $staff->id)
+                <div class="card">
+                    <div class="card-head ">
+                        <header>@lang('Change my Password')</header>
                     </div>
-                    <hr>
-                    <form>
-                        <div class="form-group">
-                            <label for="current_password" class="col-form-label-sm">@lang('Current Password')</label>
-                            <input type="password" class="form-control input-sm" name="current_password" id="current_password" placeholder="@lang('Current Password')">
-                            <div class="error text-danger col-form-label-sm"></div>
+                    <div class="card-body no-padding height-9">
+                        <div class="profile-desc">
+                            @lang('Change your password to access the system, with at least 8 characters and easy to remember')
                         </div>
-                        <div class="form-group">
-                            <label for="new_password" class="col-form-label-sm">@lang('New Password')</label>
-                            <input type="password" class="form-control input-sm" name="new_password" id="new_password" placeholder="@lang('New Password')">
-                            <div class="error text-danger col-form-label-sm"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirmation" class="col-form-label-sm">@lang('Confirm new Password')</label>
-                            <input type="password" class="form-control input-sm" name="password_confirmation" id="password_confirmation" placeholder="@lang('Confirm new Password')">
-                            <div class="error text-danger col-form-label-sm"></div>
-                        </div>
-                        <button type="submit" id="changepasswordButton" class="btn btn-primary">@lang('Change my Password')</button>
-                    </form>
+                        <hr>
+                        <form>
+                            <div class="form-group">
+                                <label for="current_password" class="col-form-label-sm">@lang('Current Password')</label>
+                                <input type="password" class="form-control input-sm" name="current_password" id="current_password" placeholder="@lang('Current Password')">
+                                <div class="error text-danger col-form-label-sm"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_password" class="col-form-label-sm">@lang('New Password')</label>
+                                <input type="password" class="form-control input-sm" name="new_password" id="new_password" placeholder="@lang('New Password')">
+                                <div class="error text-danger col-form-label-sm"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation" class="col-form-label-sm">@lang('Confirm new Password')</label>
+                                <input type="password" class="form-control input-sm" name="password_confirmation" id="password_confirmation" placeholder="@lang('Confirm new Password')">
+                                <div class="error text-danger col-form-label-sm"></div>
+                            </div>
+                            <button type="submit" id="changepasswordButton" class="btn btn-primary">@lang('Change my Password')</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endif
             {{-- <div class="card">
                 <div class="card-head ">
                     <header>About Me</header>
@@ -205,12 +207,85 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-head ">
-                            <header>{{-- User Activity --}}</header>
+                        <div class="card-head d-flex">
+                            <div class="col-6">
+                                <header>User Profile </header>
+                            </div>
+                            @if (!$staff->public_profile)
+                                <div class="col-6 ml-auto text-right">
+
+                                   <a href="{{ route('staff.profile.createPublicProfile') }}" class="btn btn-circle btn-success btn-sm">@lang('Create public profile')</a>
+
+                                   <a href="{{ route('staff.profile.editPublicProfile') }}" class="btn btn-circle btn-info btn-sm">@lang('Edit public profile')</a>
+                                </div> 
+                            @endif  
                         </div>
                         <div class="card-body no-padding height-9">
                             <div class="container-fluid">
-                                {{ $staff }}
+                                <h5 class="font-weight-bold mt-5 mb-3 text-center">Career Objective</h5>
+                                <div class="">
+                                    <div >
+                                        <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Placeat molestiae exercitationem vel architecto, tempora veritatis facilis consequuntur ipsa corrupti iure, quisquam inventore repudiandae qui nulla fugit rerum reprehenderit accusantium voluptate!</p>
+                                        <p>Similique explicabo saepe quis labore dolorum, in doloremque laborum obcaecati doloribus quaerat excepturi voluptates, beatae a, rem perferendis veritatis dolore nisi cupiditate aut praesentium natus, fuga quo nemo. Voluptate, error.</p>
+                                    </div>
+                                    <h5 class="font-weight-bold mt-5 mb-3">Work History</h5>
+                                    <div >
+                                        <p class="p-0 m-0">Graphic Designer</p>
+                                        <p class="p-0 m-0">Precision.</p>
+                                        <p>2005 - 2007</p>
+                                        <p>
+                                            Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Quam eos quaerat, magni, nam et libero, voluptate in earum ut architecto corrupti accusamus? Quo quibusdam, amet, dolore tempore qui quae sunt.
+                                            Facilis perspiciatis iure odio. Reiciendis harum quaerat laboriosam explicabo perspiciatis, suscipit iusto, accusamus repellat vero repudiandae quos ullam, quibusdam? Facilis rerum distinctio unde rem, obcaecati cumque voluptatum sint, debitis corporis.
+                                        </p>
+                                        <hr>
+                                        <p class="p-0 m-0">Graphic Designer (Intern)</p>
+                                        <p class="p-0 m-0">Costa Rica Fruit Compnay</p>
+                                        <p>2016 - 2017</p>
+                                        <p>
+                                            Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Quam eos quaerat, magni, nam et libero, voluptate in earum ut architecto corrupti accusamus? Quo quibusdam, amet, dolore tempore qui quae sunt.
+                                            Facilis perspiciatis iure odio. Reiciendis harum quaerat laboriosam explicabo perspiciatis, suscipit iusto, accusamus repellat vero repudiandae quos ullam, quibusdam? Facilis rerum distinctio unde rem, obcaecati cumque voluptatum sint, debitis corporis.
+                                        </p>
+                                    </div>
+                                </div>
+                                <h5 class="font-weight-bold mt-5 mb-3 text-center">Education Background</h5>
+                                <div class="">
+                                    <div >
+                                        <p class="p-0 m-0">Degree in computer science</p>
+                                        <p class="p-0 m-0">Cincinnati Christian University</p>
+                                        <p>Year: 1999 - 2001</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                    </div>
+                                    <hr>
+                                    <div >
+                                        <p class="p-0 m-0">Diploma in Graphics Design</p>
+                                        <p class="p-0 m-0">Cincinnati Christian University</p>
+                                        <p>Year: 1999 - 2001</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                    </div>
+                                </div>
+                                <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
+                                <div class="">
+                                    <div >
+                                        <p class="p-0 m-0">Degree in computer science</p>
+                                        <p class="p-0 m-0">Cincinnati Christian University</p>
+                                        <p>Year: 1999 - 2001</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                    </div>
+                                    <hr>
+                                    <div >
+                                        <p class="p-0 m-0">Diploma in Graphics Design</p>
+                                        <p class="p-0 m-0">Cincinnati Christian University</p>
+                                        <p>Year: 1999 - 2001</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                    </div>
+                                </div>
+                                <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
+                                <div class="">
+                                    <p class="p-0 m-0">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                                    <p class="p-0 m-0">2160</p>
+                                    <p>40 hrs</p>
+                                    <hr>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -232,6 +307,7 @@
             dataString.append('current_password', $('#current_password').val());
             dataString.append('new_password', $('#new_password').val());
             dataString.append('password_confirmation', $('#password_confirmation').val());
+
             $.ajax({
                 type: "POST",
                 url: globalChangeOwnPassStaff,
@@ -263,5 +339,6 @@
                 }
             });
         });
+        $('.jqte-textarea').jqte({"status" : true})
     </script>
 @endsection

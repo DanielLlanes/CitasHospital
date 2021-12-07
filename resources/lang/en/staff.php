@@ -48,5 +48,6 @@ return [
 	"Permission" => "Permission",
 	"Edit Staff" => "Edit Staff",
 	"Select All" => "Select All",
-	"Select All Group" => "Select All Group"
+	"Select All Group" => "Select All Group",
+	"Public Profile" => "Public Profile"
 ];

@@ -33,13 +33,17 @@
     <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{ asset('staffFiles/assets/plugins/select2/dist/css/select2.css') }}" rel="stylesheet">
+    <!-- Jq Te -->
+    <link href="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.css') }}" rel="stylesheet">
+    <!-- Summernote -->
+    <link href="{{ asset('staffFiles/assets/summernote/summernote.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('staffFiles/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/plugins/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         .swal2-title{
@@ -112,8 +116,14 @@
         <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
         <!-- slugify-->
         <script src="{{ asset('staffFiles/assets/js/slugify.js') }}"></script>
+
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
+        <!-- Select2 -->
         <script src="{{ asset('staffFiles/assets/plugins/select2/dist/js/select2.full.js') }}"></script>
+        <!-- Jq Te -->
+        <script src="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.min.js') }}"></script>
+        <!-- Summernote -->
+        <script src="{{ asset('staffFiles/assets/plugins/summernote/summernote.min.js') }}"></script>
         <!-- end js include path -->
         {{-- plugins Langs --}}
         <script>
@@ -154,7 +164,7 @@
                   closeOnContentClick: true,
                   midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
             });
-            $('.dropify').dropify();
+            var drEvent = $('.dropify').dropify();
         </script>
         @yield('scripts')
         <script type="text/javascript">
@@ -176,6 +186,8 @@
                     $(this).parent().remove();
                 }
             });
+
+            
 
             var masterMenuSub = $('.master-menu>.sub-menu')
             var masterMenu = $('.master-menu')

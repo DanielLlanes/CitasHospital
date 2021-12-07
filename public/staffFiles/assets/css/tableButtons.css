@@ -143,3 +143,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
     border-color: #eee;
     border-style: solid;
 }
+div.note-editor.note-frame {
+    border: 1px solid #d2d6de;
+    box-shadow: none;
+}
