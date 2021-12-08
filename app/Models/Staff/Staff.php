@@ -108,4 +108,8 @@ class Staff extends Authenticatable
     {
         return $this->hasMany(UpdateCourseStaff::class);
     }
+    public function careerobjetive()
+    {
+        return $this->hasMany(CareerObjetiveStaff::class);
+    }
 }

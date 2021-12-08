@@ -15,7 +15,12 @@ class CreateCareerObjetiveStaffTable extends Migration
     {
         Schema::create('career_objetive_staff', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('staff_id')->unsigned()->nullable();
+            $table->text('career_objective');
             $table->timestamps();
+        });
+        Schema::table('career_objetive_staff', function($table) {
+            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

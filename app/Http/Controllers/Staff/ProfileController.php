@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Models\Staff\CareerObjetiveStaff;
 use App\Models\Staff\EducationBackgroundStaff;
 use App\Models\Staff\PostgraduateStudiesStaff;
 use App\Models\Staff\Staff;
@@ -331,13 +332,13 @@ class ProfileController extends Controller
             ]); // 400 being the HTTP code for an invalid request.
         }
         
-        $staff->updatecourses()->delete();
-        UpdateCourseStaff::insert(['staff_id' => $staffID, 'career_objective' => $request->career_objective]);
+        $staff->careerobjetive()->delete();
+        CareerObjetiveStaff::insert(['staff_id' => $staffID, 'career_objective' => $request->career_objective]);
         return response()->json([
             'success' => true,
             'go' => '1',
             'icon' => 'success',
-            'title' => 'the update courses data was uploaded successfully'
+            'title' => 'the career objective data was uploaded successfully'
         ]);
     }
     public function UploadImagesPublicProfile(Request $request)

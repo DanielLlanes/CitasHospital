@@ -213,7 +213,7 @@
         globalPostgraduateStudies = '{{ route('staff.profile.postgraduateStudies') }}';
         globalUpdateCourses = '{{ route('staff.profile.updateCourses') }}';
         globalUploadImages = '{{ route('staff.profile.UploadImagesPublicProfile') }}';
-        globalcareerObjetive = '{{ route('staff.profile.careerObjetive ') }}';
+        globalcareerObjetive = '{{ route('staff.profile.careerObjetive') }}';
     </script>
     <script>
         careerObjetive();
