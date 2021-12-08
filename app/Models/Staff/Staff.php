@@ -92,6 +92,20 @@ class Staff extends Authenticatable
     {
         $this->notify(new StaffResetPasswordNotification($token));
     }
-
-
+    public function workhistory()
+    {
+        return $this->hasMany(WorkHistoryStaff::class);
+    }
+    public function educationbackground()
+    {
+        return $this->hasMany(EducationBackgroundStaff::class);
+    }
+    public function postgraduatestudies()
+    {
+        return $this->hasMany(PostgraduateStudiesStaff::class);
+    }
+    public function updatecourses()
+    {
+        return $this->hasMany(UpdateCourseStaff::class);
+    }
 }

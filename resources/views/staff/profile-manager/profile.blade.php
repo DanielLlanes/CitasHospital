@@ -307,7 +307,7 @@
             dataString.append('current_password', $('#current_password').val());
             dataString.append('new_password', $('#new_password').val());
             dataString.append('password_confirmation', $('#password_confirmation').val());
-
+            
             $.ajax({
                 type: "POST",
                 url: globalChangeOwnPassStaff,

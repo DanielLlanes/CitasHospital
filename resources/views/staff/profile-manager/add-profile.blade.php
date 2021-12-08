@@ -100,11 +100,11 @@
                             <div id="biography" >
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Career Objective:</h5>
-                                    <div class="">
+                                    <form class="" id="careerObjetiveSubmit">
                                         <div id="career_objective_area">
                                             <div class="row" id="career_objective_Form"></div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                             <div id="biography">
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Work History:</h5>
-                                    <div class="">
+                                    <form class="" id="workHistorySubmit">
                                         <div id="workHistoryArea">
                                             <div class="row" id="workHistoryForm"></div>
                                         </div>
@@ -120,9 +120,9 @@
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="button" id="workHistoryBtn" class="btn btn-success">+ @lang('Upload Work history')</button>
+                                            <button type="submit" id="workHistoryBtn" class="btn btn-success">+ @lang('Upload Work history')</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                             <div id="biography">
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Education Background:</h5>
-                                    <div class="">
+                                    <form class="" id="educationBackgroundSubmit">
                                         <div id="educationBackgroundArea">
                                             <div class="row" id="educationBackgroundForm"></div>
                                         </div>
@@ -138,9 +138,9 @@
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="button" id="educationBackgroundBtn" class="btn btn-success">+ @lang('Upload education background')</button>
+                                            <button type="submit" id="educationBackgroundBtn" class="btn btn-success">+ @lang('Upload education background')</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                             <div id="biography">
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
-                                    <div class="">
+                                    <form class="" id="postgraduateStudiesSubmit">
                                         <div id="postgraduateStudiesArea">
                                             <div class="row" id="postgraduateStudiesForm"></div>
                                         </div>
@@ -156,9 +156,9 @@
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="button" id="postgraduateStudiesBtn" class="btn btn-success">+ @lang('Upload Postgraduate Studies')</button>
+                                            <button type="submit" id="postgraduateStudiesBtn" class="btn btn-success">+ @lang('Upload Postgraduate Studies')</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                             <div id="biography">
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
-                                    <div class="">
+                                    <form class="" id="updateCoursesSubmit">
                                         <div id="updateCoursesArea">
                                             <div class="row" id="updateCoursesForm"></div>
                                         </div>
@@ -174,9 +174,9 @@
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="button" id="updateCoursesBtn" class="btn btn-success">+ @lang('Upload Update Courses')</button>
+                                            <button type="submit" id="updateCoursesBtn" class="btn btn-success">+ @lang('Upload Update Courses')</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                             <div id="biography">
                                 <div class="row" style="flex-flow: column;">
                                     <h5 class="font-weight-bold mt-5 mb-3">Upload Images:</h5>
-                                    <div class="">
+                                    <form class="" id="uploadImagesSubmit" enctype="multipart/form-data">
                                         <div id="uploadImnagesArea">
                                             <div class="row" id="uploadImagesForm"></div>
                                         </div>
@@ -192,9 +192,9 @@
                                             <button type="button" id="addbtnImage" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="button" id="uploadImagesBtn" class="btn btn-success">+ @lang('Upload Images')</button>
+                                            <button type="submit" id="uploadImagesBtn" class="btn btn-success">+ @lang('Upload Images')</button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -207,6 +207,14 @@
 </div>
 @endsection
 @section('scripts')
+    <script>
+        globalWorkHistory = '{{ route('staff.profile.workHistory') }}';
+        globalEducationBackground = '{{ route('staff.profile.educationBackground') }}';
+        globalPostgraduateStudies = '{{ route('staff.profile.postgraduateStudies') }}';
+        globalUpdateCourses = '{{ route('staff.profile.updateCourses') }}';
+        globalUploadImages = '{{ route('staff.profile.UploadImagesPublicProfile') }}';
+        globalcareerObjetive = '{{ route('staff.profile.careerObjetive ') }}';
+    </script>
     <script>
         careerObjetive();
         workHistory();
@@ -227,14 +235,11 @@
         $(document).on('click', '#addbtn', function(event) {
             event.preventDefault();
             var $element = $(this).parent().siblings('div').attr('id');
-            //console.log("$element", $element);
             var $fistChild = $('#'+$element).children(":first").attr('id');
-            //console.log("$fistChild", $fistChild);
             if ($fistChild == 'workHistoryForm') {workHistory()}
             if ($fistChild == 'educationBackgroundForm') {educationBackground()}
             if ($fistChild == 'postgraduateStudiesForm') {postgraduateStudies()}
-            if ($fistChild == 'updateCoursesForm') {updateCourses()}
-            
+            if ($fistChild == 'updateCoursesForm') {updateCourses()}   
         });
         $(document).on('click', '.delBtn', function(event) {
             event.preventDefault();
@@ -249,6 +254,234 @@
                 if ($fistChild == 'updateCoursesForm') {updateCourses()}
             }
         });
+        $(document).on('keypress', 'input, textarea', function(event) {
+            event.preventDefault();
+            $('.error').html('');
+            $('.form-group').removeClass('has-error has-danger')
+        });
+        $(document).on('submit', '#workHistorySubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalWorkHistory,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                    var workHistoryCount = $('#workHistoryForm > .cloned')
+                    $('.error').html('');
+                    $('.form-group').removeClass('has-error has-danger')
+                    workHistoryCount .each(function(index, el) {
+                        $(this).find('input[name*="job_title"]').attr('id', 'job_title-'+index);
+                        $(this).find('input[name*="job_company"]').attr('id', 'job_company-'+index);
+                        $(this).find('input[name*="job_from_year"]').attr('id', 'job_from_year-'+index);
+                        $(this).find('input[name*="job_to_year"]').attr('id', 'job_to_year-'+index);
+                        $(this).find('textarea[name*="job_notes"]').attr('id', 'job_notes-'+index);
+                        $(this).find('note-editor').attr('id', 'job_notes-'+index)
+                    });
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
+        });
+        $(document).on('submit', '#educationBackgroundSubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalEducationBackground,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                    var educationBackgroundCount = $('#educationBackgroundForm > .cloned')
+                    $('.error').html('');
+                    $('.form-group').removeClass('has-error has-danger')
+                    educationBackgroundCount .each(function(index, el) {
+                        $(this).find('input[name*="education_title"]').attr('id', 'education_title-'+index);
+                        $(this).find('input[name*="education_school"]').attr('id', 'education_school-'+index);
+                        $(this).find('input[name*="education_from_year"]').attr('id', 'education_from_year-'+index);
+                        $(this).find('input[name*="education_to_year"]').attr('id', 'education_to_year-'+index);
+                        $(this).find('textarea[name*="education_notes"]').attr('id', 'education_notes-'+index);
+                        $(this).find('note-editor').attr('id', 'education_notes-'+index)
+                    });
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
+        });
+        $(document).on('submit', '#updateCoursesSubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalUpdateCourses,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                    var updateCoursesCount = $('#postgraduateStudiesForm > .cloned')
+                    $('.error').html('');
+                    $('.form-group').removeClass('has-error has-danger')
+                    updateCoursesCount .each(function(index, el) {
+                        $(this).find('input[name*="course_title"]').attr('id', 'course_title-'+index);
+                        $(this).find('input[name*="course_school"]').attr('id', 'course_school-'+index);
+                        $(this).find('input[name*="course_year"]').attr('id', 'course_year-'+index);
+                    });
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
+        });
+        $(document).on('submit', '#updateCoursesSubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalUploadImages,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                    var updateCoursesCount = $('#postgraduateStudiesForm > .cloned')
+                    $('.error').html('');
+                    $('.form-group').removeClass('has-error has-danger')
+                    updateCoursesCount .each(function(index, el) {
+                        $(this).find('input[name*="image_title"]').attr('id', 'image_title-'+index);
+                        $(this).find('input[name*="image_file"]').attr('id', 'image_file-'+index);
+                    });
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
+        });
+
+        $(document).on('submit', '#careerObjetiveSubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalcareerObjetive,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
+        });
         function summernote(element, placeholder) {
             $('.'+element).summernote({
                 placeholder: placeholder,
@@ -262,22 +495,21 @@
             dropify += '<div class="col-md-4" id="">';
             dropify += '<div class="form-group">';
             dropify += '<label for="simpleFormEmail">Image Title</label>';
-            dropify += '<input type="text" class="form-control mb-2" name="image_title[]" placeholder="Image Title">';
-            dropify += '<input type="file" class="form-control dropify imageFile" name="image_file[]">';
+            dropify += '<input type="text" class="form-control mb-2 image_title" name="image_title[]" placeholder="Image Title">';
+            dropify += '<input type="file" class="form-control dropify image_file" name="image_file[]">';
             dropify += '</div>';
             dropify += '</div>';
 
             $('#uploadImagesForm').append(dropify);
             $('.dropify').dropify();
         }
-
         function careerObjetive(){
             var careerObjetive = "";
            
             careerObjetive += '<div class="col-12">';
-            careerObjetive += '<textarea name="career_objective" class="summernote-career_objective" id="career_objective" style="width: 100%;"></textarea>';
+            careerObjetive += '<textarea name="career_objective" class="summernote-career_objective career_objective" id="career_objective" style="width: 100%;"></textarea>';
             careerObjetive += '<div class="addbtnArea text-right">';
-            careerObjetive += '<button type="button" id="agregate" class="btn btn-success">+ @lang('upload info')</button>';
+            careerObjetive += '<button type="submit" id="agregate" class="btn btn-success">+ @lang('upload info')</button>';
             careerObjetive += '</div>';
             careerObjetive += '</div>';
             careerObjetive += '<hr>';
@@ -285,7 +517,6 @@
             $('#career_objective_Form').append(careerObjetive);
             summernote("summernote-career_objective", "Career Objective")
         }
-
         function workHistory(){
             var delBtn =  '<div class="col-12" id="delbtn">'
             delBtn += '<div class="form-group text-right" id="delBtnDiv">'
@@ -298,31 +529,36 @@
             workHistory += '<div class="col-md-6">';
             workHistory += '<div class="form-group">';
             workHistory += '<label for="simpleFormEmail">Job Title</label>';
-            workHistory += '<input type="text" class="form-control" name="job_titie[]" placeholder="Job Title">';
+            workHistory += '<input type="text" class="form-control" name="job_title[]" placeholder="Job Title">';
+            workHistory += '<div class="error text-danger"></div>';
             workHistory += '</div>';
             workHistory += '</div>';
             workHistory += '<div class="col-md-6">';
             workHistory += '<div class="form-group">';
             workHistory += '<label for="simpleFormPassword">Job Company</label>';
-            workHistory += '<input type="text" class="form-control" name="job_company[]" id="simpleFormPassword" placeholder="Job Company">';
+            workHistory += '<input type="text" class="form-control" name="job_company[]" placeholder="Job Company">';
+            workHistory += '<div class="error text-danger"></div>';
             workHistory += '</div>';
             workHistory += '</div>';
             workHistory += '<div class="col-md-6">';
             workHistory += '<div class="form-group">';
             workHistory += '<label for="simpleFormEmail">From Year</label>';
             workHistory += '<input type="date" class="form-control datepicker" name="job_from_year[]" placeholder="Job Title">';
+            workHistory += '<div class="error text-danger"></div>';
             workHistory += '</div>';
             workHistory += '</div>';
             workHistory += '<div class="col-md-6">';
             workHistory += '<div class="form-group">';
             workHistory += '<label for="simpleFormPassword">To Year</label>';
             workHistory += '<input type="date" class="form-control datepicker" name="job_to_year[]"id="simpleFormPassword" placeholder="Job Company">';
+            workHistory += '<div class="error text-danger"></div>';
             workHistory += '</div>';
             workHistory += '</div>';
             workHistory += '<div class="col-12">';
             workHistory += '<div class="form-group">';
             workHistory += '<label for="simpleFormPassword">Notes</label>';
-            workHistory += '<textarea class="form-control summernote-history-notes mb-3" id="simpleFormPassword" name="job_notes[]" style="width: 100%;"></textarea> ';
+            workHistory += '<textarea class="form-control summernote-history-notes mb-3" name="job_notes[]" style="width: 100%;"></textarea> ';
+            workHistory += '<div class="error text-danger"></div>';
             workHistory += '</div>';
             workHistory += '</div>';
             workHistory += delBtn
@@ -331,7 +567,6 @@
             $('#workHistoryForm').append(workHistory);
             //$('#workHistoryForm').append(delBtn);
             summernote("summernote-history-notes", "Work History Notes")
-
         }
         function educationBackground(){
             var delBtn =  '<div class="col-12" id="delbtn">'
@@ -344,34 +579,39 @@
             educationBackground += '<div class="cloned" style="display: contents">';
             educationBackground += '<div class="col-md-6">';
             educationBackground += '<div class="form-group">';
-            educationBackground += '<label for="simpleFormEmail">Job Title</label>';
-            educationBackground += '<input type="text" class="form-control" name="education_titie[]" placeholder="Education Title">';
+            educationBackground += '<label for="education_title">Education Title</label>';
+            educationBackground += '<input type="text" class="form-control education_title" name="education_title[]" placeholder="Education Title">';
+            educationBackground += '<div class="error text-danger"></div>';
             educationBackground += '</div>';
             educationBackground += '</div>';
             educationBackground += '<div class="col-md-6">';
             educationBackground += '<div class="form-group">';
-            educationBackground += '<label for="simpleFormPassword">Job Company</label>';
-            educationBackground += '<input type="text" class="form-control" name="education_school[]" id="simpleFormPassword" placeholder="Education Company">';
+            educationBackground += '<label for="simpleFormPassword">Education Company</label>';
+            educationBackground += '<input type="text" class="form-control education_school" name="education_school[]" id="simpleFormPassword" placeholder="Education Company">';
+            educationBackground += '<div class="error text-danger"></div>';
             educationBackground += '</div>';
             educationBackground += '</div>';
             educationBackground += '<div class="col-md-6">';
             educationBackground += '<div class="form-group">';
             educationBackground += '<label for="simpleFormEmail">From Year</label>';
-            educationBackground += '<input type="date" class="form-control datepicker" name="education_from_year[]">';
+            educationBackground += '<input type="date" class="form-control datepicker education_from_year" name="education_from_year[]">';
+            educationBackground += '<div class="error text-danger"></div>';
             educationBackground += '</div>';
             educationBackground += '</div>';
             educationBackground += '<div class="col-md-6">';
             educationBackground += '<div class="form-group">';
             educationBackground += '<label for="simpleFormPassword">To Year</label>';
-            educationBackground += '<input type="date" class="form-control datepicker" name="education_to_year[]"id="simpleFormPassword">';
+            educationBackground += '<input type="date" class="form-control datepicker education_to_year" name="education_to_year[]"id="simpleFormPassword">';
+            educationBackground += '<div class="error text-danger"></div>';
             educationBackground += '</div>';
             educationBackground += '</div>';
             educationBackground += '<div class="col-12">';
             educationBackground += '<div class="form-group">';
             educationBackground += '<label for="simpleFormPassword">Notes</label>';
-            educationBackground += '<textarea class="form-control summernote-education-notes mb-3" id="simpleFormPassword" name="education_notes[]" style="width: 100%;"></textarea> ';
+            educationBackground += '<textarea class="form-control summernote-education-notes mb-3 education_notes" id="simpleFormPassword" name="education_notes[]" style="width: 100%;"></textarea> ';
+            educationBackground += '<div class="error text-danger"></div>';
             educationBackground += '</div>';
-            educationBackground += '</div>';delBtn
+            educationBackground += '</div>';
             educationBackground +=  delBtn
             educationBackground += '</div>';
             
@@ -390,31 +630,36 @@
             postgraduateStudies += '<div class="col-md-6">';
             postgraduateStudies += '<div class="form-group">';
             postgraduateStudies += '<label for="simpleFormEmail">Job Title</label>';
-            postgraduateStudies += '<input type="text" class="form-control" name="postgraduate_titie[]" placeholder="Postgraduate Studies Title">';
+            postgraduateStudies += '<input type="text" class="form-control postgraduate_title" name="postgraduate_title[]" placeholder="Postgraduate Studies Title">';
+            postgraduateStudies += '<div class="error text-danger"></div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '<div class="col-md-6">';
             postgraduateStudies += '<div class="form-group">';
             postgraduateStudies += '<label for="simpleFormPassword">Job Company</label>';
-            postgraduateStudies += '<input type="text" class="form-control" name="postgraduate_school[]" id="simpleFormPassword" placeholder="Postgraduate Studies Company">';
+            postgraduateStudies += '<input type="text" class="form-control postgraduate_school" name="postgraduate_school[]" id="simpleFormPassword" placeholder="Postgraduate Studies Company">';
+            postgraduateStudies += '<div class="error text-danger"></div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '<div class="col-md-6">';
             postgraduateStudies += '<div class="form-group">';
             postgraduateStudies += '<label for="simpleFormEmail">From Year</label>';
-            postgraduateStudies += '<input type="date" class="form-control datepicker" name="postgraduate_from_year[]">';
+            postgraduateStudies += '<input type="date" class="form-control datepicker postgraduate_from_year" name="postgraduate_from_year[]">';
+            postgraduateStudies += '<div class="error text-danger"></div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '<div class="col-md-6">';
             postgraduateStudies += '<div class="form-group">';
             postgraduateStudies += '<label for="simpleFormPassword">To Year</label>';
-            postgraduateStudies += '<input type="date" class="form-control datepicker" name="postgraduate_to_year[]"id="simpleFormPassword">';
+            postgraduateStudies += '<input type="date" class="form-control datepicker postgraduate_to_year" name="postgraduate_to_year[]"id="simpleFormPassword">';
+            postgraduateStudies += '<div class="error text-danger"></div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '<div class="col-12">';
             postgraduateStudies += '<div class="form-group">';
             postgraduateStudies += '<label for="simpleFormPassword">Notes</label>';
-            postgraduateStudies += '<textarea class="form-control summernote-posgraduate-notes mb-3" id="simpleFormPassword" name="postgraduate_notes[]" style="width: 100%;"></textarea> ';
+            postgraduateStudies += '<textarea class="form-control summernote-posgraduate-notes mb-3 postgraduate_notes" id="simpleFormPassword" name="postgraduate_notes[]" style="width: 100%;"></textarea> ';
+            postgraduateStudies += '<div class="error text-danger"></div>';
             postgraduateStudies += '</div>';
             postgraduateStudies += '</div>';
             postgraduateStudies +=  delBtn;
@@ -434,19 +679,22 @@
             updateCourses += '<div class="col-md-4">';
             updateCourses += '<div class="form-group">';
             updateCourses += '<label for="simpleFormEmail">Course Title</label>';
-            updateCourses += '<input type="text" class="form-control" name="course_title[]" placeholder="Study Title">';
+            updateCourses += '<input type="text" class="form-control course_title" name="course_title[]" placeholder="Study Title">';
+            updateCourses += '<div class="error text-danger"></div>';
             updateCourses += '</div>';
             updateCourses += '</div>';
             updateCourses += '<div class="col-md-4">';
             updateCourses += '<div class="form-group">';
             updateCourses += '<label for="simpleFormPassword">Course School</label>';
-            updateCourses += '<input type="text" class="form-control" name="course_school[]" id="simpleFormPassword" placeholder="Study School">';
+            updateCourses += '<input type="text" class="form-control course_school" name="course_school[]" id="simpleFormPassword" placeholder="Study School">';
+            updateCourses += '<div class="error text-danger"></div>';
             updateCourses += '</div>';
             updateCourses += '</div>';
             updateCourses += '<div class="col-md-4">';
             updateCourses += '<div class="form-group">';
             updateCourses += '<label for="simpleFormEmail">Year</label>';
-            updateCourses += '<input type="date" class="form-control datepicker" name="course_year[]">';
+            updateCourses += '<input type="date" class="form-control datepicker course_year" name="course_year[]">';
+            updateCourses += '<div class="error text-danger"></div>';
             updateCourses += '</div>';
             updateCourses += '</div>';
             updateCourses +=    delBtn
