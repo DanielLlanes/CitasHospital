@@ -102,7 +102,17 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Career Objective:</h5>
                                     <form class="" id="careerObjetiveSubmit">
                                         <div id="career_objective_area">
-                                            <div class="row" id="career_objective_Form"></div>
+                                            <div class="row" id="career_objective_Form">
+                                                @foreach ($staff->careerobjetive as $careerobjetive)
+                                                    <div class="col-12">
+                                                        <textarea name="career_objective" class="summernote-career_objective career_objective" id="career_objective" style="width: 100%;">{!! $careerobjetive->career_objective !!}</textarea>
+                                                        <div class="addbtnArea text-right">
+                                                            <button type="submit" id="agregate" class="btn btn-success">+ @lang('upload info')</button>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                                <hr>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -114,7 +124,53 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Work History:</h5>
                                     <form class="" id="workHistorySubmit">
                                         <div id="workHistoryArea">
-                                            <div class="row" id="workHistoryForm"></div>
+                                            <div class="row" id="workHistoryForm">
+                                               @foreach ($staff->workhistory as $workhistory)
+                                                   <div class="cloned" style="display: contents">
+                                                       <div class="col-md-6">
+                                                           <div class="form-group">
+                                                               <label for="simpleFormEmail">Job Title</label>
+                                                               <input type="text" class="form-control" name="job_title[]" placeholder="Job Title" value="{{ $workhistory->job_title}}">
+                                                               <div class="error text-danger"></div>
+                                                           </div>
+                                                       </div>
+                                                       <div class="col-md-6">
+                                                           <div class="form-group">
+                                                               <label for="simpleFormPassword">Job Company</label>
+                                                               <input type="text" class="form-control" name="job_company[]" placeholder="Job Company" value="{{ $workhistory->job_company }}">
+                                                               <div class="error text-danger"></div>
+                                                           </div>
+                                                       </div>
+                                                       <div class="col-md-6">
+                                                           <div class="form-group">
+                                                               <label for="simpleFormEmail">From Year</label>
+                                                               <input type="date" class="form-control datepicker" name="job_from_year[]" placeholder="Job Title" value="{{ $workhistory->job_from_year }}">
+                                                               <div class="error text-danger"></div>
+                                                           </div>
+                                                       </div>
+                                                       <div class="col-md-6">
+                                                           <div class="form-group">
+                                                               <label for="simpleFormPassword">To Year</label>
+                                                               <input type="date" class="form-control datepicker" name="job_to_year[]"id="simpleFormPassword" placeholder="Job Company" value="{{ $workhistory->job_to_year }}">
+                                                               <div class="error text-danger"></div>
+                                                           </div>
+                                                       </div>
+                                                       <div class="col-12">
+                                                           <div class="form-group">
+                                                               <label for="simpleFormPassword">Notes</label>
+                                                               <textarea class="form-control summernote-history-notes mb-3" name="job_notes[]" style="width: 100%;">{!! $workhistory->job_notes !!}</textarea> 
+                                                               <div class="error text-danger"></div>
+                                                           </div>
+                                                       </div>
+                                                       <div class="col-12" id="delbtn">
+                                                           <div class="form-group text-right" id="delBtnDiv">
+                                                               <button type="button" class="btn delBtn btn-danger">@lang('delete')</button>
+                                                           </div>
+                                                           <hr>
+                                                       </div>
+                                                   </div>
+                                               @endforeach
+                                            </div>
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
@@ -132,7 +188,53 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Education Background:</h5>
                                     <form class="" id="educationBackgroundSubmit">
                                         <div id="educationBackgroundArea">
-                                            <div class="row" id="educationBackgroundForm"></div>
+                                            <div class="row" id="educationBackgroundForm">
+                                                @foreach ($staff->educationbackground as $educationbackground)
+                                                    <div class="cloned" style="display: contents">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="education_title">Education Title</label>
+                                                                <input type="text" class="form-control education_title" name="education_title[]" placeholder="Education Title" value="{{ $educationbackground->education_title }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">Education School</label>
+                                                                <input type="text" class="form-control education_school" name="education_school[]" id="simpleFormPassword" placeholder="Education School" value="{{ $educationbackground->education_school }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormEmail">From Year</label>
+                                                                <input type="date" class="form-control datepicker education_from_year" name="education_from_year[]" value="{{ $educationbackground->education_from_year }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">To Year</label>
+                                                                <input type="date" class="form-control datepicker education_to_year" name="education_to_year[]" value="{{ $educationbackground->education_to_year }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">Notes</label>
+                                                                <textarea class="form-control summernote-education-notes mb-3 education_notes" id="simpleFormPassword" name="education_notes[]" style="width: 100%;">{!! $educationbackground->education_notes !!}</textarea> 
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12" id="delbtn">
+                                                            <div class="form-group text-right" id="delBtnDiv">
+                                                                <button type="button" class="btn delBtn btn-danger">@lang('delete')</button>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
@@ -150,7 +252,53 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
                                     <form class="" id="postgraduateStudiesSubmit">
                                         <div id="postgraduateStudiesArea">
-                                            <div class="row" id="postgraduateStudiesForm"></div>
+                                            @foreach ($staff->postgraduatestudies as $postgraduatestudies)
+                                                <div class="row" id="postgraduateStudiesForm">
+                                                    <div class="cloned" style="display: contents">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormEmail"> Title</label>
+                                                                <input type="text" class="form-control postgraduate_title" name="postgraduate_title[]" placeholder="Postgraduate Studies Title" value="{{ $postgraduatestudies->postgraduate_title }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">School</label>
+                                                                <input type="text" class="form-control postgraduate_school" name="postgraduate_school[]" id="simpleFormPassword" placeholder="Postgraduate Studies Company" value="{{ $postgraduatestudies->postgraduate_school }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormEmail">From Year</label>
+                                                                <input type="date" class="form-control datepicker postgraduate_from_year" name="postgraduate_from_year[]"  value="{{ $postgraduatestudies->postgraduate_from_year }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">To Year</label>
+                                                                <input type="date" class="form-control datepicker postgraduate_to_year" name="postgraduate_to_year[]" value="{{ $postgraduatestudies->postgraduate_to_year }}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">Notes</label>
+                                                                <textarea class="form-control summernote-posgraduate-notes mb-3 postgraduate_notes" id="simpleFormPassword" name="postgraduate_notes[]" style="width: 100%;">{!! $postgraduatestudies->postgraduate_notes !!}</textarea> 
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12" id="delbtn">
+                                                            <div class="form-group text-right" id="delBtnDiv">
+                                                                <button type="button" class="btn delBtn btn-danger">@lang('delete')</button>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
@@ -168,7 +316,39 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
                                     <form class="" id="updateCoursesSubmit">
                                         <div id="updateCoursesArea">
-                                            <div class="row" id="updateCoursesForm"></div>
+                                            <div class="row" id="updateCoursesForm">
+                                                @foreach ($staff->updatecourses as $updatecourses)
+                                                    <div class="cloned" style="display: contents">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormEmail">Course Title</label>
+                                                                <input type="text" class="form-control course_title" name="course_title[]" placeholder="Study Title" value="{{ $updatecourses->course_title}}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormPassword">Course School</label>
+                                                                <input type="text" class="form-control course_school" name="course_school[]" id="simpleFormPassword" placeholder="Study School" value="{{ $updatecourses->course_school}}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label for="simpleFormEmail">Year</label>
+                                                                <input type="date" class="form-control datepicker course_year" name="course_year[]" value="{{ $updatecourses->course_year}}">
+                                                                <div class="error text-danger"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12" id="delbtn">
+                                                            <div class="form-group text-right" id="delBtnDiv">
+                                                                <button type="button" class="btn delBtn btn-danger">@lang('delete')</button>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
@@ -186,13 +366,29 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Upload Images:</h5>
                                     <form class="" id="uploadImagesSubmit" enctype="multipart/form-data">
                                         <div id="uploadImnagesArea">
-                                            <div class="row" id="uploadImagesForm"></div>
+                                            <div class="row" id="uploadImagesForm">
+                                                @foreach ($staff->imagespublicprofile as $imagespublicprofile)
+                                                    <div class="col-md-4" id="">
+                                                        <div class="form-group">
+                                                            <label>Image Title</label>
+                                                            <input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title" value="{{ $imagespublicprofile->title }}">
+                                                            <div class="error text-danger"></div>
+                                                            <input type="file" class="form-control dropify image_file" id="file_'+count+'" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
+                                                            <div class="error text-danger"></div>
+                                                        </div>
+                                                        <div class="col-12" id="delbtn">
+                                                            <div class="form-group text-right" id="delBtnDiv">
+                                                                <button type="button" class="btn addBtnImg btn-success mr-1">@lang('Add image')</button>
+                                                                <button type="button" class="btn delBtnImg btn-danger ml-1">@lang('delete image')</button>
+                                                            </div>
+                                                            <hr>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtnImage" class="btn btn-warning">+ @lang('Add')</button>
-                                        </div>
-                                        <div class="addbtnArea text-right mt-5">
-                                            <button type="submit" id="uploadImagesBtn" class="btn btn-success">+ @lang('Upload Images')</button>
                                         </div>
                                     </form>
                                 </div>
@@ -216,12 +412,13 @@
         globalcareerObjetive = '{{ route('staff.profile.careerObjetive') }}';
     </script>
     <script>
-        careerObjetive();
-        workHistory();
-        educationBackground();
-        postgraduateStudies();
-        upload_images();
-        updateCourses();
+        if ($('#career_objective_Form').length == 0) {careerObjetive()}else{summernote("summernote-career_objective", "Career Objective")}
+        if ($('#workHistoryForm').length == 0) {workHistory()}else{summernote("summernote-history-notes", "Work History Notes")}
+        if ($('#educationBackgroundForm').length == 0) {educationBackground()}else{summernote("summernote-education-notes", "Educaion Notes")}
+        if ($('#postgraduateStudiesForm').length == 0) {postgraduateStudies()}else{summernote("summernote-posgraduate-notes", "Postgraduate Studies Notes")}
+        if ($('#uploadImagesForm').length == 0) {updateCourses()}
+        if ($('#updateCoursesForm').length == 0) {upload_images()}
+        
         
         $(document).on('click', '#addbtnImage', function(event) {
             upload_images()
@@ -266,6 +463,43 @@
             event.preventDefault();
             $(this).find('.error').html('')
             $('.form-group').removeClass('has-error has-danger')
+        });
+        $(document).on('submit', '#careerObjetiveSubmit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            var formData = new FormData(this);
+            var form = $(this)
+            $.ajax({
+                url: globalcareerObjetive,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            var Nkey = key.replace('.', '-')
+                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
+                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
+                        });
+                        return
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                     }
+                },
+            })
         });
         $(document).on('submit', '#workHistorySubmit', function(event) {
             event.preventDefault();
@@ -368,7 +602,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
+            var form = $(this)            
             $.ajax({
                 url: globalUpdateCourses,
                 method:"POST",
@@ -408,14 +642,14 @@
                 },
             })
         });
-        $(document).on('submit', '#updateCoursesSubmit', function(event) {
+        $(document).on('submit', '#postgraduateStudiesSubmit', function(event) {
             event.preventDefault();
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
             var form = $(this)
             $.ajax({
-                url: globalUploadImages,
+                url: globalPostgraduateStudies,
                 method:"POST",
                 data:formData,
                 dataType:'JSON',
@@ -452,56 +686,14 @@
                 },
             })
         });
-        $(document).on('submit', '#careerObjetiveSubmit', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            var formData = new FormData(this);
-            var form = $(this)
-            $.ajax({
-                url: globalcareerObjetive,
-                method:"POST",
-                data:formData,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function(){
-                },
-                success:function(data){
-                    console.log("data", data);
-                    if (!data.success) {
-                        $.each( data.errors, function( key, value ) {
-                            var Nkey = key.replace('.', '-')
-                            $('#'+key.replace('.', '-')).parent().find('.error').text(value)
-                            $('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
-                        });
-                        return
-                     } else {
-                        Toast.fire({
-                              icon: data.icon,
-                              title: data.title,
-                        })
-                     }
-                },
-            })
-        });
-        
         $(document).on('click', '.addBtnImg', function(event) {
             event.preventDefault();
             var $this = $(this);
             var $parent = $(this).parents('.col-md-4');
             var title = $(this).parents('.col-md-4').find('.image_title').val();
             var dropyfy = $(this).parents('.col-md-4').find('.dropify').prop('files')[0];
-            var code = $(this).parents('.col-md-4').find('.dropify').prop('code');
+            var code = $(this).parents('.col-md-4').find('.dropify').attr('code');
             var poss = $(this).parents('.col-md-4').find('.dropify').prop('file');
-            console.log("title", title);
-            console.log("dropyfy", dropyfy);
-            console.log("code", code);
-            console.log("poss", poss);
 
             if (!title) {
                 $parent.find('.image_title').next('.error').text('Please set a title')

@@ -8,12 +8,14 @@ use App\Models\Staff\EducationBackgroundStaff;
 use App\Models\Staff\ImageProfileStaff;
 use App\Models\Staff\PostgraduateStudiesStaff;
 use App\Models\Staff\Staff;
+use App\Models\Staff\UpdateCourseStaff;
 use App\Models\Staff\WorkHistoryStaff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -44,6 +46,8 @@ class ProfileController extends Controller
             'postgraduatestudies',
             'updatecourses',
             'permissions',
+            'imagespublicprofile',
+            'careerobjetive',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);
             },
@@ -115,6 +119,13 @@ class ProfileController extends Controller
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);
             },
+            'workhistory',
+            'educationbackground',
+            'postgraduatestudies',
+            'updatecourses',
+            'permissions',
+            'imagespublicprofile',
+            'careerobjetive',
             'permissions',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);
@@ -124,6 +135,7 @@ class ProfileController extends Controller
             },
         ])
         ->findOrFail(Auth::guard('staff')->user()->id);
+        //return $staff;
         return view('staff.profile-manager.add-profile', ['staff' => $staff]);
     }
 
@@ -148,7 +160,7 @@ class ProfileController extends Controller
             "job_to_year"       => "required|array|min:1",
             "job_to_year.*"     => "required|max:50|string",
             "job_notes"         => "required|array|min:1",
-            "job_notes.*"       => "required|max:250|string",
+            "job_notes.*"       => "required|string",
         ]);
         if ($validator->fails())
         {
@@ -196,7 +208,7 @@ class ProfileController extends Controller
             "education_to_year"       => "required|array|min:1",
             "education_to_year.*"     => "required|max:50|string",
             "education_notes"         => "required|array|min:1",
-            "education_notes.*"       => "required|max:250|string",
+            "education_notes.*"       => "required|string",
         ]);
         if ($validator->fails())
         {
@@ -244,7 +256,7 @@ class ProfileController extends Controller
             "postgraduate_to_year"       => "required|array|min:1",
             "postgraduate_to_year.*"     => "required|max:50|string",
             "postgraduate_notes"         => "required|array|min:1",
-            "postgraduate_notes.*"       => "required|max:250|string",
+            "postgraduate_notes.*"       => "required|string",
         ]);
         if ($validator->fails())
         {
@@ -346,7 +358,7 @@ class ProfileController extends Controller
     }
     public function UploadImagesPublicProfile(Request $request)
     {
-        //return $request;
+       
         $staffID = Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
@@ -364,22 +376,26 @@ class ProfileController extends Controller
             ]); // 400 being the HTTP code for an invalid request.
         }
         $code = time().uniqid(Str::random(30));
-        if ($request->code =! 'undefined') {
-            $old_image = ImageProfileStaff::find($request->code);
+
+        
+        if ($request->code != 'undefined') {
+            $old_image = ImageProfileStaff::where('code', $request->code)->first();
+            //return response()->json($old_image);
             if (!$old_image) {
                 return response()->json([
                     'success'   => false,
                     'go'        => '0',
                 ]);
             }
-            unlink(public_path($lastPhoto));
+            $url = str_replace('storage/', '', $old_image->image);
+            $delete = storage_path('app/public/'.$url);
+            unlink($delete);
             $old_image->delete();
-        } else {
-            $request->merge(["code" => $code]);
-        }
-
+        } 
+        
+        $request->merge(["code" => $code]);
         $image = $request->file('dropify');
-        $destinationPath = storage_path('app/public').'/staff/public_profile';
+        $destinationPath = storage_path('app/public/staff/public_profile/image');
         $img_name = $code.'.'.$image->getClientOriginalExtension();
         $img = Image::make($image->getRealPath());
         $width = Image::make($image)->width();
@@ -389,10 +405,10 @@ class ProfileController extends Controller
         File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
         $img->save($destinationPath."/".$img_name, '80');
-        $image = "/staff/public_profile/image/$img_name";
+        $image = "storage/staff/public_profile/image/$img_name";
         $img->destroy();
        
-        $id = ImageProfileStaff::insertGetId(["code" => $code, 'image' => $image, 'title' => $request->title]);
+        $id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
         $image = ImageProfileStaff::find($id);
         return response()->json([
             'success' => true,

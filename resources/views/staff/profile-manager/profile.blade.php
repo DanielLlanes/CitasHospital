@@ -225,66 +225,73 @@
                                 <h5 class="font-weight-bold mt-5 mb-3 text-center">Career Objective</h5>
                                 <div class="">
                                     <div >
-                                        <p>Lorem, ipsum dolor sit amet consectetur, adipisicing elit. Placeat molestiae exercitationem vel architecto, tempora veritatis facilis consequuntur ipsa corrupti iure, quisquam inventore repudiandae qui nulla fugit rerum reprehenderit accusantium voluptate!</p>
-                                        <p>Similique explicabo saepe quis labore dolorum, in doloremque laborum obcaecati doloribus quaerat excepturi voluptates, beatae a, rem perferendis veritatis dolore nisi cupiditate aut praesentium natus, fuga quo nemo. Voluptate, error.</p>
+                                        @foreach ($staff->careerobjetive as $careerobjetive)
+                                            {!! $careerobjetive->career_objective !!}
+                                        @endforeach
+                                        <hr>
                                     </div>
                                     <h5 class="font-weight-bold mt-5 mb-3">Work History</h5>
                                     <div >
-                                        <p class="p-0 m-0">Graphic Designer</p>
-                                        <p class="p-0 m-0">Precision.</p>
-                                        <p>2005 - 2007</p>
-                                        <p>
-                                            Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Quam eos quaerat, magni, nam et libero, voluptate in earum ut architecto corrupti accusamus? Quo quibusdam, amet, dolore tempore qui quae sunt.
-                                            Facilis perspiciatis iure odio. Reiciendis harum quaerat laboriosam explicabo perspiciatis, suscipit iusto, accusamus repellat vero repudiandae quos ullam, quibusdam? Facilis rerum distinctio unde rem, obcaecati cumque voluptatum sint, debitis corporis.
-                                        </p>
-                                        <hr>
-                                        <p class="p-0 m-0">Graphic Designer (Intern)</p>
-                                        <p class="p-0 m-0">Costa Rica Fruit Compnay</p>
-                                        <p>2016 - 2017</p>
-                                        <p>
-                                            Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Quam eos quaerat, magni, nam et libero, voluptate in earum ut architecto corrupti accusamus? Quo quibusdam, amet, dolore tempore qui quae sunt.
-                                            Facilis perspiciatis iure odio. Reiciendis harum quaerat laboriosam explicabo perspiciatis, suscipit iusto, accusamus repellat vero repudiandae quos ullam, quibusdam? Facilis rerum distinctio unde rem, obcaecati cumque voluptatum sint, debitis corporis.
-                                        </p>
+                                        @foreach ($staff->workhistory as $workhistory)
+                                            <p class="p-0 m-0">{{ $workhistory->job_title}}</p>
+                                            <p class="p-0 m-0">{{ $workhistory->job_company }}</p>
+                                            <p>{{ date('Y', strtotime($workhistory->job_from_year)) }} - {{ date('Y', strtotime($workhistory->job_to_year)) }}</p>
+                                            <p>
+                                                {!! $workhistory->job_notes !!}
+                                            </p>
+                                            <hr>
+                                        @endforeach
                                     </div>
+
                                 </div>
                                 <h5 class="font-weight-bold mt-5 mb-3 text-center">Education Background</h5>
                                 <div class="">
                                     <div >
-                                        <p class="p-0 m-0">Degree in computer science</p>
-                                        <p class="p-0 m-0">Cincinnati Christian University</p>
-                                        <p>Year: 1999 - 2001</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
-                                    </div>
-                                    <hr>
-                                    <div >
-                                        <p class="p-0 m-0">Diploma in Graphics Design</p>
-                                        <p class="p-0 m-0">Cincinnati Christian University</p>
-                                        <p>Year: 1999 - 2001</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                        @foreach ($staff->educationbackground as $educationbackground)
+                                            <p class="p-0 m-0">{{ $educationbackground->education_title}}</p>
+                                            <p class="p-0 m-0">{{ $educationbackground->education_school }}</p>
+                                            <p>{{ date('Y', strtotime($educationbackground->education_from_year)) }} - {{ date('Y', strtotime($educationbackground->education_to_year)) }}</p>
+                                            <p>
+                                                {!! $educationbackground->education_notes !!}
+                                            </p>
+                                            <hr>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
                                 <div class="">
                                     <div >
-                                        <p class="p-0 m-0">Degree in computer science</p>
-                                        <p class="p-0 m-0">Cincinnati Christian University</p>
-                                        <p>Year: 1999 - 2001</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
-                                    </div>
-                                    <hr>
-                                    <div >
-                                        <p class="p-0 m-0">Diploma in Graphics Design</p>
-                                        <p class="p-0 m-0">Cincinnati Christian University</p>
-                                        <p>Year: 1999 - 2001</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo consequatur vitae voluptate voluptas iure illum fugiat praesentium maxime quis eligendi similique laudantium corrupti cum autem quam, dicta ipsa voluptatum. Perferendis!</p>
+                                        @foreach ($staff->postgraduatestudies as $postgraduatestudies)
+                                            <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_title}}</p>
+                                            <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_school }}</p>
+                                            <p>{{ date('Y', strtotime($postgraduatestudies->postgraduate_from_year)) }} - {{ date('Y', strtotime($postgraduatestudies->postgraduate_to_year)) }}</p>
+                                            <p>
+                                                {!! $postgraduatestudies->postgraduate_notes !!}
+                                            </p>
+                                            <hr>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
                                 <div class="">
-                                    <p class="p-0 m-0">Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                                    <p class="p-0 m-0">2160</p>
-                                    <p>40 hrs</p>
+                                    @foreach ($staff->updatecourses as $updatecourses)
+                                        {{-- expr --}}
+                                    @endforeach
+                                    <p class="p-0 m-0">{{ $updatecourses->course_title }}</p>
+                                    <p class="p-0 m-0">{{ $updatecourses->course_school }}</p>
+                                    <p class="p-0 m-0">{{ date('Y', strtotime($updatecourses->course__year)) }}</p>
                                     <hr>
+                                </div>
+                                <h5></h5>
+                                <div class="col-12">
+                                    <div class="row">
+                                        @foreach ($staff->imagespublicprofile as $imagespublicprofile)
+                                            <div class="col-md-4">
+                                                <p>{{ $imagespublicprofile->title }}</p>
+                                                <img class="img-responsive" src="{{ asset($imagespublicprofile->image) }}" alt="{{ $imagespublicprofile->title }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>

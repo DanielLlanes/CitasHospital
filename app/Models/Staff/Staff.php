@@ -114,7 +114,6 @@ class Staff extends Authenticatable
     }
     public function imagespublicprofile()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = staff_id, localKey = id)
         return $this->hasMany(ImageProfileStaff::class);
     }
 }
