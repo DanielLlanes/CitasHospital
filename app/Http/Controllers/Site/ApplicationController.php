@@ -297,11 +297,9 @@ class ApplicationController extends Controller
                     'data'=> $app->images
                 ]
             );
-
         } else {
             abort(404);
         }
-
     }
 
     public function destroy(Request $request)

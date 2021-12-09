@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Staff\CareerObjetiveStaff;
 use App\Models\Staff\EducationBackgroundStaff;
+use App\Models\Staff\ImageProfileStaff;
 use App\Models\Staff\PostgraduateStudiesStaff;
 use App\Models\Staff\Staff;
-use App\Models\Staff\UpdateCourseStaff;
 use App\Models\Staff\WorkHistoryStaff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 
 class ProfileController extends Controller
@@ -347,11 +350,10 @@ class ProfileController extends Controller
         $staffID = Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
-            "course_school"       => "required|array|min:1",
-            "course_school.*"     => "required|max:50|string",
-            "image_file"         => "required|array|min:1",
-            "image_file.*"       => "'required|image|mimes:jpeg,png,jpg,gif",
+            "dropify"       => "required|image|mimes:jpeg,png,jpg,gif",
+            "title"       => "required|string|max:50",
         ]);
+
         if ($validator->fails())
         {
             return response()->json([
@@ -361,23 +363,43 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
-        $insert_course = [];
-        for ($i = 0; $i < count($request->course_school); $i++) {
-            $insert_course[] = [
-                'staff_id' => $staffID,
-                'course_school' => $request->course_school[$i],
-                'course_title' => $request->course_title[$i],
-                'course_year' => $request->course_year[$i],
-            ];
+        $code = time().uniqid(Str::random(30));
+        if ($request->code =! 'undefined') {
+            $old_image = ImageProfileStaff::find($request->code);
+            if (!$old_image) {
+                return response()->json([
+                    'success'   => false,
+                    'go'        => '0',
+                ]);
+            }
+            unlink(public_path($lastPhoto));
+            $old_image->delete();
+        } else {
+            $request->merge(["code" => $code]);
         }
-        $staff->updatecourses()->delete();
-        UpdateCourseStaff::insert($insert_course);
+
+        $image = $request->file('dropify');
+        $destinationPath = storage_path('app/public').'/staff/public_profile';
+        $img_name = $code.'.'.$image->getClientOriginalExtension();
+        $img = Image::make($image->getRealPath());
+        $width = Image::make($image)->width();
+        $img->resize($width, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+        $img->save($destinationPath."/".$img_name, '80');
+        $image = "/staff/public_profile/image/$img_name";
+        $img->destroy();
+       
+        $id = ImageProfileStaff::insertGetId(["code" => $code, 'image' => $image, 'title' => $request->title]);
+        $image = ImageProfileStaff::find($id);
         return response()->json([
             'success' => true,
             'go' => '1',
+            'image' => $image,
             'icon' => 'success',
-            'title' => 'the update courses data was uploaded successfully'
+            'title' => 'the image was uploaded successfully'
         ]);
     }
 

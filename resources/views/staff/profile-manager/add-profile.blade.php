@@ -254,9 +254,17 @@
                 if ($fistChild == 'updateCoursesForm') {updateCourses()}
             }
         });
-        $(document).on('keypress', 'input, textarea', function(event) {
+        $(document).on('click', '.delBtnImg', function(event) {
             event.preventDefault();
-            $('.error').html('');
+            $(this).parents('.col-md-4').find('.dropify-clear').click();
+            $(this).parents('.col-md-4').remove();
+            var $firstChild = $('#uploadImagesForm > .col-md-4');
+            var count = $firstChild.length
+            if (count == 0) {upload_images();}
+        });
+        $(document).on('change', 'input, textarea', function(event) {
+            event.preventDefault();
+            $(this).find('.error').html('')
             $('.form-group').removeClass('has-error has-danger')
         });
         $(document).on('submit', '#workHistorySubmit', function(event) {
@@ -444,7 +452,6 @@
                 },
             })
         });
-
         $(document).on('submit', '#careerObjetiveSubmit', function(event) {
             event.preventDefault();
             event.stopPropagation();
@@ -482,6 +489,73 @@
                 },
             })
         });
+        
+        $(document).on('click', '.addBtnImg', function(event) {
+            event.preventDefault();
+            var $this = $(this);
+            var $parent = $(this).parents('.col-md-4');
+            var title = $(this).parents('.col-md-4').find('.image_title').val();
+            var dropyfy = $(this).parents('.col-md-4').find('.dropify').prop('files')[0];
+            var code = $(this).parents('.col-md-4').find('.dropify').prop('code');
+            var poss = $(this).parents('.col-md-4').find('.dropify').prop('file');
+            console.log("title", title);
+            console.log("dropyfy", dropyfy);
+            console.log("code", code);
+            console.log("poss", poss);
+
+            if (!title) {
+                $parent.find('.image_title').next('.error').text('Please set a title')
+                $parent.find('.image_title').parent().addClass('has-error has-danger')
+                return
+            }
+            
+            var formData = new FormData();
+            formData.append('dropify', dropyfy);
+            formData.append('code', code);
+            formData.append('title', title);
+            $.ajax({
+                url: globalUploadImages,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        $.each( data.errors, function( key, value ) {
+                            if (key == 'dropify') {
+                                $parent.find('.dropify-wrapper').next('.error').text(value)
+                                $parent.find('.dropify-wrapper').addClass('has-error has-danger')
+                            } else if (key == 'title') {
+                                $parent.find('.image_title').next('.error').text('Please set a title')
+                                $parent.find('.image_title').parent().addClass('has-error has-danger')
+                            }
+                        });
+                     } else {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                        $parent.find('.dropify-wrapper').find('.dropify').attr('code', data.image.code)
+                        var src = '{{ asset('') }}';
+                        $parent.find('.dropify-wrapper').find('.dropify').attr('data-default-file', src.slice(0, -1)+data.image.image)
+                        $parent.find('.dropify-wrapper').next('.error').text('')
+                        $parent.find('.dropify-wrapper').removeClass('has-error has-danger')
+                        $parent.find('.image_title').next('.error').text('')
+                        $parent.find('.image_title').parent().removeClass('has-error has-danger')
+
+                     }
+                },
+            })
+        });
         function summernote(element, placeholder) {
             $('.'+element).summernote({
                 placeholder: placeholder,
@@ -491,13 +565,24 @@
             })
         }
         function upload_images(){
+            var count = $('#uploadImagesForm').length
+            var delBtn =  '<div class="col-12" id="delbtn">'
+            delBtn += '<div class="form-group text-right" id="delBtnDiv">'
+            delBtn += '<button type="button" class="btn addBtnImg btn-success mr-1">@lang('Add image')</button>'
+            delBtn += '<button type="button" class="btn delBtnImg btn-danger ml-1">@lang('delete image')</button>'
+            delBtn += '</div>'
+            delBtn += '<hr>'
+            delBtn += '</div>'
             var dropify = '';
             dropify += '<div class="col-md-4" id="">';
             dropify += '<div class="form-group">';
-            dropify += '<label for="simpleFormEmail">Image Title</label>';
-            dropify += '<input type="text" class="form-control mb-2 image_title" name="image_title[]" placeholder="Image Title">';
-            dropify += '<input type="file" class="form-control dropify image_file" name="image_file[]">';
+            dropify += '<label>Image Title</label>';
+            dropify += '<input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title">';
+            dropify += '<div class="error text-danger"></div>';
+            dropify += '<input type="file" class="form-control dropify image_file" id="file_'+count+'" name="image_file">';
+            dropify += '<div class="error text-danger"></div>';
             dropify += '</div>';
+            dropify += delBtn;
             dropify += '</div>';
 
             $('#uploadImagesForm').append(dropify);

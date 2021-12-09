@@ -134,7 +134,6 @@
             });
 
             drEvent.on('dropify.beforeClear', function(event, element){
-
                 var form_data = new FormData();
                 form_data.append('order', $(this).attr('order'));
                 $.ajax({
