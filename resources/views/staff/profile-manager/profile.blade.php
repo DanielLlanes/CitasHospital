@@ -211,12 +211,9 @@
                             <div class="col-6">
                                 <header>User Profile </header>
                             </div>
-                            @if (!$staff->public_profile)
+                            @if ($staff->public_profile == 1)
                                 <div class="col-6 ml-auto text-right">
-
                                    <a href="{{ route('staff.profile.createPublicProfile') }}" class="btn btn-circle btn-success btn-sm">@lang('Create public profile')</a>
-
-                                   <a href="{{ route('staff.profile.editPublicProfile') }}" class="btn btn-circle btn-info btn-sm">@lang('Edit public profile')</a>
                                 </div> 
                             @endif  
                         </div>

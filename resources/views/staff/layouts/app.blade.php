@@ -35,8 +35,6 @@
     <link href="{{ asset('staffFiles/assets/plugins/select2/dist/css/select2.css') }}" rel="stylesheet">
     <!-- Jq Te -->
     <link href="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.css') }}" rel="stylesheet">
-    <!-- Summernote -->
-    <link href="{{ asset('staffFiles/assets/summernote/summernote.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('staffFiles/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
@@ -44,6 +42,7 @@
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
         .swal2-title{

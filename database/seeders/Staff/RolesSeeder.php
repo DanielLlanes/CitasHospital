@@ -75,6 +75,13 @@ class RolesSeeder extends Seeder
             'name_es' => 'Chofer',
             'name_en' => 'Driver',
         ]);
+        $driver = Role::create([
+            'id' => 8,
+            'name' => 'supervisor',
+            'guard_name' => 'staff',
+            'name_es' => 'Supervisór',
+            'name_en' => 'Supervisor',
+        ]);
 
         $doctorPermissions = [
             "calendar.show",

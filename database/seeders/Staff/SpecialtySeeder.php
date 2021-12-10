@@ -156,5 +156,6 @@ class SpecialtySeeder extends Seeder
             'assignable' => true,
             'many_specialties' => true
         ]);
+        
     }
 }

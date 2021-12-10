@@ -109,6 +109,7 @@ class StaffSeeder extends Seeder
             "staff.reset.password.admins",
             "staff.create.permisions.admins",
             "staff.edit.permisions.admins",
+            "staff.publicProfile",
 
             "applications.list",
             "applications.details",

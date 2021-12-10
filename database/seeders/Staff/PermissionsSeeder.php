@@ -102,6 +102,14 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Staff'
         ]);
         Permission::create([
+            'name' => 'staff.publicProfile',
+            'guard_name' => 'staff',
+            'description_es' => 'Crear o actualizar perfil público del personal',
+            'group_es' => 'Personal',
+            'description_en' => 'Set or update staff public profile',
+            'group_en' => 'Staff'
+        ]);
+        Permission::create([
             'name' => 'staff.show',
             'guard_name' => 'staff',
             'description_es' => 'ver detalles de personal',

@@ -482,7 +482,7 @@ class StaffController extends Controller
         $staff->avatar = $avatar;
         $staff->color = strtolower($request->color);
         //$staff->specialty_id = $request->specialty;
-        $staff->public_profile = $request->public_profile == "on" ? true:false;
+        $staff->public_profile = $request->public_profile == "on" ? 1:0;
         $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];
@@ -745,7 +745,7 @@ class StaffController extends Controller
         $staff->email = Str::of($request->email)->lower();
         $staff->lang = $request->language;
         $staff->color = strtolower($request->color);
-        //$staff->specialty_id = $request->specialty;
+        $staff->public_profile = $request->public_profile == "on" ? 1:0;
         $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];

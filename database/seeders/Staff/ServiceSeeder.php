@@ -113,10 +113,6 @@ class ServiceSeeder extends Seeder
                 'service_id' => 1,
                 'specialty_id' => 6,
             ],
-            // [
-            //     'service_id' => 1,
-            //     'specialty_id' => 6,
-            // ],
             [
                 'service_id' => 1,
                 'specialty_id' => 5,
@@ -133,10 +129,6 @@ class ServiceSeeder extends Seeder
                 'service_id' => 2,
                 'specialty_id' => 8,
             ],
-            // [
-            //     'service_id' => 2,
-            //     'specialty_id' => 8,
-            // ],
             [
                 'service_id' => 3,
                 'specialty_id' => 10,
