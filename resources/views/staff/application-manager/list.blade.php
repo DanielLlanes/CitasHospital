@@ -39,17 +39,17 @@
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
-                                                    <th> @lang('Patient') </th>
-                                                    <th> @lang('Brand') </th>
-                                                    <th> @lang('Service') </th>
-                                                    <th> @lang('Procedure') </th>
-                                                    <th> @lang('Package') </th>
-                                                    <th> @lang('Coordinator') </th>
-                                                    <th> @lang('Date') </th>
-                                                    <th> @lang('Price') </th>
+                                                    <th> @lang('Paciente') </th>
+                                                    <th> @lang('Marca') </th>
+                                                    <th> @lang('Servicio') </th>
+                                                    <th> @lang('Procedimiento') </th>
+                                                    <th> @lang('Paquete') </th>
+                                                    <th> @lang('Coordinador') </th>
+                                                    <th> @lang('Fecha') </th>
+                                                    <th> @lang('Precio') </th>
                                                     <th> @lang('Status') </th>
-                                                    <th> @lang('Code') </th>
-                                                    <th> @lang('Action') </th>
+                                                    <th> @lang('Código') </th>
+                                                    <th> @lang('Acciones') </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -137,17 +137,17 @@
 		        "columns": [
 
 					{ data: 'id' },
-                    { data: "patient" },
-                    { data: "brand" },
-                    { data: "service" },
-                    { data: "procedure" },
-                    { data: "package" },
-                    { data: "coordinator" },
-                    { data: "date" },
-                    { data: "price" },
+                    { data: "paciente" },
+                    { data: "marca" },
+                    { data: "servicio" },
+                    { data: "procedimiento" },
+                    { data: "paquete" },
+                    { data: "coordinador" },
+                    { data: "fecha" },
+                    { data: "precio" },
                     { data: "status" },
-                    { data: "code" },
-		            { data: "action", orderable: false, searchable: false },
+                    { data: "codigo" },
+		            { data: "acciones", orderable: false, searchable: false },
 
 		        ],
 		        createdRow: function (row, data, dataIndex) {

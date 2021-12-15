@@ -40,36 +40,6 @@ class StaffController extends Controller
         if (!Auth::guard('staff')->user()->can('admin.list') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
         }
-        $can_list_admins = Auth::guard('staff')->user()->can('admin.list');
-
-        $staff = Staff::whereHas(
-            'roles', function($query) use ($lang, $can_list_admins) {
-                if ($can_list_admins) {
-                    $query->where('show', true)
-                    ->select(["id", "name_$lang AS Rname", 'name']);
-                } else {
-                    $query->where('show', true)
-                    ->where('name', '!=', 'administrator')
-                    ->select(["id", "name_$lang AS Rname"]);
-                }
-
-            }
-        )
-        ->where('show', true)
-        ->with([
-            'roles' => function($query) use ($lang) {
-                $query->select(["id", "name_$lang AS Rname", "name"]);
-            },
-            'specialties' => function($query) use ($lang){
-                $query->select(["specialties.id", "name_$lang AS Sname"]);
-            }
-        ])
-        ->get();
-
-
-        //return $staff;
-
-
 
         return view('staff.staff-manager.list');
     }
@@ -193,12 +163,6 @@ class StaffController extends Controller
                 ->make(true);
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
 
@@ -211,46 +175,14 @@ class StaffController extends Controller
         app()->setLocale($lang);
 
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
-        $staff_create_permisions = Auth::guard('staff')->user()->can('staff.create.permisions');
+        $staff_create_permisions = Auth::guard('staff')->user()->can('staff.permisions');
 
         $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
-        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.create.permisions');
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
 
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         $admin = "admins";
-
-
-        if ($staff_create_permisions_admins && !$staff_create_permisions) {
-            $admin = "admins";
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
-            ->where('name', 'like', '%' . $admin . '%')
-            ->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->where('name', 'like', '%' . $admin . '%')
-            ->distinct()->get();
-        } elseif (!$staff_create_permisions_admins && $staff_create_permisions) {
-            $admin = "admins";
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->where('name', 'not like', '%' . $admin . '%')
-            ->distinct()->get();
-
-        } elseif ($staff_create_permisions_admins && $staff_create_permisions) {
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
-
-            $groups = Permission::select("group_$lang AS group")
-            ->distinct()->get();
-
-        } elseif (!$staff_create_permisions_admins && !$staff_create_permisions) {
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
-            $groups = Permission::select("group_$lang AS group")
-            ->distinct()->get();
-        }
 
 
         if ($staff_create_admins && $staff_create) {
@@ -282,9 +214,8 @@ class StaffController extends Controller
 
         $services = Service::selectRaw("id, service_$lang AS service")->get();
 
-        return view('staff.staff-manager.add', ['groups' => $groups, 'permissions'=> $permissions, 'roles' => $roles, 'specialties' => $specialties, "services" => $services ]);
+        return view('staff.staff-manager.add', ['roles' => $roles, 'specialties' => $specialties, "services" => $services ]);
     }
-
     public function getSpecialty(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -314,7 +245,6 @@ class StaffController extends Controller
             ]
         );
     }
-
     public function getAssignation(Request $request)
     {
         //return $request;
@@ -359,13 +289,6 @@ class StaffController extends Controller
             ]
         );
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         
@@ -390,7 +313,7 @@ class StaffController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
-        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.create.permisions');
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
@@ -540,24 +463,10 @@ class StaffController extends Controller
             ]
         );
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
 
@@ -591,7 +500,7 @@ class StaffController extends Controller
         ])
         ->findOrFail($id);
 
-//return($staff);
+        //return($staff);
         if ($staff->roles[0]->name == 'administrator') {
             if (!$staff_edit_admins) {
                 abort(403, 'Unauthorized action.');
@@ -633,13 +542,6 @@ class StaffController extends Controller
 
         return view('staff.staff-manager.edit', ['staff' => $staff, 'roles' => $roles, 'specialties' => $specialties, "services" => $services]);
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //return $request;
@@ -789,12 +691,6 @@ class StaffController extends Controller
            ]
        );
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -850,5 +746,135 @@ class StaffController extends Controller
                 ]
             );
         }
+    }
+    public function resetPassword(Request $request)
+    {
+        //return($request);
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $staff = Staff::with(['roles'])
+        ->find($request->id);
+        $staff_reset_password = Auth::guard('staff')->user()->can('staff.reset.password');
+        $staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
+        $unHashPassword = Str::random(8);
+        if ($staff) {
+            if ($staff->roles[0]->name  == 'administrator') {
+                if ($staff_reset_password_admins) {
+                    $staff->password = Hash::make($unHashPassword);
+                    if ($staff->save()) {
+                        //enviar correo
+                        return response()->json(
+                            [
+                                'icon' => 'success',
+                                'msg' => Lang::get('Contraseña cambiada correctamente!'),
+                                'reload' => true
+                            ]
+                        );
+                    }
+                }
+            } elseif($staff->roles[0]->name  != 'administrator'){
+                if ($staff_reset_password) {
+                    $staff->password = Hash::make($unHashPassword);
+                    if ($staff->save()) {
+                        //enviar correo
+                        return response()->json(
+                            [
+                                'icon' => 'success',
+                                'msg' => Lang::get('Contraseña cambiada correctamente!'),
+                                'reload' => true
+                            ]
+                        );
+                    }
+                }
+            } else {
+                return response()->json(
+                    [
+                        'icon' => 'success',
+                        'msg' => Lang::get('No tiene permisos para cambiar la contrseña del usuario seleecionado!'),
+                        'reload' => true
+                    ]
+                );
+            }
+        } else {
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => Lang::get('No pudimos encontrar al usuario seleccionado!'),
+                    'reload' => false
+                ]
+            );
+        }
+    }
+    public function permissions(Request $request)
+    {
+        $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
+
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+        $staff_create = Auth::guard('staff')->user()->can('staff.create');
+        $staff_create_permisions = Auth::guard('staff')->user()->can('staff.permisions');
+        if ($staff_create_permisions_admins && !$staff_create_permisions) {
+            $admin = "admins";
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
+            ->where('name', 'like', '%' . $admin . '%')
+            ->get();
+
+            $groups = Permission::select("group_$lang AS group")
+            ->where('name', 'like', '%' . $admin . '%')->orderBy("group_$lang", 'ASC')
+            ->distinct()->get();
+        } elseif (!$staff_create_permisions_admins && $staff_create_permisions) {
+            $admin = "admins";
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
+            ->where('name', 'not like', '%' . $admin . '%')
+            ->get();
+
+            $groups = Permission::select("group_$lang AS group")
+            ->where('name', 'not like', '%' . $admin . '%')->orderBy("group_$lang", 'ASC')
+            ->distinct()->get();
+
+        } elseif ($staff_create_permisions_admins && $staff_create_permisions) {
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
+
+            $groups = Permission::select("group_$lang AS group")->orderBy("group_$lang", 'ASC')
+            ->distinct()->get();
+
+        } elseif (!$staff_create_permisions_admins && !$staff_create_permisions) {
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
+            $groups = Permission::select("group_$lang AS group")->orderBy("group_$lang", 'ASC')
+            ->distinct()->get();
+        }
+
+        $staff = Staff::find($request->id);
+
+        $user = $staff->getPermissionsViaRoles();
+        $directPermissions = $staff->permissions;
+
+        return response()->json(
+            [
+                "staff" => $user,
+                "permissions" => $permissions,
+                "groups" => $groups,
+                "id" => $request->id,
+                "directPermissions" => $directPermissions,
+            ]
+        );
+    }
+    public function permissionsSet(Request $request)
+    {
+        $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
+        $staff_create_permisions = Auth::guard('staff')->user()->can('staff.permisions');
+        $staff  = Staff::find($request->id);
+
+        $list = json_decode($request->permissionsList);
+        
+        $staff->syncPermissions($list);
+        return response()->json(
+            [
+                'icon' => 'success',
+                'msg' => Lang::get('Permisos actualizados correctamente'),
+            ]
+        );
     }
 }

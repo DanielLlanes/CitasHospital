@@ -118,8 +118,8 @@ class RolesSeeder extends Seeder
             "staff.activate",
             "staff.show",
             "staff.reset.password",
-            "staff.create.permisions",
-            "staff.edit.permisions",
+            "staff.permisions",
+            "staff.publicProfile",
 
             "admin.list",
             "admin.create",
@@ -128,8 +128,7 @@ class RolesSeeder extends Seeder
             "admin.activate",
             "admin.show",
             "admin.reset.password",
-            "admin.create.permisions",
-            "admin.edit.permisions",
+            "admin.permisions",
 
             "applications.list",
             "applications.details",
@@ -140,6 +139,7 @@ class RolesSeeder extends Seeder
             'applications.changeStaff',
             "applications.destroy",
             "applications.show",
+            "applications.list.all",
 
             "patients.list",
             "patients.create",

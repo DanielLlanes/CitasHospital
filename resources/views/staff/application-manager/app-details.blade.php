@@ -34,14 +34,14 @@ echo '</pre>';
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
-            <div class="page-title">Application Details</div>
+            <div class="page-title">Detalles de la aplicaión</div>
         </div>
         <ol class="breadcrumb page-breadcrumb pull-right">
-            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><i class="fa fa-home"></i>&nbsp;<a class="parent-item" href="index-2.html">Inicio</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li><a class="parent-item" href="#">Application List</a>&nbsp;<i class="fa fa-angle-right"></i>
+            <li><a class="parent-item" href="#">Listado de aplicaciones</a>&nbsp;<i class="fa fa-angle-right"></i>
             </li>
-            <li class="active">Application Details</li>
+            <li class="active">Detalles de la aplicaión</li>
         </ol>
     </div>
 </div>
@@ -71,36 +71,36 @@ echo '</pre>';
                     <div class="p-l-20">
                         <ul class="nav ">
                             <li class="nav-item tab-all">
-                                <a class="nav-link active show" href="#patientData" data-toggle="tab">Patient data</a>
+                                <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#services" data-toggle="tab">Services</a>
+                                <a class="nav-link" href="#services" data-toggle="tab">Servicios</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#healthData" data-toggle="tab">Health data</a>
+                                <a class="nav-link" href="#healthData" data-toggle="tab">Datos de salud</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#surgeries" data-toggle="tab">Surgeries</a>
+                                <a class="nav-link" href="#surgeries" data-toggle="tab">Cirugías</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#medicalHistory" data-toggle="tab">Medical history</a>
+                                <a class="nav-link" href="#medicalHistory" data-toggle="tab">Historial médico</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#generalHealthData" data-toggle="tab">General health Data</a>
+                                <a class="nav-link" href="#generalHealthData" data-toggle="tab">Datos generales de salud</a>
                             </li>
                             @if ($appInfo->patient->sex != "male")
                                 <li class="nav-item tab-all p-l-20">
-                                    <a class="nav-link" href="#ghynecologicaldata" data-toggle="tab">Gynecological Data</a>
+                                    <a class="nav-link" href="#ghynecologicaldata" data-toggle="tab">Datos ginecológicos</a>
                                 </li>
                             @endif
                             <li class="nav-item tab-all p-l-20">
                                 <a class="nav-link" href="#debateChat" data-toggle="tab">Debate</a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#timeLine" data-toggle="tab">Time line</a>
+                                <a class="nav-link" href="#timeLine" data-toggle="tab">Linea de tiempo </a>
                             </li>
                             <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Logistics notes</a>
+                                <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Notas de logística</a>
                             </li>
                         </ul>
                     </div>
@@ -111,7 +111,7 @@ echo '</pre>';
                         <div class="tab-pane active fontawesome-demo" id="patientData">
                             <div id="biography" >
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Full name</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Nombre completo</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->name }}</p>
                                     </div>
@@ -119,51 +119,51 @@ echo '</pre>';
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->email }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Phone</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Teléfono</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->phone }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Mobile</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Móvil</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->mobile }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Age</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Edad</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->age }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Date of birth</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Fecha de nacimiento</strong>
                                         <br>
                                         <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Gender</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Género</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->sex }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Address</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Dirección</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->address }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Country</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>País</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->country->name }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>State</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Estado</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->state->name }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>City</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Ciudad</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->city }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Zip</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Código postal</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->zip }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Emergency contact</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Contacto de emergencia</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->ecn }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Emergency contact phone</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Teléfono contacto de emergencia</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->patient->ecp }}</p>
                                     </div>
@@ -174,25 +174,25 @@ echo '</pre>';
                         <div class="tab-pane fontawesome-demo" id="services">
                             <div id="biography">
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Brand</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Marca</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->treatment->brand->brand }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Service</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Servicio</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->treatment->service->service }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Procedure</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Procedimiento</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->treatment->procedure->procedure }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Package</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Pacquete</strong>
                                         <br>
                                         <p class="text-muted">{{ (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) }}</p>
                                     </div>
                                 </div>
                                 @if (count($appInfo->images) > 0)
-                                    Image area
+                                    Área de imágenes
                                     <div class="row">
                                         images area
                                     </div>
@@ -202,7 +202,7 @@ echo '</pre>';
                                 <div class="row">
                                     <div class="col-12 mb-2 b-r text-center">
                                         <strong>
-                                            Assigned staff
+                                            Personal asignado
                                         </strong>
                                     </div>
                                     
@@ -233,19 +233,19 @@ echo '</pre>';
                         <div class="tab-pane fontawesome-demo" id="healthData">
                             <div id="biography">
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Measurement system</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Siatema metrico</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->mesure_sistem == 'I') ? 'Imperial': 'Metric' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Max weigth {{ ($appInfo->mesure_sistem == 'I') ? '(Lb)': '(Kg)' }}</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Peso máximo {{ ($appInfo->mesure_sistem == 'I') ? '(Lb)': '(Kg)' }}</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->max_weigh }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Current weigth {{ ($appInfo->mesure_sistem == 'I') ? '(Lb)': '(Kg)' }}</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Peso actual {{ ($appInfo->mesure_sistem == 'I') ? '(Lb)': '(Kg)' }}</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->weight }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Heigth {{ ($appInfo->mesure_sistem == 'I') ? '(Ft)': '(Mts)' }}</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Altura {{ ($appInfo->mesure_sistem == 'I') ? '(Ft)': '(Mts)' }}</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->height }}</p>
                                     </div>
@@ -253,22 +253,22 @@ echo '</pre>';
                                         <br>
                                         <p class="text-muted">{{ $appInfo->imc }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>medications / drugs</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Medicamentos / Drogas</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->if_take_medication == 0)? "No":"Yes" }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Blood-thinners</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Anticoagulantes</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->if_take_blood_thinners == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->if_take_blood_thinners == 1)
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Explain the reason</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Explica la razón</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->razon_blood_thinners }}</p>
                                         </div>
                                     @endif
                                     @if (count($appInfo->medications) > 0)
-                                        <div class="col-md-12"> <strong>Medications</strong>
+                                        <div class="col-md-12"> <strong>Medicamentos</strong>
                                             <br>
                                             <div class="table-wrap">
                                                 <div class="table-responsive">
@@ -276,10 +276,10 @@ echo '</pre>';
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
-                                                                <th>Name</th>
-                                                                <th>Reason</th>
-                                                                <th>Dosage</th>
-                                                                <th>Frecuency</th>
+                                                                <th>Nomnre</th>
+                                                                <th>Razón</th>
+                                                                <th>Dosis</th>
+                                                                <th>Frecuencia</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -299,35 +299,35 @@ echo '</pre>';
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Acid reflux?</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Reflujo ácido?</strong>
                                         <br>
                                         <p class="text-muted">{{ $appInfo->acid_reflux }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Penicillin allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Alergia a la penicilina</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->penicilin == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Sulfa drugs</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Drogas sulfa</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->drugs_sulfa == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Iodine allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Alergia al yodo</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->iodine == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Latex allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Alergia al latex</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->latex == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Tape allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Alergia a la cinta</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->tape == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Aspirin allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Alergia a la aspirina</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->aspirin == 0)? 'No':'Yes' }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Other allergy</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Otras alergias</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->other_allergy == 0)? 'No':'Yes' }}</p>
                                     </div>
@@ -337,12 +337,12 @@ echo '</pre>';
                         <div class="tab-pane fontawesome-demo" id="surgeries">
                             <div id="biography">
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Surgeries</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Cirugías</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->if_have_surgeries == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if (count($appInfo->surgeries) > 0)
-                                        <div class="col-md-12"> <strong>Surgeries</strong>
+                                        <div class="col-md-12"> <strong>Cirugías</strong>
                                             <br>
                                             <div class="table-wrap">
                                                 <div class="table-responsive">
@@ -350,11 +350,11 @@ echo '</pre>';
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
-                                                                <th>Type</th>
-                                                                <th>Name</th>
-                                                                <th>Age</th>
-                                                                <th>Year</th>
-                                                                <th>Complications</th>
+                                                                <th>Tipo</th>
+                                                                <th>Nomnre</th>
+                                                                <th>Edad</th>
+                                                                <th>Año</th>
+                                                                <th>Complicaciones</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -380,42 +380,42 @@ echo '</pre>';
                         <div class="tab-pane fontawesome-demo" id="medicalHistory">
                             <div id="biography">
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Addiction</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Adicciones</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->addiction == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->addiction == 1)
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Which one</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Cuál</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->which_one_adiction}}</p>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4 col-6 mb-2"> <strong>High lipid levels</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Niveles altos de lípidos</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->high_lipid_levels == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->high_lipid_levels == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_high_lipd_levels)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->high_lipid_levels_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Arthritis</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Artritis</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->arthritis == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->arthritis == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_arthritis)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->arthritis_treatment }}</p>
                                         </div>
@@ -425,53 +425,53 @@ echo '</pre>';
                                         <p class="text-muted">{{ ($appInfo->cancer == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->cancer == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_cancer)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->cancer_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Cholesterol</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Colesterol</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->cholesterol == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->cholesterol == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_cholesterol)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->cholesterol_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Triglycerides</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Triglicéridos</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->triglycerides == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->triglycerides == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_triglycerides)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->triglycerides_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Stroke</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Apoplejía</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_stroke == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->disease_stroke == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_disease_stroke)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->disease_stroke_treatment }}</p>
                                         </div>
@@ -481,100 +481,100 @@ echo '</pre>';
                                         <p class="text-muted">{{ ($appInfo->diabetes == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->diabetes == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_diabetes)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->diabetes_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Coronary artery disease</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Enfermedad arterial coronaria</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->coronary_artery_disease == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->coronary_artery_disease == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_coronary_artery_disease)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->coronary_artery_disease_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Liver disease</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Enfermedades del hígado</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_liver == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->disease_liver == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_disease_liver)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->disease_liver_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Lugn disease</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Enfermedad pulmonar</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_lung == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->disease_lung == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_disease_lungs)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->disease_lung_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Renal disease</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Enfermedad renal</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_renal == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->disease_renal == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_disease_renal)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->disease_renal_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Thyroid disease</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Enfermedad de tiroides</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_thyroid == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->disease_thyroid == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_disease_thyroid)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->disease_thyroid_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Hypertension</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Hipertensión</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->ypertension == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->ypertension == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Diagnostic date</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Fecha de diagnóstico</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->date_hypertension)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->hypertension_treatment }}</p>
                                         </div>
                                     @endif
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Any other illnesses</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Cualquier otra enfermedad</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->disease_other == 0)? "No":"Yes" }}</p>
                                     </div>
@@ -587,9 +587,9 @@ echo '</pre>';
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
-                                                                <th>Illness</th>
-                                                                <th>Diagnostic Date</th>
-                                                                <th>Treatment</th>
+                                                                <th>Enfermedad</th>
+                                                                <th>Fecha de diagnóstico</th>
+                                                                <th>Tratamiento</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -613,27 +613,27 @@ echo '</pre>';
                         <div class="tab-pane fontawesome-demo" id="generalHealthData">
                             <div id="biography">
                                 <div class="row">
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Smoke cigarettes</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Fumar cigarrillos</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->smoke == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->smoke == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Amount</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Cantidad</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->smoke_cigars }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Treatment</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Tratamiento</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->smoke_years }}</p>
                                         </div>
                                     @endif
                                     @if ($appInfo->smoke == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Quit smoking</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Dejo de fumar</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->stop_smoking == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->stop_smoking == 1)
-                                            <div class="col-md-4 col-6 mb-2"> <strong>How long</strong>
+                                            <div class="col-md-4 col-6 mb-2"> <strong>Desde cuándo</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->smoke_years }}</p>
                                             </div>
@@ -641,62 +641,62 @@ echo '</pre>';
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4 col-6 mb-2"> <strong>Drink alcohol</strong>
+                                    <div class="col-md-4 col-6 mb-2"> <strong>Bebe alcohol</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->alcohol == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->alcohol == 1)
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Volume of alcohol (frecuency)</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Volumen de alcohol (frecuencia)</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->volumen_alcohol }}</p>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Use recreational drugs?</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Usa drogas recreativas?</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->recreative_drugs == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->recreative_drugs == 1)
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Amount of Drugs (Pills)</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Cantidad de medicamentos (píldoras)</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->total_recreative_drugs }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Use Intravenous Drugs</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Use drogas intravenosas</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->intravenous_drugs == 0)? "No":"Yes" }}</p>
                                         </div>
                                     @endif
                                     @if ($appInfo->intravenous_drugs == 1)
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Description of intravenous drugs</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Descripción de drogas intravenosas.</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->description_intravenous_drugs }}</p>
                                         </div>
                                     @endif
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Easily fatigued</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Fácilmente fatigado</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->fatigue == 0)? "No":"Yes" }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Shortness of breath</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Dificultad para respirar</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->trouble_breathe == 0)? "No":"Yes" }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Asthma</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Asma</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->asthma == 0)? "No":"Yes" }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Use a B-PAP or C-PAP while you sleep</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Usa un B-PAP o C-PAP mientras duerme</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->bipap_cpap == 0)? "No":"Yes" }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2"> <strong>Exercise</strong>
+                                    <div class="col-md-3 col-6 mb-2"> <strong>Ejercicio</strong>
                                         <br>
                                         <p class="text-muted">{{ ($appInfo->exercise == 0)? "No":"Yes" }}</p>
                                     </div>
                                     @if ($appInfo->exercise == 1)
-                                        <div class="col-md-12"> <strong>Exercise</strong>
+                                        <div class="col-md-12"> <strong>Ejercicio</strong>
                                             <br>
                                             <div class="table-wrap">
                                                 <div class="table-responsive">
@@ -704,10 +704,10 @@ echo '</pre>';
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
-                                                                <th>type</th>
-                                                                <th>How long</th>
-                                                                <th>Frecuency</th>
-                                                                <th>Hour per day</th>
+                                                                <th>tipo</th>
+                                                                <th>Desde cuándo</th>
+                                                                <th>Frecuencia</th>
+                                                                <th>Horas por día</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -727,23 +727,23 @@ echo '</pre>';
                                         </div>
                                     @endif
                                     @if ($appInfo->treatment->service_id == 3)
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Hours sleep at night</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Horas que duerme por la noche</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->hours_you_sleep_at_night }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Take sleeping pills</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Tomar pastillas para dormir</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_take_sleeping_pills == 0)? "No":"Yes" }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Suffer from anxiety or depression</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Sufre de ansiedad o depresión.</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_suffer_from_anxiety_or_depression == 0)? "No":"Yes" }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Take pills for anxiety or depression</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Toma pastillas para la ansiedad o la depresión.</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_take_pills_for_anxiety_or_depression == 0)? "No":"Yes" }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Feel under stress</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Se siente estresado</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->exercise == 0)? "No":"Yes" }}</p>
                                         </div>
@@ -751,97 +751,97 @@ echo '</pre>';
                                 </div>
                                 @if ($appInfo->treatment->service_id == 3 && $appInfo->patient->sex == "male")
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Have erections at the morning</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Tiene erecciones por la mañana</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_have_erections_at_the_morning == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->do_you_have_erections_at_the_morning == 1)
-                                            <div class="col-md-3 col-6 mb-2"> <strong>How many per week</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Cuantas por semana</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_many_per_week }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Have problems getting erection</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Tiene problemas para tener una erección.</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_have_erections_at_the_morning == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->do_you_have_erections_at_the_morning == 1)
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Since when</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Desde cuando</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->since_when }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Describe</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Describa</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->describe_your_erection_problem }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Hhave problems maintaining an erection</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Tiene problemas para mantener una erección</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_have_problems_maintaining_an_erection == 0)? "No":"Yes" }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Take any natural remedy for Erectile dysfunction</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Toma cualquier remedio natural para la disfunción eréctil</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_take_any_natural_remedy_for_erectile_dysfunction == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->do_you_take_any_natural_remedy_for_erectile_dysfunction == 1)
-                                            <div class="col-md-3 col-6 mb-2"> <strong>What kind</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Que tipo</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->what_kind }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>How did it work</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Funcionarón</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_did_it_work_natural_remedy }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Where do I get them from</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>De donde los saco</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->where_did_you_get_them }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Has medication been injected for dysfunction erectile</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Se han inyectado medicamentos para la disfunción eréctil</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->has_medication_been_injected_for_dysfunction_erectile == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->has_medication_been_injected_for_dysfunction_erectile == 1)
-                                            <div class="col-md-3 col-6 mb-2"> <strong>How many times</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Cuantas veces</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_many_times_have_injected }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>How did it work</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Funciono?</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_did_it_work }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Have had an erection longer than 6 hours</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Ha tenido una erección de más de 6 horas.</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->have_you_had_an_erection_longer_than_six_hours == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->have_you_had_an_erection_longer_than_six_hours == 1)
-                                            <div class="col-md-3 col-6 mb-2"> <strong>When</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Cuando</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->when_you_had_a_six_hours_erection }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>How was it resolved</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Como se resolvió</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_was_it_resolved }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Did get medical attention</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Recibio atención médica</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->did_you_get_medical_attention }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2"> <strong>Suffer from penile curvature</strong>
+                                        <div class="col-md-3 col-6 mb-2"> <strong>Sufre de curvatura del pene</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->do_you_suffer_from_penile_curvature == 0)? "No":"Yes" }}</p>
                                         </div>
@@ -850,30 +850,30 @@ echo '</pre>';
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_intense }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Which direction</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Que dirección</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->which_direction }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Does it hurt</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>Dolio</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->does_it_hurt }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2"> <strong>Does it prevent intercourse</strong>
+                                            <div class="col-md-3 col-6 mb-2"> <strong>¿Previene las relaciones sexuales?</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->does_it_prevent_intercourse }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Has PRP been injected for erectile dysfunction</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Se ha inyectado PRP para la disfunción eréctil</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->has_prp_been_injected_for_erectile_dysfunction == 0)? "No":"Yes" }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Have you received stem cell treatment for erectile dysfunction</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Ha recibido tratamiento con células madre para la disfunción eréctil</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->have_you_received_stem_cell_treatment_for_erectile_dysfunction == 0)? "No":"Yes" }}</p>
                                         </div>
-                                        <div class="col-md-4 col-6 mb-2"> <strong>Have you received vascular regeneration therapy with low intensity wave therapy for erectile dysfunction?</strong>
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Ha recibido terapia de regeneración vascular con terapia de ondas de baja intensidad para la disfunción eréctil?</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->hyrvrntwliwtfed == 0)? "No":"Yes" }}</p>
                                         </div>
@@ -885,38 +885,38 @@ echo '</pre>';
                             <div class="tab-pane fontawesome-demo" id="ghynecologicaldata">
                                 <div id="biography">
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Date of last menstrual period</strong>
+                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Fecha de la última menstruación</strong>
                                             <br>
                                             <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->last_menstrual_period)->toFormattedDateString() }}</p>
                                         </div>
-                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Bleeding was</strong>
+                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>El sangrado fue</strong>
                                             <br>
                                             <p class="text-muted">{{ $appInfo->bleeding_whas }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Have been pregnant</strong>
+                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Ha estado embarazada</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->have_you_been_pregnant == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->have_you_been_pregnant == 1)
-                                            <div class="col-md-3 col-6 mb-2 b-r"> <strong>How many times</strong>
+                                            <div class="col-md-3 col-6 mb-2 b-r"> <strong>Cuántas veces</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->how_many_times }}</p>
                                             </div>
-                                            <div class="col-md-3 col-6 mb-2 b-r"> <strong>C-section</strong>
+                                            <div class="col-md-3 col-6 mb-2 b-r"> <strong>Cesárea</strong>
                                                 <br>
                                                 <p class="text-muted">{{ $appInfo->c_section }}</p>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Use any type of birth control</strong>
+                                        <div class="col-md-3 col-6 mb-2 b-r"> <strong>Use cualquier tipo de anticonceptivo</strong>
                                             <br>
                                             <p class="text-muted">{{ ($appInfo->birth_control == 0)? "No":"Yes" }}</p>
                                         </div>
                                         @if ($appInfo->birth_control == 1)
-                                            <div class="col-md-12"> <strong>Birth control</strong>
+                                            <div class="col-md-12"> <strong>Control de la natalidad</strong>
                                                 <br>
                                                 <div class="table-wrap">
                                                     <div class="table-responsive">
@@ -924,8 +924,8 @@ echo '</pre>';
                                                             <thead>
                                                                 <tr>
                                                                     <th>No</th>
-                                                                    <th>type</th>
-                                                                    <th>How long</th>
+                                                                    <th>tipe</th>
+                                                                    <th>Cuánto tiempo</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -952,7 +952,7 @@ echo '</pre>';
                                     <div class="col-12 col-md-4">
                                         <div class="card card-box">
                                             <div class="card-head">
-                                                <header>STAFF</header>
+                                                <header>Personal</header>
                                             </div>
                                             <div class="card-body no-padding height-9" id="listChat">
                                                 <div class="">

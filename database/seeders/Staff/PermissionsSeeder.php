@@ -126,37 +126,29 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Staff'
         ]);
         Permission::create([
-            'name' => 'staff.create.permisions',
+            'name' => 'staff.permisions',
             'guard_name' => 'staff',
             'description_es' => 'Asignar permisos a personal',
             'group_es' => 'Personal',
             'description_en' => 'Assign permissions to staff',
             'group_en' => 'Staff'
         ]);
-        Permission::create([
-            'name' => 'staff.edit.permisions',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar permisos a personal',
-            'group_es' => 'Personal',
-            'description_en' => 'Edit permissions to staff',
-            'group_en' => 'Staff'
-        ]);
-        Permission::create([
-            'name' => 'staff.edit.publicProfile',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar perfil público del personal',
-            'group_es' => 'Personal',
-            'description_en' => 'Edit staff public profile',
-            'group_en' => 'Staff'
-        ]);
-        Permission::create([
-            'name' => 'staff.create.publicProfile',
-            'guard_name' => 'staff',
-            'description_es' => 'agregar perfil público del personal',
-            'group_es' => 'Personal',
-            'description_en' => 'Edit permissions to staff',
-            'group_en' => 'Staff'
-        ]);
+        // Permission::create([
+        //     'name' => 'staff.edit.permisions',
+        //     'guard_name' => 'staff',
+        //     'description_es' => 'Editar permisos a personal',
+        //     'group_es' => 'Personal',
+        //     'description_en' => 'Edit permissions to staff',
+        //     'group_en' => 'Staff'
+        // ]);
+        // Permission::create([
+        //     'name' => 'staff.create.publicProfile',
+        //     'guard_name' => 'staff',
+        //     'description_es' => 'agregar perfil público del personal',
+        //     'group_es' => 'Personal',
+        //     'description_en' => 'Edit permissions to staff',
+        //     'group_en' => 'Staff'
+        // ]);
         //admin
         Permission::create([
             'name' => 'admin.list',
@@ -215,37 +207,23 @@ class PermissionsSeeder extends Seeder
             'group_en' => 'Administrator'
         ]);
         Permission::create([
-            'name' => 'admin.create.permisions',
+            'name' => 'admin.permisions',
             'guard_name' => 'staff',
             'description_es' => 'Asignar permisos a admin\'s',
             'group_es' => 'Administrador',
             'description_en' => 'Assign permissions to Admin\'s',
             'group_en' => 'Administrator'
         ]);
-        Permission::create([
-            'name' => 'admin.edit.permisions',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar permisos a admin\'s',
-            'group_es' => 'Administrador',
-            'description_en' => 'Edit permissions to Admin\'s',
-            'group_en' => 'Administrator'
-        ]);
-        Permission::create([
-            'name' => 'admin.edit.publicProfile',
-            'guard_name' => 'staff',
-            'description_es' => 'Editar perfil público de admin\'s',
-            'group_es' => 'Administrador',
-            'description_en' => 'Edit Admin\'s public profile',
-            'group_en' => 'Administrator'
-        ]);
-        Permission::create([
-            'name' => 'admin.create.publicProfile',
-            'guard_name' => 'staff',
-            'description_es' => 'crear perfil público de admin\'s',
-            'group_es' => 'Administrador',
-            'description_en' => 'Create Admin\'s public profile',
-            'group_en' => 'Administrator'
-        ]);
+        // Permission::create([
+        //     'name' => 'admin.edit.permisions',
+        //     'guard_name' => 'staff',
+        //     'description_es' => 'Editar permisos a admin\'s',
+        //     'group_es' => 'Administrador',
+        //     'description_en' => 'Edit permissions to Admin\'s',
+        //     'group_en' => 'Administrator'
+        // ]);
+        
+        
         // applications
         Permission::create([
             'name' => 'applications.list',
@@ -258,7 +236,7 @@ class PermissionsSeeder extends Seeder
         Permission::create([
             'name' => 'applications.list.all',
             'guard_name' => 'staff',
-            'description_es' => 'Ver detalles de aplications',
+            'description_es' => 'Ver detalles de aplicaciones',
             'group_es' => 'Aplicaciones',
             'description_en' => 'View aplication details',
             'group_en' => 'Applications'

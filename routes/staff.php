@@ -66,12 +66,15 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/staff/get-staff-list',     [StaffController::class, 'getStaffList'])->name('getStaffList');
 		Route::get('/staff/add',                [StaffController::class, 'create'])->name('add');
 		Route::post('/staff/get-specialty',     [StaffController::class, 'getSpecialty'])->name('getSpecialty');
-		Route::post('/staff/get-assignation',     [StaffController::class, 'getAssignation'])->name('getAssignation');
+		Route::post('/staff/get-assignation',   [StaffController::class, 'getAssignation'])->name('getAssignation');
 		Route::post('/staff/store',             [StaffController::class, 'store'])->name('store');
 		Route::get('/staff/edit/{id}',          [StaffController::class, 'edit'])->name('edit');
 		Route::post('/staff/update/{id}',       [StaffController::class, 'update'])->name('update');
 		Route::post('/staff/destroy',           [StaffController::class, 'destroy'])->name('destroy');
-		Route::post('/staff/activte',           [StaffController::class, 'activate'])->name('activate');
+        Route::post('/staff/activte',           [StaffController::class, 'activate'])->name('activate');
+        Route::post('/staff/reset-password',    [StaffController::class, 'resetPassword'])->name('resetPassword');
+        Route::post('/staff/permissions',       [StaffController::class, 'permissions'])->name('permissions');
+		Route::post('/staff/permissionsSet',    [StaffController::class, 'permissionsSet'])->name('permissionsSet');
 	});
 	Route::name('events.')->group(function(){
 		Route::get('/events/listar', [EventController::class, 'index'])->name('events');
