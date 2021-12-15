@@ -91,8 +91,8 @@
 <li>{!! $btn_reset_password !!}</li>
 <li>{!! $btn_set_permissions  !!}</li>
 @can('staff.publicProfile')
-    @if ($public_profile == 0)
-    	<li><a href="{{ route("staff.staff.edit", $id) }}" title="Public profile" class="mb-1 bg-success"><i class="fa fa-user"></i></a></li>
+    @if ($public_profile == 1)
+    	<li><a href="{{ route("staff.staff.addPublicProfile", $id) }}" title="Public profile" class="mb-1 bg-success"><i class="fa fa-user"></i></a></li>
     @endif
 @endcan
 

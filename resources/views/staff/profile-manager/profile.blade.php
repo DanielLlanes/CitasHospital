@@ -1,6 +1,6 @@
 @extends('staff.layouts.app')
 @section('title')
-	@lang('User Profile')
+    @lang('User Profile')
 @endsection
 @section('content')
 
@@ -217,81 +217,82 @@
                                 </div> 
                             @endif  
                         </div>
-                        <div class="card-body no-padding height-9">
-                            <div class="container-fluid">
-                                <h5 class="font-weight-bold mt-5 mb-3 text-center">Career Objective</h5>
-                                <div class="">
-                                    <div >
-                                        @foreach ($staff->careerobjetive as $careerobjetive)
-                                            {!! $careerobjetive->career_objective !!}
-                                        @endforeach
-                                        <hr>
-                                    </div>
-                                    <h5 class="font-weight-bold mt-5 mb-3">Work History</h5>
-                                    <div >
-                                        @foreach ($staff->workhistory as $workhistory)
-                                            <p class="p-0 m-0">{{ $workhistory->job_title}}</p>
-                                            <p class="p-0 m-0">{{ $workhistory->job_company }}</p>
-                                            <p>{{ date('Y', strtotime($workhistory->job_from_year)) }} - {{ date('Y', strtotime($workhistory->job_to_year)) }}</p>
-                                            <p>
-                                                {!! $workhistory->job_notes !!}
-                                            </p>
+                        @if ($staff->public_profile == 1)
+                            <div class="card-body no-padding height-9">
+                                <div class="container-fluid">
+                                    <h5 class="font-weight-bold mt-5 mb-3 text-center">Career Objective</h5>
+                                    <div class="">
+                                        <div >
+                                            @foreach ($staff->careerobjetive as $careerobjetive)
+                                                {!! $careerobjetive->career_objective !!}
+                                            @endforeach
                                             <hr>
-                                        @endforeach
-                                    </div>
+                                        </div>
+                                        <h5 class="font-weight-bold mt-5 mb-3">Work History</h5>
+                                        <div >
+                                            @foreach ($staff->workhistory as $workhistory)
+                                                <p class="p-0 m-0">{{ $workhistory->job_title}}</p>
+                                                <p class="p-0 m-0">{{ $workhistory->job_company }}</p>
+                                                <p>{{ date('Y', strtotime($workhistory->job_from_year)) }} - {{ date('Y', strtotime($workhistory->job_to_year)) }}</p>
+                                                <p>
+                                                    {!! $workhistory->job_notes !!}
+                                                </p>
+                                                <hr>
+                                            @endforeach
+                                        </div>
 
-                                </div>
-                                <h5 class="font-weight-bold mt-5 mb-3 text-center">Education Background</h5>
-                                <div class="">
-                                    <div >
-                                        @foreach ($staff->educationbackground as $educationbackground)
-                                            <p class="p-0 m-0">{{ $educationbackground->education_title}}</p>
-                                            <p class="p-0 m-0">{{ $educationbackground->education_school }}</p>
-                                            <p>{{ date('Y', strtotime($educationbackground->education_from_year)) }} - {{ date('Y', strtotime($educationbackground->education_to_year)) }}</p>
-                                            <p>
-                                                {!! $educationbackground->education_notes !!}
-                                            </p>
+                                    </div>
+                                    <h5 class="font-weight-bold mt-5 mb-3 text-center">Education Background</h5>
+                                    <div class="">
+                                        <div >
+                                            @foreach ($staff->educationbackground as $educationbackground)
+                                                <p class="p-0 m-0">{{ $educationbackground->education_title}}</p>
+                                                <p class="p-0 m-0">{{ $educationbackground->education_school }}</p>
+                                                <p>{{ date('Y', strtotime($educationbackground->education_from_year)) }} - {{ date('Y', strtotime($educationbackground->education_to_year)) }}</p>
+                                                <p>
+                                                    {!! $educationbackground->education_notes !!}
+                                                </p>
+                                                <hr>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
+                                    <div class="">
+                                        <div >
+                                            @foreach ($staff->postgraduatestudies as $postgraduatestudies)
+                                                <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_title}}</p>
+                                                <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_school }}</p>
+                                                <p>{{ date('Y', strtotime($postgraduatestudies->postgraduate_from_year)) }} - {{ date('Y', strtotime($postgraduatestudies->postgraduate_to_year)) }}</p>
+                                                <p>
+                                                    {!! $postgraduatestudies->postgraduate_notes !!}
+                                                </p>
+                                                <hr>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
+                                    <div class="">
+                                        @foreach ($staff->updatecourses as $updatecourse)
+                                            <p class="p-0 m-0">{{ $updatecourse->course_title }}</p>
+                                            <p class="p-0 m-0">{{ $updatecourse->course_school }}</p>
+                                            <p class="p-0 m-0">{{ date('Y', strtotime($updatecourse->course_year)) }}</p>
                                             <hr>
                                         @endforeach
                                     </div>
-                                </div>
-                                <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
-                                <div class="">
-                                    <div >
-                                        @foreach ($staff->postgraduatestudies as $postgraduatestudies)
-                                            <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_title}}</p>
-                                            <p class="p-0 m-0">{{ $postgraduatestudies->postgraduate_school }}</p>
-                                            <p>{{ date('Y', strtotime($postgraduatestudies->postgraduate_from_year)) }} - {{ date('Y', strtotime($postgraduatestudies->postgraduate_to_year)) }}</p>
-                                            <p>
-                                                {!! $postgraduatestudies->postgraduate_notes !!}
-                                            </p>
-                                            <hr>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <h5 class="font-weight-bold mt-5 mb-3">Update courses:</h5>
-                                <div class="">
-                                    @foreach ($staff->updatecourses as $updatecourses)
-                                        {{-- expr --}}
-                                    @endforeach
-                                    <p class="p-0 m-0">{{ $updatecourses->course_title }}</p>
-                                    <p class="p-0 m-0">{{ $updatecourses->course_school }}</p>
-                                    <p class="p-0 m-0">{{ date('Y', strtotime($updatecourses->course__year)) }}</p>
-                                    <hr>
-                                </div>
-                                <h5></h5>
-                                <div class="col-12">
-                                    <div class="row">
-                                        @foreach ($staff->imagespublicprofile as $imagespublicprofile)
-                                            <div class="col-md-4">
-                                                <p>{{ $imagespublicprofile->title }}</p>
-                                                <img class="img-responsive" src="{{ asset($imagespublicprofile->image) }}" alt="{{ $imagespublicprofile->title }}">
-                                            </div>
-                                        @endforeach
+                                    <h5></h5>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            @foreach ($staff->imagespublicprofile as $imagespublicprofile)
+                                                <div class="col-md-4">
+                                                    <p>{{ $imagespublicprofile->title }}</p>
+                                                    <img class="img-responsive" src="{{ asset($imagespublicprofile->image) }}" alt="{{ $imagespublicprofile->title }}">
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

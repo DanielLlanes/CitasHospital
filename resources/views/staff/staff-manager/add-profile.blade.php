@@ -416,6 +416,7 @@
         var postgraduateStudiesForm = "{{ count($staff->postgraduatestudies) }}"
         var uploadImagesForm = "{{ count($staff->imagespublicprofile) }}"
         var updateCoursesForm = "{{ count($staff->updatecourses) }}"
+        var staffID = "{{ $staff->id}}"
     </script>
     <script>
         if (career_objective == 0) {careerObjetive()}else{summernote("summernote-career_objective", "Career Objective")}
@@ -475,7 +476,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
+            formData.append("id", staffID)
             $.ajax({
                 url: globalcareerObjetive,
                 method:"POST",
@@ -512,7 +513,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
+            formData.append("id", staffID)
             $.ajax({
                 url: globalWorkHistory,
                 method:"POST",
@@ -560,7 +561,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
+            formData.append("id", staffID)
             $.ajax({
                 url: globalEducationBackground,
                 method:"POST",
@@ -608,7 +609,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)            
+            formData.append("id", staffID)            
             $.ajax({
                 url: globalUpdateCourses,
                 method:"POST",
@@ -653,7 +654,7 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
+            formData.append("id", staffID)
             $.ajax({
                 url: globalPostgraduateStudies,
                 method:"POST",
@@ -711,6 +712,7 @@
             formData.append('dropify', dropyfy);
             formData.append('code', code);
             formData.append('title', title);
+            formData.append("id", staffID)
             $.ajax({
                 url: globalUploadImages,
                 method:"POST",

@@ -35,6 +35,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $staffID = Auth::guard('staff')->user()->id;
+
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         $staff = Staff::with([
@@ -55,7 +57,7 @@ class ProfileController extends Controller
                 $query->select(["services.id", "service_$lang AS service"]);
             },
         ])
-        ->findOrFail(Auth::guard('staff')->user()->id);
+        ->findOrFail($staffID);
         //return $staff;
         return view('staff.profile-manager.profile', ['staff' => $staff]);
     }
@@ -148,7 +150,7 @@ class ProfileController extends Controller
     public function workHistory(Request $request)
     {
         
-        $staffID = Auth::guard('staff')->user()->id;
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "job_company"       => "required|array|min:1",
@@ -196,7 +198,7 @@ class ProfileController extends Controller
     public function educationBackground(Request $request)
     {
         //return $request;
-        $staffID = Auth::guard('staff')->user()->id;
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "education_school"       => "required|array|min:1",
@@ -244,7 +246,7 @@ class ProfileController extends Controller
     public function postgraduateStudies(Request $request)
     {
         //return $request;
-        $staffID = Auth::guard('staff')->user()->id;
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "postgraduate_school"       => "required|array|min:1",
@@ -291,7 +293,7 @@ class ProfileController extends Controller
     public function updateCourses(Request $request)
     {
         //return $request;
-        $staffID = Auth::guard('staff')->user()->id;
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "course_school"       => "required|array|min:1",
@@ -331,8 +333,8 @@ class ProfileController extends Controller
     }
     public function careerObjetive(Request $request)
     {
-        //return $request;
-        $staffID = Auth::guard('staff')->user()->id;
+
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "career_objective"     => "required|string",
@@ -358,8 +360,8 @@ class ProfileController extends Controller
     }
     public function UploadImagesPublicProfile(Request $request)
     {
-       
-        $staffID = Auth::guard('staff')->user()->id;
+       //
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
             "dropify"       => "required|image|mimes:jpeg,png,jpg,gif",

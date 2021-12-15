@@ -75,6 +75,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/staff/reset-password',    [StaffController::class, 'resetPassword'])->name('resetPassword');
         Route::post('/staff/permissions',       [StaffController::class, 'permissions'])->name('permissions');
 		Route::post('/staff/permissionsSet',    [StaffController::class, 'permissionsSet'])->name('permissionsSet');
+        Route::get('/staff/public-profile/{id}',    [StaffController::class, 'publicProfile'])->name('publicProfile');
+        Route::get('/staff/add/public-profile/{id}', [StaffController::class, 'addPublicProfile'])->name('addPublicProfile');
 	});
 	Route::name('events.')->group(function(){
 		Route::get('/events/listar', [EventController::class, 'index'])->name('events');

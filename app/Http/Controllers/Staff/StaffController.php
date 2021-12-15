@@ -43,7 +43,6 @@ class StaffController extends Controller
 
         return view('staff.staff-manager.list');
     }
-
     public function getStaffList(Request $request)
     {
         if ($request->ajax()) {
@@ -876,5 +875,61 @@ class StaffController extends Controller
                 'msg' => Lang::get('Permisos actualizados correctamente'),
             ]
         );
+    }
+    public function publicProfile($id)
+    {
+        $staffID = $id;
+        
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $staff = Staff::with([
+            'roles' => function($query) use ($lang) {
+                $query->select(["id", "name_$lang AS Rname"]);
+            },
+            'workhistory',
+            'educationbackground',
+            'postgraduatestudies',
+            'updatecourses',
+            'permissions',
+            'imagespublicprofile',
+            'careerobjetive',
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS service"]);
+            },
+        ])
+        ->findOrFail($staffID);
+        //return $staff;
+        return view('staff.staff-manager.profile', ['staff' => $staff]);
+    }
+    public function addPublicProfile($id)
+    {
+        $staffID = $id;
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $staff = Staff::with([
+            'roles' => function($query) use ($lang) {
+                $query->select(["id", "name_$lang AS Rname"]);
+            },
+            'workhistory',
+            'educationbackground',
+            'postgraduatestudies',
+            'updatecourses',
+            'permissions',
+            'imagespublicprofile',
+            'careerobjetive',
+            'permissions',
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS service"]);
+            },
+        ])
+        ->findOrFail($staffID);
+        //return $staff;
+        return view('staff.staff-manager.add-profile', ['staff' => $staff]);
     }
 }
