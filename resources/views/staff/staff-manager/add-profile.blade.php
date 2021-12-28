@@ -252,8 +252,8 @@
                                     <h5 class="font-weight-bold mt-5 mb-3">Postgaduate Studies:</h5>
                                     <form class="" id="postgraduateStudiesSubmit">
                                         <div id="postgraduateStudiesArea">
-                                            @foreach ($staff->postgraduatestudies as $postgraduatestudies)
-                                                <div class="row" id="postgraduateStudiesForm">
+                                            <div class="row" id="postgraduateStudiesForm">
+                                                @foreach ($staff->postgraduatestudies as $postgraduatestudies)
                                                     <div class="cloned" style="display: contents">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -297,8 +297,8 @@
                                                             <hr>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <div class="addbtnArea text-right">
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>

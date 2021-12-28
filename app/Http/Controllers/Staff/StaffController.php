@@ -360,7 +360,7 @@ class StaffController extends Controller
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '80');
+            $img->save($destinationPath."/".$img_name, '100');
             $avatar = "storage/staff/avatar/$img_name";
             $img->destroy();
         }
@@ -627,12 +627,12 @@ class StaffController extends Controller
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '80');
+            $img->save($destinationPath."/".$img_name, '100');
             $avatar = "storage/staff/avatar/$img_name";
 
 
             if ($lastPhoto != 'staffFiles/assets/img/user/user.jpg') {
-                return $lastPhoto;
+                //return $lastPhoto;
                 unlink(public_path($lastPhoto));
             }
             $staff->avatar = $avatar;

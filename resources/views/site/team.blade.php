@@ -32,19 +32,18 @@
 
                     </p>
                 </div>
-
                 <div class="row">
                     @foreach($doctors as $doctor)
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="doctor" data-aos="fade-up" data-aos-delay="100">
                                 <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
                                 <div class="doctor-info">
-                                    <div class="doctor-info-content">
+                                    <div class="doctor-info-content" style="left: 0;">
                                         <h4>{{ $doctor->name }}</h4>
                                         @foreach($doctor->specialties as $spcialty)
                                         <span>{{ $spcialty->name_en }}</span>
                                         @endforeach
-                                        <a class="btn btn-primary btn-sm" href="{{ url($doctor->url) }}">View profile</a>
+                                        <a class="btn btn-primary btn-sm" href="{{ url("team/".$doctor->url) }}">View profile</a>
                                     </div>
                                 </div>
                             </div>

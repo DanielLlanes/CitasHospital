@@ -37,29 +37,61 @@ class HomeController extends Controller
         //return($coordinator);
         return view('site.welcome', ["coordinators" => $coordinator]);
     }
-    public function team()
+    public function team($url = null)
     {
+    //return($url);
         $lang = app()->getLocale();
-        $doctors = Staff::role('doctor')
-        ->with
-        (
-            [
-                'assignToService' => function($q) use($lang) 
-                {
-                    $q->selectRaw("services.id, service_$lang as service, brand_id");
-                    $q->with
-                    (
-                        [
-                            'brand',
-                        ]
-                    );
-                },
-                'specialties'
-            ]
-         )
-        ->get();
-        //return($doctors);
-        return view('site.team', ['doctors' => $doctors]);
+
+        if (is_null($url)) {
+            $doctors = Staff::role('doctor')
+            ->with
+            (
+                [
+                    'assignToService' => function($q) use($lang) 
+                    {
+                        $q->selectRaw("services.id, service_$lang as service, brand_id");
+                        $q->with
+                        (
+                            [
+                                'brand',
+                            ]
+                        );
+                    },
+                    'specialties'
+                ]
+            )
+            ->get();
+            return view('site.team', ['doctors' => $doctors]);
+        } 
+
+        $staffUrl= $url;
+        
+
+        $doctor = Staff::with([
+            'roles' => function($query) use ($lang) {
+                $query->select(["id", "name_$lang AS Rname"]);
+            },
+            'workhistory',
+            'educationbackground',
+            'postgraduatestudies',
+            'updatecourses',
+            'imagespublicprofile',
+            'careerobjetive',
+            'specialties' => function($query) use ($lang){
+                $query->select(["specialties.id", "name_$lang AS Sname"]);
+            },
+            'assignToService' => function($query) use ($lang){
+                $query->select(["services.id", "service_$lang AS service"]);
+            },
+        ])
+        ->where("url", $staffUrl)
+        ->first();
+        
+        if (!$doctor) {abort(404);}
+
+        if ($doctor) { if ($doctor->public_profile == 0) {}}
+
+        return view('site.public_profile', ['doctor' => $doctor]);
     }
     public function testimonials()
     {
