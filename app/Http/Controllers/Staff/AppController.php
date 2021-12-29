@@ -89,22 +89,22 @@ class AppController extends Controller
             
             return DataTables::of($applications)
                 ->addIndexColumn()
-                ->addColumn('code', function($applications){
+                ->addColumn('codigo', function($applications){
                     return '<span>'.$applications->temp_code.'</span>';
                 })
-                ->addColumn('patient', function($applications){
+                ->addColumn('paciente', function($applications){
                     return '<span>'.$applications->patient->name.'</span>';
                 })
-                ->addColumn('brand', function($applications){
+                ->addColumn('marca', function($applications){
                     return '<span style="color: '.$applications->treatment->brand->color.'">'.$applications->treatment->brand->brand.'</span>';
                 })
-                ->addColumn('service', function($applications){
+                ->addColumn('servicio', function($applications){
                     return '<span>'.$applications->treatment->service->service.'</span>';
                 })
-                ->addColumn('procedure', function($applications){
+                ->addColumn('procedimiento', function($applications){
                     return '<span>'.$applications->treatment->procedure->procedure.'</span>';
                 })
-                ->addColumn('package', function($applications){
+                ->addColumn('paquete', function($applications){
                     if (!is_null($applications->treatment->package)) {
                         return '<span>'.$applications->treatment->package->package.'</span>';
                     } else {
@@ -112,7 +112,7 @@ class AppController extends Controller
                     }
 
                 })
-                ->addColumn('coordinator', function($applications){
+                ->addColumn('coordinador', function($applications){
                     if (count($applications->assignments) < 1) {
                         return '<span>Not Assigned</span>';
                     } else {
@@ -120,17 +120,17 @@ class AppController extends Controller
                     }
 
                 })
-                ->addColumn('date', function($applications){
+                ->addColumn('fecha', function($applications){
                     return '<span>'. $this->datesLangTrait($applications->created_at, Auth::guard('staff')->user()->lang). '</span>';
                 })
-                ->addColumn('price', function($applications){
+                ->addColumn('precio', function($applications){
                     return '<span>$ '.$applications->treatment->price.'</span>';
                 })
                 ->addColumn('status', function($applications){
                     return $this->statusAppTrait($applications->status);
                 })
-                ->addColumn('action', 'staff.application-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'code', 'patient', 'brand', 'service', 'procedure', 'package', "coordinator", 'date', 'price',  'status', 'action'])
+                ->addColumn('acciones', 'staff.application-manager.actions-list')
+                ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio',  'status', 'acciones'])
                 ->make(true);
         }
     }
