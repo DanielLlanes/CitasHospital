@@ -64,8 +64,8 @@
         </div>
     </div>
 </div>
-<div class="row" id="permisionsRow" style="display: none;">
-    <div class="col-12">
+<div class="row" id="permisionsRowScroll">
+    <div class="col-12" id="permisionsRow" style="display: none;">
         <div class="card card card-box">
             <div class="card-head text-center">
                 <header>Permisos</header>
@@ -357,6 +357,9 @@
             });
             $(document).on('click', '#cancelPer', function(event) {
                 event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: $("body").offset().top
+                }, 2000);
                 $('#permisionsRow').hide('fast').attr('user', '');
                 $('#groups').html('')
             });
@@ -464,5 +467,11 @@
                 })
             }
 		});
+
+        $(document).on('click', '.changePermissions', function(event) {
+            $('html, body').animate({
+                scrollTop: $("#permisionsRowScroll").offset().top
+            }, 2000);
+        });
 	</script>
 @endsection

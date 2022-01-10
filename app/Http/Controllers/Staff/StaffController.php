@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeNewMemberOfStaff;
+use App\Mail\ResetPasswordFromAdminMail;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Collection;
@@ -751,8 +752,7 @@ class StaffController extends Controller
         //return($request);
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        $staff = Staff::with(['roles'])
-        ->find($request->id);
+        $staff = Staff::with(['roles'])->find($request->id);
         $staff_reset_password = Auth::guard('staff')->user()->can('staff.reset.password');
         $staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
         $unHashPassword = Str::random(8);
@@ -761,7 +761,17 @@ class StaffController extends Controller
                 if ($staff_reset_password_admins) {
                     $staff->password = Hash::make($unHashPassword);
                     if ($staff->save()) {
-                        //enviar correo
+                        $dataMsg = array(
+                            'reciver' => $staff->email,
+                            'reciverName' => $staff->name,
+                            'password' => $unHashPassword,
+                            'username' => $staff->username,
+                            'sender' => Auth::guard('staff')->user()->email,
+                            'senderName' => Auth::guard('staff')->user()->name,
+                            'lang' => $staff->language
+                        );
+                        
+                        Mail::send(new ResetPasswordFromAdminMail($dataMsg));
                         return response()->json(
                             [
                                 'icon' => 'success',
