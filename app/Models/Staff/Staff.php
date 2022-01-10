@@ -82,12 +82,6 @@ class Staff extends Authenticatable
     {
         return $this->belongsToMany(Specialty::class)->withTimestamps();
     }
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new StaffResetPasswordNotification($token));
@@ -115,5 +109,9 @@ class Staff extends Authenticatable
     public function imagespublicprofile()
     {
         return $this->hasMany(ImageProfileStaff::class);
+    }
+    public function debate_staff()
+    {
+        return $this->hasMany(Debate::class);
     }
 }

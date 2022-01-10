@@ -43,7 +43,8 @@
     <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
-
+    <!-- Socket io-->
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <style type="text/css">
         .swal2-title{
             font-size: .8rem!important;
@@ -120,7 +121,7 @@
         <!-- Select2 -->
         <script src="{{ asset('staffFiles/assets/plugins/select2/dist/js/select2.full.js') }}"></script>
         <!-- Jq Te -->
-        <script src="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.min.js') }}"></script>
+        {{-- <script src="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.min.js') }}"></script> --}}
         <!-- Summernote -->
         <script src="{{ asset('staffFiles/assets/plugins/summernote/summernote.min.js') }}"></script>
         <!-- end js include path -->
@@ -136,6 +137,13 @@
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }
+            let ip_address = 'prado.test';
+                let socket_port = '3000';
+                let socket = io(ip_address + ':' + socket_port );
+                let user_id = "{{ auth()->user()->id }}";
+            socket.on('connect', function() {
+               socket.emit('user_connected', user_id);
+            });
         </script>
         <script>
             const Toast = Swal.mixin({

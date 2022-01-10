@@ -2,12 +2,13 @@
 
 namespace App\Models\Site;
 
-use App\Models\Staff\Staff;
+use App\Models\Staff\Debate;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Product;
+use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
@@ -65,5 +66,9 @@ class Application extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+    public function debates()
+    {
+        return $this->hasMany(Debate::class);
     }
 }

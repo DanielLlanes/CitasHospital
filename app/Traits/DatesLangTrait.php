@@ -34,3 +34,7 @@ trait DatesLangTrait {
         }
     }
 }
+Class DatesLangTraitForBlade
+{
+    use DatesLangTrait;
+}

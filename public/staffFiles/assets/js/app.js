@@ -645,6 +645,7 @@ var App = function() {
             size: "5px",
             color: "#9ea5ab",
             start: 'bottom',
+            width: '100%',
             wheelStep: 5
         });
 

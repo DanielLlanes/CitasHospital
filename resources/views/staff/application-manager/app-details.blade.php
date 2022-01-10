@@ -1,3 +1,5 @@
+@inject('DatesLangTrait', 'App\Traits\DatesLangTraitForBlade')
+
 @extends('staff.layouts.app')
 @section('title')
 	@lang('Application Details')
@@ -952,17 +954,23 @@ echo '</pre>';
                                     <div class="col-12 col-md-4">
                                         <div class="card card-box">
                                             <div class="card-head">
+                                                <h2 id="para1"></h2>
+                                                <h4 id="para2"></h4>
+                                                <h3 id="para3"></h3>
                                                 <header>Personal</header>
                                             </div>
                                             <div class="card-body no-padding height-9" id="listChat">
                                                 <div class="">
-                                                    <ul class="list-unstyled"></ul>
-                                                        @foreach ($appInfo->assignments as $item)
-                                                            @foreach($item->specialties as $specialty)
-                                                                <p class="p-0 mb-0"><strong>{{ $specialty->name }}</strong></p>
-                                                                
-                                                                <p class="p-0 mt-0">{{ $item->name }}</p>
-                                                            @endforeach
+                                                    <ul class="list-unstyled" id="debate_memeber_list">
+                                                        @foreach ($debateMembers as $member)
+                                                            <li>
+                                                                <strong>
+                                                                    <i class="user-conected-{{ $member->member_id }} user-status-icon fa fa-circle" id="{{ $member->member_id }}"></i> {{ $member->member_name }}
+                                                                </strong>
+                                                                <small class="small ml-auto">
+                                                                    {{ $member->member_specialty}}
+                                                                </small>
+                                                            </li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
@@ -975,74 +983,40 @@ echo '</pre>';
                                                 <header>DEBATE</header>
                                             </div>
                                             <div class="card-body no-padding height-9">
-                                                <div class="row">
-                                                    <ul class="chat nice-chat small-slimscroll-style" id="chatDiv">
-                                                        <li class="in">
-                                                            <img src="{{ asset( auth()->guard('staff')->user()->avatar )}}" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span>
-                                                                <a class="name" href="#">Jone Doe</a>
-                                                                <span class="datetime">at Mar 12, 2014 6:12</span>
-                                                                <span class="body"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit </span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="out">
-                                                            <img src="../assets/img/dp.jpg" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span>
-                                                                <a class="name" href="#">Dr. Emily Patel</a>
-                                                                <span class="datetime">at Mar 12, 2014 6:13</span>
-                                                                <span class="body"> sed diam nonummy nibh euismod tincidunt ut </span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="in">
-                                                            <img src="../assets/img/doc/doc1.jpg" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span>
-                                                                <a class="name" href="#">Jone Doe</a>
-                                                                <span class="datetime">at Mar 12, 2014 6:12</span>
-                                                                <span class="body"> aoreet dolore magna aliquam erat volutpat. </span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="out">
-                                                            <img src="../assets/img/dp.jpg" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span>
-                                                                <a class="name" href="#">Dr. Emily Patel</a>
-                                                                    <span class="datetime">at Mar 12, 2014 6:13</span>
-                                                                    <span class="body"> sed diam nonummy nibh euismod tincidunt ut </span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="in">
-                                                            <img src="../assets/img/doc/doc1.jpg" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span>
-                                                                    <a class="name" href="#">Jone Doe</a>
-                                                                    <span class="datetime">at Mar 12, 2014 6:12</span>
-                                                                    <span class="body"> aoreet dolore magna aliquam erat volutpat. </span>
-                                                            </div>
-                                                        </li>
-                                                        <li class="out"><img src="../assets/img/dp.jpg" class="avatar" alt="">
-                                                            <div class="message">
-                                                                <span class="arrow"></span> <a class="name" href="#">Dr. Emily
-                                                                    Patel</a> <span class="datetime">at Mar 12, 2014 6:13</span> <span class="body"> sed diam nonummy nibh </span>
-                                                            </div>
-                                                        </li>
+                                                <div class="row" id="chatRow">
+                                                    <ul class="chat nice-chat" id="chatDiv">
+                                                        @if (count($appInfo->debates))
+                                                            @foreach ($appInfo->debates as $debate)
+                                                                @if ($debate->application_id == $appInfo->id)
+                                                                    <li class="{{ ($debate->staff_id == auth()->guard('staff')->user()->id)? "out":"in" }}" id="li-message-{{ $debate->id }}">
+                                                                        <img src="{{ asset( $debate->staff_debate->avatar )}}" class="avatar" alt="">
+                                                                        <div class="message">
+                                                                            <span class="arrow"></span>
+                                                                            <a class="name" href="#">{{ $debate->staff_debate->name }}</a>
+                                                                            <span class="datetime">at {{ $DatesLangTrait->datesLangTrait($debate->created_at, $debate->staff_debate->lang) }}, {{ $debate->created_at->format('g:i A') }}</span>
+                                                                            <span class="body">{!! $debate->message !!}</span>
+                                                                        </div>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
                                                     </ul>
-                                                    <div class="box-footer chat-box-submit">
-                                                        <div class="input-group">
-                                                            <input type="text" name="message" placeholder="Enter your ToDo List" class="form-control">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="btn btn-warning btn-flat"><i class="fa fa-arrow-right"></i></button>
-                                                            </span>
-                                                        </div>
+                                                </div>
+                                                <div class="box-footer chat-box-submit">
+                                                    <div class="input-groupx">
+                                                        {{-- <input type="text" name="message" placeholder="Enter your ToDo List" class="form-control"> --}}
+                                                        {{-- <textarea name="messageInput" id="messageInput" cols="" class="form-control" rows="1"></textarea> --}}
+                                                        <textarea name="career_objective" class="summernote-messageInput career_objective" id="messageInput" style="width: 100%;"></textarea>
+                                                        {{-- <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-warning btn-flat" id="sendMsgBtn"><i class="fa fa-arrow-right"></i></button>
+                                                        </span> --}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                           
                         </div>
                         <div class="tab-pane fontawesome-demo" id="timeLine">
                             <div id="biography">
@@ -1334,11 +1308,7 @@ echo '</pre>';
         }
     }
 @endphp
-<datalist id="valAutocomplete">
-    @foreach($cordinators as $coordinator)
-        <option  value="{{ $coordinator->name }}"></option>
-    @endforeach
-</datalist>
+
 @endsection
 @section('styles')
 <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
@@ -1371,18 +1341,45 @@ echo '</pre>';
           closeOnContentClick: true,
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
+
+    //debateToDownLast()
+    var itemContainer = $(".nice-chat");
+    var scrollTo_int = itemContainer.prop('scrollHeight') + 'px';
+        
+    
+
     var globalRouteSetNewStaff = "{{ route('staff.applications.setNewStaff') }}";
     var globalRouteGetNewStaff = "{{ route('staff.applications.getNewStaff') }}";
+    var globalRouteSendDebateMessage = "{{ route('staff.applications.sendDebateMessage') }}";
 
     var chatDiv = document.getElementById("chatDiv");
     var panelDerecha = document.getElementById("PanelDerecha");
 
-    $("#listChat").height($("#chatDiv").height()+34)
+    var date = new Date();   //Creates date object
+    var hours = date.getHours();   //get hour using date object
+    var minutes = date.getMinutes();    //get minutes using date object
+    var ampm = hours >= 12 ? 'pm' : 'am';  //Check wether 'am' or 'pm'
+
+    var month = date.getMonth(); //get month using date object
+    var day = date.getDate();    //get day using date object
+    var year = date.getFullYear();  //get year using date object
+    var dayname = date.getDay();  // get day of particular week
+
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+
+    var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
+
+    var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
+
+    var debateMembers = {!! json_encode($debateMembers) !!}
+    var debate_id = {{ $appInfo->id }}
+
+
+    //$("#listChat").height($("#chatDiv").height()+34)
 
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
-        //console.log("specialty", specialty[1]);
         $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
             $('#getStaff'+specialty[1]).select2({
                 dropdownParent: $('#change'+specialty[1]+"App"),
@@ -1418,6 +1415,26 @@ echo '</pre>';
         }).modal('show');
     });
 
+   
+
+    socket.on('updateUserStatus', (data) => {
+        //console.clear()
+        let $userStatusIcon = $('.user-status-icon');
+            $userStatusIcon.removeClass('text-success');
+            $userStatusIcon.addClass('text-danger');
+            $userStatusIcon.attr('title', 'Offline');
+        $.each(data, function (key, val) {
+            if (val !== null && val !== 0) {
+                let $userIcon = $(".user-conected-"+key);
+                $userIcon.addClass('text-success');
+                $userIcon.removeClass('text-danger');
+                $userIcon.attr('title','Online');
+            
+            }
+        });
+    });
+
+    
     function setNewStaff(lastValue, lastText, specialty)
     {
         var form_data = new FormData();
@@ -1450,5 +1467,133 @@ echo '</pre>';
             },
         })
     }
+
+    $('#messageInput').on('summernote.keydown', function(we, e) {
+        if ( e.which === 13 && !e.shiftKey ) {
+            e.preventDefault();
+            if (!$('#messageInput').val()) {
+                return false;
+            }
+            let message = $('#messageInput').val();
+            //message = message.replace(/\n/g, "<br />");
+            $.each(debateMembers, function(index, val) {
+                 if (val.member_id == user_id) {
+                     sendDebateToServer($('#messageInput').val())
+                 } 
+            });
+        }
+    });
+
+    function sendDebateToServer(messageInput)
+    {
+        form_data = new FormData();
+        form_data.append('message', messageInput);
+        form_data.append('debate', debate_id);
+        let jsonForm={};
+        $(".user-status-icon").each(function(i){
+           jsonForm[i] = $(this).attr("id");
+
+         })
+        form_data.append('members', JSON.stringify(jsonForm));
+        
+        $.ajax({
+            url: globalRouteSendDebateMessage,
+            method:"POST",
+            data:form_data,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+                
+            },
+            success:function(response)
+            {
+                console.log("response", response);
+                if (response.success) {
+                    var dataMsg = response.response;
+                    var dataMsgUserId = dataMsg.user_id.id;
+                    $('#messageInput').summernote('code', '');
+                    senderDebate(dataMsg.message)
+                    let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp};
+                    socket.emit('sendChatToServer', data);
+                }
+
+            },
+            complete: function()
+            {
+            },
+        })
+    }
+    socket.on('sendChatToClient', (data) => {
+        console.log("data", data);
+        if (data.group_id == debate_id) {
+            $.each(data.members, function(i, val) {
+                if (data.user_id == val.member_id) {
+                    $thisData = data.members[i]
+                    $msg = '<li class="in">';
+                        $msg += '<img src=" ' + $thisData.member_avatar + ' " class="avatar" alt="">';
+                        $msg += '<div class="message">';
+                            $msg += '<span class="arrow"></span>';
+                           $msg += ' <a class="name" href="#">'+$thisData.member_name+'</a>';
+                            $msg += '<span class="datetime"> at ' + data.dateMessage + '</span>';
+                            $msg += '<span class="body"> ' + data.message + ' </span>';
+                        $msg += '</div>';
+                    $msg += '</li>';
+                    $('#chatDiv').append($msg)
+                    debateToDownLast()
+                }
+            });
+        }
+    });
+    function senderDebate(message)
+    {
+        $msg = '<li class="out">';
+            $msg += '<img src="{{ asset( auth()->guard('staff')->user()->avatar )}} " class="avatar" alt="">';
+            $msg += '<div class="message">';
+                $msg += '<span class="arrow"></span>';
+               $msg += ' <a class="name" href="#">{{ auth()->guard('staff')->user()->name }}</a>';
+                $msg += '<span class="datetime"> at ' + dateMessage + '</span>';
+                $msg += '<span class="body"> ' + message + ' </span>';
+            $msg += '</div>';
+        $msg += '</li>';
+        $('#chatDiv').append($msg)
+        debateToDownLast()
+    }
+
+    itemContainer.slimscroll({ 
+        scrollTo : '500px',
+        start: 'bottom',
+        position: "right",
+        size: "5px",
+        color: "#9ea5ab",
+        width: '100%',
+        wheelStep: 5
+    })
+
+    $('#messageInput').summernote({
+        placeholder: 'placeholder',
+        height: 50,
+        toolbar: false,
+        disableResizeEditor: true,
+    })
+
+    function debateToDownLast(){
+        var container = $('ul.chat');
+        var scrollTo = $("ul.chat li:last");
+        //var scrollTo = $('#li-message-63');//if url has id
+        container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
+        //$("ul.chat").animate({scrollTop: $('ul.chat li:last').offset().top+30});
+    }
+
+    $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+       if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
+    })
+    // var path = window.location.href
+    // console.log(path.substring(path.lastIndexOf('/') + 1));
 </script>
 @endsection

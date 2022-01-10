@@ -154,6 +154,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
         Route::post('/applications/getNewStaff', [AppController::class, 'getNewStaff'])->name('getNewStaff'); 
         Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewStaff'])->name('setNewStaff'); 
+        Route::post('/applications/sendDebateMessage', [AppController::class, 'sendDebateMessage'])->name('sendDebateMessage');
     });
 
     Route::name('payments.')->group( function(){

@@ -2,6 +2,7 @@
 
 namespace App\Models\Staff;
 
+use App\Models\Site\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,5 +31,9 @@ class Treatment extends Model
     public function procedure()
     {
         return $this->belongsTo(Procedure::class);
+    }
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
     }
 }
