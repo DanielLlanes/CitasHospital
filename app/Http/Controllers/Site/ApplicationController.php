@@ -18,6 +18,7 @@ use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -1390,8 +1391,15 @@ class ApplicationController extends Controller
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
 
-
-            $app->save();
+            if ($app->save()) {
+                DB::table('application_status')->insert([
+                    'application_id' => $app->id,
+                    'status_id' => "1",
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+            //$app->save();
             Session::forget('form_session');
             Session::forget('treatment');
             return redirect()->route('home');

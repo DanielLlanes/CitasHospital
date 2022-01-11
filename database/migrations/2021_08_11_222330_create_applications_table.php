@@ -198,7 +198,7 @@ class CreateApplicationsTable extends Migration
             $table->boolean('about_us_other')->default(false);
             $table->string('about_us_description_other', 255)->nullable();
             $table->boolean('is_complete')->default(false);
-            $table->enum('status', ['waiting', 'declined', 'debate', 'second_opinion', 'accepted', 'scheduled', 'in_surgery', 'finalized'])->default('waiting');
+
             $table->timestamps();
             $table->softDeletes();
         });

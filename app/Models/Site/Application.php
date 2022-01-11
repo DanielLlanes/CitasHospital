@@ -6,6 +6,7 @@ use App\Models\Staff\Debate;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Product;
 use App\Models\Staff\Staff;
+use App\Models\Staff\Status;
 use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -70,5 +71,9 @@ class Application extends Model
     public function debates()
     {
         return $this->hasMany(Debate::class);
+    }
+    public function app_status()
+    {
+        return $this->belongsToMany(Status::class)->withTimestamps()->withPivot('notes_es', 'notes_en');
     }
 }

@@ -46,67 +46,45 @@ class AppController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        $services = [];
-        $userService = Staff::with('assignToService')->select("id")->find(Auth::guard('staff')->user()->id);
-        foreach ($userService->assignToService  as $value) {array_push($services, $value->id);}
-        
-        $applications = Treatment::whereHas(
-            "service", function($q)use($services){
-                $q->whereIn("id", $services);
-            }
-        )
-        ->with(
+
+        $apps = Application::with(
             [
-                "applications" => function($q)use($lang)
-                {
-                    $q->where('is_complete', true)
-                    ->with(
+                'app_status' => function($q)use($lang){
+                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                },
+                'patient' => function($q){
+                    $q->select('name', 'id');
+                },
+                'treatment' => function($q) use($lang) {
+                    $q->with(
                         [
-                            'patient' => function($q){
-                                $q->select('name', 'id');
+                            "brand" => function($q){
+                                $q->select("brand", "id", "color");
                             },
-                            'treatment' => function($q) use($lang) {
-                                $q->with(
-                                    [
-                                        "brand" => function($q){
-                                            $q->select("brand", "id", "color");
-                                        },
-                                        "service" => function($q) use($lang) {
-                                            $q->select("service_$lang AS service", "id");
-                                        },
-                                        "procedure" => function($q) use($lang) {
-                                            $q->select("procedure_$lang AS procedure", "id");
-                                        },
-                                        "package" => function($q) use($lang) {
-                                            $q->select("package_$lang AS package", "id");
-                                        },
-                                    ]
-                                );
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
                             },
-                            'assignments' => function($q) use($lang) {
-                                $q->whereHas(
-                                    'specialties', function($q){
-                                        $q->where("name_en", "Coordination");
-                                    }
-                                );
-                            }
+                            "procedure" => function($q) use($lang) {
+                                $q->select("procedure_$lang AS procedure", "id");
+                            },
+                            "package" => function($q) use($lang) {
+                                $q->select("package_$lang AS package", "id");
+                            },
                         ]
+                    );
+                },
+                'assignments' => function($q) use($lang) {
+                    $q->whereHas(
+                        'specialties', function($q){
+                            $q->where("name_en", "Coordination");
+                        }
                     );
                 }
             ]
         )
+        ->where('is_complete', true)
         ->get();
-
-        $collection = new Collection();
-    
-        for ($i = 0; $i < count($applications); $i++) {
-            for ($j = 0; $j < count($applications[$i]->applications); $j++) {
-                $collection->push(
-                    $applications[$i]->applications[$j],
-                );
-            }
-        }
-        //return $collection[0]->temp_code;
+       // return $apps;
         return view
         (
             'staff.application-manager.list'
@@ -122,6 +100,9 @@ class AppController extends Controller
             if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator', 'nurse', 'driver', 'coordinator'])) {
                 $apps = Application::with(
                     [
+                        'app_status' => function($q)use($lang){
+                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                        },
                         'patient' => function($q){
                             $q->select('name', 'id');
                         },
@@ -174,6 +155,9 @@ class AppController extends Controller
                             $q->where('is_complete', true)
                             ->with(
                                 [
+                                    'app_status' => function($q)use($lang){
+                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                                    },
                                     'patient' => function($q){
                                         $q->select('name', 'id');
                                     },
@@ -244,7 +228,6 @@ class AppController extends Controller
                     } else {
                         return '<span> ---- </span>';
                     }
-
                 })
                 ->addColumn('coordinador', function($apps){
                     if (count($apps->assignments) < 1) {
@@ -252,7 +235,6 @@ class AppController extends Controller
                     } else {
                         return '<span style="color: '.$apps->assignments[0]->color.'">'.$apps->assignments[0]->name.'</span>';
                     }
-
                 })
                 ->addColumn('fecha', function($apps){
                     return '<span>'. $this->datesLangTrait($apps->created_at, Auth::guard('staff')->user()->lang). '</span>';
@@ -261,7 +243,7 @@ class AppController extends Controller
                     return '<span>$ '.$apps->treatment->price.'</span>';
                 })
                 ->addColumn('status', function($apps){
-                    return $this->statusAppTrait($apps->status);
+                    return $this->statusAppTrait($apps->app_status[0]->name);
                 })
                 ->addColumn('acciones', 'staff.application-manager.actions-list')
                 ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio',  'status', 'acciones'])
