@@ -4,6 +4,7 @@ namespace App\Models\Site;
 
 use App\Models\Staff\Debate;
 use App\Models\Staff\Patient;
+use App\Models\Staff\Payment;
 use App\Models\Staff\Product;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Status;

@@ -39,9 +39,9 @@ class EventController extends Controller
      */
     public function index()
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
+        
         $events = Event::with(
             [
                 'staff',
@@ -419,14 +419,16 @@ class EventController extends Controller
                     }
                 ]
             )
-            ->where(
-                [
-                    ['is_complete', true],
-                    ['status', '=', 'accepted']
-                ]
-            )
+            ->where('is_complete', 1)
             ->where('patient_id', $request->id)
             ->get();
+
+
+            foreach ($applications as $i =>$app) {
+                if (count($app->payments) == 0) {
+                    $applications->forget($i);
+                }
+            }
 
 
             return DataTables::of($applications)
@@ -436,7 +438,7 @@ class EventController extends Controller
                     $service = $applications->treatment->service->service;
                     $procedure = $applications->treatment->procedure->procedure;
                     $package = $applications->treatment->package->package;
-                    return '<button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect margin-right-10 btn-primary btn-add" style="height: 36px;min-width: 36px;width: 36px;" name="'.$brand.', '.$service.', '.$procedure.', '.$package.'" data-id=" '.$applications->id.' "><i class="material-icons">add</i></button>';
+                    return '<button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect margin-right-10 btn-primary btn-add" style="height: 36px; min-width: 36px;width: 36px;" name="'.$brand.', '.$service.', '.$procedure.', '.$package.'" data-id=" '.$applications->id.' "><i class="material-icons">add</i></button>';
                 })
                 ->addColumn('treatment', function($applications){
                     $brand = $applications->treatment->brand->brand;
@@ -460,7 +462,7 @@ class EventController extends Controller
                         'code'
                     ]
                 )
-                ->make(true);
+            ->make(true);
         }
     }
 }

@@ -753,6 +753,7 @@
         function getApps(){
             $('#appsModal').on('shown.bs.modal', function (e) {
                 var id = $('.autocomplete.patient').attr('data-id');
+                console.log("id", id);
 
                 $($.fn.dataTable.tables(true)).DataTable()
                 .columns.adjust()
@@ -794,9 +795,9 @@
                     },
                 })
 
-                $("#appsTable").DataTable()
-                .columns.adjust()
-                .responsive.recalc();
+                // $("#appsTable").DataTable()
+                // .columns.adjust()
+                // .responsive.recalc();
 
             }).modal(
                 {
