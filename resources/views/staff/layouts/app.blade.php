@@ -94,7 +94,8 @@
         <script src="{{ asset('staffFiles/assets/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
         <!-- bootstrap -->
         <script src="{{ asset('staffFiles/assets/plugins/bootstrap/js/bootstrap.min.js') }}" ></script>
-
+        <!-- beeps -->
+        <script src="{{ asset('staffFiles/assets/js/beeps.js') }}"></script>
         <!-- counterup -->
         <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.waypoints.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.counterup.min.js') }}" ></script>

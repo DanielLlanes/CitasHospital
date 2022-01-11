@@ -185,7 +185,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="external">
-                            <h3><span class="bold">Messages</span></h3>
+                            <h3><span class="bold">Debate Messages</span></h3>
                             <span class="notification-label cyan-bgcolor">New 2</span>
                         </li>
                         <li>

@@ -757,20 +757,19 @@ class StaffController extends Controller
         $staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
         $unHashPassword = Str::random(8);
         if ($staff) {
+            $dataMsg = array(
+                'reciver' => $staff->email,
+                'reciverName' => $staff->name,
+                'password' => $unHashPassword,
+                'username' => $staff->username,
+                'sender' => Auth::guard('staff')->user()->email,
+                'senderName' => Auth::guard('staff')->user()->name,
+                'lang' => $staff->language
+            );
             if ($staff->roles[0]->name  == 'administrator') {
                 if ($staff_reset_password_admins) {
                     $staff->password = Hash::make($unHashPassword);
                     if ($staff->save()) {
-                        $dataMsg = array(
-                            'reciver' => $staff->email,
-                            'reciverName' => $staff->name,
-                            'password' => $unHashPassword,
-                            'username' => $staff->username,
-                            'sender' => Auth::guard('staff')->user()->email,
-                            'senderName' => Auth::guard('staff')->user()->name,
-                            'lang' => $staff->language
-                        );
-                        
                         Mail::send(new ResetPasswordFromAdminMail($dataMsg));
                         return response()->json(
                             [
@@ -785,7 +784,7 @@ class StaffController extends Controller
                 if ($staff_reset_password) {
                     $staff->password = Hash::make($unHashPassword);
                     if ($staff->save()) {
-                        //enviar correo
+                        Mail::send(new ResetPasswordFromAdminMail($dataMsg));
                         return response()->json(
                             [
                                 'icon' => 'success',

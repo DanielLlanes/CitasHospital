@@ -318,7 +318,7 @@ class AppController extends Controller
                                 $q->with(
                                     [
                                         'specialties' => function($q) use($lang) {
-                                            $q->select("name_$lang AS specialty", "specialties.id");
+                                            $q->select("specialties.id", "name_$lang AS specialty", "specialties.id");
                                         }
                                     ]
                                 );
@@ -355,8 +355,30 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($id);
-        //return($applications);
+
+        $StaffAss = Staff::with('assignToSpecialty')->find(Auth::guard('staff')->user()->id);
+
+        $can = false;
+        for ($i = 0; $i < count($StaffAss->assignToSpecialty); $i++) {
+            //echo $StaffAss->assignToSpecialty[$i]->id;
+            for ($j = 0; $j < count($applications->treatment->service->specialties); $j++) {
+                if ($applications->treatment->service->specialties[$j]->id == $StaffAss->assignToSpecialty[$i]->id) {
+                    $can = true;
+                    break;
+                }
+            }
+        }
+
+        if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator', 'nurse', 'driver', 'coordinator'])) {
+            $can = true;
+        }
+
+        if (!$can) {
+           abort(403); 
+        }
+
         $treatment = $applications->treatment;
+        //return($treatment);
         $cordinators = Staff::whereHas // no se requiere
         (
             'specialties', function($q)

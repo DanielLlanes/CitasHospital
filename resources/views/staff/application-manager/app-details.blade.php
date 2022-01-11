@@ -1374,6 +1374,9 @@ echo '</pre>';
     var debateMembers = {!! json_encode($debateMembers) !!}
     var debate_id = {{ $appInfo->id }}
 
+    var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
+    var senderSound = '{{ asset('sounds/facebook-pop.mp3') }}'
+    
 
     //$("#listChat").height($("#chatDiv").height()+34)
 
@@ -1545,7 +1548,9 @@ echo '</pre>';
                         $msg += '</div>';
                     $msg += '</li>';
                     $('#chatDiv').append($msg)
+                    play( reciverSound )
                     debateToDownLast()
+
                 }
             });
         }
@@ -1562,6 +1567,7 @@ echo '</pre>';
             $msg += '</div>';
         $msg += '</li>';
         $('#chatDiv').append($msg)
+        play( senderSound )
         debateToDownLast()
     }
 
