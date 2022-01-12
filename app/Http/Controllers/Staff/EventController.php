@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers\Staff;
 
-use DataTables;
-use App\Mail\NewEventStaff;
-use App\Models\Staff\Event;
-use App\Models\Staff\Staff;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Mail\NewEventPatient;
-use App\Models\Staff\Patient;
-use App\Traits\DatesLangTrait;
-use App\Models\Site\Application;
 use App\Http\Controllers\Controller;
+use App\Mail\NewEventPatient;
+use App\Mail\NewEventStaff;
+use App\Models\Site\Application;
+use App\Models\Staff\Event;
+use App\Models\Staff\Patient;
+use App\Models\Staff\Staff;
+use App\Traits\DatesLangTrait;
+use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -161,6 +163,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+    //return($request);
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
@@ -194,7 +197,7 @@ class EventController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        //return $request;
+
         $patient_id = $request->patient_id;
         if ($request->has('patient_lang')) {
             $patient_lang = $request->lang;
@@ -230,16 +233,8 @@ class EventController extends Controller
 
         if ($event->save()) {
             $staffData = Staff::findOrFail($request->staff_id);
-            if ($request->lang == 'es') {
-                $dateP = $this->fechaEspanol($event->start_date);
-            } else {
-                $dateP = $this->fechaIngles($event->start_date);
-            }
-            if ($staffData->lang == 'es') {
-                $dateD = $this->fechaEspanol($event->start_date);
-            } else {
-                $dateD = $this->fechaIngles($event->start_date);
-            }
+            $dateD = $this->datesLangTrait ($event->start_date, $staffData->lang);
+            $dateP = $this->datesLangTrait ($event->start_date, $request->lang);
 
             $dataMsg = array(
                 'doctor_email' => $staffData->email,
@@ -257,11 +252,21 @@ class EventController extends Controller
                 'patient_body' => "Hello, your medical appointment with :doctor_name has been scheduled, please write down the details",
 
                 'date' => $request->start,
-                'hour_to' => $request->start,
+                'hour_to' => $request->timeStart,
                 'hour_from' => $request->timeEnd,
 
                 'note' => $request->notes
             );
+
+            if (!is_null($event->application_id) ) {
+                DB::table('application_status')->insert([
+                    'application_id' => $event->application_id,
+                    'status_id' => "6",
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+            
 
 
             Mail::send(new NewEventPatient($dataMsg));
