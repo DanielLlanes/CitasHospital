@@ -28,20 +28,24 @@
 
                 <div class="section-title m-5" data-aos="fade-up">
                     <h2>{{ $doctor->roles[0]->Rname }}<strong> {{ $doctor->name }}</strong></h2>
-                    {!! $doctor->careerobjetive[0]->career_objective !!}
+                    @if (count($doctor->careerobjetive) > 0)
+                        {!! $doctor->careerobjetive[0]->career_objective !!}
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-3" data-aos="fade-up">
                         <img src="{{ asset($doctor->avatar) }}" class="img-thumbnail rounded-circle" alt="{{ $doctor->name }}">
                         <div class="doc-info mt-3">
                             <h5 class="text-uppercase text-center">specialties</h5>
-                            @foreach ($doctor->specialties as $specialty)
-                                <p>{{ $specialty->Sname }}</p>
-                            @endforeach
-                            <h5 class="text-uppercase text-center">Services</h5>
-                            @foreach ($doctor->assignToService as $sercice)
-                                <p>{{ $sercice->service }}</p>
-                            @endforeach
+                            @if (count($doctor->specialties) > 0)
+                                @foreach ($doctor->specialties as $specialty)
+                                    <p>{{ $specialty->Sname }}</p>
+                                @endforeach
+                                <h5 class="text-uppercase text-center">Services</h5>
+                                @foreach ($doctor->assignToService as $sercice)
+                                    <p>{{ $sercice->service }}</p>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="col-12 col-md-9">
@@ -123,7 +127,6 @@
                             </div>
                         @endif
                     </div>
-
                 </div>
             </div>
         </section>

@@ -299,8 +299,11 @@ class TreatmentController extends Controller
 
         $group = Procedure::find($request->procedure);
 
+        $getBrand = Service::select('brand_id')
+        ->find($request->service);
+
         $treatment = Treatment::find($request->id);
-        $treatment->brand_id = $request->brand;
+        $treatment->brand_id = $getBrand->brand_id;
         $treatment->service_id = $request->service;
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;

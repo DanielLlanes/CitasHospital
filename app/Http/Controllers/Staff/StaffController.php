@@ -354,8 +354,8 @@ class StaffController extends Controller
             $destinationPath = storage_path('app/public').'/staff/avatar';
             $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
             $img = Image::make($avatar->getRealPath());
-            $width = 600;
-            $height = 600;
+            $width = 800;
+            $height = 800;
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });

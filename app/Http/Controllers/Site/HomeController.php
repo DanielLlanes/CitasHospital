@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
 use App\Models\Staff\Procedure;
+use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $lang = app()->getLocale();
+        $lang = "en";
         $coordinator = Staff::role('coordinator')
         ->with
         (
@@ -39,8 +40,8 @@ class HomeController extends Controller
     }
     public function team($url = null)
     {
-    //return($url);
-        $lang = app()->getLocale();
+        //return($url);
+        $lang = "en";
 
         if (is_null($url)) {
             $doctors = Staff::role('doctor')
@@ -60,8 +61,17 @@ class HomeController extends Controller
                     'specialties'
                 ]
             )
+            ->where("public_profile", 1)
             ->get();
-            return view('site.team', ['doctors' => $doctors]);
+
+            $specialties = Specialty::where("show", 1)
+            ->where("active", 1)
+            ->select("id", "name_$lang AS specialty", "show", "active")
+            ->get();
+
+            
+            //return $specialty;
+            return view('site.team', ['doctors' => $doctors, "specialties" => $specialties]);
         } 
 
         $staffUrl= $url;
@@ -85,11 +95,12 @@ class HomeController extends Controller
             },
         ])
         ->where("url", $staffUrl)
+        ->where("public_profile", 1)
         ->first();
         
         if (!$doctor) {abort(404);}
 
-        if ($doctor) { if ($doctor->public_profile == 0) {}}
+        //if ($doctor) { if ($doctor->public_profile == 0) {}}
 
         return view('site.public_profile', ['doctor' => $doctor]);
     }
@@ -111,7 +122,7 @@ class HomeController extends Controller
     }
     public function faqs()
     {
-        $lang = app()->getLocale();
+        $lang = "en";
         $faqs = Faq::where('active', true)
         ->select('id', "question_$lang As question", "awnser_$lang As awnser")
         ->get();
@@ -122,7 +133,7 @@ class HomeController extends Controller
         Session::forget('form_session');
         Session::forget('treatment');
 
-        $lang = app()->getLocale();
+        $lang = "en";
 
         $treatment = Treatment::whereHas('brand', function($query) use ($brand) {
             $query->where('url', $brand);
@@ -164,6 +175,7 @@ class HomeController extends Controller
                 $q->where("service_en", $service->service->service);
             }
         )
+        ->where("public_profile", 1)
         ->get();
 
         $titles = new Collection();

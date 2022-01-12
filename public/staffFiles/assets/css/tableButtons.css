@@ -148,4 +148,10 @@ div.note-editor.note-frame {
     box-shadow: none;
 }
 
-divnote-editor note-frame
+div.note-editor.note-frame p{
+    line-height: 0.2;
+}
+
+table.table td p{
+    line-height: 0.2;
+}

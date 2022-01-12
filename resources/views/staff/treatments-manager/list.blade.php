@@ -235,10 +235,26 @@
 		        },
 		    });
 
+            var toolBar =  [
+                ['font', ['bold', 'italic']],
+                ['para', ['ul', 'ol']],
+              ]
+
+            $('#description_en').summernote({
+                placeholder: 'Description en',
+                height: 100,
+                toolbar: toolBar,
+                disableResizeEditor: true,
+            })
+            $('#description_es').summernote({
+                placeholder: 'Description es',
+                height: 100,
+                toolbar: toolBar,
+                disableResizeEditor: true,
+            })
+
             $(document).on("click", "#formSubmit", function () {
-
                 $('.error').html('')
-
                 var form_data = new FormData();
                 form_data.append('brand', $('#brand').attr('data-id'))
                 form_data.append('service', $('#service').attr('data-id'))
@@ -481,14 +497,13 @@
                 $('#procedure').val('').removeAttr('data-id')
                 $('#package').val('').removeAttr('data-id')
                 $('#price').val('')
-                $('#description_en').val('')
-                $('#description_es').val('')
                 $("#formReset").click()
                 $('#formEdit')
                 .removeAttr('service')
                 .html('Add')
                 .attr('id', 'formSubmit')
-
+                $('#description_en').summernote('code', '');
+                $('#description_es').summernote('code', '');
             }
 
             $(document).on('click', '.table-active', function(event) {
@@ -560,6 +575,8 @@
                             $('#price').val(data.info.price);
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
+                            $('#description_en').summernote('code', data.info.description_en);
+                            $('#description_es').summernote('code', data.info.description_es);
                             $('#formSubmit').html('edit').attr({
                                 product: $.trim(productId),
                                 id: 'formEdit'
@@ -706,19 +723,7 @@
                     },
                 })
             }
-
         });
-
-        // onload = function(){
-        //     var ele = document.querySelectorAll('.validanumericos')[0];
-        //     ele.onkeypress = function(e) {
-        //         if(isNaN(this.value+String.fromCharCode(e.charCode)))
-        //             return false;
-        //     }
-        //     ele.onpaste = function(e){
-        //         e.preventDefault();
-        //     }
-        // }
 
     </script>
 @endsection

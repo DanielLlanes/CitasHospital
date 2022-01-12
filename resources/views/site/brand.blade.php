@@ -2,6 +2,13 @@
 @section('title')
  - {{ $brand->brand }}
 @endsection
+@section('styles')
+    <style>
+        .summer p{
+            line-height: 0.2!important;
+        }
+    </style>
+@endsection
 @section('content')
 
 <main id="main">
@@ -44,16 +51,16 @@
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card">
                                         @if (!is_null($treatment->procedure->image))
-                                            <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="..." style="height: 200px">
+                                            <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         @else
-                                            <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="..." style="height: 200px">
+                                            <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         @endif
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
                                             <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }}</h6>
-                                            <p class="card-text">{!! $treatment->description !!}</p>
-
+                                            <p class="card-text"></p>
+                                            <span class="summer">{!! $treatment->description !!}</span>
                                         </div>
                                     <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
                                     </div>
@@ -82,11 +89,17 @@
                             <div class="doctor" data-aos="fade-up" data-aos-delay="100">
                                 <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
                                 <div class="doctor-info">
-                                    <div class="doctor-info-content">
+                                    <div class="doctor-info-content" style="left: 0;">
                                         <h4>{{ $doctor->name }}</h4>
-                                        <a class="btn btn-primary btn-sm" href="{{ url($doctor->url) }}">View profile</a>
+                                        @foreach($doctor->specialties as $spcialty)
+                                        <span>{{ $spcialty->name_en }}</span>
+                                        @endforeach
+                                        <a class="btn btn-primary btn-sm mt-3" href="{{ route('team', $doctor->url) }}">View profile</a>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="100">
+                                {{ $doctor->name }}
                             </div>
                         </div>
                     @endforeach

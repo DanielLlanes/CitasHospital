@@ -149,8 +149,8 @@ class SpecialtySeeder extends Seeder
         Specialty::create([
             'id' => '15',
             'role_id' => '4',
-            'name_es' => 'General Surgery',
-            'name_en' => 'Cirugía General',
+            'name_es' => 'Cirugía General',
+            'name_en' => 'General Surgery',
             'active' => true,
             'show' => true,
             'assignable' => true,

@@ -20,7 +20,6 @@
             </div>
         </section>
         <!-- End Breadcrumbs -->
-
         <!-- ======= Our Team Section ======= -->
         <section id="team" class="team section-bg">
             <div class="container">
@@ -32,24 +31,38 @@
 
                     </p>
                 </div>
-                <div class="row">
-                    @foreach($doctors as $doctor)
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="doctor" data-aos="fade-up" data-aos-delay="100">
-                                <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
-                                <div class="doctor-info">
-                                    <div class="doctor-info-content" style="left: 0;">
-                                        <h4>{{ $doctor->name }}</h4>
-                                        @foreach($doctor->specialties as $spcialty)
-                                        <span>{{ $spcialty->name_en }}</span>
-                                        @endforeach
-                                        <a class="btn btn-primary btn-sm" href="{{ url("team/".$doctor->url) }}">View profile</a>
+
+                @foreach ($specialties as $specialty)
+                    @foreach ($doctors as $doctor)
+                        @foreach ($doctor->specialties as $element)
+                            @if ($element->id == $specialty->id)
+                                <div class="section-title m-5" data-aos="fade-up">
+                                    <h2><strong> {{ $specialty->specialty }} </strong></h2>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-4 col-md-6">
+                                        <div class="doctor" data-aos="fade-up" data-aos-delay="100">
+                                            <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
+                                            <div class="doctor-info">
+                                                <div class="doctor-info-content" style="left: 0;">
+                                                    <h4>{{ $doctor->name }}</h4>
+                                                    @foreach($doctor->specialties as $spcialty)
+                                                    <span>{{ $spcialty->name_en }}</span>
+                                                    @endforeach
+                                                    <a class="btn btn-primary btn-sm mt-3" href="{{ route('team', $doctor->url) }}">View profile</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center" data-aos="fade-up" data-aos-delay="100">
+                                            {{ $doctor->name }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     @endforeach
-                </div>
+                @endforeach
             </div>
         </section>
         <!-- End Team Section -->
