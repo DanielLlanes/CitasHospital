@@ -321,7 +321,7 @@
                         url: globaleventSources,
                         method: 'get',
                         success: function(data) {
-                            console.log(data);
+                            //console.log(data);
                         },
                         failure: function() {
                             alert('there was an error while fetching events!');
@@ -339,7 +339,7 @@
             type: "get",
             url: globaleventSources,
             success: function (response) {
-                console.log(response);
+                //console.log(response);
             }
         });
         $('.autocomplete.staff').on('keyup click', function() {
@@ -378,7 +378,7 @@
                             var id = $(this).attr('data');
                             var name = $(this).text();
                             var objIndex = data.findIndex((obj => obj.id == id));
-                            console.log("objIndex", objIndex);
+                            //console.log("objIndex", objIndex);
                             $('.autocomplete.staff').val(name).attr('data-id', id);
                             $('#phone').val()
                             $('#myInputautocomplete-list.staff').fadeOut(1000).html('');
@@ -413,7 +413,7 @@
                     var sugerencias = '';
                     if (data.length > 0) {
                         for (var i = 0; i < data.length; i++) {
-                            console.log();
+                            //console.log();
                             var app = 0;
                             if (data[i].applications.length > 0) {
                                 app = 1;
@@ -495,7 +495,7 @@
 
                 },
                 success: function(data) {
-                    console.log("data", data);
+                    //console.log("data", data);
                     calendar.refetchEvents()
                     if (data.reload) {
                         Toast.fire({
@@ -573,7 +573,7 @@
                     id: 'formEdit'
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
-                console.log(event)
+                //console.log(event)
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
 
@@ -651,7 +651,7 @@
 
                     },
                     success: function(data) {
-                        console.log(data);
+                        //console.log(data);
                         $('input').removeAttr("disabled")
                         calendar.refetchEvents()
                         if (data.reload) {
@@ -688,7 +688,7 @@
         });
 
         function eventClick(arg) {
-            console.log(arg.event)
+            //console.log(arg.event)
             $('#viewEvantModal').on('show.bs.modal', function (e) {
                 $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit');
                 $('.eventEdit').attr('data-id', arg.event.id)
@@ -753,7 +753,7 @@
         function getApps(){
             $('#appsModal').on('shown.bs.modal', function (e) {
                 var id = $('.autocomplete.patient').attr('data-id');
-                console.log("id", id);
+                //console.log("id", id);
 
                 $($.fn.dataTable.tables(true)).DataTable()
                 .columns.adjust()
