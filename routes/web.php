@@ -53,6 +53,7 @@ Route::post('/applications/chek-if-patient-exist', [ApplicationController::class
 Route::post('/search-states', [ApplicationController::class, 'getStates'])->name('getStates');
 
 // brands Routes
+// 
 
 Route::get('/{brand}', [HomeController::class, 'brand']);
 

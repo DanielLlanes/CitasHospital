@@ -2,7 +2,7 @@
     <div class="page-header-inner ">
         <!-- logo start -->
         <div class="page-logo">
-            <a href="{{ route('staff.dashboards') }}">
+            <a href="{{ route('staff.dashboard') }}">
                 {{-- <img alt="" src="{{ asset('staffFiles/assets/img/logo.png') }}"> --}}
                 <span class="logo-default" >{{ str_replace('_', " ", config('app.name', 'Laravel')) }}</span>
             </a>

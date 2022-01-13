@@ -33,6 +33,8 @@ class DashboardController extends Controller
 
     public function dashboard()
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
          return redirect()->route('staff.dashboard');
     }
 }

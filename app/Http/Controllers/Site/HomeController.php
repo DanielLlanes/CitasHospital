@@ -128,6 +128,10 @@ class HomeController extends Controller
     }
     public function brand($brand)
     {
+
+        if ($brand === 'staff') {
+            return redirect()->route('staff.dashboard');
+        }
         Session::forget('form_session');
         Session::forget('treatment');
 
