@@ -32,6 +32,7 @@
     <link href="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/css/splide.min.css') }}" rel="stylesheet">
     <link href="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/css/themes/splide-sea-green.min.css') }}" rel="stylesheet">
     <link href="{{ asset('siteFiles/assets/vendor/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     @yield('styles')
 
     <!-- Template Main CSS File -->
@@ -71,25 +72,19 @@
     <script src="{{ asset('siteFiles/assets/vendor/sweetalert/sweetalert2.js') }}"></script>
     <!-- Template Main JS File -->
     <script src="{{ asset('siteFiles/assets/js/main.js') }}"></script>
-    @yield('scripts')
-    <script>
-        new Splide('.splide', {
-            type: 'loop',
-            perPage: 2,
-            perMove: 1,
-            autoplay: true,
-            breakpoints: {
-                640: {
-                    perPage: 1,
-                },
-            }
-        }).mount();
-    </script>
     <script>
         const glightbox = GLightbox({
             selector: '.glightbox'
         });
+        let ip_address = 'prado.test';
+            let socket_port = '3000';
+            let socket = io(ip_address + ':' + socket_port );
+        socket.on('connect', function() {
+           socket.emit('user_connected', 'anonimous');
+        });
+        socket.emit('sendNotification', 'data');
     </script>
+    @yield('scripts')
 </body>
 
 </html>

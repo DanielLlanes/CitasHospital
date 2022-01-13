@@ -69,8 +69,6 @@ class HomeController extends Controller
             ->select("id", "name_$lang AS specialty", "show", "active")
             ->get();
 
-            
-            //return $specialty;
             return view('site.team', ['doctors' => $doctors, "specialties" => $specialties]);
         } 
 

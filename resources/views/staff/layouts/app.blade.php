@@ -145,6 +145,9 @@
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
+            socket.on('reciverNotification', (data) => {
+                console.log("data", data);
+            });
         </script>
         <script>
             const Toast = Swal.mixin({

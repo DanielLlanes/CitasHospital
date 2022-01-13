@@ -68,8 +68,9 @@
                                 @endforeach
                             </div>
                         @endif
-                        <hr class="mt-3 mb-3">
+                        
                         @if (count($doctor->educationbackground) > 0)
+                            <hr class="mt-3 mb-1" data-aos="fade-up">
                             <div class="section-title mt-3" data-aos="fade-up">
                                 <h2>Education<strong> BackGround</strong></h2>
                             </div>
@@ -88,8 +89,9 @@
                                 @endforeach
                             </div>
                         @endif
-                        <hr class="mt-3 mb-3">
+
                         @if (count($doctor->postgraduatestudies) > 0)
+                            <hr class="mt-3 mb-1" data-aos="fade-up">
                             <div class="section-title mt-3" data-aos="fade-up">
                                 <h2>Posgraduate<strong> Studies</strong></h2>
                             </div>
@@ -108,8 +110,9 @@
                                 @endforeach
                             </div>
                         @endif
-                        <hr class="mt-3 mb-3">
+                        
                         @if (count($doctor->updatecourses) > 0)
+                            <hr class="mt-3 mb-1" data-aos="fade-up">
                             <div class="section-title mt-3" data-aos="fade-up">
                                 <h2>Update<strong> Courses</strong></h2>
                             </div>
@@ -125,6 +128,11 @@
                                 </span>   
                                 @endforeach
                             </div>
+                        @endif
+                        
+                        @if (count($doctor->imagespublicprofile) > 0)
+                            <hr class="mt-3 mb-1" data-aos="fade-up">
+                            {{ $doctor->imagespublicprofile }}
                         @endif
                     </div>
                 </div>

@@ -243,3 +243,20 @@
     <!-- End Our Cordinators Section -->
 </main>
 @endsection
+
+
+@section('scripts')
+    <script>
+        new Splide('.splide', {
+            type: 'loop',
+            perPage: 2,
+            perMove: 1,
+            autoplay: true,
+            breakpoints: {
+                640: {
+                    perPage: 1,
+                },
+            }
+        }).mount();
+    </script>
+@endsection

@@ -22,7 +22,10 @@ const io = require('socket.io')(server, {
 io.on('connection', (socket) => {
     socket.on("user_connected", function (user_id) {
         users[user_id] = socket.id; //user id como key
-        io.emit('updateUserStatus', users);
+    });
+    socket.on('sendNotification', function(event) {
+        console.log("event", event);
+        io.emit('reciverNotification', event);
     });
 
     // socket.on("joinDebate", function (data) {
@@ -51,8 +54,6 @@ io.on('connection', (socket) => {
     // });
     // 
     socket.on('sendChatToServer', (data) => {
-        console.log("data", data);
-        
         socket.broadcast.emit('sendChatToClient', data);
     });
 

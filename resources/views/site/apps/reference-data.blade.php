@@ -288,30 +288,6 @@
             }
         });
 
-        function clearForm() {
-            $("input[name=treatmentBefore][value=0]").prop('checked', true);
-            $("input[name=treatmentBefore]").attr('disabled', false);
-            $("#name").val('').attr('disabled', false);
-            $('#sex').find('option').not(':first').remove();
-            $('#sex').val($("#target option:first").val());
-            $("#sex").attr('disabled', false);
-            $("#dob").val('').attr('disabled', false)
-            $("#age").val('').attr('disabled', false)
-            $("#phone").val('').attr('disabled', false)
-            $("#mobile").val('').attr('disabled', false)
-            $("#address").val('').attr('disabled', false)
-            $('#country_id').find('option').not(':first').remove();
-            $('#country_id').val($("#target option:first").val());
-            $("#country_id").attr('disabled', false)
-            $("#city").val('').attr('disabled', false)
-            $("#zip").val('').attr('disabled', false)
-            $("#ecn").val('').attr('disabled', false)
-            $("#ecp").val('').attr('disabled', false)
-
-            $('#state_id').find('option').not(':first').remove();
-            $('#state_id').val($("#target option:first").val());
-            $("#state_id").attr('disabled', false)
-        }
     </script>
 
 @if (!empty($sessionData))
@@ -369,11 +345,6 @@
         alert();
         //$(this).parents('.col-sm-9').find('.error').html('');
     });
-</script>
-@endif
-@if (!empty(old('medicationCadena')))
-<script>
-    $("#medication_table").show('fast');
 </script>
 @endif
 

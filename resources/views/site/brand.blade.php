@@ -49,7 +49,7 @@
                         @foreach ($treatments as $treatment)
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
-                                    <div class="card">
+                                    <div class="card altura">
                                         @if (!is_null($treatment->procedure->image))
                                             <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         @else
@@ -121,4 +121,18 @@
     @endif
 </main>
 
+@endsection
+
+@section('scripts')
+    <script>
+        var altura_arr = [];//CREAMOS UN ARREGLO VACIO
+        $('.altura').each(function(){//RECORREMOS TODOS LOS CONTENEDORES DE LAS IMAGENES, DEBEN TENER LA MISMA CLASE
+            var altura = $(this).height(); //LES SACAMOS LA ALTURA
+            altura_arr.push(altura);//METEMOS LA ALTURA AL ARREGLO
+        });
+        altura_arr.sort(function(a, b){return b-a}); //ACOMODAMOS EL ARREGLO EN ORDEN DESCENDENTE
+        $('.altura').each(function(){//RECORREMOS DE NUEVO LOS CONTENEDORES
+            $(this).css('height',altura_arr[0]);//LES PONEMOS A TODOS LOS CONTENEDORES EL PRIMERO ELEMENTO DE ALTURA DEL ARREGLO, QUE ES EL MAS GRANDE.
+        });
+    </script>   
 @endsection

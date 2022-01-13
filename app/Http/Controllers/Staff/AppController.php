@@ -689,13 +689,14 @@ class AppController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        //$members = json_decode($request->members);
+
         $date = Carbon::now();
         $hours = $date->format('g:i A');
         $debate = new Debate();
         $debate->staff_id = Auth::guard('staff')->user()->id;
         $debate->application_id = $request->debate;
         $debate->message = $request->message;
+        //$debate->read = $request->read;
         $debate->created_at = $date->toDateTimeString();
         $debate->updated_at = $date->toDateTimeString();
 
