@@ -76,7 +76,7 @@
         const glightbox = GLightbox({
             selector: '.glightbox'
         });
-        let ip_address = 'prado.test';
+        let ip_address = 'jlpradosc.online';
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port );
         socket.on('connect', function() {
