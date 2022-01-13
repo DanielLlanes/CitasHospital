@@ -21,10 +21,12 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
     socket.on("user_connected", function (user_id) {
+        console.log("user_id", user_id);
         users[user_id] = socket.id; //user id como key
+        io.emit('updateUserStatus', users);
     });
     socket.on('sendNotification', function(event) {
-        console.log("event", event);
+        //console.log("event", event);
         io.emit('reciverNotification', event);
     });
 
@@ -55,6 +57,11 @@ io.on('connection', (socket) => {
     // 
     socket.on('sendChatToServer', (data) => {
         socket.broadcast.emit('sendChatToClient', data);
+    });
+
+    socket.on('sendChatNotification', (data) => {
+        console.log("dataNot", data);
+        socket.broadcast.emit('reciveChatNotification', data);
     });
 
     socket.on('disconnect', function() {

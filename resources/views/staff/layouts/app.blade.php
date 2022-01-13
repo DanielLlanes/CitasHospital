@@ -138,7 +138,7 @@
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }
-            let ip_address = 'jlpradosc.online/';
+            let ip_address = window.location.hostname;
                 let socket_port = '3000';
                 let socket = io(ip_address + ':' + socket_port );
                 let user_id = "{{ auth()->user()->id }}";
