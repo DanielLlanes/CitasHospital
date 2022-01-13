@@ -73,6 +73,8 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
+    console.log("3000", 3000);
+    
 });
 function checkIfUserExistInGroup(user_id, group_id) {
     var group = groups[group_id];
