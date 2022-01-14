@@ -55,7 +55,7 @@ echo '</pre>';
                 <div class="card-body no-padding height-9">
                     <div class="row">
                         <div class="profile-userpic">
-                            <img src="http://prado.test/staffFiles/assets/img/user/user.jpg" class="img-responsive" alt="">
+                            <img src="{{ asset('staffFiles/assets/img/user/user.jpg') }}" class="img-responsive" alt="">
                         </div>
                     </div>
                     <div class="profile-usertitle">
