@@ -77,7 +77,7 @@
             selector: '.glightbox'
         });
         let ip_address = window.location.hostname;
-            let socket_port = '8080';
+            let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port );
         socket.on('connect', function() {
            socket.emit('user_connected', 'anonimous');
