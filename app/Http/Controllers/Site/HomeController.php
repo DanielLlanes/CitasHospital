@@ -137,6 +137,12 @@ class HomeController extends Controller
 
         $lang = "en";
 
+        $brandExist = Brand::where('url', $brand)->first();
+
+        if (!$brandExist) {
+            abort(404);
+        }
+
         $treatment = Treatment::whereHas('brand', function($query) use ($brand) {
             $query->where('url', $brand);
          })
