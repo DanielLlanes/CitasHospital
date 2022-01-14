@@ -25,36 +25,12 @@ io.on('connection', (socket) => {
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });
+    
     socket.on('sendNotification', function(event) {
-        //console.log("event", event);
+        console.log("event", event);
         io.emit('reciverNotification', event);
     });
 
-    // socket.on("joinDebate", function (data) {
-    //     data['socket_id'] = socket.id;
-    //     if (groups[data.group_id]) {
-    //         console.log("group already exist");
-    //         var userExist = checkIfUserExistInGroup(data.user_id, data.group_id);
-
-    //         if (!userExist) {
-    //             groups[data.group_id].push(data);
-    //             socket.join(data.room);
-    //         } else {
-    //             var index = groups[data.group_id].map(function(o) {
-    //                 return o.user_id;
-    //             }).indexOf(data.user_id);
-
-    //             groups[data.group_id].splice(index,1);
-    //             groups[data.group_id].push(data);
-    //             socket.join(data.room);
-    //         }
-    //     } else {
-    //     console.log("nwe group");
-    //         groups[data.group_id] = [data];
-    //         socket.join(data.room);
-    //     }
-    // });
-    // 
     socket.on('sendChatToServer', (data) => {
         socket.broadcast.emit('sendChatToClient', data);
     });
