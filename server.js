@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });
-    
+
     socket.on('sendNotification', function(event) {
         console.log("event", event);
         io.emit('reciverNotification', event);
@@ -45,24 +45,9 @@ io.on('connection', (socket) => {
         users.splice(i, 1, 0); //buscamos la key asociada al socket.id y lo eliminamos
         io.emit('updateUserStatus', users);
     });
-    
+
 });
 
 server.listen(3000, () => {
     console.log("3000", 3000);
-    
 });
-function checkIfUserExistInGroup(user_id, group_id) {
-    var group = groups[group_id];
-    var exist = false;
-    if (groups.length > 0) {
-        for (var i = 0; i < group.length; i++) {
-            if (group[i]['user_id'] == user_id) {
-                exist = true;
-                break;
-            }
-        }
-    }
-
-    return exist;
-}
