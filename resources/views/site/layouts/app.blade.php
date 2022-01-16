@@ -82,7 +82,10 @@
         socket.on('connect', function() {
            socket.emit('user_connected', 'anonimous');
         });
-        socket.emit('sendNotification', 'data');
+        //socket.emit('sendNotification', 'data');
+        socket.on('reciverChatToNotification', (data) => {
+            console.log("data", data);
+        });
     </script>
     @yield('scripts')
 </body>

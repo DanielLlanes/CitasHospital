@@ -9,8 +9,8 @@ use App\Models\Staff\Procedure;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
@@ -58,7 +58,10 @@ class HomeController extends Controller
                             ]
                         );
                     },
-                    'specialties'
+                    'specialties' => function($q)use($lang)
+                    {
+                        $q->selectRaw("name_$lang as specialty, specialties.id");
+                    }
                 ]
             )
             ->where("public_profile", 1)
@@ -69,7 +72,26 @@ class HomeController extends Controller
             ->select("id", "name_$lang AS specialty", "show", "active")
             ->get();
 
-            return view('site.team', ['doctors' => $doctors, "specialties" => $specialties]);
+            $collection = new Collection;
+            $titles = new Collection;
+
+            foreach ($doctors as $doc) {
+                $echos = $doc->specialties->unique('specialty');
+                foreach ($echos as $dsp) {
+                    $collection->push($dsp);
+                }
+            }
+            $unique = $collection->unique('specialty')->values()->all(); 
+            
+            foreach ($unique as $value) {
+                $titles->push((object)[
+                    'id' => $value->id,
+                    'name' => $value->specialty
+                ]);
+            }
+            //return $title;
+
+            return view('site.team', ['doctors' => $doctors, 'titles' => $unique]);
         } 
 
         $staffUrl= $url;

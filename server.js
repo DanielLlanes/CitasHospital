@@ -20,24 +20,27 @@ const io = require('socket.io')(server, {
 
 
 io.on('connection', (socket) => {
-    socket.on("user_connected", function (user_id) {
-        console.log("user_id", user_id);
+    socket.on("user_connected", function (user_id) { // user conected
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });
 
-    socket.on('sendNotification', function(event) {
-        console.log("event", event);
-        io.emit('reciverNotification', event);
+    socket.on('sendChatToNotification', function(event) { // chat notifications
+        console.log("sendChatToNotification", event);
+        io.emit('reciverChatToNotification', event);
     });
 
-    socket.on('sendChatToServer', (data) => {
+    socket.on('sendChatToServer', (data) => { // Chat messages
         socket.broadcast.emit('sendChatToClient', data);
     });
 
-    socket.on('sendChatNotification', (data) => {
-        console.log("dataNot", data);
-        socket.broadcast.emit('reciveChatNotification', data);
+    // socket.on('sendChatNotification', (data) => { // 
+    //     console.log("dataNotChat", data);
+    //     socket.broadcast.emit('reciveChatNotification', data);
+    // });
+
+    socket.on('sendChatToServer', (data) => { // Chat messages
+        socket.broadcast.emit('sendChatToClient', data);
     });
 
     socket.on('disconnect', function() {

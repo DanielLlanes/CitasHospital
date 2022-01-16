@@ -1342,7 +1342,6 @@ echo '</pre>';
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
 
-    //debateToDownLast()
     var itemContainer = $(".nice-chat");
     var scrollTo_int = itemContainer.prop('scrollHeight') + 'px';
         
@@ -1377,8 +1376,6 @@ echo '</pre>';
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
     var senderSound = '{{ asset('sounds/facebook-pop.mp3') }}'
     
-
-    //$("#listChat").height($("#chatDiv").height()+34)
 
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
@@ -1524,6 +1521,7 @@ echo '</pre>';
                     senderDebate(dataMsg.message)
                     let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp};
                     socket.emit('sendChatToServer', data);
+                    socket.emit('sendChatToNotification', data);
                 }
 
             },
@@ -1549,8 +1547,7 @@ echo '</pre>';
                     $msg += '</li>';
                     $('#chatDiv').append($msg)
                     play( reciverSound )
-                    debateToDownLast()
-
+                    debateToDownLast();
                 }
             });
         }
@@ -1591,7 +1588,6 @@ echo '</pre>';
     function debateToDownLast(){
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
-        //var scrollTo = $('#li-message-63');//if url has id
         container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
         //$("ul.chat").animate({scrollTop: $('ul.chat li:last').offset().top+30});
     }
@@ -1599,7 +1595,5 @@ echo '</pre>';
     $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
        if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
     })
-    // var path = window.location.href
-    // console.log(path.substring(path.lastIndexOf('/') + 1));
 </script>
 @endsection

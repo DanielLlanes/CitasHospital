@@ -143,9 +143,9 @@
             }
 
             let ip_address = window.location.hostname;
-                let socket_port = '3000';
-                let socket = io(ip_address + ':' + socket_port );
-                let user_id = "{{ auth()->user()->id }}";
+            let socket_port = '3000';
+            let socket = io(ip_address + ':' + socket_port );
+            let user_id = "{{ auth()->user()->id }}";
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
