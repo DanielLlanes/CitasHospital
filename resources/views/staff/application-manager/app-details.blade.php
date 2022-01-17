@@ -60,7 +60,24 @@ echo '</pre>';
                     </div>
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-job"> Patient </div>
-                        <div class="profile-usertitle-name"> {{ $appInfo->patient->name }} </div>
+                        <div><span class="profile-usertitle-name">{{ $appInfo->patient->name }} </span></div>
+                        <div id="biography" >
+                                <div class="row">
+                                    <div class="col-12 mb-2"> <strong>Edad</strong>
+                                        <br>
+                                        <p class="text-muted">{{ $appInfo->patient->age }}</p>
+                                    </div>
+                                    <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
+                                        <br>
+                                        <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
+                                    </div>
+                                    <div class="col-12 mb-2"> <strong>Género</strong>
+                                        <br>
+                                        <p class="text-muted">{{ $appInfo->patient->sex }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -72,6 +89,8 @@ echo '</pre>';
                 <div class="profile-tab-box">
                     <div class="p-l-20">
                         <ul class="nav ">
+                            @if (Auth::guard('staff')->user()->hasRole('doctor'))
+                            @endif
                             <li class="nav-item tab-all">
                                 <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
                             </li>
@@ -1004,12 +1023,7 @@ echo '</pre>';
                                                 </div>
                                                 <div class="box-footer chat-box-submit">
                                                     <div class="input-groupx">
-                                                        {{-- <input type="text" name="message" placeholder="Enter your ToDo List" class="form-control"> --}}
-                                                        {{-- <textarea name="messageInput" id="messageInput" cols="" class="form-control" rows="1"></textarea> --}}
                                                         <textarea name="career_objective" class="summernote-messageInput career_objective" id="messageInput" style="width: 100%;"></textarea>
-                                                        {{-- <span class="input-group-btn">
-                                                            <button type="button" class="btn btn-warning btn-flat" id="sendMsgBtn"><i class="fa fa-arrow-right"></i></button>
-                                                        </span> --}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1520,8 +1534,7 @@ echo '</pre>';
                     $('#messageInput').summernote('code', '');
                     senderDebate(dataMsg.message)
                     let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp};
-                    socket.emit('sendChatToServer', data);
-                    socket.emit('sendChatToNotification', data);
+                    socket.emit('sendDebateToServer', data);
                 }
 
             },
@@ -1530,8 +1543,7 @@ echo '</pre>';
             },
         })
     }
-    socket.on('sendChatToClient', (data) => {
-        console.log("data", data);
+    socket.on('sendDebateToClient', (data) => {
         if (data.group_id == debate_id) {
             $.each(data.members, function(i, val) {
                 if (data.user_id == val.member_id) {
@@ -1589,7 +1601,6 @@ echo '</pre>';
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
         container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
-        //$("ul.chat").animate({scrollTop: $('ul.chat li:last').offset().top+30});
     }
 
     $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {

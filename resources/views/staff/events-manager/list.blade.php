@@ -334,7 +334,6 @@
             });
             calendar.render();
         })
-
         $.ajax({
             type: "get",
             url: globaleventSources,
@@ -459,7 +458,6 @@
             $('.autocomplete.staff').val('').focus().attr('data-id', '')
         });
         $(document).on('click', '#formSubmit', function(event) {
-
             event.preventDefault();
             $('.error').html('')
             var date = $('#start').val();
@@ -495,8 +493,7 @@
 
                 },
                 success: function(data) {
-                    //console.log("data", data);
-                    calendar.refetchEvents()
+                    refetchCalendarEvents()
                     if (data.reload) {
                         Toast.fire({
                             icon: data.icon,
@@ -510,6 +507,7 @@
                         $("#is_app").prop('checked', false);
                         $("#is_app").parent().removeClass('is-checked');
                         $("#app").removeAttr("data-id")
+                        socket.emit('eventCalendarRefetchToServer');
                     } else {
                         $.each( data.errors, function( key, value ) {
                             $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -517,6 +515,9 @@
                     }
                 }
             });
+        });
+        socket.on('eventCalendarRefetchToClient', () => {
+            refetchCalendarEvents()
         });
         $('#start').bootstrapMaterialDatePicker({
             time: false,
@@ -553,7 +554,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            calendar.refetchEvents()
+                            socket.emit('eventCalendarRefetchToServer');
                         }
                         $('.error').html('')
                     },
@@ -573,7 +574,6 @@
                     id: 'formEdit'
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
-                //console.log(event)
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
 
@@ -607,10 +607,7 @@
                     $("#app").val(brand + ', ' +service + ', ' +procedure + ', ' +package)
                     $("#app").attr("data-id", event.extendedProps.application_id)
                 }
-
                 $('#lang option[value="'+event.extendedProps.lang+'"]')
-
-
                 $('#viewEvantModal').modal('hide')
             });
             $(document).on('click', '#formEdit', function(event) {
@@ -653,7 +650,7 @@
                     success: function(data) {
                         //console.log(data);
                         $('input').removeAttr("disabled")
-                        calendar.refetchEvents()
+                        refetchCalendarEvents()
                         if (data.reload) {
                             Toast.fire({
                                 icon: data.icon,
@@ -664,7 +661,7 @@
                             $("#is_app").prop('checked', false);
                             $("#is_app").parent().removeClass('is-checked');
                             $("#app").removeAttr("data-id")
-
+                            socket.emit('eventCalendarRefetchToServer');
                         } else {
                             $.each( data.errors, function( key, value ) {
                                 $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
@@ -686,7 +683,6 @@
             $("#is_app").parent().removeClass('is-checked');
             $("#app").removeAttr("data-id")
         });
-
         function eventClick(arg) {
             //console.log(arg.event)
             $('#viewEvantModal').on('show.bs.modal', function (e) {
@@ -741,7 +737,6 @@
                 $("#app").val("")
             }
         });
-
         $(document).on("click", "#btnAppsModal",function () {
             $('.eventApp').hide('fast');
             $("#app").removeAttr("data-id")
@@ -749,7 +744,6 @@
             $("#is_app").prop('checked', false);
             $("#is_app").parent().removeClass('is-checked');
         });
-
         function getApps(){
             $('#appsModal').on('shown.bs.modal', function (e) {
                 var id = $('.autocomplete.patient').attr('data-id');
@@ -807,17 +801,14 @@
                 }
             )
         }
-
         $('#appsModal').on('hide.bs.modal', function (e) {
             $('#appsTable').empty();
         })
-
         $(document).on('click', ".btn-add", function () {
             $("#app").val($(this).attr("name"))
             $("#app").attr("data-id", $(this).attr("data-id"))
             $('#appsModal').modal("hide")
         });
-
         $(document).on('click', '.closeModal', function(event) {
             event.preventDefault();
             $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
@@ -871,12 +862,15 @@
                         $('#formReset').click();
                         $('.error').html('')
                         if (data.reload) {
-                        calendar.refetchEvents()
+                        socket.emit('eventCalendarRefetchToServer');
 
                         }
                     }
                 });
             }
         @endcan
+        function refetchCalendarEvents(){
+            calendar.refetchEvents()
+        }
 </script>
 @endsection

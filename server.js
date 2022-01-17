@@ -9,14 +9,6 @@ var groups = [];
 const io = require('socket.io')(server, {
     cors: { origin: "*"}
 });
-// redis.subscribe('debate-chanel', function() {
-// });
-
-// redis.on('message', function(channel, message) {
-//     message = JSON.parse(message);
-//     console.log("channel", channel);
-//     console.log("message", message);
-// });
 
 
 io.on('connection', (socket) => {
@@ -25,32 +17,21 @@ io.on('connection', (socket) => {
         io.emit('updateUserStatus', users);
     });
 
-    socket.on('sendChatToNotification', function(event) { // chat notifications
-        console.log("sendChatToNotification", event);
-        io.emit('reciverChatToNotification', event);
-    });
-
-    socket.on('sendChatToServer', (data) => { // Chat messages
-        socket.broadcast.emit('sendChatToClient', data);
-    });
-
-    // socket.on('sendChatNotification', (data) => { // 
-    //     console.log("dataNotChat", data);
-    //     socket.broadcast.emit('reciveChatNotification', data);
-    // });
-
-    socket.on('sendChatToServer', (data) => { // Chat messages
-        socket.broadcast.emit('sendChatToClient', data);
-    });
-
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function() { // user disconected
         var i = users.indexOf(socket.id);
         users.splice(i, 1, 0); //buscamos la key asociada al socket.id y lo eliminamos
         io.emit('updateUserStatus', users);
     });
 
+    socket.on('sendDebateToServer', (data) => { // Debate messages
+        socket.broadcast.emit('sendDebateToClient', data);
+    });
+
+    socket.on("eventCalendarRefetchToServer", function() { //Calendar Events
+        socket.broadcast.emit('eventCalendarRefetchToClient');
+    });
+
 });
 
 server.listen(3000, () => {
-    console.log("3000", 3000);
 });
