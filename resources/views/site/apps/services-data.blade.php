@@ -128,7 +128,7 @@
                     'error':   'Ooops, something wrong happended.'
                 },
                 tpl: {
-                    message:         '<div class="dropify-message"><span class="file-icon" /> <p style="font-size: 16px">Drag and Drop a file or cleck here</p></div>',
+                    message:'<div class="dropify-message"><span class="file-icon" /> <p style="font-size: 16px">Drag and Drop a file or cleck here</p></div>',
 
                 }
             });

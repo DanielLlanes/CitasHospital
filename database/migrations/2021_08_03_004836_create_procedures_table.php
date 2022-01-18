@@ -21,7 +21,6 @@ class CreateProceduresTable extends Migration
             $table->longText('description_es');
             $table->longText('description_en')->nullable();
             $table->boolean('has_package')->default(false);
-            $table->text('image')->nullable();
             $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->timestamps();

@@ -24,5 +24,9 @@ class Brand extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function imageOne()
+    {
+        return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
     
 }

@@ -49,119 +49,119 @@ class PaymentMethodSeeder extends Seeder
 				'code' => '05',
 				'description_es' => 'Monedero electrónico',
                 'description_en' => 'Electronic wallet',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 6,
 				'code' => '06',
 				'description_es' => 'Dinero electrónico',
                 'description_en' => 'Electronic money',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 7,
 				'code' => '08',
 				'description_es' => 'Vales de despensa',
 				'description_en' => 'Pantry vouchers',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 8,
 				'code' => '12',
 				'description_es' => 'Dación en pago',
 				'description_en' => 'Dación en pago',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 9,
 				'code' => '13',
 				'description_es' => 'Pago por subrogación',
                 'description_en' => 'Surrogacy payment',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 10,
 				'code' => '14',
 				'description_es' => 'Pago por consignación',
 				'description_en' => 'Payment by consignment',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 11,
 				'code' => '15',
 				'description_es' => 'Condonación',
                 'description_en' => 'Condonation',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 12,
 				'code' => '17',
 				'description_es' => 'Compensación',
 				'description_en' => 'Compensation',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 13,
 				'code' => '23',
 				'description_es' => 'Novación',
 				'description_en' => 'Novation',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 14,
 				'code' => '24',
 				'description_es' => 'Confusión',
 				'description_en' => 'Confusion',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 15,
 				'code' => '25',
 				'description_es' => 'Remisión de deuda',
 				'description_en' => 'Debt remittance',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 16,
 				'code' => '26',
 				'description_es' => 'Prescripción o caducidad',
 				'description_en' => 'Prescription or expiration',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 17,
 				'code' => '27',
 				'description_es' => 'A satisfacción del acreedor',
                 'description_en' => 'To the satisfaction of the creditor',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 18,
 				'code' => '28',
 				'description_es' => 'Tarjeta de débito',
 				'description_en' => 'debit Card',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 19,
 				'code' => '29',
 				'description_es' => 'Tarjeta de servicios',
                 'description_en' => 'Services card',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 20,
 				'code' => '30',
 				'description_es' => 'Aplicación de anticipos',
 				'description_en' => 'Application of advances',
-				'active' => true
+				'active' => false
 			],
 			[
 				'id' => 21,
 				'code' => '99',
 				'description_es' => 'Por definir',
 				'description_en' => 'To define',
-				'active' => true
+				'active' => false
 			],
         ]);
     }

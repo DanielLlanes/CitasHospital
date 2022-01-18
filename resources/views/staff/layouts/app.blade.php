@@ -52,6 +52,7 @@
     </style>
     @yield('styles')
 
+    
     <!-- favicon -->
 </head>
 <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-color logo-dark">

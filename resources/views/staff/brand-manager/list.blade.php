@@ -71,6 +71,15 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                            <div class="form-body">
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image brand')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="file" name="image" id="image" class="dropify" />
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
                                                <div class="form-group mb-2">
                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
                                                        <span class="required"> * </span>
@@ -200,6 +209,8 @@
                 form_data.append('color', $('#color').val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
+                form_data.append('image', $('#image').prop('files')[0])
+                console.log('x', $('#image').prop('files')[0])
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -216,6 +227,7 @@
                     },
                     success:function(data)
                     {
+                        console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -248,6 +260,12 @@
                 .removeAttr('brand')
                 .html('Add')
                 .attr('id', 'formSubmit')
+                clearDropify()
+            }
+            function clearDropify(){
+                drEvents = drEvent.data('dropify');
+                drEvents.resetPreview();
+                drEvents.clearElement();
             }
 
             $(document).on('click', '.table-active', function(event) {
@@ -302,16 +320,28 @@
                     beforeSend: function()
                     {
 
+                        clearDropify()
+
                     },
                     success:function(data)
                     {
                         if (data.success) {
+                            var image_url;
+                            if (data.info.image_one) {
+                                image_url = window.location.origin+"/"+data.info.image_one.image
+                            } else {
+                                image_url = '';
+                            }
                             clearForm()
                             $('#brand').val(data.info.brand);
                             $('#acronym').val(data.info.acronym);
                             $('#color').val(data.info.color);
                             $('#description_en').val(data.info.description_en);
                             $('#description_es').val(data.info.description_es);
+                            drEvents.settings.defaultFile = image_url;
+                            drEvents.destroy();
+                            drEvents.init();
+                            
                             $('#formSubmit').html('edit').attr({
                                 brand: $.trim(brandId),
                                 id: 'formEdit'

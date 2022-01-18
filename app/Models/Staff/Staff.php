@@ -114,4 +114,8 @@ class Staff extends Authenticatable
     {
         return $this->hasMany(Debate::class);
     }
+    public function imageOne()
+    {
+        return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
 }

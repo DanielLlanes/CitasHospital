@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Http\Controllers\Controller;
 use App\Models\Staff\Brand;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Yajra\DataTables\DataTables;
 
 class BrandController extends Controller
 {
@@ -30,9 +33,10 @@ class BrandController extends Controller
      */
     public function brand()
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
 
-
-        //return $brand;
+        
         return view('staff.brand-manager.list');
     }
 
@@ -42,13 +46,18 @@ class BrandController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $brands = Brand::select(["*", "description_$lang AS description" ])->get();
+            $brands = Brand::with('imageOne')->select(["*", "description_$lang AS description" ])->get();
             return DataTables::of($brands)
                 ->addIndexColumn()
                 ->addColumn('image', function($brands){
+                    if (is_null($brands->imageOne)) {
+                        $images = "/siteFiles/assets/img/brands/".Str::of($brands->brand)->slug("-")->limit(50).".jpg";
+                    } else {
+                        $images = $brands->imageOne->image;
+                    }
                     $image ='
-                            <a href="'.asset($brands->image).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset($brands->image).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
+                            <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
+                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
                             </a>
                         ';
                         return $image;
@@ -99,6 +108,7 @@ class BrandController extends Controller
                 'unique:staff',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
+            'image' => "sometimes|image|mimes:jpg,png,jpeg",
             'description_en' => 'required|string',
             'description_en' => 'required|string',
           ]
@@ -111,9 +121,25 @@ class BrandController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+        $image = '';
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/brand/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 580;
+            $height = null;
+            $img->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '100');
+            $image = "storage/brand/image/$img_name";
+            $img->destroy();
+        }
 
         $brand = New Brand;
-
         $brand->brand = $request->brand;
         $brand->acronym = $request->acronym;
         $brand->color = $request->color;
@@ -122,6 +148,9 @@ class BrandController extends Controller
         $brand->url = Str::slug($request->brand, '-');
 
         if ($brand->save()) {
+            $brand->imageOne()->create(
+                ['image' => $image]
+            );
             return response()->json(
                 [
                     'icon' => 'success',
@@ -146,7 +175,7 @@ class BrandController extends Controller
      */
     public function edit(Request $request)
     {
-        $brand = Brand::find($request->id);
+        $brand = Brand::with('imageOne')->find($request->id);
 
 
         if ($brand) {
@@ -196,6 +225,39 @@ class BrandController extends Controller
                     'go' => '0',
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
+            }
+
+            $lastPhoto = null;
+            $avatar;
+            if (!$brand->imageOn) {
+                $lastPhoto = $brand->imageOne->image;
+                $lastPhotoId = $brand->imageOne->id;
+            } 
+
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $destinationPath = storage_path('app/public').'/brand/image';
+                $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+                $img = Image::make($image->getRealPath());
+                $width = 600;
+                $height = 600;
+                $img->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+                $img->save($destinationPath."/".$img_name, '100');
+                $image = "storage/brand/image/$img_name";
+
+                if (!is_null($lastPhoto)) {
+                    unlink(public_path($lastPhoto));
+                }
+                ImageOne::destoy($lastPhotoId);
+                $brand->imageOne()->create(
+                    ['image' => $image]
+                );
+                $img->destroy();
             }
 
             $brand->brand = $request->brand;

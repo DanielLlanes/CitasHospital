@@ -52,7 +52,7 @@
                                 <span class="required">  </span>
                             </label>
                             <div class="col-md-5">
-                                <input type="file" name="avatar" class="dropify" data-default-file="{{ asset($staff->avatar) }}" />
+                                <input type="file" name="avatar" class="dropify" data-default-file="{{  (is_null($staff->imageOne)) ? "":asset($staff->imageOne->image) }}" />
                                 @error('avatar')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror

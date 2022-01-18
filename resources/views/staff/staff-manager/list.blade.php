@@ -71,10 +71,6 @@
                 <header>Permisos</header>
                 <div class="tools">
                     <div class="form-check">
-                        {{-- <input class="form-check-input" type="checkbox" value="" id="selectAll">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Seleccionar todos
-                        </label> --}}
                     </div>
                 </div>
             </div>
@@ -112,12 +108,6 @@
         todos ? $('.selectAllGroup').prop('checked', true) : ''
         todos ? $('#selectAll').prop('checked', true) : $('#selectAll').prop('checked', false)
 
-
-
-
-
-
-
         $("#selectAll").click(function() {
             if (!$("input[type=checkbox]").prop('disabled')) {
                 $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
@@ -142,16 +132,10 @@
                 if (!input.prop('disabled')) {input.prop('checked', false)}
             }
         });
-
-
-
+        
         $(document).ready(function() {
             $('#exampleModal').modal('show')
         });
-
-
-
-
 
         var globalRouteobtenerLista = "{{ route('staff.staff.getStaffList') }}";
 		var globalRouteActivar = "{{ route('staff.staff.activate') }}";

@@ -1429,8 +1429,6 @@ echo '</pre>';
         }).modal('show');
     });
 
-   
-
     socket.on('updateUserStatus', (data) => {
         //console.clear()
         let $userStatusIcon = $('.user-status-icon');
@@ -1448,7 +1446,6 @@ echo '</pre>';
         });
     });
 
-    
     function setNewStaff(lastValue, lastText, specialty)
     {
         var form_data = new FormData();
@@ -1567,7 +1564,7 @@ echo '</pre>';
     function senderDebate(message)
     {
         $msg = '<li class="out">';
-            $msg += '<img src="{{ asset( auth()->guard('staff')->user()->avatar )}} " class="avatar" alt="">';
+            $msg += '<img src="{{ avatar() }} " class="avatar" alt="">';
             $msg += '<div class="message">';
                 $msg += '<span class="arrow"></span>';
                $msg += ' <a class="name" href="#">{{ auth()->guard('staff')->user()->name }}</a>';

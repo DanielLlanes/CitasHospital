@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\Staff;
 
-use DataTables;
-use App\Models\Staff\Staff;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Mail\ResetPasswordFromAdminMail;
+use App\Mail\WelcomeNewMemberOfStaff;
+use App\Models\Staff\ImageOne;
 use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
-use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
+use App\Models\Staff\Staff;
+use DataTables;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\WelcomeNewMemberOfStaff;
-use App\Mail\ResetPasswordFromAdminMail;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Eloquent\Collection;
+use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
 {
@@ -37,7 +38,7 @@ class StaffController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-
+        
         if (!Auth::guard('staff')->user()->can('admin.list') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
         }
@@ -50,9 +51,6 @@ class StaffController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
             $can_list_admins = Auth::guard('staff')->user()->can('admin.list');
-
-
-
             $staff = Staff::whereHas(
                 'roles', function($query) use ($lang, $can_list_admins) {
                     if ($can_list_admins) {
@@ -73,14 +71,15 @@ class StaffController extends Controller
                 },
                 'specialties' => function($query) use ($lang){
                     $query->select(["specialties.id", "name_$lang AS Sname"]);
-                }
+                },
+                'imageOne',
             ])
             ->get();
 
             return DataTables::of($staff)
                 ->addIndexColumn()
                 ->addColumn('picture', function($staff){
-                    if (is_null($staff->avatar)) {
+                    if (is_null($staff->imageOne)) {
                        $avatar ='
                                 <a href="'.asset("staffFiles/assets/img/user/user.jpg").'" data-effect="mfp-zoom-in" class="a">
                                     <img src="'.asset("staffFiles/assets/img/user/user.jpg").'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$staff->name.'"/>
@@ -88,8 +87,8 @@ class StaffController extends Controller
                             ';
                     } else {
                         $avatar = '
-                                    <a href="'.asset($staff->avatar).'" data-effect="mfp-zoom-in" class="a">
-                                        <img src="'.asset($staff->avatar).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$staff->name.'"/>
+                                    <a href="'.asset($staff->imageOne->image).'" data-effect="mfp-zoom-in" class="a">
+                                        <img src="'.asset($staff->imageOne->image).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$staff->name.'"/>
                                     </a>
                                 ';
                     }
@@ -347,28 +346,9 @@ class StaffController extends Controller
                 ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
-        //return $request;
-        $avatar = "staffFiles/assets/img/user/user.jpg";
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $destinationPath = storage_path('app/public').'/staff/avatar';
-            $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
-            $img = Image::make($avatar->getRealPath());
-            $width = 800;
-            $height = 800;
-            $img->resize($width, $height, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
-
-            $img->save($destinationPath."/".$img_name, '100');
-            $avatar = "storage/staff/avatar/$img_name";
-            $img->destroy();
-        }
 
         $admin = "admins";
         $is_admin = role::findOrFail($request->role);
-        //return($is_admin);
 
         if (!$staff_create_admins) {
             if ($is_admin->name == "administrator") {
@@ -402,13 +382,29 @@ class StaffController extends Controller
         $staff->email = Str::of($request->email)->lower();
         $staff->password = Hash::make($unHashPassword);
         $staff->lang = $request->language;
-        $staff->avatar = $avatar;
         $staff->color = strtolower($request->color);
         //$staff->specialty_id = $request->specialty;
         $staff->public_profile = $request->public_profile == "on" ? 1:0;
         $staff->url = Str::slug($request->url, '-');
 
         $assignment = [];
+        $avatar = '';
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $destinationPath = storage_path('app/public').'/staff/avatar';
+            $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
+            $img = Image::make($avatar->getRealPath());
+            $width = 800;
+            $height = 800;
+            $img->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '100');
+            $avatar = "storage/staff/avatar/$img_name";
+            $img->destroy();
+        }
 
 
         if ($request->has('assigned_to')){
@@ -428,7 +424,9 @@ class StaffController extends Controller
                     ];
                 }
                 $staff->assignToService()->sync($assignTo);
-                
+                $staff->imageOne()->create(
+                    ['image' => $avatar]
+                );
             }
 
             $staff->specialties()->sync($request->specialties);
@@ -497,17 +495,17 @@ class StaffController extends Controller
             'assignToService' => function($query) use ($lang){
                 $query->select(["services.id", "service_$lang AS atsName"]);
             },
+            'imageOne',
         ])
         ->findOrFail($id);
 
-        //return($staff);
         if ($staff->roles[0]->name == 'administrator') {
             if (!$staff_edit_admins) {
                 abort(403, 'Unauthorized action.');
             }
         }
 
-
+        //return $staff;
         if ($staff_edit_admins && $staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
@@ -557,7 +555,8 @@ class StaffController extends Controller
         $staff_edit_admins = Auth::guard('staff')->user()->can('admin.edit');
         $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('admin.edit.permisions');
 
-        $staff = Staff::findOrFail($id);
+        $staff = Staff::with('imageOne')->findOrFail($id);
+
 
         $assingnamentCheck = [];
         //$assingnamentCheck = 0;
@@ -614,8 +613,14 @@ class StaffController extends Controller
 
             }
         }
-
-        $lastPhoto = $staff->avatar;
+        
+        $lastPhoto = null;
+        $avatar;
+        //return $staff->imageOne;
+        if (!$staff->imageOn) {
+            $lastPhoto = $staff->imageOne->image;
+            $lastPhotoId = $staff->imageOne->id;
+        } 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $destinationPath = storage_path('app/public').'/staff/avatar';
@@ -631,12 +636,13 @@ class StaffController extends Controller
             $img->save($destinationPath."/".$img_name, '100');
             $avatar = "storage/staff/avatar/$img_name";
 
-
-            if ($lastPhoto != 'staffFiles/assets/img/user/user.jpg') {
-                //return $lastPhoto;
+            if (!is_null($lastPhoto)) {
                 unlink(public_path($lastPhoto));
             }
-            $staff->avatar = $avatar;
+            ImageOne::destoy($lastPhotoId);
+            $staff->imageOne()->create(
+                ['image' => $avatar]
+            );
             $img->destroy();
         }
 
@@ -695,8 +701,15 @@ class StaffController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        $staff = Staff::find($request->id);
+        $staff = Staff::with('imageOne')find($request->id);
         if($staff->exists()){
+            if (!$staff->imageOn) {
+                $lastPhoto = $staff->imageOne->image;
+                $lastPhotoId = $staff->imageOne->id;
+                unlink(public_path($lastPhoto));
+                ImageOne::destoy($lastPhotoId);
+            } 
+
             $staff->delete();
             return response()->json(
                 [

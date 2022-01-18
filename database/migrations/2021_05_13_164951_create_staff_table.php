@@ -22,7 +22,6 @@ class CreateStaffTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->char('lang')->default('es');
-            $table->string('avatar')->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('show')->default(true);
             $table->boolean('set_pass')->default(false);
