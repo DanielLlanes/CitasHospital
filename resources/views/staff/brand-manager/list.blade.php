@@ -374,6 +374,7 @@
                 form_data.append('color', $('#color').val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
+                form_data.append('image', $('#image').prop('files')[0])
                 form_data.append('id', brandId);
                 $.ajax({
                     url: globalRouteUpdate,

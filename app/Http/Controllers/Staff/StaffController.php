@@ -403,6 +403,7 @@ class StaffController extends Controller
 
             $img->save($destinationPath."/".$img_name, '100');
             $avatar = "storage/staff/avatar/$img_name";
+
             $img->destroy();
         }
 
@@ -416,6 +417,11 @@ class StaffController extends Controller
         }
         //return $request;
         if ($staff->save()) {
+            if ($avatar != '') {
+                $staff->imageOne()->create(
+                    ['image' => $avatar]
+                );
+            }
             if (count($assignment) > 0) {
                 for ($i=0; $i < count($assignment); $i++) {
                     $assignTo[] = [
@@ -424,9 +430,7 @@ class StaffController extends Controller
                     ];
                 }
                 $staff->assignToService()->sync($assignTo);
-                $staff->imageOne()->create(
-                    ['image' => $avatar]
-                );
+                
             }
 
             $staff->specialties()->sync($request->specialties);
@@ -639,7 +643,7 @@ class StaffController extends Controller
             if (!is_null($lastPhoto)) {
                 unlink(public_path($lastPhoto));
             }
-            ImageOne::destoy($lastPhotoId);
+            $staff->imageOne->delete($lastPhotoId);
             $staff->imageOne()->create(
                 ['image' => $avatar]
             );
@@ -701,13 +705,13 @@ class StaffController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        $staff = Staff::with('imageOne')find($request->id);
+        $staff = Staff::with('imageOne')->find($request->id);
         if($staff->exists()){
             if (!$staff->imageOn) {
                 $lastPhoto = $staff->imageOne->image;
                 $lastPhotoId = $staff->imageOne->id;
                 unlink(public_path($lastPhoto));
-                ImageOne::destoy($lastPhotoId);
+                $staff->imageOne->delete($lastPhotoId);
             } 
 
             $staff->delete();

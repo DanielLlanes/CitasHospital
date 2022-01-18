@@ -148,9 +148,12 @@ class BrandController extends Controller
         $brand->url = Str::slug($request->brand, '-');
 
         if ($brand->save()) {
-            $brand->imageOne()->create(
-                ['image' => $image]
-            );
+            if ($image != '') {
+                $brand->imageOne()->create(
+                    ['image' => $image]
+                ); 
+            }
+            
             return response()->json(
                 [
                     'icon' => 'success',
@@ -203,7 +206,7 @@ class BrandController extends Controller
      */
     public function update(Request $request)
     {
-        $brand = Brand::find($request->id);
+        $brand = Brand::with('imageOne')->find($request->id);
         if ($brand) {
             $validator = Validator::make($request->all(), [
                 'brand' => 'required|string',
@@ -253,7 +256,7 @@ class BrandController extends Controller
                 if (!is_null($lastPhoto)) {
                     unlink(public_path($lastPhoto));
                 }
-                ImageOne::destoy($lastPhotoId);
+                $brand->imageOne->delete($lastPhotoId);
                 $brand->imageOne()->create(
                     ['image' => $image]
                 );
@@ -300,8 +303,15 @@ class BrandController extends Controller
      */
     public function destroy(Request $request)
     {
-        $brand = Brand::find($request->id);
+        $brand = Brand::with('imageOne')->find($request->id);
         if($brand->exists()){
+            if (!$brand->imageOn) {
+                $lastPhoto = $brand->imageOne->image;
+                $lastPhotoId = $brand->imageOne->id;
+                unlink(public_path($lastPhoto));
+                $brand->imageOne->delete($lastPhotoId);
+            } 
+            
             $brand->delete();
             return response()->json(
                 [
