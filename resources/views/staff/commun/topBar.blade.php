@@ -256,7 +256,7 @@
                 <!-- start manage user dropdown -->
                 <li class="dropdown dropdown-user">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <img alt="{{ auth()->guard('staff')->user()->name }}" class="img-circle " src="{{ asset( avatar() ) }}" />
+                        <img alt="{{ auth()->guard('staff')->user()->name }}" class="img-circle " src="{{ asset( getAvatar(auth()->guard('staff')->user()) ) }}" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>

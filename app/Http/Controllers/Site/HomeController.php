@@ -22,6 +22,7 @@ class HomeController extends Controller
         ->with
         (
             [
+                'imageOne',
                 'assignToService' => function($q) use($lang) 
                 {
                     $q->selectRaw("services.id, service_$lang as service, brand_id");
@@ -35,7 +36,6 @@ class HomeController extends Controller
             ]
         )
         ->get();
-        //return($coordinator);
         return view('site.welcome', ["coordinators" => $coordinator]);
     }
     public function team($url = null)
@@ -174,7 +174,7 @@ class HomeController extends Controller
                 'brand',
                 'service',
                 'procedure' => function($query) use ($lang) {
-                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure", "description_$lang as description", "image");
+                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure", "description_$lang as description");
                  },
                 'package' => function($query) use ($lang) {
                     $query->select('id', "active", "package_$lang as package");

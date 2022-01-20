@@ -58,7 +58,7 @@
                             <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
-                                        <header>@lang('Services Manager')</header>
+                                        <header>@lang('Procedures Manager')</header>
                                     </div>
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">

@@ -187,13 +187,13 @@
             <div class="section-title" data-aos="fade-up">
                 <h2>Our <strong>Brands</strong></h2>
             </div>
-
+            
             <div class="row">
                 @foreach ($brands as $brand)
                     <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
                         <a href="{{ url($brand->url) }}">
                             <div class="card border-0 bg-transparent bg-transparent">
-                                <img src="{{ asset($brand->image) }}" class="card-img-top" alt="...">
+                                <img src="{{ getBrandImage($brand) }}" class="card-img-top" style="text-transform: lowercase;" alt="{{ strtolower($brand->service->service) }}">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">{{ $brand->service->service}}</h5>
                                 </div>
@@ -221,7 +221,9 @@
                         @foreach($coordinators as $coordinator)
                         <li class="splide__slide">
                             <div class="member d-flex align-items-start">
-                                <div class="pic"><img src="{{ asset($coordinator->avatar) }}" class="img-fluid" alt="{{ $coordinator->name }}"></div>
+                                <div class="pic">
+                                    <img src="{{ getAvatar($coordinator) }}" class="img-fluid" alt="{{ $coordinator->name }}">
+                                </div>
                                 <div class="member-info">
                                     <h4>{{ $coordinator->name }}</h4>
                                     <span>Coordinator</span>
