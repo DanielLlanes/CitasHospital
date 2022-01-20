@@ -1008,7 +1008,7 @@ echo '</pre>';
                                                             @foreach ($appInfo->debates as $debate)
                                                                 @if ($debate->application_id == $appInfo->id)
                                                                     <li class="{{ ($debate->staff_id == auth()->guard('staff')->user()->id)? "out":"in" }}" id="li-message-{{ $debate->id }}">
-                                                                        <img src="{{ asset( $debate->staff_debate->avatar )}}" class="avatar" alt="">
+                                                                        <img src="{{ asset( getAvatar($debate->staff_debate) )}}" class="avatar" alt="">
                                                                         <div class="message">
                                                                             <span class="arrow"></span>
                                                                             <a class="name" href="#">{{ $debate->staff_debate->name }}</a>
@@ -1341,20 +1341,6 @@ echo '</pre>';
 <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
 
 <script>
-    $('.table').magnificPopup({
-          delegate: 'a.a',
-          type: 'image',
-          removalDelay: 500, //delay removal by X to allow out-animation
-          callbacks: {
-            beforeOpen: function() {
-              // just a hack that adds mfp-anim class to markup
-               this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
-               this.st.mainClass = this.st.el.attr('data-effect');
-            }
-          },
-          closeOnContentClick: true,
-          midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
-    });
 
     var itemContainer = $(".nice-chat");
     var scrollTo_int = itemContainer.prop('scrollHeight') + 'px';
@@ -1385,6 +1371,7 @@ echo '</pre>';
     var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
 
     var debateMembers = {!! json_encode($debateMembers) !!}
+    console.log("debateMembers", debateMembers);
     var debate_id = {{ $appInfo->id }}
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
@@ -1427,6 +1414,21 @@ echo '</pre>';
               setNewStaff(lastValue, lastText, specialty[1])
              });
         }).modal('show');
+    });
+
+    $('.table').magnificPopup({
+          delegate: 'a.a',
+          type: 'image',
+          removalDelay: 500, //delay removal by X to allow out-animation
+          callbacks: {
+            beforeOpen: function() {
+              // just a hack that adds mfp-anim class to markup
+               this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+               this.st.mainClass = this.st.el.attr('data-effect');
+            }
+          },
+          closeOnContentClick: true,
+          midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
 
     socket.on('updateUserStatus', (data) => {
@@ -1555,7 +1557,7 @@ echo '</pre>';
                         $msg += '</div>';
                     $msg += '</li>';
                     $('#chatDiv').append($msg)
-                    play( reciverSound )
+                    //play( reciverSound )
                     debateToDownLast();
                 }
             });
@@ -1564,7 +1566,7 @@ echo '</pre>';
     function senderDebate(message)
     {
         $msg = '<li class="out">';
-            $msg += '<img src="{{ avatar() }} " class="avatar" alt="">';
+            $msg += '<img src="{{ asset(getAvatar(auth()->guard('staff')->user())) }} " class="avatar" alt="">';
             $msg += '<div class="message">';
                 $msg += '<span class="arrow"></span>';
                $msg += ' <a class="name" href="#">{{ auth()->guard('staff')->user()->name }}</a>';

@@ -43,7 +43,7 @@
                                 @if ($spe->id == $title->id)
                                         <div class="col-xl-3 col-lg-4 col-md-6">
                                             <div class="doctor" data-aos="fade-up" data-aos-delay="100">
-                                                <img src="{{ asset($doctor->avatar) }}" class="img-fluid" alt="">
+                                                <img src="{{ asset( getAvatar($doctor) ) }}" class="img-fluid" alt="">
                                                 <div class="doctor-info">
                                                     <div class="doctor-info-content" style="left: 0;">
                                                         <h4>{{ $doctor->name }}</h4>

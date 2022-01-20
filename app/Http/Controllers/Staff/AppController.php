@@ -331,18 +331,23 @@ class AppController extends Controller
                 'images',
                 'birthcontrol',
                 'debates' => function($q){
-                    $q->with(['staff_debate']);
+                    $q->with(
+                        [
+                            'staff_debate' => function($q){
+                                $q->with('imageOne');
+                            }
+                        ]
+                    );
                 }
 
             ]
         )
         ->findOrFail($id);
 
-        $StaffAss = Staff::with('assignToSpecialty')->find(Auth::guard('staff')->user()->id);
+        $StaffAss = Staff::with('assignToSpecialty', 'imageOne')->find(Auth::guard('staff')->user()->id);
 
         $can = false;
         for ($i = 0; $i < count($StaffAss->assignToSpecialty); $i++) {
-            //echo $StaffAss->assignToSpecialty[$i]->id;
             for ($j = 0; $j < count($applications->treatment->service->specialties); $j++) {
                 if ($applications->treatment->service->specialties[$j]->id == $StaffAss->assignToSpecialty[$i]->id) {
                     $can = true;
@@ -360,7 +365,7 @@ class AppController extends Controller
         }
 
         $treatment = $applications->treatment;
-        //return($treatment);
+
         $cordinators = Staff::whereHas // no se requiere
         (
             'specialties', function($q)
@@ -380,7 +385,8 @@ class AppController extends Controller
         (
             [
                 'specialties',
-                'assignToService' 
+                'assignToService',
+                'imageOne'
             ]
         )
         ->get();  // no se requiere
@@ -420,10 +426,11 @@ class AppController extends Controller
                         $q->select("service_$lang AS Sname", 'services.id')
                         ->where("services.id", $treatment->service->id);
                     },
-                    "roles"
+                    "roles",
+                    'imageOne'
                 ]
             )
-            ->select("id","name", "email", "avatar")
+            ->select("id","name", "email")
             ->get();
 
             //return ($assignment );
@@ -442,26 +449,32 @@ class AppController extends Controller
                         'member_specialty' => $value->specialties[0]->Sname,
                         'member_service' => $value->assignToService[0]->Sname,
                         'member_role' => $value->roles[0]->name,
-                        'member_avatar' => asset($value->avatar),
+                        'member_avatar' => asset( getAvatar($value) ),
                     ]);
                 }
                 
             }
         }
 
-        
-        if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator'])) {
+        $members = Staff::with('imageOne')->role(['administrator', 'super-administrator', 'dios'])->get();
+
+
+        foreach ($members as $member) {
             $debateMembers->push((object)[
-                'member_name' => Auth::guard("staff")->user()->name,
-                'member_id' => Auth::guard("staff")->user()->id,
+                'member_name' => $member->name,
+                'member_id' => $member->id,
                 'member_specialty' => null,
                 'member_service' => null,
-                'member_role' => Auth::guard("staff")->user()->roles[0]->name,
-                'member_avatar' => asset(Auth::guard('staff')->user()->avatar),
+                'member_role' => $member->roles[0]->name,
+                'member_avatar' => asset( getAvatar($member) ),
             ]);
         }
 
-//return($applications);
+
+        // if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator'])) {
+            
+        // }
+
         return view
         (
             'staff.application-manager.app-details',
@@ -702,7 +715,7 @@ class AppController extends Controller
 
         if ($debate->save()) {
             $response = [];
-            $staff = Staff::select("id", "name", "avatar")->find($debate->staff_id);
+            $staff = Staff::select("id", "name")->with('imageOne')->find($debate->staff_id);
             $response['user_id'] = $staff;
             $response['message'] = $debate->message;
             $response['debate_id'] = $debate->application_id;

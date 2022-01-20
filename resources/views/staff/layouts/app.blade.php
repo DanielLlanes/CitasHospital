@@ -150,10 +150,46 @@
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
-            
-            socket.on('reciverNotification', (data) => {
+            var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
+            socket.on('sendMesageDebateToClient', (data) => {
                 console.log("data", data);
+                let $notifyAra = $('.debateNotifications')
+                play( reciverSound )
+                $.each(data.members, function(i, val) {
+                    if (data.user_id == val.member_id) {
+                        $thisData = data.members[i]
+                        notifyItem($thisData, data)
+                        play( reciverSound )
+                    }
+                });
             });
+
+            function notifyItem($thisData, data){
+                let notifyList = '';
+                notifyList += '<li>';
+                notifyList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
+                notifyList += '<span class="photo">';
+                notifyList += '<img src=" ' + $thisData.member_avatar + ' " class="img-circle" alt=""> </span>';
+                notifyList += '<span class="subject">';
+                notifyList += '<span class="from"> ' + $thisData.member_name  + ' </span>';
+                notifyList += '<span class="time">Just Now </span>';
+                notifyList += '</span>';
+                notifyList += '<span class="message"> ' + data.message + ' </span>';
+                notifyList += '</a>';
+                notifyList += '</li>';
+
+                $('.debateNotifications li .message').css({
+                    'margin-block-start': '0',
+                    'margin-inline-start': '0'
+                });
+                $('.debateNotifications').prepend(notifyList);
+
+                // margin-block-start: 1em;
+                //     margin-block-end: 1em;
+                //     margin-inline-start: 0px;
+                //     margin-inline-end: 0px;
+
+            }
         </script>
         <script>
             const Toast = Swal.mixin({

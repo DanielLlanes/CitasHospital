@@ -25,6 +25,7 @@ io.on('connection', (socket) => {
 
     socket.on('sendDebateToServer', (data) => { // Debate messages
         socket.broadcast.emit('sendDebateToClient', data);
+        socket.broadcast.emit('sendMesageDebateToClient', data);
     });
 
     socket.on("eventCalendarRefetchToServer", function() { //Calendar Events

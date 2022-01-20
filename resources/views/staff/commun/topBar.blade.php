@@ -189,7 +189,7 @@
                             <span class="notification-label cyan-bgcolor">New 2</span>
                         </li>
                         <li>
-                            <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283">
+                            <ul class="dropdown-menu-list small-slimscroll-style debateNotifications" data-handle-color="#637283">
                                 <li>
                                     <a href="#">
                                         <span class="photo">
