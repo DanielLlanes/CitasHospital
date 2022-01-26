@@ -72,6 +72,7 @@
     <script src="{{ asset('siteFiles/assets/vendor/sweetalert/sweetalert2.js') }}"></script>
     <!-- Template Main JS File -->
     <script src="{{ asset('siteFiles/assets/js/main.js') }}"></script>
+
     <script>
         const glightbox = GLightbox({
             selector: '.glightbox'

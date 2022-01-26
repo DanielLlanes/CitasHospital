@@ -143,9 +143,8 @@
         <script src="{{ asset('staffFiles/assets/plugins/moment/moment.min.js') }}"></script>
         <!-- end js include path -->
         {{-- plugins Langs --}}
+
         <script>
-
-
 
             $.ajaxSetup({
                 headers: {

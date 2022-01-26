@@ -1383,7 +1383,6 @@ echo '</pre>';
     var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
 
     var debateMembers = {!! json_encode($debateMembers) !!}
-    console.log("debateMembers", debateMembers);
     var debate_id = {{ $appInfo->id }}
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
