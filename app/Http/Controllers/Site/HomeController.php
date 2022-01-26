@@ -58,6 +58,7 @@ class HomeController extends Controller
                             ]
                         );
                     },
+                    'imageOne',
                     'specialties' => function($q)use($lang)
                     {
                         $q->selectRaw("name_$lang as specialty, specialties.id");
@@ -105,7 +106,8 @@ class HomeController extends Controller
             'educationbackground',
             'postgraduatestudies',
             'updatecourses',
-            'imagespublicprofile',
+            'imageOne',
+            'imageMany',
             'careerobjetive',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);

@@ -3,6 +3,7 @@
 namespace App\Models\Site;
 
 use App\Models\Staff\Debate;
+use App\Models\Staff\ImageMany;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
 use App\Models\Staff\Product;
@@ -21,6 +22,11 @@ class Application extends Model
     public function images()
     {
         return $this->hasMany(ImageApplication::class);
+    }
+
+    public function imageMany()
+    {
+        return $this->morphMany(ImageMany::class, 'imageManyable');
     }
 
     public function medications()

@@ -64,7 +64,6 @@ class ApplicationController extends Controller
         ->where('active', true)
         ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
         ->findOrFail($id);
-        //Session::flush();
 
         if ($exists) {
 
@@ -195,7 +194,7 @@ class ApplicationController extends Controller
         if (!$treatment->service->need_images) {
             $getData = Session::get('form_session');
             $treatment = Session::get('treatment');
-            $app = Application::with('images', 'medications')->find($getData->id);
+            $app = Application::with('imageMany', 'medications')->find($getData->id);
             Session::forget('form_session');
             $app->generalData = 1;
             $app->servicesData = 1;
@@ -212,7 +211,12 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1) {
                 $app = Application::
-                with('images', 'medications')
+                with([
+                    'medications',
+                    'imageMany' => function($q) {
+                        $q->orderBy('order', 'asc');
+                    }, 
+                ])
                 ->find($getData->id);
                 $treatment = Session::get('treatment');
                 return view('site.apps.services-data', ['treatment' => $treatment, 'app' => $app]);
@@ -233,15 +237,31 @@ class ApplicationController extends Controller
 
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            $app =  Application::
-            with('images', 'medications')
-            ->find($getData->id);
+            $app =  Application::with('imageMany', 'medications')->find($getData->id);
 
             $treatment = Session::get('treatment');
             $qty_images = $treatment->service->qty_images;
 
             $image = $request->file('dropify');
 
+            $code = time().uniqid(Str::random(30));
+
+            if ($request->code != 'undefined' || !is_null($request->code)) {
+
+                $imageExist = $app->imageMany()->where('code', $request->code)->first();
+
+                if ($imageExist) {
+
+                    $imageForDelete = $imageExist->image;
+                    $idForDelete = $imageExist->id;
+
+                    $imageExist->delete();
+
+                    if( file_exists($imageForDelete) ){
+                        unlink(public_path($imageForDelete));
+                    }
+                }
+            }
 
             $destinationPath = storage_path('app/public').'/application/image';
             $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
@@ -252,34 +272,11 @@ class ApplicationController extends Controller
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '80');
+            $img->save($destinationPath."/".$img_name, '90');
             $image = "storage/application/image/$img_name";
             $img->destroy();
-
             
-            $getData = Session::get('form_session');
-            $app = Application::with('images', 'medications')->find($getData->id);
-
-            $imageExist = ImageApplication::where('application_id', $getData->id)
-            ->where('order', $request->order)
-            ->first();
-
-
-            if ($imageExist) {
-                unlink($imageExist->local_image);
-                $imageExist->delete();
-            }
-
-            DB::table('image_applications')->insert(
-                [
-                    'local_image' => $image,
-                    'dropbox_image' => null,
-                    'application_id' => $getData->id,
-                    'order' => $request->order,
-                    'created_at' => date("Y-m-d H:i:s"),
-                    'updated_at' => date("Y-m-d H:i:s")
-                ]
-            );
+            $image = $app->imageMany()->create(["code" => $code, 'image' => $image, 'title' => null, 'order' => $request->order]); 
 
             $app = Application::find($getData->id);
 
@@ -288,14 +285,16 @@ class ApplicationController extends Controller
             $app->servicesData = 1;
             Session::put('form_session', $app);
             $getData = Session::get('form_session');
-            $app = Application::with('images', 'medications')->find($getData->id);
+            $app = Application::with('imageMany', 'medications')->find($getData->id);
             $treatment = Session::get('treatment');
 
             return response()->json(
                 [
                     'icon' => 'success',
                     'msg' => Lang::get('the image processed and stored successfully!'),
-                    'data'=> $app->images
+                    'data'=> $image,
+                    'success' => true,
+                    'go' => '1',
                 ]
             );
         } else {
@@ -303,30 +302,44 @@ class ApplicationController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function appImageDestroy(Request $request)
     {
         $getData = Session::get('form_session');
-        $app = Application::with('images', 'medications')->find($getData->id);
+        $app = Application::with('imageMany', 'medications')->find($getData->id);
 
-        $imageExist = ImageApplication::where('application_id', $getData->id)
-        ->where('order', $request->order)
-        ->first();
+        if ($request->code != 'undefined' || !is_null($request->code)) {
 
+            $imageExist = $app->imageMany()->where('code', $request->code)->first();
 
-        if ($imageExist) {
-            unlink($imageExist->local_image);
-            $imageExist->delete();
+            if ($imageExist) {
+                $imageForDelete = $imageExist->image;
+                $idForDelete = $imageExist->id;
+
+                $imageExist->delete();
+
+                if( file_exists($imageForDelete) ){
+                    unlink(public_path($imageForDelete));
+                }
+            }
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('the image was deleted successfully!'),
+                    'success' => true,
+                    'go' => '1',
+                ]
+            );
         }
     }
 
     public function nextStep(Request $request)
     {
         $getData = Session::get('form_session');
-        $app = Application::with('images', 'medications')->find($getData->id);
+        $app = Application::with('imageMany', 'medications')->find($getData->id);
 
         $treatment = Session::get('treatment');
 
-        if ($treatment->service->qty_images == count($app->images)) {
+        if ($treatment->service->qty_images == count($app->imageMany)) {
 
             return response()->json(
                 [
@@ -348,48 +361,11 @@ class ApplicationController extends Controller
         $lang = app()->getLocale();
         $treatment = Session::get('treatment');
 
-            /*start test */
-
-            // $especialistas = Service::with('specialties')->first();
-
-
-            //     $assignment = [];
-
-            // foreach ($especialistas->specialties as $key => $special) {
-
-            //     $assignment_staff = Staff::with(
-            //         [
-            //             'assignToService'=>function($q){
-            //                 $q->where('service_id', 1);
-            //             }
-            //         ]
-            //     )
-            //     ->where('specialty_id', $special->id)
-            //     ->orderBy('last_assignment', 'ASC')
-            //     ->first();
-
-
-
-            //         if ($assignment_staff) {
-            //             $assignment[] = [
-            //                 'application_id' => $getData->id,
-            //                 'staff_id' => $assignment_staff->id,
-            //                 'orden' => $order
-            //             ];
-            //             $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-            //             $assignment_staff->save();
-            //         }
-
-            // }
-
-
-            /** End test */
-
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 return view('site.apps.health-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -466,7 +442,7 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             $app =  Application::
-            with('images', 'medications')
+            with('imageMany', 'medications')
             ->find($getData->id);
             $treatment = Session::get('treatment');
 
@@ -508,7 +484,7 @@ class ApplicationController extends Controller
                 $app->healthData = 1;
                 Session::put('form_session', $app);
                 $getData = Session::get('form_session');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 $treatment = Session::get('treatment');
 
                 return redirect()->route('createSurgicalData');
@@ -525,7 +501,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 return view('site.apps.surgical-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -593,7 +569,7 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             $app =  Application::
-            with('images', 'medications')
+            with('imageMany', 'medications')
             ->find($getData->id);
             $treatment = Session::get('treatment');
 
@@ -627,7 +603,6 @@ class ApplicationController extends Controller
         } else {
             abort(404);
         }
-
     }
 
     public function createMedicalHistoryData()
@@ -636,7 +611,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 return view('site.apps.medical-history-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -735,7 +710,7 @@ class ApplicationController extends Controller
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             $app =  Application::
-            with('images', 'medications')
+            with('imageMany', 'medications')
             ->find($getData->id);
             $treatment = Session::get('treatment');
 
@@ -819,7 +794,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 $patient = Patient::find($getData->patient_id);
                 return view('site.apps.general-health-data', ['treatment' => $treatment, 'app' => $app, 'patient' => $patient]);
             } else {
@@ -1027,7 +1002,7 @@ class ApplicationController extends Controller
 
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            $app =  Application::with('images', 'medications')
+            $app =  Application::with('imageMany', 'medications')
             ->find($getData->id);
             $treatment = Session::get('treatment');
 
@@ -1132,7 +1107,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 && $getData->medicalHistoryData = 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 return view('site.apps.gynecological-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -1276,7 +1251,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 == 1 && $getData->gynecologicalData  = 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('images', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications')->find($getData->id);
                 return view('site.apps.reference-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -1286,7 +1261,6 @@ class ApplicationController extends Controller
 
     public function postReferenceData(Request $request)
     {
-    //return($request);
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
 
@@ -1445,7 +1419,7 @@ class ApplicationController extends Controller
             $form_app = Session::get('form_session');
             $apps = Application::
             where('id', '=', $form_app->id)
-            ->with('images', 'medication')
+            ->with('imageMany', 'medication')
             ->first();
             Session::forget('form_session');
             return response()->json(1);

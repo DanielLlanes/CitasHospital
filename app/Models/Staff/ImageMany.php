@@ -5,12 +5,12 @@ namespace App\Models\Staff;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImageOne extends Model
+class ImageMany extends Model
 {
     use HasFactory;
-    protected $fillable = ['image'];
+    protected $fillable = ['image', 'code', 'title', 'type', 'order'];
 
-    public function ImageOneable()
+    public function ImageManyable()
     {
         return $this->morphTo();
     }

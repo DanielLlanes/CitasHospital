@@ -35,6 +35,8 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
+
+                {{ Session::get('form_session') }}
                 <form action="{{ route('createPatientData') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="mb-2 row">

@@ -58,13 +58,9 @@ class ProfileController extends Controller
             },
         ])
         ->findOrFail($staffID);
-        //return $staff;
+        return $staff;
         return view('staff.profile-manager.profile', ['staff' => $staff]);
     }
-
-    /**
-     *
-    */
     public function changeOwnPassStaff(Request $request){
         $validator = Validator::make($request->all(), [
             'current_password' => 'required|string',
@@ -107,12 +103,6 @@ class ProfileController extends Controller
             ]
         );
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -137,16 +127,9 @@ class ProfileController extends Controller
             },
         ])
         ->findOrFail(Auth::guard('staff')->user()->id);
-        //return $staff;
+        return $staff;
         return view('staff.profile-manager.add-profile', ['staff' => $staff]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function workHistory(Request $request)
     {
         
@@ -194,7 +177,6 @@ class ProfileController extends Controller
             'title' => 'the work history data was uploaded successfully'
         ]);
     }
-
     public function educationBackground(Request $request)
     {
         //return $request;
@@ -242,7 +224,6 @@ class ProfileController extends Controller
             'title' => 'the education background data was uploaded successfully'
         ]);
     }
-
     public function postgraduateStudies(Request $request)
     {
         //return $request;
@@ -358,9 +339,9 @@ class ProfileController extends Controller
             'title' => 'the career objective data was uploaded successfully'
         ]);
     }
-    public function UploadImagesPublicProfile(Request $request)
+    public function uploadImagesPublicProfile(Request $request)
     {
-       //
+        //return $request;
         $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
@@ -379,90 +360,99 @@ class ProfileController extends Controller
         }
         $code = time().uniqid(Str::random(30));
 
-        
-        if ($request->code != 'undefined') {
-            $old_image = ImageProfileStaff::where('code', $request->code)->first();
-            //return response()->json($old_image);
+        if ($staff->public_profile == 1) {
+            if ($request->code != 'undefined') {
+
+                $old_image = $staff->imageMany()->where('code', $request->code)->first();
+                //return($old_image);
+
+                if (!$old_image) {
+                    return response()->json([
+                        'success'   => false,
+                        'go'        => '0',
+                    ]);
+                }
+
+                $imageForDelete = $old_image->image;
+                $idForDelete = $old_image->id;
+
+                $old_image->delete();
+                if( file_exists($imageForDelete) ){
+                    unlink(public_path($imageForDelete));
+                }
+                //return;
+            } 
+            
+            $request->merge(["code" => $code]);
+
+            $image = $request->file('dropify');
+
+            $destinationPath = storage_path('app/public/staff/public_profile');
+            $img_name = $code.'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = Image::make($image)->width();
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+            $img->save($destinationPath."/".$img_name, '99');
+            $image = "storage/staff/public_profile/$img_name";
+            $img->destroy();
+           
+            //return $request;
+            //$id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
+            //
+            $image = $staff->imageMany()->create(["code" => $code, 'image' => $image, 'title' => $request->title, 'order' => $request->order]);
+            return response()->json([
+                'success' => true,
+                'go' => '1',
+                'image' => $image,
+                'icon' => 'success',
+                'title' => 'the image was uploaded successfully'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'go' => '2',
+            'image' => '',
+            'icon' => 'error',
+            'title' => "This user does't have a public profile" 
+        ]);        
+    }
+    public function deleteImagesPublicProfile(Request $request)
+    {
+        $staffID = ($request->has('id')) ? $request->id : Auth::guard('staff')->user()->id;
+
+        $staff = Staff::findOrFail($staffID);
+
+        if ($request->has('code') && $request->code != 'undefined') {
+
+            $old_image = $staff->imageMany()->where('code', $request->code)->first();
+
             if (!$old_image) {
                 return response()->json([
                     'success'   => false,
                     'go'        => '0',
                 ]);
             }
-            $url = str_replace('storage/', '', $old_image->image);
-            $delete = storage_path('app/public/'.$url);
-            unlink($delete);
+
+            $imageForDelete = $old_image->image;
+            $idForDelete = $old_image->id;
+
             $old_image->delete();
-        } 
-        
-        $request->merge(["code" => $code]);
-        $image = $request->file('dropify');
-        $destinationPath = storage_path('app/public/staff/public_profile/image');
-        $img_name = $code.'.'.$image->getClientOriginalExtension();
-        $img = Image::make($image->getRealPath());
-        $width = Image::make($image)->width();
-        $img->resize($width, null, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-        File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-        $img->save($destinationPath."/".$img_name, '80');
-        $image = "storage/staff/public_profile/image/$img_name";
-        $img->destroy();
-       
-        $id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
-        $image = ImageProfileStaff::find($id);
-        return response()->json([
-            'success' => true,
-            'go' => '1',
-            'image' => $image,
-            'icon' => 'success',
-            'title' => 'the image was uploaded successfully'
-        ]);
-    }
+            if( file_exists($imageForDelete) ){
+                unlink(public_path($imageForDelete));
+            }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            return response()->json([
+                'success'   => true,
+                'go'        => '0',
+                'icon' => 'success',
+                'title' => 'the image was removed successfully'
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        }
     }
 }

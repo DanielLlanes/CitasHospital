@@ -66,19 +66,26 @@
                     @endif
 
                     <div class="error text-danger"></div>
-                    @for ($i = 0; $i < $treatment->service->qty_images; $i++)
-                        <div class="col-md-6 my-3">
-                            <input type="file" name="images[]" order="{{ ($i + 1) }}" class="dropify" id="dropify_{{ ($i + 1) }}" 
-                            data-height="200" 
-                            @if (count($app->images) > 0)
-                                 data-default-file="{{ asset($app->images[$i]->local_image) }}"
-                             @endif />
-                        </div>
-                    @endfor
+                    
 
-                    @if($treatment->service->need_images)
-                        <div class="row">
-                    @endif
+                    @php
+                        for ($j = 0; $j < $treatment->service->qty_images; $j++){
+                            echo '<div class="col-md-6 my-3">';
+                            echo '<input type="file"'; 
+                            echo 'class="dropify"';
+                            echo 'order="' . ($j + 1) . '"';
+                            echo 'data-height="200"';
+                            for ($i = 0; $i < count($app->imageMany); $i++) {
+                                if ($j+1 == $app->imageMany[$i]->order) {
+                                    echo 'name="' . ($j+1) . '"';
+                                    echo 'data-default-file="' . asset($app->imageMany[$i]->image) . '"';
+                                    echo 'code="' . $app->imageMany[$i]->code . '"';
+                                } 
+                            }
+                            echo '/>';
+                            echo '</div>';
+                        }
+                    @endphp
 
                     <div class="mb-3 row">
                         <div class="col-6">
@@ -105,7 +112,7 @@
     <script>
         var globalRouteupLoasImage = "{{ route('postServicesData') }}";
         var globalRouteNextStep = "{{ route('imagesNextStep') }}"
-        var globalRouteDeleteFile = "{{ route('destroy') }}"
+        var globalRouteDeleteFile = "{{ route('appImageDestroy') }}"
     </script>
     <script>
         const Toast = Swal.mixin({
@@ -135,7 +142,9 @@
 
             drEvent.on('dropify.beforeClear', function(event, element){
                 var form_data = new FormData();
+                var $this = $(this);
                 form_data.append('order', $(this).attr('order'));
+                form_data.append('code', $(this).attr('code'));
                 $.ajax({
                     url: globalRouteDeleteFile,
                     method:"POST",
@@ -154,7 +163,12 @@
                     success:function(data)
                     {
                        if(data.success){
-                        window.location.href = data.go;
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        $this.attr('code', "")
+                        //window.location.href = data.go;
                        } else {
                         $('.error').html(data.go)
                        }
@@ -164,13 +178,13 @@
         });
 
         $(document).on('change', ".dropify", function(e){
-            
             var form_data = new FormData();
             var dropyfy = $(this).prop('files')[0];
-
+            var $this = $(this);
             form_data.append('dropify', dropyfy);
             form_data.append('id', $(this).attr('id'));
             form_data.append('order', $(this).attr('order'));
+            form_data.append('code', $(this).attr('code'));
             $.ajax({
                 url: globalRouteupLoasImage,
                 method:"POST",
@@ -188,11 +202,12 @@
                 },
                 success:function(data)
                 {
-                    console.log(data);
+                    //console.log(data);
                     Toast.fire({
                         icon: data.icon,
                         title: data.msg
                     })
+                    $this.attr("code", data.data.code)
                 },
             })
         })

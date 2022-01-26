@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 @php
     \App::setLocale(Auth::guard('staff')->user()->lang);
+    $noCache = '?'.md5(time());
+    //$noCache = '';
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -42,12 +44,23 @@
     <link href="{{ asset('staffFiles/assets/css/theme-color.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/summernote/summernote.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/css/tableButtons.css') }}{{ $noCache }}" rel="stylesheet" type="text/css" />
     <!-- Socket io-->
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <style type="text/css">
         .swal2-title{
             font-size: .8rem!important;
+        }
+        .debateNotifications li .message p {
+            margin-block-start: 0!important;
+            margin-inline-start: 0!important;
+        }
+        .page-header.navbar .top-menu .navbar-nav>li.dropdown-inbox>.dropdown-menu .dropdown-menu-list>li .subject .read {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: .5;
+            filter: alpha(opacity=50);
+            float: right;
         }
     </style>
     @yield('styles')
@@ -96,7 +109,7 @@
         <!-- bootstrap -->
         <script src="{{ asset('staffFiles/assets/plugins/bootstrap/js/bootstrap.min.js') }}" ></script>
         <!-- beeps -->
-        <script src="{{ asset('staffFiles/assets/js/beeps.js') }}"></script>
+        <script src="{{ asset('staffFiles/assets/js/beeps.js') }}{{ $noCache }}"></script>
         <!-- counterup -->
         <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.waypoints.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.counterup.min.js') }}" ></script>
@@ -126,6 +139,8 @@
         {{-- <script src="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.min.js') }}"></script> --}}
         <!-- Summernote -->
         <script src="{{ asset('staffFiles/assets/plugins/summernote/summernote.min.js') }}"></script>
+        <!-- Moments -->
+        <script src="{{ asset('staffFiles/assets/plugins/moment/moment.min.js') }}"></script>
         <!-- end js include path -->
         {{-- plugins Langs --}}
         <script>
@@ -150,21 +165,20 @@
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
-            var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
+            var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
             socket.on('sendMesageDebateToClient', (data) => {
                 console.log("data", data);
                 let $notifyAra = $('.debateNotifications')
-                play( reciverSound )
                 $.each(data.members, function(i, val) {
                     if (data.user_id == val.member_id) {
                         $thisData = data.members[i]
                         notifyItem($thisData, data)
-                        play( reciverSound )
                     }
                 });
             });
 
             function notifyItem($thisData, data){
+                console.log("data", data);
                 let notifyList = '';
                 notifyList += '<li>';
                 notifyList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
@@ -172,36 +186,33 @@
                 notifyList += '<img src=" ' + $thisData.member_avatar + ' " class="img-circle" alt=""> </span>';
                 notifyList += '<span class="subject">';
                 notifyList += '<span class="from"> ' + $thisData.member_name  + ' </span>';
-                notifyList += '<span class="time">Just Now </span>';
+                notifyList += '<span class="time"> ' + data.timeDiff + ' </span>';
+                notifyList += '<br>';
+                notifyList += '<span class="read" id="msgRead"><i class="fa fa-circle text-primary" title="Unread" aria-hidden="true"></i> </span>';
                 notifyList += '</span>';
                 notifyList += '<span class="message"> ' + data.message + ' </span>';
                 notifyList += '</a>';
                 notifyList += '</li>';
 
-                $('.debateNotifications li .message').css({
+                $('.debateNotifications li .message p').css({
                     'margin-block-start': '0',
                     'margin-inline-start': '0'
                 });
                 $('.debateNotifications').prepend(notifyList);
-
-                // margin-block-start: 1em;
-                //     margin-block-end: 1em;
-                //     margin-inline-start: 0px;
-                //     margin-inline-end: 0px;
-
+                beep( reciverSound )
             }
         </script>
         <script>
             const Toast = Swal.mixin({
-              toast: true,
-              position: 'top-end',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: true,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-              }
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
             })
             $('.table').magnificPopup({
                   delegate: 'a.a',
@@ -252,7 +263,6 @@
                  }
             });
         </script>
-
       </body>
 </body>
 </html>

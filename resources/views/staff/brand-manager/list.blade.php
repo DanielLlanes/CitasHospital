@@ -210,7 +210,6 @@
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
                 form_data.append('image', $('#image').prop('files')[0])
-                console.log('x', $('#image').prop('files')[0])
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",

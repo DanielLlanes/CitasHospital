@@ -106,10 +106,6 @@ class Staff extends Authenticatable
     {
         return $this->hasMany(CareerObjetiveStaff::class);
     }
-    public function imagespublicprofile()
-    {
-        return $this->hasMany(ImageProfileStaff::class);
-    }
     public function debate_staff()
     {
         return $this->hasMany(Debate::class);
@@ -117,5 +113,9 @@ class Staff extends Authenticatable
     public function imageOne()
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
+    public function imageMany()
+    {
+        return $this->morphMany(ImageMany::class, 'imageManyable');
     }
 }

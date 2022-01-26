@@ -25,7 +25,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 
 Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');
-Route::post('/applications/destroy', [ApplicationController::class, 'destroy'])->name('destroy');
+Route::post('/applications/destroy', [ApplicationController::class, 'appImageDestroy'])->name('appImageDestroy');
 
 
 Route::get('/applications/patient-data/{id}', [ApplicationController::class, 'index'])->name('appIndex');

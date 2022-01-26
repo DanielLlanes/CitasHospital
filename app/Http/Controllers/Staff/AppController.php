@@ -252,27 +252,6 @@ class AppController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -328,7 +307,7 @@ class AppController extends Controller
                 'illnessess',
                 'exercices',
                 'hormones',
-                'images',
+                'imageMany',
                 'birthcontrol',
                 'debates' => function($q){
                     $q->with(
@@ -343,6 +322,8 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($id);
+
+        //return $applications;
 
         $StaffAss = Staff::with('assignToSpecialty', 'imageOne')->find(Auth::guard('staff')->user()->id);
 
@@ -469,11 +450,6 @@ class AppController extends Controller
                 'member_avatar' => asset( getAvatar($member) ),
             ]);
         }
-
-
-        // if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator'])) {
-            
-        // }
 
         return view
         (
@@ -720,7 +696,8 @@ class AppController extends Controller
             $response['message'] = $debate->message;
             $response['debate_id'] = $debate->application_id;
             $response['timestamp'] = $this->datesLangTrait($date, Auth::guard('staff')->user()->lang) . ", " .$hours;
-
+            $response['timeDiff'] = $date->diffForHumans();
+            $response['msgStrac'] = $slug = \Str::of($debate->message)->limit(50);
             return response()->json([
                 'success' => true,
                 'response' => $response,

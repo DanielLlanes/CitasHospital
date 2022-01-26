@@ -91,9 +91,11 @@ echo '</pre>';
                         <ul class="nav ">
                             @if (Auth::guard('staff')->user()->hasRole('doctor'))
                             @endif
-                            <li class="nav-item tab-all">
-                                <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
-                            </li>
+                            @can('patients.details')
+                                <li class="nav-item tab-all">
+                                    <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
+                                </li>
+                            @endcan
                             <li class="nav-item tab-all p-l-20">
                                 <a class="nav-link" href="#services" data-toggle="tab">Servicios</a>
                             </li>
@@ -129,7 +131,8 @@ echo '</pre>';
                 <div class="white-box">
                             <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active fontawesome-demo" id="patientData">
+                        @can('patients.details')
+                            <div class="tab-pane active fontawesome-demo" id="patientData">
                             <div id="biography" >
                                 <div class="row">
                                     <div class="col-md-3 col-6 mb-2 b-r"> <strong>Nombre completo</strong>
@@ -191,7 +194,8 @@ echo '</pre>';
                                 </div>
                                 <hr>
                             </div>
-                        </div>
+                            </div>
+                        @endcan
                         <div class="tab-pane fontawesome-demo" id="services">
                             <div id="biography">
                                 <div class="row">
@@ -207,15 +211,23 @@ echo '</pre>';
                                         <br>
                                         <p class="text-muted">{{ $appInfo->treatment->procedure->procedure }}</p>
                                     </div>
-                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Pacquete</strong>
+                                    <div class="col-md-3 col-6 mb-2 b-r"> <strong>Paquete</strong>
                                         <br>
                                         <p class="text-muted">{{ (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) }}</p>
                                     </div>
                                 </div>
-                                @if (count($appInfo->images) > 0)
+                                @if (count($appInfo->imageMany) > 0)
                                     Área de imágenes
-                                    <div class="row">
-                                        images area
+                                    <div class="row" id="imageRow">
+                                        @foreach ($appInfo->imageMany as $image)
+                                            <div class="col-12 col-md-4 col-lg-3">
+                                                <div class="card">
+                                                    <a href="{{ asset($image->image) }}" data-effect="mfp-zoom-in" class="a">
+                                                        <img src="{{ asset($image->image) }}" class="img-thumbnail" alt="">
+                                                    </a>    
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 @endif
 
@@ -1416,7 +1428,7 @@ echo '</pre>';
         }).modal('show');
     });
 
-    $('.table').magnificPopup({
+    $('#imageRow').magnificPopup({
           delegate: 'a.a',
           type: 'image',
           removalDelay: 500, //delay removal by X to allow out-animation
@@ -1532,7 +1544,7 @@ echo '</pre>';
                     var dataMsgUserId = dataMsg.user_id.id;
                     $('#messageInput').summernote('code', '');
                     senderDebate(dataMsg.message)
-                    let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp};
+                    let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp, timeDiff:dataMsg.timeDiff};
                     socket.emit('sendDebateToServer', data);
                 }
 
@@ -1575,7 +1587,7 @@ echo '</pre>';
             $msg += '</div>';
         $msg += '</li>';
         $('#chatDiv').append($msg)
-        play( senderSound )
+        beep( senderSound )
         debateToDownLast()
     }
 

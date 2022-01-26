@@ -465,10 +465,6 @@ class StaffController extends Controller
             ]
         );
     }
-    public function show($id)
-    {
-        //
-    }
     public function edit($id)
     {
 
@@ -927,7 +923,7 @@ class StaffController extends Controller
             },
         ])
         ->findOrFail($staffID);
-        //return $staff;
+        return $staff;
         return view('staff.staff-manager.profile', ['staff' => $staff]);
     }
     public function addPublicProfile($id)
@@ -944,7 +940,8 @@ class StaffController extends Controller
             'postgraduatestudies',
             'updatecourses',
             'permissions',
-            'imagespublicprofile',
+            'imageOne',
+            'imageMany',
             'careerobjetive',
             'permissions',
             'specialties' => function($query) use ($lang){

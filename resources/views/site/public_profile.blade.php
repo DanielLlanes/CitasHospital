@@ -34,7 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-md-3" data-aos="fade-up">
-                        <img src="{{ asset($doctor->avatar) }}" class="img-thumbnail rounded-circle" alt="{{ $doctor->name }}">
+                        <img src="{{ asset( getAvatar($doctor) ) }}" class="img-thumbnail rounded-circle" alt="{{ $doctor->name }}">
                         <div class="doc-info mt-3">
                             <h5 class="text-uppercase text-center">specialties</h5>
                             @if (count($doctor->specialties) > 0)
@@ -74,7 +74,7 @@
                             <div class="section-title mt-3" data-aos="fade-up">
                                 <h2>Education<strong> BackGround</strong></h2>
                             </div>
-                            <div class="col-12"  data-aos="fade-up">
+                            <div class="col-12" data-aos="fade-up">
                                 @foreach ($doctor->educationbackground as $educationbackground)
                                 <span class="text-left">
                                     <strong>title:</strong> {{ $educationbackground->education_title }}
@@ -130,9 +130,22 @@
                             </div>
                         @endif
                         
-                        @if (count($doctor->imagespublicprofile) > 0)
+                        @if (count($doctor->imageMany) > 0)
                             <hr class="mt-3 mb-1" data-aos="fade-up">
-                            {{ $doctor->imagespublicprofile }}
+                            <div class="row">
+                                @if (count($doctor->imageMany) > 0)
+                                    @foreach ($doctor->imageMany as $img)
+                                        <div class="col-12 col-md-3" data-aos="fade-up">
+                                            <div class="card">
+                                                <img src="{{ asset($img->image) }}" class="card-img-top" alt="{{ $img->title }}">
+                                                <div class="card-body pb-0">
+                                                    <h5 class="card-title text-center">{{ $img->title }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                         @endif
                     </div>
                 </div>

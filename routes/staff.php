@@ -97,7 +97,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/profile/postgraduateStudies', [ProfileController::class, 'postgraduateStudies'])->name('postgraduateStudies');
 		Route::post('/profile/careerObjetive', [ProfileController::class, 'careerObjetive'])->name('careerObjetive');
         Route::post('/profile/updateCourses', [ProfileController::class, 'updateCourses'])->name('updateCourses');
-        Route::post('/profile/UploadImagesPublicProfile', [ProfileController::class, 'UploadImagesPublicProfile'])->name('UploadImagesPublicProfile');
+        Route::post('/profile/uploadImagesPublicProfile', [ProfileController::class, 'uploadImagesPublicProfile'])->name('uploadImagesPublicProfile');
+        Route::post('/profile/deleteImagesPublicProfile', [ProfileController::class, 'deleteImagesPublicProfile'])->name('deleteImagesPublicProfile');
 	});
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
