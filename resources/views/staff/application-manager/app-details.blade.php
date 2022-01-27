@@ -62,22 +62,32 @@ echo '</pre>';
                         <div class="profile-usertitle-job"> Patient </div>
                         <div><span class="profile-usertitle-name">{{ $appInfo->patient->name }} </span></div>
                         <div id="biography" >
-                                <div class="row">
-                                    <div class="col-12 mb-2"> <strong>Edad</strong>
-                                        <br>
-                                        <p class="text-muted">{{ $appInfo->patient->age }}</p>
-                                    </div>
-                                    <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
-                                        <br>
-                                        <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
-                                    </div>
-                                    <div class="col-12 mb-2"> <strong>Género</strong>
-                                        <br>
-                                        <p class="text-muted">{{ $appInfo->patient->sex }}</p>
+                            <div class="row">
+                                <div class="col-12 mb-2"> <strong>Edad</strong>
+                                    <br>
+                                    <p class="text-muted">{{ $appInfo->patient->age }}</p>
+                                </div>
+                                <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
+                                    <br>
+                                    <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
+                                </div>
+                                <div class="col-12 mb-2"> <strong>Género</strong>
+                                    <br>
+                                    <p class="text-muted">{{ $appInfo->patient->sex }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 mb-2 text-center"> <strong>Set Status</strong>
+                                    <br>
+                                    <div class="d-flex justify-content-between">
+                                        <button id="btn-status-Acepted" class="btn btn-success">Acepted</button>
+                                        <button id="btn-status-declined" class="btn btn-danger">Declined</button>
                                     </div>
                                 </div>
-                                <hr>
                             </div>
+                            <hr>
+                        </div>
                     </div>
                 </div>
             </div>
