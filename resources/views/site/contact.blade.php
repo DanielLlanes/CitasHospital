@@ -38,6 +38,25 @@
                             <div class="col-lg-4 info">
                                 <i class="bi bi-geo-alt"></i>
                                 <h4>Location:</h4>
+                                <p>Erasmo Castellanos 874 - 102<br>Zona Rio Tijuana,<br> BC, México</p>
+                            </div>
+
+                            <div class="col-lg-4 info mt-4 mt-lg-0">
+                                <i class="bi bi-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>info@jlpradosc.com<br><br></p>
+                            </div>
+
+                            <div class="col-lg-4 info mt-4 mt-lg-0">
+                                <i class="bi bi-phone"></i>
+                                <h4>Call:</h4>
+                                <p>+1 800 8888 0513<br>+52 664 634 1153</p>
+                            </div>
+                        </div>
+                        {{-- <div class="row mt-3">
+                            <div class="col-lg-4 info">
+                                <i class="bi bi-geo-alt"></i>
+                                <h4>Location:</h4>
                                 <p>A108 Adam Street<br>New York, NY 535022</p>
                             </div>
 
@@ -52,7 +71,7 @@
                                 <h4>Call:</h4>
                                 <p>+1 5589 55488 51<br>+1 5589 22475 14</p>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
@@ -61,7 +80,7 @@
 
             <div class="row mt-5 justify-content-center" data-aos="fade-up">
                 <div class="col-lg-10">
-                    <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                    <form action="" method="post" role="form" class="php-email-form">
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>

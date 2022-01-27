@@ -165,7 +165,7 @@
                socket.emit('user_connected', user_id);
             });
             var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
-            
+            git pu
             socket.on('sendMesageDebateToClient', (data) => {
                 console.log("data", data);
                 let $notifyAra = $('.debateNotifications')
