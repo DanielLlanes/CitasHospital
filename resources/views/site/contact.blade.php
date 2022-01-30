@@ -80,25 +80,30 @@
 
             <div class="row mt-5 justify-content-center" data-aos="fade-up">
                 <div class="col-lg-10">
-                    <form action="" method="post" role="form" class="php-email-form">
+                    <form action="" method="post" role="form" class="php-email-form" id="php-email-form">
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name">
+                                <div class="error text-danger col-form-label-sm"><b></b></div>
                             </div>
                             <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email">
+                                <div class="error text-danger col-form-label-sm"><b></b></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <input type="text" name="phone" class="form-control" id="phone" placeholder="Your Phone" required>
+                                <input type="text" name="phone" class="form-control" id="phone" placeholder="Your Phone">
+                                <div class="error text-danger col-form-label-sm"><b></b></div>
                             </div>
                             <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject">
+                                <div class="error text-danger col-form-label-sm"><b></b></div>
                             </div>
                         </div>
                         <div class="form-group mt-3">
-                            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                            <textarea class="form-control" name="message" id="message" rows="5" placeholder="Message"></textarea>
+                            <div class="error text-danger col-form-label-sm"><b></b></div>
                         </div>
                         <div class="my-3">
                             <div class="loading">Loading</div>
@@ -106,7 +111,7 @@
                             <div class="sent-message">Your message has been sent. Thank you!</div>
                         </div>
                         <div class="text-center">
-                            <button type="submit">Send Message</button>
+                            <button type="submit" id="btn-send-msg">Send Message</button>
                         </div>
                     </form>
                 </div>
@@ -117,4 +122,54 @@
     </section>
     <!-- End Contact Section -->
 </main>
+@endsection
+@section('scripts')
+    <script>
+        globalRouteContactForm = '{{ route('contactForm') }}';
+        $(function() {
+            $(document).on('submit', '#php-email-form', function(event) {
+                event.preventDefault();
+                event.stopPropagation()
+                var form_data = new FormData;
+                form_data.append('name', $('#name').val())
+                form_data.append('email', $('#email').val())
+                form_data.append('phone', $('#phone').val())
+                form_data.append('subject', $('#subject').val())
+                form_data.append('message', $('#message').val())
+                $.ajax({
+                    url: globalRouteContactForm,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                        $('.error').html('')
+                    },
+                    success:function(data)
+                    {
+                    console.log("data", data);
+                        if (!data.success) {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
+                            $('#btn-send-msg').prop( "disabled", false );
+                        } else {
+                            $('.sent-message').show('fast');
+                            $('.php-email-form')[0].reset();
+                            //$('#btn-send-msg').prop( "disabled", true );
+                        }
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+        });
+    </script>
 @endsection

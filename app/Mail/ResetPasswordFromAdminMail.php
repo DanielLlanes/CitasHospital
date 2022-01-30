@@ -11,21 +11,13 @@ class ResetPasswordFromAdminMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $dataMsg;
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+
     public function __construct($dataMsg)
     {
         $this->dataMsg = $dataMsg;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+
     public function build()
     {
         app()->setLocale($this->dataMsg['lang']);

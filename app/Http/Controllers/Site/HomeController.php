@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactFormEmail;
 use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
 use App\Models\Staff\Procedure;
@@ -11,7 +12,9 @@ use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -253,5 +256,40 @@ class HomeController extends Controller
     public function profile()
     {
         return view('site.profile');
+    }
+
+    public function contactForm(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'bail|string|required',
+            'email' => 'bail|required|email',
+            'phone' => ['bail', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
+            'subject' => 'bail|string|required',
+            'message' => 'bail|string|required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+        $request->merge(["email_reciver" => 'info@jlpradosc.com', "name_reciver" => "Info Jl Prado"]);
+
+        $data = array(
+            'email' => $request->email,
+            'name' => $request->name,
+            'msg' => $request->message,
+            'name_reciver' => $request->name_reciver,
+            'email_reciver' => $request->email_reciver,
+            'subject' => $request->subject,
+            'phone' => $request->phone,
+        );
+
+        Mail::send(new ContactFormEmail($data));
+
+        return response()->json([
+            'success' => true,
+            'go' => '0',
+        ]);
     }
 }

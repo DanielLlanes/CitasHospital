@@ -98,9 +98,6 @@
         </script>
     @endif
 	<script>
-
-
-
         var checkboxs = $(".specialtyCheckbox");
         console.log("checkboxs", checkboxs);
 
@@ -157,7 +154,7 @@
 		            },
 		         },
 		        language: {
-		            "url": dataTablesLangEs
+		            "url": dataTablesLangEs,
 		        },
 		        "columns": [
 

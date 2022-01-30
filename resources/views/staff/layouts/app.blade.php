@@ -156,7 +156,6 @@
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }
-
             let ip_address = window.location.hostname;
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port );
@@ -165,7 +164,6 @@
                socket.emit('user_connected', user_id);
             });
             var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
-            git pu
             socket.on('sendMesageDebateToClient', (data) => {
                 console.log("data", data);
                 let $notifyAra = $('.debateNotifications')

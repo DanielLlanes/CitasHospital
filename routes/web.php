@@ -22,6 +22,7 @@ Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-post');
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact-form', [HomeController::class, 'contactForm'])->name('contactForm');
 
 
 Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');
