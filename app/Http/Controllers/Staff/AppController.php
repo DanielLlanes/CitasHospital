@@ -29,12 +29,13 @@ class AppController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
-        // $this->middleware('can:ListAdmins')->only(['getAdmins', 'index']);
+        $this->middleware('can:applications.list')->only(['getAdmins', 'index']);
         // $this->middleware('can:CreateAdmins')->only(['create','store']);
         // $this->middleware('can:EditAdmins')->only(['edit','update']);
         // $this->middleware('can:DeleteAdmins')->only(['destroy']);
         // $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
-        // $this->middleware('can:ShowAdmins')->only(['show']);
+        $this->middleware('can:applications.show')->only(['show']);
+        $this->middleware('can:applications.show')->only(['show']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -47,44 +48,6 @@ class AppController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        $apps = Application::with(
-            [
-                'app_status' => function($q)use($lang){
-                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
-                },
-                'patient' => function($q){
-                    $q->select('name', 'id');
-                },
-                'treatment' => function($q) use($lang) {
-                    $q->with(
-                        [
-                            "brand" => function($q){
-                                $q->select("brand", "id", "color");
-                            },
-                            "service" => function($q) use($lang) {
-                                $q->select("service_$lang AS service", "id");
-                            },
-                            "procedure" => function($q) use($lang) {
-                                $q->select("procedure_$lang AS procedure", "id");
-                            },
-                            "package" => function($q) use($lang) {
-                                $q->select("package_$lang AS package", "id");
-                            },
-                        ]
-                    );
-                },
-                'assignments' => function($q) use($lang) {
-                    $q->whereHas(
-                        'specialties', function($q){
-                            $q->where("name_en", "Coordination");
-                        }
-                    );
-                }
-            ]
-        )
-        ->where('is_complete', true)
-        ->get();
-       // return $apps;
         return view
         (
             'staff.application-manager.list'
@@ -97,7 +60,7 @@ class AppController extends Controller
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
-            if (Auth::guard("staff")->user()->hasAnyRole(['dios', 'super-administrator', 'administrator', 'nurse', 'driver', 'coordinator'])) {
+            if (Auth::guard("staff")->user()->can('applications.all')) {
                 $apps = Application::with(
                     [
                         'app_status' => function($q)use($lang){
@@ -138,7 +101,7 @@ class AppController extends Controller
             }
 
             
-            if (Auth::guard("staff")->user()->hasAnyRole(['doctor'])) {
+            if (!Auth::guard("staff")->user()->can('applications.all')) {
                 $services = [];
                 $userService = Staff::with('assignToService')->select("id")->find(Auth::guard('staff')->user()->id);
                 foreach ($userService->assignToService  as $value) {array_push($services, $value->id);}
@@ -316,8 +279,6 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($id);
-
-        //return $applications;
 
         $StaffAss = Staff::with('assignToSpecialty', 'imageOne')->find(Auth::guard('staff')->user()->id);
 
@@ -538,6 +499,7 @@ class AppController extends Controller
 
     public function setNewStaff(Request $request)
     {
+        //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang); 
 

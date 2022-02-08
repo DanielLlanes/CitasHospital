@@ -161,7 +161,7 @@ class TreatmentController extends Controller
             ],
             'description_en' => 'required|string',
             'description_es' => 'required|string',
-            'price' => 'sometimes|numeric'
+            'price' => 'sometimes|nullable|numeric'
           ]
         );
 

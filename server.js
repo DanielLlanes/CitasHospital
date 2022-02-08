@@ -24,12 +24,18 @@ io.on('connection', (socket) => {
     });
 
     socket.on('sendDebateToServer', (data) => { // Debate messages
+    console.log("data", data);
         socket.broadcast.emit('sendDebateToClient', data);
         socket.broadcast.emit('sendMesageDebateToClient', data);
     });
 
     socket.on("eventCalendarRefetchToServer", function() { //Calendar Events
         socket.broadcast.emit('eventCalendarRefetchToClient');
+    });
+
+    socket.on("sendNewStaffToServer", function(data) { // assing new staff
+        console.log("data", data);
+        socket.broadcast.emit('sendNewStaffToServer', data);
     });
 
 });

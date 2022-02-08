@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="card-body ">
                                       <div class="table-scrollable responsive" >
-                                        <table style="width:100%; min-width:100% height:20px;" class="table table-hover dt-responsive nowrap" id="PackageTable">
+                                        <table style="width:100%; min-width:100% height:20px;" class="table table-hover dt-responsive nowrap" id="applicationsTable">
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
@@ -120,7 +120,7 @@
 
 		$(document).ready(function() {
 			var codigo = 1;
-		    var PackageTable = $('#PackageTable').DataTable({
+		    var applicationsTable = $('#applicationsTable').DataTable({
 				responsive: true,
 		        processing: true,
 		        serverSide: true,
@@ -227,7 +227,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            PackageTable.ajax.reload( null, false );
+                            applicationsTable.ajax.reload( null, false );
                         }
                     },
                     complete: function()
@@ -270,7 +270,7 @@
                                 icon: data.icon,
                                 title: data.msg
                             })
-                            PackageTable.ajax.reload( null, false );
+                            applicationsTable.ajax.reload( null, false );
                             clearForm()
                         }
 
@@ -313,7 +313,7 @@
                             title: data.msg
                         })
                         if (data.reload) {
-                            PackageTable.ajax.reload( null, false );
+                            applicationsTable.ajax.reload( null, false );
                             clearForm()
                         } else {
                             $.each( data.errors, function( key, value ) {
@@ -382,7 +382,7 @@
                           title: data.msg
                         })
                         if (data.reload) {
-                            PackageTable.ajax.reload( null, false );
+                            applicationsTable.ajax.reload( null, false );
                             //adminTable.search('').draw();
                         }
                     },

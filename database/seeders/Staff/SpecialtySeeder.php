@@ -111,8 +111,8 @@ class SpecialtySeeder extends Seeder
         Specialty::create([
             'id' => '11',
             'role_id' => '7',
-            'name_es' => 'Transporte',
-            'name_en' => 'Transport',
+            'name_es' => 'Logistica',
+            'name_en' => 'Logistic',
             'active' => true,
             'show' => true,
         ]);
@@ -155,6 +155,14 @@ class SpecialtySeeder extends Seeder
             'show' => true,
             'assignable' => true,
             'many_specialties' => true
+        ]);
+        Specialty::create([
+            'id' => '16',
+            'role_id' => '9',
+            'name_es' => 'Recepción',
+            'name_en' => 'Reception',
+            'active' => true,
+            'show' => true,
         ]);
         
     }

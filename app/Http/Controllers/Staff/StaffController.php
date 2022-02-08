@@ -556,6 +556,8 @@ class StaffController extends Controller
         $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('admin.edit.permisions');
 
         $staff = Staff::with('imageOne')->findOrFail($id);
+        //return($staff);
+
 
 
         $assingnamentCheck = [];
@@ -617,7 +619,7 @@ class StaffController extends Controller
         $lastPhoto = null;
         $avatar;
         //return $staff->imageOne;
-        if (!$staff->imageOn) {
+        if ($staff->imageOn) {
             $lastPhoto = $staff->imageOne->image;
             $lastPhotoId = $staff->imageOne->id;
         } 

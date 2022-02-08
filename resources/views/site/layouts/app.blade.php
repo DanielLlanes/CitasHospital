@@ -32,6 +32,8 @@
     <link href="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/css/splide.min.css') }}" rel="stylesheet">
     <link href="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/css/themes/splide-sea-green.min.css') }}" rel="stylesheet">
     <link href="{{ asset('siteFiles/assets/vendor/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <!-- Magnific PopUp -->
+    <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     @yield('styles')
 
@@ -70,6 +72,8 @@
     <script src="{{ asset('siteFiles/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/js/splide.min.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/sweetalert/sweetalert2.js') }}"></script>
+    <!-- Magnific PopUp -->
+    <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
     <!-- Template Main JS File -->
     <script src="{{ asset('siteFiles/assets/js/main.js') }}"></script>
 

@@ -17,13 +17,13 @@ class CreatePatientsTable extends Migration
             $table->id();
             $table->boolean('treatmentBefore')->default(false);
             $table->string('name');
-            $table->string('sex')->nullable();
-            $table->date('dob')->nullable();
-            $table->smallInteger('age')->nullable();
+            $table->string('sex')->nullable()->nullable();
+            $table->date('dob')->nullable()->nullable();
+            $table->smallInteger('age')->nullable()->nullable();
             $table->string('phone')->unique();
-            $table->string('mobile')->unique();
+            $table->string('mobile')->unique()->nullable();
             $table->string('email')->unique();
-            $table->string('address')->nullable();
+            $table->string('address')->nullable()->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();
             $table->bigInteger('state_id')->unsigned()->nullable();
             $table->string('city')->nullable();

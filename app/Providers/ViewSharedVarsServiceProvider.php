@@ -8,6 +8,8 @@ use App\Models\Staff\Staff;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class ViewSharedVarsServiceProvider extends ServiceProvider
 {
@@ -34,33 +36,44 @@ class ViewSharedVarsServiceProvider extends ServiceProvider
 
         $brands = [];
         $coordinatorFooter = [];
-        $coordinatorFooter = Staff::role('coordinator')
-        ->with
-            (
-                [
-                    'assignToService' => function($q) use($lang) 
-                    {
-                        $q->selectRaw("services.id, service_$lang as service, brand_id");
-                        $q->with
-                        (
-                            [
-                                'brand'
-                            ]
-                        );
-                    }
-                ]
-            )
-        ->get();
-        $brands = Brand::select("*")
-        ->with
-            (
-                [
-                    'service' => function($q) use ($lang){
-                        $q->select(["id", "brand_id", "service_$lang AS service"]);
-                    },
-                ]
-            )
-        ->get();
+
+        function isRoleExist($role_name){
+                $x = Role::where('name', $role_name)->get();
+
+                if (count($x) > 0) {return true;}
+                return false;
+        }
+
+        if (isRoleExist('coordinator')) {
+            $coordinatorFooter = Staff::role('coordinator')
+            ->with
+                (
+                    [
+                        'assignToService' => function($q) use($lang) 
+                        {
+                            $q->selectRaw("services.id, service_$lang as service, brand_id");
+                            $q->with
+                            (
+                                [
+                                    'brand'
+                                ]
+                            );
+                        }
+                    ]
+                )
+            ->get();
+            $brands = Brand::select("*")
+            ->with
+                (
+                    [
+                        'service' => function($q) use ($lang){
+                            $q->select(["id", "brand_id", "service_$lang AS service"]);
+                        },
+                    ]
+                )
+            ->get();
+        }
+        
 
         View::share(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter]);
     }

@@ -135,8 +135,6 @@
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- Select2 -->
         <script src="{{ asset('staffFiles/assets/plugins/select2/dist/js/select2.full.js') }}"></script>
-        <!-- Jq Te -->
-        {{-- <script src="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.min.js') }}"></script> --}}
         <!-- Summernote -->
         <script src="{{ asset('staffFiles/assets/plugins/summernote/summernote.min.js') }}"></script>
         <!-- Moments -->
@@ -164,6 +162,7 @@
                socket.emit('user_connected', user_id);
             });
             var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
+            
             socket.on('sendMesageDebateToClient', (data) => {
                 console.log("data", data);
                 let $notifyAra = $('.debateNotifications')
@@ -174,6 +173,10 @@
                     }
                 });
             });
+
+            socket.on('sendNewStaffToServer', (data) => {
+                console.log("data", data);
+            })
 
             function notifyItem($thisData, data){
                 console.log("data", data);

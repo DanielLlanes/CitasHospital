@@ -129,13 +129,13 @@
                                     <label class="control-label col-form-label-sm small-label col-md-2">From</label>
                                     <span class="required" aria-required="true"> * </span>
                                     <div class="col-md-12">
-                                        <input class="form-control  input-sm" id="timeStart" name="timeStart" type="time" value="{{ Date('H:m:s') }}" aria-invalid="false" aria-describedby="example-time-input-error">
+                                        <input class="form-control input-sm" id="timeStart" name="timeStart" type="time" aria-invalid="false" aria-describedby="example-time-input-error">
                                         <div class="error text-danger col-form-label-sm"></div>
                                     </div>
                                      <label class="control-label col-form-label-sm small-label col-md-2">To</label>
                                      <span class="required" aria-required="true"> * </span>
                                     <div class="col-md-12">
-                                        <input class="form-control input-sm" id="timeEnd" name="timeEnd" type="time" value="{{ Date('H:m:s') }}">
+                                        <input class="form-control input-sm" id="timeEnd" name="timeEnd" type="time">
                                         <div class="error text-danger col-form-label-sm"></div>
                                     </div>
                                 </div>
@@ -334,13 +334,6 @@
             });
             calendar.render();
         })
-        $.ajax({
-            type: "get",
-            url: globaleventSources,
-            success: function (response) {
-                //console.log(response);
-            }
-        });
         $('.autocomplete.staff').on('keyup click', function() {
             var key = $(this).val();
             var dataString = new FormData();
@@ -450,7 +443,8 @@
         $(document).on('click', '.no-show-patient', function(event) {
             event.preventDefault();
             $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
-            $('.autocomplete.patient').val('').focus().attr('data-id', '')
+            //$('.autocomplete.patient').val('').focus().attr('data-id', '')
+            $('.autocomplete.patient').attr('data-id', '')
         });
         $(document).on('click', '.no-show-staff', function(event) {
             event.preventDefault();
@@ -493,6 +487,7 @@
 
                 },
                 success: function(data) {
+                    console.log("data", data);
                     refetchCalendarEvents()
                     if (data.reload) {
                         Toast.fire({
@@ -519,17 +514,36 @@
         socket.on('eventCalendarRefetchToClient', () => {
             refetchCalendarEvents()
         });
+        //console.log(moment())
         $('#start').bootstrapMaterialDatePicker({
             time: false,
             clearButton: true,
             format : 'DD/MM/YYYY',
-            minDate : moment()
+            minDate : moment(),
+            defaultDate:moment()
         });
+        
+        $('#timeStart').bootstrapMaterialDatePicker({
+            date: false,
+            format: 'HH:mm',
+            minDate: moment(),
+        }).on('change', function(e, date) {
+            var timex = moment(date)
+                .add(2, 'minutes')
+            //console.log(timex);
+            $('#timeEnd').bootstrapMaterialDatePicker('setMinDate', timex);
+        });
+
+        $('#timeEnd').bootstrapMaterialDatePicker({
+            date: false,
+            format: 'HH:mm',
+        })
         function dateCheck(sss){
             if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
         }
         @can('calendar.edit')
             function eventDrop(event){
+                console.log("event", event);
                 var form_data = new FormData();
                 form_data.append('id', event.event.id);
                 form_data.append('start', event.event.startStr);
@@ -546,6 +560,7 @@
                     processData: false,
                     beforeSend: function()
                     {
+                        resetForm()
                     },
                     success:function(data)
                     {
@@ -553,6 +568,7 @@
                             icon: data.icon,
                             title: data.msg
                         })
+
                         if (data.reload) {
                             socket.emit('eventCalendarRefetchToServer');
                         }
@@ -583,7 +599,9 @@
                 });
                 $('#phone').val(event.extendedProps.phone).attr('disabled', true);
                 $('#email').val(event.extendedProps.email).attr('disabled', true);
-                $('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
+                //$('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
+                $('#start').val(moment(event.start).format('L'))
+                console.log("event.extendedProps.startDate", event.extendedProps.startDate);
                 $('#lang').val(event.extendedProps.lang);
                 $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
                 $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
@@ -656,11 +674,7 @@
                                 icon: data.icon,
                                 title: data.msg
                             })
-                            $('#formReset').click();
-                            $('.eventApp').hide('fast');
-                            $("#is_app").prop('checked', false);
-                            $("#is_app").parent().removeClass('is-checked');
-                            $("#app").removeAttr("data-id")
+                            resetForm()
                             socket.emit('eventCalendarRefetchToServer');
                         } else {
                             $.each( data.errors, function( key, value ) {
@@ -673,15 +687,7 @@
         @endcan
         $(document).on('click', '#formCancel', function(event) {
             event.preventDefault();
-            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
-            $('input').removeAttr("disabled")
-            $('#lang').removeAttr('disabled');
-            $('#formReset').click();
-            $('.error').html('')
-            $('.eventApp').hide('fast');
-            $("#is_app").prop('checked', false);
-            $("#is_app").parent().removeClass('is-checked');
-            $("#app").removeAttr("data-id")
+            resetForm()
         });
         function eventClick(arg) {
             //console.log(arg.event)
@@ -707,7 +713,7 @@
                                     <div class="col-6">\
                                     <div class="staffName">Staff: ' + arg.event.extendedProps.staff + '</div>\
                                     <div class="patient">Patient: ' + arg.event.extendedProps.patient + '</div>\
-                                    <div class="fechaInicio">Date: ' +arg.event.extendedProps.formatedDate + '</div>\
+                                    <div class="fechaInicio">Date: ' + moment(arg.event.start).format('MMM Do YYYY') + '</div>\
                                     </div>\
                                     <div class="col-6">';
                                 if (arg.event.extendedProps.isapp == 'si') {
@@ -871,6 +877,17 @@
         @endcan
         function refetchCalendarEvents(){
             calendar.refetchEvents()
+        }
+        function resetForm(){
+            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
+            $('input').removeAttr("disabled")
+            $('#lang').removeAttr('disabled');
+            $('#formReset').click();
+            $('.error').html('')
+            $('.eventApp').hide('fast');
+            $("#is_app").prop('checked', false);
+            $("#is_app").parent().removeClass('is-checked');
+            $("#app").removeAttr("data-id")
         }
 </script>
 @endsection

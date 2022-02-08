@@ -28,11 +28,13 @@
                         <span class="title">@lang('Dashboard')</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('staff.applications.application') }}" class="nav-link nav-toggle"> <i class="material-icons">view_list</i>
-                        <span class="title">@lang('Aplications')</span>
-                    </a>
-                </li>
+                @can('applications.list')
+                    <li class="nav-item">
+                        <a href="{{ route('staff.applications.application') }}" class="nav-link nav-toggle"> <i class="material-icons">view_list</i>
+                            <span class="title">@lang('Aplications')</span>
+                        </a>
+                    </li>
+                @endcan
                 @can('treatment.list')  
                     <li class="nav-item  ">
                         <a href="{{ route('staff.treatments.treatments') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
@@ -40,18 +42,13 @@
                         </a>
                     </li>
                 @endcan
-                <li class="nav-item">
-                    <a href="#" class="nav-link nav-toggle"><i class="material-icons">event_available</i>
-                    <span class="title">@lang('Appointment') </span><span class="arrow"></span></a>
-                    <ul class="sub-menu">
-                        @can('calendar.list')
-                            <li class="nav-item">
-                                <a href="{{ route('staff.events.events') }}" class="nav-link "> <span class="title">@lang('Doctor Schedule') </span>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
+                @can('treatment.list')  
+                    <li class="nav-item  ">
+                        <a href="{{ route('staff.events.events') }}" class="nav-link nav-toggle"> <i class="material-icons">event_available</i>
+                            <span class="title">@lang('Calendar')</span>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
                         <span class="title">@lang('Staff') </span> <span class="arrow"></span>
@@ -144,6 +141,27 @@
                                         <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
                                             <i class="ml-3"></i> Packages
                                          </a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-cogs"></i> Roles & Permissions
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                @can('roles.list')
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="ml-3"></i> Roles</a>
+                                    </li>
+                                @endcan
+                                @can('permission.list')
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="ml-3"></i> Permissions</a>
                                     </li>
                                 @endcan
                             </ul>

@@ -137,7 +137,9 @@
                                     @foreach ($doctor->imageMany as $img)
                                         <div class="col-12 col-md-3" data-aos="fade-up">
                                             <div class="card">
-                                                <img src="{{ asset($img->image) }}" class="card-img-top" alt="{{ $img->title }}">
+                                                <a href="{{ asset($img->image) }}" data-effect="mfp-zoom-in" class="a" title="{{ $img->title }}">
+                                                    <img src="{{ asset($img->image) }}" class="card-img-top" alt="{{ $img->title }}">
+                                                </a>
                                                 <div class="card-body pb-0">
                                                     <h5 class="card-title text-center">{{ $img->title }}</h5>
                                                 </div>
@@ -153,4 +155,21 @@
         </section>
         <!-- End Team Section -->
     </main>
+@endsection
+@section('scripts')
+    <script>
+        $('.card').magnificPopup({
+            delegate: 'a.a',
+            type: 'image',
+            removalDelay: 500,
+            callbacks: {
+                beforeOpen: function() {
+                    this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+                    this.st.mainClass = this.st.el.attr('data-effect');
+                }
+            },
+            closeOnContentClick: true,
+            midClick: true 
+        });
+    </script>
 @endsection

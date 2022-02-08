@@ -163,21 +163,19 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-    //return($request);
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
         if ($request->app == 'undefined') {unset($request['app']);}
         if ($request->isApp == '0') {unset($request['isApp']);}
         $todayDate = Date('Y-m-d');
-         //return $request;
         $validator = Validator::make($request->all(), [
             'patient' => 'required|string',
-            'patient_id' => 'sometimes|integer|exists:patients,id',
+            'patient_id' => 'sometimes|nullable|integer|exists:patients,id',
             'email' => 'required|email',
             'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
-            'timeStart' => 'required|date_format:H:i:s',
-            'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i:s',
+            'timeStart' => 'required|date_format:H:i',
+            'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
             'notes' => 'required|string',
             'lang' => 'required|string|max:2',
             'title' => 'required|string',

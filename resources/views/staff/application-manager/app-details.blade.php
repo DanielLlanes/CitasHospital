@@ -29,6 +29,12 @@ echo "<pre>";
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
         $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
     });
+
+    if (Auth::guard('staff')->user()->can('patients.details')) {
+        $ative = "active";
+    } elseif (Auth::guard('staff')->user()->can('applications.details')) {
+        $ative = "active";
+    }
 echo '</pre>';
 @endphp
 
@@ -99,42 +105,48 @@ echo '</pre>';
                 <div class="profile-tab-box">
                     <div class="p-l-20">
                         <ul class="nav ">
-                            @if (Auth::guard('staff')->user()->hasRole('doctor'))
-                            @endif
                             @can('patients.details')
                                 <li class="nav-item tab-all">
                                     <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
                                 </li>
                             @endcan
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#services" data-toggle="tab">Servicios</a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#healthData" data-toggle="tab">Datos de salud</a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#surgeries" data-toggle="tab">Cirugías</a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#medicalHistory" data-toggle="tab">Historial médico</a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#generalHealthData" data-toggle="tab">Datos generales de salud</a>
-                            </li>
-                            @if ($appInfo->patient->sex != "male")
+                            @can('applications.details')
                                 <li class="nav-item tab-all p-l-20">
-                                    <a class="nav-link" href="#ghynecologicaldata" data-toggle="tab">Datos ginecológicos</a>
+                                    <a class="nav-link" href="#services" data-toggle="tab">Servicios</a>
                                 </li>
-                            @endif
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#debateChat" data-toggle="tab">Debate</a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#timeLine" data-toggle="tab">Linea de tiempo </a>
-                            </li>
-                            <li class="nav-item tab-all p-l-20">
-                                <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Notas de logística</a>
-                            </li>
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#healthData" data-toggle="tab">Datos de salud</a>
+                                </li>
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#surgeries" data-toggle="tab">Cirugías</a>
+                                </li>
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#medicalHistory" data-toggle="tab">Historial médico</a>
+                                </li>
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#generalHealthData" data-toggle="tab">Datos generales de salud</a>
+                                </li>
+                                @if ($appInfo->patient->sex != "male")
+                                    <li class="nav-item tab-all p-l-20">
+                                        <a class="nav-link" href="#ghynecologicaldata" data-toggle="tab">Datos ginecológicos</a>
+                                    </li>
+                                @endif
+                            @endcan
+                            @can('applications.debate')
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#debateChat" data-toggle="tab">Debate</a>
+                                </li>
+                            @endcan
+                            @can('applications.timeline')
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#timeLine" data-toggle="tab">Linea de tiempo </a>
+                                </li>
+                            @endcan
+                            @can('applications.logisticNotes')
+                                <li class="nav-item tab-all p-l-20">
+                                    <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Notas de logística</a>
+                                </li>
+                            @endcan
                         </ul>
                     </div>
                 </div>
@@ -232,7 +244,7 @@ echo '</pre>';
                                         @foreach ($appInfo->imageMany as $image)
                                             <div class="col-12 col-md-4 col-lg-3">
                                                 <div class="card">
-                                                    <a href="{{ asset($image->image) }}" data-effect="mfp-zoom-in" class="a">
+                                                    <a href="{{ asset($image->image) }}" title="{{ $image->title }}" data-effect="mfp-zoom-in" class="a">
                                                         <img src="{{ asset($image->image) }}" class="img-thumbnail" alt="">
                                                     </a>    
                                                 </div>
@@ -242,34 +254,38 @@ echo '</pre>';
                                 @endif
 
                                 <hr>
-                                <div class="row">
+                                <div class="row mt-5">
                                     <div class="col-12 mb-2 b-r text-center">
                                         <strong>
                                             Personal asignado
                                         </strong>
                                     </div>
-                                    
-                                   @php 
-                                       foreach ($arrays as $value) {
-                                            Auth::guard('staff')->user()->id;
-                                           echo '<div class="col-md-3 col-6 mb-2 b-r text-center"> <strong>'.$value['specialty'].'</strong>';
-                                           echo '<br>';
-                                           $staff_name = is_null($value['name']) ? "": $value['name'];
-                                           $staff_id = is_null($value['id']) ? "": $value['id'];
-                                           if ($staff_name == "") {echo "<br>";}
-                                           echo '<p class="text-muted" id="nameStaff'.$value['specialty'].'">'.$staff_name.'</p>';
-                                           if ($value['id'] == 10) {
-                                              if (Auth::guard('staff')->user()->can('applications.changeCoordinator')) {
-                                                   echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
-                                               } 
-                                           } else {
-                                                if (Auth::guard('staff')->user()->can('applications.changeStaff')) {
-                                                     echo '<button type="button" id="appChange'.$value['specialty'].'" service="'.$appInfo->id.'" class="btn btn-success">Assing / Change '.$value['specialty'].'</button>';
-                                                 } 
-                                           }
-                                           echo '</div>';
-                                       }
-                                   @endphp
+
+                                   @foreach ($arrays as $value)
+                                    <div class="col-md-3 col-6 mb-2 b-r text-center">
+                                        <strong>
+                                            {{ $value['specialty'] }}
+                                        </strong>
+                                       
+                                        <p class="text-muted" id="nameStaff{{ $value['specialty'] }}">{!! is_null($value['name']) ? "<br>": $value['name'] !!}
+                                        </p>
+                                        @if ($value['id'] == 10)
+                                            @if (Auth::guard('staff')->user()->can('applications.changeCoordinator'))
+                                                <button type="button" id="appChange{{ $value['specialty'] }}" service="{{ $appInfo->id }}" class="btn btn-success">
+                                                    Assing / Change {{ $value['specialty'] }}
+                                                </button>
+                                            @endif
+                                        @else
+                                            @if (Auth::guard('staff')->user()->can('applications.changeStaff'))
+                                                <button type="button" id="appChange{{ $value['specialty'] }}" service="{{ $appInfo->id }}" class="btn btn-success">
+                                                    Assing / Change {{ $value['specialty'] }}
+                                                </button>
+                                            @endif
+                                        @endif
+                                    </div>
+                                    <br>
+
+                                   @endforeach
                                 </div>
                             </div>
                         </div>
@@ -1366,8 +1382,6 @@ echo '</pre>';
 
     var itemContainer = $(".nice-chat");
     var scrollTo_int = itemContainer.prop('scrollHeight') + 'px';
-        
-    
 
     var globalRouteSetNewStaff = "{{ route('staff.applications.setNewStaff') }}";
     var globalRouteGetNewStaff = "{{ route('staff.applications.getNewStaff') }}";
@@ -1402,10 +1416,12 @@ echo '</pre>';
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
+        $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
         $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
             $('#getStaff'+specialty[1]).select2({
                 dropdownParent: $('#change'+specialty[1]+"App"),
                 placeholder: "Select click here",
+                allowClear: true,
                 ajax: {
                     url: globalRouteGetNewStaff,
                     type: 'post',
@@ -1430,10 +1446,11 @@ echo '</pre>';
                     cache: true,
                 }
             }).on("change", function(e) {
-              var lastValue = $.trim(e.currentTarget.value);
-              var lastText = e.currentTarget.textContent;
-              setNewStaff(lastValue, lastText, specialty[1])
-             });
+                //$("#getStaff"+specialty[1]).empty()
+                var lastValue = $.trim(e.currentTarget.value);
+                var lastText = $.trim(e.currentTarget.textContent);
+                setNewStaff(lastValue, lastText, specialty[1])
+            });
         }).modal('show');
     });
 
@@ -1490,10 +1507,14 @@ echo '</pre>';
             processData: false,
             beforeSend: function()
             {
+                $('#nameStaff'+specialty).text('')
             },
-            success:function(data)
+            success:function(response)
             {
-                $('#nameStaff'+specialty).text(data.name)
+                $('#nameStaff'+specialty).text('')
+                $('#nameStaff'+specialty).text(response.name)
+                let data = { specialty: specialty, name: response.name, id: response.id}
+                socket.emit('sendNewStaffToServer', data);
                 $('#change'+specialty+"App").modal('hide')
             },
             complete: function()
@@ -1547,7 +1568,7 @@ echo '</pre>';
             },
             success:function(response)
             {
-                console.log("response", response);
+                
                 if (response.success) {
                     var dataMsg = response.response;
                     var dataMsgUserId = dataMsg.user_id.id;

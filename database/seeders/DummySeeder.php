@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Staff\Patient;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Seeder;
 
 class DummySeeder extends Seeder
@@ -14,8 +15,6 @@ class DummySeeder extends Seeder
      */
     public function run()
     {
-        $patient = Patient::factory(50)->create()->each(function ($staff) {
-
-        });
+        
     }
 }

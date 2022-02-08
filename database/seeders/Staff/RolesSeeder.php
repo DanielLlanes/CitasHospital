@@ -75,7 +75,8 @@ class RolesSeeder extends Seeder
             'name_es' => 'Chofer',
             'name_en' => 'Driver',
         ]);
-        $driver = Role::create([
+
+        $supervisor = Role::create([
             'id' => 8,
             'name' => 'supervisor',
             'guard_name' => 'staff',
@@ -83,18 +84,28 @@ class RolesSeeder extends Seeder
             'name_en' => 'Supervisor',
         ]);
 
+        $recepcionist = Role::create([
+            'id' => 9,
+            'name' => 'reception',
+            'guard_name' => 'staff',
+            'name_es' => 'Recepción',
+            'name_en' => 'Reception',
+        ]);
+
         $doctorPermissions = [
             "calendar.show",
             "calendar.list",
             "applications.list",
             "applications.show",
-            "applications.details"
+            "applications.details",
+            "applications.debate",
         ];
 
         $nursePermissions = [
             "applications.list",
             "applications.show",
             "applications.details",
+            "applications.all",
             "calendar.show",
             "calendar.list",
         ];
@@ -102,6 +113,9 @@ class RolesSeeder extends Seeder
         $driverPermissions = [
             "calendar.show",
             "calendar.list",
+            "applications.list",
+            "applications.show",
+            "applications.all",
         ];
 
         $adminPermissions = [
@@ -131,15 +145,18 @@ class RolesSeeder extends Seeder
             "admin.permisions",
 
             "applications.list",
-            "applications.details",
-            "applications.create",
+            "applications.all",
             "applications.edit",
-            "applications.setprice",
-            'applications.changeCoordinator',
-            'applications.changeStaff',
+            "applications.create",
             "applications.destroy",
+            "applications.details",
+            "applications.setprice",
+            "applications.changeCoordinator",
+            "applications.changeStaff",
             "applications.show",
-            "applications.list.all",
+            "applications.debate",
+            "applications.timeline",
+            "applications.logisticNotes",
 
             "patients.list",
             "patients.create",
@@ -148,17 +165,12 @@ class RolesSeeder extends Seeder
             "patients.details",
             "patients.show",
 
-            "procedures.list",
-            "procedures.create",
-            "procedures.edit",
-            "procedures.destroy",
-            "procedures.activate",
-
             "payments.list",
             "payments.create",
             "payments.edit",
             "payments.destroy",
             "payments.show",
+            "payments.details",
 
             "specialties.list",
             "specialties.create",
@@ -184,6 +196,12 @@ class RolesSeeder extends Seeder
             "brand.destroy",
             "brand.activate",
 
+            "procedures.list",
+            "procedures.create",
+            "procedures.edit",
+            "procedures.destroy",
+            "procedures.activate",
+
             'treatment.list',
             'treatment.edit',
             'treatment.create',
@@ -199,10 +217,10 @@ class RolesSeeder extends Seeder
             "calendar.create",
             "calendar.show",
             "applications.list",
-            "applications.details",
+            "applications.all",
             "applications.create",
             "applications.edit",
-            "applications.changeCoordinator",
+            "applications.changeStaff",
             "applications.show",
             "patients.list",
             "patients.create",
