@@ -146,11 +146,12 @@ class BrandController extends Controller
         $brand->description_en = $request->description_en;
         $brand->description_es = $request->description_es;
         $brand->url = Str::slug($request->brand, '-');
+        $brand->code = time().uniqid(Str::random(30));
 
         if ($brand->save()) {
             if ($image != '') {
                 $brand->imageOne()->create(
-                    ['image' => $image]
+                    ['image' => $image, 'code' => time().uniqid(Str::random(30))]
                 ); 
             }
             
@@ -232,7 +233,7 @@ class BrandController extends Controller
 
             $lastPhoto = null;
             $avatar;
-            if (!$brand->imageOn) {
+            if (!$brand->imageOne) {
                 $lastPhoto = $brand->imageOne->image;
                 $lastPhotoId = $brand->imageOne->id;
             } 
@@ -254,11 +255,11 @@ class BrandController extends Controller
                 $image = "storage/brand/image/$img_name";
 
                 if (!is_null($lastPhoto)) {
-                    unlink(public_path($lastPhoto));
+                    //unlink(public_path($lastPhoto));
                 }
                 $brand->imageOne->delete($lastPhotoId);
                 $brand->imageOne()->create(
-                    ['image' => $image]
+                    ['image' => $image, 'code' => time().uniqid(Str::random(30))]
                 );
                 $img->destroy();
             }
@@ -269,6 +270,7 @@ class BrandController extends Controller
             $brand->description_en = $request->description_en;
             $brand->description_es = $request->description_es;
             $brand->url = Str::slug($request->brand, '-');
+            $brand->code = time().uniqid(Str::random(30));
 
             if ($brand->save()) {
                 return response()->json(
@@ -308,7 +310,7 @@ class BrandController extends Controller
             if (!$brand->imageOn) {
                 $lastPhoto = $brand->imageOne->image;
                 $lastPhotoId = $brand->imageOne->id;
-                unlink(public_path($lastPhoto));
+                ////unlink(public_path($lastPhoto));
                 $brand->imageOne->delete($lastPhotoId);
             } 
             

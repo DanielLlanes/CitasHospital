@@ -27,8 +27,9 @@ class CreateTreatmentsTable extends Migration
             $table->text('group_es');
             $table->text('group_en');
             $table->boolean('active')->default(true);
-            $table->softDeletes();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('treatments', function($table) {

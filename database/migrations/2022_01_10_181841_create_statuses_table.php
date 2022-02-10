@@ -19,7 +19,9 @@ class CreateStatusesTable extends Migration
             $table->string("name_es");
             $table->text("description_en")->nullable();
             $table->text("description_es")->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

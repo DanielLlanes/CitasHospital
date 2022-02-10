@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
-use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class ServiceController extends Controller
 {
@@ -142,6 +143,7 @@ class ServiceController extends Controller
         $service->qty_images = $request->qty_images;
         $service->description_en = $request->description_en;
         $service->description_es = $request->description_es;
+        $service->code = time().uniqid(Str::random(30));
 
         if ($service->save()) {
             $staff = $request->input_specialties;
@@ -249,6 +251,7 @@ class ServiceController extends Controller
             //$service->staff_cadena = json_encode($request->input_specialties);
             $service->description_en = $request->description_en;
             $service->description_es = $request->description_es;
+            $service->code = time().uniqid(Str::random(30));
 
             if ($service->save()) {
                 $staff = $request->input_specialties;

@@ -22,8 +22,9 @@ class CreatePaymentsTable extends Migration
             $table->text('evidence')->nullable();
             $table->float('amount', 10, 2)->nullable();
             $table->string('currency')->nullable();
-            $table->softDeletes();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('payments', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

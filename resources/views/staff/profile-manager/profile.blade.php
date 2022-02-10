@@ -240,6 +240,5 @@
                 }
             });
         });
-        $('.jqte-textarea').jqte({"status" : true})
     </script>
 @endsection

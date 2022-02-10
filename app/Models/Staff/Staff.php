@@ -3,14 +3,15 @@
 namespace App\Models\Staff;
 
 use App\Models\Site\Application;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\StaffResetPasswordNotification as StaffResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Notifications\StaffResetPasswordNotification as StaffResetPasswordNotification;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class Staff extends Authenticatable
 {
@@ -19,15 +20,14 @@ class Staff extends Authenticatable
     use HasRoles;
     use SoftDeletes; //Implementamos
 
+
     public $timestamps = true;
 
     protected $dates = ['deleted_at']; //Registramos la nueva columna
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
+
+
     protected $fillable = [
         'name',
         'username',

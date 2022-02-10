@@ -63,7 +63,7 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                <div class="form-group mb-2" style="overflow: hidden">
+                                                {{-- <div class="form-group mb-2" style="overflow: hidden">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image')
                                                     <span class="required">  </span>
                                                     </label>
@@ -79,7 +79,7 @@
                                                     <div class="col-md-12 imagePreview">
 
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -244,10 +244,7 @@
                 form_data.append('has_package', $("input[name='has_package']:checked").val());
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
-                var files = $('#image')[0].files;
-                if(files.length > 0 ){
-                    form_data.append('image',files[0]);
-                }
+
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -517,31 +514,31 @@
                 })
             });
 
-            $(document).on('change', '#image', function(event) {
-            readURL(this);
-            });
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
+            // $(document).on('change', '#image', function(event) {
+            // readURL(this);
+            // });
+            // function readURL(input) {
+            //     if (input.files && input.files[0]) {
+            //         var reader = new FileReader();
 
-                    reader.onload = function(e) {
-                        //$('.foto-pac').attr('src', );
-                        $('.imagePreview').parents('.form-group').show('fast');
+            //         reader.onload = function(e) {
+            //             //$('.foto-pac').attr('src', );
+            //             $('.imagePreview').parents('.form-group').show('fast');
 
-                        var img = '<img class="rounded-3 holis img-fluid" src=" ' + e.target.result + ' " alt="" style="height: 169px;">';
+            //             var img = '<img class="rounded-3 holis img-fluid" src=" ' + e.target.result + ' " alt="" style="height: 169px;">';
 
-                        $('.holis').resizable({ aspectRatio:true, maxHeight:300 })
+            //             $('.holis').resizable({ aspectRatio:true, maxHeight:300 })
 
-                        $('.imagePreview').html(img);
+            //             $('.imagePreview').html(img);
 
-                    }
+            //         }
 
-                    reader.readAsDataURL(input.files[0]);
-                } else {
+            //         reader.readAsDataURL(input.files[0]);
+            //     } else {
 
-                    //$('.foto-pac').attr('src',  document.location.origin+'/images/user-xs.png');
-                }
-            }
+            //         //$('.foto-pac').attr('src',  document.location.origin+'/images/user-xs.png');
+            //     }
+            // }
 
             $(document).on('click', '#formCancel', function () {
                 clearForm()

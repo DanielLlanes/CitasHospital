@@ -18,7 +18,9 @@ class CretateApplicationStaffTable extends Migration
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
             $table->integer('ass_as')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('application_staff', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

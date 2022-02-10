@@ -18,7 +18,9 @@ class CreateBirthControlApplicationsTable extends Migration
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->string('type')->nullable();
             $table->string('how_along_time')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('birth_control_applications', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

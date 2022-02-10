@@ -29,11 +29,6 @@ class StaffController extends Controller
         $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -299,11 +294,10 @@ class StaffController extends Controller
         //$assingnamentCheck = 0;
 
         if ($request->has('specialties')) {
-            
             foreach ($request->specialties as $specialty) {
-                $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
+                $hasAssignable = Specialty::select('id', 'assignable', 'code')->where('id', $specialty)->first();
                 if ($hasAssignable->assignable == 1) {
-                     array_push($assingnamentCheck, $hasAssignable->assignable);
+                    array_push($assingnamentCheck, $hasAssignable->assignable);
                 }
             }
         }
@@ -386,6 +380,7 @@ class StaffController extends Controller
         //$staff->specialty_id = $request->specialty;
         $staff->public_profile = $request->public_profile == "on" ? 1:0;
         $staff->url = Str::slug($request->url, '-');
+        $staff->code = time().uniqid(Str::random(30));
 
         $assignment = [];
         $avatar = '';
@@ -407,19 +402,17 @@ class StaffController extends Controller
             $img->destroy();
         }
 
-
         if ($request->has('assigned_to')){
             for ($i=0; $i < count($request->assigned_to); $i++) {
                 $id_service = Service::select('id', "service_$lang As name")->where("service_$lang", $request->assigned_to[$i])->first();
                 array_push($assignment, $id_service->id);
             }
-
         }
         //return $request;
         if ($staff->save()) {
             if ($avatar != '') {
                 $staff->imageOne()->create(
-                    ['image' => $avatar]
+                    ['image' => $avatar, 'code' => time().uniqid(Str::random(30))]
                 );
             }
             if (count($assignment) > 0) {
@@ -427,13 +420,25 @@ class StaffController extends Controller
                     $assignTo[] = [
                         'service_id' => $assignment[$i],
                         'staff_id' => $staff->id,
+                        'code' => time().uniqid(Str::random(30)),
                     ];
                 }
-                $staff->assignToService()->sync($assignTo);
-                
+                $staff->assignToService()->sync($assignTo);               
+            }
+            
+            $ass = [];
+
+            if (count($request->specialties) > 0 ) {
+                for ($i = 0; $i < count($request->specialties); $i++) {
+                    $ass[] = [
+                        'specialty_id' => $request->specialties[$i],
+                        'code' => time().uniqid(Str::random(30)),
+                    ];
+                }
             }
 
-            $staff->specialties()->sync($request->specialties);
+            $staff->specialties()->sync($ass);
+
             $dataMsg = array(
                 'reciver' => $request->email,
                 'reciverName' => $request->name,
@@ -619,7 +624,7 @@ class StaffController extends Controller
         $lastPhoto = null;
         $avatar;
         //return $staff->imageOne;
-        if ($staff->imageOn) {
+        if ($staff->imageOne) {
             $lastPhoto = $staff->imageOne->image;
             $lastPhotoId = $staff->imageOne->id;
         } 
@@ -638,12 +643,12 @@ class StaffController extends Controller
             $img->save($destinationPath."/".$img_name, '100');
             $avatar = "storage/staff/avatar/$img_name";
 
-            if (!is_null($lastPhoto)) {
-                unlink(public_path($lastPhoto));
-            }
+            // if (!is_null($lastPhoto)) {
+            //     unlink(public_path($lastPhoto));
+            // }
             $staff->imageOne->delete($lastPhotoId);
             $staff->imageOne()->create(
-                ['image' => $avatar]
+                ['image' => $avatar, 'code' => time().uniqid(Str::random(30))]
             );
             $img->destroy();
         }
@@ -657,6 +662,7 @@ class StaffController extends Controller
         $staff->color = strtolower($request->color);
         $staff->public_profile = $request->public_profile == "on" ? 1:0;
         $staff->url = Str::slug($request->url, '-');
+        $staff->code = time().uniqid(Str::random(30));
 
         $assignment = [];
 
@@ -676,13 +682,25 @@ class StaffController extends Controller
                     $assignTo[] = [
                         'service_id' => $assignment[$i],
                         'staff_id' => $staff->id,
+                        'code' => time().uniqid(Str::random(30)),
                     ];
                 }
                 //$staff->assignToService()->remove();
                 $staff->assignToService()->sync($assignTo);
                 
             }
-            $staff->specialties()->sync($request->specialties);
+            $ass = [];
+
+           if (count($request->specialties) > 0 ) {
+               for ($i = 0; $i < count($request->specialties); $i++) {
+                   $ass[] = [
+                       'specialty_id' => $request->specialties[$i],
+                       'code' => time().uniqid(Str::random(30)),
+                   ];
+               }
+           }
+
+           $staff->specialties()->sync($ass);
             return redirect()->route('staff.staff.staff')->with(
                 [
                     'sys-message' => '',
@@ -915,7 +933,8 @@ class StaffController extends Controller
             'postgraduatestudies',
             'updatecourses',
             'permissions',
-            'imagespublicprofile',
+            'imageOne',
+            'imageMany',
             'careerobjetive',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);

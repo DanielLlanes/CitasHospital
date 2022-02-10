@@ -367,7 +367,7 @@
                                     <form class="" id="uploadImagesSubmit" enctype="multipart/form-data">
                                         <div id="uploadImnagesArea">
                                             <div class="row" id="uploadImagesForm">
-                                                @foreach ($staff->imagespublicprofile as $imagespublicprofile)
+                                                @foreach ($staff->imageMany as $imagespublicprofile)
                                                     <div class="col-md-4" id="">
                                                         <div class="form-group">
                                                             <label>Image Title</label>
@@ -408,32 +408,38 @@
         globalEducationBackground = '{{ route('staff.profile.educationBackground') }}';
         globalPostgraduateStudies = '{{ route('staff.profile.postgraduateStudies') }}';
         globalUpdateCourses = '{{ route('staff.profile.updateCourses') }}';
-        globalUploadImages = '{{ route('staff.profile.UploadImagesPublicProfile') }}';
+        globalUploadImages = '{{ route('staff.profile.uploadImagesPublicProfile') }}';
         globalcareerObjetive = '{{ route('staff.profile.careerObjetive') }}';
+        globalDeleteImages = '{{ route('staff.profile.deleteImagesPublicProfile') }}';
         var career_objective = "{{ count($staff->careerobjetive) }}"
         var workHistoryForm = "{{ count($staff->workhistory) }}"
         var educationBackgroundForm = "{{ count($staff->educationbackground) }}"
         var postgraduateStudiesForm = "{{ count($staff->postgraduatestudies) }}"
-        var uploadImagesForm = "{{ count($staff->imagespublicprofile) }}"
+        var uploadImagesForm = "{{ count($staff->imageMany) }}"
         var updateCoursesForm = "{{ count($staff->updatecourses) }}"
+        //var staffID = "{{ Auth::guard('staff')->user()->id}}"
     </script>
     <script>
         if (career_objective == 0) {careerObjetive()}else{summernote("summernote-career_objective", "Career Objective")}
         if (workHistoryForm == 0) {workHistory()}else{summernote("summernote-history-notes", "Work History Notes")}
         if (educationBackgroundForm == 0) {educationBackground()}else{summernote("summernote-education-notes", "Educaion Notes")}
         if (postgraduateStudiesForm == 0) {postgraduateStudies()}else{summernote("summernote-posgraduate-notes", "Postgraduate Studies Notes")}
-        if (uploadImagesForm == 0) {updateCourses()}
-        if (updateCoursesForm == 0) {upload_images()}
+        if (uploadImagesForm == 0) {upload_images(1)}
+        if (updateCoursesForm == 0) {updateCourses()}
         
         
         $(document).on('click', '#addbtnImage', function(event) {
-            upload_images()
+            var count = $('#uploadImagesForm .col-md-4').length;
+            console.log("count", count+1);
+            upload_images(count+1)
         });
         $(document).on('click', ".dropify-clear", function(event) {
             $(this).parents('.col-md-4').remove();
             var count = $('#uploadImnagesArea>.row>.col-md-4').length
-            console.log("count", count);
-            if (count == 0) {upload_images()}
+            var code = $(this).parents('.col-md-4').find('.dropify').attr('code');
+            if (code) {revomeImage(code)}
+            var many = $('#uploadImagesForm .col-md-4').length;
+            if (count == 0) {upload_images(many+1)}
         });
         $(document).on('click', '#addbtn', function(event) {
             event.preventDefault();
@@ -459,11 +465,14 @@
         });
         $(document).on('click', '.delBtnImg', function(event) {
             event.preventDefault();
+            var code = $(this).parents('.col-md-4').find('.dropify').attr('code');
             $(this).parents('.col-md-4').find('.dropify-clear').click();
             $(this).parents('.col-md-4').remove();
             var $firstChild = $('#uploadImagesForm > .col-md-4');
             var count = $firstChild.length
-            if (count == 0) {upload_images();}
+            var many = $('#uploadImagesForm .col-md-4').length;
+            if (count == 0) {upload_images(many+1);}
+            if (code) {revomeImage(code)}
         });
         $(document).on('change', 'input, textarea', function(event) {
             event.preventDefault();
@@ -475,7 +484,6 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
             $.ajax({
                 url: globalcareerObjetive,
                 method:"POST",
@@ -512,7 +520,6 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
             $.ajax({
                 url: globalWorkHistory,
                 method:"POST",
@@ -560,7 +567,6 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
             $.ajax({
                 url: globalEducationBackground,
                 method:"POST",
@@ -607,8 +613,7 @@
             event.preventDefault();
             event.stopPropagation();
             event.stopImmediatePropagation();
-            var formData = new FormData(this);
-            var form = $(this)            
+            var formData = new FormData(this);            
             $.ajax({
                 url: globalUpdateCourses,
                 method:"POST",
@@ -653,7 +658,6 @@
             event.stopPropagation();
             event.stopImmediatePropagation();
             var formData = new FormData(this);
-            var form = $(this)
             $.ajax({
                 url: globalPostgraduateStudies,
                 method:"POST",
@@ -699,7 +703,8 @@
             var title = $(this).parents('.col-md-4').find('.image_title').val();
             var dropyfy = $(this).parents('.col-md-4').find('.dropify').prop('files')[0];
             var code = $(this).parents('.col-md-4').find('.dropify').attr('code');
-            var poss = $(this).parents('.col-md-4').find('.dropify').prop('file');
+            var poss = $(this).parents('.col-md-4').find('.dropify').attr('file');
+            var count = $(this).parents('.col-md-4').find('.dropify').attr('count');
 
             if (!title) {
                 $parent.find('.image_title').next('.error').text('Please set a title')
@@ -711,6 +716,7 @@
             formData.append('dropify', dropyfy);
             formData.append('code', code);
             formData.append('title', title);
+            formData.append("order", count)
             $.ajax({
                 url: globalUploadImages,
                 method:"POST",
@@ -723,7 +729,10 @@
                 },
                 processData: false,
                 beforeSend: function(){
-
+                    $parent.find('.dropify-wrapper').next('.error').text('')
+                    $parent.find('.dropify-wrapper').removeClass('has-error has-danger')
+                    $parent.find('.image_title').next('.error').text('')
+                    $parent.find('.image_title').parent().removeClass('has-error has-danger')
                 },
                 success:function(data){
                     console.log("data", data);
@@ -737,6 +746,11 @@
                                 $parent.find('.image_title').parent().addClass('has-error has-danger')
                             }
                         });
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                        if (data.go == '2') {window.history.back()}
                      } else {
                         Toast.fire({
                               icon: data.icon,
@@ -762,7 +776,7 @@
                 disableResizeEditor: true,
             })
         }
-        function upload_images(){
+        function upload_images(order){
             var count = $('#uploadImagesForm').length
             var delBtn =  '<div class="col-12" id="delbtn">'
             delBtn += '<div class="form-group text-right" id="delBtnDiv">'
@@ -777,7 +791,7 @@
             dropify += '<label>Image Title</label>';
             dropify += '<input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title">';
             dropify += '<div class="error text-danger"></div>';
-            dropify += '<input type="file" class="form-control dropify image_file" id="file_'+count+'" name="image_file">';
+            dropify += '<input type="file" class="form-control dropify image_file" count="'+order+'" id="file_'+count+'" name="image_file">';
             dropify += '<div class="error text-danger"></div>';
             dropify += '</div>';
             dropify += delBtn;
@@ -984,6 +998,39 @@
             updateCourses += '</div>';
             
             $('#updateCoursesForm').append(updateCourses);
+        }
+        function clearDropify(){
+            drEvents = drEvent.data('dropify');
+            drEvents.resetPreview();
+            drEvents.clearElement();
+        }
+        function revomeImage(code){
+            var formData = new FormData();
+            formData.append('code', code);;
+            $.ajax({
+                url: globalDeleteImages,
+                method:"POST",
+                data:formData,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
+
+                },
+                success:function(data){
+                    console.log("data", data);
+                    if (!data.success) {
+                        Toast.fire({
+                              icon: data.icon,
+                              title: data.title,
+                        })
+                    }
+                },
+            })
         }
     </script>
 @endsection

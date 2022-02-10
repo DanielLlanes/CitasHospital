@@ -4,6 +4,7 @@ namespace Database\Seeders\Staff;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProcedureSeeder extends Seeder
 {
@@ -22,7 +23,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Este es el tratamiento estándar de oro para la obesidad en el mundo. Con esta operación, el cirujano extirpa entre 70 a 80% del estómago dejando el resto en forma de tubo o manga.',
                 'description_en' => 'This is the gold standard treatment for obesity in the world. With this operation, the surgeon removes between 70 to 80% of the stomach leaving the rest in the form of a tube or sleeve.',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 2,
@@ -31,7 +33,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 3,
@@ -40,7 +43,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 4,
@@ -49,7 +53,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 5,
@@ -58,7 +63,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 6,
@@ -67,7 +73,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '1',
-                'has_package' => true
+                'has_package' => true,
+                'code' => time().uniqid(Str::random(30)),
             ],
             /////
             [
@@ -77,7 +84,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 8,
@@ -86,7 +94,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 9,
@@ -95,7 +104,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 10,
@@ -104,7 +114,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 11,
@@ -113,7 +124,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 12,
@@ -122,7 +134,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 13,
@@ -131,7 +144,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 14,
@@ -140,7 +154,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 15,
@@ -149,7 +164,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 16,
@@ -158,7 +174,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 17,
@@ -167,7 +184,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '2',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 18,
@@ -176,7 +194,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 19,
@@ -185,7 +204,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 20,
@@ -194,7 +214,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 21,
@@ -203,7 +224,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 22,
@@ -212,7 +234,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 23,
@@ -221,7 +244,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 24,
@@ -230,7 +254,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '3',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 25,
@@ -239,7 +264,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 26,
@@ -248,7 +274,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 27,
@@ -257,7 +284,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 28,
@@ -266,7 +294,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 29,
@@ -275,7 +304,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 30,
@@ -284,7 +314,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 31,
@@ -293,7 +324,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => 32,
@@ -302,7 +334,8 @@ class ProcedureSeeder extends Seeder
                 'description_es' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,.',
                 'description_en' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim culpa repellat ipsam quis. Explicabo ad,..',
                 'service_id' => '4',
-                'has_package' => false
+                'has_package' => false,
+                'code' => time().uniqid(Str::random(30)),
             ],
         ]);
     }

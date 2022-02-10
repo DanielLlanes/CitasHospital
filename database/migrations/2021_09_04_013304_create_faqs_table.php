@@ -22,7 +22,9 @@ class CreateFaqsTable extends Migration
             $table->boolean('active')->default(true);
             $table->integer('order')->nullable();
             $table->integer('column')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -24,8 +24,9 @@ class CreateServicesTable extends Migration
             $table->longText('description_en')->nullable();
             $table->longText('description_es')->nullable();
             $table->string('url')->nullable();
-            $table->softDeletes();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::table('services', function($table) {

@@ -590,6 +590,7 @@
                     id: 'formEdit'
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
+                console.log("event", event);
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
 
@@ -600,7 +601,11 @@
                 $('#phone').val(event.extendedProps.phone).attr('disabled', true);
                 $('#email').val(event.extendedProps.email).attr('disabled', true);
                 //$('#start').val(event.extendedProps.startDate.split("-").reverse().join("/"));
-                $('#start').val(moment(event.start).format('L'))
+                //
+                //
+                $('#start').val(moment(event.start).format('DD/MM/YYYY'))
+
+
                 console.log("event.extendedProps.startDate", event.extendedProps.startDate);
                 $('#lang').val(event.extendedProps.lang);
                 $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
@@ -608,10 +613,10 @@
                 $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
                 $('#notes').val(event.extendedProps.notas);
 
-                $('#is_app').parents('.form-group').show('fast')
+                
 
                 if (event.extendedProps.isapp == "si") {
-
+                    $('#is_app').parents('.form-group').show('fast')
                     $("#is_app").prop('checked', true);
                     $("#is_app").parent().addClass('is-checked');
                     var brand = event.extendedProps.application_brand;

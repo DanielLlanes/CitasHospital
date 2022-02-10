@@ -89,7 +89,6 @@ class EventController extends Controller
             ]
         )
         ->get();
-        //return $events;
         $allEvents = [];
         $singleEvent = [];
         $extendedProps = [];
@@ -188,6 +187,7 @@ class EventController extends Controller
             ],
             'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
         ]);
+        
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -210,6 +210,7 @@ class EventController extends Controller
             $patient->email = $request->email;
             $patient->phone = $request->phone;
             $patient->lang = $lang;
+            $patient->code = time().uniqid(Str::random(30));
             $patient->password = Hash::make(Str::random(10));
             $patient->save();
             $patient_id = $patient->id;
@@ -226,6 +227,7 @@ class EventController extends Controller
         $event->end_time = $request->timeEnd;
         $event->note = $request->notes;
         $event->title = $request->title;
+        $event->code = time().uniqid(Str::random(30));
         $event->application_id = $request->has('isApp') ? $request->app: null;
         $event->is_application = $request->has('isApp') ? $request->isApp: null;
 
@@ -334,6 +336,7 @@ class EventController extends Controller
             $event->end_time = $request->timeEnd;
             $event->note = $request->notes;
             $event->title = $request->title;
+            $event->code = time().uniqid(Str::random(30));
             $event->application_id = $request->has('isApp') ? $request->app: null;
             $event->is_application = $request->has('isApp') ? $request->isApp: null;
 

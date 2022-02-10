@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Models\Staff\Treatment;
-use Illuminate\Http\Request;
-use App\Models\Staff\Service;
-use App\Models\Staff\Procedure;
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\Service;
+use App\Models\Staff\Treatment;
+use App\Models\Staff\imageOne;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Yajra\DataTables\DataTables;
 
 class TreatmentController extends Controller
 {
@@ -49,6 +53,7 @@ class TreatmentController extends Controller
                 'package' => function($q) use ($lang){
                     $q->selectRaw("id, package_$lang package");
                 },
+                'imageOne'
             ]
         )
         ->get();
@@ -85,6 +90,19 @@ class TreatmentController extends Controller
             ->get();
             return DataTables::of($treatment)
                 ->addIndexColumn()
+                ->addColumn('image', function($treatment){
+                    if (is_null($treatment->imageOne)) {
+                        $images = "/staffFiles/assets/img/treatment/no-Image.png";
+                    } else {
+                        $images = $treatment->imageOne->image;
+                    }
+                    $image ='
+                            <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
+                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:50px" alt="treatment"/>
+                            </a>
+                        ';
+                    return $image;
+                })
                 ->addColumn('brand', function($treatment){
                     return '<span style="font-size: .7vw; font-weight: 800; color: '.$treatment->brand->color.'">'.strtoupper($treatment->brand->brand).'</span>';
                 })
@@ -124,13 +142,18 @@ class TreatmentController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.treatments-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'package', 'price', 'description', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'service', 'procedure', 'package', 'price', 'description', 'active', 'action'])
                 ->make(true);
         }
     }
 
     public function store(Request $request)
     {
+
+        if ($request->image == 'undefined') {
+            $request->request->remove('image');
+        }
+
         $exist = Treatment::where("procedure_id", $request->procedure)
         ->where('package_id', $request->package)
         ->first();
@@ -161,7 +184,8 @@ class TreatmentController extends Controller
             ],
             'description_en' => 'required|string',
             'description_es' => 'required|string',
-            'price' => 'sometimes|nullable|numeric'
+            'price' => 'nullable|sometimes|numeric',
+            'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
           ]
         );
 
@@ -171,6 +195,24 @@ class TreatmentController extends Controller
                 'go' => '0',
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
+        }
+
+        $image = '';
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/treatment/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 580;
+            $height = null;
+            $img->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '100');
+            $image = "storage/treatment/image/$img_name";
+            $img->destroy();
         }
 
         $group = Procedure::find($request->procedure);
@@ -189,8 +231,14 @@ class TreatmentController extends Controller
         $treatment->group_en = $group->procedure_en;
         $treatment->description_en = $request->description_en;
         $treatment->description_es = $request->description_es;
+        $treatment->code = time().uniqid(Str::random(30));
 
         if ($treatment->save()) {
+            if ($image != '') {
+                $treatment->imageOne()->create(
+                    ['image' => $image, 'code' => time().uniqid(Str::random(30))]
+                ); 
+            }
             return response()->json(
                 [
                     'icon' => 'success',
@@ -228,6 +276,7 @@ class TreatmentController extends Controller
                     'package' => function($q) use ($lang){
                         $q->selectRaw("id, package_$lang package");
                     },
+                    'imageOne',
                 ]
             )
             ->selectRaw("*")
@@ -253,6 +302,10 @@ class TreatmentController extends Controller
 
     public function update(Request $request)
     {
+        //return $request;
+        if ($request->image == 'undefined') {
+            $request->request->remove('image');
+        }
 
         $exist = Treatment::where("procedure_id", $request->procedure)
         ->where('package_id', $request->package)
@@ -285,7 +338,8 @@ class TreatmentController extends Controller
             ],
             'description_en' => 'required|string',
             'description_es' => 'required|string',
-            'price' => 'sometimes|numeric'
+            'price' => 'nullable|sometimes|numeric',
+            'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
           ]
         );
 
@@ -295,6 +349,53 @@ class TreatmentController extends Controller
                 'go' => '0',
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
+        }
+
+        $treatment = Treatment::with('imageOne')->find($request->id);
+        //return($treatment->imageOne);
+
+
+        $lastPhoto = null;
+        $lastPhotoId = null;
+        $avatar;
+
+        //return response()->json(['s' => $treatment->imageOne]);
+        if ($treatment->imageOne) {
+            $lastPhoto = $treatment->imageOne->image;
+            $lastPhotoId = $treatment->imageOne->id;
+            //return response()->json(['xD' => 'paso']);
+        } 
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/treatment/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 600;
+            $height = 600;
+            $img->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '100');
+            $image = "storage/treatment/image/$img_name";
+
+            // if (!is_null($lastPhoto)) {
+            //     unlink(public_path($lastPhoto));
+            // }
+            // 
+            $imageExist = $treatment->imageOne()->where('id', $lastPhotoId)->first();
+
+           // return response()->json(['x' => $lastPhotoId]);
+            if (!is_null($lastPhotoId)) {
+               $treatment->imageOne->delete($lastPhotoId); 
+            }
+            
+            $treatment->imageOne()->create(
+                ['image' => $image, 'code' => time().uniqid(Str::random(30))]
+            );
+            $img->destroy();
         }
 
         $group = Procedure::find($request->procedure);
@@ -312,6 +413,7 @@ class TreatmentController extends Controller
         $treatment->group_en = $group->procedure_en;
         $treatment->description_en = $request->description_en;
         $treatment->description_es = $request->description_es;
+        $treatment->code = time().uniqid(Str::random(30));
 
         if ($treatment->save()) {
             return response()->json(
@@ -333,8 +435,14 @@ class TreatmentController extends Controller
 
     public function destroy(Request $request)
     {
-        $treatment = Treatment::find($request->id);
+        $treatment = Treatment::with('imageOne')->find($request->id);
         if($treatment->exists()){
+            if (!$treatment->imageOn) {
+                $lastPhoto = $treatment->imageOne->image;
+                $lastPhotoId = $treatment->imageOne->id;
+                //unlink(public_path($lastPhoto));
+                $treatment->imageOne->delete($lastPhotoId);
+            } 
             $treatment->delete();
             return response()->json(
                 [
@@ -351,6 +459,29 @@ class TreatmentController extends Controller
                 'reload' => false
             ]
         );
+    }
+
+    public function imageDestroy(Request $request)
+    {
+        //return $request;
+       
+        $treatment = Treatment::with('imageOne')->find($request->treatment);
+        //return($treatment);
+
+        if ($treatment) {
+            $imageExist = $treatment->imageOne()->where('id', $request->id_image)->first();
+
+            if ($imageExist) {
+                $lastPhoto = $treatment->imageOne->image;
+                $lastPhotoId = $treatment->imageOne->id;
+                $imageExist->delete();
+                // if( file_exists($lastPhoto) ){
+                //     unlink(public_path($lastPhoto));
+                // }
+            }
+        }
+
+        return response()->json(['x' => 1]);
     }
 
     public function activate(Request $request)

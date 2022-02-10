@@ -126,8 +126,6 @@ class ProcedureController extends Controller
             'description_en' => 'required|string',
             'description_es' => 'required|string',
             'has_package' => 'required|integer',
-            'image' => 'sometimes|nullable|image|mimes:jpg,jpeg,bmp,png'
-
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -137,21 +135,21 @@ class ProcedureController extends Controller
             ]);
         }
 
-        $image = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $destinationPath = storage_path('app/public').'/staff/procedure-image';
-            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
-            $img = Image::make($image->getRealPath());
-            $width = 680;
-            $img->resize($width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+        // $image = null;
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $destinationPath = storage_path('app/public').'/staff/procedure-image';
+        //     $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+        //     $img = Image::make($image->getRealPath());
+        //     $width = 680;
+        //     $img->resize($width, null, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //     });
+        //     File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '80');
-            $image = "storage/staff/procedure-image/$img_name";
-        }
+        //     $img->save($destinationPath."/".$img_name, '80');
+        //     $image = "storage/staff/procedure-image/$img_name";
+        // }
 
         $procedure = new Procedure;
         $procedure->service_id = $request->service;
@@ -160,7 +158,7 @@ class ProcedureController extends Controller
         $procedure->has_package = $request->has_package;
         $procedure->description_en = $request->description_en;
         $procedure->description_es = $request->description_es;
-        $procedure->image = $image;
+        $procedure->code = time().uniqid(Str::random(30));
 
         if ($procedure->save()) {
             return response()->json(
@@ -252,7 +250,8 @@ class ProcedureController extends Controller
         $procedure->has_package = $request->has_package;
         $procedure->description_en = $request->description_en;
         $procedure->description_es = $request->description_es;
-
+        $procedure->code = time().uniqid(Str::random(30));
+        
         if ($procedure->save()) {
             return response()->json(
                 [

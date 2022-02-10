@@ -17,7 +17,9 @@ class CreateServiceStaffTable extends Migration
             $table->id();
             $table->bigInteger('service_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('service_staff', function($table) {
             $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade')->onUpdate('cascade');

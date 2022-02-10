@@ -4,10 +4,14 @@ namespace App\Models\Site;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImageApplication extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
     public $timestamps = true;
-    protected $fillable = ['local_image'];
+
+    protected $dates = ['deleted_at'];
 }

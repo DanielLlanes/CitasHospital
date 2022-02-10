@@ -30,6 +30,7 @@ class CreateStaffTable extends Migration
             $table->text('url')->nullable();
             $table->boolean('public_profile')->default(false);
             $table->rememberToken();
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

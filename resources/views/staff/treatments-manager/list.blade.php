@@ -46,6 +46,7 @@
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
+                                                    <th> @lang('Image') </th>
                                                     <th> @lang('Brand') </th>
                                                     <th> @lang('Service') </th>
                                                     <th> @lang('Procedure') </th>
@@ -71,17 +72,15 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                {{-- <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Brand')
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image Treatment')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
+                                                        <input type="file" name="image" id="image" class="dropify" />
                                                         <div class="error text-danger col-form-label-sm"></div>
-                                                        <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
-                                                        </div>
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -198,7 +197,7 @@
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
         var globalRouteSearchProcedure = "{{ route('staff.autocomplete.AutocompleteProcedure') }}";
         var globalRouteSearchPackage = "{{ route('staff.autocomplete.AutocompletePackage') }}";
-
+        var globalRouteDeleteFile = "{{ route('staff.treatments.imageDestroy') }}";
 
         $(document).ready(function () {
 
@@ -219,7 +218,8 @@
 		        },
 		        "columns": [
 
-					   { data: 'DT_RowIndex' },
+                       { data: 'DT_RowIndex' },
+					   { data: 'image' },
 		            { data: "brand" },
 		            { data: "service" },
 		            { data: "procedure" },
@@ -263,6 +263,7 @@
                 form_data.append('price', $('#price').val())
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
+                form_data.append('image', $('#image').prop('files')[0])
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -491,21 +492,6 @@
                 });
             });
 
-            function clearForm(){
-                $('#brand').val('').removeAttr('data-id')
-                $('#service').val('').removeAttr('data-id')
-                $('#procedure').val('').removeAttr('data-id')
-                $('#package').val('').removeAttr('data-id')
-                $('#price').val('')
-                $("#formReset").click()
-                $('#formEdit')
-                .removeAttr('service')
-                .html('Add')
-                .attr('id', 'formSubmit')
-                $('#description_en').summernote('code', '');
-                $('#description_es').summernote('code', '');
-            }
-
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
                 var form_data = new FormData();
@@ -557,13 +543,28 @@
                     processData: false,
                     beforeSend: function()
                     {
+                        clearDropify()
+                        
                     },
                     success:function(data)
                     {
                         console.log(data);
                         if (data.success) {
+                            var image_url;
+                            if (data.info.image_one) {
+                                image_url = window.location.origin+"/"+data.info.image_one.image
+                            } else {
+                                image_url = '';
+                            }
                             clearForm()
-                            $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
+                            drEvents.settings.defaultFile = image_url;
+                            drEvents.destroy();
+                            drEvents.init();
+                            if (data.info.image_one) {
+                                $('#image').attr('data-id', data.info.image_one.id);
+                            }
+                            
+                            $('form').attr('treatments', data.info.id)
                             $('#service').val(data.info.service.service).attr('data-id', data.info.service.id);
                             $('#procedure').attr('pack', data.info.procedure.package);
                             $('#procedure').val(data.info.procedure.procedur).attr('data-id', data.info.procedure.id);
@@ -590,7 +591,6 @@
                             treatmentsTable.ajax.reload( null, false );
                             clearForm()
                         }
-
                     },
                     error: function (err)
                     {
@@ -613,6 +613,8 @@
                 form_data.append('price', $('#price').val())
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
+                form_data.append('image', $('#image').prop('files')[0])
+                form_data.append('id_image', $('#image').attr('data-id'))
                 form_data.append('id', $(this).attr('product'));
                 $.ajax({
                     url: globalRouteUpdate,
@@ -685,6 +687,41 @@
                 clearForm()
             });
 
+            $(document).on('click', '.dropify-clear', function(event) {
+                event.preventDefault();
+                var form_data = new FormData();
+                form_data.append('id_image', $('#image').attr('data-id'));
+                form_data.append('treatment', $('form').attr('treatments'));
+                $.ajax({
+                    url: globalRouteDeleteFile,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                    console.log("data", data);
+                        treatmentsTable.ajax.reload( null, false );
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+                
+            });
+
             function deleteRecord(id)
             {
                 var form_data = new FormData();
@@ -723,6 +760,29 @@
                     },
                 })
             }
+            function clearDropify(){
+                drEvents = drEvent.data('dropify');
+                drEvents.resetPreview();
+                drEvents.clearElement();
+            }
+            function clearForm(){
+                $('#brand').val('').removeAttr('data-id')
+                $('#service').val('').removeAttr('data-id')
+                $('#procedure').val('').removeAttr('data-id')
+                $('#package').val('').removeAttr('data-id')
+                $('#price').val('')
+                $("#formReset").click()
+                $('#formEdit')
+                .removeAttr('service')
+                .html('Add')
+                .attr('id', 'formSubmit')
+                $('#description_en').summernote('code', '');
+                $('#description_es').summernote('code', '');
+                clearDropify()
+                $('#image').removeAttr('data-id');
+                $('form').removeAttr('treatments')
+            }
+
         });
 
     </script>

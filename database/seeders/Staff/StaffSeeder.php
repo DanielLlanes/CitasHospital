@@ -33,6 +33,7 @@ class StaffSeeder extends Seeder
                 'color' => '#1596fb',
                 'url' => 'gabriel-llanes',
                 'remember_token' => Str::random(10),
+                'code' => time().uniqid(Str::random(30)),
         ]);
 
         $admin = Staff::create([
@@ -48,6 +49,7 @@ class StaffSeeder extends Seeder
             'color' => '#ff5733',
             'url' => 'super-admin',
             'remember_token' => Str::random(10),
+            'code' => time().uniqid(Str::random(30)),
         ]);
 
         $janlu = Staff::create([
@@ -63,6 +65,7 @@ class StaffSeeder extends Seeder
             'color' => '#3393ff',
             'url' => 'janlu-prado',
             'remember_token' => Str::random(10),
+            'code' => time().uniqid(Str::random(30)),
         ]);
 
         $ismael = Staff::create([
@@ -78,6 +81,7 @@ class StaffSeeder extends Seeder
             'color' => '#f29f2c',
             'url' => 'ismael-hernandez',
             'remember_token' => Str::random(10),
+            'code' => time().uniqid(Str::random(30)),
         ]);
 
         $dios->assignRole('dios');
@@ -88,18 +92,22 @@ class StaffSeeder extends Seeder
         DB::table('specialty_staff')->insert([
             'specialty_id' => 1,
             'staff_id' => $dios->id,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         DB::table('specialty_staff')->insert([
             'specialty_id' => 2,
             'staff_id' => $admin->id,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         DB::table('specialty_staff')->insert([
             'specialty_id' => 3,
             'staff_id' => $janlu->id,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         DB::table('specialty_staff')->insert([
             'specialty_id' => 3,
             'staff_id' => $ismael->id,
+            'code' => time().uniqid(Str::random(30)),
         ]);
     }
 }

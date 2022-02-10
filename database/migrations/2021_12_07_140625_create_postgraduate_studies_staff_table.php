@@ -21,7 +21,9 @@ class CreatePostgraduateStudiesStaffTable extends Migration
             $table->date('postgraduate_from_year');
             $table->date('postgraduate_to_year');
             $table->text('postgraduate_notes');
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('postgraduate_studies_staff', function($table) {
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')->onUpdate('cascade');

@@ -19,7 +19,9 @@ class CreateIllnsessApplicationsTable extends Migration
             $table->string('illness')->nullable();
             $table->date('diagnostic_date')->nullable();
             $table->text('treatment')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('illnsess_applications', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

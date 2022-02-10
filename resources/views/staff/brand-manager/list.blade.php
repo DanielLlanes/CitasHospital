@@ -253,20 +253,7 @@
             $(document).on('click', '#formCancel', function () {
                 clearForm()
             });
-            function clearForm(){
-                $('#formReset').click();
-                $('#formEdit')
-                .removeAttr('brand')
-                .html('Add')
-                .attr('id', 'formSubmit')
-                clearDropify()
-            }
-            function clearDropify(){
-                drEvents = drEvent.data('dropify');
-                drEvents.resetPreview();
-                drEvents.clearElement();
-            }
-
+            
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
                 var form_data = new FormData();
@@ -441,6 +428,11 @@
                 })
             });
 
+            $(document).on('click', '.dropify-clear', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+            });
+
             function deleteRecord(id)
             {
                 var form_data = new FormData();
@@ -478,6 +470,19 @@
                     {
                     },
                 })
+            }
+            function clearForm(){
+                $('#formReset').click();
+                $('#formEdit')
+                .removeAttr('brand')
+                .html('Add')
+                .attr('id', 'formSubmit')
+                clearDropify()
+            }
+            function clearDropify(){
+                drEvents = drEvent.data('dropify');
+                drEvents.resetPreview();
+                drEvents.clearElement();
             }
 		});
     </script>

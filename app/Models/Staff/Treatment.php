@@ -36,4 +36,8 @@ class Treatment extends Model
     {
         return $this->hasMany(Application::class);
     }
+    public function imageOne()
+    {
+        return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
 }

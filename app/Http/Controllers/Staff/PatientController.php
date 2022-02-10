@@ -170,6 +170,7 @@ class PatientController extends Controller
             $patient->ecp = $request->ecp;
             $patient->lang = $request->language;
             $patient->password = Hash::make($unHashPassword);
+            $patient->code = time().uniqid(Str::random(30));
 
             if($request->hasFile('avatar'))
             {
@@ -272,6 +273,7 @@ class PatientController extends Controller
         $patient->ecn = $request->ecn;
         $patient->ecp = $request->ecp;
         $patient->lang = $request->language;
+        $patient->code = time().uniqid(Str::random(30));
 
         if ($patient->save()) {
             return redirect()->route('staff.patients.patient')->with(

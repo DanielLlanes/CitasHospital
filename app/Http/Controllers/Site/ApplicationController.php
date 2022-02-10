@@ -156,6 +156,7 @@ class ApplicationController extends Controller
             $patient->ecp = $request->ecp;
             $patient->lang = $lang;
             $patient->password = Hash::make($unHashPassword);
+            $patient->code = time().uniqid(Str::random(30));
 
             if($request->hasFile('avatar'))
             {
@@ -378,7 +379,7 @@ class ApplicationController extends Controller
 
         $medication_cadena = [];
         $collection = new Collection();
-
+        $code = time().uniqid(Str::random(30));
         if ($request->has('medication_name') || $request->has('medication_reason') || $request->has('medication_dosage') || $request->has('medication_frecuency')) {
             for ($i=0; $i < count($request->medication_name); $i++) {
                 $medication_cadena[] = [
@@ -386,6 +387,7 @@ class ApplicationController extends Controller
                     'medication_reason' => $request->medication_reason[$i],
                     'medication_dosage' => $request->medication_dosage[$i],
                     'medication_frecuency' => $request->medication_frecuency[$i],
+                    'code' => $code,
                 ];
 
                 $collection->push((object)[
@@ -393,6 +395,7 @@ class ApplicationController extends Controller
                     'medication_reason' => $request->medication_reason[$i],
                     'medication_dosage' => $request->medication_dosage[$i],
                     'medication_frecuency' => $request->medication_frecuency[$i],
+                    'code' => $code,
                 ]);
 
             }
@@ -473,6 +476,7 @@ class ApplicationController extends Controller
                         'reason' => $medication_cadena[$i]['medication_reason'],
                         'dosage' => $medication_cadena[$i]['medication_dosage'],
                         'frecuency' => $medication_cadena[$i]['medication_frecuency'],
+                        'code' => $medication_cadena[$i]['code'],
                     ];
                 }
                 $app->medications()->delete();
@@ -513,7 +517,7 @@ class ApplicationController extends Controller
     {
         $surgey_cadena = [];
         $collection = new Collection();
-
+        $code = time().uniqid(Str::random(30));
         if ($request->has('surgey_type') || $request->has('surgey_name') || $request->has('surgey_age') || $request->has('surgey_year') || $request->has('surgey_complications')) {
             for ($i=0; $i < count($request->surgey_type); $i++) {
                 $surgey_cadena[] = [
@@ -522,6 +526,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
+                    'code' => $code, 
                 ];
 
                 $collection->push((object)[
@@ -530,6 +535,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
+                    'code' => $code, 
                 ]);
 
             }
@@ -585,6 +591,7 @@ class ApplicationController extends Controller
                         'age' => $surgey_cadena[$i]['surgey_age'],
                         'year' => $surgey_cadena[$i]['surgey_year'],
                         'complications' => $surgey_cadena[$i]['surgey_complications'],
+                        'code' => $surgey_cadena[$i]['code'],
                     ];
                 }
                 $app->surgeries()->delete();
@@ -625,19 +632,21 @@ class ApplicationController extends Controller
 
         $illness_cadena = [];
         $collection = new Collection();
-
+        $code = time().uniqid(Str::random(30));
         if ($request->has('illness') || $request->has('diagnostic_date') || $request->has('treatment')) {
             for ($i=0; $i < count($request->illness); $i++) {
                 $illness_cadena[] = [
                     'illness' => $request->illness[$i],
                     'diagnostic_date' => $request->diagnostic_date[$i],
                     'treatment' => $request->treatment[$i],
+                    'code' => $code
                 ];
 
                 $collection->push((object)[
                     'illness' => $request->illness[$i],
                     'diagnostic_date' => $request->diagnostic_date[$i],
                     'treatment' => $request->treatment[$i],
+                    'code' => $code
                 ]);
 
             }
@@ -766,6 +775,7 @@ class ApplicationController extends Controller
                         'illness' => $illness_cadena[$i]['illness'],
                         'diagnostic_date' => $illness_cadena[$i]['diagnostic_date'],
                         'treatment' => $illness_cadena[$i]['treatment'],
+                        'code' => $illness_cadena[$i]['code']
                     ];
                 }
                 $app->illnessess()->delete();
@@ -807,7 +817,7 @@ class ApplicationController extends Controller
     {
         $exercise_cadena = [];
         $collection = new Collection();
-
+        $code = time().uniqid(Str::random(30));
         if ($request->has('exercise_type') || $request->has('exercise_how_long') || $request->has('exercise_how_frecuen') || $request->has('exercise_hours')) {
             for ($i=0; $i < count($request->exercise_type); $i++) {
                 $exercise_cadena[] = [
@@ -815,6 +825,7 @@ class ApplicationController extends Controller
                     'exercise_how_long' => $request->exercise_how_long[$i],
                     'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
                     'exercise_hours' => $request->exercise_hours[$i],
+                    'code' => $code,
                 ];
 
                 $collection->push((object)[
@@ -822,6 +833,7 @@ class ApplicationController extends Controller
                     'exercise_how_long' => $request->exercise_how_long[$i],
                     'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
                     'exercise_hours' => $request->exercise_hours[$i],
+                    'code' => $code,
                 ]);
 
             }
@@ -1065,6 +1077,7 @@ class ApplicationController extends Controller
                         'how_long' => $exercise_cadena[$i]['exercise_how_long'],
                         'how_frecuency' => $exercise_cadena[$i]['exercise_how_frecuent'],
                         'Hours_per_day' => $exercise_cadena[$i]['exercise_hours'],
+                        'code' => $exercise_cadena[$i]['code'],
                     ];
                 }
                 $app->exercices()->delete();
@@ -1119,17 +1132,19 @@ class ApplicationController extends Controller
     {
         $birth_control_cadena = [];
         $collection_bc = new Collection();
-
+        $code = time().uniqid(Str::random(30));
         if ($request->has('birthControl_type') || $request->has('birthControl_how_long')) {
             for ($i=0; $i < count($request->birthControl_type); $i++) {
                 $birth_control_cadena[] = [
                     'birthControl_type' => $request->birthControl_type[$i],
                     'birthControl_how_long' => $request->birthControl_how_long[$i],
+                    'code' => $code
                 ];
 
                 $collection_bc->push((object)[
                     'birthControl_type' => $request->birthControl_type[$i],
-                    'birthControl_how_long' => $request->birthControl_how_long[$i]
+                    'birthControl_how_long' => $request->birthControl_how_long[$i],
+                    'code' => $code
                 ]);
 
             }
@@ -1143,11 +1158,13 @@ class ApplicationController extends Controller
                 $hormone_cadena[] = [
                     'hormone_type' => $request->hormone_type[$i],
                     'hormone_how_long' => $request->hormone_how_long[$i],
+                    'code' => $code,
                 ];
 
                 $collectionHor->push((object)[
                     'hormone_type' => $request->hormone_type[$i],
-                    'hormone_how_long' => $request->hormone_how_long[$i]
+                    'hormone_how_long' => $request->hormone_how_long[$i],
+                    'code' => $code,
                 ]);
 
             }
@@ -1222,6 +1239,7 @@ class ApplicationController extends Controller
                         'application_id' => $app->id,
                         'type' => $birth_control_cadena[$i]['birthControl_type'],
                         'how_along_time' => $birth_control_cadena[$i]['birthControl_how_long'],
+                        'code' => $birth_control_cadena[$i]['code'],
                     ];
                 }
                 $app->birthcontrol()->delete();
@@ -1233,6 +1251,7 @@ class ApplicationController extends Controller
                         'application_id' => $app->id,
                         'type' => $hormone_cadena[$i]['hormone_type'],
                         'how_along_time' => $hormone_cadena[$i]['hormone_how_long'],
+                        'code' => $hormone_cadena[$i]['code'],
                     ];
                 }
                 $app->hormones()->delete();
@@ -1263,7 +1282,7 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-
+            $code = time().uniqid(Str::random(30));
             $app = Application::find($getData->id);
             $treatment = Session::get('treatment');
 
@@ -1369,6 +1388,7 @@ class ApplicationController extends Controller
                 DB::table('application_status')->insert([
                     'application_id' => $app->id,
                     'status_id' => "1",
+                    'code' => $code,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);

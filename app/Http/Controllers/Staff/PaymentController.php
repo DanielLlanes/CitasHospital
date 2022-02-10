@@ -79,6 +79,7 @@ class PaymentController extends Controller
             $payments = Payment::with
             (
                 [
+                    'imageOne',
                     'paymentMethods' => function($q)use($lang)
                     {
                         $q->selectRaw("id, description_$lang As description");
@@ -105,12 +106,17 @@ class PaymentController extends Controller
             return DataTables::of($payments)
                 ->addIndexColumn()
                 ->addColumn('image', function($payments){
+                    if (is_null($payments->imageOne)) {
+                        $images = "/staffFiles/assets/img/treatment/no-Image.png";
+                    } else {
+                        $images = $payments->imageOne->image;
+                    }
                     $image ='
-                            <a href="'.asset($payments->evidence).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset($payments->evidence).'" class="img-thumbnail" style="width:50px; height:50px" alt=""/>
+                            <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
+                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:50px" alt="treatment"/>
                             </a>
                         ';
-                        return $image;
+                    return $image;
                 })
                 ->addColumn('patient', function($payments){
                     return '<span class"text-uppercase">'.$payments->patient->name.'</span>';;
@@ -228,7 +234,7 @@ class PaymentController extends Controller
             'evidence' => 'mimes:jpeg,jpg,png,gif|required',
             'currency' => 'required|in:Dollar, Peso',
             'patId' => 'required|integer|exists:patients,id',
-            'paymentMethod' => 'required|numeric|exists:payment_methods,id'
+            'paymentMethod' => 'required|string|exists:payment_methods,code'
           ]
         );
 
@@ -239,6 +245,8 @@ class PaymentController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+
+
 
         $itsSame = Application::find($request->id);
 
@@ -252,7 +260,7 @@ class PaymentController extends Controller
                 ]
             );
         }
-
+        $evidence = '';
         if ($request->hasFile('evidence')) {
             $evidence = $request->file('evidence');
             $destinationPath = storage_path('app/public').'/staff/evidence';
@@ -268,17 +276,22 @@ class PaymentController extends Controller
             $img->save($destinationPath."/".$img_name, '80');
             $evidence = "storage/staff/evidence/$img_name";
         }
-
+        $paymentMethod = PaymentMethod::where('code', $request->paymentMethod)->first();
         $payment = New Payment;
 
         $payment->amount = $request->amount;
-        $payment->evidence = $evidence;
         $payment->currency = $request->currency;
         $payment->application_id = $request->id;
         $payment->patient_id = $request->patId;
-        $payment->payment_method_id = $request->paymentMethod;
+        $payment->payment_method_id = $paymentMethod->id;
+        $payment->code = time().uniqid(Str::random(30));
 
         if ($payment->save()) {
+            if ($evidence != '') {
+                $payment->imageOne()->create(
+                    ['image' => $evidence, 'code' => time().uniqid(Str::random(30))]
+                );
+            }
             return response()->json(
                 [
                     'icon' => 'success',

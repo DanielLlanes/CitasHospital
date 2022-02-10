@@ -31,4 +31,9 @@ class Payment extends Model
         return $this->belongsTo(Application::class);
     }
 
+    public function imageOne()
+    {
+        return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
+
 }

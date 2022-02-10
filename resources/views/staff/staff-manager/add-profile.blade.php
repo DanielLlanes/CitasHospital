@@ -371,9 +371,9 @@
                                                     <div class="col-md-4" id="">
                                                         <div class="form-group">
                                                             <label>Image Title</label>
-                                                            <input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title" value="{{ $imagespublicprofile->title }}">
+                                                            <input type="text" class="form-control mb-2 image_title" name="image_title" placeholder="Image Title" value="{{ $imagespublicprofile->title }}">
                                                             <div class="error text-danger"></div>
-                                                            <input type="file" class="form-control dropify image_file" count="{{ $imagespublicprofile->order }}" id="file_'+count+'" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
+                                                            <input type="file" class="form-control dropify image_file" count="{{ $imagespublicprofile->order }}" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
                                                             <div class="error text-danger"></div>
                                                         </div>
                                                         <div class="col-12" id="delbtn">
@@ -708,8 +708,8 @@
             var title = $(this).parents('.col-md-4').find('.image_title').val();
             var dropyfy = $(this).parents('.col-md-4').find('.dropify').prop('files')[0];
             var code = $(this).parents('.col-md-4').find('.dropify').attr('code');
-            var poss = $(this).parents('.col-md-4').find('.dropify').prop('file');
-            var count = $(this).parents('.col-md-4').find('.dropify').prop('count');
+            var poss = $(this).parents('.col-md-4').find('.dropify').attr('file');
+            var count = $(this).parents('.col-md-4').find('.dropify').attr('count');
 
             if (!title) {
                 $parent.find('.image_title').next('.error').text('Please set a title')

@@ -17,7 +17,9 @@ class CreateCareerObjetiveStaffTable extends Migration
             $table->id();
             $table->bigInteger('staff_id')->unsigned()->nullable();
             $table->text('career_objective');
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('career_objetive_staff', function($table) {
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')->onUpdate('cascade');

@@ -32,6 +32,7 @@ class CreatePatientsTable extends Migration
             $table->string('ecp')->nullable();
             $table->string('lang')->defalt('en');
             $table->string('password');
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

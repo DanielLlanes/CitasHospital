@@ -19,7 +19,9 @@ class CreateApplicationStatusTable extends Migration
             $table->bigInteger('status_id')->unsigned()->nullable();
             $table->text("notes_en")->nullable();
             $table->text("notes_es")->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('application_status', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

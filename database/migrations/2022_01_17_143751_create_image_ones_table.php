@@ -18,7 +18,9 @@ class CreateImageOnesTable extends Migration
             $table->text('image');
             $table->integer('imageOneable_id')->unsigned();
             $table->string('imageOneable_type');
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -15,14 +15,15 @@ class CreateImageManiesTable extends Migration
     {
         Schema::create('image_manies', function (Blueprint $table) {
             $table->id();
-            $table->text('code')->nullable();
             $table->text('title')->nullable();
             $table->text('image');
             $table->text('type')->nullable();
             $table->integer('order')->nullable();
             $table->integer('imageManyable_id')->unsigned();
             $table->string('imageManyable_type');
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

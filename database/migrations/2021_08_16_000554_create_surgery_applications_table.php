@@ -21,7 +21,9 @@ class CreateSurgeryApplicationsTable extends Migration
             $table->integer('age')->nullable();
             $table->integer('year')->nullable();
             $table->text('complications')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('surgery_applications', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

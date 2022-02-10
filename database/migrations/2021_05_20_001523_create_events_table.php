@@ -26,6 +26,7 @@ class CreateEventsTable extends Migration
             $table->boolean('active')->default(true);
             $table->text('note')->nullable();
             $table->boolean('is_application')->nullable();
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

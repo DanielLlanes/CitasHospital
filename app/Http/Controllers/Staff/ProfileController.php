@@ -48,7 +48,8 @@ class ProfileController extends Controller
             'postgraduatestudies',
             'updatecourses',
             'permissions',
-            'imagespublicprofile',
+            'imageOne',
+            'imageMany',
             'careerobjetive',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);
@@ -58,7 +59,7 @@ class ProfileController extends Controller
             },
         ])
         ->findOrFail($staffID);
-        return $staff;
+        //return $staff;
         return view('staff.profile-manager.profile', ['staff' => $staff]);
     }
     public function changeOwnPassStaff(Request $request){
@@ -116,7 +117,8 @@ class ProfileController extends Controller
             'postgraduatestudies',
             'updatecourses',
             'permissions',
-            'imagespublicprofile',
+            'imageOne',
+            'imageMany',
             'careerobjetive',
             'permissions',
             'specialties' => function($query) use ($lang){
@@ -127,7 +129,7 @@ class ProfileController extends Controller
             },
         ])
         ->findOrFail(Auth::guard('staff')->user()->id);
-        return $staff;
+        //return $staff;
         return view('staff.profile-manager.add-profile', ['staff' => $staff]);
     }
     public function workHistory(Request $request)
@@ -342,8 +344,11 @@ class ProfileController extends Controller
     public function uploadImagesPublicProfile(Request $request)
     {
         //return $request;
-        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
+        
+        $staffID = ($request->has('id')) ? $request->id : Auth::guard('staff')->user()->id;
+        
         $staff = Staff::findOrFail($staffID);
+        
         $validator = Validator::make($request->all(), [
             "dropify"       => "required|image|mimes:jpeg,png,jpg,gif",
             "title"       => "required|string|max:50",
@@ -362,6 +367,7 @@ class ProfileController extends Controller
 
         if ($staff->public_profile == 1) {
             if ($request->code != 'undefined') {
+                return $request;
 
                 $old_image = $staff->imageMany()->where('code', $request->code)->first();
                 //return($old_image);
@@ -370,6 +376,7 @@ class ProfileController extends Controller
                     return response()->json([
                         'success'   => false,
                         'go'        => '0',
+                        'what'      => "old_image_no"
                     ]);
                 }
 
@@ -382,7 +389,6 @@ class ProfileController extends Controller
                 }
                 //return;
             } 
-            
             $request->merge(["code" => $code]);
 
             $image = $request->file('dropify');
@@ -403,6 +409,7 @@ class ProfileController extends Controller
             //$id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
             //
             $image = $staff->imageMany()->create(["code" => $code, 'image' => $image, 'title' => $request->title, 'order' => $request->order]);
+            
             return response()->json([
                 'success' => true,
                 'go' => '1',

@@ -6,10 +6,12 @@ namespace App\Models\Staff;
 use App\Models\Site\Application;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Status extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $timestamps = true;
 

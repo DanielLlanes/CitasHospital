@@ -4,6 +4,7 @@ namespace Database\Seeders\Staff;
 
 use App\Models\Staff\Specialty;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SpecialtySeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => false,
             'many_specialties' => false,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '2',
@@ -31,6 +33,7 @@ class SpecialtySeeder extends Seeder
             'name_en' => 'Super Admin',
             'active' => true,
             'show' => false,
+            'code' => time().uniqid(Str::random(30)),
         ]);
     	Specialty::create([
             'id' => '3',
@@ -39,6 +42,7 @@ class SpecialtySeeder extends Seeder
             'name_en' => 'Administration',
             'active' => true,
             'show' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
     	Specialty::create([
             'id' => '4',
@@ -48,7 +52,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
     	Specialty::create([
             'id' => '5',
@@ -58,7 +63,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
     	Specialty::create([
             'id' => '6',
@@ -68,7 +74,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '7',
@@ -78,7 +85,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '8',
@@ -88,7 +96,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '9',
@@ -97,6 +106,7 @@ class SpecialtySeeder extends Seeder
             'name_en' => 'Nursing',
             'active' => true,
             'show' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '10',
@@ -106,6 +116,7 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
+            'code' => time().uniqid(Str::random(30)),
 
         ]);
         Specialty::create([
@@ -115,6 +126,7 @@ class SpecialtySeeder extends Seeder
             'name_en' => 'Logistic',
             'active' => true,
             'show' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '12',
@@ -124,7 +136,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '13',
@@ -134,7 +147,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '14',
@@ -144,7 +158,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '15',
@@ -154,7 +169,8 @@ class SpecialtySeeder extends Seeder
             'active' => true,
             'show' => true,
             'assignable' => true,
-            'many_specialties' => true
+            'many_specialties' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         Specialty::create([
             'id' => '16',
@@ -163,6 +179,7 @@ class SpecialtySeeder extends Seeder
             'name_en' => 'Reception',
             'active' => true,
             'show' => true,
+            'code' => time().uniqid(Str::random(30)),
         ]);
         
     }

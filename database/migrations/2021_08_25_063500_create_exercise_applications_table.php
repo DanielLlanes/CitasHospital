@@ -20,7 +20,9 @@ class CreateExerciseApplicationsTable extends Migration
             $table->string('how_long')->nullable();
             $table->text('how_frecuency')->nullable();
             $table->string('Hours_per_day')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('exercise_applications', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

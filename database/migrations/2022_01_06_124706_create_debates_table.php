@@ -18,8 +18,9 @@ class CreateDebatesTable extends Migration
             $table->bigInteger('staff_id')->unsigned()->nullable();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->text('message');
-            $table->softDeletes();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('debates', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

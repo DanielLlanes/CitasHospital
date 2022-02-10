@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Staff;
 
-use App\Models\PaymentMethod;
+use App\Models\Staff\EmailTemplete;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PaymentMethodFactory extends Factory
+class EmailTempleteFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PaymentMethod::class;
+    protected $model = EmailTemplete::class;
 
     /**
      * Define the model's default state.

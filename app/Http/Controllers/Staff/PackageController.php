@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Illuminate\Http\Request;
-use App\Models\Staff\Package;
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Models\Staff\Package;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class PackageController extends Controller
 {
@@ -89,8 +90,9 @@ class PackageController extends Controller
 
         $package = New Package;
 
-        $package->package_en = $request->package_en;
-        $package->package_es = $request->package_es;
+        $package->package_en = ucwords($request->package_en);
+        $package->package_es = ucwords($request->package_es);
+        $package->code = time().uniqid(Str::random(30));
 
         if ($package->save()) {
             return response()->json(
@@ -164,8 +166,9 @@ class PackageController extends Controller
                 ]);
             }
 
-            $package->package_en = $request->package_en;
-            $package->package_es = $request->package_es;
+            $package->package_en = ucwords($request->package_en);
+            $package->package_es = ucwords($request->package_es);
+            $package->code = time().uniqid(Str::random(30));
 
             if ($package->save()) {
                 return response()->json(

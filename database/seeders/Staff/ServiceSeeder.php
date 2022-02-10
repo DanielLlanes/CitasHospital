@@ -4,6 +4,7 @@ namespace Database\Seeders\Staff;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ServiceSeeder extends Seeder
 {
@@ -25,6 +26,7 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'bariatric-surgey',
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => '2',
@@ -36,6 +38,7 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'plastic-surgey',
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
 				'id' => '3',
@@ -47,7 +50,8 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'urology',
-            ],
+
+            'code' => time().uniqid(Str::random(30)),            ],
             [
                 'id' => '4',
                 'brand_id' => '4',
@@ -58,7 +62,8 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'dental',
-            ],
+
+            'code' => time().uniqid(Str::random(30)),            ],
             [
                 'id' => '5',
                 'brand_id' => '5',
@@ -69,7 +74,8 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'endoscopy',
-            ],
+
+            'code' => time().uniqid(Str::random(30)),            ],
             [
                 'id' => '6',
                 'brand_id' => '6',
@@ -80,7 +86,8 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'traumatology',
-            ],
+
+            'code' => time().uniqid(Str::random(30)),            ],
             [
                 'id' => '7',
                 'brand_id' => '7',
@@ -91,6 +98,7 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'General-Surgery',
+                'code' => time().uniqid(Str::random(30)),
             ],
             [
                 'id' => '8',
@@ -102,6 +110,7 @@ class ServiceSeeder extends Seeder
                 'description_en' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'description_es' => 'orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 'url' => 'blood-work',
+                'code' => time().uniqid(Str::random(30)),
             ],
         ]);
         DB::table('service_specialty')->insert([

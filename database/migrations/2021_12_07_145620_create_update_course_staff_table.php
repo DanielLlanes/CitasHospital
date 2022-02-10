@@ -19,7 +19,9 @@ class CreateUpdateCourseStaffTable extends Migration
                 $table->string('course_school');
                 $table->string('course_title');
                 $table->date('course_year');
+                $table->string('code');
                 $table->timestamps();
+                $table->softDeletes();
             });
             Schema::table('update_course_staff', function($table) {
                 $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')->onUpdate('cascade');

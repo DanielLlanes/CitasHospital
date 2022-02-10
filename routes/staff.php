@@ -146,6 +146,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/treatments/edit', [TreatmentController::class, 'edit'])->name('editProduct');
         Route::post('/treatments/update', [TreatmentController::class, 'update'])->name('updateProduct');
         Route::post('/treatments/destroy', [TreatmentController::class, 'destroy'])->name('destroyProduct');
+        Route::post('/treatments/imageDestroy', [TreatmentController::class, 'imageDestroy'])->name('imageDestroy');
     });
 
     Route::name('applications.')->group( function(){

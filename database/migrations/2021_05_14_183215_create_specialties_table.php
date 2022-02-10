@@ -22,6 +22,7 @@ class CreateSpecialtiesTable extends Migration
             $table->boolean('show')->default(true);
             $table->boolean('assignable')->default(false);
             $table->boolean('many_specialties')->default(false);
+            $table->string('code');
             $table->timestamps();
             $table->softDeletes();
         });

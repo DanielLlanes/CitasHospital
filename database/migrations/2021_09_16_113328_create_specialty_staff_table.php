@@ -17,7 +17,9 @@ class CreateSpecialtyStaffTable extends Migration
             $table->id();
             $table->bigInteger('specialty_id')->unsigned()->nullable();
             $table->bigInteger('staff_id')->unsigned()->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('specialty_staff', function($table) {
             $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade')->onUpdate('cascade');

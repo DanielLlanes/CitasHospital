@@ -20,7 +20,9 @@ class CreateMedicationApplicationsTable extends Migration
             $table->string('reason')->nullable();
             $table->text('dosage')->nullable();
             $table->text('frecuency')->nullable();
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('medication_applications', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');

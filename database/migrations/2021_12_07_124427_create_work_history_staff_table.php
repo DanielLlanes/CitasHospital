@@ -21,7 +21,9 @@ class CreateWorkHistoryStaffTable extends Migration
             $table->date('job_from_year');
             $table->date('job_to_year');
             $table->text('job_notes');
+            $table->string('code');
             $table->timestamps();
+            $table->softDeletes();
         });
         Schema::table('work_history_staff', function($table) {
             $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')->onUpdate('cascade');
