@@ -262,6 +262,7 @@ class EventController extends Controller
                 DB::table('application_status')->insert([
                     'application_id' => $event->application_id,
                     'status_id' => "6",
+                    'code' => time().uniqid(Str::random(30)),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);

@@ -6,7 +6,10 @@ use App\Events\DebateChatEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Site\Application;
 use App\Models\Staff\Debate;
+use App\Models\Staff\Package;
 use App\Models\Staff\Patient;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
@@ -19,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class AppController extends Controller
@@ -406,6 +410,7 @@ class AppController extends Controller
             ]);
         }
 
+
         return view
         (
             'staff.application-manager.app-details',
@@ -536,7 +541,8 @@ class AppController extends Controller
 
         $setNewStaff[] = [
             'staff_id'=>$newStaff->id, 
-            'ass_as' => $order->id
+            'ass_as' => $order->id,
+            'code' => time().uniqid(Str::random(30))
         ];
         Application::find($request->app)->assignments()->attach($setNewStaff);
 
@@ -644,6 +650,7 @@ class AppController extends Controller
         //$debate->read = $request->read;
         $debate->created_at = $date->toDateTimeString();
         $debate->updated_at = $date->toDateTimeString();
+        $debate->code = time().uniqid(Str::random(30));
 
         if ($debate->save()) {
             $response = [];
@@ -659,5 +666,217 @@ class AppController extends Controller
                 'response' => $response,
             ]);
         }
+    }
+
+    public function getNewProcedure(Request $request)
+    {
+        $search = $request->search;
+
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+
+        $app = $applications = Application::with(
+            [
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang", "id");
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->find( $request->app );
+
+        $servcio = $app->treatment->service;
+        $servcio_id = $app->treatment->id;
+
+        if ($search == '') {
+            $procedures = Procedure::whereHas
+            (
+                "service", function($q)use($servcio_id)
+                {
+                    $q->where('id', $servcio_id);
+                },
+            )
+            ->select('id', "procedure_$lang AS procedure", "has_package")
+            ->limit(5)
+            ->get();
+        } else {
+            $procedures = Procedure::whereHas
+            (
+                "service", function($q)use($servcio_id)
+                {
+                    $q->where('id', $servcio_id);
+                },
+            )
+            ->where("procedure_$lang", 'like', '%' .$search . '%')->limit(5)
+            ->select('id', "procedure_$lang AS procedure", "has_package")
+            ->limit(5)
+            ->get();
+
+        }
+
+        return($procedures);
+    }
+
+
+    public function setNewProcedure(Request $request)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $app = Application::with(
+            [
+
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "brand" => function($q){
+                                $q->select("brand", "id", "color");
+                            },
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
+                                $q->with(
+                                    [
+                                        'specialties' => function($q) use($lang) {
+                                            $q->select("specialties.id", "name_$lang AS specialty");
+                                        }
+                                    ]
+                                );
+                            },
+                            "procedure" => function($q) use($lang) {
+                                $q->select("procedure_$lang AS procedure", "id", "has_package");
+                            },
+                            "package" => function($q) use($lang) {
+                                $q->select("package_$lang AS package", "id");
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->findOrFail($request->app);
+        if ($app) {
+            //return $app->treatment;
+
+            $chekIfExist = Service::whereHas
+            (
+                "procedures", function($q)use($lang, $request)
+                {
+                    $q->where("id", $request->id)
+                    ->where("procedure_$lang", $request->name);
+                },
+            )
+            ->find($app->treatment->service->id);
+        }
+        if ($chekIfExist) {
+            $t = Treatment::with('procedure')->find($app->treatment->id);
+            $t->procedure_id = $request->id;
+
+            if ($t->save()) {
+                return response()->json([
+                    'success' => true,
+                    'name' => $request->name,
+                    'id' => $request->id,
+                    'has_package' => $app->treatment->procedure->has_package,
+                    "icon" => "success",
+                    "msg" => "La applicaión fue editada con exito"
+                ]);
+                
+            }
+
+            return response()->json([
+                'success' => true,
+                'reload' => false,
+                "icon" => "success",
+                "msg" => "Ocurrio un error intenteo de nuevo"
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'reload' => true,
+        ]);
+    }
+
+    public function getNewPackage(Request $request)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $search = $request->search;
+        $app = $applications = Application::with(
+            [
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "procedure",
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang", "id");
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->find( $request->app );
+
+        $has_package = $app->treatment->procedure->has_package;
+
+        if ($has_package == 1) {
+            $packages = Package::where("active", 1)->select("id", "package_$lang AS package")->get();
+            return $packages;
+        }
+    }
+
+    public function setNewPackage(Request $request)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
+        $app = Application::with(
+            [
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "procedure",
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang", "id");
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->find( $request->app );
+        if ($app) {
+            if ($app->treatment->procedure->has_package == 1) {
+                $t = Treatment::with('procedure')->find($app->treatment->id);
+                $t->package_id = $request->id;
+
+                if ($t->save()) {
+                    return response()->json([
+                        'success' => true,
+                        'name' => $request->name,
+                        'id' => $request->id,
+                        'has_package' => $app->treatment->procedure->has_package,
+                        "icon" => "success",
+                        "msg" => "La applicaión fue editada con exito"
+                    ]);
+                }
+            }
+            return response()->json([
+                'success' => false,
+                'name' => $request->name,
+                'id' => $request->id,
+                'has_package' => $app->treatment->procedure->has_package,
+                "icon" => "error",
+                "msg" => "Este procediminto no lleva paquetes"
+            ]);
+        }
+        return response()->json([
+            'success' => true,
+            'reload' => true,
+        ]);
     }
 }

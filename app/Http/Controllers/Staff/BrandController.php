@@ -127,8 +127,8 @@ class BrandController extends Controller
             $destinationPath = storage_path('app/public').'/brand/image';
             $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
             $img = Image::make($image->getRealPath());
-            $width = 580;
-            $height = null;
+            $width = 380;
+            $height = 230;
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -244,8 +244,8 @@ class BrandController extends Controller
                 $destinationPath = storage_path('app/public').'/brand/image';
                 $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
                 $img = Image::make($image->getRealPath());
-                $width = 600;
-                $height = 600;
+                $width = 380;
+                $height = 220;
                 $img->resize($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
                 });

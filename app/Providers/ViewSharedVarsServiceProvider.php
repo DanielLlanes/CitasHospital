@@ -62,10 +62,19 @@ class ViewSharedVarsServiceProvider extends ServiceProvider
                     ]
                 )
             ->get();
+
             $brands = Brand::select("*")
+            ->whereHas
+            (
+                'service', function($q)
+                {
+                    $q->whereNotNull('id');
+                },
+            )
             ->with
                 (
                     [
+                        'imageOne',
                         'service' => function($q) use ($lang){
                             $q->select(["id", "brand_id", "service_$lang AS service"]);
                         },

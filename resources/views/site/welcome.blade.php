@@ -193,7 +193,7 @@
                     <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
                         <a href="{{ url($brand->url) }}">
                             <div class="card border-0 bg-transparent bg-transparent">
-                                <img src="{{ getBrandImage($brand) }}" class="card-img-top" style="text-transform: lowercase;" alt="{{ strtolower($brand->service->service) }}">
+                                <img src="{{ getBrandImage($brand) }}" class="card-img-top" height="230" width="380" style="text-transform: lowercase;" alt="{{ strtolower($brand->service->service) }}">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">{{ $brand->service->service}}</h5>
                                 </div>

@@ -30,14 +30,19 @@ io.on('connection', (socket) => {
     });
 
     socket.on("eventCalendarRefetchToServer", function() { //Calendar Events
-        socket.broadcast.emit('eventCalendarRefetchToClient');
+        socket.emit('eventCalendarRefetchToClient');
     });
 
     socket.on("sendNewStaffToServer", function(data) { // assing new staff
         console.log("data", data);
         socket.broadcast.emit('sendNewStaffToServer', data);
     });
-
+    socket.on("sendChangeAppProcedureToServer", function(data) { // change procedure app
+        socket.broadcast.emit('sendChangeAppProcedureToClient');
+    });
+    socket.on("sendChangeAppPackageToServer", function(data) { // change package app
+        socket.broadcast.emit('sendChangeAppPackageToClient');
+    });
 });
 
 server.listen(3000, () => {

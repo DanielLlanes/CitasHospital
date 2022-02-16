@@ -95,7 +95,6 @@
         color: #fff;
         box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, 0.2);
     }
-
 </style>
     
     
@@ -155,42 +154,12 @@
 		        },
 		    });
 
-
-                var form_data = new FormData();
-                form_data.append('package_en', 1);
-                // $.ajax({
-                //     url: globalRouteobtenerLista,
-                //     method:"get",
-                //     data:form_data,
-                //     dataType:'JSON',
-                //     contentType: false,
-                //     cache: false,
-                //     headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     processData: false,
-                //     beforeSend: function()
-                //     {
-                //     },
-                //     success:function(data)
-                //     {
-
-                //     },
-                //     error: function (err)
-                //     {
-                //         console.log('err', err)
-                //     },
-                //     complete: function()
-                //     {
-                //     },
-                // })
-
-                $.getJSON(globalRouteobtenerLista, function(resp) {
-                    console.log(resp);
-                });
-
-
-
+            socket.on('sendChangeAppProcedureToClient', () =>  {
+                applicationsTable.ajax.reload( null, false );
+            });
+            socket.on('sendChangeAppPackageToClient', () =>  {
+                applicationsTable.ajax.reload( null, false );
+            });
             $(document).on('click', '#formCancel', function () {
                 clearForm()
             });
