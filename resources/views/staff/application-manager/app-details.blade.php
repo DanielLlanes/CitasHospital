@@ -79,7 +79,11 @@ echo '</pre>';
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-12 mb-2 text-center"> <strong>Set Status</strong>
+                                <div class="col-12 mb-2 text-center" id="current-status-area-div"> <strong>Current Status</strong>
+                                    <br>
+                                    <p id="current-status-p"></p>
+                                </div>
+                                <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                     <br>
                                     <div class="d-flex justify-content-between">
                                         <button id="status-accepted-button" class="btn btn-success">accepted</button>
@@ -1019,14 +1023,16 @@ echo '</pre>';
                                                     <div class="">
                                                         <ul class="list-unstyled" id="debate_memeber_list">
                                                             @foreach ($debateMembers as $member)
-                                                                <li>
-                                                                    <strong>
-                                                                        <i class="user-conected-{{ $member->member_id }} user-status-icon fa fa-circle" id="{{ $member->member_id }}"></i> {{ $member->member_name }}
-                                                                    </strong>
-                                                                    <small class="small ml-auto">
-                                                                        {{ $member->member_specialty}}
-                                                                    </small>
-                                                                </li>
+                                                                @if ($member->memeber_show)
+                                                                    <li>
+                                                                        <strong>
+                                                                            <i class="user-conected-{{ $member->member_id }} user-status-icon fa fa-circle" id="{{ $member->member_id }}"></i> {{ $member->member_name }}
+                                                                        </strong>
+                                                                        <small class="small ml-auto">
+                                                                            {{ $member->member_specialty}}
+                                                                        </small>
+                                                                    </li>
+                                                                @endif
                                                             @endforeach
                                                         </ul>
                                                     </div>
@@ -1477,7 +1483,7 @@ echo '</pre>';
                         <span class="required"> * </span>
                     </label>
                     <div class="col-md-12">
-                        <textarea name="declined-app" id="declined-app" cols="30" rows="10"></textarea>
+                        <textarea name="declined-app" id="declined-app" class="summernote" cols="30" rows="10"></textarea>
                         <span class="help-block text-danger">  </span>
                     </div>
                 </div>
@@ -1510,7 +1516,6 @@ echo '</pre>';
 <script>
 
     var itemContainer = $(".nice-chat");
-    var scrollTo_int = itemContainer.prop('scrollHeight') + 'px';
 
     var globalRouteSetNewStaff = "{{ route('staff.applications.setNewStaff') }}";
     var globalRouteGetNewStaff = "{{ route('staff.applications.getNewStaff') }}";
@@ -1519,9 +1524,9 @@ echo '</pre>';
     var globalRouteSetNewProcedure = "{{ route('staff.applications.setNewProcedure') }}"
     var globalRouteGetNewPackage = "{{ route('staff.applications.getNewPackage') }}"
     var globalRouteSetNewPackage = "{{ route('staff.applications.setNewPackage') }}"
+    var globalRouteSetStatusAcepted = "{{ route('staff.applications.setStatusAcepted') }}"
+    var globalRouteSetStatusDeclined = "{{ route('staff.applications.setStatusDeclined') }}"
 
-    var chatDiv = document.getElementById("chatDiv");
-    var panelDerecha = document.getElementById("PanelDerecha");
 
     var date = new Date();   //Creates date object
     var hours = date.getHours();   //get hour using date object
@@ -1664,7 +1669,6 @@ echo '</pre>';
                 return false;
             }
             let message = $('#messageInput').val();
-            //message = message.replace(/\n/g, "<br />");
             $.each(debateMembers, function(index, val) {
                  if (val.member_id == user_id) {
                      sendDebateToServer($('#messageInput').val())
@@ -1678,10 +1682,10 @@ echo '</pre>';
         form_data = new FormData();
         form_data.append('message', messageInput);
         form_data.append('debate', debate_id);
+        form_data.append('debateMembers', JSON.stringify(debateMembers));
         let jsonForm={};
         $(".user-status-icon").each(function(i){
            jsonForm[i] = $(this).attr("id");
-
          })
         form_data.append('members', JSON.stringify(jsonForm));
         
@@ -1703,6 +1707,7 @@ echo '</pre>';
             success:function(response)
             {
                 
+            console.log("response", response);
                 if (response.success) {
                     var dataMsg = response.response;
                     var dataMsgUserId = dataMsg.user_id.id;
@@ -1718,6 +1723,7 @@ echo '</pre>';
             },
         })
     }
+
     socket.on('sendDebateToClient', (data) => {
         if (data.group_id == debate_id) {
             $.each(data.members, function(i, val) {
@@ -1733,12 +1739,12 @@ echo '</pre>';
                         $msg += '</div>';
                     $msg += '</li>';
                     $('#chatDiv').append($msg)
-                    //play( reciverSound )
                     debateToDownLast();
                 }
             });
         }
     });
+    
     function senderDebate(message)
     {
         $msg = '<li class="out">';
@@ -1751,7 +1757,6 @@ echo '</pre>';
             $msg += '</div>';
         $msg += '</li>';
         $('#chatDiv').append($msg)
-        beep( senderSound )
         debateToDownLast()
     }
 
@@ -2048,8 +2053,9 @@ echo '</pre>';
     });
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
-        var data = $('#accepted-procedure-select-select').select2('data');
+        var data = $('#accepted-procedure-select').select2('data');
         console.log("data", data);
+        //return
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text
@@ -2059,7 +2065,7 @@ echo '</pre>';
             form_data.append('id', id);
             form_data.append('app', app_id);
             $.ajax({
-                url: globalRouteSetNewProcedure,
+                url: globalRouteSetStatusAcepted,
                 method:"POST",
                 data:form_data,
                 dataType:'JSON',
@@ -2103,6 +2109,81 @@ echo '</pre>';
                 },
             })
 
+        } else {
+            $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
+            console.log("alert", 'alert');
+        }
+    });
+
+
+    $(document).on('click', '#status-declined-button', function(event) {
+        event.preventDefault();
+        $('#status-declined-modal').on('show.bs.modal', function () {
+            
+        }).modal('show')
+    });
+
+    $(document).on('click', '#confirm-status-accepted-button', function(event) {
+        event.preventDefault();
+        var data = $('#accepted-procedure-select').select2('data');
+        console.log("data", data);
+        //return
+        if (data.length > 0) {
+            var id = data[0].id
+            var name = data[0].text
+            var has_package = data[0].package;
+            var form_data = new FormData();
+            form_data.append('name', name);
+            form_data.append('id', id);
+            form_data.append('app', app_id);
+            $.ajax({
+                url: globalRouteSetStatusDeclined,
+                method:"POST",
+                data:form_data,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function()
+                {
+                    
+                },
+                success:function(response)
+                {
+                    // if (response.success) {
+                    //     $('#change-procedure-p').html(response.name);
+                    //     $('#change-procedure-p').attr('procedure_id', response.id);
+                    //     $('#change-procedure-select').empty().attr('placeholder', "Select click here").trigger('change');
+                    //     $('#change-procedure-modal').modal('hide');
+                    //     if (response.has_package == 0) {
+                    //         $('#change-package-p').html('');
+                    //         $('#change-procedure-button').hide('fast');
+                    //     } else {
+                    //         $('#change-procedure-button').show('fast');
+                    //     }
+                    //     socket.emit('sendChangeAppProcedureToServer');
+                    // } 
+                    // if (response.hasOwnProperty('icon')) {
+                    //     Toast.fire({
+                    //       icon: response.icon,
+                    //       title: response.msg
+                    //     })
+                    // }
+                    // if (response.hasOwnProperty('reload')) {
+                    //     location.reload();
+                    // }
+                },
+                complete: function()
+                {
+                },
+            })
+
+        } else {
+            $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
+            console.log("alert", 'alert');
         }
     });
 </script>

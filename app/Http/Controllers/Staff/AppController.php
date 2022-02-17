@@ -307,29 +307,29 @@ class AppController extends Controller
         $treatment = $applications->treatment;
 
         $cordinators = Staff::whereHas // no se requiere
-        (
-            'specialties', function($q)
-            {
-               $q->where('specialties.id', 10);
-            },
-        )
-        ->whereHas
-        (
-            'assignToService', function($q) use($treatment)
-            {
-                $q->where("services.id", $treatment->service->id);
-            }  
-        )
-        ->orderBy('last_assignment', 'ASC')
-        ->with
-        (
-            [
-                'specialties',
-                'assignToService',
-                'imageOne'
-            ]
-        )
-        ->get();  // no se requiere
+            (
+                'specialties', function($q)
+                {
+                   $q->where('specialties.id', 10);
+                },
+            )
+            ->whereHas
+            (
+                'assignToService', function($q) use($treatment)
+                {
+                    $q->where("services.id", $treatment->service->id);
+                }  
+            )
+            ->orderBy('last_assignment', 'ASC')
+            ->with
+            (
+                [
+                    'specialties',
+                    'assignToService',
+                    'imageOne'
+                ]
+            )
+            ->get();  // no se requiere
 
 
         $debateSpecialties =  $applications->treatment->service->specialties;
@@ -390,6 +390,7 @@ class AppController extends Controller
                         'member_service' => $value->assignToService[0]->Sname,
                         'member_role' => $value->roles[0]->name,
                         'member_avatar' => asset( getAvatar($value) ),
+                        'memeber_show' => true,
                     ]);
                 }
                 
@@ -407,9 +408,9 @@ class AppController extends Controller
                 'member_service' => null,
                 'member_role' => $member->roles[0]->name,
                 'member_avatar' => asset( getAvatar($member) ),
+                'memeber_show' => false,
             ]);
         }
-
 
         return view
         (
@@ -661,6 +662,22 @@ class AppController extends Controller
             $response['timestamp'] = $this->datesLangTrait($date, Auth::guard('staff')->user()->lang) . ", " .$hours;
             $response['timeDiff'] = $date->diffForHumans();
             $response['msgStrac'] = $slug = \Str::of($debate->message)->limit(50);
+
+
+            $debateMembers = new Collection;
+            foreach (json_decode($request->debateMembers) as $k => $member) {
+                $user = Staff::find($member->member_id);
+                if ($user->hasAnyRole(['dios', 'super-administrator', 'administrator']) || $member->member_id == Auth::guard("staff")->user()->id) {}
+                else{
+                    $debateMembers->push((object)[
+                        'member_name' => $member->member_name,
+                        'member_id' => $member->member_id
+                    ]);
+                }    
+            }
+
+return($debateMembers);
+
             return response()->json([
                 'success' => true,
                 'response' => $response,
@@ -721,7 +738,6 @@ class AppController extends Controller
 
         return($procedures);
     }
-
 
     public function setNewProcedure(Request $request)
     {
@@ -878,5 +894,15 @@ class AppController extends Controller
             'success' => true,
             'reload' => true,
         ]);
+    }
+
+    public function setStatusAcepted(Request $request)
+    {
+        
+    }
+
+    public function setStatusDeclined(Request $request)
+    {
+        
     }
 }

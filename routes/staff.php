@@ -161,6 +161,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/applications/setNewProcedure', [AppController::class, 'setNewProcedure'])->name('setNewProcedure');
         Route::post('/applications/getNewPackage', [AppController::class, 'getNewPackage'])->name('getNewPackage');
         Route::post('/applications/setNewPackage', [AppController::class, 'setNewPackage'])->name('setNewPackage');
+        Route::post('/applications/setStatusAcepted', [AppController::class, 'setStatusAcepted'])->name('setStatusAcepted');
+        Route::post('/applications/setStatusDeclined', [AppController::class, 'setStatusDeclined'])->name('setStatusDeclined');
     });
 
     Route::name('payments.')->group( function(){
