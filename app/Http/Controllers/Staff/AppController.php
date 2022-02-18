@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Events\DebateChatEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\Staff\Debate\DebateMessagesJob;
 use App\Models\Site\Application;
 use App\Models\Staff\Debate;
 use App\Models\Staff\Package;
@@ -273,7 +274,7 @@ class AppController extends Controller
                 'debates' => function($q){
                     $q->with(
                         [
-                            'staff_debate' => function($q){
+                            'staffDebate' => function($q){
                                 $q->with('imageOne');
                             }
                         ]
@@ -665,19 +666,20 @@ class AppController extends Controller
 
 
             $debateMembers = new Collection;
-            foreach (json_decode($request->debateMembers) as $k => $member) {
-                $user = Staff::find($member->member_id);
-                if ($user->hasAnyRole(['dios', 'super-administrator', 'administrator']) || $member->member_id == Auth::guard("staff")->user()->id) {}
-                else{
-                    $debateMembers->push((object)[
-                        'member_name' => $member->member_name,
-                        'member_id' => $member->member_id
-                    ]);
-                }    
-            }
-
-return($debateMembers);
-
+            // foreach (json_decode($request->debateMembers) as $k => $member) {
+            //     $user = Staff::find($member->member_id);
+            //     if ($user->hasAnyRole(['dios', 'super-administrator', 'administrator']) || $member->member_id == Auth::guard("staff")->user()->id) {}
+            //     else{
+            //         $debateMembers->push((object)[
+            //             'member_name' => $member->member_name,
+            //             'member_id' => $member->member_id
+            //         ]);
+            //         $debate->message()->create(["code" => time().uniqid(Str::random(30)), 'staff_id' => $member->member_id, 'type' => "debate"]);
+            //     }    
+            // }
+            // 
+            $sender_id = Auth::guard("staff")->user()->id;
+            DebateMessagesJob::dispatch(json_decode($request->debateMembers), $debate->id, $sender_id);
             return response()->json([
                 'success' => true,
                 'response' => $response,

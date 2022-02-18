@@ -1375,7 +1375,8 @@ class ApplicationController extends Controller
                 $assignment[] = [
                     'application_id' => $getData->id,
                     'staff_id' => $assignment_staff->id,
-                    'ass_as' => $assignment_staff->specialties[0]->id
+                    'ass_as' => $assignment_staff->specialties[0]->id,
+                    'code' => $code,
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();

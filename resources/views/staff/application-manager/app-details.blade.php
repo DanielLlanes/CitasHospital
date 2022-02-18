@@ -236,7 +236,7 @@ echo '</pre>';
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Paquete</strong>
                                             <br>
-                                            <p class="text-muted" id="change-package-p" package_id="{{ $appInfo->treatment->package->id }}">
+                                            <p class="text-muted" id="change-package-p" package_id="{{ $appInfo->treatment->package->id ?? '' }}">
                                                 {!! (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package . ' <p><button id="change-package-button" class="btn btn-warning btn-sm">Change</button></p>') !!}
                                             </p>
                                         </div>
@@ -1051,11 +1051,11 @@ echo '</pre>';
                                                                 @foreach ($appInfo->debates as $debate)
                                                                     @if ($debate->application_id == $appInfo->id)
                                                                         <li class="{{ ($debate->staff_id == auth()->guard('staff')->user()->id)? "out":"in" }}" id="li-message-{{ $debate->id }}">
-                                                                            <img src="{{ asset( getAvatar($debate->staff_debate) )}}" class="avatar" alt="">
+                                                                            <img src="{{ asset( getAvatar($debate->staffDebate) )}}" class="avatar" alt="">
                                                                             <div class="message">
                                                                                 <span class="arrow"></span>
-                                                                                <a class="name" href="#">{{ $debate->staff_debate->name }}</a>
-                                                                                <span class="datetime">at {{ $DatesLangTrait->datesLangTrait($debate->created_at, $debate->staff_debate->lang) }}, {{ $debate->created_at->format('g:i A') }}</span>
+                                                                                <a class="name" href="#">{{ $debate->staffDebate->name }}</a>
+                                                                                <span class="datetime">at {{ $DatesLangTrait->datesLangTrait($debate->created_at, $debate->staffDebate->lang) }}, {{ $debate->created_at->format('g:i A') }}</span>
                                                                                 <span class="body">{!! $debate->message !!}</span>
                                                                             </div>
                                                                         </li>
@@ -1706,14 +1706,12 @@ echo '</pre>';
             },
             success:function(response)
             {
-                
-            console.log("response", response);
                 if (response.success) {
                     var dataMsg = response.response;
                     var dataMsgUserId = dataMsg.user_id.id;
                     $('#messageInput').summernote('code', '');
                     senderDebate(dataMsg.message)
-                    let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp, timeDiff:dataMsg.timeDiff};
+                    let data = {members:debateMembers,group_id:dataMsg.debate_id, user_id:dataMsgUserId, message:dataMsg.message, dateMessage:dataMsg.timestamp, timeDiff:dataMsg.timeDiff, msgStrac: dataMsg.msgStrac};
                     socket.emit('sendDebateToServer', data);
                 }
 

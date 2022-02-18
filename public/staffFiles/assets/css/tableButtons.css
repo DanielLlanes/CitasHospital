@@ -155,3 +155,8 @@ div.note-editor.note-frame p{
 table.table td p{
     line-height: 0.2;
 }
+
+.debateNotifications .message p {
+    margin: 0;
+    padding: 0;
+}

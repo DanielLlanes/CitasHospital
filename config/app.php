@@ -180,7 +180,8 @@ return [
         /*
         * \Custom Service Provider 
         */
-        App\Providers\ViewSharedVarsServiceProvider::class,
+        App\Providers\ViewFrondtedShereServiceProvider::class,
+        //App\Providers\ViewBackendShereServiceProvider::class,
 
 
     ],

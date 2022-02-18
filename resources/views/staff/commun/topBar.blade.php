@@ -110,6 +110,7 @@
                         </li>
                     </ul>
                 </li>
+
                 <li class="dropdown dropdown-extended dropdown-notification" >
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="material-icons">notifications</i>
@@ -139,37 +140,55 @@
                 </li>
                 <!-- end notification dropdown -->
                 <!-- start message dropdown -->
+                
+
+                @foreach ($debateMessages as $element)
+                    @if (condition)
+                        {{-- expr --}}
+                    @endif
+                    
+                @endforeach
                 <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="material-icons">question_answer</i>
-                        <span class="notify"></span>
-                        <span class="heartbeat"></span>
+                        {{-- <span class="notify"></span> --}}
+                        {{-- <span class="heartbeat"></span> --}}
                     </a>
                     <ul class="dropdown-menu">
                         <li class="external">
                             <h3><span class="bold">Messages</span></h3>
-                            <span class="notification-label cyan-bgcolor">New 2</span>
+                            <span class="notification-label cyan-bgcolor">
+                                New 
+                                <span id="new-messages-span">
+
+                                </span>
+                            </span>
                         </li>
                         <li>
                             <ul class="dropdown-menu-list small-slimscroll-style debateNotifications" data-handle-color="#637283">
-                                
-                                    <li>
-                                        <a href="#" id="">
-                                            <span class="photo">
-                                                <img src="{{ asset('staffFiles/assets/img/doc/doc3.jpg') }}" class="img-circle" alt=""> </span>
-                                            <span class="subject">
-                                                <span class="from"> John Deo </span>
-                                                <span class="time">16 mins </span>
-                                                <br>
-                                                <span class="read" id="msgRead"><i class="fa fa-circle text-primary" aria-hidden="true"></i> </span>
-                                            </span>
-                                            <span class="message"> Fwd: Important Notice Regarding Your Domain Name... </span>
-                                        </a>
-                                    </li>
-                                
+                                @if (count($debateMessages) > 0)
+                                   @foreach ($debateMessages as $message)
+                                        <li>
+                                            <a href="#" id="">
+                                                <span class="photo">
+                                                    <img src="{{ asset(getAvatar($message->debateInverseMessages->staffDebate)) }}" class="img-circle" alt=""> </span>
+                                                <span class="subject">
+                                                    <span class="from"> {{ $message->debateInverseMessages->staffDebate->name }} </span>
+                                                    <span class="time">{{ $message->debateInverseMessages->created_at->diffForHumans() }} </span>
+                                                    <br>
+                                                    @if ($message->readed == 0)
+                                                        <span class="read" id="msgRead"><i class="fa fa-circle text-primary" aria-hidden="true"></i> </span>
+                                                    @endif
+                                                    
+                                                </span>
+                                                <span class="message"> {!! $message->debateInverseMessages->message !!} </span>
+                                            </a>
+                                        </li>
+                                   @endforeach
+                                @endif
                             </ul>
                             <div class="dropdown-menu-footer">
-                                <a href="#"> All Messages </a>
+                                <a href="#"> {{-- All Messages --}} </a>
                             </div>
                         </li>
                     </ul>

@@ -118,4 +118,8 @@ class Staff extends Authenticatable
     {
         return $this->morphMany(ImageMany::class, 'imageManyable');
     }
+    public function staff_message()
+    {
+        return $this->hasMany(Message::class, 'staff_id');
+    }
 }

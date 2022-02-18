@@ -17,12 +17,16 @@ class Debate extends Model
     protected $dates = ['deleted_at'];
 
     
-    public function applications_debate()
+    public function applicationsDebate()
     {
         return $this->belongsTo(Application::class);
     }
-    public function staff_debate()
+    public function staffDebate()
     {
         return $this->belongsTo(Staff::class, "staff_id");
+    }
+    public function message()
+    {
+        return $this->morphOne(Message::class, 'messageable');
     }
 }

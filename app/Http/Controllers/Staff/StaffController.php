@@ -646,7 +646,10 @@ class StaffController extends Controller
             // if (!is_null($lastPhoto)) {
             //     unlink(public_path($lastPhoto));
             // }
-            $staff->imageOne->delete($lastPhotoId);
+            if (!is_null($lastPhoto)) {
+                $staff->imageOne->delete($lastPhotoId);
+            }
+            
             $staff->imageOne()->create(
                 ['image' => $avatar, 'code' => time().uniqid(Str::random(30))]
             );

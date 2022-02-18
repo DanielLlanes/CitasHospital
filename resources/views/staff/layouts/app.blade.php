@@ -164,7 +164,6 @@
             var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
             
             socket.on('sendMesageDebateToClient', (data) => {
-                console.log("data", data);
                 let $notifyAra = $('.debateNotifications')
                 $.each(data.members, function(i, val) {
                     if (data.user_id == val.member_id) {
@@ -179,7 +178,6 @@
             })
 
             function notifyItem($thisData, data){
-                console.log("data", data);
                 let notifyList = '';
                 notifyList += '<li>';
                 notifyList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
@@ -191,9 +189,16 @@
                 notifyList += '<br>';
                 notifyList += '<span class="read" id="msgRead"><i class="fa fa-circle text-primary" title="Unread" aria-hidden="true"></i> </span>';
                 notifyList += '</span>';
-                notifyList += '<span class="message"> ' + data.message + ' </span>';
+                notifyList += '<span class="message"> ' + data.msgStrac + ' </span>';
                 notifyList += '</a>';
                 notifyList += '</li>';
+
+
+                var actual = parseInt($('#new-messages-span').html());
+                console.log("actual", actual);
+
+                if (!isNaN(actual)) {$('#new-messages-span').html((actual + 1))}
+                
 
                 $('.debateNotifications li .message p').css({
                     'margin-block-start': '0',
