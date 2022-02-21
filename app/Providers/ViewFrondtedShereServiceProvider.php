@@ -88,22 +88,17 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     )
                 ->get();
 
-                // $debateMessages = Staff::with
-                //     (
-                //         [
-                //             'staff_message'
-                //     )
-                // ]
-                // ->find();
-                // 
-                $debateMessages = Message::with([
-                    'debateInverseMessages' => function($q)
-                    {
-                        $q->with('staffDebate');
-                    }
-                ])
-                ->orderBy('created_at', 'DESC')
-                ->where('staff_id', Auth::guard('staff')->user()->id)->get();
+                if (Auth::guard('staff')->check()) {
+                    $debateMessages = Message::with([
+                        'debateInverseMessages' => function($q)
+                        {
+                            $q->with('staffDebate');
+                        }
+                    ])
+                    ->orderBy('created_at', 'DESC')
+                    ->where('staff_id', Auth::guard('staff')->user()->id)->get();
+                }
+                
             }
             $view->with(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages]);    
         }); 

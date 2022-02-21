@@ -143,7 +143,7 @@
         {{-- plugins Langs --}}
 
         <script>
-
+            globalRouteChechSession = "{{ route('staff.chechSession') }}"
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -257,8 +257,6 @@
                 }
             });
 
-            
-
             var masterMenuSub = $('.master-menu>.sub-menu')
             var masterMenu = $('.master-menu')
 
@@ -268,6 +266,31 @@
                      $(this).parent().remove();
                  }
             });
+        </script>
+        <script>
+            setInterval(redirectToLogin, 1000);
+
+            function redirectToLogin() {
+                var form_data = '';
+                $.ajax({
+                    url: globalRouteChechSession,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    success:function(response)
+                    {
+                        if (!response.status) {
+                            location.reload();
+                        }
+                    },
+                })
+            }
         </script>
       </body>
 </body>

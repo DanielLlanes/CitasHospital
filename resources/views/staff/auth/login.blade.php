@@ -16,7 +16,7 @@
                     {{ __('Login') }}
                 </span>
                 <div class="wrap-input100" data-validate = "Enter username">
-                    <input class="input100" type="text" autocomplete="offs" name="login" placeholder="{{ __('Username or Email') }}">
+                    <input class="input100" type="text" autocomplete="offs" name="login" value="{{ old('email') }}" placeholder="{{ __('Username or Email') }}">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
                 @error('email')

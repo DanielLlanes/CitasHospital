@@ -46,6 +46,14 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    // Route::get('email/verify','VerificationController@show')->name('verification.notice');
 	    // Route::get('email/verify/{id}','VerificationController@verify')->name('verification.verify');
 	    // Route::get('email/resend','VerificationController@resend')->name('verification.resend');
+        
+        //ckeIfsession
+        Route::post('/checksession', function(){
+
+
+                return response()->json(['status' => Auth::guard('staff')->check()]);
+
+        })->name('chechSession');
 	});
 
 	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
