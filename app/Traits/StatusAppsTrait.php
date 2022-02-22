@@ -40,7 +40,7 @@ trait StatusAppsTrait {
             return '<span class="label label-sm status-accepted">'.ucwords(str_replace('_', ' ', $status)).'</span>';
             break;
 
-            case 'aceptada':
+            case 'Aceptada':
             return '<span class="label label-sm status-accepted">'.ucwords(str_replace('_', ' ', $status)).'</span>';
             break;
 

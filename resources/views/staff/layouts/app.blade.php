@@ -288,7 +288,7 @@
             });
         </script>
         <script>
-            setInterval(redirectToLogin, 1000);
+            setInterval(redirectToLogin, 60000);
 
             function redirectToLogin() {
                 var form_data = '';

@@ -69,7 +69,8 @@ class PaymentController extends Controller
                 ]);
     }
 
-    public function getList(Request $request){
+    public function getList(Request $request)
+    {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
@@ -151,7 +152,8 @@ class PaymentController extends Controller
         }
     }
 
-    public function patientsApps(Request $request){
+    public function patientsApps(Request $request)
+    {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
@@ -263,7 +265,7 @@ class PaymentController extends Controller
         $evidence = '';
         if ($request->hasFile('evidence')) {
             $evidence = $request->file('evidence');
-            $destinationPath = storage_path('app/public').'/staff/evidence';
+            $destinationPath = storage_path('app/public').'/payment/evidence';
             $img_name = time().uniqid(Str::random(30)).'.'.$evidence->getClientOriginalExtension();
             $img = Image::make($evidence->getRealPath());
             $width = 1200;
@@ -274,7 +276,7 @@ class PaymentController extends Controller
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
             $img->save($destinationPath."/".$img_name, '80');
-            $evidence = "storage/staff/evidence/$img_name";
+            $evidence = "storage/payment/evidence/$img_name";
         }
         $paymentMethod = PaymentMethod::where('code', $request->paymentMethod)->first();
         $payment = New Payment;

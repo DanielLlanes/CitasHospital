@@ -24,7 +24,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('sendDebateToServer', (data) => { // Debate messages
-    console.log("data", data);
         socket.broadcast.emit('sendDebateToClient', data);
         socket.broadcast.emit('sendMesageDebateToClient', data);
     });
@@ -38,15 +37,19 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('sendNewStaffToServer', data);
     });
 
-    socket.on("sendChangeAppProcedureToServer", function(data) { // change procedure app
-        socket.broadcast.emit('sendChangeAppProcedureToClient');
+    socket.on("sendChangeAppProcedureToServer", function(response) { // change procedure app
+        socket.broadcast.emit('sendChangeAppProcedureToClient', response);
     });
 
-    socket.on("sendChangeAppPackageToServer", function(data) { // change package app
-        socket.broadcast.emit('sendChangeAppPackageToClient');
+    socket.on("sendChangeAppPackageToServer", function(response) { // change package app
+        socket.broadcast.emit('sendChangeAppPackageToClient', response);
     });
     socket.on('sendNewNotificationToServer', function(data) { //notifications
         socket.broadcast.emit('sendNewNotificationToClient', data);
+    });
+
+    socket.on('updateDataTablesToServer', function() { //update datatables
+        socket.emit('updateDataTablesToClient');
     });
 });
 

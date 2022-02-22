@@ -53,6 +53,47 @@ class AppController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
+        $apps = Application::with(
+            [
+                'app_status' => function($q)use($lang){
+                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
+                },
+                'patient' => function($q){
+                    $q->select('name', 'id');
+                },
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "brand" => function($q){
+                                $q->select("brand", "id", "color");
+                            },
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
+                            },
+                            "procedure" => function($q) use($lang) {
+                                $q->select("procedure_$lang AS procedure", "id");
+                            },
+                            "package" => function($q) use($lang) {
+                                $q->select("package_$lang AS package", "id");
+                            },
+                        ]
+                    );
+                },
+                'assignments' => function($q) use($lang) {
+                    $q->whereHas(
+                        'specialties', function($q){
+                            $q->where("name_en", "Coordination");
+                        }
+                    );
+                }
+            ]
+        )
+        ->where('is_complete', true)
+        ->get();
+
+
+        //return $apps;
+
         return view
         (
             'staff.application-manager.list'
@@ -69,7 +110,7 @@ class AppController extends Controller
                 $apps = Application::with(
                     [
                         'app_status' => function($q)use($lang){
-                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
                         },
                         'patient' => function($q){
                             $q->select('name', 'id');
@@ -124,7 +165,7 @@ class AppController extends Controller
                             ->with(
                                 [
                                     'app_status' => function($q)use($lang){
-                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
                                     },
                                     'patient' => function($q){
                                         $q->select('name', 'id');
@@ -212,6 +253,7 @@ class AppController extends Controller
                 })
                 ->addColumn('status', function($apps){
                     return $this->statusAppTrait($apps->app_status[0]->name);
+                    //return $apps->app_status[0]->name;
                 })
                 ->addColumn('acciones', 'staff.application-manager.actions-list')
                 ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio',  'status', 'acciones'])
@@ -531,7 +573,7 @@ class AppController extends Controller
             ]);
         }
         if ($oldStaff) {
-            $oldStaff = $newStaff = Staff::where('name', $request->oldName)->first();
+            $oldStaff = Staff::where('name', $request->oldName)->first();
             Application::find($request->app)->assignments()->detach($oldStaff->id);
         }
 
@@ -547,6 +589,9 @@ class AppController extends Controller
             'code' => time().uniqid(Str::random(30))
         ];
         Application::find($request->app)->assignments()->attach($setNewStaff);
+        $saveStaff = $newStaff;
+        $saveStaff->last_assignment = date("Y-m-d H:i:s");
+        $saveStaff->save();
 
         return response()->json($newStaff);
     }
@@ -886,11 +931,62 @@ class AppController extends Controller
 
     public function setStatusAcepted(Request $request)
     {
-        
+        //return $request;
+        $validator = Validator::make($request->all(), [
+            //'name' => 'string|required|exists:services,name',
+            'id' => 'string|required|exists:services,id',
+            'app' => 'required|exists:applications,id',
+            'medicalRecommendations' => 'required|string',
+            'medicalIndications' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        DB::table('application_status')->insert([
+            'application_id' => $request->app,
+            'status_id' => "5",
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'code' => time().uniqid(Str::random(30)),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        return response()->json([
+            'success' => true,
+            'status' => 'Accepted',
+        ]);
     }
 
     public function setStatusDeclined(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'app' => 'required|exists:applications,id',
+            'declinedReazon' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        DB::table('application_status')->insert([
+            'application_id' => $request->app,
+            'status_id' => "3",
+            'reason' => $request->medicalIndications,
+            'code' => time().uniqid(Str::random(30)),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        return response()->json([
+            'success' => true,
+            'status' => 'Declined',
+        ]);
     }
 }

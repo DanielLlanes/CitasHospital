@@ -49,10 +49,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         
         //ckeIfsession
         Route::post('/checksession', function(){
-
-
-                return response()->json(['status' => Auth::guard('staff')->check()]);
-
+            return response()->json(['status' => Auth::guard('staff')->check()]);
         })->name('chechSession');
 	});
 

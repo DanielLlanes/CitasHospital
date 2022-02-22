@@ -109,7 +109,7 @@ echo '</pre>';
                                     <a class="nav-link active show" href="#patientData" data-toggle="tab">Datos del paciente</a>
                                 </li>
                             @endcan
-                            @can('applications.details')
+                            {{-- @can('applications.details') --}}
                                 <li class="nav-item tab-all p-l-20">
                                     <a class="nav-link {{ (!Auth::guard('staff')->user()->can('patients.details')) ? "active show": ""}}" href="#services" data-toggle="tab">Servicios</a>
                                 </li>
@@ -130,7 +130,7 @@ echo '</pre>';
                                         <a class="nav-link" href="#ghynecologicaldata" data-toggle="tab">Datos ginecológicos</a>
                                     </li>
                                 @endif
-                            @endcan
+                            {{-- @endcan --}}
                             @can('applications.debate')
                                 <li class="nav-item tab-all p-l-20">
                                     <a class="nav-link" href="#debateChat" data-toggle="tab">Debate</a>
@@ -217,7 +217,7 @@ echo '</pre>';
                                 </div>
                             </div>
                         @endcan
-                        @can('applications.details')
+                        {{-- @can('applications.details') --}}
                             <div class="tab-pane fontawesome-demo {{ (!Auth::guard('staff')->user()->can('patients.details')) ? "active ": ""}}" id="services">
                                 <div id="biography">
                                     <div class="row">
@@ -1293,7 +1293,7 @@ echo '</pre>';
                                     </div>
                                 </div>
                             </div>
-                        @endcan
+                        {{-- @endcan --}}
                     </div>
                 </div>
             </div>
@@ -1447,7 +1447,7 @@ echo '</pre>';
                         <span class="required"> * </span>
                     </label>
                     <div class="col-md-12">
-                        <select class="form-control input-height" id="accepted-procedure-select">
+                        <select class="form-control input-height" id="accepted-status-select">
                         </select>
                         <span class="help-block text-danger">  </span>
                     </div>
@@ -1490,7 +1490,7 @@ echo '</pre>';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="confirm-change-package-button">Change</button>
+                <button type="button" class="btn btn-primary" id="confirm-status-declined-button">Change</button>
             </div>
         </div>
     </div>
@@ -1646,11 +1646,11 @@ echo '</pre>';
             processData: false,
             beforeSend: function()
             {
-                $('#nameStaff'+specialty).text('')
+                
             },
             success:function(response)
             {
-                $('#nameStaff'+specialty).text('')
+                //$('#nameStaff'+specialty).text('')
                 $('#nameStaff'+specialty).text(response.name)
                 let data = { specialty: specialty, name: response.name, id: response.id}
                 socket.emit('sendNewStaffToServer', data);
@@ -1721,27 +1721,6 @@ echo '</pre>';
             },
         })
     }
-
-    socket.on('sendDebateToClient', (data) => {
-        if (data.group_id == debate_id) {
-            $.each(data.members, function(i, val) {
-                if (data.user_id == val.member_id) {
-                    $thisData = data.members[i]
-                    $msg = '<li class="in">';
-                        $msg += '<img src=" ' + $thisData.member_avatar + ' " class="avatar" alt="">';
-                        $msg += '<div class="message">';
-                            $msg += '<span class="arrow"></span>';
-                           $msg += ' <a class="name" href="#">'+$thisData.member_name+'</a>';
-                            $msg += '<span class="datetime"> at ' + data.dateMessage + '</span>';
-                            $msg += '<span class="body"> ' + data.message + ' </span>';
-                        $msg += '</div>';
-                    $msg += '</li>';
-                    $('#chatDiv').append($msg)
-                    debateToDownLast();
-                }
-            });
-        }
-    });
     
     function senderDebate(message)
     {
@@ -1784,7 +1763,6 @@ echo '</pre>';
     $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
        if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
     })
-
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
@@ -1898,7 +1876,8 @@ echo '</pre>';
                         } else {
                             $('#change-procedure-button').show('fast');
                         }
-                        socket.emit('sendChangeAppProcedureToServer');
+                        socket.emit('sendChangeAppProcedureToServer', response);
+                        socket.emit('updateDataTablesToServer');
                     } 
                     if (response.hasOwnProperty('icon')) {
                         Toast.fire({
@@ -1989,7 +1968,8 @@ echo '</pre>';
                         } else {
                             $('#change-package-button').show('fast');
                         }
-                        socket.emit('sendChangeAppPackageToServer');
+                        socket.emit('sendChangeAppPackageToServer', response);
+                        socket.emit('updateDataTablesToServer');
                     } 
                     if (response.hasOwnProperty('icon')) {
                         Toast.fire({
@@ -2016,9 +1996,9 @@ echo '</pre>';
     $(document).on('click', '#status-accepted-button', function(event) {
         event.preventDefault();
         $('#status-accepted-modal').on('show.bs.modal', function () {
-            $('#accepted-procedure-select').empty().attr('placeholder', "Select click here").trigger('change')
-            $('#accepted-procedure-select').append('<option selected value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
-            $('#accepted-procedure-select').select2({
+            $('#accepted-status-select').empty().attr('placeholder', "Select click here").trigger('change')
+            $('#accepted-status-select').append('<option selected value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
+            $('#accepted-status-select').select2({
                 dropdownParent: $('#status-accepted-modal'),
                 placeholder: "Select click here",
                 allowClear: true,
@@ -2050,16 +2030,19 @@ echo '</pre>';
     });
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
-        var data = $('#accepted-procedure-select').select2('data');
+        var data = $('#accepted-status-select').select2('data');
         console.log("data", data);
         //return
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text
-            var has_package = data[0].package;
+            var medicalRecommendations = $('#medicalRecommendations').val()
+            var medicalIndications = $('#medicalIndications').val()
             var form_data = new FormData();
             form_data.append('name', name);
             form_data.append('id', id);
+            form_data.append('medicalRecommendations', medicalRecommendations);
+            form_data.append('medicalIndications', medicalIndications);
             form_data.append('app', app_id);
             $.ajax({
                 url: globalRouteSetStatusAcepted,
@@ -2078,28 +2061,12 @@ echo '</pre>';
                 },
                 success:function(response)
                 {
-                    // if (response.success) {
-                    //     $('#change-procedure-p').html(response.name);
-                    //     $('#change-procedure-p').attr('procedure_id', response.id);
-                    //     $('#change-procedure-select').empty().attr('placeholder', "Select click here").trigger('change');
-                    //     $('#change-procedure-modal').modal('hide');
-                    //     if (response.has_package == 0) {
-                    //         $('#change-package-p').html('');
-                    //         $('#change-procedure-button').hide('fast');
-                    //     } else {
-                    //         $('#change-procedure-button').show('fast');
-                    //     }
-                    //     socket.emit('sendChangeAppProcedureToServer');
-                    // } 
-                    // if (response.hasOwnProperty('icon')) {
-                    //     Toast.fire({
-                    //       icon: response.icon,
-                    //       title: response.msg
-                    //     })
-                    // }
-                    // if (response.hasOwnProperty('reload')) {
-                    //     location.reload();
-                    // }
+                    console.log("response", response);
+                    if (response.success) {
+                        //socket.emit('sendChangeAppStatusToServer', response);
+                        $('#status-accepted-modal').modal('hide')
+                        socket.emit('updateDataTablesToServer');
+                    }
                 },
                 complete: function()
                 {
@@ -2111,76 +2078,99 @@ echo '</pre>';
             console.log("alert", 'alert');
         }
     });
-
     $(document).on('click', '#status-declined-button', function(event) {
         event.preventDefault();
         $('#status-declined-modal').on('show.bs.modal', function () {
             
         }).modal('show')
     });
-
-    $(document).on('click', '#confirm-status-accepted-button', function(event) {
+    $(document).on('click', '#confirm-status-declined-button', function(event) {
         event.preventDefault();
-        var data = $('#accepted-procedure-select').select2('data');
-        console.log("data", data);
-        //return
-        if (data.length > 0) {
-            var id = data[0].id
-            var name = data[0].text
-            var has_package = data[0].package;
-            var form_data = new FormData();
-            form_data.append('name', name);
-            form_data.append('id', id);
-            form_data.append('app', app_id);
-            $.ajax({
-                url: globalRouteSetStatusDeclined,
-                method:"POST",
-                data:form_data,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function()
-                {
-                    
-                },
-                success:function(response)
-                {
-                    // if (response.success) {
-                    //     $('#change-procedure-p').html(response.name);
-                    //     $('#change-procedure-p').attr('procedure_id', response.id);
-                    //     $('#change-procedure-select').empty().attr('placeholder', "Select click here").trigger('change');
-                    //     $('#change-procedure-modal').modal('hide');
-                    //     if (response.has_package == 0) {
-                    //         $('#change-package-p').html('');
-                    //         $('#change-procedure-button').hide('fast');
-                    //     } else {
-                    //         $('#change-procedure-button').show('fast');
-                    //     }
-                    //     socket.emit('sendChangeAppProcedureToServer');
-                    // } 
-                    // if (response.hasOwnProperty('icon')) {
-                    //     Toast.fire({
-                    //       icon: response.icon,
-                    //       title: response.msg
-                    //     })
-                    // }
-                    // if (response.hasOwnProperty('reload')) {
-                    //     location.reload();
-                    // }
-                },
-                complete: function()
-                {
-                },
-            })
+    
+        var declinedReazon = $('#declined-app').val();
+        var form_data = new FormData();
+        form_data.append('declinedReazon', declinedReazon);
+        form_data.append('app', app_id);
+        $.ajax({
+            url: globalRouteSetStatusDeclined,
+            method:"POST",
+            data:form_data,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+                
+            },
+            success:function(response)
+            {
 
-        } else {
-            $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
-            console.log("alert", 'alert');
+                console.log("response", response);
+                socket.emit('updateDataTablesToServer');
+                //socket.emit('sendChangeAppStatusToServer', response);
+            },
+            complete: function()
+            {
+            },
+        })
+
+    });
+    socket.on('sendChangeAppProcedureToClient', (response) =>  {
+        if (response.success) {
+            $('#change-procedure-p').html(response.name);
+            $('#change-procedure-p').attr('procedure_id', response.id);
+            $('#change-procedure-select').empty().attr('placeholder', "Select click here").trigger('change');
+            $('#change-procedure-modal').modal('hide');
+            if (response.has_package == 0) {
+                $('#change-package-p').html('');
+                $('#change-procedure-button').hide('fast');
+            } else {
+                $('#change-procedure-button').show('fast');
+            }
+        } 
+    });
+    socket.on('sendChangeAppPackageToClient', (response) =>  {
+        if (response.success) {
+            $('#change-package-p').html(response.name);
+            $('#change-package-p').attr("package_id", response.id);
+            $('#change-package-select').empty().attr('placeholder', "Select click here").trigger('change');
+            $('#change-package-modal').modal('hide');
+            if (response.has_package == 0) {
+                $('#change-package-p').html('');
+                $('#change-package-button').hide('fast');
+            } else {
+                $('#change-package-button').show('fast');
+            }
+        } 
+    });
+    socket.on('sendDebateToClient', (data) => {
+        if (data.group_id == debate_id) {
+            $.each(data.members, function(i, val) {
+                if (data.user_id == val.member_id) {
+                    $thisData = data.members[i]
+                    $msg = '<li class="in">';
+                        $msg += '<img src=" ' + $thisData.member_avatar + ' " class="avatar" alt="">';
+                        $msg += '<div class="message">';
+                            $msg += '<span class="arrow"></span>';
+                           $msg += ' <a class="name" href="#">'+$thisData.member_name+'</a>';
+                            $msg += '<span class="datetime"> at ' + data.dateMessage + '</span>';
+                            $msg += '<span class="body"> ' + data.message + ' </span>';
+                        $msg += '</div>';
+                    $msg += '</li>';
+                    $('#chatDiv').append($msg)
+                    debateToDownLast();
+                }
+            });
         }
+    });
+    socket.on('sendNewStaffToServer', (data) =>  {
+        //$('#nameStaff'+data.specialty).text('')
+        $('#nameStaff'+data.specialty).text(data.name)
+        //$('#change'+data.specialty+"App").modal('hide')
     });
 </script>
 @endsection

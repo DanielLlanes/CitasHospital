@@ -216,12 +216,16 @@ class RolesSeeder extends Seeder
             "calendar.list",
             "calendar.create",
             "calendar.show",
+
             "applications.list",
             "applications.all",
             "applications.create",
             "applications.edit",
             "applications.changeStaff",
             "applications.show",
+
+            "applications.details",
+
             "patients.list",
             "patients.create",
             "patients.edit",

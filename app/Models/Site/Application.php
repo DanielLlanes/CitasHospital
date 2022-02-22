@@ -83,7 +83,7 @@ class Application extends Model
     }
     public function app_status()
     {
-        return $this->belongsToMany(Status::class)->withTimestamps()->withPivot('notes_es', 'notes_en');
+        return $this->belongsToMany(Status::class)->withTimestamps()->withPivot('notes', 'indications', 'recomendations', 'reason');
     }
     public function notification()
     {

@@ -154,12 +154,10 @@
 		        },
 		    });
 
-            socket.on('sendChangeAppProcedureToClient', () =>  {
+            socket.on('updateDataTablesToClient', () =>  {
                 applicationsTable.ajax.reload( null, false );
             });
-            socket.on('sendChangeAppPackageToClient', () =>  {
-                applicationsTable.ajax.reload( null, false );
-            });
+
             $(document).on('click', '#formCancel', function () {
                 clearForm()
             });

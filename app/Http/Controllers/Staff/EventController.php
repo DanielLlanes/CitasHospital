@@ -34,11 +34,6 @@ class EventController extends Controller
         $this->middleware('can:calendar.destroy')->only(['destroy']);
         date_default_timezone_set('America/Tijuana');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -266,6 +261,8 @@ class EventController extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+
+                
             }
             
 
@@ -359,7 +356,6 @@ class EventController extends Controller
                 ]
             );
         }
-
     }
 
     public function destroy(Request $request)

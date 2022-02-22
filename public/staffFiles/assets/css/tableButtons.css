@@ -175,3 +175,15 @@ table.table td p{
 .modal-open .select2-search {
   z-index: 10053;
 }
+
+.modal.select2-drop-mask {
+  z-index: 10051;
+}
+
+.modal.select2-drop {
+  z-index: 10052;
+}
+
+.modal.select2-search {
+  z-index: 10053;
+}
