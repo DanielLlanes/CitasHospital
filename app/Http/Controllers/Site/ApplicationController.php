@@ -18,6 +18,7 @@ use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
+use App\Traits\DatesLangTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ use Spatie\Permission\Models\Role;
 
 class ApplicationController extends Controller
 {
+    use DatesLangTrait;
     /**
      * Display a listing of the resource.
      *
@@ -1368,9 +1370,6 @@ class ApplicationController extends Controller
             )
             ->first();
 
-
-            //return $assignment_staff;
-
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
@@ -1394,10 +1393,35 @@ class ApplicationController extends Controller
                     'updated_at' => Carbon::now()
                 ]);
             }
-            //$app->save();
+
+            $date = Carbon::now();
+            $hours = $date->format('g:i A');
+            $response = [];
+            $response['staff_id'] = $assignment_staff->id;
+            $response['message'] = "A new application has been assigned to you";
+            $response['application_id'] = $getData->id;
+            $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
+            $response['timeDiff'] = $date->diffForHumans();
+            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+
+            $app->notification()->create([
+                'staff_id' => $assignment_staff->id,
+                'type' => 'New application',
+                'message' => $response['message'],
+                'code' => $code,
+            ]);
+
             Session::forget('form_session');
             Session::forget('treatment');
-            return redirect()->route('home');
+            return redirect()->route('home')
+            ->with(
+                [
+                    'sys-message' => '',
+                    'icon' => 'success',
+                    'msg' => Lang::get('Your application has been sent successfully'),
+                    'data' => $response,
+                ]
+            );
         } else {
             abort(404);
         }
@@ -1450,8 +1474,8 @@ class ApplicationController extends Controller
     public function application()
     {
         return view
-                    (
-                        'staff.application-manager.list'
-                    );
+        (
+            'staff.application-manager.list'
+        );
     }
 }

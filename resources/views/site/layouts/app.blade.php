@@ -76,8 +76,36 @@
     <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
     <!-- Template Main JS File -->
     <script src="{{ asset('siteFiles/assets/js/main.js') }}"></script>
-
+    <!-- Socket io-->
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+    <style type="text/css">
+        .swal2-title{
+            font-size: .8rem!important;
+        }
+        .debateNotifications li .message p {
+            margin-block-start: 0!important;
+            margin-inline-start: 0!important;
+        }
+        .page-header.navbar .top-menu .navbar-nav>li.dropdown-inbox>.dropdown-menu .dropdown-menu-list>li .subject .read {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: .5;
+            filter: alpha(opacity=50);
+            float: right;
+        }
+    </style>
     <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
         const glightbox = GLightbox({
             selector: '.glightbox'
         });
@@ -86,10 +114,6 @@
             let socket = io(ip_address + ':' + socket_port );
         socket.on('connect', function() {
            socket.emit('user_connected', 'anonimous');
-        });
-        //socket.emit('sendNotification', 'data');
-        socket.on('reciverChatToNotification', (data) => {
-            console.log("data", data);
         });
     </script>
     @yield('scripts')

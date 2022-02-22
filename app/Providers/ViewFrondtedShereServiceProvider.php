@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Staff\Brand;
 use App\Models\Staff\Debate;
 use App\Models\Staff\Message;
+use App\Models\Staff\Notification;
 use App\Models\Staff\Service;
 use App\Models\Staff\Staff;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
             $brands = [];
             $coordinatorFooter = [];
             $debateMessages = [];
-
+            $notifications = [];
             if (isRoleExist('coordinator')) {
                 $coordinatorFooter = Staff::role('coordinator')
                 ->with
@@ -89,6 +90,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                 ->get();
 
                 if (Auth::guard('staff')->check()) {
+                    $lang = Auth::guard('staff')->user()->lang;
+                    app()->setLocale($lang);
                     $debateMessages = Message::with([
                         'debateInverseMessages' => function($q)
                         {
@@ -96,11 +99,17 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                         }
                     ])
                     ->orderBy('created_at', 'DESC')
-                    ->where('staff_id', Auth::guard('staff')->user()->id)->get();
+                    ->where('staff_id', Auth::guard('staff')->user()->id)
+                    ->get();
+
+                    $notifications = Notification::orderBy('created_at', 'DESC')
+                    ->where('staff_id', Auth::guard('staff')->user()->id)
+                    ->with('notificationStaff')
+                    ->get();
                 }
                 
             }
-            $view->with(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages]);    
+            $view->with(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages, 'notifications' => $notifications]);    
         }); 
     }
 }

@@ -123,14 +123,18 @@
                             <span class="notification-label purple-bgcolor">New 6</span>
                         </li>
                         <li>
-                            <ul class="dropdown-menu-list small-slimscroll-style" data-handle-color="#637283">
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="time">just now</span>
-                                        <span class="details">
-                                        <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-check"></i></span> Congratulations!. </span>
-                                    </a>
-                                </li>
+                            <ul class="dropdown-menu-list small-slimscroll-style notyNotifications" data-handle-color="#637283">
+                                @if (count($notifications) > 0)
+                                    @foreach ($notifications as $element)
+                                        <li>
+                                            <a href="javascript:;">
+                                                <span class="time">{{ $element->created_at->diffForHumans() }}</span>
+                                                <span class="details">
+                                                <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-check"></i></span> {{ $element->message }} </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
                             <div class="dropdown-menu-footer">
                                 <a href="javascript:void(0)"> All notifications </a>
@@ -140,12 +144,8 @@
                 </li>
                 <!-- end notification dropdown -->
                 <!-- start message dropdown -->
-                
 
                 @foreach ($debateMessages as $element)
-                    @if (condition)
-                        {{-- expr --}}
-                    @endif
                     
                 @endforeach
                 <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">

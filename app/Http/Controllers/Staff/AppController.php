@@ -664,20 +664,6 @@ class AppController extends Controller
             $response['timeDiff'] = $date->diffForHumans();
             $response['msgStrac'] = $slug = \Str::of($debate->message)->limit(50);
 
-
-            $debateMembers = new Collection;
-            // foreach (json_decode($request->debateMembers) as $k => $member) {
-            //     $user = Staff::find($member->member_id);
-            //     if ($user->hasAnyRole(['dios', 'super-administrator', 'administrator']) || $member->member_id == Auth::guard("staff")->user()->id) {}
-            //     else{
-            //         $debateMembers->push((object)[
-            //             'member_name' => $member->member_name,
-            //             'member_id' => $member->member_id
-            //         ]);
-            //         $debate->message()->create(["code" => time().uniqid(Str::random(30)), 'staff_id' => $member->member_id, 'type' => "debate"]);
-            //     }    
-            // }
-            // 
             $sender_id = Auth::guard("staff")->user()->id;
             DebateMessagesJob::dispatch(json_decode($request->debateMembers), $debate->id, $sender_id);
             return response()->json([

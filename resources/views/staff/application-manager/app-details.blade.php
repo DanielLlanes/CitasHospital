@@ -1549,7 +1549,7 @@ echo '</pre>';
     var app_id = {{ $appInfo->id }}
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
-    var senderSound = '{{ asset('sounds/facebook-pop.mp3') }}'
+    
     
 
     $(document).on('click', '[id^="appChange"]', function(event) {

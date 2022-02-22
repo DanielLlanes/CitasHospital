@@ -160,3 +160,6 @@ table.table td p{
     margin: 0;
     padding: 0;
 }
+.page-header.navbar .top-menu .navbar-nav>li.dropdown-notification .dropdown-menu .dropdown-menu-list>li a .time {
+    max-width: 100%!important;
+}

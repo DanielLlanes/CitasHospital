@@ -248,6 +248,17 @@
 
 
 @section('scripts')
+    @if (\Session::has('sys-message'))
+        <script>
+            Toast.fire({
+              icon: '{{\Session::get('icon')}}',
+              title: '{{\Session::get('msg')}}',
+            })
+            var data = {!! json_encode(\Session::get('data')) !!}
+            console.log("data", data);
+            socket.emit('sendNewNotificationToServer', data);
+        </script>
+    @endif
     <script>
         new Splide('.splide', {
             type: 'loop',

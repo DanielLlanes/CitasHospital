@@ -37,11 +37,16 @@ io.on('connection', (socket) => {
         console.log("data", data);
         socket.broadcast.emit('sendNewStaffToServer', data);
     });
+
     socket.on("sendChangeAppProcedureToServer", function(data) { // change procedure app
         socket.broadcast.emit('sendChangeAppProcedureToClient');
     });
+
     socket.on("sendChangeAppPackageToServer", function(data) { // change package app
         socket.broadcast.emit('sendChangeAppPackageToClient');
+    });
+    socket.on('sendNewNotificationToServer', function(data) { //notifications
+        socket.broadcast.emit('sendNewNotificationToClient', data);
     });
 });
 

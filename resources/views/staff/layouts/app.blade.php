@@ -150,6 +150,7 @@
                 }
             });
             var dataTablesLangEs;
+            var senderSound = '{{ asset('sounds/facebook-pop.mp3') }}'
             var lang = '{{\Auth::guard('staff')->user()->lang}}'
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
@@ -157,7 +158,7 @@
             let ip_address = window.location.hostname;
             let socket_port = '3000';
             let socket = io(ip_address + ':' + socket_port );
-            let user_id = "{{ auth()->user()->id }}";
+            let user_id = "{{ auth()->guard('staff')->user()->id }}";
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
@@ -168,7 +169,7 @@
                 $.each(data.members, function(i, val) {
                     if (data.user_id == val.member_id) {
                         $thisData = data.members[i]
-                        notifyItem($thisData, data)
+                        debateItem($thisData, data)
                     }
                 });
             });
@@ -176,23 +177,42 @@
             socket.on('sendNewStaffToServer', (data) => {
                 console.log("data", data);
             })
+            socket.on('sendNewNotificationToClient', (data) => {
+                if (data.staff_id == user_id) {
+                    notifyItem(data);
+                }
+            })
 
-            function notifyItem($thisData, data){
-                let notifyList = '';
-                notifyList += '<li>';
-                notifyList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
-                notifyList += '<span class="photo">';
-                notifyList += '<img src=" ' + $thisData.member_avatar + ' " class="img-circle" alt=""> </span>';
-                notifyList += '<span class="subject">';
-                notifyList += '<span class="from"> ' + $thisData.member_name  + ' </span>';
-                notifyList += '<span class="time"> ' + data.timeDiff + ' </span>';
-                notifyList += '<br>';
-                notifyList += '<span class="read" id="msgRead"><i class="fa fa-circle text-primary" title="Unread" aria-hidden="true"></i> </span>';
-                notifyList += '</span>';
-                notifyList += '<span class="message"> ' + data.msgStrac + ' </span>';
-                notifyList += '</a>';
-                notifyList += '</li>';
+            function notifyItem(data) {
+                let notifyList = "";
+                notifyList += '<li>',
+                notifyList += '<a href="javascript:;">',
+                notifyList += '<span class="time">' + data.timeDiff + '</span>',
+                notifyList += '<span class="details">',
+                notifyList += '<span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-check"></i></span> ' + data.message + ' </span>',
+                notifyList += '</a>'
+                notifyList += '</li>'
 
+
+                $('.notyNotifications').prepend(notifyList);
+                beep( senderSound )
+            }
+
+            function debateItem($thisData, data){
+                let debateList = '';
+                debateList += '<li>';
+                debateList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
+                debateList += '<span class="photo">';
+                debateList += '<img src=" ' + $thisData.member_avatar + ' " class="img-circle" alt=""> </span>';
+                debateList += '<span class="subject">';
+                debateList += '<span class="from"> ' + $thisData.member_name  + ' </span>';
+                debateList += '<span class="time"> ' + data.timeDiff + ' </span>';
+                debateList += '<br>';
+                debateList += '<span class="read" id="msgRead"><i class="fa fa-circle text-primary" title="Unread" aria-hidden="true"></i> </span>';
+                debateList += '</span>';
+                debateList += '<span class="message"> ' + data.msgStrac + ' </span>';
+                debateList += '</a>';
+                debateList += '</li>';
 
                 var actual = parseInt($('#new-messages-span').html());
                 console.log("actual", actual);
@@ -204,7 +224,7 @@
                     'margin-block-start': '0',
                     'margin-inline-start': '0'
                 });
-                $('.debateNotifications').prepend(notifyList);
+                $('.debateNotifications').prepend(debateList);
                 beep( reciverSound )
             }
         </script>

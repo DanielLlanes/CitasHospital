@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Message extends Model
+class Notification extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -15,15 +15,15 @@ class Message extends Model
 
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['code', 'type', 'staff_id', 'read'];
+    protected $fillable = ['staff_id', 'type', 'message', 'code', 'read'];
 
-    public function messageable()
+    public function notificationable()
     {
         return $this->morphTo();
     }
-    public function debateInverseMessages()
+    public function notificationStaff()
     {
         // belongsTo(RelatedModel, foreignKey = _id, keyOnRelatedModel = id)
-        return $this->belongsTo(Debate::class, 'messageable_id');
+        return $this->belongsTo(Staff::class);
     }
 }

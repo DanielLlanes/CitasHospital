@@ -4,6 +4,7 @@ namespace App\Models\Site;
 
 use App\Models\Staff\Debate;
 use App\Models\Staff\ImageMany;
+use App\Models\Staff\Notification;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
 use App\Models\Staff\Product;
@@ -64,17 +65,14 @@ class Application extends Model
     {
         return $this->belongsToMany(Staff::class)->withPivot('ass_as');
     }
-
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
-
     public function treatment()
     {
         return $this->belongsTo(Treatment::class);
     }
-
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -86,5 +84,9 @@ class Application extends Model
     public function app_status()
     {
         return $this->belongsToMany(Status::class)->withTimestamps()->withPivot('notes_es', 'notes_en');
+    }
+    public function notification()
+    {
+        return $this->morphMany(Notification::class, 'notificationable');
     }
 }
