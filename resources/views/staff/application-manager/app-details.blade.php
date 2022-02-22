@@ -2112,6 +2112,7 @@ echo '</pre>';
                 console.log("response", response);
                 socket.emit('updateDataTablesToServer');
                 //socket.emit('sendChangeAppStatusToServer', response);
+                $('#status-declined-modal').modal('hide')
             },
             complete: function()
             {
