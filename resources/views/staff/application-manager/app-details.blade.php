@@ -1305,7 +1305,7 @@ echo '</pre>';
     foreach ($arrays as $value) {
         if ($value['id'] == 10) {
             if (Auth::guard('staff')->user()->can('applications.changeCoordinator')) {
-                echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                echo '<div class="modal fade" id="change'.$value['specialty'].'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1335,7 +1335,7 @@ echo '</pre>';
                 </div>';
             } 
         } elseif(Auth::guard('staff')->user()->can('applications.changeStaff')){
-            echo '<div class="modal fade" id="change'.$value['specialty'].'App" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            echo '<div class="modal fade" id="change'.$value['specialty'].'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -1367,7 +1367,7 @@ echo '</pre>';
     }
 @endphp
 
-<div class="modal fade" id="change-procedure-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="change-procedure-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1396,7 +1396,7 @@ echo '</pre>';
         </div>
     </div>
 </div>
-<div class="modal fade" id="change-package-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="change-package-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1424,7 +1424,7 @@ echo '</pre>';
         </div>
     </div>
 </div>
-<div class="modal fade" id="status-accepted-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="status-accepted-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1468,7 +1468,7 @@ echo '</pre>';
         </div>
     </div>
 </div>
-<div class="modal fade" id="status-declined-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="status-declined-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -1825,7 +1825,6 @@ echo '</pre>';
             });
         }).modal('show');
     });
-
     $(document).on('click', '#change-procedure-button', function(event) {
         event.preventDefault();
         $('#change-procedure-modal').on('show.bs.modal', function () {
@@ -2112,7 +2111,6 @@ echo '</pre>';
             console.log("alert", 'alert');
         }
     });
-
 
     $(document).on('click', '#status-declined-button', function(event) {
         event.preventDefault();

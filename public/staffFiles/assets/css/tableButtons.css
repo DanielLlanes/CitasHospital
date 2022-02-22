@@ -163,3 +163,15 @@ table.table td p{
 .page-header.navbar .top-menu .navbar-nav>li.dropdown-notification .dropdown-menu .dropdown-menu-list>li a .time {
     max-width: 100%!important;
 }
+
+.modal-open .select2-drop-mask {
+  z-index: 10051;
+}
+
+.modal-open .select2-drop {
+  z-index: 10052;
+}
+
+.modal-open .select2-search {
+  z-index: 10053;
+}

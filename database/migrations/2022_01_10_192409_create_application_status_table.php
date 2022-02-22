@@ -17,8 +17,10 @@ class CreateApplicationStatusTable extends Migration
             $table->id();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->bigInteger('status_id')->unsigned()->nullable();
-            $table->text("notes_en")->nullable();
-            $table->text("notes_es")->nullable();
+            $table->text("notes")->nullable();
+            $table->text("indications")->nullable();
+            $table->text("recomendations")->nullable();
+            $table->text("reason")->nullable();
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
