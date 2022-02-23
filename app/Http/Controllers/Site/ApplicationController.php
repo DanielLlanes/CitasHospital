@@ -1370,6 +1370,8 @@ class ApplicationController extends Controller
             )
             ->first();
 
+
+            $response = [];
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
@@ -1379,7 +1381,29 @@ class ApplicationController extends Controller
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();
+
+                $date = Carbon::now();
+                $hours = $date->format('g:i A');
+                //$response = [];
+                $response['staff_id'] = $assignment_staff->id;
+                $response['message'] = "A new application has been assigned to you";
+                $response['application_id'] = $getData->id;
+                $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
+                $response['timeDiff'] = $date->diffForHumans();
+                $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+
+                $app->notification()->create([
+                    'staff_id' => $assignment_staff->id,
+                    'type' => 'New application',
+                    'message' => $response['message'],
+                    'code' => $code,
+                ]);
             }
+
+            //send Email to coordintion
+
+
+            //return;
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
@@ -1394,22 +1418,6 @@ class ApplicationController extends Controller
                 ]);
             }
 
-            $date = Carbon::now();
-            $hours = $date->format('g:i A');
-            $response = [];
-            $response['staff_id'] = $assignment_staff->id;
-            $response['message'] = "A new application has been assigned to you";
-            $response['application_id'] = $getData->id;
-            $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
-            $response['timeDiff'] = $date->diffForHumans();
-            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
-
-            $app->notification()->create([
-                'staff_id' => $assignment_staff->id,
-                'type' => 'New application',
-                'message' => $response['message'],
-                'code' => $code,
-            ]);
 
             Session::forget('form_session');
             Session::forget('treatment');

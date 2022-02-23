@@ -256,6 +256,7 @@
             })
             var data = {!! json_encode(\Session::get('data')) !!}
             console.log("data", data);
+            
             socket.emit('sendNewNotificationToServer', data);
         </script>
     @endif
