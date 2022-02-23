@@ -53,46 +53,6 @@ class AppController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        $apps = Application::with(
-            [
-                'app_status' => function($q)use($lang){
-                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
-                },
-                'patient' => function($q){
-                    $q->select('name', 'id');
-                },
-                'treatment' => function($q) use($lang) {
-                    $q->with(
-                        [
-                            "brand" => function($q){
-                                $q->select("brand", "id", "color");
-                            },
-                            "service" => function($q) use($lang) {
-                                $q->select("service_$lang AS service", "id");
-                            },
-                            "procedure" => function($q) use($lang) {
-                                $q->select("procedure_$lang AS procedure", "id");
-                            },
-                            "package" => function($q) use($lang) {
-                                $q->select("package_$lang AS package", "id");
-                            },
-                        ]
-                    );
-                },
-                'assignments' => function($q) use($lang) {
-                    $q->whereHas(
-                        'specialties', function($q){
-                            $q->where("name_en", "Coordination");
-                        }
-                    );
-                }
-            ]
-        )
-        ->where('is_complete', true)
-        ->get();
-
-
-        //return $apps;
 
         return view
         (
@@ -268,7 +228,9 @@ class AppController extends Controller
 
         $applications = Application::with(
             [
-
+                'app_status' => function($q)use($lang){
+                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
+                },
                 'patient' => function($q){
                     $q->with(['country', 'state']);
                 },
@@ -326,6 +288,8 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($id);
+
+        //return $applications;
 
         $StaffAss = Staff::with('assignToSpecialty', 'imageOne')->find(Auth::guard('staff')->user()->id);
 

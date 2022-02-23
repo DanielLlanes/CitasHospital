@@ -184,6 +184,7 @@ class HomeController extends Controller
                 'package' => function($query) use ($lang) {
                     $query->select('id', "active", "package_$lang as package");
                  },
+                 'imageOne'
             ]
         )
         ->where('active', true)
@@ -234,6 +235,7 @@ class HomeController extends Controller
                 'service' => function($q) use ($lang){
                     $q->select("id", "brand_id", "service_$lang as service", "description_$lang as description");
                 },
+                'imageOne',
             ]
         )
         ->firstOrFail();

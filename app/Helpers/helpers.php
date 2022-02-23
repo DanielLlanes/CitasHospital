@@ -28,3 +28,13 @@ if (!function_exists('getBrandImage')) {
         }
     }
 }
+
+if (!function_exists('getTreamentImage')) {
+    function getTreamentImage($treatment) {
+        if (!is_null($treatment->load('imageOne')->imageOne)) {
+            return $treatment->load('imageOne')->imageOne->image;
+        } else {
+            return "staffFiles/assets/img/treatment/no-Image.png";
+        }
+    }
+}

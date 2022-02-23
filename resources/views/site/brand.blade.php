@@ -50,11 +50,12 @@
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card altura">
-                                        @if (!is_null($treatment->procedure->image))
-                                            <img src="{{ asset($treatment->procedure->image) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
+                                        {{-- @if (!is_null($treatment->imageOne))
+                                            <img src="{{ asset($treatment->imageOne->image) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         @else
                                             <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
-                                        @endif
+                                        @endif --}}
+                                            <img src="{{ getTreamentImage($treatment) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
