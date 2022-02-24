@@ -219,24 +219,24 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         @foreach($coordinators as $coordinator)
-                        <li class="splide__slide">
-                            <div class="member d-flex align-items-start">
-                                <div class="pic">
-                                    <img src="{{ getAvatar($coordinator) }}" class="img-fluid" alt="{{ $coordinator->name }}">
-                                </div>
-                                <div class="member-info">
-                                    <h4>{{ $coordinator->name }}</h4>
-                                    <span>Coordinator</span>
-                                    <p style="margin-block-end: 0"><a href="tel:{{ $coordinator->cellphone }}">Call me</a></p>
-                                    <p><a href="mailto:{{ $coordinator->email }}">@lang('Send me a email')</a></p>
-                                    <div class="mt-3">
-                                        @foreach($coordinator->assignToService as $service)
-                                        <a style="text-decoration: none" href="{{ asset($service->brand->url) }}" class="me-2">{{ $service->service }}</a>
-                                        @endforeach
+                            <li class="splide__slide">
+                                <div class="member d-flex align-items-start">
+                                    <div class="pic">
+                                        <img src="{{ getAvatar($coordinator) }}" class="img-fluid" alt="{{ $coordinator->name }}">
+                                    </div>
+                                    <div class="member-info">
+                                        <h4>{{ $coordinator->name }}</h4>
+                                        <span>Coordinator</span>
+                                        <p style="margin-block-end: 0"><a href="tel:{{ $coordinator->cellphone }}">Call me</a></p>
+                                        <p><a href="mailto:{{ $coordinator->email }}">@lang('Send me a email')</a></p>
+                                        <div class="mt-3">
+                                            @foreach($coordinator->assignToService as $service)
+                                            <a style="text-decoration: none" href="{{ asset($service->brand->url) }}" class="me-2">{{ $service->service }}</a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -255,11 +255,11 @@
               title: '{{\Session::get('msg')}}',
             })
             var data = {!! json_encode(\Session::get('data')) !!}
-            console.log("data", data);
             
             socket.emit('sendNewNotificationToServer', data);
         </script>
     @endif
+
     <script>
         new Splide('.splide', {
             type: 'loop',

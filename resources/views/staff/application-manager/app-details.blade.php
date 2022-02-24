@@ -1528,6 +1528,7 @@ echo '</pre>';
     var globalRouteSetStatusDeclined = "{{ route('staff.applications.setStatusDeclined') }}"
 
 
+    var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
     var date = new Date();   //Creates date object
     var hours = date.getHours();   //get hour using date object
     var minutes = date.getMinutes();    //get minutes using date object
@@ -1550,48 +1551,22 @@ echo '</pre>';
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
     
-    
+    itemContainer.slimscroll({ 
+        scrollTo : '500px',
+        start: 'bottom',
+        position: "right",
+        size: "5px",
+        color: "#9ea5ab",
+        width: '100%',
+        wheelStep: 5
+    })
 
-    $(document).on('click', '[id^="appChange"]', function(event) {
-        event.preventDefault();
-        var specialty = $(this).attr('id').split("appChange")
-        $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
-        $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
-            $('#getStaff'+specialty[1]).select2({
-                dropdownParent: $('#change'+specialty[1]+"App"),
-                placeholder: "Select click here",
-                allowClear: true,
-                ajax: {
-                    url: globalRouteGetNewStaff,
-                    type: 'post',
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term, 
-                            specialty: specialty[1],
-                            app: app_id,
-                        }
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(obj) {
-                                return {
-                                    id: obj.id,
-                                    text: obj.name
-                                };
-                            })
-                        };
-                    },
-                    cache: true,
-                }
-            }).on("change", function(e) {
-                //$("#getStaff"+specialty[1]).empty()
-                var lastValue = $.trim(e.currentTarget.value);
-                var lastText = $.trim(e.currentTarget.textContent);
-                setNewStaff(lastValue, lastText, specialty[1])
-            });
-        }).modal('show');
-    });
+    $('#messageInput').summernote({
+        placeholder: 'placeholder',
+        height: 50,
+        toolbar: false,
+        disableResizeEditor: true,
+    })
 
     $('#imageRow').magnificPopup({
           delegate: 'a.a',
@@ -1608,22 +1583,73 @@ echo '</pre>';
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
 
-    socket.on('updateUserStatus', (data) => {
-        //console.clear()
-        let $userStatusIcon = $('.user-status-icon');
-            $userStatusIcon.removeClass('text-success');
-            $userStatusIcon.addClass('text-danger');
-            $userStatusIcon.attr('title', 'Offline');
-        $.each(data, function (key, val) {
-            if (val !== null && val !== 0) {
-                let $userIcon = $(".user-conected-"+key);
-                $userIcon.addClass('text-success');
-                $userIcon.removeClass('text-danger');
-                $userIcon.attr('title','Online');
-            
+    $('#messageInput').on('summernote.keydown', function(we, e) {
+        if ( e.which === 13 && !e.shiftKey ) {
+            e.preventDefault();
+            if (!$('#messageInput').val()) {
+                return false;
             }
-        });
+            let message = $('#messageInput').val();
+            $.each(debateMembers, function(index, val) {
+                 if (val.member_id == user_id) {
+                     sendDebateToServer($('#messageInput').val())
+                 } 
+            });
+        }
     });
+
+    $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+       if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
+    })
+
+    $('.summernote').summernote({
+        placeholder: 'placeholder',
+        height: 100,
+        toolbar: false,
+        disableResizeEditor: true,
+    })
+
+    // $(document).on('click', '[id^="appChange"]', function(event) {
+    //     event.preventDefault();
+    //     var specialty = $(this).attr('id').split("appChange")
+    //     $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
+    //     $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
+    //         $('#getStaff'+specialty[1]).select2({
+    //             dropdownParent: $('#change'+specialty[1]+"App"),
+    //             placeholder: "Select click here",
+    //             allowClear: true,
+    //             ajax: {
+    //                 url: globalRouteGetNewStaff,
+    //                 type: 'post',
+    //                 dataType: 'json',
+    //                 data: function (params) {
+    //                     return {
+    //                         search: params.term, 
+    //                         specialty: specialty[1],
+    //                         app: app_id,
+    //                     }
+    //                 },
+    //                 processResults: function(data) {
+    //                     return {
+    //                         results: $.map(data, function(obj) {
+    //                             return {
+    //                                 id: obj.id,
+    //                                 text: obj.name
+    //                             };
+    //                         })
+    //                     };
+    //                 },
+    //                 cache: true,
+    //             }
+    //         }).on("change", function(e) {
+    //             //$("#getStaff"+specialty[1]).empty()
+    //             var lastValue = $.trim(e.currentTarget.value);
+    //             var lastText = $.trim(e.currentTarget.textContent);
+    //             setNewStaff(lastValue, lastText, specialty[1])
+    //         });
+    //     }).modal('show');
+    // });
+    
 
     function setNewStaff(lastValue, lastText, specialty)
     {
@@ -1650,10 +1676,10 @@ echo '</pre>';
             },
             success:function(response)
             {
-                //$('#nameStaff'+specialty).text('')
-                $('#nameStaff'+specialty).text(response.name)
-                let data = { specialty: specialty, name: response.name, id: response.id}
-                socket.emit('sendNewStaffToServer', data);
+                //console.log("response", response);
+                $('#nameStaff'+specialty).text(response.response.staff_name)
+                
+                socket.emit('sendNewStaffToServer', response.response);
                 $('#change'+specialty+"App").modal('hide')
             },
             complete: function()
@@ -1661,21 +1687,6 @@ echo '</pre>';
             },
         })
     }
-
-    $('#messageInput').on('summernote.keydown', function(we, e) {
-        if ( e.which === 13 && !e.shiftKey ) {
-            e.preventDefault();
-            if (!$('#messageInput').val()) {
-                return false;
-            }
-            let message = $('#messageInput').val();
-            $.each(debateMembers, function(index, val) {
-                 if (val.member_id == user_id) {
-                     sendDebateToServer($('#messageInput').val())
-                 } 
-            });
-        }
-    });
 
     function sendDebateToServer(messageInput)
     {
@@ -1737,32 +1748,13 @@ echo '</pre>';
         debateToDownLast()
     }
 
-    itemContainer.slimscroll({ 
-        scrollTo : '500px',
-        start: 'bottom',
-        position: "right",
-        size: "5px",
-        color: "#9ea5ab",
-        width: '100%',
-        wheelStep: 5
-    })
-
-    $('#messageInput').summernote({
-        placeholder: 'placeholder',
-        height: 50,
-        toolbar: false,
-        disableResizeEditor: true,
-    })
-
     function debateToDownLast(){
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
         container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
     }
 
-    $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-       if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
-    })
+    
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
@@ -1987,12 +1979,7 @@ echo '</pre>';
             })
         }
     });
-    $('.summernote').summernote({
-        placeholder: 'placeholder',
-        height: 100,
-        toolbar: false,
-        disableResizeEditor: true,
-    })
+
     $(document).on('click', '#status-accepted-button', function(event) {
         event.preventDefault();
         $('#status-accepted-modal').on('show.bs.modal', function () {
@@ -2168,10 +2155,25 @@ echo '</pre>';
             });
         }
     });
-    socket.on('sendNewStaffToServer', (data) =>  {
-        //$('#nameStaff'+data.specialty).text('')
-        $('#nameStaff'+data.specialty).text(data.name)
-        //$('#change'+data.specialty+"App").modal('hide')
+    socket.on('updateUserStatus', (data) => {
+        //console.clear()
+        let $userStatusIcon = $('.user-status-icon');
+            $userStatusIcon.removeClass('text-success');
+            $userStatusIcon.addClass('text-danger');
+            $userStatusIcon.attr('title', 'Offline');
+        $.each(data, function (key, val) {
+            if (val !== null && val !== 0) {
+                let $userIcon = $(".user-conected-"+key);
+                $userIcon.addClass('text-success');
+                $userIcon.removeClass('text-danger');
+                $userIcon.attr('title','Online');
+            
+            }
+        });
+    });
+    socket.on('sendNewStaffToClient', (data) =>  {
+        var langSpecialty = (user_lang == "es") ? data.lang_es:data.lang_en;
+        $('#nameStaff'+langSpecialty).text(data.staff_name)
     });
 </script>
 @endsection

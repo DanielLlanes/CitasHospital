@@ -174,9 +174,6 @@
                 });
             });
 
-            socket.on('sendNewStaffToServer', (data) => {
-                console.log("data", data);
-            })
             socket.on('sendNewNotificationToClient', (data) => {
                 if (data.staff_id == user_id) {
                     notifyItem(data);

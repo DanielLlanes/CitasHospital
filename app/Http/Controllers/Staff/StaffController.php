@@ -833,7 +833,7 @@ class StaffController extends Controller
             } else {
                 return response()->json(
                     [
-                        'icon' => 'success',
+                        'icon' => 'error',
                         'msg' => Lang::get('No tiene permisos para cambiar la contrseña del usuario seleecionado!'),
                         'reload' => true
                     ]

@@ -70,7 +70,7 @@ class AppController extends Controller
                 $apps = Application::with(
                     [
                         'app_status' => function($q)use($lang){
-                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
+                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
                         },
                         'patient' => function($q){
                             $q->select('name', 'id');
@@ -125,7 +125,7 @@ class AppController extends Controller
                             ->with(
                                 [
                                     'app_status' => function($q)use($lang){
-                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
+                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
                                     },
                                     'patient' => function($q){
                                         $q->select('name', 'id');
@@ -528,7 +528,7 @@ class AppController extends Controller
                 ($oldStaff) ? 'exists:staff,name': null
             ],
         ]);
-        $specialty = $request->specialty;
+        
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -536,6 +536,9 @@ class AppController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+
+        $specialty = $request->specialty;
+
         if ($oldStaff) {
             $oldStaff = Staff::where('name', $request->oldName)->first();
             Application::find($request->app)->assignments()->detach($oldStaff->id);
@@ -543,21 +546,49 @@ class AppController extends Controller
 
         $newStaff = Staff::where('name', $request->name)->first();
 
-        //Application::find($request->app)->assignments()->detach($idOldStaff);
 
         $order = Specialty::where("name_$lang", $specialty)->first();
+        
+        //$selectedStaffSpecialty = (Auth::guard('staff')->user()->lang == 'es' ? $order->name_en:$order->name_es);
+
 
         $setNewStaff[] = [
             'staff_id'=>$newStaff->id, 
             'ass_as' => $order->id,
             'code' => time().uniqid(Str::random(30))
         ];
+
         Application::find($request->app)->assignments()->attach($setNewStaff);
         $saveStaff = $newStaff;
         $saveStaff->last_assignment = date("Y-m-d H:i:s");
-        $saveStaff->save();
 
-        return response()->json($newStaff);
+        $response = [];
+
+        if ($saveStaff->save()) {
+            $date = Carbon::now();
+            $hours = $date->format('g:i A');
+            //$response = [];
+            $response['staff_id'] = $newStaff->id;
+            $response['message'] = "A new application has been assigned to you";
+            $response['application_id'] = $request->app;
+            $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
+            $response['timeDiff'] = $date->diffForHumans();
+            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+            $response['lang_en'] = $order->name_en;
+            $response['lang_es'] = $order->name_es;
+            $response['staff_name'] = $newStaff->name;
+            $app =  Application::find($request->app);
+            $app->notification()->create([
+                'staff_id' => $newStaff->id,
+                'type' => 'New application',
+                'message' => $response['message'],
+                'code' => time().uniqid(Str::random(30)),
+            ]);
+        }
+
+        return response()->json([
+            'response' => $response,
+        ]);
     }
 
     public function getNewStaff(Request $request)
