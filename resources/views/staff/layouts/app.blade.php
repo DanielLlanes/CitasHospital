@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@php
+@php 
     \App::setLocale(Auth::guard('staff')->user()->lang);
     $noCache = '?'.md5(time());
     //$noCache = '';
