@@ -41,8 +41,7 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
             if (count($x) > 0) {return true;}
             return false;
         }
-        
-        //View::share(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages]);
+    
         view()->composer('*', function ($view) 
         {
             date_default_timezone_set('America/Tijuana');
@@ -70,6 +69,7 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     )
                 ->get();
 
+                $idi = ($lang == 'es') ? 'es' : "en";
                 $brands = Brand::select("*")
                 ->whereHas
                     (
@@ -82,8 +82,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     (
                         [
                             'imageOne',
-                            'service' => function($q) use ($lang){
-                                $q->select(["id", "brand_id", "service_$lang AS service"]);
+                            'service' => function($q) use ($lang, $idi){
+                                $q->select(["id", "brand_id", "service_$idi AS service"]);
                             },
                         ]
                     )
