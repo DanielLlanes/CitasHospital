@@ -1398,12 +1398,48 @@ class ApplicationController extends Controller
                     'message' => $response['message'],
                     'code' => $code,
                 ]);
+                //send Email to coordintion
             }
 
-            //send Email to coordintion
+            $other_staff = Staff::whereHas
+            (
+                
+                'specialties', function($q)
+                {
+                   $q->where('specialties.id', '!=', 10);
+                },
+            )
+            ->whereHas
+            (
+                'assignToService', function($q) use($treatment)
+                {
+                    $q->where("services.id", $treatment->service->id);
+                }  
+            )
+            ->orderBy('last_assignment', 'ASC')
+            ->with
+            (
+                [
+                    'specialties',
+                    'assignToService' => function($q)
+                    {
+                        $q->first();
+                    }
+                ]
+            )
+            ->get();
 
-
-            //return;
+            if (count($other_staff) > 0) {
+                foreach ($other_staff as $staff) {
+                    $app->notification()->create([
+                        'staff_id' => $staff->id,
+                        'type' => 'New application',
+                        'message' => $response['message'],
+                        'code' => $code,
+                    ]);
+                    //send Email other staff
+                }
+            }
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;

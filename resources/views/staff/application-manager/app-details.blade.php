@@ -1609,48 +1609,6 @@ echo '</pre>';
         disableResizeEditor: true,
     })
 
-    // $(document).on('click', '[id^="appChange"]', function(event) {
-    //     event.preventDefault();
-    //     var specialty = $(this).attr('id').split("appChange")
-    //     $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
-    //     $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
-    //         $('#getStaff'+specialty[1]).select2({
-    //             dropdownParent: $('#change'+specialty[1]+"App"),
-    //             placeholder: "Select click here",
-    //             allowClear: true,
-    //             ajax: {
-    //                 url: globalRouteGetNewStaff,
-    //                 type: 'post',
-    //                 dataType: 'json',
-    //                 data: function (params) {
-    //                     return {
-    //                         search: params.term, 
-    //                         specialty: specialty[1],
-    //                         app: app_id,
-    //                     }
-    //                 },
-    //                 processResults: function(data) {
-    //                     return {
-    //                         results: $.map(data, function(obj) {
-    //                             return {
-    //                                 id: obj.id,
-    //                                 text: obj.name
-    //                             };
-    //                         })
-    //                     };
-    //                 },
-    //                 cache: true,
-    //             }
-    //         }).on("change", function(e) {
-    //             //$("#getStaff"+specialty[1]).empty()
-    //             var lastValue = $.trim(e.currentTarget.value);
-    //             var lastText = $.trim(e.currentTarget.textContent);
-    //             setNewStaff(lastValue, lastText, specialty[1])
-    //         });
-    //     }).modal('show');
-    // });
-    
-
     function setNewStaff(lastValue, lastText, specialty)
     {
         var form_data = new FormData();
@@ -1813,6 +1771,7 @@ echo '</pre>';
                         }
                     },
                     processResults: function(data) {
+                        console.log("data", data);
                         return {
                             results: $.map(data, function(obj) {
                                 return {
@@ -1857,6 +1816,7 @@ echo '</pre>';
                 },
                 success:function(response)
                 {
+                    console.log("response", response);
                     if (response.success) {
                         $('#change-procedure-p').html(response.name);
                         $('#change-procedure-p').attr('procedure_id', response.id);
@@ -1893,7 +1853,6 @@ echo '</pre>';
         $('#change-package-modal').on('show.bs.modal', function () {
             $('#change-package-select').empty().attr('placeholder', "Select click here").trigger('change')
             $('#change-package-select').select2({
-                dropdownParent: $('#change-package-modal'),
                 placeholder: "Select click here",
                 allowClear: true,
                 ajax: {
@@ -1948,7 +1907,7 @@ echo '</pre>';
                     
                 },
                 success:function(response)
-                {
+                { console.log("response", response);
                     if (response.success) {
                         $('#change-package-p').html(response.name);
                         $('#change-package-p').attr("package_id", response.id);
@@ -1986,7 +1945,6 @@ echo '</pre>';
             $('#accepted-status-select').empty().attr('placeholder', "Select click here").trigger('change')
             $('#accepted-status-select').append('<option selected value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
             $('#accepted-status-select').select2({
-                dropdownParent: $('#status-accepted-modal'),
                 placeholder: "Select click here",
                 allowClear: true,
                 ajax: {
@@ -2105,7 +2063,6 @@ echo '</pre>';
             {
             },
         })
-
     });
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
         if (response.success) {

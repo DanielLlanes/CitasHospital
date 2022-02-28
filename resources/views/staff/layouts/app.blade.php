@@ -308,6 +308,8 @@
                     },
                 })
             }
+            $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+            
         </script>
       </body>
 </body>

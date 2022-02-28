@@ -741,9 +741,9 @@ class AppController extends Controller
         if ($search == '') {
             $procedures = Procedure::whereHas
             (
-                "service", function($q)use($servcio_id)
+                "service", function($q)use($servcio)
                 {
-                    $q->where('id', $servcio_id);
+                    $q->where('id', $servcio->id);
                 },
             )
             ->select('id', "procedure_$lang AS procedure", "has_package")
@@ -752,9 +752,9 @@ class AppController extends Controller
         } else {
             $procedures = Procedure::whereHas
             (
-                "service", function($q)use($servcio_id)
+                "service", function($q)use($servcio)
                 {
-                    $q->where('id', $servcio_id);
+                    $q->where('id', $servcio->id);
                 },
             )
             ->where("procedure_$lang", 'like', '%' .$search . '%')->limit(5)
@@ -769,6 +769,7 @@ class AppController extends Controller
 
     public function setNewProcedure(Request $request)
     {
+        //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
         $app = Application::with(
@@ -802,41 +803,36 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($request->app);
+
         if ($app) {
-            //return $app->treatment;
+            $exist = Treatment::where("procedure_id", $request->id)
+                ->where('package_id', $app->treatment->package->id)
+                ->first();
 
-            $chekIfExist = Service::whereHas
-            (
-                "procedures", function($q)use($lang, $request)
-                {
-                    $q->where("id", $request->id)
-                    ->where("procedure_$lang", $request->name);
-                },
-            )
-            ->find($app->treatment->service->id);
-        }
-        if ($chekIfExist) {
-            $t = Treatment::with('procedure')->find($app->treatment->id);
-            $t->procedure_id = $request->id;
+             
+            if ($exist) {
+                $app->treatment_id = $exist->id;
 
-            if ($t->save()) {
+                if ($app->save()) {
+                    return response()->json([
+                        'success' => true,
+                        'name' => $request->name,
+                        'id' => $request->id,
+                        'has_package' => $app->treatment->procedure->has_package,
+                        "icon" => "success",
+                        "msg" => "La applicaión fue editada con exito"
+                    ]);
+                }
                 return response()->json([
-                    'success' => true,
+                    'success' => false,
                     'name' => $request->name,
                     'id' => $request->id,
                     'has_package' => $app->treatment->procedure->has_package,
-                    "icon" => "success",
-                    "msg" => "La applicaión fue editada con exito"
+                    "icon" => "error",
+                    "msg" => "Debe crear primero el nuevo procedimiento antes de cambiarlo"
                 ]);
-                
             }
 
-            return response()->json([
-                'success' => true,
-                'reload' => false,
-                "icon" => "success",
-                "msg" => "Ocurrio un error intenteo de nuevo"
-            ]);
         }
 
         return response()->json([
@@ -887,27 +883,41 @@ class AppController extends Controller
                             "service" => function($q) use($lang) {
                                 $q->select("service_$lang", "id");
                             },
+                            "package",
                         ]
                     );
                 },
             ]
         )
         ->find( $request->app );
+
         if ($app) {
             if ($app->treatment->procedure->has_package == 1) {
-                $t = Treatment::with('procedure')->find($app->treatment->id);
-                $t->package_id = $request->id;
+                $exist = Treatment::where("procedure_id", $app->treatment->procedure->id)
+                ->where('package_id', $request->id)
+                ->first(); 
 
-                if ($t->save()) {
-                    return response()->json([
-                        'success' => true,
-                        'name' => $request->name,
-                        'id' => $request->id,
-                        'has_package' => $app->treatment->procedure->has_package,
-                        "icon" => "success",
-                        "msg" => "La applicaión fue editada con exito"
-                    ]);
+                if ($exist) {
+                    $app->treatment_id = $exist->id;
+                    if ($app->save()) {
+                        return response()->json([
+                            'success' => true,
+                            'name' => $request->name,
+                            'id' => $request->id,
+                            'has_package' => $app->treatment->procedure->has_package,
+                            "icon" => "success",
+                            "msg" => "La applicaión fue editada con exito"
+                        ]);
+                    }
                 }
+                return response()->json([
+                    'success' => false,
+                    'name' => $request->name,
+                    'id' => $request->id,
+                    'has_package' => $app->treatment->procedure->has_package,
+                    "icon" => "error",
+                    "msg" => "Debe crear primero el nuevo paquete antes de cambiarlo"
+                ]);
             }
             return response()->json([
                 'success' => false,
