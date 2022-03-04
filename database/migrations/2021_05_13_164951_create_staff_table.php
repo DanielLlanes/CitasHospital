@@ -25,7 +25,7 @@ class CreateStaffTable extends Migration
             $table->boolean('active')->default(true);
             $table->boolean('show')->default(true);
             $table->boolean('set_pass')->default(false);
-            $table->string('color')->nullable();
+            $table->string('color')->unique();
             $table->timestamp('last_assignment')->default(date("Y-m-d H:i:s"));
             $table->text('url')->nullable();
             $table->boolean('public_profile')->default(false);

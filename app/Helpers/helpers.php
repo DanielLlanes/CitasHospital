@@ -34,7 +34,14 @@ if (!function_exists('getTreamentImage')) {
         if (!is_null($treatment->load('imageOne')->imageOne)) {
             return $treatment->load('imageOne')->imageOne->image;
         } else {
-            return "staffFiles/assets/img/treatment/no-Image.png";
+            return "staffFiles/assets/img/treatment/no-image-available.jpeg";
         }
+    }
+}
+
+if (!function_exists('getStatus')) {
+    function getStatus($name, $color) {
+        return '<span class="label label-sm text-capitalize" style="background-color: '.$color.'">'.ucwords(str_replace('_', ' ', $name)).'</span>';
+
     }
 }

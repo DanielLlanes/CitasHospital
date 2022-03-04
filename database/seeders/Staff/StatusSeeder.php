@@ -18,60 +18,88 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert([
             [
                 "name_en" => "Waiting",
-                "name_es" => "En espera",
-                "description_en" => "New application",
-                "description_es" => "Aplicación nueva",
+                "name_es" => "En espera",//
+                'color' => "#fdfd96",
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Debate",
                 "name_es" => "Debate",
-                "description_en" => "Application in debate",
-                "description_es" => "Aplicación en debate",
+                'color' => "#84b6f4",//
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Declined",
                 "name_es" => "Declinada",
-                "description_en" => "Declined Application",
-                "description_es" => "Aplicación declinada",
+                'color' => "#ff6961",//
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Second opinion",
                 "name_es" => "Segunda opinión",
-                "description_en" => "Second_opinded",
-                "description_es" => "Segunda opinión",
+                'color' => "#bc98f3",//
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Accepted",
-                "name_es" => "Aceptada",
-                "description_en" => "Application accepted",
-                "description_es" => "Aplicación aceptada",
+                "name_es" => "Aceptada",//
+                'color' => "#77dd77",
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Scheduled",
                 "name_es" => "Agendada",
-                "description_en" => "Scheduled application",
-                "description_es" => "Aplicación agendada",
+                'color' => "#0074A2",
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "In surgery",
                 "name_es" => "En cirugía",
-                "description_en" => "Application in surgery",
-                "description_es" => "Aplicación en cirugía",
+                'color' => "#c7f7f7",
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
                 "name_en" => "Finished",
                 "name_es" => "Finalizada",
-                "description_en" => "Finished application",
-                "description_es" => "Aplicación finalizada",
+                'color' => "#a2a0a1",//
+                "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
-            ]
+            ],
+            [
+                "name_en" => "New",
+                "name_es" => "Nueva",
+                'color' => "#c0a0c3",//
+                "type" => 'Application',
+                'code' => time().uniqid(Str::random(30)),
+            ],
+            [
+                "name_en" => "Cancelled",
+                "name_es" => "Cancelada",
+                'color' => "#e8212e",
+                "type" => 'Event',
+                'code' => time().uniqid(Str::random(30)),
+            ],
+            [
+                "name_en" => "Pospuesta",
+                "name_es" => "Postponed",
+                'color' => "#c9158c",//
+                "type" => 'Event',
+                'code' => time().uniqid(Str::random(30)),
+            ],
+            [
+                "name_en" => "Evaluations",
+                "name_es" => "Valoraciones",
+                'color' => "#fadd41",//
+                "type" => 'Event',
+                'code' => time().uniqid(Str::random(30)),
+            ],
         ]);
     }
 }

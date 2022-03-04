@@ -322,6 +322,8 @@ class StaffController extends Controller
             'color' =>  [
                 'required',
                 'unique:staff',
+                'unique:brands',
+                'unique:statuses',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
 
@@ -592,6 +594,8 @@ class StaffController extends Controller
             'color' =>  [
                 'required',
                 'unique:staff,color,'.$staff->id,
+                'unique:brands',
+                'unique:statuses',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
             "specialties" => "required|array|min:1",

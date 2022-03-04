@@ -3,9 +3,10 @@
 namespace App\Models\Staff;
 
 use App\Models\Site\Application;
+use App\Models\Staff\Status;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
@@ -27,5 +28,9 @@ class Event extends Model
     public function application()
     {
         return $this->belongsTo(Application::class);
+    }
+    public function status()
+    {
+        return $this->morphOne(Status::class, 'statuable');
     }
 }

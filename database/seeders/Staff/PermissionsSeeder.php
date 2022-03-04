@@ -17,6 +17,7 @@ class PermissionsSeeder extends Seeder
     {
 
     	app()["cache"]->forget("spatie.permission.cache");
+        app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
         //Permission list
         //calendar
         Permission::create([

@@ -7,10 +7,12 @@ use App\Models\Staff\ImageMany;
 use App\Models\Staff\Notification;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
+use App\Models\Staff\Procedure;
 use App\Models\Staff\Product;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Status;
 use App\Models\Staff\Treatment;
+use App\Models\Staff\StatusOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -81,12 +83,16 @@ class Application extends Model
     {
         return $this->hasMany(Debate::class);
     }
-    public function app_status()
+    public function statusOne()
     {
-        return $this->belongsToMany(Status::class)->withTimestamps()->withPivot('notes', 'indications', 'recomendations', 'reason');
+        return $this->morphOne(StatusOne::class, 'statusOneable');
     }
     public function notification()
     {
         return $this->morphMany(Notification::class, 'notificationable');
+    }
+    public function recommended()
+    {
+        return $this->hasOne(Procedure::class, 'id', 'recommended_id');
     }
 }

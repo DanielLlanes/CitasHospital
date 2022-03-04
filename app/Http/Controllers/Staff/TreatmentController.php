@@ -91,14 +91,9 @@ class TreatmentController extends Controller
             return DataTables::of($treatment)
                 ->addIndexColumn()
                 ->addColumn('image', function($treatment){
-                    if (is_null($treatment->imageOne)) {
-                        $images = "/staffFiles/assets/img/treatment/no-Image.png";
-                    } else {
-                        $images = $treatment->imageOne->image;
-                    }
                     $image ='
-                            <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:50px" alt="treatment"/>
+                            <a href="'.asset(getTreamentImage($treatment)).'" data-effect="mfp-zoom-in" class="a">
+                                <img src="'.asset(getTreamentImage($treatment)).'" class="img-thumbnail" style="width:50px; height:50px" alt="treatment"/>
                             </a>
                         ';
                     return $image;
@@ -170,6 +165,7 @@ class TreatmentController extends Controller
 
         $has_package = Procedure::selectRaw("has_package")
         ->find($request->procedure);
+        
         $request->request->add(['has_package' => $has_package->has_package]);
 
         $validator = Validator::make($request->all(), [

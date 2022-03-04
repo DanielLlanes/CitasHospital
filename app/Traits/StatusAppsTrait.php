@@ -74,3 +74,7 @@ trait StatusAppsTrait {
         }
     }
 }
+Class StatusAppsTraitForBlade
+{
+    use StatusAppsTrait;
+}

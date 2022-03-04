@@ -52,8 +52,51 @@ class AppController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-
-
+        if (Auth::guard("staff")->user()->can('applications.all')) {
+            $apps = Application::with(
+                [
+                    'statusOne' => function($q)use($lang){
+                        $q->with([
+                            'status' => function($q)use($lang){
+                                $q->select("name_$lang as name", 'id', 'color');
+                            }
+                        ])
+                        ->select("*");
+                    },
+                    'patient' => function($q){
+                        $q->select('name', 'id');
+                    },
+                    'treatment' => function($q) use($lang) {
+                        $q->with(
+                            [
+                                "brand" => function($q){
+                                    $q->select("brand", "id", "color");
+                                },
+                                "service" => function($q) use($lang) {
+                                    $q->select("service_$lang AS service", "id");
+                                },
+                                "procedure" => function($q) use($lang) {
+                                    $q->select("procedure_$lang AS procedure", "id");
+                                },
+                                "package" => function($q) use($lang) {
+                                    $q->select("package_$lang AS package", "id");
+                                },
+                            ]
+                        );
+                    },
+                    'assignments' => function($q) use($lang) {
+                        $q->whereHas(
+                            'specialties', function($q){
+                                $q->where("name_en", "Coordination");
+                            }
+                        );
+                    }
+                ]
+            )
+            ->where('is_complete', true)
+            ->get();
+        }
+        //return $apps[1];
         return view
         (
             'staff.application-manager.list'
@@ -69,8 +112,13 @@ class AppController extends Controller
             if (Auth::guard("staff")->user()->can('applications.all')) {
                 $apps = Application::with(
                     [
-                        'app_status' => function($q)use($lang){
-                            $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                        'statusOne' => function($q)use($lang){
+                            $q->with([
+                                'status' => function($q)use($lang){
+                                    $q->select("name_$lang as name", 'id', 'color');
+                                }
+                            ])
+                            ->select("*");
                         },
                         'patient' => function($q){
                             $q->select('name', 'id');
@@ -105,7 +153,6 @@ class AppController extends Controller
                 ->where('is_complete', true)
                 ->get();
             }
-
             
             if (!Auth::guard("staff")->user()->can('applications.all')) {
                 $services = [];
@@ -124,8 +171,13 @@ class AppController extends Controller
                             $q->where('is_complete', true)
                             ->with(
                                 [
-                                    'app_status' => function($q)use($lang){
-                                        $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->get();
+                                    'statusOne' => function($q)use($lang){
+                                        $q->with([
+                                            'status' => function($q)use($lang){
+                                                $q->select("name_$lang as name", 'id', 'color');
+                                            }
+                                        ])
+                                        ->select("*");
                                     },
                                     'patient' => function($q){
                                         $q->select('name', 'id');
@@ -209,11 +261,13 @@ class AppController extends Controller
                     return '<span>'. $this->datesLangTrait($apps->created_at, Auth::guard('staff')->user()->lang). '</span>';
                 })
                 ->addColumn('precio', function($apps){
-                    return '<span>$ '.$apps->treatment->price.'</span>';
+
+                    $price = ($apps->treatment->price != null ? '$ '.$apps->treatment->price:"-----");
+                    return '<span>'.$price.'</span>';
                 })
                 ->addColumn('status', function($apps){
-                    return $this->statusAppTrait($apps->app_status[0]->name);
-                    //return $apps->app_status[0]->name;
+                    return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
+                    return $apps->statusOne;
                 })
                 ->addColumn('acciones', 'staff.application-manager.actions-list')
                 ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio',  'status', 'acciones'])
@@ -228,8 +282,13 @@ class AppController extends Controller
 
         $applications = Application::with(
             [
-                'app_status' => function($q)use($lang){
-                    $q->select("name_$lang AS name", 'statuses.id')->orderBy('pivot_created_at', 'desc')->first();
+                'statusOne' => function($q)use($lang){
+                    $q->with([
+                        'status' => function($q)use($lang){
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
                 },
                 'patient' => function($q){
                     $q->with(['country', 'state']);
@@ -275,6 +334,9 @@ class AppController extends Controller
                 'hormones',
                 'imageMany',
                 'birthcontrol',
+                'recommended' => function($q) use($lang) {
+                    $q->select("procedure_$lang AS procedure", "id");
+                },
                 'debates' => function($q){
                     $q->with(
                         [
@@ -803,36 +865,68 @@ class AppController extends Controller
             ]
         )
         ->findOrFail($request->app);
-
         if ($app) {
             $exist = Treatment::where("procedure_id", $request->id)
                 ->where('package_id', $app->treatment->package->id)
                 ->first();
-
-             
             if ($exist) {
-                $app->treatment_id = $exist->id;
-
-                if ($app->save()) {
+                if ($request->id == $app->recommended_id) {
+                    $app->treatment_id = $exist->id;
+                    $app->recommended_id = null;
+                    if ($app->save()) {
+                        $app->statusOne->delete($app->statusOne->id);
+                        $app->statusOne()->create(
+                            [
+                                'status_id' => 5,
+                                'indications' => $request->medicalIndications,
+                                'recomendations' => $request->medicalRecommendations,
+                                'code' => time().uniqid(Str::random(30)),
+                            ]
+                        );
+                        $status = Application::select('id')
+                        ->with(
+                                [
+                                    'statusOne' => function($q)use($lang){
+                                        $q->with([
+                                            'status' => function($q)use($lang){
+                                                $q->select("name_$lang as name", 'id', 'color');
+                                            }
+                                        ])
+                                        ->select("*")->orderBy('created_at', 'desc')->first();
+                                    },
+                                ]
+                            )
+                        ->find($request->app);
+                        return response()->json([
+                            'success' => true,
+                            'name' => $request->name,
+                            'id' => $request->id,
+                            'has_package' => $app->treatment->procedure->has_package,
+                            "icon" => "success",
+                            "msg" => "La applicaión fue editada con exito",
+                            "status" => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+                        ]);
+                    }
+                } else {
                     return response()->json([
-                        'success' => true,
+                        'success' => false,
                         'name' => $request->name,
                         'id' => $request->id,
                         'has_package' => $app->treatment->procedure->has_package,
-                        "icon" => "success",
-                        "msg" => "La applicaión fue editada con exito"
+                        "icon" => "error",
+                        "msg" => "Debe seleccionar el procedimiento que recomienda el doctor",
+                        'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
                     ]);
                 }
-                return response()->json([
-                    'success' => false,
-                    'name' => $request->name,
-                    'id' => $request->id,
-                    'has_package' => $app->treatment->procedure->has_package,
-                    "icon" => "error",
-                    "msg" => "Debe crear primero el nuevo procedimiento antes de cambiarlo"
-                ]);
             }
-
+            return response()->json([
+                'success' => false,
+                'name' => $request->name,
+                'id' => $request->id,
+                'has_package' => $app->treatment->procedure->has_package,
+                "icon" => "error",
+                "msg" => "Debe crear primero el nuevo procedimiento antes de cambiarlo"
+            ]);
         }
 
         return response()->json([
@@ -936,9 +1030,9 @@ class AppController extends Controller
 
     public function setStatusAcepted(Request $request)
     {
-        //return $request;
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $validator = Validator::make($request->all(), [
-            //'name' => 'string|required|exists:services,name',
             'id' => 'string|required|exists:services,id',
             'app' => 'required|exists:applications,id',
             'medicalRecommendations' => 'required|string',
@@ -952,23 +1046,114 @@ class AppController extends Controller
             ]);
         }
 
-        DB::table('application_status')->insert([
-            'application_id' => $request->app,
-            'status_id' => "5",
-            'indications' => $request->medicalIndications,
-            'recomendations' => $request->medicalRecommendations,
-            'code' => time().uniqid(Str::random(30)),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        return response()->json([
-            'success' => true,
-            'status' => 'Accepted',
-        ]);
-    }
+        $app = Application::with(
+            [
+                'statusOne' => function($q)use($lang){
+                    $q->with([
+                        'status' => function($q)use($lang){
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
+                },
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "brand" => function($q){
+                                $q->select("brand", "id", "color");
+                            },
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
+                                $q->with(
+                                    [
+                                        'specialties' => function($q) use($lang) {
+                                            $q->select("specialties.id", "name_$lang AS specialty");
+                                        }
+                                    ]
+                                );
+                            },
+                            "procedure" => function($q) use($lang) {
+                                $q->select("procedure_$lang AS procedure", "id", "has_package");
+                            },
+                            "package" => function($q) use($lang) {
+                                $q->select("package_$lang AS package", "id");
+                            },
+                        ]
+                    );
+                },
+            ]
+        )
+        ->find($request->app);
+        if ($app) {
+            $app->statusOne->delete($app->statusOne->id);
+            if ($app->treatment->procedure->id != $request->id) {
+                $app->recommended_id = $request->id;
+                
+                $app->statusOne()->create(
+                    [
+                        'status_id' => 1,
+                        'indications' => $request->medicalIndications,
+                        'recomendations' => $request->medicalRecommendations,
+                        'code' => time().uniqid(Str::random(30)),
+                    ]
+                );
 
+                if ($app->save()) {
+                    $status = Application::with(
+                        [
+                            'statusOne' => function($q)use($lang){
+                                $q->with([
+                                    'status' => function($q)use($lang){
+                                        $q->select("name_$lang as name", 'id', 'color');
+                                    }
+                                ])
+                                ->select("*")->orderBy('created_at', 'desc')->first();
+                            },
+                        ]
+                    )
+                    ->find($request->app);
+                    return response()->json([
+                        'success' => true,
+                        'data' => $app,
+                        'name' => $request->name,
+                        'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+                    ]);
+                }
+            }
+            
+            $app->statusOne()->create(
+                [
+                    'status_id' => 5,
+                    'indications' => $request->medicalIndications,
+                    'recomendations' => $request->medicalRecommendations,
+                    'code' => time().uniqid(Str::random(30)),
+                ]
+            );
+
+            $status = Application::with(
+                [
+                    'statusOne' => function($q)use($lang){
+                        $q->with([
+                            'status' => function($q)use($lang){
+                                $q->select("name_$lang as name", 'id', 'color');
+                            }
+                        ])
+                        ->select("*")->orderBy('created_at', 'desc')->first();
+                    },
+                ]
+            )
+            ->find($request->app);
+
+            return response()->json([
+                'success' => true,
+                'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+            ]);
+        }
+    }
     public function setStatusDeclined(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
         $validator = Validator::make($request->all(), [
             'app' => 'required|exists:applications,id',
             'declinedReazon' => 'required|string',
@@ -981,17 +1166,38 @@ class AppController extends Controller
             ]);
         }
 
-        DB::table('application_status')->insert([
-            'application_id' => $request->app,
-            'status_id' => "3",
-            'reason' => $request->medicalIndications,
-            'code' => time().uniqid(Str::random(30)),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
+        $app = Application::select('id')
+        ->find($request->app);
+        //return $app;
+        $app->statusOne->delete($app->statusOne->id);
+        $app->statusOne()->create(
+            [
+                'status_id' => 3,
+                'reason' => $request->declinedReazon,
+                'code' => time().uniqid(Str::random(30)),
+            ]
+        );
+        
+
+        $app = Application::select('id')
+        ->with(
+                [
+                    'statusOne' => function($q)use($lang){
+                        $q->with([
+                            'status' => function($q)use($lang){
+                                $q->select("name_$lang as name", 'id', 'color');
+                            }
+                        ])
+                        ->select("*")->orderBy('created_at', 'desc')->first();
+                    },
+                ]
+            )
+        ->find($request->app);
+
+
         return response()->json([
             'success' => true,
-            'status' => 'Declined',
+            'status' => getStatus($app->statusOne->status->name, $app->statusOne->status->color),
         ]);
     }
 }

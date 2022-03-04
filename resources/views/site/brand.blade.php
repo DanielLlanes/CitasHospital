@@ -55,7 +55,7 @@
                                         @else
                                             <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         @endif --}}
-                                            <img src="{{ getTreamentImage($treatment) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
+                                            <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>

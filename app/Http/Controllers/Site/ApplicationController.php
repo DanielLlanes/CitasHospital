@@ -1370,7 +1370,7 @@ class ApplicationController extends Controller
             )
             ->first();
 
-
+            $newMessage = "A new application has been assigned to you";
             $response = [];
             if ($assignment_staff) {
                 $assignment[] = [
@@ -1385,8 +1385,9 @@ class ApplicationController extends Controller
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
                 //$response = [];
+                
                 $response['staff_id'] = $assignment_staff->id;
-                $response['message'] = "A new application has been assigned to you";
+                $response['message'] = $newMessage;
                 $response['application_id'] = $getData->id;
                 $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
                 $response['timeDiff'] = $date->diffForHumans();
@@ -1395,7 +1396,7 @@ class ApplicationController extends Controller
                 $app->notification()->create([
                     'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
-                    'message' => $response['message'],
+                    'message' => $newMessage,
                     'code' => $code,
                 ]);
                 //send Email to coordintion
@@ -1434,7 +1435,7 @@ class ApplicationController extends Controller
                     $app->notification()->create([
                         'staff_id' => $staff->id,
                         'type' => 'New application',
-                        'message' => $response['message'],
+                        'message' => $newMessage,
                         'code' => $code,
                     ]);
                     //send Email other staff
@@ -1445,13 +1446,12 @@ class ApplicationController extends Controller
             $app->is_complete = true;
 
             if ($app->save()) {
-                DB::table('application_status')->insert([
-                    'application_id' => $app->id,
-                    'status_id' => "1",
-                    'code' => $code,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
+                $app->statusOne()->create(
+                    [
+                        'status_id' => 9,
+                        'code' => $code
+                    ]
+                );
             }
 
 

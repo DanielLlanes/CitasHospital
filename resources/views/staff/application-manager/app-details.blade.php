@@ -1,4 +1,5 @@
 @inject('DatesLangTrait', 'App\Traits\DatesLangTraitForBlade')
+@inject('StatusAppsTrait', 'App\Traits\StatusAppsTraitForBlade')
 
 @extends('staff.layouts.app')
 @section('title')
@@ -81,7 +82,7 @@ echo '</pre>';
                             <div class="row">
                                 <div class="col-12 mb-2 text-center" id="current-status-area-div"> <strong>Current Status</strong>
                                     <br>
-                                    <p id="current-status-p"></p>
+                                    <p id="current-status-p">{!!  getStatus($appInfo->statusOne->status->name, $appInfo->statusOne->status->color) !!}</p>
                                 </div>
                                 <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                     <br>
@@ -232,15 +233,35 @@ echo '</pre>';
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Procedimiento</strong>
                                             <br>
                                             <p class="text-muted" procedure_id="{{ $appInfo->treatment->procedure->id }}" id="change-procedure-p">{{ $appInfo->treatment->procedure->procedure }}</p>
-                                            <p><button id="change-procedure-button" class="btn btn-warning btn-sm">Change</button></p>
+                                                @if ($appInfo->statusOne->status->id == 5 && !is_null($appInfo->recommended_id))
+                                                    {{-- <p><button id="change-procedure-button" class="btn btn-warning btn-sm">Change</button></p> --}}
+                                                @endif
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Paquete</strong>
                                             <br>
                                             <p class="text-muted" id="change-package-p" package_id="{{ $appInfo->treatment->package->id ?? '' }}">
-                                                {!! (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package . ' <p><button id="change-package-button" class="btn btn-warning btn-sm">Change</button></p>') !!}
+                                                {!! (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) !!}
+                                                @if (!is_null($appInfo->treatment->package))
+                                                    <p><button id="change-package-button" class="btn btn-warning btn-sm">Change</button></p>
+                                                @endif
                                             </p>
                                         </div>
                                     </div>
+                                        <div class="row" id="recommended-procedure-row">
+                                    @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
+                                            <div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: <span>{{ $appInfo->recommended->procedure }}</span></strong>
+                                                <br>
+                                                <div class="form-group form-check">
+                                                   <input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">
+                                                   <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
+                                                 </div>
+                                            </div>
+                                            {{-- <div class="col-6 mb-2 b-r"> <strong>Servicio</strong>
+                                                <br>
+                                                <p class="text-muted">{{ $appInfo->treatment->service->service }}</p>
+                                            </div> --}}
+                                    @endif
+                                        </div>
                                     @if (count($appInfo->imageMany) > 0)
                                         Área de imágenes
                                         <div class="row" id="imageRow">
@@ -1634,7 +1655,6 @@ echo '</pre>';
             },
             success:function(response)
             {
-                //console.log("response", response);
                 $('#nameStaff'+specialty).text(response.response.staff_name)
                 
                 socket.emit('sendNewStaffToServer', response.response);
@@ -1771,7 +1791,6 @@ echo '</pre>';
                         }
                     },
                     processResults: function(data) {
-                        console.log("data", data);
                         return {
                             results: $.map(data, function(obj) {
                                 return {
@@ -1790,7 +1809,6 @@ echo '</pre>';
     $(document).on('click', '#confirm-change-procedure-button', function(event) {
         event.preventDefault();
         var data = $('#change-procedure-select').select2('data');
-        console.log("data", data);
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text
@@ -1816,7 +1834,6 @@ echo '</pre>';
                 },
                 success:function(response)
                 {
-                    console.log("response", response);
                     if (response.success) {
                         $('#change-procedure-p').html(response.name);
                         $('#change-procedure-p').attr('procedure_id', response.id);
@@ -1828,6 +1845,9 @@ echo '</pre>';
                         } else {
                             $('#change-procedure-button').show('fast');
                         }
+                        $("#recommended-procedure-span").html('')
+                        $("#recommended-procedure-row").html('')
+                        $("#current-status-p").html(response.status)
                         socket.emit('sendChangeAppProcedureToServer', response);
                         socket.emit('updateDataTablesToServer');
                     } 
@@ -1883,7 +1903,6 @@ echo '</pre>';
     $(document).on('click', '#confirm-change-package-button', function(event) {
         event.preventDefault();
         var data = $('#change-package-select').select2('data');
-        console.log("data", data);
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text
@@ -1907,7 +1926,7 @@ echo '</pre>';
                     
                 },
                 success:function(response)
-                { console.log("response", response);
+                {
                     if (response.success) {
                         $('#change-package-p').html(response.name);
                         $('#change-package-p').attr("package_id", response.id);
@@ -1976,7 +1995,6 @@ echo '</pre>';
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
         var data = $('#accepted-status-select').select2('data');
-        console.log("data", data);
         //return
         if (data.length > 0) {
             var id = data[0].id
@@ -2006,11 +2024,27 @@ echo '</pre>';
                 },
                 success:function(response)
                 {
+
                     console.log("response", response);
                     if (response.success) {
-                        //socket.emit('sendChangeAppStatusToServer', response);
+                        $("#recommended-procedure-span").html('')
+                        $("#recommended-procedure-row").html('')
                         $('#status-accepted-modal').modal('hide')
+                        $("#current-status-p").html(response.status)
                         socket.emit('updateDataTablesToServer');
+                    }
+                    if (response.hasOwnProperty('data')) {
+                        var recommended = "";
+                        recommended += '<div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: </strong>';
+                            recommended += '<br>';
+                            recommended += '<div class="form-group form-check">';
+                               recommended += '<input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">';
+                               recommended += '<label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>';
+                             recommended += '</div>';
+                        recommended += '</div>';
+                        var btn = ""
+                        $("#recommended-procedure-span").html(response.name)
+                        $("#recommended-procedure-row").html(recommended)
                     }
                 },
                 complete: function()
@@ -2020,9 +2054,22 @@ echo '</pre>';
 
         } else {
             $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
-            console.log("alert", 'alert');
         }
     });
+
+    $(document).on('change', "#recommended-procedure-checkbox", function () {
+        if ($(this).is(":checked")) {
+            var btn = ""
+            btn += '<p><button id="change-procedure-button" class="btn btn-warning btn-sm">Change</button></p>';
+            if ( $("#change-procedure-p") ) {
+              $("#change-procedure-p").append(btn);
+            }
+            
+        } else {
+            $('#change-procedure-button').remove();
+        }
+    });
+
     $(document).on('click', '#status-declined-button', function(event) {
         event.preventDefault();
         $('#status-declined-modal').on('show.bs.modal', function () {
@@ -2053,11 +2100,14 @@ echo '</pre>';
             },
             success:function(response)
             {
-
-                console.log("response", response);
+                $("#current-status-p").html(response.status)
                 socket.emit('updateDataTablesToServer');
-                //socket.emit('sendChangeAppStatusToServer', response);
-                $('#status-declined-modal').modal('hide')
+                socket.emit('sendChangeAppStatusToServer', response);
+                $('#status-declined-modal').modal('hide');
+                $('#status-accepted-button').prop('disabled', true);
+                $('#status-declined-button').prop('disabled', true);
+                $('#confirm-status-declined-button').prop('disabled', true);
+                $('#confirm-status-acepted-button').prop('disabled', true);
             },
             complete: function()
             {
@@ -2131,6 +2181,15 @@ echo '</pre>';
     socket.on('sendNewStaffToClient', (data) =>  {
         var langSpecialty = (user_lang == "es") ? data.lang_es:data.lang_en;
         $('#nameStaff'+langSpecialty).text(data.staff_name)
+    });
+    socket.on('sendChangeAppPackageToClient', (response) =>  {
+        $("#current-status-p").html(response.status)
+        $('#status-accepted-button').prop('disabled', true);
+        $('#status-declined-button').prop('disabled', true);
+        $('#status-declined-modal').modal('hide');
+        $('#status-accepted-modal').modal('hide')
+        $('#confirm-status-declined-button').prop('disabled', true);
+        $('#confirm-status-acepted-button').prop('disabled', true);
     });
 </script>
 @endsection

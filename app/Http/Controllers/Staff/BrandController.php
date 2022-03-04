@@ -63,7 +63,7 @@ class BrandController extends Controller
                         return $image;
                 })
                 ->addColumn('brand', function($brands){
-                    return '<span class"text-uppercase" style="font-weight: 500; color: '.$brands->color.'">'.$brands->brand.'</span>';;
+                    return '<span class="label label-sm text-capitalize" style="background-color: '.$brands->color.'">'.ucfirst($brands->brand).'</span>';
                 })
                 ->addColumn('acronym', function($brands){
                     return $brands->acronym;
@@ -106,6 +106,7 @@ class BrandController extends Controller
                 'required',
                 'unique:brands',
                 'unique:staff',
+                'unique:statuses',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
             'image' => "sometimes|image|mimes:jpg,png,jpeg",
@@ -216,6 +217,7 @@ class BrandController extends Controller
                     'required',
                     'unique:brands,color,'.$request->id.',id',
                     'unique:staff',
+                    'unique:statuses',
                     'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
                 ],
                 'description_en' => 'required|string',

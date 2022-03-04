@@ -17,8 +17,7 @@ class Status extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function status_apps()
-    {
-        return $this->belongsToMany(Application::class);
-    }
+    protected $fillable = ['status_id','indications','recomendations','reason','code'];
+
+
 }

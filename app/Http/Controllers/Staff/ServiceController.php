@@ -71,7 +71,7 @@ class ServiceController extends Controller
                     return $service->service;
                 })
                 ->addColumn('brand', function($service){
-                    return '<span style="font-weight: 500; color: '.$service->brand->color.'">'.$service->brand->brand.'</span>';
+                    return '<span class="label label-sm text-capitalize" style="background-color: '.$service->brand->color.'">'.ucfirst($service->brand->brand).'</span>';
                 })
                 ->addColumn('need_images', function($service){
                     $need_images = '';

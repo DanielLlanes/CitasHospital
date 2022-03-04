@@ -49,7 +49,12 @@ io.on('connection', (socket) => {
 
     socket.on('updateDataTablesToServer', function() { //update datatables
         socket.emit('updateDataTablesToClient');
+        socket.emit('updateDataTablesToClient');
     });
+
+    socket.on('sendChangeAppStatusToServer', function(data){
+        socket.emit('sendChangeAppStatusToclient', data)
+    })
 });
 
 server.listen(3000, () => {
