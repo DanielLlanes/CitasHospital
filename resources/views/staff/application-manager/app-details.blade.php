@@ -1957,7 +1957,6 @@ echo '</pre>';
             })
         }
     });
-
     $(document).on('click', '#status-accepted-button', function(event) {
         event.preventDefault();
         $('#status-accepted-modal').on('show.bs.modal', function () {
@@ -2056,7 +2055,6 @@ echo '</pre>';
             $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
         }
     });
-
     $(document).on('change', "#recommended-procedure-checkbox", function () {
         if ($(this).is(":checked")) {
             var btn = ""
@@ -2069,7 +2067,6 @@ echo '</pre>';
             $('#change-procedure-button').remove();
         }
     });
-
     $(document).on('click', '#status-declined-button', function(event) {
         event.preventDefault();
         $('#status-declined-modal').on('show.bs.modal', function () {

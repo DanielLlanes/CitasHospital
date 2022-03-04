@@ -299,9 +299,10 @@
                 locale: initialLocaleCode,
                 navLinks: true,
                 dayMaxEvents: true,
-                editable: true, //allow resize events
+                editable: false, //allow resize events
                 eventDisplay: 'block',
                 @can('calendar.edit')
+                    editable: true,
                     eventDrop: function(info) {
                         var check = moment(info.event.start).format('YYYY-MM-DD');
                         var today = moment(new Date()).format('YYYY-MM-DD');

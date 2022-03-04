@@ -42,7 +42,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('treatment.list')  
+                @can('calendar.list')  
                     <li class="nav-item  ">
                         <a href="{{ route('staff.events.events') }}" class="nav-link nav-toggle"> <i class="material-icons">event_available</i>
                             <span class="title">@lang('Calendar')</span>

@@ -364,6 +364,7 @@ class ApplicationController extends Controller
         $lang = app()->getLocale();
         $treatment = Session::get('treatment');
 
+
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
@@ -1435,7 +1436,7 @@ class ApplicationController extends Controller
                     $app->notification()->create([
                         'staff_id' => $staff->id,
                         'type' => 'New application',
-                        'message' => $newMessage,
+                        'message' => 'Hay una nueva aplicación de ' .$treatment->service->service,
                         'code' => $code,
                     ]);
                     //send Email other staff
@@ -1477,7 +1478,6 @@ class ApplicationController extends Controller
 
         return $states;
     }
-
     public function chekIfPatientExist(Request $request)
     {
         $patient = Patient::where('email', $request->email)
@@ -1500,7 +1500,6 @@ class ApplicationController extends Controller
             );
         }
     }
-
     public function globalRouteDeleteSessionVar(Request $request)
     {
         if(Session::has('form_session'))
@@ -1514,7 +1513,6 @@ class ApplicationController extends Controller
             return response()->json(1);
         }
     }
-
     public function application()
     {
         return view
