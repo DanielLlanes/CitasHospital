@@ -1084,6 +1084,7 @@ class AppController extends Controller
             ]
         )
         ->find($request->app);
+        
         if ($app) {
             $app->statusOne->delete($app->statusOne->id);
             if ($app->treatment->procedure->id != $request->id) {
@@ -1144,6 +1145,8 @@ class AppController extends Controller
             )
             ->find($request->app);
 
+            $status->recommended_id = null;
+            $status->save();
             return response()->json([
                 'success' => true,
                 'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
@@ -1193,7 +1196,8 @@ class AppController extends Controller
                 ]
             )
         ->find($request->app);
-
+        $app->recommended_id = null;
+        $app->save();
 
         return response()->json([
             'success' => true,

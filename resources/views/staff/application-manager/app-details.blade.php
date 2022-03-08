@@ -249,6 +249,7 @@ echo '</pre>';
                                     </div>
                                         <div class="row" id="recommended-procedure-row">
                                     @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
+                                        @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
                                             <div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: <span>{{ $appInfo->recommended->procedure }}</span></strong>
                                                 <br>
                                                 <div class="form-group form-check">
@@ -256,10 +257,7 @@ echo '</pre>';
                                                    <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
                                                  </div>
                                             </div>
-                                            {{-- <div class="col-6 mb-2 b-r"> <strong>Servicio</strong>
-                                                <br>
-                                                <p class="text-muted">{{ $appInfo->treatment->service->service }}</p>
-                                            </div> --}}
+                                        @endif
                                     @endif
                                         </div>
                                     @if (count($appInfo->imageMany) > 0)
@@ -1535,9 +1533,7 @@ echo '</pre>';
 <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
 
 <script>
-
     var itemContainer = $(".nice-chat");
-
     var globalRouteSetNewStaff = "{{ route('staff.applications.setNewStaff') }}";
     var globalRouteGetNewStaff = "{{ route('staff.applications.getNewStaff') }}";
     var globalRouteSendDebateMessage = "{{ route('staff.applications.sendDebateMessage') }}";
@@ -1550,6 +1546,7 @@ echo '</pre>';
 
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
+    var canChangeProcedure = "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}";
     var date = new Date();   //Creates date object
     var hours = date.getHours();   //get hour using date object
     var minutes = date.getMinutes();    //get minutes using date object
@@ -2030,11 +2027,11 @@ echo '</pre>';
                         $("#recommended-procedure-row").html('')
                         $('#status-accepted-modal').modal('hide')
                         $("#current-status-p").html(response.status)
-                        socket.emit('updateDataTablesToServer');
+                        
                     }
                     if (response.hasOwnProperty('data')) {
                         var recommended = "";
-                        recommended += '<div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: </strong>';
+                        recommended += '<div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: '+response.name+'</strong>';
                             recommended += '<br>';
                             recommended += '<div class="form-group form-check">';
                                recommended += '<input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">';
@@ -2045,6 +2042,8 @@ echo '</pre>';
                         $("#recommended-procedure-span").html(response.name)
                         $("#recommended-procedure-row").html(recommended)
                     }
+                    socket.emit('updateDataTablesToServer');
+                    socket.emit('sendChangeAppStatusToServer', response);
                 },
                 complete: function()
                 {
@@ -2101,10 +2100,10 @@ echo '</pre>';
                 socket.emit('updateDataTablesToServer');
                 socket.emit('sendChangeAppStatusToServer', response);
                 $('#status-declined-modal').modal('hide');
-                $('#status-accepted-button').prop('disabled', true);
-                $('#status-declined-button').prop('disabled', true);
-                $('#confirm-status-declined-button').prop('disabled', true);
-                $('#confirm-status-acepted-button').prop('disabled', true);
+                // $('#status-accepted-button').prop('disabled', true);
+                // $('#status-declined-button').prop('disabled', true);
+                // $('#confirm-status-declined-button').prop('disabled', true);
+                // $('#confirm-status-acepted-button').prop('disabled', true);
             },
             complete: function()
             {
@@ -2179,12 +2178,27 @@ echo '</pre>';
         var langSpecialty = (user_lang == "es") ? data.lang_es:data.lang_en;
         $('#nameStaff'+langSpecialty).text(data.staff_name)
     });
-    socket.on('sendChangeAppPackageToClient', (response) =>  {
+    socket.on('sendChangeAppStatusToclient', (response) =>  {
         $("#current-status-p").html(response.status)
+        $('#status-declined-modal').modal('hide');
+        $('#status-accepted-modal').modal('hide');
+        if (response.hasOwnProperty('data')) {
+            var recommended = "";
+            recommended += '<div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: '+response.name+'</strong>';
+                recommended += '<br>';
+                recommended += '<div class="form-group form-check">';
+                   recommended += '<input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">';
+                   recommended += '<label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>';
+                 recommended += '</div>';
+            recommended += '</div>';
+            var btn = ""
+            if ( "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}" == 1) {
+                $("#recommended-procedure-span").html(response.name)
+                $("#recommended-procedure-row").html(recommended)
+            }
+        }
         $('#status-accepted-button').prop('disabled', true);
         $('#status-declined-button').prop('disabled', true);
-        $('#status-declined-modal').modal('hide');
-        $('#status-accepted-modal').modal('hide')
         $('#confirm-status-declined-button').prop('disabled', true);
         $('#confirm-status-acepted-button').prop('disabled', true);
     });

@@ -150,7 +150,8 @@
                 }
             });
             var dataTablesLangEs;
-            var senderSound = '{{ asset('sounds/facebook-pop.mp3') }}'
+            var notification_new = '{{ asset('sounds/facebook-pop.mp3') }}'
+            var message_new = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
             var lang = '{{\Auth::guard('staff')->user()->lang}}'
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
@@ -162,7 +163,6 @@
             socket.on('connect', function() {
                socket.emit('user_connected', user_id);
             });
-            var reciverSound = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
             
             socket.on('sendMesageDebateToClient', (data) => {
                 let $notifyAra = $('.debateNotifications')
@@ -190,9 +190,8 @@
                 notifyList += '</a>'
                 notifyList += '</li>'
 
-
                 $('.notyNotifications').prepend(notifyList);
-                beep( senderSound )
+                beep( notification_new )
             }
 
             function debateItem($thisData, data){
@@ -222,7 +221,7 @@
                     'margin-inline-start': '0'
                 });
                 $('.debateNotifications').prepend(debateList);
-                beep( reciverSound )
+                beep( message_new )
             }
         </script>
         <script>
@@ -285,31 +284,7 @@
             });
         </script>
         <script>
-            setInterval(redirectToLogin, 60000);
-
-            function redirectToLogin() {
-                var form_data = '';
-                $.ajax({
-                    url: globalRouteChechSession,
-                    method:"POST",
-                    data:form_data,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    success:function(response)
-                    {
-                        if (!response.status) {
-                            location.reload();
-                        }
-                    },
-                })
-            }
             $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-            
         </script>
       </body>
 </body>

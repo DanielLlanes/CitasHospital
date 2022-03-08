@@ -156,6 +156,7 @@
 
             socket.on('updateDataTablesToClient', () =>  {
                 applicationsTable.ajax.reload( null, false );
+                console.log("works")
             });
 
             $(document).on('click', '#formCancel', function () {
