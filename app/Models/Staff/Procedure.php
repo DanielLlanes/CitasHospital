@@ -31,4 +31,8 @@ class Procedure extends Model
     {
         return $this->belongsToMany(Staff::class)->withPivot('order')->withTimestamps();
     }
+    public function descriptionone()
+    {
+        return $this->morphOne(DescriptionOne::class, 'descriptionOneable');
+    }
 }

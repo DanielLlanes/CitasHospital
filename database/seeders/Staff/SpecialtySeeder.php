@@ -18,7 +18,6 @@ class SpecialtySeeder extends Seeder
         Specialty::create([
             'id' => '1',
             'role_id' => '1',
-            
             'name_es' => 'Soporte Técnico',
             'name_en' => 'Tech support',
             'active' => true,

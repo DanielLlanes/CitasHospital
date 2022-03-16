@@ -6,6 +6,7 @@ use Database\Seeders\Site\CountrySeeder;
 use Database\Seeders\Site\FaqSeeder;
 use Database\Seeders\Site\StateSeeder;
 use Database\Seeders\Staff\BrandSeeder;
+use Database\Seeders\Staff\DescriptionOneSeeder;
 use Database\Seeders\Staff\PackageSeeder;
 use Database\Seeders\Staff\PaymentMethodSeeder;
 use Database\Seeders\Staff\PermissionsSeeder;
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
         $this->call(FaqSeeder::class);
         $this->call(PaymentMethodSeeder::class);
         $this->call(StatusSeeder::class);
+        $this->call(DescriptionOneSeeder::class);
         //$this->call(DummySeeder::class);
     }
 }

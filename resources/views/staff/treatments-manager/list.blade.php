@@ -119,27 +119,29 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="price" id="price"  class="form-control input-sm" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" placeholder="@lang('Enter price')"/>
+                                                        <input type="text" name="price" id="price"  class="form-control input-sm floatTextBox" placeholder="@lang('Enter price')"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group mb-3">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description English')
-                                                    <span class="required"> * </span>
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Includes')
+                                                        <span class="required">  </span>
                                                     </label>
-                                                    <div class="col-md-12">
-                                                        <textarea name="address" class="form-control-textarea" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                                    <div class="col-md-12 includes" id="includes">
+                                                        {{-- <input type="text" name="price" id="price"  class="form-control input-sm" placeholder="@lang('Enter Include En')"/>
                                                         <div class="error text-danger col-form-label-sm"></div>
+                                                        <input type="text" name="price" id="price"  class="form-control input-sm" placeholder="@lang('Enter Include Es')"/>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                       <div class="d-flex justify-content-end">
+                                                           <button type="button" class="btn btn-danger btn-flat btn-sm" id="btn-delete-includes">Remove Includes <i class="material-icons" style="font-size: 8px">remove_circle</i>
+                                                           </button>
+                                                       </div>
+                                                       <hr> --}}
                                                     </div>
                                                 </div>
-                                                <div class="form-group mb-3">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <textarea name="address" class="form-control-textarea" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
+                                                <div class="col-md-12 d-flex justify-content-end mt-5">
+                                                    <button type="button" class="btn btn-success btn-sm" id="btn-add-includes">Add Includes <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
+                                                    </button>
                                                 </div>
                                            </div>
                                            <div class="form-group">
@@ -200,7 +202,13 @@
         var globalRouteDeleteFile = "{{ route('staff.treatments.imageDestroy') }}";
 
         $(document).ready(function () {
-
+            addIncludes()
+            $('.form-body').slimscroll({ 
+                height: $('#form_sample_1').height(),
+                position: "right",
+                size: "5px",
+                color: "#9ea5ab",
+            })
             var codigo = 1;
 		    var treatmentsTable = $('#treatmentsTable').DataTable({
 				responsive: true,
@@ -235,35 +243,30 @@
 		        },
 		    });
 
-            var toolBar =  [
-                ['font', ['bold', 'italic']],
-                ['para', ['ul', 'ol']],
-              ]
-
-            $('#description_en').summernote({
-                placeholder: 'Description en',
-                height: 100,
-                toolbar: toolBar,
-                disableResizeEditor: true,
-            })
-            $('#description_es').summernote({
-                placeholder: 'Description es',
-                height: 100,
-                toolbar: toolBar,
-                disableResizeEditor: true,
-            })
+            
 
             $(document).on("click", "#formSubmit", function () {
                 $('.error').html('')
                 var form_data = new FormData();
-                form_data.append('brand', $('#brand').attr('data-id'))
+                //form_data.append('brand', $('#brand').attr('data-id'))
                 form_data.append('service', $('#service').attr('data-id'))
                 form_data.append('procedure', $('#procedure').attr('data-id'))
                 form_data.append('package', $('#package').attr('data-id'))
                 form_data.append('price', $('#price').val())
-                form_data.append('description_en', $('#description_en').val());
-                form_data.append('description_es', $('#description_es').val());
                 form_data.append('image', $('#image').prop('files')[0])
+                var include_es = [];
+                var include_en = [];
+
+                $('#includes .include').each(function(index, el) {
+                    var en = $(this).find('.includes_en').prop('id', 'include_en_'+index);
+                    var es = $(this).find('.includes_es').prop('id', 'include_es_'+index);
+                        include_en.push({include_en: en.val()})
+                        include_es.push({include_es: es.val()})
+                });
+
+                form_data.append('includes_en', JSON.stringify(include_en))
+                form_data.append('includes_es', JSON.stringify(include_es))
+                
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -292,6 +295,7 @@
 
                             $.each( data.errors, function( key, value ) {
                                 kFormat = key.replace(".", "_");
+                                console.log("kFormat", kFormat);
                                 $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
                                 $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                             });
@@ -299,7 +303,15 @@
                     },
                     error: function (err)
                     {
-                        console.log('err', err)
+                        //console.clear()
+                        var data = err.responseJSON;
+                        console.log("data", data);
+                        $.each( data.errors, function( key, value ) {
+                            kFormat = key.replace(".", "_");
+                            console.log("kFormat", kFormat);
+                            $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
+                            $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
+                        });
                     },
                     complete: function()
                     {
@@ -574,10 +586,19 @@
                                 $('#package').parents('.pack_div').hide('fast').val('').removeAttr('data-id')
                             }
                             $('#price').val(data.info.price);
-                            $('#description_en').val(data.info.description_en);
-                            $('#description_es').val(data.info.description_es);
-                            $('#description_en').summernote('code', data.info.description_en);
-                            $('#description_es').summernote('code', data.info.description_es);
+
+                            if (data.info.contains.length > 0) {
+                                    $("#includes").html('')
+                                $.each(data.info.contains, function(index, val) {
+                                    console.log("val", val);
+                                    console.log("index", index);
+                                    addIncludesEdit(val)
+                                });
+                            } else {
+                                $("#includes").html('');
+                                addIncludes()
+                            }
+
                             $('#formSubmit').html('edit').attr({
                                 product: $.trim(productId),
                                 id: 'formEdit'
@@ -616,6 +637,18 @@
                 form_data.append('image', $('#image').prop('files')[0])
                 form_data.append('id_image', $('#image').attr('data-id'))
                 form_data.append('id', $(this).attr('product'));
+                var include_es = [];
+                var include_en = [];
+
+                $('#includes .include').each(function(index, el) {
+                    var en = $(this).find('.includes_en').prop('id', 'include_en_'+index);
+                    var es = $(this).find('.includes_es').prop('id', 'include_es_'+index);
+                        include_en.push({include_en: en.val()})
+                        include_es.push({include_es: es.val()})
+                });
+
+                form_data.append('includes_en', JSON.stringify(include_en))
+                form_data.append('includes_es', JSON.stringify(include_es))
                 $.ajax({
                     url: globalRouteUpdate,
                     method:"POST",
@@ -719,7 +752,17 @@
                     {
                     },
                 })
-                
+            });
+
+            $(document).on('click', '#btn-add-includes', function(event) {
+                event.preventDefault();
+                addIncludes()
+            });
+
+            $(document).on('click', '#btn-delete-includes', function(event) {
+                event.preventDefault();
+                $(this).parents('.include').remove();
+                if ($('.include').length == 0) {addIncludes()}
             });
 
             function deleteRecord(id)
@@ -776,13 +819,45 @@
                 .removeAttr('service')
                 .html('Add')
                 .attr('id', 'formSubmit')
-                $('#description_en').summernote('code', '');
-                $('#description_es').summernote('code', '');
                 clearDropify()
+                $("#includes").html('');
+                addIncludes()
                 $('#image').removeAttr('data-id');
                 $('form').removeAttr('treatments')
             }
+            function addIncludes(){
+                let includes = '';
+                includes += '<div class="include">'
+                includes += '<input type="text" name="includes_en[]" class="form-control input-sm includes_en" placeholder="@lang('Enter Include En')"/>';
+                includes += '<div class="error text-danger col-form-label-sm"></div>';
+                includes += '<input type="text" name="includes_es[]" class="form-control input-sm includes_es" placeholder="@lang('Enter Include Es')"/>';
+                includes += '<div class="error text-danger col-form-label-sm"></div>';
+                includes += '<div class="d-flex justify-content-end">';
+                   includes += '<button type="button" class="btn btn-danger btn-flat btn-sm ml-auto" id="btn-delete-includes">Remove Includes <i class="material-icons" style="font-size: 8px">remove_circle</i>';
+                   includes += '</button>';
+                includes += '</div>';
+                includes += '<hr>';
+                includes += '</div>';
 
+                $("#includes").append(includes);
+            }
+            function addIncludesEdit(contain){
+
+                let includes = '';
+                includes += '<div class="include">'
+                includes += '<input type="text" name="includes_en[]" value="'+contain.contain_en+'" class="form-control input-sm includes_en" placeholder="@lang('Enter Include En')"/>';
+                includes += '<div class="error text-danger col-form-label-sm"></div>';
+                includes += '<input type="text" name="includes_es[]" value="'+contain.contain_es+'" class="form-control input-sm includes_es" placeholder="@lang('Enter Include Es')"/>';
+                includes += '<div class="error text-danger col-form-label-sm"></div>';
+                includes += '<div class="d-flex justify-content-end">';
+                   includes += '<button type="button" class="btn btn-danger btn-flat btn-sm ml-auto" id="btn-delete-includes">Remove Includes <i class="material-icons" style="font-size: 8px">remove_circle</i>';
+                   includes += '</button>';
+                includes += '</div>';
+                includes += '<hr>';
+                includes += '</div>';
+
+                $("#includes").append(includes);
+            }
         });
 
     </script>

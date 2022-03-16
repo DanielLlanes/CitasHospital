@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Models\Staff\Contain;
 use App\Models\Staff\Procedure;
 use App\Models\Staff\Service;
 use App\Models\Staff\Treatment;
 use App\Models\Staff\imageOne;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Yajra\DataTables\DataTables;
@@ -37,7 +40,7 @@ class TreatmentController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
-        $treatment = Treatment::selectRaw("id, brand_id, service_id, procedure_id, package_id, price, description_$lang description")
+        $treatment = Treatment::selectRaw("id, brand_id, service_id, procedure_id, package_id, price")
         ->with
         (
             [
@@ -53,7 +56,8 @@ class TreatmentController extends Controller
                 'package' => function($q) use ($lang){
                     $q->selectRaw("id, package_$lang package");
                 },
-                'imageOne'
+                'imageOne',
+                'contains',
             ]
         )
         ->get();
@@ -86,7 +90,7 @@ class TreatmentController extends Controller
                     },
                 ]
             )
-            ->selectRaw("id, brand_id, service_id, procedure_id, package_id, price, active, description_$lang description")
+            ->selectRaw("id, brand_id, service_id, procedure_id, package_id, price, active")
             ->get();
             return DataTables::of($treatment)
                 ->addIndexColumn()
@@ -122,7 +126,7 @@ class TreatmentController extends Controller
                     }
                 })
                 ->addColumn('description', function($treatment){
-                    return $treatment->description;
+                    return "xD";
                 })
                 ->addColumn('active', function($treatment){
                     $table_active = 'table-active';
@@ -144,7 +148,7 @@ class TreatmentController extends Controller
 
     public function store(Request $request)
     {
-
+        //return $request;
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
@@ -163,10 +167,9 @@ class TreatmentController extends Controller
             );
         }
 
-        $has_package = Procedure::selectRaw("has_package")
-        ->find($request->procedure);
-        
-        $request->request->add(['has_package' => $has_package->has_package]);
+          $has_package = Procedure::selectRaw("has_package")->find($request->procedure);  
+
+        $request->request->add(['has_package' => $has_package]);
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|integer|exists:services,id',
@@ -178,12 +181,9 @@ class TreatmentController extends Controller
                 'nullable',
                 ($request->has_package == '1') ? 'exists:packages,id' : '',
             ],
-            'description_en' => 'required|string',
-            'description_es' => 'required|string',
             'price' => 'nullable|sometimes|numeric',
             'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
-          ]
-        );
+        ]);
 
         if ($validator->fails()) {
             return response()->json([
@@ -216,6 +216,9 @@ class TreatmentController extends Controller
         $getBrand = Service::select('brand_id')
         ->find($request->service);
 
+        $contains_en = json_decode($request->includes_en);
+        $contains_es = json_decode($request->includes_es);
+
 
         $treatment = new Treatment;
         $treatment->brand_id = $getBrand->brand_id;
@@ -225,15 +228,31 @@ class TreatmentController extends Controller
         $treatment->price = $request->price;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
-        $treatment->description_en = $request->description_en;
-        $treatment->description_es = $request->description_es;
         $treatment->code = time().uniqid(Str::random(30));
+
+        $contains = new Collection;
+        for ($i = 0; $i < count($contains_en); $i++) {
+            if ($contains_en[$i]->include_en != '' ||  $contains_es[$i]->include_es != '') {
+                   $contains->push((object)[
+                       'contain_en' => $contains_en[$i]->include_en,
+                       'contain_es' => $contains_es[$i]->include_es,
+                   ]);
+            }   
+        }
 
         if ($treatment->save()) {
             if ($image != '') {
                 $treatment->imageOne()->create(
                     ['image' => $image, 'code' => time().uniqid(Str::random(30))]
                 ); 
+            }
+            foreach ($contains as $k => $con) {
+                $treatment->contains()->create([
+                    'contain_en' => $con->contain_en,
+                    'contain_es' => $con->contain_es,
+                    "code" => getCode(),
+                    "order" => $k
+                ]);
             }
             return response()->json(
                 [
@@ -273,6 +292,7 @@ class TreatmentController extends Controller
                         $q->selectRaw("id, package_$lang package");
                     },
                     'imageOne',
+                    'contains',
                 ]
             )
             ->selectRaw("*")
@@ -332,8 +352,6 @@ class TreatmentController extends Controller
                 'nullable',
                 ($request->has_package == '1') ? 'exists:packages,id' : '',
             ],
-            'description_en' => 'required|string',
-            'description_es' => 'required|string',
             'price' => 'nullable|sometimes|numeric',
             'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
           ]
@@ -355,7 +373,6 @@ class TreatmentController extends Controller
         $lastPhotoId = null;
         $avatar;
 
-        //return response()->json(['s' => $treatment->imageOne]);
         if ($treatment->imageOne) {
             $lastPhoto = $treatment->imageOne->image;
             $lastPhotoId = $treatment->imageOne->id;
@@ -377,13 +394,9 @@ class TreatmentController extends Controller
             $img->save($destinationPath."/".$img_name, '100');
             $image = "storage/treatment/image/$img_name";
 
-            // if (!is_null($lastPhoto)) {
-            //     unlink(public_path($lastPhoto));
-            // }
-            // 
             $imageExist = $treatment->imageOne()->where('id', $lastPhotoId)->first();
 
-           // return response()->json(['x' => $lastPhotoId]);
+
             if (!is_null($lastPhotoId)) {
                $treatment->imageOne->delete($lastPhotoId); 
             }
@@ -407,11 +420,33 @@ class TreatmentController extends Controller
         $treatment->price = $request->price;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
-        $treatment->description_en = $request->description_en;
-        $treatment->description_es = $request->description_es;
-        $treatment->code = time().uniqid(Str::random(30));
+        $treatment->code = getCode();
+
+        $contains_en = json_decode($request->includes_en);
+        $contains_es = json_decode($request->includes_es);
+
+        $contains = new Collection;
+        for ($i = 0; $i < count($contains_en); $i++) {
+            if ($contains_en[$i]->include_en != '' ||  $contains_es[$i]->include_es != '') {
+                   $contains->push((object)[
+                       'contain_en' => $contains_en[$i]->include_en,
+                       'contain_es' => $contains_es[$i]->include_es,
+                   ]);
+            }   
+        }
+        $treatment->contains()->delete();
+        foreach ($contains as $k => $con) {
+            $treatment->contains()->create([
+                'contain_en' => $con->contain_en,
+                'contain_es' => $con->contain_es,
+                "code" => getCode(),
+                "order" => $k
+            ]);
+        }
 
         if ($treatment->save()) {
+
+
             return response()->json(
                 [
                     'icon' => 'success',
@@ -431,12 +466,13 @@ class TreatmentController extends Controller
 
     public function destroy(Request $request)
     {
-        $treatment = Treatment::with('imageOne')->find($request->id);
+        $treatment = Treatment::with('imageOne', 'contains')->find($request->id);
         if($treatment->exists()){
             if (!$treatment->imageOn) {
                 $lastPhoto = $treatment->imageOne->image;
                 $lastPhotoId = $treatment->imageOne->id;
                 //unlink(public_path($lastPhoto));
+                $treatment->contains()->delete();
                 $treatment->imageOne->delete($lastPhotoId);
             } 
             $treatment->delete();

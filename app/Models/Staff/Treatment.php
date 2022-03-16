@@ -40,4 +40,8 @@ class Treatment extends Model
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
     }
+    public function contains()
+    {
+        return $this->morphMany(Contain::class, 'containable');
+    }
 }

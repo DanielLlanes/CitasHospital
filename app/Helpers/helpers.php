@@ -45,3 +45,19 @@ if (!function_exists('getStatus')) {
 
     }
 }
+
+if (!function_exists('getCode')) {
+    function getCode() {
+        return time().uniqid(Str::random(30));
+    }
+}
+
+if (!function_exists('getStracto')) {
+    function getStracto($string, $char) {
+        $countChar = strlen($string);
+        if ($countChar <= $char) {
+            return $string;
+        }
+        return substr($string, 0, $char)." ...";
+    }
+}

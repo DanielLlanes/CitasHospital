@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentMethodsTable extends Migration
+class CreateDescriptionOnesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_methods', function (Blueprint $table) {
+        Schema::create('description_ones', function (Blueprint $table) {
             $table->id();
-            $table->string('name_es')->nullable();
-            $table->string('name_en')->nullable();
-            $table->boolean('active')->default(true);
-            $table->string('code');
+            $table->text('description_en')->nullable();
+            $table->text('description_es')->nullable();
+            $table->integer('descriptionOneable_id')->unsigned();
+            $table->string('descriptionOneable_type');
+            $table->text('code')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +32,6 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_methods');
+        Schema::dropIfExists('description_ones');
     }
 }

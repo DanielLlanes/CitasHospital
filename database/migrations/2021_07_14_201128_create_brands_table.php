@@ -18,8 +18,6 @@ class CreateBrandsTable extends Migration
             $table->string('brand');
             $table->string('acronym');
             $table->string('color')->unique();
-            $table->text('description_en');
-            $table->text('description_es');
             $table->string('active')->default(true);
             $table->string('url')->nullable();
             $table->string('code');

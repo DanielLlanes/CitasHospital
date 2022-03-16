@@ -32,7 +32,7 @@ class PaymentController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
-        $paymentMethod = PaymentMethod::selectRaw("id, code, description_$lang AS description")
+        $paymentMethod = PaymentMethod::selectRaw("id, code, name_$lang AS name")
         ->where('active', 1)
         ->get();  
 
@@ -41,7 +41,7 @@ class PaymentController extends Controller
             [
                 'paymentMethods' => function($q)use($lang)
                 {
-                    $q->selectRaw("id, description_$lang As description");
+                    $q->selectRaw("id, name_$lang As name");
                 },
                 'patient' =>function($q)
                 {
@@ -83,7 +83,7 @@ class PaymentController extends Controller
                     'imageOne',
                     'paymentMethods' => function($q)use($lang)
                     {
-                        $q->selectRaw("id, description_$lang As description");
+                        $q->selectRaw("id, name_$lang As name");
                     },
                     'patient' =>function($q)
                     {
@@ -138,7 +138,7 @@ class PaymentController extends Controller
                 //     return 'number_of_payments';
                 // })
                 ->addColumn('payment_method', function($payments){
-                    return $payments->paymentMethods->description;
+                    return $payments->paymentMethods->name;
                 })
                 ->addColumn('date', function($payments){
                     return $payments->created_at->toFormattedDateString();;

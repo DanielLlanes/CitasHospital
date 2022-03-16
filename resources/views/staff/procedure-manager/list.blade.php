@@ -337,8 +337,8 @@
                 $('#service_en').val('')
                 $('#service_es').val('')
                 $('#qty_images').val('')
-                $('#description_en').val('')
-                $('#description_es').val('')
+                $('#description_en').summernote('code', '');
+                $('#description_es').summernote('code', '');
                 $(".clone-area").html('')
                 $("#formReset").click()
                 $('#formEdit')
@@ -416,8 +416,10 @@
                             $('#procedure_en').val(data.info.procedure_en)
                             $('#procedure_es').val(data.info.procedure_es)
                             $("input[type='radio'][name='has_package'][value='"+data.info.has_package+"']").attr('checked',true);
-                            $('#description_en').val(data.info.description_en);
-                            $('#description_es').val(data.info.description_es);
+                            if (data.info.description_one) {
+                                $('#description_en').summernote('code', data.info.description_one.description_en);
+                                $('#description_es').summernote('code', data.info.description_one.description_es);
+                            }
                         } else {
                                 Toast.fire({
                                 icon: data.icon,
@@ -584,6 +586,25 @@
                 })
             }
         });
+            var toolBar =  [
+                ['para', ['ul', 'ol']],
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+              ]
+
+            $('#description_en').summernote({
+                placeholder: 'Description en',
+                height: 150,
+                minHeight: null,
+                maxHeight: null, 
+                toolbar: toolBar, 
+            })
+            $('#description_es').summernote({
+                placeholder: 'Description es',
+                height: 150,
+                minHeight: null,
+                maxHeight: null,
+                toolbar: toolBar,
+            })
 
         function numbers(){
             $(this).val($(this).val().replace(/[^0-9]/g, ''));

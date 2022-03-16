@@ -275,7 +275,7 @@ class ProfileController extends Controller
     }
     public function updateCourses(Request $request)
     {
-        //return $request;
+        return $request;
         $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [

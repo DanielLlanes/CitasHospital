@@ -36,7 +36,7 @@ class BrandController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        
+
         return view('staff.brand-manager.list');
     }
 
@@ -46,7 +46,13 @@ class BrandController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $brands = Brand::with('imageOne')->select(["*", "description_$lang AS description" ])->get();
+            $brands = Brand::with([
+                'imageOne', 
+                'descriptionone' => function($q)use($lang){
+                    $q->select('code', "description_$lang as description");
+                },
+            ])
+            ->select(["*" ])->get();
             return DataTables::of($brands)
                 ->addIndexColumn()
                 ->addColumn('image', function($brands){
@@ -72,7 +78,11 @@ class BrandController extends Controller
                     return '<i class="fa fa-circle" style="color: '.$brands->color.'" aria-hidden="true"></i>';
                 })
                 ->addColumn('description', function($brands){
-                    return $brands->description;
+                   if (is_null($brands->descriptionone)) {
+                       return "---------";
+                   } 
+
+                   return $brands->descriptionone->description;
                 })
                 ->addColumn('active', function($brand){
                     $table_active = 'table-active';
@@ -110,8 +120,8 @@ class BrandController extends Controller
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
             'image' => "sometimes|image|mimes:jpg,png,jpeg",
-            'description_en' => 'required|string',
-            'description_en' => 'required|string',
+            // 'description_en' => 'required|string',
+            // 'description_en' => 'required|string',
           ]
         );
 
@@ -144,8 +154,8 @@ class BrandController extends Controller
         $brand->brand = $request->brand;
         $brand->acronym = $request->acronym;
         $brand->color = $request->color;
-        $brand->description_en = $request->description_en;
-        $brand->description_es = $request->description_es;
+        // $brand->description_en = $request->description_en;
+        // $brand->description_es = $request->description_es;
         $brand->url = Str::slug($request->brand, '-');
         $brand->code = time().uniqid(Str::random(30));
 
@@ -220,8 +230,8 @@ class BrandController extends Controller
                     'unique:statuses',
                     'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
                 ],
-                'description_en' => 'required|string',
-                'description_en' => 'required|string',
+                // 'description_en' => 'required|string',
+                // 'description_en' => 'required|string',
               ]
             );
 
@@ -269,8 +279,8 @@ class BrandController extends Controller
             $brand->brand = $request->brand;
             $brand->acronym = $request->acronym;
             $brand->color = $request->color;
-            $brand->description_en = $request->description_en;
-            $brand->description_es = $request->description_es;
+            // $brand->description_en = $request->description_en;
+            // $brand->description_es = $request->description_es;
             $brand->url = Str::slug($request->brand, '-');
             $brand->code = time().uniqid(Str::random(30));
 

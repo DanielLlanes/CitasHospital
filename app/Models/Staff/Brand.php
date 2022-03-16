@@ -28,5 +28,8 @@ class Brand extends Model
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
     }
-    
+    public function descriptionOne()
+    {
+        return $this->morphOne(DescriptionOne::class, 'descriptionOneable');
+    }
 }

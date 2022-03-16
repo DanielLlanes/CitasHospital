@@ -36,15 +36,15 @@ class ServiceController extends Controller
         app()->setLocale($lang);
 
         $specialites = Specialty::whereHas(
-            'role', function($q) use ($lang){
-                $q->where("name", 'doctor');
-                $q->orWhere("name", 'coordinator');
-        })
-        ->where('active', '=', '1')
-        ->where('show', '=', '1')
-        ->select('id', 'role_id', "name_$lang AS name")
-        ->orderBy("name_$lang", 'ASC')
-        ->get();
+                    'role', function($q) use ($lang){
+                        $q->where("name", 'doctor');
+                        $q->orWhere("name", 'coordinator');
+                })
+                ->where('active', '=', '1')
+                ->where('show', '=', '1')
+                ->select('id', 'role_id', "name_$lang AS name")
+                ->orderBy("name_$lang", 'ASC')
+                ->get();         
 
         return view('staff.service-manager.list', ["specialites" => $specialites]);
     }
@@ -62,8 +62,11 @@ class ServiceController extends Controller
                 'brand' => function($q) use ($lang){
                     $q->selectRaw("id, brand, color");
                 },
+                'descriptionOne' => function($q)use($lang){
+                    $q->select('*', "description_$lang as description");
+                },
             ])
-            ->selectRaw("id, service_$lang service, need_images, qty_images, active, description_$lang description, brand_id")
+            ->selectRaw("id, service_$lang service, need_images, qty_images, active, brand_id")
             ->get();
             return DataTables::of($service)
                 ->addIndexColumn()
@@ -86,7 +89,13 @@ class ServiceController extends Controller
                     return $service->qty_images;
                 })
                 ->addColumn('description', function($service){
-                    return $service->description;
+                    if (is_null($service->descriptionOne)) {
+                        return '--------';
+                    }
+                    $char = 100;
+                    $string = $service->descriptionOne->description;
+                    return  getStracto($string, $char);
+                    
                 })
                 ->addColumn('active', function($service){
                     $table_active = 'table-active';
@@ -105,13 +114,6 @@ class ServiceController extends Controller
                 ->make(true);
         }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->merge(['input_specialties' => json_decode($request->input_specialties, true)]);
@@ -119,8 +121,6 @@ class ServiceController extends Controller
             'brand' => 'required|exists:brands,id',
             'service_en' => 'required|string|unique:services',
             'service_es' => 'required|string|unique:services',
-            'description_en' => 'required|string',
-            'description_es' => 'required|string',
             'need_images' => 'required|integer',
             'qty_images' => 'required_if:need_images,1',
             'input_specialties' => 'required|array',
@@ -141,8 +141,6 @@ class ServiceController extends Controller
         $service->service_en = $request->service_en;
         $service->need_images = $request->need_images;
         $service->qty_images = $request->qty_images;
-        $service->description_en = $request->description_en;
-        $service->description_es = $request->description_es;
         $service->code = time().uniqid(Str::random(30));
 
         if ($service->save()) {
@@ -153,6 +151,12 @@ class ServiceController extends Controller
                     'specialty_id' => $staff[$i]['id'],
                 ];
             }
+            $service->descriptionOne()->create([
+                'description_es' => $request->description_es,
+                'description_en' => $request->description_en,
+                'code' => getCode(),
+
+            ]);
             $service->specialties()->sync($insert_staff); //
             return response()->json(
                 [
@@ -169,15 +173,7 @@ class ServiceController extends Controller
                 'reload' => false
             ]
         );
-
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -189,6 +185,9 @@ class ServiceController extends Controller
             },
             'brand' => function($q) use ($lang){
                 $q->selectRaw("id, brand");
+            },
+            'descriptionOne' => function($q)use($lang){
+                $q->select('*', "description_$lang as description");
             },
         ])
         ->find($request->id);
@@ -210,16 +209,9 @@ class ServiceController extends Controller
         );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
-        $service = Service::find($request->id);
+        $service = Service::with('descriptionOne')->find($request->id);
 
         if ($service) {
             $request->merge(['input_specialties' => json_decode($request->input_specialties, true)]);
@@ -249,8 +241,7 @@ class ServiceController extends Controller
             $service->need_images = $request->need_images;
             $service->qty_images = $request->qty_images;
             //$service->staff_cadena = json_encode($request->input_specialties);
-            $service->description_en = $request->description_en;
-            $service->description_es = $request->description_es;
+            
             $service->code = time().uniqid(Str::random(30));
 
             if ($service->save()) {
@@ -261,6 +252,14 @@ class ServiceController extends Controller
                         'specialty_id' => $staff[$i]['id'],
                     ];
                 }
+                if (!is_null($service->descriptionOne)) {
+                    $service->descriptionOne()->delete();
+                }
+                $service->descriptionOne()->create([
+                    'description_en' => $request->description_en,
+                    'description_es' => $request->description_es,
+                    'code' => getCode(),
+                ]);
                 $service->specialties()->sync($insert_staff);
                 return response()->json(
                     [
@@ -296,8 +295,11 @@ class ServiceController extends Controller
      */
     public function destroy(Request $request)
     {
-        $service = Service::find($request->id);
+        $service = Service::with('descriptionOne')->find($request->id);
         if($service->exists()){
+            if (!is_null($service->descriptionOne)) {
+                $service->descriptionOne()->delete();
+            }
             $service->delete();
             return response()->json(
                 [

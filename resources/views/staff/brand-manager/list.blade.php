@@ -107,7 +107,7 @@
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
-                                               <div class="form-group mb-2">
+                                              {{--  <div class="form-group mb-2">
                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description English')
                                                     <span class="required"> * </span>
                                                    </label>
@@ -117,14 +117,14 @@
                                                    </div>
                                                </div>
                                                <div class="form-group mb-2">
-                                                <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
-                                                    <span class="required"> * </span>
-                                                </label>
-                                                <div class="col-md-12">
-                                                    <textarea name="address" class="form-control-textarea mb-5" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
-                                                    <div class="error text-danger col-form-label-sm"></div>
-                                                </div>
-                                            </div>
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Description Spanish')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <textarea name="address" class="form-control-textarea mb-5" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div> --}}
                                            </div>
                                            <div class="form-actions">
                                                <div class="row">

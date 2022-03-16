@@ -22,8 +22,6 @@ class CreateTreatmentsTable extends Migration
             $table->enum('type', ['product', 'service'])->default('service');
             $table->text('sku')->nullable();
             $table->decimal('price', 16, 2)->nullable();
-            $table->text('description_en')->nullable();
-            $table->text('description_es')->nullable();
             $table->text('group_es');
             $table->text('group_en');
             $table->boolean('active')->default(true);

@@ -35,14 +35,18 @@
                 <div class="section-title m-5" data-aos="fade-up">
                     <h2><strong>{{ $brand->service->service }}</strong></h2>
                     <p>
-                        {{ $brand->service->description }}
+                        @if (!is_null($brand->service->descriptionOne))
+                            {!! $brand->service->descriptionOne->description !!}
+                        @endif
                     </p>
                 </div>
                 @foreach ($title as $item)
                     <div class="section-title m-5 mb-0" data-aos="fade-up">
                         <h2><strong>{{ $item->procedure->procedure }}</strong></h2>
                         <p>
-                            {{ $item->procedure->description }}
+                            @if (!is_null($item->procedure->descriptionOne))
+                                {!! $item->procedure->descriptionOne->description !!}
+                            @endif
                         </p>
                     </div>
                     <div class="row" data-aos="fade-up">
@@ -50,18 +54,19 @@
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card altura">
-                                        {{-- @if (!is_null($treatment->imageOne))
-                                            <img src="{{ asset($treatment->imageOne->image) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
-                                        @else
-                                            <img src="https://jlpradosc.com/wp-content/uploads/2021/06/jl-prado-img-icono-paquete-2-1.png" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
-                                        @endif --}}
-                                            <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
+                                        <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
                                             <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }}</h6>
                                             <p class="card-text"></p>
-                                            <span class="summer">{!! $treatment->description !!}</span>
+                                            <span class="summer">
+                                                <ul>
+                                                    @foreach ($treatment->contains as $include)
+                                                        <li>{{ $include->include }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </span>
                                         </div>
                                     <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
                                     </div>

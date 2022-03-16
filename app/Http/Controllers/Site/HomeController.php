@@ -179,17 +179,20 @@ class HomeController extends Controller
                 'brand',
                 'service',
                 'procedure' => function($query) use ($lang) {
-                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure", "description_$lang as description");
+                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
                  },
                 'package' => function($query) use ($lang) {
                     $query->select('id', "active", "package_$lang as package");
                  },
-                 'imageOne'
+                 'imageOne',
+                 "contains" => function($q)use($lang){
+                    $q->select('*', "contain_$lang as include");
+                 },
             ]
         )
         ->where('active', true)
         ->orderBy('procedure_id', 'ASC')
-        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price", "description_$lang as description")
+        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
         ->get();
         
 
@@ -221,9 +224,16 @@ class HomeController extends Controller
             ->whereHas('brand', function($query) use ($brand) {
                 $query->where('url', $brand);
             })
-            ->with('procedure', function($query) use ($lang) {
-                $query->select('id', "procedure_$lang as procedure", "description_$lang as description");
-             })
+            ->with(
+                'procedure', function($query) use ($lang) {
+                    $query->select('id', "procedure_$lang as procedure")
+                    ->with(
+                        'descriptionOne', function($q)use($lang){
+                            $q->select('*', "description_$lang as description");
+                        }
+                    );
+                 }, 
+             )
             ->distinct()
             ->get();
         }
@@ -233,13 +243,17 @@ class HomeController extends Controller
         ->with(
             [
                 'service' => function($q) use ($lang){
-                    $q->select("id", "brand_id", "service_$lang as service", "description_$lang as description");
+                    $q->select("id", "brand_id", "service_$lang as service")
+                    ->with(
+                        'descriptionOne', function($q)use($lang){
+                            $q->select('*', "description_$lang as description");
+                        }
+                    );
                 },
                 'imageOne',
             ]
         )
         ->firstOrFail();
-
 
         if ($brand) {
             $view = 'site.brand';

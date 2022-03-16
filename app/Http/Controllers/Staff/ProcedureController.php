@@ -53,11 +53,11 @@ class ProcedureController extends Controller
             $lang = Auth::guard('staff')->user()->lang;
             app()->setLocale($lang);
 
-            $procedures = Procedure::select("*", "procedure_$lang as procedure", "description_$lang as description")
+            $procedures = Procedure::select("*", "procedure_$lang as procedure")
             ->with(
                 [
                     'service' => function($q) use ($lang){
-                        $q->select("id", "brand_id", "service_$lang as service", "description_$lang as description")
+                        $q->select("id", "brand_id", "service_$lang as service")
                         ->with(
                             [
                                 'brand' => function($q) use ($lang){
@@ -66,6 +66,9 @@ class ProcedureController extends Controller
                             ]
                         );
                     },
+                    'descriptionOne' => function($q)use($lang){
+                        $q->select('*', "description_$lang as description");
+                    }
                 ]
             )
             ->get();
@@ -90,7 +93,13 @@ class ProcedureController extends Controller
                     return $has_package;
                 })
                 ->addColumn('description', function($procedures){
-                    return $procedures->description;
+                    if (is_null($procedures->descriptionOne)) {
+                        return '--------';
+                     }
+                     $char = 100;
+                     $string = $procedures->descriptionOne->description;
+                     //return($procedures->descriptionOne->description_es);
+                     return  getStracto($string, $char);
                 })
                 ->addColumn('active', function($procedures){
                     $table_active = 'table-active';
@@ -161,6 +170,12 @@ class ProcedureController extends Controller
         $procedure->code = time().uniqid(Str::random(30));
 
         if ($procedure->save()) {
+            $procedure->descriptionOne()->create([
+                'description_es' => $request->description_es,
+                'description_en' => $request->description_en,
+                'code' => getCode(),
+
+            ]);
             return response()->json(
                 [
                     'icon' => 'success',
@@ -176,7 +191,6 @@ class ProcedureController extends Controller
                 'reload' => false
             ]
         );
-
     }
 
     /**
@@ -192,8 +206,12 @@ class ProcedureController extends Controller
         $procedure = Procedure::with(
             [
                 'service' => function($q) use ($lang){
-                    $q->select("id", "brand_id", "service_$lang as service", "description_$lang as description");
+                    $q->select("id", "brand_id", "service_$lang");
+                },
+                'descriptionOne' => function($q)use($lang){
+                    $q->select('*', "description_$lang as description");
                 }
+
             ]
         )
         ->find($request->id);
@@ -225,7 +243,7 @@ class ProcedureController extends Controller
      */
     public function update(Request $request)
     {
-        $procedure = Procedure::find($request->id);
+        $procedure = Procedure::with('descriptionOne')->find($request->id);
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|exists:services,id',
@@ -248,11 +266,17 @@ class ProcedureController extends Controller
         $procedure->procedure_en = $request->procedure_en;
         $procedure->procedure_es = $request->procedure_es;
         $procedure->has_package = $request->has_package;
-        $procedure->description_en = $request->description_en;
-        $procedure->description_es = $request->description_es;
         $procedure->code = time().uniqid(Str::random(30));
         
         if ($procedure->save()) {
+            if (!is_null($procedure->descriptionOne)) {
+                $procedure->descriptionOne()->delete();
+            }
+            $procedure->descriptionOne()->create([
+                'description_en' => $request->description_en,
+                'description_es' => $request->description_es,
+                'code' => getCode(),
+            ]);
             return response()->json(
                 [
                     'icon' => 'success',
@@ -278,8 +302,9 @@ class ProcedureController extends Controller
      */
     public function destroy(Request $request)
     {
-        $procedure = Procedure::find($request->id);
+        $procedure = Procedure::with('descriptionOne')->find($request->id);
         if($procedure->exists()){
+            $procedure->descriptionOne()->delete();
             $procedure->delete();
             return response()->json(
                 [

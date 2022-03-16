@@ -153,7 +153,7 @@
                                                     <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <textarea name="address" class="form-control-textarea" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                                        <textarea name="address" class="form-control-textarea summernote" name="description_en" id="description_en" placeholder="@lang('Description English')" rows="5" style="font-size: 12px;resize: none"></textarea>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -162,7 +162,7 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <textarea name="address" class="form-control-textarea" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                                        <textarea name="address" class="form-control-textarea summernote" name="description_es" id="description_es" placeholder="@lang('Description Spanish')" rows="5" style="font-size: 12px;resize: none"></textarea>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>
@@ -321,6 +321,7 @@
                     },
                     success:function(data)
                     {
+                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -393,8 +394,8 @@
                 $('#service_en').val('')
                 $('#service_es').val('')
                 $('#qty_images').val('')
-                $('#description_en').val('')
-                $('#description_es').val('')
+                $('#description_en').summernote('code', '');
+                $('#description_es').summernote('code', '');
                 $(".clone-area").html('')
                 $("#formReset").click()
                 $('#formEdit')
@@ -486,14 +487,14 @@
                     },
                     success:function(data)
                     {
+                    console.log("data", data.info);
                         if (data.success) {
                             clearForm()
 
                             $('#brand').val(data.info.brand.brand).attr('data-id', data.info.brand.id);
                             $('#service_en').val(data.info.service_en);
                             $('#service_es').val(data.info.service_es);
-                            $('#description_en').val(data.info.description_en);
-                            $('#description_es').val(data.info.description_es);
+                            
                             $('#need_images').val(data.info.need_images);
 
                             if (data.info.need_images > 0) {
@@ -504,7 +505,6 @@
                                 $("input[name=need_images][value='0']").prop("checked",true);
                             }
                             $('#qty_images').val(data.info.qty_images);
-                            $('#description_es').val(data.info.description_es);
                             $('#formSubmit').html('edit').attr({
                                 service: $.trim(serviceId),
                                 id: 'formEdit'
@@ -513,6 +513,10 @@
                             $.each( data.info.specialties, function( key, value ) {
                                 cloneSpecialyAreaEdit(value.specialty_name,  value.id)
                             });
+                            if (data.info.description_one) {
+                                $('#description_en').summernote('code', data.info.description_one.description_en);
+                                $('#description_es').summernote('code', data.info.description_one.description_es);
+                            }
 
                         } else {
                             Toast.fire({
@@ -673,8 +677,26 @@
                     },
                 })
             }
-
         });
+        var toolBar =  [
+            ['para', ['ul', 'ol']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+          ]
+
+        $('#description_en').summernote({
+            placeholder: 'Description en',
+            height: 150,
+            minHeight: null,
+            maxHeight: null, 
+            toolbar: toolBar, 
+        })
+        $('#description_es').summernote({
+            placeholder: 'Description es',
+            height: 150,
+            minHeight: null,
+            maxHeight: null,
+            toolbar: toolBar,
+        })
 
         onload = function(){
             var ele = document.querySelectorAll('.validanumericos')[0];
