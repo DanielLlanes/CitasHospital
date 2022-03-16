@@ -125,9 +125,6 @@ class TreatmentController extends Controller
                         return "$ $treatment->price";
                     }
                 })
-                ->addColumn('description', function($treatment){
-                    return "xD";
-                })
                 ->addColumn('active', function($treatment){
                     $table_active = 'table-active';
                     $products_id = $treatment->id;
@@ -141,7 +138,7 @@ class TreatmentController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.treatments-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'service', 'procedure', 'package', 'price', 'description', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'service', 'procedure', 'package', 'price', 'active', 'action'])
                 ->make(true);
         }
     }
@@ -167,7 +164,7 @@ class TreatmentController extends Controller
             );
         }
 
-          $has_package = Procedure::selectRaw("has_package")->find($request->procedure);  
+        $has_package = Procedure::selectRaw("has_package")->find($request->procedure);  
 
         $request->request->add(['has_package' => $has_package]);
 
@@ -177,9 +174,9 @@ class TreatmentController extends Controller
             'package' =>
             [
                 'bail',
-                'required_if:has_package,0',
                 'nullable',
                 ($request->has_package == '1') ? 'exists:packages,id' : '',
+                ($request->has_package == '1') ? 'required' : '',
             ],
             'price' => 'nullable|sometimes|numeric',
             'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",

@@ -379,7 +379,7 @@ class ApplicationController extends Controller
 
     public function postHealthData(Request $request)
     {
-
+        
         $medication_cadena = [];
         $collection = new Collection();
         $code = time().uniqid(Str::random(30));
@@ -429,7 +429,7 @@ class ApplicationController extends Controller
 
             "acid_reflux"   => 'required|in:rarely,occasionally,frequently,no',
             "penicilin"     => 'required|boolean',
-            "sulfa_drugs"   => 'required|boolean',
+            "drugs_sulfa"   => 'required|boolean',
             "iodine"        => 'required|boolean',
             "tape"          => 'required|boolean',
             "latex"         => 'required|boolean',
@@ -462,7 +462,7 @@ class ApplicationController extends Controller
             $app->razon_blood_thinners = $request->razon_blood_thinners;
             $app->acid_reflux = $request->acid_reflux;
             $app->penicilin = $request->penicilin;
-            $app->drugs_sulfa = $request->sulfa_drugs;
+            $app->drugs_sulfa = $request->drugs_sulfa;
             $app->iodine = $request->iodine;
             $app->tape = $request->tape;
             $app->latex = $request->latex;
@@ -508,7 +508,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 || $getData->servicesData == 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('imageMany', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications', 'surgeries')->find($getData->id);
                 return view('site.apps.surgical-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -621,7 +621,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('imageMany', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications', 'illnessess')->find($getData->id);
                 return view('site.apps.medical-history-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';
@@ -807,7 +807,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('imageMany', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications', 'exercices')->find($getData->id);
                 $patient = Patient::find($getData->patient_id);
                 return view('site.apps.general-health-data', ['treatment' => $treatment, 'app' => $app, 'patient' => $patient]);
             } else {
@@ -859,23 +859,23 @@ class ApplicationController extends Controller
                 $validator = Validator::make($request->all(), [
                     "smoke" => "required|boolean",
                     "smoke_cigars" => "required_if:smoke,1|nullable|integer",
-                    "smoke_years" => "required_if:smoke,1|nullable|integer",
+                    "smoke_years" => "required_if:smoke,1|nullable|numeric",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
                     "volumen_alcohol" => [
-                        ($request->alcohol == "1") ? "string" : null,
+                        ($request->alcohol == "1") ? "string":null,
                     ],
 
 
                     "recreative_drugs" => "required|boolean",
                     "total_recreative_drugs" => [
-                        ($request->recreative_drugs == '1') ? 'string': null
+                        ($request->recreative_drugs == '1') ? 'string':null,
                     ],
 
                     "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
                     "description_intravenous_drugs" => [
-                        ($request->intravenous_drugs == '1') ? 'numeric': null
+                        ($request->intravenous_drugs == '1') ? 'string':null,
                     ],
 
                     "fatigue" => "required|boolean",
@@ -903,23 +903,27 @@ class ApplicationController extends Controller
             }
 
 
-            if ($treatment->service_id == 3 && $patient->sex != 'male') {
-                $validator = Validator::make($request->all(), [
+            if ($treatment->service_id == 3 && $patient->sex == 'male') {
+                $validator2 = Validator::make($request->all(), [
 
                     "smoke" => "required|boolean",
-                    "smoke_cigars" => "required_if:smoke,1|nullable|integer",
-                    "smoke_years" => "required_if:smoke,1|nullable|integer",
+                    "smoke_cigars" => "required_if:smoke,1|nullable|string",
+                    "smoke_years" => "required_if:smoke,1|nullable|numeric",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
-                    "volumen_alcohol" => "required_if:alcohol,1|string",
+                    "volumen_alcohol" => [
+                        ($request->alcohol == "1") ? "string":null,
+                    ],
 
                     "recreative_drugs" => "required|boolean",
                     "total_recreative_drugs" => [
-                        ($request->recreative_drugs == '1') ? 'numeric': null
+                        ($request->recreative_drugs == '1') ? 'string':null,
                     ],
                     "intravenous_drugs" => "required_if:recreative_drugs,1|boolean",
-                    "description_intravenous_drugs" => "required_if:intravenous_drugs,1|string",
+                    "description_intravenous_drugs" => [
+                        ($request->intravenous_drugs == '1') ? 'string':null,
+                    ],
 
                     "fatigue" => "required|boolean",
                     "trouble_breathe" => "required|boolean",
@@ -941,7 +945,84 @@ class ApplicationController extends Controller
                     'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
                     'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
                     'do_you_feel_under_stress' => ['required', 'boolean'],
+                    ///////////////////////////////////////////////////////
+                    "do_you_have_erections_at_the_morning" => ['required','boolean'],
+                    "how_many_per_week" => [
+                        ($request->do_you_have_erections_at_the_morning == '1') ? 'string':null,
+                        ($request->do_you_have_erections_at_the_morning == '1') ? 'required':null,
+                    ],
+                    "do_you_have_problems_getting_erections" => ['required','boolean'],
+                    "since_when" => [
+                        ($request->do_you_have_problems_getting_erections == '1') ? 'string':null,
+                        ($request->do_you_have_problems_getting_erections == '1') ? 'required':null,
+                    ],
+                    "describe_your_erection_problem" => [
+                        ($request->describe_your_erection_problem == '1') ? 'string':null,
+                        ($request->describe_your_erection_problem == '1') ? 'required':null,
+                    ],
+                    "do_you_have_problems_maintaining_an_erection" => ['required','boolean'],
+                    "do_you_take_any_natural_remedy_for_erectile_dysfunction" => ['required','boolean'],
+                    "what_kind" => [
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'string':null,
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'required':null,
+                    ],
+                    "how_did_it_work_natural_remedy" => [
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'string':null,
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'required':null,
+                    ],
+                    "where_did_you_get_them" => [
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'string':null,
+                        ($request->do_you_take_any_natural_remedy_for_erectile_dysfunction == '1') ? 'required':null,
+                    ],
+                    "has_medication_been_injected_for_dysfunction_erectile" => ['required','boolean'],
+                    "how_many_times_have_injected" => [
+                        ($request->has_medication_been_injected_for_dysfunction_erectile == '1') ? 'string':null,
+                        ($request->has_medication_been_injected_for_dysfunction_erectile == '1') ? 'required':null,
+                    ],
+                    "how_did_it_work" => [
+                        ($request->has_medication_been_injected_for_dysfunction_erectile == '1') ? 'string':null,
+                        ($request->has_medication_been_injected_for_dysfunction_erectile == '1') ? 'required':null,
+                    ],
+                    "have_you_had_an_erection_longer_than_six_hours" => ['required','boolean'],
+                    "when_you_had_a_six_hours_erection" =>[
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'string':null,
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'required':null,
+                    ],
+                    "how_was_it_resolved" => [
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'string':null,
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'required':null,
+                    ],
+                    "did_you_get_medical_attention" => [
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'string':null,
+                        ($request->have_you_had_an_erection_longer_than_six_hours == '1') ? 'required':null,
+                    ],
+                    "do_you_suffer_from_penile_curvature" => ['required','boolean'],
+                    "how_intense" => [
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'string':null,
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'required':null,
+                    ],
+                    "which_direction" => [
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'string':null,
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'required':null,
+                    ],
+                    "does_it_hurt" => [
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'string':null,
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'required':null,
+                    ],
+                    "does_it_prevent_intercourse" => [
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'string':null,
+                        ($request->do_you_suffer_from_penile_curvature == '1') ? 'required':null,
+                    ],
+                    "has_prp_been_injected_for_erectile_dysfunction" => ['required','boolean'],
+                    "have_you_received_stem_cell_treatment_for_erectile_dysfunction" => ['required','boolean'],
+                    "hyrvrntwliwtfed" => ['required','boolean'],
                 ]);
+                if ($validator2->fails()) {
+                    return redirect()
+                        ->back()
+                        ->withErrors($validator2)
+                        ->withInput();
+                }
             }
 
             if ($treatment->service_id == 3 && $patient->sex == 'male') {
@@ -1107,6 +1188,9 @@ class ApplicationController extends Controller
                     $app->surgeyData = 1;
                     $app->medicalHistoryData = 1;
                     Session::put('form_session', $app);
+                    if ($treatment->service_id == 3 && $patient->sex == 'male') {
+                        return redirect()->route('createReferenceData');
+                    }
                     return redirect()->route('createGynecologicalData');
                 }
 
@@ -1123,7 +1207,7 @@ class ApplicationController extends Controller
             $getData = Session::get('form_session');
             if ($getData->generalData == 1 && $getData->servicesData == 1 && $getData->surgeyData == 1 && $getData->medicalHistoryData = 1 && $getData->medicalHistoryData = 1) {
                 $treatment = Session::get('treatment');
-                $app = Application::with('imageMany', 'medications')->find($getData->id);
+                $app = Application::with('imageMany', 'medications', 'hormones', 'birthcontrol')->find($getData->id);
                 return view('site.apps.gynecological-data', ['treatment' => $treatment, 'app' => $app]);
             } else {
                 return 'not';

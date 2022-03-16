@@ -51,7 +51,7 @@
                     <div class="row mb-3">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="{{ $patient->last_menstrual_period ?? old('last_menstrual_period') }}" placeholder="">
+                            <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="{{ $app->last_menstrual_period ?? old('last_menstrual_period') }}" placeholder="">
                             @error('last_menstrual_period')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -63,19 +63,19 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Bleeding was?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whasyes" value="normal" @if (old('bleeding_whas') == "normal") checked @elseif(!empty($patient ?? '') && $patient->bleeding_whas == 'normal') checked @endif>
+                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whasyes" value="normal" @if (old('bleeding_whas') == "normal") checked @elseif(!empty($app) && $app->bleeding_whas == 'normal') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_normal">Normal</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="light" @if (old('bleeding_whas') == "light") checked @elseif(!empty($patient ?? '') && $patient->bleeding_whas == 'light') checked @endif>
+                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="light" @if (old('bleeding_whas') == "light") checked @elseif(!empty($app) && $app->bleeding_whas == 'light') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_light">Light</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_yes" value="heavy" @if (old('bleeding_whas') == "heavy") checked @elseif(!empty($patient ?? '') && $patient->bleeding_whas == 'heavy') checked @endif>
+                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_yes" value="heavy" @if (old('bleeding_whas') == "heavy") checked @elseif(!empty($app) && $app->bleeding_whas == 'heavy') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_heavy">Heavy</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="irregular" @if (old('bleeding_whas') == "irregular") checked @elseif(!empty($patient ?? '') && $patient->bleeding_whas == 'irregular') checked @endif>
+                                <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="irregular" @if (old('bleeding_whas') == "irregular") checked @elseif(!empty($app) && $app->bleeding_whas == 'irregular') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_irregular">Irregular</label>
                             </div>
                             @error('bleeding_whas')
@@ -90,11 +90,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you been pregnant?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_yes" value="1" @if (old('have_you_been_pregnant') == "1") checked @elseif(!empty($patient ?? '') && $patient->have_you_been_pregnant == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_yes" value="1" @if (old('have_you_been_pregnant') == "1") checked @elseif(!empty($app) && $app->have_you_been_pregnant == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_no" value="0" @if (old('have_you_been_pregnant') == "0") checked @elseif(!empty($patient ?? '') && $patient->have_you_been_pregnant == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_no" value="0" @if (old('have_you_been_pregnant') == "0") checked @elseif(!empty($app) && $app->have_you_been_pregnant == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('have_you_been_pregnant')
@@ -104,10 +104,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1)@else style="display: none"@endif>
+                    <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1 || $app->have_you_been_pregnant == '1')@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How many times?</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="how_many_times" name="how_many_times" value="{{ $patient->how_many_times ?? old('how_many_times') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="how_many_times" name="how_many_times" value="{{ $app->how_many_times ?? old('how_many_times') }}" placeholder="">
                             @error('how_many_times')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -115,10 +115,10 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1)@else style="display: none"@endif>
+                    <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1 || $app->have_you_been_pregnant == '1')@else style="display: none"@endif>
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">C-section</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="c_section" name="c_section" value="{{ $patient->c_section ?? old('c_section') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="c_section" name="c_section" value="{{ $app->c_section ?? old('c_section') }}" placeholder="">
                             @error('c_section')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -131,11 +131,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use any type of birth control?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_yes" value="1" @if (old('birth_control') == "1") checked @elseif(!empty($patient ?? '') && $patient->birth_control == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_yes" value="1" @if (old('birth_control') == "1") checked @elseif(!empty($app) && $app->birth_control == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_no" value="0" @if (old('birth_control') == "0") checked @elseif(!empty($patient ?? '') && $patient->birth_control == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_no" value="0" @if (old('birth_control') == "0") checked @elseif(!empty($app) && $app->birth_control == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('birth_control')
@@ -181,6 +181,31 @@
                                         </tr>
                                     @endfor
                                 @endif
+                                @if (!empty($app->birthcontrol) && empty(old('birthCadena')))
+                                    @for ($i = 0; $i < count($app->birthcontrol); $i++)
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="birthControl_type[]" class="form-control form-control-sm" value="{{ $app->birthcontrol[$i]->type }}">
+                                                @error('birthControl_type.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </th>
+                                            <td>
+                                                <input type="text" name="birthControl_how_long[]" class="form-control form-control-sm" value="{{ $app->birthcontrol[$i]->how_along_time }}">
+                                                @error('birthControl_how_long'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
@@ -192,11 +217,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hormones</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_yes" value="1" @if (old('use_hormones') == "1") checked @elseif(!empty($patient ?? '') && $patient->use_hormones == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_yes" value="1" @if (old('use_hormones') == "1") checked @elseif(!empty($app) && $app->use_hormones == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_no" value="0" @if (old('use_hormones') == "0") checked @elseif(!empty($patient ?? '') && $patient->use_hormones == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_no" value="0" @if (old('use_hormones') == "0") checked @elseif(!empty($app) && $app->use_hormones == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('use_hormones')
@@ -242,6 +267,31 @@
                                         </tr>
                                     @endfor
                                 @endif
+                                @if (!empty($app->hormones) && empty(old('hormoneCadena')))
+                                    @for ($i = 0; $i < count($app->hormones); $i++)
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="hormone_type[]" class="form-control form-control-sm" value="{{ $app->hormones[$i]->type }}">
+                                                @error('hormone_type.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </th>
+                                            <td>
+                                                <input type="text" name="hormone_how_long[]" class="form-control form-control-sm" value="{{ $app->hormones[$i]->how_along_time }}">
+                                                @error('hormone_how_long.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
@@ -253,11 +303,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you pregnant? or is there a possibility of you being pregnant?</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whasyes" value="1" @if (old('is_or_can_be_pregman') == "1") checked @elseif(!empty($patient ?? '') && $patient->is_or_can_be_pregman == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whasyes" value="1" @if (old('is_or_can_be_pregman') == "1") checked @elseif(!empty($app) && $app->is_or_can_be_pregmant == '1') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_normal">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whas_no" value="0" @if (old('is_or_can_be_pregman') == "0") checked @elseif(!empty($patient ?? '') && $patient->is_or_can_be_pregman == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whas_no" value="0" @if (old('is_or_can_be_pregman') == "0") checked @elseif(!empty($app) && $app->is_or_can_be_pregmant == '0') checked @endif>
                                 <label class="form-check-label" for="bleeding_whas_light">No</label>
                             </div>
                             @error('is_or_can_be_pregman')
@@ -270,7 +320,7 @@
 
                     <div class="mb-3 row mt-5">
                         <div class="col-6">
-                                <a href="{{ route('createHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('postGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
@@ -418,12 +468,12 @@
         }
     </script>
 
-@if (old("birthCadena"))
+@if (old("birthCadena") || !empty($app->birthcontrol) && count($app->birthcontrols) > 0)
 <script>
     $("#birth_control_table").show('fast');
 </script>
 @endif
-@if (old("hormoneCadena"))
+@if (old("hormoneCadena") || !empty($app->hormones) && count($app->hormones) > 0)
 <script>
     $("#hormones_table").show('fast');
 </script>

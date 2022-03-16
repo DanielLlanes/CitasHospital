@@ -45,6 +45,7 @@
                         </ul>
                     </div>
                 @endif
+               {{ $app->drugs_sulfa }}
                 <form action="{{ route('postHealthData') }}" method="POST" id="formHealthData">
                     {{ csrf_field() }}
                     <div class="mb-2 row">
@@ -57,11 +58,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9 text-center">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="mesure_sistem" id="mesureSistemMetric" value="M" @if (old('mesure_sistem') == "M") checked @elseif(!empty($patient ?? '') && $patient->mesure_sistem == 'M') checked @endif>
+                                <input class="form-check-input" type="radio" name="mesure_sistem" id="mesureSistemMetric" value="M" @if (old('mesure_sistem') == "M") checked @elseif(!empty($app) && $app->mesure_sistem == 'M') checked @endif>
                                 <label class="form-check-label" for="mesureSistemMetric">Metrico ( kg - meters )</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" checked name="mesure_sistem" id="mesureSistemImperial" value="I" @if (old('mesure_sistem') == "I") checked @elseif(!empty($patient ?? '') && $patient->mesure_sistem == 'I') checked @endif>
+                                <input class="form-check-input" type="radio" name="mesure_sistem" id="mesureSistemImperial" value="I" @if (old('mesure_sistem') == "x") checked @elseif(!empty($app) && $app->mesure_sistem == 'x') checked @endif>
                                 <label class="form-check-label" for="mesureSistemImperial">Imperial ( lb - in )</label>
                             </div>
                             @error('mesure_sistem')
@@ -74,7 +75,7 @@
                     <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Max Weigth <span class="fw-bold" id="mw"> (Lb)</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="max_weigh" name="max_weigh" value="{{ $patient->max_weigh ?? old('max_weigh') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="max_weigh" name="max_weigh" value="{{ $app->max_weigh ?? old('max_weigh') }}" placeholder="">
                             @error('max_weigh')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -85,7 +86,7 @@
                     <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Current Weigth <span class="fw-bold" id="cw"> (Lb)</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="{{ $patient->weight ?? old('weight') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="{{ $app->weight ?? old('weight') }}" placeholder="">
                             @error('weight')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -96,7 +97,7 @@
                     <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Heigth <span class="fw-bold" id="h"> (Ft)</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="height" name="height" value="{{ $patient->height ?? old('height') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="height" name="height" value="{{ $app->height ?? old('height') }}" placeholder="">
                             @error('height')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -107,7 +108,7 @@
                     <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">IMC</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="imc" name="imc" value="{{ $patient->imc ?? old('imc') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="imc" name="imc" value="{{ $app->imc ?? old('imc') }}" placeholder="">
                             @error('imc')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -126,11 +127,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_yes" value="1" @if (old('take_medication') == "1") checked @elseif(!empty($patient ?? '') && $patient->take_medication == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_yes" value="1" @if (old('take_medication') == "1") checked @elseif(!empty($app) && $app->if_take_medication == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_no" value="0" @if (old('take_medication') == "0") checked @elseif(!empty($patient ?? '') && $patient->take_medication == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="take_medication" id="if_take_medication_no" value="0" @if (old('take_medication') == "0") checked @elseif(!empty($app) && $app->if_take_medication == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('take_medication')
@@ -195,6 +196,47 @@
                                         </tr>
                                     @endfor
                                 @endif
+                                @if (!empty($app->medications) && empty(old('medicationCadena')))
+                                    @for ($i = 0; $i < count($app->medications); $i++)
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="medication_name[]" class="form-control form-control-sm" value="{{ $app->medications[$i]->name }}">
+                                                @error('medication_name.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </th>
+                                            <td>
+                                                <input type="text" name="medication_reason[]" class="form-control form-control-sm" value="{{ $app->medications[$i]->reason }}">
+                                                @error('medication_reason.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="medication_dosage[]" class="form-control form-control-sm" value="{{ $app->medications[$i]->dosage }}">
+                                                @error('medication_dosage'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="medication_frecuency[]" class="form-control form-control-sm" value="{{ $app->medications[$i]->frecuency }}">
+                                                @error('medication_frecuency.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
@@ -213,11 +255,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_yes" value="1" @if (old('blood_thinners') == "1") checked @elseif(!empty($patient ?? '') && $patient->blood_thinners == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_yes" value="1" @if (old('blood_thinners') == "1") checked @elseif(!empty($app) && $app->if_take_blood_thinners == '1') checked @endif>
                                 <label class="form-check-label" for="if_blood_thinners_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_no" value="0" @if (old('blood_thinners') == "0") checked @elseif(!empty($patient ?? '') && $patient->blood_thinners == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="blood_thinners" id="if_blood_thinners_no" value="0" @if (old('blood_thinners') == "0") checked @elseif(!empty($app) && $app->if_take_blood_thinners == '0') checked @endif>
                                 <label class="form-check-label" for="if_blood_thinners_no">No</label>
                             </div>
                             @error('blood_thinners')
@@ -230,7 +272,7 @@
                     <div class="mb-3 row" id="rbt" style="display: none">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Explain the reason</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="razon_blood_thinners" name="razon_blood_thinners" value="{{ $patient->razon_blood_thinners ?? old('razon_blood_thinners') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="razon_blood_thinners" name="razon_blood_thinners" value="{{ $app->razon_blood_thinners ?? old('razon_blood_thinners') }}" placeholder="">
                             @error('razon_blood_thinners')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -249,19 +291,19 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_ralery" value="rarely" @if (old('acid_reflux') == "rarely") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'rarely') checked @endif>
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_ralery" value="rarely" @if (old('acid_reflux') == "rarely") checked @elseif(!empty($app) && $app->acid_reflux == 'rarely') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_ralery">Rarely</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_occasionally" value="occasionally" @if (old('acid_reflux') == "occasionally") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'occasionally') checked @endif>
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_occasionally" value="occasionally" @if (old('acid_reflux') == "occasionally") checked @elseif(!empty($app) && $app->acid_reflux == 'occasionally') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_occasionally">Occasionally</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_frequently" value="frequently" @if (old('acid_reflux') == "frequently") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'frequently') checked @endif>
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_frequently" value="frequently" @if (old('acid_reflux') == "frequently") checked @elseif(!empty($app) && $app->acid_reflux == 'frequently') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_frequently">Frequently</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_no" value="no" @if (old('acid_reflux') == "no") checked @elseif(!empty($patient ?? '') && $patient->acid_reflux == 'no') checked @endif>
+                                <input class="form-check-input" type="radio" name="acid_reflux" id="if_acid_reflux_no" value="no" @if (old('acid_reflux') == "no") checked @elseif(!empty($app) && $app->acid_reflux == 'no') checked @endif>
                                 <label class="form-check-label" for="if_acid_reflux_no">No</label>
                             </div>
                             @error('acid_reflux')
@@ -282,11 +324,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_yes" value="1" @if (old('penicilin') == "1") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_yes" value="1" @if (old('penicilin') == "1") checked @elseif(!empty($app) && $app->penicilin == '1') checked @endif>
                                 <label class="form-check-label" for="if_penicilin_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="penicilin" id="if_penicilin_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($app) && $app->penicilin == '0') checked @endif>
                                 <label class="form-check-label" for="if_penicilin_no">No</label>
                             </div>
                             @error('penicilin')
@@ -306,14 +348,14 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_yes" value="1" @if (old('sulfa_drugs') == "1") checked @elseif(!empty($patient ?? '') && $patient->sulfa_drugs == '1') checked @endif>
-                                <label class="form-check-label" for="if_sulfa_drugs_yes">Yes</label>
+                                <input class="form-check-input" type="radio" name="drugs_sulfa" id="if_sulfa_drugs_yes" value="1" @if (old('drugs_sulfa') == "1") checked @elseif(!empty($app) && $app->drugs_sulfa == '1') checked @endif>
+                                <label class="form-check-label" for="if_drugs_sulfa_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sulfa_drugs" id="if_sulfa_drugs_no" value="0" @if (old('sulfa_drugs') == "0") checked @elseif(!empty($patient ?? '') && $patient->sulfa_drugs == '0') checked @endif>
-                                <label class="form-check-label" for="if_sulfa_drugs_no">No</label>
+                                <input class="form-check-input" type="radio" name="drugs_sulfa" id="if_drugs_sulfa" value="0" @if (old('drugs_sulfa') == "0") checked @elseif(!empty($app) && $app->drugs_sulfa == '0') checked @endif>
+                                <label class="form-check-label" for="if_drugs_sulfa_no">No</label>
                             </div>
-                            @error('sulfa_drugs')
+                            @error('drugs_sulfa')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
                                 </span>
@@ -330,11 +372,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_yes" value="1" @if (old('iodine') == "1") checked @elseif(!empty($patient ?? '') && $patient->iodine == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_yes" value="1" @if (old('iodine') == "1") checked @elseif(!empty($app) && $app->iodine == '1') checked @endif>
                                 <label class="form-check-label" for="if_iodine_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_no" value="0" @if (old('iodine') == "0") checked @elseif(!empty($patient ?? '') && $patient->iodine == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="iodine" id="if_odine_no" value="0" @if (old('iodine') == "0") checked @elseif(!empty($app) && $app->iodine == '0') checked @endif>
                                 <label class="form-check-label" for="if_iodine_no">No</label>
                             </div>
                             @error('iodine')
@@ -354,11 +396,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tape" id="if_tape_yes" value="1" @if (old('tape') == "1") checked @elseif(!empty($patient ?? '') && $patient->tape == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="tape" id="if_tape_yes" value="1" @if (old('tape') == "1") checked @elseif(!empty($app) && $app->tape == '1') checked @endif>
                                 <label class="form-check-label" for="if_tape_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tape" id="if_tape_no" value="0" @if (old('tape') == "0") checked @elseif(!empty($patient ?? '') && $patient->tape == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="tape" id="if_tape_no" value="0" @if (old('tape') == "0") checked @elseif(!empty($app) && $app->tape == '0') checked @endif>
                                 <label class="form-check-label" for="if_tape_no">No</label>
                             </div>
                             @error('tape')
@@ -378,11 +420,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="latex" id="if_latex_yes" value="1" @if (old('latex') == "1") checked @elseif(!empty($patient ?? '') && $patient->latex == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="latex" id="if_latex_yes" value="1" @if (old('latex') == "1") checked @elseif(!empty($app) && $app->latex == '1') checked @endif>
                                 <label class="form-check-label" for="if_latex_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($patient ?? '') && $patient->penicilin == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($app) && $app->penicilin == '0') checked @endif>
                                 <label class="form-check-label" for="if_latex_no">No</label>
                             </div>
                             @error('latex')
@@ -402,11 +444,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_yes" value="1" @if (old('aspirin') == "1") checked @elseif(!empty($patient ?? '') && $patient->aspirin == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_yes" value="1" @if (old('aspirin') == "1") checked @elseif(!empty($app) && $app->aspirin == '1') checked @endif>
                                 <label class="form-check-label" for="if_aspirin_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_no" value="0" @if (old('aspirin') == "0") checked @elseif(!empty($patient ?? '') && $patient->aspirin == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="aspirin" id="if_aspirin_no" value="0" @if (old('aspirin') == "0") checked @elseif(!empty($app) && $app->aspirin == '0') checked @endif>
                                 <label class="form-check-label" for="if_aspirin_no">No</label>
                             </div>
                             @error('aspirin')
@@ -419,7 +461,7 @@
                     <div class="mb-3 row mt-1">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Other allergy </span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-sm" id="other_allergy" name="other_allergy" value="{{ $patient->other_allergy ?? old('other_allergy') }}" placeholder="">
+                            <input type="text" class="form-control form-control-sm" id="other_allergy" name="other_allergy" value="{{ $app->describe_other_allergy ?? old('other_allergy') }}" placeholder="">
                             @error('other_allergy')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
                                     <strong class="error">{{ $message }}</strong>
@@ -538,7 +580,6 @@
             if ($("#medication_table tbody tr").length < 1) {
                 addMedicationFields()
             }
-
         });
 
         $(document).on('click', '#medicationTableAdd',function () {
@@ -748,10 +789,15 @@
     });
 </script>
 @endif
-@if (old('medicationCadena') && count(old('medicationCadena')) )
+@if (old('medicationCadena') && count(old('medicationCadena')) || !empty($app->medications) && count($app->medications) > 0)
 <script>
     $("#medication_table").show('fast');
 </script>
+@endif
+@if (old('blood_thinners') == 1 || !empty($app) && $app->if_take_blood_thinners == 1)
+    <script>
+        $("#rbt").show('fast')
+    </script>
 @endif
 
 @endsection

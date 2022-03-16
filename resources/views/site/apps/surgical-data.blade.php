@@ -58,11 +58,11 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_yes" value="1" @if (old('previus_surgery') == "1") checked @elseif(!empty($patient ?? '') && $patient->previus_surgery == '1') checked @endif>
+                                <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_yes" value="1" @if (old('previus_surgery') == "1") checked @elseif(!empty($app) && $app->if_have_surgeries == '1') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_yes">Yes</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_no" value="0" @if (old('previus_surgery') == "0") checked @elseif(!empty($patient ?? '') && $patient->previus_surgery == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_no" value="0" @if (old('previus_surgery') == "0") checked @elseif(!empty($app) && $app->if_have_surgeries == '0') checked @endif>
                                 <label class="form-check-label" for="if_take_medication_no">No</label>
                             </div>
                             @error('previus_surgery')
@@ -124,6 +124,55 @@
                                             </td>
                                             <td>
                                                 <input type="text" name="surgey_complications[]" class="form-control form-control-sm" value="{{ old('surgeyCadena')[$i]->surgey_complications }}">
+                                                @error('surgey_complications.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td class="text-center">
+                                                <button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endfor
+                                @endif
+                                @if (!empty($app->surgeries) && empty(old('surgeyCadena')))
+                                    @for ($i = 0; $i < count($app->surgeries); $i++)
+                                        <tr>
+                                            <th>
+                                                <input type="text" name="surgey_type[]" class="form-control form-control-sm" value="{{ $app->surgeries[$i]->type }}">
+                                                @error('surgey_type.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </th>
+                                            <td>
+                                                <input type="text" name="surgey_name[]" class="form-control form-control-sm" value="{{ $app->surgeries[$i]->name }}">
+                                                @error('surgey_name.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="surgey_age[]" class="form-control form-control-sm" value="{{ $app->surgeries[$i]->age }}">
+                                                @error('surgey_age.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="surgey_year[]" class="form-control form-control-sm" value="{{ $app->surgeries[$i]->year }}">
+                                                @error('surgey_year.'.$i)
+                                                    <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                                        <strong class="error">{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </td>
+                                            <td>
+                                                <input type="text" name="surgey_complications[]" class="form-control form-control-sm" value="{{ $app->surgeries[$i]->complications }}">
                                                 @error('surgey_complications.'.$i)
                                                     <span class="invalid-feedback" style="display: block!important;" role="alert">
                                                         <strong class="error">{{ $message }}</strong>
@@ -305,7 +354,7 @@
     });
 </script>
 @endif
-@if (old('surgeyCadena') && count(old('surgeyCadena')))
+@if (old('surgeyCadena') && count(old('surgeyCadena')) || !empty($app->surgeries) && count($app->surgeries))
 <script>
     $("#medication_table").show('fast');
 </script>

@@ -58,7 +58,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Google</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_google" name="about_us_google">
+                                <input class="form-check-input" type="checkbox" {{ (old('about_us_google') == 1) ? "checked":""}} value="1" id="about_us_google" name="about_us_google">
                                 <label class="form-check-label" for="flexCheckDefault">
 
                                 </label>
@@ -75,7 +75,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Facebook</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_facebook" name="about_us_facebook">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_facebook" name="about_us_facebook">
                                 <label class="form-check-label" for="about_us_facebook">
 
                                 </label>
@@ -92,7 +92,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">YouTube/vimeo</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_youtube" name="about_us_youtube">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_youtube') == 1) ? 'checked':""}} id="about_us_youtube" name="about_us_youtube">
                                 <label class="form-check-label" for="about_us_youtube">
 
                                 </label>
@@ -109,7 +109,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Twitter</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_twiter" name="about_us_twiter">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_twiter" name="about_us_twiter">
                                 <label class="form-check-label" for="about_us_twiter">
 
                                 </label>
@@ -126,7 +126,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Web forums</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_forums" name="about_us_forums">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_forums" name="about_us_forums">
                                 <label class="form-check-label" for="about_us_forums">
 
                                 </label>
@@ -143,7 +143,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Instagram</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_instagram" name="about_us_instagram">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_instagram" name="about_us_instagram">
                                 <label class="form-check-label" for="about_us_instagram">
 
                                 </label>
@@ -160,7 +160,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Radio</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_radio" name="about_us_radio">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_radio" name="about_us_radio">
                                 <label class="form-check-label" for="about_us_radio">
 
                                 </label>
@@ -177,7 +177,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Email</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_email" name="about_us_email">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_email') == 1) ? "checked":""}} id="about_us_email" name="about_us_email">
                                 <label class="form-check-label" for="about_us_email">
 
                                 </label>
@@ -194,7 +194,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Referred by a friend</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_frend" name="about_us_frend">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_frend') == 1) ? "checked":""}} id="about_us_frend" name="about_us_frend">
                                 <label class="form-check-label" for="about_us_frend">
 
                                 </label>
@@ -223,7 +223,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Other</label>
                         <div class="col-sm-9">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="about_us_other" name="about_us_other">
+                                <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_other') == 1) ? "checked":""}} id="about_us_other" name="about_us_other">
                                 <label class="form-check-label" for="about_us_other">
 
                                 </label>
@@ -250,7 +250,12 @@
 
                     <div class="mb-3 row">
                         <div class="col-6">
-                            <a href="{{ route('createServicesData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            @if ($treatment->service_id == 3)
+                                <a href="{{ route('createGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            @else
+                                <a href="{{ route('createGynecologicalData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            @endif
+                            
                         </div>
                         <div class="col-6 d-flex justify-content-end">
                             <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>

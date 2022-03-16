@@ -52,7 +52,6 @@
                                                     <th> @lang('Procedure') </th>
                                                     <th> @lang('Package') </th>
                                                     <th> @lang('Price') </th>
-                                                    <th> @lang('Description') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
@@ -233,7 +232,6 @@
 		            { data: "procedure" },
 		            { data: "package" },
 		            { data: "price" },
-		            { data: "description" },
 		            { data: "active", className: 'center' },
 		            { data: "action", orderable: false, searchable: false, className: 'center' },
 
@@ -242,8 +240,6 @@
 		            $(row).addClass('odd gradeX');
 		        },
 		    });
-
-            
 
             $(document).on("click", "#formSubmit", function () {
                 $('.error').html('')
@@ -283,32 +279,30 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
                         })
                         if (data.reload) {
                             treatmentsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             clearForm()
                         } else {
 
                             $.each( data.errors, function( key, value ) {
                                 kFormat = key.replace(".", "_");
-                                console.log("kFormat", kFormat);
                                 $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
                                 $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                             });
                         }
+                        
                     },
                     error: function (err)
                     {
                         //console.clear()
                         var data = err.responseJSON;
-                        console.log("data", data);
                         $.each( data.errors, function( key, value ) {
                             kFormat = key.replace(".", "_");
-                            console.log("kFormat", kFormat);
                             $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
                             $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                         });
@@ -368,7 +362,6 @@
 
             $('.autocomplete.service').on('keyup click', function() {
                 var key = $(this).val();
-                console.log('click');
                 var dataString = new FormData();
                 dataString.append('key', key);
                 //dataString.append('brand', $('#brand').attr('data-id'));
@@ -390,7 +383,6 @@
                         $('.myInputautocomplete-list.service').html('');
                     },
                     success: function(data) {
-                        console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
@@ -433,7 +425,6 @@
                         $('.myInputautocomplete-list.procedure').html('');
                     },
                     success: function(data) {
-                        console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
@@ -483,7 +474,6 @@
                         $('.myInputautocomplete-list.package').html('');
                     },
                     success: function(data) {
-                        console.log(data);
                         var sugerencias = '';
                         if (data.length > 0) {
                             for (var i = 0; i < data.length; i++) {
@@ -560,7 +550,6 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         if (data.success) {
                             var image_url;
                             if (data.info.image_one) {
@@ -590,8 +579,6 @@
                             if (data.info.contains.length > 0) {
                                     $("#includes").html('')
                                 $.each(data.info.contains, function(index, val) {
-                                    console.log("val", val);
-                                    console.log("index", index);
                                     addIncludesEdit(val)
                                 });
                             } else {
@@ -666,19 +653,20 @@
                     },
                     success:function(data)
                     {
-                        console.log(data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
                         })
                         if (data.reload) {
                             treatmentsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             clearForm()
                         } else {
                             $.each( data.errors, function( key, value ) {
                                 $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
                             });
                         }
+                        
 
                     },
                     error: function (err)
@@ -741,8 +729,8 @@
                     },
                     success:function(data)
                     {
-                    console.log("data", data);
                         treatmentsTable.ajax.reload( null, false );
+                        socket.emit('updateDataTablesToServer');
                     },
                     error: function (err)
                     {
@@ -765,8 +753,7 @@
                 if ($('.include').length == 0) {addIncludes()}
             });
 
-            function deleteRecord(id)
-            {
+            function deleteRecord(id){
                 var form_data = new FormData();
                 form_data.append('id', id);
                 $.ajax({
@@ -791,7 +778,9 @@
                         })
                         if (data.reload) {
                             treatmentsTable.ajax.reload( null, false );
-                            //adminTable.search('').draw();
+                            socket.emit('updateDataTablesToServer');
+                        } else {
+                            socket.emit('updateDataTablesToServer');
                         }
                     },
                     error: function (err)
@@ -858,6 +847,11 @@
 
                 $("#includes").append(includes);
             }
+
+            socket.on('updateDataTablesToClient', () =>  {
+                treatmentsTable.ajax.reload( null, false );
+            });
+
         });
 
     </script>
