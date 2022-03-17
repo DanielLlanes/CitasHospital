@@ -97,7 +97,7 @@ class TreatmentController extends Controller
                 ->addColumn('image', function($treatment){
                     $image ='
                             <a href="'.asset(getTreamentImage($treatment)).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset(getTreamentImage($treatment)).'" class="img-thumbnail" style="width:50px; height:50px" alt="treatment"/>
+                                <img src="'.asset(getTreamentImage($treatment)).'" class="img-thumbnail" style="width:100px; height:auto" alt="treatment"/>
                             </a>
                         ';
                     return $image;

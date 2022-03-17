@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\Site\Application;
+use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
 use App\Models\Staff\PaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Yajra\DataTables\DataTables;
@@ -25,9 +26,9 @@ class PaymentController extends Controller
         date_default_timezone_set('America/Tijuana');
 
         $this->middleware('can:payments.list')->only(['getList', 'index']);
-        $this->middleware('can:payments.create')->only(['store']);
-        
+        $this->middleware('can:payments.create')->only(['store']);  
     }
+    
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -196,7 +197,7 @@ class PaymentController extends Controller
             'data' => $patientApp
         ]);
     }
-    public function searchPatientWithApps(Request $request)
+    public function searchPatientAppDetails(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
@@ -226,7 +227,25 @@ class PaymentController extends Controller
         ->find($request->id);
         return $apps;
     }
+    public function searchPatientWithApps(Request $request)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        app()->setLocale($lang);
 
+        $search = Patient::where("name",'like', "%".$request->search."%")
+        ->whereHas('applications', function($q){
+            $q->where('is_complete', 1)
+            ->whereHas(
+                'statusOne', function($q){
+                    $q->where('status_id', 5); //where accepted
+                }
+            );
+        })
+        ->select('id', "name", 'email', 'phone')
+        ->get();
+
+     return $search;   
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -291,7 +310,7 @@ class PaymentController extends Controller
         if ($payment->save()) {
             if ($evidence != '') {
                 $payment->imageOne()->create(
-                    ['image' => $evidence, 'code' => time().uniqid(Str::random(30))]
+                    ['image' => $evidence, 'code' => getCode()]
                 );
             }
             return response()->json(

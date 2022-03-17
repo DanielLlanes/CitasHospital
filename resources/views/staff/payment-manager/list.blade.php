@@ -67,7 +67,7 @@
                             <div class="col-md-3 col-sm-12">
                                 <div class="card-box">
                                     <div class="card-head">
-                                        <header>@lang('Book Appointment')</header>
+                                        <header>@lang('Add Payment')</header>
                                     </div>
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
@@ -77,10 +77,11 @@
                                                        <span class="required"> * </span>
                                                    </label>
                                                    <div class="col-md-12">
-                                                       <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
+                                                       <select type="text" name="patient" id="patient" placeholder="@lang('Enter patient name')" class="form-control input-sm autocomplete patient" />
+                                                        </select>
                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                       <div id="myInputautocomplete-list" class="autocomplete-items patient" style="overflow-x: auto; max-height: 200px">
-                                                       </div>
+                                                       {{-- <div id="myInputautocomplete-list" class="autocomplete-items patient" style="overflow-x: auto; max-height: 200px">
+                                                       </div> --}}
                                                    </div>
                                                </div>
                                                <div class="form-group mb-2">
@@ -180,6 +181,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="paymenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -231,7 +233,7 @@
                                 <select name="paymentMethod" id="paymentMethod" class="form-control input-sm">
                                     <option value="" disabled selected>Select....</option>
                                     @foreach($paymentMethod as $method)
-                                        <option value="{{ $method->code }}">{{ $method->description }}</option>
+                                        <option value="{{ $method->code }}">{{ $method->name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="error text-danger col-form-label-sm"></div>
@@ -267,6 +269,8 @@
         var globalRoutelistar = '{{ route('staff.payments.getList') }}'
         var globalRouteStore = '{{ route('staff.payments.store') }}'
         var globalRoutesearchPatientWithApps = '{{ route('staff.payments.searchPatientWithApps') }}'
+        var globalSearchPatientAppDetails = '{{ route('staff.payments.searchPatientAppDetails') }}'
+
     </script>
 	<script>
         $(document).ready(function() {
@@ -330,81 +334,64 @@
                     }
                 });
             }
-            $('.autocomplete.patient').on('keyup click', function() {
-                var key = $(this).val();
-                $('#email').val('').removeAttr('disabled')
-                $('#phone').val('').removeAttr('disabled')
-                $('#paymentAdd').attr('disabled', true)
-                $('#applications option:not(:first)').remove();
-                $('#brand').val('')
-                $('#service').val('')
-                $('#procedure').val('')
-                $('#package').val('')
-                $('#price').val('')
-                $("#paymentAdd").removeAttr("appId")
-                // $("#appPaymentModal").removeAttr("idA");
-                // $("#appPaymentModal").removeAttr("code");
-                var dataString = new FormData();
-                dataString.append('key', key);
-                $.ajax({
-                    type: "POST",
-                    url: globalSearchPatient,
-                    method:"POST",
-                    data:dataString,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function(){
-                        $('#myInputautocomplete-list.patient').html('');
-                    },
-                    success: function(data) {
-                        var sugerencias = '';
-                        if (data.length > 0) {
-                            for (var i = 0; i < data.length; i++) {
-                                var app = 0;
-                                if (data[i].applications.length > 0) {
-                                    app = 1;
-                                }
-                               sugerencias += '<div><a class="suggest-element" app="'+ app +'" lang="'+ data[i].lang+'" data="' + data[i].id + '" id="" email="' + data[i].email + '" phone="' + data[i].phone + '">' + data[i].name + '</a></div>';
-                            }
-                        } else {
-                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
+            $('#patient').empty().attr('placeholder', "Enter patient name").trigger('change')
+            $('#patient').select2({
+                placeholder: "Enter patient name",
+                //allowClear: true,
+                ajax: {
+                    url: globalRoutesearchPatientWithApps,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                            app: 1,
                         }
-                        $('#myInputautocomplete-list.patient').fadeIn(1000).append(sugerencias);
-                        $('.suggest-element').not('.no-show-patient').on('click', function(){
-                            var id = $(this).attr('data');
-                            var name = $(this).text();
-                            var email = $(this).attr('email');
-                            var phone = $(this).attr('phone');
-                            var lang = $(this).attr('lang');
-                            var app = $(this).attr('app');
-                            patientGetApps(id)
-                            $('.autocomplete.patient').val(name).attr('data-id', id);
-                            $('#email').val(email);
-                            $('#phone').val(phone);
-                            $('#lang option[value='+lang+']').attr('selected','selected');
-                            $('#lang').prop('disabled', true);
-                            $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
+                    },
+                    processResults: function(data) {
+                        console.log("data", data);
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.name,
+                                    email: obj.email,
+                                    phone: obj.phone
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            })
 
-                            return false;
-                        });
-                    }
-                });
+            $('#patient').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data) {
+                    $('#email').val('').removeAttr('disabled')
+                    $('#phone').val('').removeAttr('disabled')
+                    $('#brand').val('')
+                    $('#service').val('')
+                    $('#procedure').val('')
+                    $('#package').val('')
+                    $('#price').val('')
+                    $("#paymentAdd").removeAttr("appId")
+                    $('#paymentAdd').attr('disabled', true)
+                    $('#applications option:not(:first)').remove();
+                    $('#email').val(data.email).prop('disabled', true)
+                    $('#phone').val(data.phone).prop('disabled', true)
+                    patientGetApps(data.id);
+                }               
             });
-
+    
             $(document).on('change', '#applications', function () {
                 var appId = $( "#applications option:selected" ).val();
                 var code = $( "#applications option:selected" ).text();
                 var e = document.getElementById("applications").value;
-                //alert(e.value);
                 var dataString = new FormData();
                 dataString.append('id', appId);
                 $.ajax({
-                    url: globalRoutesearchPatientWithApps,
+                    url: globalSearchPatientAppDetails,
                     type: "POST",
                     method:"POST",
                     data:dataString,
@@ -424,13 +411,14 @@
                         $('#brand').val(data.treatment.brand.brand)
                         $('#service').val(data.treatment.service.service)
                         $('#procedure').val(data.treatment.procedure.procedure)
-                        $('#package').val(data.treatment.package.package)
+                        if (data.treatment.package) {$('#package').val(data.treatment.package.package)}
                         $('#price').val(data.treatment.price)
                         $("#paymentAdd").attr("appId", data.treatment.id)
                         $("#appPaymentModal").attr({"idA": data.treatment.id, "code": code});
                     }
                 });
             });
+
             $(document).on('click', '.no-show-patient', function(event) {
                 event.preventDefault();
                 $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
@@ -448,6 +436,7 @@
                 $("#is_app").prop('checked', false);
                 $("#is_app").parent().removeClass('is-checked');
                 $("#app").removeAttr("data-id")
+                clearForm()
             });
 
             $('#paymenModal').on('show.bs.modal', function (event) {
@@ -520,6 +509,7 @@
                 $("#appPaymentModal").removeAttr('idA')
                 $("#appPaymentModal").removeAttr('code')
                 $('#paymenModal').modal('hide')
+                $('#patient').val(null).trigger('change');
             }
         });
 </script>

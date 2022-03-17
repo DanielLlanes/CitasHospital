@@ -38,6 +38,7 @@ class AutocompleteController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
+        
         $search = Patient::where("name",'like', "%".$request->key."%")
         ->with(
             [
