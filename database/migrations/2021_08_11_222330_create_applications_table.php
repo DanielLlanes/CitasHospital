@@ -17,6 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->string('temp_code');
             $table->bigInteger('patient_id')->unsigned();
+            $table->bigInteger("recommended_id")->unsigned()->nullable();
 
             $table->bigInteger('treatment_id')->unsigned()->nullable();
             $table->string('mesure_sistem')->nullable();

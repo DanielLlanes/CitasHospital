@@ -21,6 +21,7 @@ class CreateTreatmentsTable extends Migration
             $table->bigInteger('package_id')->unsigned()->nullable();
             $table->enum('type', ['product', 'service'])->default('service');
             $table->text('sku')->nullable();
+            $table->integer('discount')->nullable()->default(0);
             $table->decimal('price', 16, 2)->nullable();
             $table->text('group_es');
             $table->text('group_en');
