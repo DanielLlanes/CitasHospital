@@ -1,5 +1,7 @@
 <?php
 
+use Spatie\Permission\Models\Role;
+
 if (!function_exists('saludar')) {
     function saludar($hola = null) {
         if (!empty($hola)) {
@@ -59,5 +61,14 @@ if (!function_exists('getStracto')) {
             return $string;
         }
         return substr($string, 0, $char)." ...";
+    }
+}
+
+if (!function_exists('isRoleExist')) {
+    function isRoleExist($role) {
+        $x = Role::where('name', $role)->get();
+
+        if (count($x) > 0) {return true;}
+        return false;
     }
 }

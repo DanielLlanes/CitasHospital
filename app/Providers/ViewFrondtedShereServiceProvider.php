@@ -35,12 +35,9 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        function isRoleExist($role_name){
-            $x = Role::where('name', $role_name)->get();
-
-            if (count($x) > 0) {return true;}
-            return false;
-        }
+        // function isRoleExistx($role_name){
+            
+        // }
     
         view()->composer('*', function ($view) 
         {
