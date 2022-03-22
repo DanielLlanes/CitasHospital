@@ -35,81 +35,81 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        // function isRoleExist($role_name){
-        //     $x = Role::where('name', $role_name)->get();
+        function isRoleExist($role_name){
+            $x = Role::where('name', $role_name)->get();
 
-        //     if (count($x) > 0) {return true;}
-        //     return false;
-        // }
+            if (count($x) > 0) {return true;}
+            return false;
+        }
     
-        // view()->composer('*', function ($view) 
-        // {
-        //     date_default_timezone_set('America/Tijuana');
-        //     $lang = app()->getLocale();
-        //     $brands = [];
-        //     $coordinatorFooter = [];
-        //     $debateMessages = [];
-        //     $notifications = [];
-        //     if (isRoleExist('coordinator')) {
-        //         $coordinatorFooter = Staff::role('coordinator')
-        //         ->with
-        //             (
-        //                 [
-        //                     'assignToService' => function($q) use($lang) 
-        //                     {
-        //                         $q->selectRaw("services.id, service_$lang as service, brand_id");
-        //                         $q->with
-        //                         (
-        //                             [
-        //                                 'brand'
-        //                             ]
-        //                         );
-        //                     }
-        //                 ]
-        //             )
-        //         ->get();
+        view()->composer('*', function ($view) 
+        {
+            date_default_timezone_set('America/Tijuana');
+            $lang = app()->getLocale();
+            $brands = [];
+            $coordinatorFooter = [];
+            $debateMessages = [];
+            $notifications = [];
+            if (isRoleExist('coordinator')) {
+                $coordinatorFooter = Staff::role('coordinator')
+                ->with
+                    (
+                        [
+                            'assignToService' => function($q) use($lang) 
+                            {
+                                $q->selectRaw("services.id, service_$lang as service, brand_id");
+                                $q->with
+                                (
+                                    [
+                                        'brand'
+                                    ]
+                                );
+                            }
+                        ]
+                    )
+                ->get();
 
-        //         $idi = ($lang == 'es') ? 'es' : "en";
-        //         $brands = Brand::select("*")
-        //         ->whereHas
-        //             (
-        //                 'service', function($q)
-        //                 {
-        //                     $q->whereNotNull('id');
-        //                 },
-        //             )
-        //         ->with
-        //             (
-        //                 [
-        //                     'imageOne',
-        //                     'service' => function($q) use ($lang, $idi){
-        //                         $q->select(["id", "brand_id", "service_$idi AS service"]);
-        //                     },
-        //                 ]
-        //             )
-        //         ->get();
+                $idi = ($lang == 'es') ? 'es' : "en";
+                $brands = Brand::select("*")
+                ->whereHas
+                    (
+                        'service', function($q)
+                        {
+                            $q->whereNotNull('id');
+                        },
+                    )
+                ->with
+                    (
+                        [
+                            'imageOne',
+                            'service' => function($q) use ($lang, $idi){
+                                $q->select(["id", "brand_id", "service_$idi AS service"]);
+                            },
+                        ]
+                    )
+                ->get();
 
-        //         if (Auth::guard('staff')->check()) {
-        //             $lang = Auth::guard('staff')->user()->lang;
-        //             app()->setLocale($lang);
-        //             $debateMessages = Message::with([
-        //                 'debateInverseMessages' => function($q)
-        //                 {
-        //                     $q->with('staffDebate');
-        //                 }
-        //             ])
-        //             ->orderBy('created_at', 'DESC')
-        //             ->where('staff_id', Auth::guard('staff')->user()->id)
-        //             ->get();
+                if (Auth::guard('staff')->check()) {
+                    $lang = Auth::guard('staff')->user()->lang;
+                    app()->setLocale($lang);
+                    $debateMessages = Message::with([
+                        'debateInverseMessages' => function($q)
+                        {
+                            $q->with('staffDebate');
+                        }
+                    ])
+                    ->orderBy('created_at', 'DESC')
+                    ->where('staff_id', Auth::guard('staff')->user()->id)
+                    ->get();
 
-        //             $notifications = Notification::orderBy('created_at', 'DESC')
-        //             ->where('staff_id', Auth::guard('staff')->user()->id)
-        //             ->with('notificationStaff')
-        //             ->get();
-        //         }
+                    $notifications = Notification::orderBy('created_at', 'DESC')
+                    ->where('staff_id', Auth::guard('staff')->user()->id)
+                    ->with('notificationStaff')
+                    ->get();
+                }
                 
-        //     }
-        //     $view->with(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages, 'notifications' => $notifications]);    
-        // }); 
+            }
+            $view->with(['brands' => $brands, 'coordinatorFooter' => $coordinatorFooter, 'debateMessages' => $debateMessages, 'notifications' => $notifications]);    
+        }); 
     }
 }
