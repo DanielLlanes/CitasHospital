@@ -117,7 +117,7 @@
     <section id="team" class="team">
         <div class="container">
             <div class="section-title m-5" data-aos="fade-up">
-                <h2><strong>Cooming soon</strong></h2>
+                <h2><strong>Coming soon</strong></h2>
                 <p>
                     Come back soon to see our amazing procedures
                 </p>

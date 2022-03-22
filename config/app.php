@@ -168,6 +168,8 @@ return [
             Spatie\Permission\PermissionServiceProvider::class,
             Collective\Html\HtmlServiceProvider::class,
             Intervention\Image\ImageServiceProvider::class,
+            App\Providers\DropboxServiceProvider::class,
+            App\Providers\GoogleDriveServiceProvider::class,
         /*
          * Application Service Providers...
          */
