@@ -289,7 +289,7 @@ class HomeController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        $request->merge(["email_reciver" => 'info@jlpradosc.com', "name_reciver" => "Info Jl Prado"]);
+        $request->merge(["email_reciver" => 'gabriel@jlpradosc.com', "name_reciver" => "Info Jl Prado"]);
 
         $data = array(
             'email' => $request->email,
