@@ -150,6 +150,7 @@
                     beforeSend: function()
                     {
                         $('.error').html('')
+                        $('.sent-message').hide('fast');
                     },
                     success:function(data)
                     {
@@ -160,9 +161,9 @@
                             });
                             $('#btn-send-msg').prop( "disabled", false );
                         } else {
-                            $('.sent-message').show('fast');
+                            //$('.sent-message').show('fast');
                             $('.php-email-form')[0].reset();
-                            //$('#btn-send-msg').prop( "disabled", true );
+                            setTimeout($('.sent-message').show('fast'), 5000);
                         }
                     },
                     complete: function()

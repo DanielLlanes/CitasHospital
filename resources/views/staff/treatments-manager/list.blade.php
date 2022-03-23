@@ -279,6 +279,7 @@
                     },
                     success:function(data)
                     {
+                    console.log("data", data);
                         Toast.fire({
                           icon: data.icon,
                           title: data.msg
@@ -653,6 +654,7 @@
                     },
                     success:function(data)
                     {
+                    console.log("data", data);
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
