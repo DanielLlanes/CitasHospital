@@ -168,6 +168,7 @@ class ProfileController extends Controller
                 'job_from_year' => $request->job_from_year[$i],
                 'job_to_year' => $request->job_to_year[$i],
                 'job_notes' => $request->job_notes[$i],
+                'code' => getCode()
             ];
         }
         $staff->workhistory()->delete();
@@ -215,6 +216,7 @@ class ProfileController extends Controller
                 'education_from_year' => $request->education_from_year[$i],
                 'education_to_year' => $request->education_to_year[$i],
                 'education_notes' => $request->education_notes[$i],
+                'code' => getCode()
             ];
         }
         $staff->educationbackground()->delete();
@@ -262,6 +264,7 @@ class ProfileController extends Controller
                 'postgraduate_from_year' => $request->postgraduate_from_year[$i],
                 'postgraduate_to_year' => $request->postgraduate_to_year[$i],
                 'postgraduate_notes' => $request->postgraduate_notes[$i],
+                'code' => getCode()
             ];
         }
         $staff->postgraduatestudies()->delete();
@@ -275,7 +278,7 @@ class ProfileController extends Controller
     }
     public function updateCourses(Request $request)
     {
-        return $request;
+        //return $request;
         $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
@@ -303,6 +306,7 @@ class ProfileController extends Controller
                 'course_school' => $request->course_school[$i],
                 'course_title' => $request->course_title[$i],
                 'course_year' => $request->course_year[$i],
+                'code' => getCode()
             ];
         }
         $staff->updatecourses()->delete();
@@ -333,7 +337,7 @@ class ProfileController extends Controller
         }
         
         $staff->careerobjetive()->delete();
-        CareerObjetiveStaff::insert(['staff_id' => $staffID, 'career_objective' => $request->career_objective]);
+        CareerObjetiveStaff::insert(['staff_id' => $staffID, 'career_objective' => $request->career_objective, 'code' => getCode()]);
         return response()->json([
             'success' => true,
             'go' => '1',
