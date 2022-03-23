@@ -72,3 +72,11 @@ if (!function_exists('isRoleExist')) {
         return false;
     }
 }
+
+if (!function_exists('getUcWords')) {
+    function getUcWords($string) {
+        $string = strtolower($string);
+        $string = ucwords($string);
+        return $string;
+    }
+}

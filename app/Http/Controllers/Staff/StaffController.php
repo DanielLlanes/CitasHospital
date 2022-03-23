@@ -371,7 +371,7 @@ class StaffController extends Controller
 
         $unHashPassword = Str::random(8);
         $staff = New Staff;
-        $staff->name = Str::ucfirst($request->name);
+        $staff->name = getUcWords($request->name);
         $staff->username = $request->username;
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
@@ -660,7 +660,7 @@ class StaffController extends Controller
             $img->destroy();
         }
 
-        $staff->name = Str::ucfirst($request->name);;
+        $staff->name = getUcWords($request->name);;
         $staff->username = $request->username;
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
