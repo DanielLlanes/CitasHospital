@@ -66,8 +66,8 @@ class PaymentController extends Controller
 
         //return($payments);
         return view('staff.payment-manager.list', [
-                    'paymentMethod' => $paymentMethod,
-                ]);
+            'paymentMethod' => $paymentMethod,
+        ]);
     }
 
     public function getList(Request $request)
@@ -158,7 +158,12 @@ class PaymentController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         app()->setLocale($lang);
 
-        $patientApp = Application::with(
+        $patientApp = Application::whereHas(
+            'statusOne', function($q){
+                $q->where('status_id', 5);
+            }
+        )
+        ->with(
             [
                 'patient' => function($q) {
                     $q->with(['country', 'state']);
@@ -248,12 +253,12 @@ class PaymentController extends Controller
     }
     public function store(Request $request)
     {
-               $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'id' => 'required|integer|exists:applications,id',
             'code' => 'required|string|exists:applications,temp_code',
             'evidence' => 'mimes:jpeg,jpg,png,gif|required',
-            'currency' => 'required|in:Dollar, Peso',
+            'currency' => 'required|in:Dollar,Peso',
             'patId' => 'required|integer|exists:patients,id',
             'paymentMethod' => 'required|string|exists:payment_methods,code'
           ]

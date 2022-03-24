@@ -163,7 +163,7 @@
                                                <div class="row">
                                                    <div class="offset-md-3 col-md-9">
                                                        {{-- @can('payment.create') --}}
-                                                           <button type="button" data-toggle="modal" disabled data-target="#paymenModal" class="btn btn-info" id="paymentAdd">@lang('Add')</button>
+                                                           <button type="button" data-toggle="modal" disabled class="btn btn-info" id="paymentAdd">@lang('Add')</button>
                                                        {{-- @endcan --}}
                                                        <button type="button" class="btn btn-default" id="formCancel">@lang('Cancel')</button>
                                                        <button type="reset" id="formReset" class="d-none" id="formReset">@lang('Cancel')</button>
@@ -307,7 +307,7 @@
                     $(row).addClass('odd gradeX');
                 },
             });
-
+            
             function patientGetApps(id){
                 var dataString = new FormData();
                 dataString.append('id', id);
@@ -328,66 +328,22 @@
                         $("#applications").prop("selectedIndex", 0);
                     },
                     success: function(data) {
+                        arr = [];
+                        obj = {}
                         for (let i = 0; i < data.data.length; i++) {
                             $('#applications').append('<option value="'+data.data[i].id+'">'+data.data[i].temp_code+'</option>')
                         }
+                        $("#applications").select2({
+                            placeholder: "Select ...x",
+                        })
+
                     }
                 });
             }
-            $('#patient').empty().attr('placeholder', "Enter patient name").trigger('change')
-            $('#patient').select2({
-                placeholder: "Enter patient name",
-                //allowClear: true,
-                ajax: {
-                    url: globalRoutesearchPatientWithApps,
-                    type: 'post',
-                    dataType: 'json',
-                    data: function (params) {
-                        return {
-                            search: params.term,
-                            app: 1,
-                        }
-                    },
-                    processResults: function(data) {
-                        console.log("data", data);
-                        return {
-                            results: $.map(data, function(obj) {
-                                return {
-                                    id: obj.id,
-                                    text: obj.name,
-                                    email: obj.email,
-                                    phone: obj.phone
-                                };
-                            })
-                        };
-                    },
-                    cache: true,
-                }
-            })
-
-            $('#patient').on('select2:select', function (e) {
+            $('#applications').on('select2:select', function (e) {
                 var data = e.params.data;
-                if (data) {
-                    $('#email').val('').removeAttr('disabled')
-                    $('#phone').val('').removeAttr('disabled')
-                    $('#brand').val('')
-                    $('#service').val('')
-                    $('#procedure').val('')
-                    $('#package').val('')
-                    $('#price').val('')
-                    $("#paymentAdd").removeAttr("appId")
-                    $('#paymentAdd').attr('disabled', true)
-                    $('#applications option:not(:first)').remove();
-                    $('#email').val(data.email).prop('disabled', true)
-                    $('#phone').val(data.phone).prop('disabled', true)
-                    patientGetApps(data.id);
-                }               
-            });
-    
-            $(document).on('change', '#applications', function () {
-                var appId = $( "#applications option:selected" ).val();
-                var code = $( "#applications option:selected" ).text();
-                var e = document.getElementById("applications").value;
+                //console.log("data", data);
+                var appId = data.id;
                 var dataString = new FormData();
                 dataString.append('id', appId);
                 $.ajax({
@@ -406,16 +362,66 @@
 
                     },
                     success: function(data) {
-                        $('#paymentAdd').attr('disabled', false)
                         $('#brand').val(data.treatment.brand.brand)
                         $('#service').val(data.treatment.service.service)
                         $('#procedure').val(data.treatment.procedure.procedure)
                         if (data.treatment.package) {$('#package').val(data.treatment.package.package)}
                         $('#price').val(data.treatment.price)
-                        $("#paymentAdd").attr("appId", data.treatment.id)
-                        $("#appPaymentModal").attr({"idA": data.treatment.id, "code": code});
+                        $('#paymentAdd').attr('disabled', false)
                     }
                 });
+            });
+            $('#patient').empty().attr('placeholder', "Enter patient name").trigger('change')
+            $('#patient').select2({
+                placeholder: "Enter patient name",
+                //allowClear: true,
+                ajax: {
+                    url: globalRoutesearchPatientWithApps,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                            app: 1,
+                        }
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.name,
+                                    email: obj.email,
+                                    phone: obj.phone
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            })
+            $('#patient').on('select2:select', function (e) {
+                var data = e.params.data;
+                if (data) {
+                    $('#email').val('').removeAttr('disabled')
+                    $('#phone').val('').removeAttr('disabled')
+                    $('#brand').val('')
+                    $('#service').val('')
+                    $('#procedure').val('')
+                    $('#package').val('')
+                    $('#price').val('')
+                    $("#paymentAdd").removeAttr("appId")
+                    $('#paymentAdd').attr('disabled', true)
+                    $('#applications option:not(:first)').remove();
+                    $('#email').val(data.email).prop('disabled', true)
+                    $('#phone').val(data.phone).prop('disabled', true)
+                    patientGetApps(data.id);
+                }               
+            });
+
+            $(document).on('click', '#paymentAdd', function(event) {
+                event.preventDefault();
+                $('#paymenModal').modal('show')
             });
 
             $(document).on('click', '.no-show-patient', function(event) {
@@ -439,11 +445,11 @@
             });
 
             $('#paymenModal').on('show.bs.modal', function (event) {
-                var code = $( "#applications option:selected" ).text();
-                var id = $('#paymentAdd').attr('appid')
-                if (code != $("#appPaymentModal").attr('code') || id != $("#appPaymentModal").attr('idA')) {
-                   location.reload();
-                }
+                // var code = $( "#applications option:selected" ).text();
+                // var id = $('#paymentAdd').attr('appid')
+                // if (code != $("#appPaymentModal").attr('code') || id != $("#appPaymentModal").attr('idA')) {
+                //    location.reload();
+                // }
             })
 
             $(document).on('click', '.closeModal', function(event) {
@@ -460,13 +466,13 @@
                 var files = $('#evidence')[0].files[0];
                 var amount = $('#amount').val();
                 var patId = $('#patient').select2('data');
-                console.log("patId", patId[0].id);
+                var app = $('#applications').select2('data');
                 var paymentMethod = $('#paymentMethod').val();
                 fd.append('evidence', files)
                 fd.append('amount', amount)
                 fd.append('evidence', 1)
-                fd.append('id', $("#appPaymentModal").attr('idA'))
-                fd.append('code', $("#appPaymentModal").attr('code'))
+                fd.append('id', app[0].id)
+                fd.append('code', app[0].text)
                 fd.append('paymentMethod', paymentMethod)
                 fd.append('currency', $("#currency").val());
                 fd.append('patId', patId[0].id);
@@ -512,6 +518,9 @@
                 $('#paymenModal').modal('hide')
                 $('#patient').val(null).trigger('change');
                 clearDropify()
+                $('#applications').val(null).trigger('change');
+                $('#applications').select2('destroy');
+                $('#applications').html('<option value="" disabled selected>Select....</option>');
             }
             function clearDropify(){
                 drEvents = drEvent.data('dropify');

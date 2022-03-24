@@ -62,17 +62,17 @@ echo '</pre>';
                     </div>
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-job"> Patient </div>
-                        <div><span class="profile-usertitle-name">{{ $appInfo->patient->name }} </span></div>
+                        <div><span class="profile-usertitle-name">{{ $appInfo->patient->name ?? '' }} </span></div>
                         <div id="biography" >
                             <div class="row">
                                 <div class="col-12 mb-2"> <strong>Edad</strong>
                                     <br>
-                                    <p class="text-muted">{{ $appInfo->patient->age }}</p>
+                                    <p class="text-muted">{{ $appInfo->patient->age ?? ''}}</p>
                                 </div>
-                                <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
+                                {{-- <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
                                     <br>
                                     <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
-                                </div>
+                                </div> --}}
                                 <div class="col-12 mb-2"> <strong>Género</strong>
                                     <br>
                                     <p class="text-muted">{{ $appInfo->patient->sex }}</p>
@@ -159,19 +159,19 @@ echo '</pre>';
                                     <div class="row">
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Nombre completo</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->name }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->name ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Email</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->email }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->email ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Teléfono</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->phone }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->phone ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Móvil</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->mobile }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->mobile ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Edad</strong>
                                             <br>
@@ -179,39 +179,41 @@ echo '</pre>';
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Fecha de nacimiento</strong>
                                             <br>
-                                            <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
+                                            @if (!is_null($appInfo->patient->dob))
+                                                <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
+                                            @endif
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Género</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->sex }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->sex ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Dirección</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->address }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->address ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>País</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->country->name }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->country->name ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Estado</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->state->name }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->state->name ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Ciudad</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->city }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->city ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Código postal</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->zip }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->zip ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Contacto de emergencia</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->ecn }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->ecn ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Teléfono contacto de emergencia</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->ecp }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->ecp ?? '' }}</p>
                                         </div>
                                     </div>
                                     <hr>
