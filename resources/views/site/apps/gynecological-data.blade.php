@@ -4,7 +4,6 @@
 @endsection
 @section('content')
 <main id="main">
-
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
@@ -468,7 +467,7 @@
         }
     </script>
 
-@if (old("birthCadena") && count(old('birthCadena')) > 0 || !empty($app->birthcontrol) && count($app->birthcontrols) > 0)
+@if (old("birthCadena") && count(old('birthCadena')) > 0 || !empty($app->birthcontrol) && count($app->birthcontrol) > 0)
 <script>
     $("#birth_control_table").show('fast');
 </script>
