@@ -248,7 +248,7 @@ class PaymentController extends Controller
     }
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+               $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'id' => 'required|integer|exists:applications,id',
             'code' => 'required|string|exists:applications,temp_code',
@@ -270,6 +270,7 @@ class PaymentController extends Controller
 
 
         $itsSame = Application::find($request->id);
+        
 
         if($request->code != $itsSame->temp_code || $request->patId != $itsSame->patient_id )
         {
@@ -277,7 +278,8 @@ class PaymentController extends Controller
                 [
                     'icon' => 'error',
                     'msg' => Lang::get('An unknown problem occurred refresh the page and try again'),
-                    'reload' => false
+                    'reload' => false,
+                    'isSame' => $itsSame
                 ]
             );
         }

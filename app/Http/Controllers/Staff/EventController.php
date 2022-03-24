@@ -254,13 +254,15 @@ class EventController extends Controller
             );
 
             if (!is_null($event->application_id) ) {
-                DB::table('application_status')->insert([
-                    'application_id' => $event->application_id,
-                    'status_id' => "6",
-                    'code' => time().uniqid(Str::random(30)),
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
+                $app = Application::find($event->application_id);
+                $app->statusOne()->create(
+                    [
+                        'status_id' => 6,
+                        'indications' => $request->medicalIndications,
+                        'recomendations' => $request->medicalRecommendations,
+                        'code' => time().uniqid(Str::random(30)),
+                    ]
+                );
 
                 
             }

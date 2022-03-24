@@ -208,7 +208,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="amount" id="amount" placeholder="@lang('Enter amount')"  class="form-control input-sm" />
+                                <input type="text" name="amount" id="amount" placeholder="@lang('Enter amount')"  class="form-control input-sm currencyTextBox" />
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
@@ -406,7 +406,6 @@
 
                     },
                     success: function(data) {
-                        console.log("data", data);
                         $('#paymentAdd').attr('disabled', false)
                         $('#brand').val(data.treatment.brand.brand)
                         $('#service').val(data.treatment.service.service)
@@ -460,6 +459,8 @@
                 var fd = new FormData();
                 var files = $('#evidence')[0].files[0];
                 var amount = $('#amount').val();
+                var patId = $('#patient').select2('data');
+                console.log("patId", patId[0].id);
                 var paymentMethod = $('#paymentMethod').val();
                 fd.append('evidence', files)
                 fd.append('amount', amount)
@@ -468,7 +469,7 @@
                 fd.append('code', $("#appPaymentModal").attr('code'))
                 fd.append('paymentMethod', paymentMethod)
                 fd.append('currency', $("#currency").val());
-                fd.append('patId', $("#patient").attr('data-id'));
+                fd.append('patId', patId[0].id);
                 $.ajax({
                     url: globalRouteStore,
                     type: "POST",
@@ -510,6 +511,12 @@
                 $("#appPaymentModal").removeAttr('code')
                 $('#paymenModal').modal('hide')
                 $('#patient').val(null).trigger('change');
+                clearDropify()
+            }
+            function clearDropify(){
+                drEvents = drEvent.data('dropify');
+                drEvents.resetPreview();
+                drEvents.clearElement();
             }
         });
 </script>
