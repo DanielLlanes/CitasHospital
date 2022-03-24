@@ -238,7 +238,7 @@
                             <div class="row justify-content-md-center col-12">
                                 <div class="offset-md-6 col-md-9">
                                     <button type="submit" class="btn btn-info">@lang('Submit')</button>
-                                    <button type="button" class="btn btn-default">@lang('Cancel')</button>
+                                    <button type="reset" class="btn btn-default" id="cancel">@lang('Cancel')</button>
                                 </div>
                         	</div>
                    		 </div>
@@ -562,6 +562,17 @@
                 })
             }
             var oldSpecialties = [];
+
+            $(document).on('click', '#cancel', function(event) {
+                event.preventDefault();
+                clearDropify();
+            });
+
+            function clearDropify(){
+                drEvents = drEvent.data('dropify');
+                drEvents.resetPreview();
+                drEvents.clearElement();
+            }
         </script>
     @endif
 @endsection

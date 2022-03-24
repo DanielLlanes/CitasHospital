@@ -233,7 +233,7 @@
                         <div class="row justify-content-md-center col-12">
                             <div class="offset-md-6 col-md-9">
                                 <button type="submit" class="btn btn-info">@lang('Submit')</button>
-                                <button type="button" class="btn btn-default">@lang('Cancel')</button>
+                                <a href="{{ route('staff.staff.staff') }}" type="button" class="btn btn-default">@lang('Cancel')</a>
                             </div>
                             </div>
                          </div>
