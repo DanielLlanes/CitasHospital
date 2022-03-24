@@ -468,12 +468,12 @@
         }
     </script>
 
-@if (old("birthCadena") || !empty($app->birthcontrol) && count($app->birthcontrols) > 0)
+@if (old("birthCadena") && count(old('birthCadena')) || !empty($app->birthcontrol) && count($app->birthcontrols) > 0)
 <script>
     $("#birth_control_table").show('fast');
 </script>
 @endif
-@if (old("hormoneCadena") || !empty($app->hormones) && count($app->hormones) > 0)
+@if (old("hormoneCadena") && count(old('hormoneCadena')) || !empty($app->hormones) && count($app->hormones) > 0)
 <script>
     $("#hormones_table").show('fast');
 </script>

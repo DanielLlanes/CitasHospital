@@ -420,6 +420,7 @@ class DescriptionOneSeeder extends Seeder
                 "descriptionOneable_type" => 'App\Models\Staff\Procedure',
                 'code' => time().uniqid(Str::random(30)),
             ],
+            //Is the Weight Loss Surgery program of J.L.Prado Surgical Center, designed to give you back your wellbeing and all the things you lost over the years. 
 
         ]);
     }

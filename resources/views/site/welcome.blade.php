@@ -13,9 +13,8 @@
             <div class="carousel-item active" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-1.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>JL Prado</span></h2>
-                        <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et
-                            tempore modi architecto.</p>
+                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <p><br></p>
 
                         <a href="#about" class="btn-get-started scrollto">Get Started</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
@@ -30,9 +29,8 @@
             <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-2.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>JL Prado</span></h2>
-                        <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et
-                            tempore modi architecto.</p>
+                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <p><br></p>
                         <a href="#about" class="btn-get-started scrollto">Get Started</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
                             <i class="bi bi-play-circle"></i>
@@ -46,9 +44,8 @@
             <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-3.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>JL Prado</span></h2>
-                        <p>Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et
-                            tempore modi architecto.</p>
+                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <p><br></p>
                         <a href="#about" class="btn-get-started scrollto">Get Started</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
                             <i class="bi bi-play-circle"></i>
@@ -170,7 +167,7 @@
                                 Our Vision
                             </h5>
                             <p class="card-text">
-                                To be a hospital recognized for its excellence in medical care, generation of knowledge through research, as well as the training and development of human resources in health.
+                                Be the most prestigious hospital in the region and internationally recognized for its distiguished excellence in medical care, quality of service, results and top of the line technology.
                             </p>
                         </div>
                     </div>
@@ -212,7 +209,7 @@
 
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                <h2>Our <strong>Cordinators</strong></h2>
+                <h2>Our <strong>Coordinators</strong></h2>
             </div>
 
             <div class="splide" id="splide" data-aos="fade-up">

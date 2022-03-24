@@ -15,7 +15,7 @@
                     </p>
                 </div>
                 <div class="col-lg-5 col-md-12 d-flex flex-column">
-                    <h4>Corrdinators</h4>
+                    <h4>Coordinators</h4>
                     <div class="d-md-flex justify-content-md-around">
                         @foreach($coordinatorFooter as $coordinator)
                         <div class="col-6 d">
@@ -45,7 +45,7 @@
 
         <div class="me-md-auto text-center text-md-start">
             <div class="copyright">
-                &copy; Copyright <strong><span>Jl Prado</span></strong>. All Rights Reserved
+                &copy; Copyright <strong><span>J.L. Prado</span></strong>. All Rights Reserved
             </div>
             <div class="credits">
                 Designed by <a href="#">Gabriel Llanes</a>

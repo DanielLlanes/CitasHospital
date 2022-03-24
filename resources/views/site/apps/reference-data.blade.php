@@ -347,7 +347,7 @@
         });
     }
     $(document).on('change', "input, select", function () {
-        alert();
+        //alert();
         //$(this).parents('.col-sm-9').find('.error').html('');
     });
 </script>

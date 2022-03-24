@@ -126,7 +126,7 @@
                                                 </div>
 
                                                 <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Specialties')
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12 d-none" id="clone_div">
@@ -144,7 +144,7 @@
                                                     <div class="clone-area">
                                                     </div>
                                                     <div class="col-md-12 d-flex justify-content-end mt-2">
-                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add specialtie <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
+                                                        <button type="button" class="btn btn-success btn-sm" id="btn-add-secialtie">Add staff <i class="material-icons f-left" style="font-size: 8px">add_circle</i>
                                                         </button>
                                                     </div>
                                                 </div>
