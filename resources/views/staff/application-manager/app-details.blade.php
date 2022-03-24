@@ -69,10 +69,12 @@ echo '</pre>';
                                     <br>
                                     <p class="text-muted">{{ $appInfo->patient->age ?? ''}}</p>
                                 </div>
-                                {{-- <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
+                                <div class="col-12 mb-2"> <strong>Fecha de Nacimiento</strong>
                                     <br>
-                                    <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
-                                </div> --}}
+                                    @if (!is_null($appInfo->patient->dob))
+                                        <p class="text-muted">{{ Carbon\Carbon::parse($appInfo->patient->dob)->toFormattedDateString() }}</p>
+                                    @endif
+                                </div>
                                 <div class="col-12 mb-2"> <strong>Género</strong>
                                     <br>
                                     <p class="text-muted">{{ $appInfo->patient->sex }}</p>
