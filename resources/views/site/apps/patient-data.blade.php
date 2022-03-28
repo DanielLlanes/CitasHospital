@@ -300,8 +300,6 @@
                         $("#email").val(data.info.email);
                         $("#name").val(data.info.name);
                         $("#data-hidde").hide('fast');
-
-
                     } else {
                         //clearForm()
                         $("#data-hidde").show('fast');
