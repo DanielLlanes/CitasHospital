@@ -10,7 +10,7 @@
                 <li><a class="active" href="{{ route('home') }}">@lang('site/menu.Home')</a></li>
                 <li class="dropdown">
                     <a href="#">
-                        <span>Services</span>
+                        <span>@lang('site/menu.Services')</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>

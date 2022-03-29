@@ -61,7 +61,7 @@
                                             <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }}</h6>
                                             <p class="card-text"></p>
                                             <span class="summer">
-                                                <ul>
+                                                <ul class="p-0">
                                                     @foreach ($treatment->contains as $include)
                                                         <li>{{ $include->include }}</li>
                                                     @endforeach
