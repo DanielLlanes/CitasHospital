@@ -3,6 +3,8 @@
 @endsection
 @section('content')
 
+@include('site.trans.home')
+
 <!-- ======= Hero Section ======= -->
 <section id="hero">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -13,13 +15,13 @@
             <div class="carousel-item active" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-1.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
                         <p><br></p>
 
-                        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
                             <i class="bi bi-play-circle"></i>
-                            <span>Watch Video</span>
+                            <span>@lang('site/home.Watch Video')</span>
                         </a>
                     </div>
                 </div>
@@ -29,12 +31,12 @@
             <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-2.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
                         <p><br></p>
-                        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
                             <i class="bi bi-play-circle"></i>
-                            <span>Watch Video</span>
+                            <span>@lang('site/home.Watch Video')</span>
                         </a>
                     </div>
                 </div>
@@ -44,12 +46,12 @@
             <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-3.jpg') }});">
                 <div class="carousel-container">
                     <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>Welcome to <span>J.L. Prado</span></h2>
+                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
                         <p><br></p>
-                        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
                         <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
                             <i class="bi bi-play-circle"></i>
-                            <span>Watch Video</span>
+                            <span>@lang('site/home.Watch Video')</span>
                         </a>
                     </div>
                 </div>
@@ -84,28 +86,12 @@
                 <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-lg-start p-5" data-aos="fade-right" style="background: url('https://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-logo-footer.png') center no-repeat;"></div>
                 <div class="col-xl-7 ps-0 ps-lg-5 pe-lg-1 d-flex align-items-stretch">
                     <div class="content d-flex flex-column justify-content-around p-3">
-                        <p data-aos="fade-up" class="pb-3">
-                            We are a family owned medical company who demands the highest quality standards to all doctors and staff that wants to be part of us so we can obtain the best results and offer them to people who are in search of a better and healthier life. Our father
-                            founded this company in 1985, he was an international recognized plastic surgeon, passed away in 1999.
-                        </p>
-                        <p data-aos="fade-up" class="pb-3">
-                            We took over his legacy to continue expanding his work to new horizons, In his honor we have created different medical programs to continue helping people. We have an excellent team because our doctors, nurses, administratives, patient coordinators, drivers
-                            and other staff are hired once they qualify with our strict requirements and high standards.
-                        </p>
-                        <p data-aos="fade-up" class="pb-3">
-                            With our medical specialties we have dedicated years on performing medical procedures that have changed the life of thousands of people, helping them to obtain a healthier life and making them feel more secure about themselves.
-                        </p>
+                        {!! aboutUs(app()->getLocale()) !!}
                     </div>
-                    <!-- End .content-->
                 </div>
             </div>
             <div class="col-12 my-3">
-                <h5>
-                    One of our mayor concerns is to offer an excellent service and care avoiding any possible risk at all times. Our patients wellbeing is our main priority.
-                </h5>
-                <h5>
-                    Everyone of our patients has trusted us and now have become our family. We invite you to come and join us with your trust and become a part of our family. We guarantee that you’ll be in the best hands.
-                </h5>
+                {!! aboutUs(app()->getLocale()) !!}
             </div>
         </div>
     </section>
@@ -123,12 +109,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-main">
-                                Our Mission
-                            </h5>
-                            <p class="card-text">
-                                Help people change their lives by improving their physical, mental and emotional health in a friendly and helpful environment.
-                            </p>
+                            {!! ourMission(app()->getLocale()) !!}
                         </div>
                     </div>
                 </div>
@@ -139,20 +120,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-main">
-                                Our Plan
-                            </h5>
-                            <p class="card-text">
-                                <ul>
-                                    <li>Excellence</li>
-                                    <li>Transparency</li>
-                                    <li>Difference</li>
-                                    <li>Responsibility</li>
-                                    <li>Resolution</li>
-                                    <li>Passion</li>
-                                    <li>Loyalty</li>
-                                </ul>
-                            </p>
+                            {!! ourPlan(app()->getLocale()) !!}
                         </div>
                     </div>
                 </div>
@@ -163,12 +131,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title text-main">
-                                Our Vision
-                            </h5>
-                            <p class="card-text">
-                                Be the most prestigious hospital in the region and internationally recognized for its distiguished excellence in medical care, quality of service, results and top of the line technology.
-                            </p>
+                            {!! ourVision(app()->getLocale()) !!}
                         </div>
                     </div>
                 </div>
@@ -182,7 +145,7 @@
     <section id="services" class="services section section-bg">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                <h2>Our <strong>Brands</strong></h2>
+                {!! ourBrands(app()->getLocale()) !!}
             </div>
             
             <div class="row">
@@ -254,6 +217,7 @@
             var data = {!! json_encode(\Session::get('data')) !!}
             
             socket.emit('sendNewNotificationToServer', data);
+            socket.emit('updateDataTablesToServer');
         </script>
     @endif
 

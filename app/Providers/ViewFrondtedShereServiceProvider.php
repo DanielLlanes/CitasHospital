@@ -66,7 +66,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     )
                 ->get();
 
-                $idi = ($lang == 'es') ? 'es' : "en";
+                $lang = ($lang == 'es') ? 'es' : "en";
+                
                 $brands = Brand::select("*")
                 ->whereHas
                     (
@@ -79,8 +80,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     (
                         [
                             'imageOne',
-                            'service' => function($q) use ($lang, $idi){
-                                $q->select(["id", "brand_id", "service_$idi AS service"]);
+                            'service' => function($q) use ($lang){
+                                $q->select(["id", "brand_id", "service_$lang AS service"]);
                             },
                         ]
                     )

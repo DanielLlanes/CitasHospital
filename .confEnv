@@ -31,7 +31,7 @@ MAIL_HOST=smtp.hostinger.com
 MAIL_PORT=465
 MAIL_USERNAME=contact@jlpradosc.com
 MAIL_PASSWORD=wPU9N9RV@
-MAIL_ENCRYPTION=tls
+MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS=contact@jlpradosc.com
 MAIL_FROM_NAME="Contact"
 

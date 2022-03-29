@@ -20,7 +20,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $lang = "en";
+        $lang = app()->getLocale();
         $coordinator = Staff::role('coordinator')
         ->with
         (
@@ -44,7 +44,7 @@ class HomeController extends Controller
     public function team($url = null)
     {
         //return($url);
-        $lang = "en";
+        $lang = app()->getLocale();
 
         if (is_null($url)) {
             $doctors = Staff::role('doctor')
@@ -147,7 +147,7 @@ class HomeController extends Controller
     }
     public function faqs()
     {
-        $lang = "en";
+        $lang = app()->getLocale();
         $faqs = Faq::where('active', true)
         ->select('id', "question_$lang As question", "awnser_$lang As awnser")
         ->get();
@@ -162,7 +162,7 @@ class HomeController extends Controller
         Session::forget('form_session');
         Session::forget('treatment');
 
-        $lang = "en";
+        $lang = app()->getLocale();
 
         $brandExist = Brand::where('url', $brand)->first();
 
@@ -289,7 +289,7 @@ class HomeController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        $request->merge(["email_reciver" => 'gabriel@jlpradosc.com', "name_reciver" => "Info Jl Prado"]);
+        $request->merge(["email_reciver" => 'info@jlpradosc.com', "name_reciver" => "Info Jl Prado"]);
 
         $data = array(
             'email' => $request->email,

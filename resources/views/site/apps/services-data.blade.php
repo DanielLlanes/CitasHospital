@@ -32,26 +32,26 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 px-5 p-md-0">
                 <form action="{{ route('postServicesData') }}" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Service</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Selected Service")</label>
                         <div class="col-sm-9">
                             <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->service->service }}">
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Procedure</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Selected Procedure")</label>
                         <div class="col-sm-9">
                             <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->procedure->procedure }}">
                         </div>
                     </div>
                     @if (!is_null($treatment->package))
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Package</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Selected Package")</label>
                             <div class="col-sm-9">
                                 <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->package->package}}">
                             </div>
@@ -60,7 +60,7 @@
 
                     @if($treatment->service->need_images)
                         <div class="col-12 my-md-5">
-                            <h5 class="text-center">Upload Images</h5>
+                            <h5 class="text-center">@lang("site/apps.Upload Images")</h5>
                         </div>
                         <div class="row">
                     @endif
@@ -89,16 +89,16 @@
 
                     <div class="mb-3 row">
                         <div class="col-6">
-                            <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-sm mx-1">Back</a>
+                            <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="button" id="next" class="btn btn-main btn-sm mx-1">Next</button>
-                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
+                            <button type="button" id="next" class="btn btn-main btn-sm mx-1">@lang("site/apps.Next")</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">@lang("site/apps.Cancel")</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
                     </div>
                 </form>
-            <div class="col-md-4"></div>
+            <div class="col-md-3"></div>
         </div>
     </section>
     <!-- End Contact Section -->

@@ -33,8 +33,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 d-none d-md-block"></div>
-            <div class="col-md-4 px-5 p-md-0">
+            <div class="col-md-3 d-none d-md-block"></div>
+            <div class="col-md-6 px-5 p-md-0">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -44,18 +44,18 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('postMedicalHistoryData') }}" method="POST" id="formHealthData">
+                <form action="{{ route('postMedicalHistoryData') }}" method="POST" id="formHealthData" class="">
                     {{ csrf_field() }}
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Addictions</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Addictions")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="addiction" id="addiction_yes" value="1" @if (old('addiction') == "1") checked @elseif(!empty($app) && $app->addiction == '1') checked @endif>
-                                <label class="form-check-label" for="addiction_yes">Yes</label>
+                                <label class="form-check-label" for="addiction_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="addiction" id="addiction_no" value="0" @if (old('addiction') == "0") checked @elseif(!empty($app) && $app->addiction == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('addiction')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row" id="which_one" @if (old('addiction') == 1 || $app->addiction)@else style="display: none" @endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Which one </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Which one") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="which_one_adiction" name="which_one_adiction" value="{{ $app->which_one_adiction ?? old('which_one_adiction') }}" placeholder="">
                             @error('which_one_adiction')
@@ -76,15 +76,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">High lipid levels</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.High lipid levels")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="high_lipid_levels" id="high_lipid_levels_yes" value="1" @if (old('high_lipid_levels') == "1") checked @elseif(!empty($app) && $app->high_lipid_levels == '1') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_yes">Yes</label>
+                                <label class="form-check-label" for="if_take_medication_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="high_lipid_levels" id="high_lipid_levels_no" value="0" @if (old('high_lipid_levels') == "0") checked @elseif(!empty($app) && $app->high_lipid_levels == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('high_lipid_levels')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 high_lipid_levels" @if (old('high_lipid_levels') == 1 || $app->high_lipid_levels == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="{{ $app->date_high_lipd_levels ?? old('date_high_lipid_levels') }}" placeholder="">
                             @error('date_high_lipid_levels')
@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 high_lipid_levels" @if (old('high_lipid_levels') == 1 || $app->high_lipid_levels == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="high_lipid_levels_treatment" name="high_lipid_levels_treatment" value="{{ $app->high_lipid_levels_treatment ?? old('high_lipid_levels_treatment') }}" placeholder="">
                             @error('high_lipid_levels_treatment')
@@ -117,15 +117,15 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Arthritis</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Arthritis")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="arthritis" id="arthritis_yes" value="1" @if (old('arthritis') == "1") checked @elseif(!empty($app) && $app->arthritis == '1') checked @endif>
-                                <label class="form-check-label" for="arthritis_yes">Yes</label>
+                                <label class="form-check-label" for="arthritis_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="arthritis" id="arthritis_no" value="0" @if (old('arthritis') == "0") checked @elseif(!empty($app) && $app->arthritis == '0') checked @endif>
-                                <label class="form-check-label" for="arthritis_no">No</label>
+                                <label class="form-check-label" for="arthritis_no">@lang("site/apps.No")</label>
                             </div>
                             @error('arthritis')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 arthritis" @if (old('arthritis') == 1 || $app->arthritis == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="{{ $app->date_arthritis ?? old('date_arthritis') }}" placeholder="">
                             @error('date_arthritis')
@@ -146,7 +146,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 arthritis" @if (old('arthritis') == 1 || $app->arthritis == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="arthritis_treatment" name="arthritis_treatment" value="{{ $app->arthritis_treatment ?? old('arthritis_treatment') }}" placeholder="">
                             @error('arthritis_treatment')
@@ -157,15 +157,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Cancer</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Cancer")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cancer" id="cancer_yes" value="1" @if (old('cancer') == "1") checked @elseif(!empty($app) && $app->cancer == '1') checked @endif>
-                                <label class="form-check-label" for="cancer_yes">Yes</label>
+                                <label class="form-check-label" for="cancer_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cancer" id="cancer_no" value="0" @if (old('cancer') == "0") checked @elseif(!empty($app) && $app->cancer == '0') checked @endif>
-                                <label class="form-check-label" for="cancer_no">No</label>
+                                <label class="form-check-label" for="cancer_no">@lang("site/apps.No")</label>
                             </div>
                             @error('cancer')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -175,7 +175,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 cancer" @if (old('cancer') == 1 || $app->cancer == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_cancer" name="date_cancer" value="{{ $app->date_cancer ?? old('date_cancer') }}" placeholder="">
                             @error('date_cancer')
@@ -186,7 +186,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 cancer" @if (old('cancer') == 1 || $app->cancer == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="cancer_treatment" name="cancer_treatment" value="{{ $app->cancer_treatment ?? old('cancer_treatment') }}" placeholder="">
                             @error('cancer_treatment')
@@ -197,15 +197,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Cholesterol</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Cholesterol")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cholesterol" id="cholesterol_yes" value="1" @if (old('cholesterol') == "1") checked @elseif(!empty($app) && $app->cholesterol == '1') checked @endif>
-                                <label class="form-check-label" for="cholesterol_yes">Yes</label>
+                                <label class="form-check-label" for="cholesterol_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="cholesterol" id="cholesterol_no" value="0" @if (old('cholesterol') == "0") checked @elseif(!empty($app) && $app->cholesterol == '0') checked @endif>
-                                <label class="form-check-label" for="cholesterol_no">No</label>
+                                <label class="form-check-label" for="cholesterol_no">@lang("site/apps.No")</label>
                             </div>
                             @error('cholesterol')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -215,7 +215,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 cholesterol" @if (old('cholesterol') == 1 || $app->cholesterol == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="{{ $app->date_cholesterol ?? old('date_cholesterol') }}" placeholder="">
                             @error('date_cholesterol')
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 cholesterol" @if (old('cholesterol') == 1 || $app->cholesterol == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="cholesterol_treatment" name="cholesterol_treatment" value="{{ $app->cholesterol_treatment ?? old('cholesterol_treatment') }}" placeholder="">
                             @error('cholesterol_treatment')
@@ -237,15 +237,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Triglycerides</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Triglycerides")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="triglycerides" id="triglycerides_yes" value="1" @if (old('triglycerides') == "1") checked @elseif(!empty($app) && $app->triglycerides == '1') checked @endif>
-                                <label class="form-check-label" for="triglycerides_yes">Yes</label>
+                                <label class="form-check-label" for="triglycerides_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="triglycerides" id="triglycerides_no" value="0" @if (old('triglycerides') == "0") checked @elseif(!empty($app) && $app->triglycerides == '0') checked @endif>
-                                <label class="form-check-label" for="triglycerides_no">No</label>
+                                <label class="form-check-label" for="triglycerides_no">@lang("site/apps.No")</label>
                             </div>
                             @error('triglycerides')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -255,7 +255,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 triglycerides" @if (old('triglycerides') == 1 || $app->triglycerides == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="{{ $app->date_triglycerides ?? old('date_triglycerides') }}" placeholder="">
                             @error('date_triglycerides')
@@ -266,7 +266,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 triglycerides" @if (old('triglycerides') == 1 || $app->triglycerides == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="triglycerides_treatment" name="triglycerides_treatment" value="{{ $app->triglycerides_treatment ?? old('triglycerides_treatment') }}" placeholder="">
                             @error('triglycerides_treatment')
@@ -278,15 +278,15 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Stroke</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Stroke")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="stroke" id="stroke_yes" value="1" @if (old('stroke') == "1") checked @elseif(!empty($app) && $app->disease_stroke== '1') checked @endif>
-                                <label class="form-check-label" for="stroke_yes">Yes</label>
+                                <label class="form-check-label" for="stroke_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="stroke" id="stroke_no" value="0" @if (old('stroke') == "0") checked @elseif(!empty($app) && $app->disease_stroke == '0') checked @endif>
-                                <label class="form-check-label" for="stroke_no">No</label>
+                                <label class="form-check-label" for="stroke_no">@lang("site/apps.No")</label>
                             </div>
                             @error('stroke')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -296,7 +296,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 stroke" @if (old('stroke') == 1 || $app->disease_stroke== '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_stroke" name="date_stroke" value="{{ $app->date_disease_stroke ?? old('date_stroke') }}" placeholder="">
                             @error('date_stroke')
@@ -307,7 +307,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 stroke" @if (old('stroke') == 1 || $app->disease_stroke== '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="stroke_treatment" name="stroke_treatment" value="{{ $app->disease_stroke_treatment ?? old('stroke_treatment') }}" placeholder="">
                             @error('stroke_treatment')
@@ -318,15 +318,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diabetes</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diabetes")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="diabetes" id="diabetes_yes" value="1" @if (old('diabetes') == "1") checked @elseif(!empty($app) && $app->diabetes == '1') checked @endif>
-                                <label class="form-check-label" for="diabetes_yes">Yes</label>
+                                <label class="form-check-label" for="diabetes_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="diabetes" id="diabetes_no" value="0" @if (old('diabetes') == "0") checked @elseif(!empty($app) && $app->diabetes == '0') checked @endif>
-                                <label class="form-check-label" for="diabetes_no">No</label>
+                                <label class="form-check-label" for="diabetes_no">@lang("site/apps.No")</label>
                             </div>
                             @error('diabetes')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -336,7 +336,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 diabetes" @if (old('diabetes') == 1 || $app->diabetes == '1'))@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="{{ $app->date_diabetes ?? old('date_diabetes') }}" placeholder="">
                             @error('date_diabetes')
@@ -347,7 +347,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 diabetes" @if (old('diabetes') == 1 || $app->diabetes == '1'))@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="diabetes_treatment" name="diabetes_treatment" value="{{ $app->diabetes_treatment ?? old('diabetes_treatment') }}" placeholder="">
                             @error('diabetes_treatment')
@@ -358,15 +358,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Coronary artery disease</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Coronary artery disease")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="coronary_artery_disease" id="coronary_artery_disease_yes" value="1" @if (old('coronary_artery_disease') == "1") checked @elseif(!empty($app) && $app->coronary_artery_disease == '1') checked @endif>
-                                <label class="form-check-label" for="coronary_artery_disease_yes">Yes</label>
+                                <label class="form-check-label" for="coronary_artery_disease_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="coronary_artery_disease" id="coronary_artery_disease_no" value="0" @if (old('coronary_artery_disease') == "0") checked @elseif(!empty($app) && $app->coronary_artery_disease == '0') checked @endif>
-                                <label class="form-check-label" for="coronary_artery_disease_no">No</label>
+                                <label class="form-check-label" for="coronary_artery_disease_no">@lang("site/apps.No")</label>
                             </div>
                             @error('coronary_artery_disease')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -376,7 +376,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 coronary_artery_disease" @if (old('coronary_artery_disease') == 1 || $app->coronary_artery_disease == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="{{ $app->date_coronary_artery_disease ?? old('date_coronary_artery_disease') }}" placeholder="">
                             @error('date_coronary_artery_disease')
@@ -387,7 +387,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 coronary_artery_disease" @if (old('coronary_artery_disease') == 1 || $app->coronary_artery_disease == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="coronary_artery_disease_treatment" name="coronary_artery_disease_treatment" value="{{ $app->coronary_artery_disease_treatment ?? old('coronary_artery_disease_treatment') }}" placeholder="">
                             @error('coronary_artery_disease_treatment')
@@ -398,15 +398,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Liver disease</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Liver disease")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="liver_disease" id="liver_disease_yes" value="1" @if (old('liver_disease') == "1") checked @elseif(!empty($app) && $app->disease_liver == '1') checked @endif>
-                                <label class="form-check-label" for="liver_disease_yes">Yes</label>
+                                <label class="form-check-label" for="liver_disease_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="liver_disease" id="liver_disease_no" value="0" @if (old('liver_disease') == "0") checked @elseif(!empty($app) && $app->disease_liver == '0') checked @endif>
-                                <label class="form-check-label" for="liver_disease_no">No</label>
+                                <label class="form-check-label" for="liver_disease_no">@lang("site/apps.No")</label>
                             </div>
                             @error('liver_disease')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -416,7 +416,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 liver_disease" @if (old('liver_disease') == 1 || $app->disease_liver == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="{{ $app->date_disease_liver ?? old('date_liver_disease') }}" placeholder="">
                             @error('date_liver_disease')
@@ -427,7 +427,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 liver_disease" @if (old('liver_disease') == 1 || $app->disease_liver == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="liver_disease_treatment" name="liver_disease_treatment" value="{{ $app->disease_liver_treatment ?? old('liver_disease_treatment') }}" placeholder="">
                             @error('liver_disease_treatment')
@@ -438,15 +438,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Lugn disease</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Lugn disease")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="lugn_disease" id="lugn_disease_yes" value="1" @if (old('lugn_disease') == "1") checked @elseif(!empty($app) && $app->disease_lung == '1') checked @endif>
-                                <label class="form-check-label" for="lugn_disease_yes">Yes</label>
+                                <label class="form-check-label" for="lugn_disease_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="lugn_disease" id="lugn_disease_no" value="0" @if (old('lugn_disease') == "0") checked @elseif(!empty($app) && $app->disease_lung == '0') checked @endif>
-                                <label class="form-check-label" for="lugn_disease_no">No</label>
+                                <label class="form-check-label" for="lugn_disease_no">@lang("site/apps.No")</label>
                             </div>
                             @error('lugn_disease')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -456,7 +456,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 lugn_disease" @if (old('lugn_disease') == 1 || $app->disease_lung == '1') @else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="{{ $app->date_disease_lung ?? old('date_lugn_disease') }}" placeholder="">
                             @error('date_lugn_disease')
@@ -467,7 +467,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 lugn_disease" @if (old('lugn_disease') == 1 || $app->disease_lung == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="lugn_disease_treatment" name="lugn_disease_treatment" value="{{ $app->disease_lung_treatment ?? old('lugn_disease_treatment') }}" placeholder="">
                             @error('lugn_disease_treatment')
@@ -478,15 +478,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Renal disease</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Renal disease")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="renal_disease" id="renal_disease_yes" value="1" @if (old('renal_disease') == "1") checked @elseif(!empty($app) && $app->disease_renal == '1') checked @endif>
-                                <label class="form-check-label" for="renal_disease_yes">Yes</label>
+                                <label class="form-check-label" for="renal_disease_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="renal_disease" id="renal_disease_no" value="0" @if (old('renal_disease') == "0") checked @elseif(!empty($app) && $app->disease_renal == '0') checked @endif>
-                                <label class="form-check-label" for="irenal_disease_no">No</label>
+                                <label class="form-check-label" for="irenal_disease_no">@lang("site/apps.No")</label>
                             </div>
                             @error('renal_disease')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -496,7 +496,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 renal_disease" @if (old('renal_disease') == 1 || $app->disease_renal == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="{{ $app->date_disease_renal ?? old('date_renal_disease') }}" placeholder="">
                             @error('date_renal_disease')
@@ -507,7 +507,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 renal_disease" @if (old('renal_disease') == 1 || $app->disease_renal == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="renal_disease_treatment" name="renal_disease_treatment" value="{{ $app->disease_renal_treatment ?? old('renal_disease_treatment') }}" placeholder="">
                             @error('renal_disease_treatment')
@@ -518,15 +518,15 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Thyroid disease</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Thyroid disease")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="thyroid_disease" id="thyroid_disease_yes" value="1" @if (old('thyroid_disease') == "1") checked @elseif(!empty($app) && $app->disease_thyroid == '1') checked @endif>
-                                <label class="form-check-label" for="thyroid_disease_yes">Yes</label>
+                                <label class="form-check-label" for="thyroid_disease_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="thyroid_disease" id="thyroid_disease_no" value="0" @if (old('thyroid_disease') == "0") checked @elseif(!empty($app) && $app->disease_thyroid == '0') checked @endif>
-                                <label class="form-check-label" for="thyroid_disease_no">No</label>
+                                <label class="form-check-label" for="thyroid_disease_no">@lang("site/apps.No")</label>
                             </div>
                             @error('thyroid_disease')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -536,7 +536,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 thyroid_disease" @if (old('thyroid_disease') == 1 || $app->disease_thyroid == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="{{ $app->date_disease_thyroid ?? old('date_thyroid_disease') }}" placeholder="">
                             @error('date_thyroid_disease')
@@ -547,7 +547,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 thyroid_disease" @if (old('thyroid_disease') == 1 || $app->disease_thyroid == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="thyroid_disease_treatment" name="thyroid_disease_treatment" value="{{ $app->disease_thyroid_treatment ?? old('thyroid_disease_treatment') }}" placeholder="">
                             @error('thyroid_disease_treatment')
@@ -559,15 +559,15 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hypertension</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Hypertension")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="hypertension" id="hypertension_yes" value="1" @if (old('hypertension') == "1") checked @elseif(!empty($app) && $app->ypertension == '1') checked @endif>
-                                <label class="form-check-label" for="hypertension_yes">Yes</label>
+                                <label class="form-check-label" for="hypertension_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="hypertension" id="hypertension_no" value="0" @if (old('hypertension') == "0") checked @elseif(!empty($app) && $app->ypertension == '0') checked @endif>
-                                <label class="form-check-label" for="hypertension_no">No</label>
+                                <label class="form-check-label" for="hypertension_no">@lang("site/apps.No")</label>
                             </div>
                             @error('hypertension')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -577,7 +577,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 hypertension" @if (old('hypertension') == 1 || $app->ypertension == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Diagnostic date") </span></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="{{ $app->hypertension ?? old('date_hypertension') }}" placeholder="">
                             @error('date_hypertension')
@@ -588,7 +588,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row mt-1 hypertension" @if (old('hypertension') == 1 || $app->ypertension == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Treatment </span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Treatment") </span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="hypertension_treatment" name="hypertension_treatment" value="{{ $app->hypertension_treatment ?? old('hypertension_treatment') }}" placeholder="">
                             @error('hypertension_treatment')
@@ -600,15 +600,15 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Any other illnesses</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Any other illnesses")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="any_other_illnesses" id="any_other_illnesses_yes" value="1" @if (old('any_other_illnesses') == "1") checked @elseif(!empty($app) && $app->disease_other  == '1') checked @endif>
-                                <label class="form-check-label" for="any_other_illnesses_yes">Yes</label>
+                                <label class="form-check-label" for="any_other_illnesses_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="any_other_illnesses" id="any_other_illnesses_no" value="0" @if (old('any_other_illnesses') == "0") checked @elseif(!empty($app) && $app->disease_other  == '0') checked @endif>
-                                <label class="form-check-label" for="any_other_illnesses_no">No</label>
+                                <label class="form-check-label" for="any_other_illnesses_no">@lang("site/apps.No")</label>
                             </div>
                             @error('any_other_illnesses')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -621,10 +621,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="font-weight: 600; font-size: .9rem;">What other illness? </th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Diagnostic date</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Treatment</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Actions</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.What other illness?") </th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Diagnostic date")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Treatment")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Actions")</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -697,22 +697,22 @@
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-second text-white mb-3" id="illnessTableAdd">Add illness</button>
+                            <button type="button" class="btn btn-second text-white mb-3" id="illnessTableAdd">@lang("site/apps.Add illness")</button>
                         </div>
                     </div>
 
                     <div class="mb-3 row mt-5">
                         <div class="col-6">
-                                <a href="{{ route('createSurgicalData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('createSurgicalData') }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
-                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
+                            <button type="submit" class="btn btn-main btn-sm mx-1 send">@lang("site/apps.Next")</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">@lang("site/apps.Cancel")</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
                     </div>
                 </form>
-            <div class="col-md-4 d-none d-md-block"></div>
+            <div class="col-md-3 d-none d-md-block"></div>
         </div>
     </section>
     <!-- End Contact Section -->

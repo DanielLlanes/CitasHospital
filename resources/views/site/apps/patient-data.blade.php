@@ -3,8 +3,8 @@
  - Patient Data
 @endsection
 @section('content')
-<main id="main">
 
+<main id="main">
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
@@ -33,15 +33,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-
+            <div class="col-md-3"></div>
+            <div class="col-md-6 px-5 p-md-0">
                 <form action="{{ route('createPatientData') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="mb-2 row">
                         <div class="col-3"></div>
                         <div class="col-sm-9">
-                            <p for="staticEmail" class="col-form-label col-form-label-sm text-center">Have you received any treatment with us before?</p>
+                            <p for="staticEmail" class="col-form-label col-form-label-sm text-center">@lang('site/apps.Have you received any treatment with us before?')</p>
                         </div>
                     </div>
                     <div class="row mb-5">
@@ -49,11 +48,11 @@
                         <div class="col-sm-9 text-center">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeYes" value="1" @if (old('treatmentBefore') == "1") checked @elseif(!empty($patient ?? '') && $patient->treatmentBefore == '1') checked @endif>
-                                <label class="form-check-label" for="treatmentBeforeYes">Yes</label>
+                                <label class="form-check-label" for="treatmentBeforeYes">@lang('site/apps.Yes')</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeNo" value="0" @if (old('treatmentBefore') == "0") checked @elseif(!empty($patient ?? '') && $patient->treatmentBefore == '0') checked @endif>
-                                <label class="form-check-label" for="treatmentBeforeNo">No</label>
+                                <label class="form-check-label" for="treatmentBeforeNo">@lang('site/apps.No')</label>
                             </div>
                             @error('treatmentBefore')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -63,7 +62,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Email</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Email')</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="email" name="email" value="{{ $patient->email ?? old('email') }}" placeholder="email@example.com">
                             @error('email')
@@ -74,7 +73,7 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Name</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Name')</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="name" name="name" value="{{ $patient->name ?? old('name') }}" placeholder="Name">
                             @error('name')
@@ -86,7 +85,7 @@
                     </div>
                     <div id="data-hidde">
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Biological Sex</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Biological Sex')</label>
                             <div class="col-sm-9">
                                 <select name="sex" id="sex" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
@@ -102,7 +101,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Birth Date</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Birth Date')</label>
                             <div class="col-sm-9">
                                 <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="{{ $patient->dob ?? old('dob') }}" placeholder="Date of Birth">
                                 @error('dob')
@@ -113,7 +112,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Age</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Age')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="age" name="age" value="{{ $patient->age ?? old('age') }}" placeholder="Age">
                                 @error('age')
@@ -124,7 +123,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Phone</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Phone')</label>
                             <div class="col-sm-9">
                                 <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="{{ $patient->phone ?? old('phone') }}" placeholder="phone">
                                 @error('phone')
@@ -135,7 +134,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Mobile</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Mobile')</label>
                             <div class="col-sm-9">
                                 <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="{{ $patient->mobile ?? old('mobile') }}" placeholder="Mobile">
                                 @error('mobile')
@@ -146,7 +145,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Address</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Address')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="address" name="address" value="{{ $patient->address ?? old('address') }}" placeholder="Address">
                                 @error('address')
@@ -157,7 +156,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Country</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Country')</label>
                             <div class="col-sm-9">
                                 <select name="country_id" id="country_id" country="{{ $patient->country_id ?? old('country_id') }}" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
@@ -173,7 +172,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.State ')</label>
                             <div class="col-sm-9">
                                 <select name="state_id" state="{{ $patient->state_id ?? old('state_id') }}" id="state_id" class="form-control form-control-sm">
                                     <option value="" disabled selected>Select....</option>
@@ -186,7 +185,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">City</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.City')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="city" name="city" value="{{ $patient->city ?? old('city') }}" placeholder="City">
                                 @error('city')
@@ -197,7 +196,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Zip Code</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Zip Code')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="zip" name="zip" value="{{ $patient->zip ?? old('zip') }}" placeholder="Zip">
                                 @error('zip')
@@ -208,7 +207,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency Contact Name</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Emergency Contact Name')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="ecn" name="ecn" value="{{ $patient->ecn ?? old('ecn') }}" placeholder="Emergency Contact Name">
                                 @error('ecn')
@@ -219,7 +218,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency Contact Phone</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Emergency Contact Phone')</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control form-control-sm" id="ecp" name="ecp" value="{{ $patient->ecp ?? old('ecp') }}" placeholder="Emergency Contact Phone">
                                 @error('ecp')
@@ -230,21 +229,21 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Service</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Selected Service')</label>
                             <div class="col-sm-9">
                                 <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->service->service }}">
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Procedure</label>
+                        <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Selected Procedure')</label>
                         <div class="col-sm-9">
                             <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->procedure->procedure }}">
                         </div>
                     </div>
                     @if (!is_null($treatment->package))
                         <div class="mb-3 row">
-                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Selected Package</label>
+                            <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">@lang('site/apps.Selected Package')</label>
                             <div class="col-sm-9">
                                 <input type="text" disabled class="form-control form-control-sm" value="{{ $treatment->package->package}}">
                             </div>
@@ -260,7 +259,7 @@
                         </div>
                     </div>
                 </form>
-            <div class="col-md-4"></div>
+            <div class="col-md-3"></div>
         </div>
     </section>
     <!-- End Contact Section -->

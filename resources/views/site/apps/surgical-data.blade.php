@@ -34,8 +34,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 d-none d-md-block"></div>
-            <div class="col-md-4 px-5 p-md-0">
+            <div class="col-md-3 d-none d-md-block"></div>
+            <div class="col-md-6 px-5 p-md-0">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -45,12 +45,12 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('postSurgicalData') }}" method="POST" id="formHealthData">
+                <form action="{{ route('postSurgicalData') }}" method="POST" id="formHealthData" class="text-center text-md-start">
                     {{ csrf_field() }}
                     <div class="mb-2 row">
                         <div class="col-3 d-none d-md-block"></div>
                         <div class="col-sm-9">
-                            <p for="staticEmail" class="col-form-label col-form-label-sm">Have you had any previous surgery?</p>
+                            <p for="staticEmail" class="col-form-label col-form-label-sm">@lang("site/apps.Have you had any previous surgery?")</p>
                         </div>
                     </div>
 
@@ -59,11 +59,11 @@
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_yes" value="1" @if (old('previus_surgery') == "1") checked @elseif(!empty($app) && $app->if_have_surgeries == '1') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_yes">Yes</label>
+                                <label class="form-check-label" for="if_take_medication_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="previus_surgery" id="if_take_medication_no" value="0" @if (old('previus_surgery') == "0") checked @elseif(!empty($app) && $app->if_have_surgeries == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('previus_surgery')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -77,13 +77,13 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Type</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Name</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Age</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Year</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Complications</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Actions</th>
+                                    <th style="font-weight: 600; font-size: .9rem; display: none">@lang("site/apps.Order")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Type")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Name")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Age")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Year")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Complications")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Actions")</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -188,22 +188,22 @@
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-second text-white mb-3" id="surgeyTableAdd">Add surgery</button>
+                            <button type="button" class="btn btn-second text-white mb-3" id="surgeyTableAdd">@lang("site/apps.Add surgery")</button>
                         </div>
                     </div>
 
                     <div class="mb-3 row mt-5">
                         <div class="col-6">
-                                <a href="{{ route('createHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('createHealthData') }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
-                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
+                            <button type="submit" class="btn btn-main btn-sm mx-1 send">@lang("site/apps.Next")</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">@lang("site/apps.Cancel")</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
                     </div>
                 </form>
-            <div class="col-md-4 d-none d-md-block"></div>
+            <div class="col-md-3 d-none d-md-block"></div>
         </div>
     </section>
     <!-- End Contact Section -->

@@ -48,7 +48,7 @@
 
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Date of last menstrual period")</label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="{{ $app->last_menstrual_period ?? old('last_menstrual_period') }}" placeholder="">
                             @error('last_menstrual_period')
@@ -59,23 +59,23 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Bleeding was?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Bleeding was?")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whasyes" value="normal" @if (old('bleeding_whas') == "normal") checked @elseif(!empty($app) && $app->bleeding_whas == 'normal') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_normal">Normal</label>
+                                <label class="form-check-label" for="bleeding_whas_normal">@lang("site/apps.Normal")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="light" @if (old('bleeding_whas') == "light") checked @elseif(!empty($app) && $app->bleeding_whas == 'light') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_light">Light</label>
+                                <label class="form-check-label" for="bleeding_whas_light">@lang("site/apps.Light")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_yes" value="heavy" @if (old('bleeding_whas') == "heavy") checked @elseif(!empty($app) && $app->bleeding_whas == 'heavy') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_heavy">Heavy</label>
+                                <label class="form-check-label" for="bleeding_whas_heavy">@lang("site/apps.Heavy")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="irregular" @if (old('bleeding_whas') == "irregular") checked @elseif(!empty($app) && $app->bleeding_whas == 'irregular') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_irregular">Irregular</label>
+                                <label class="form-check-label" for="bleeding_whas_irregular">@lang("site/apps.Irregular")</label>
                             </div>
                             @error('bleeding_whas')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -86,15 +86,15 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you been pregnant?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Have you been pregnant?")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_yes" value="1" @if (old('have_you_been_pregnant') == "1") checked @elseif(!empty($app) && $app->have_you_been_pregnant == '1') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_yes">Yes</label>
+                                <label class="form-check-label" for="if_take_medication_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="if_take_medication_no" value="0" @if (old('have_you_been_pregnant') == "0") checked @elseif(!empty($app) && $app->have_you_been_pregnant == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('have_you_been_pregnant')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1 || $app->have_you_been_pregnant == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How many times?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.How many times?")</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="how_many_times" name="how_many_times" value="{{ $app->how_many_times ?? old('how_many_times') }}" placeholder="">
                             @error('how_many_times')
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <div class="row mb-3 have_you_been_pregnant" @if (old('have_you_been_pregnant') == 1 || $app->have_you_been_pregnant == '1')@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">C-section</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Date of last menstrual period")</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="c_section" name="c_section" value="{{ $app->c_section ?? old('c_section') }}" placeholder="">
                             @error('c_section')
@@ -127,15 +127,15 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use any type of birth control?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Do you use any type of birth control?")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_yes" value="1" @if (old('birth_control') == "1") checked @elseif(!empty($app) && $app->birth_control == '1') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_yes">Yes</label>
+                                <label class="form-check-label" for="if_take_medication_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="birth_control" id="if_take_medication_no" value="0" @if (old('birth_control') == "0") checked @elseif(!empty($app) && $app->birth_control == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('birth_control')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -148,10 +148,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Type</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">How long have you used this birth control?</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Actions</th>
+                                    <th style="font-weight: 600; font-size: .9rem; display: none">@lang("site/apps.Order")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Type")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.How long have you used this birth control?")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Actions")</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -208,20 +208,20 @@
                             </tbody>
                         </table>
                         <div class="col-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-second text-white mb-3" id="birthControlTableAdd">Add birth control</button>
+                            <button type="button" class="btn btn-second text-white mb-3" id="birthControlTableAdd">@lang("site/apps.Add birth control")</button>
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hormones</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Hormones")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_yes" value="1" @if (old('use_hormones') == "1") checked @elseif(!empty($app) && $app->use_hormones == '1') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_yes">Yes</label>
+                                <label class="form-check-label" for="if_take_medication_yes">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="use_hormones" id="if_take_medication_no" value="0" @if (old('use_hormones') == "0") checked @elseif(!empty($app) && $app->use_hormones == '0') checked @endif>
-                                <label class="form-check-label" for="if_take_medication_no">No</label>
+                                <label class="form-check-label" for="if_take_medication_no">@lang("site/apps.No")</label>
                             </div>
                             @error('use_hormones')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -234,10 +234,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Type</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">How long have you used this birth control?</th>
-                                    <th style="font-weight: 600; font-size: .9rem;">Actions</th>
+                                    <th style="font-weight: 600; font-size: .9rem; display: none">@lang("site/apps.Order")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Type")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.How long have you been using this hormone?")</th>
+                                    <th style="font-weight: 600; font-size: .9rem;">@lang("site/apps.Actions")</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -299,15 +299,15 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you pregnant? or is there a possibility of you being pregnant?</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Are you pregnant? or is there a possibility of you being pregnant?")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whasyes" value="1" @if (old('is_or_can_be_pregman') == "1") checked @elseif(!empty($app) && $app->is_or_can_be_pregmant == '1') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_normal">Yes</label>
+                                <label class="form-check-label" for="bleeding_whas_normal">@lang("site/apps.Yes")</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whas_no" value="0" @if (old('is_or_can_be_pregman') == "0") checked @elseif(!empty($app) && $app->is_or_can_be_pregmant == '0') checked @endif>
-                                <label class="form-check-label" for="bleeding_whas_light">No</label>
+                                <label class="form-check-label" for="bleeding_whas_light">@lang("site/apps.No")</label>
                             </div>
                             @error('is_or_can_be_pregman')
                                 <span class="invalid-feedback" style="display: block!important;" role="alert">
@@ -319,11 +319,11 @@
 
                     <div class="mb-3 row mt-5">
                         <div class="col-6">
-                                <a href="{{ route('postGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('postGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
-                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
+                            <button type="submit" class="btn btn-main btn-sm mx-1 send">@lang("site/apps.Next")</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">@lang("site/apps.Cancel")</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
                     </div>

@@ -7,7 +7,7 @@
         </div>
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a class="active" href="{{ route('home') }}">Home</a></li>
+                <li><a class="active" href="{{ route('home') }}">@lang('site/menu.Home')</a></li>
                 <li class="dropdown">
                     <a href="#">
                         <span>Services</span>
@@ -21,9 +21,9 @@
                         @endforeach
                     </ul>
                 </li>
-                <li><a href="{{ route('team') }}">Team</a></li>
-                <li><a href="{{ route('faqs') }}">Faqs</a></li>
-                <li><a href="{{ route('testimonials') }}">Testimonials</a></li>
+                <li><a href="{{ route('team') }}">@lang('site/menu.Team')</a></li>
+                <li><a href="{{ route('faqs') }}">@lang('site/menu.Faqs')</a></li>
+                <li><a href="{{ route('testimonials') }}">@lang('site/menu.Testimonials')</a></li>
                 {{-- <li class="dropdown">
                     <a href="#">
                         <span>Drop Down</span>
@@ -45,16 +45,16 @@
                         <li><a href="#">Drop Down 4</a></li>
                     </ul>
                 </li> --}}
-                <li><a href="{{ route('contact') }}">Contact</a></li>
-                <li><a href="{{ route('blog') }}">Blog</a></li>
+                <li><a href="{{ route('contact') }}">@lang('site/menu.Contact')</a></li>
+                <li><a href="{{ route('blog') }}">@lang('site/menu.Blog')</a></li>
                 <li class="dropdown">
                     <a href="#">
-                        <span>Language</span>
+                        <span>@lang('site/menu.Language')</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-                        <li><a href="#" class="text-uppercase">Spanish</a></li>
-                        <li><a href="#" class="text-uppercase">English</a></li>
+                        <li><a href="#" class="text-uppercase">@lang('site/menu.Spanish')</a></li>
+                        <li><a href="#" class="text-uppercase">@lang('site/menu.English')</a></li>
                     </ul>
                 </li>
             </ul>

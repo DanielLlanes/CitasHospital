@@ -34,28 +34,19 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 d-none d-md-block"></div>
-            <div class="col-md-4 pt-5 p-md-0">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+            <div class="col-md-3 d-none d-md-block"></div>
+            <div class="col-md-6 px-5 p-md-0">
                 <form action="{{ route('postReferenceData') }}" method="POST" id="formHealthData">
                     {{ csrf_field() }}
                     <div class="mb-5 row">
                         <div class="col-3"></div>
                         <div class="col-sm-9">
-                            <p for="staticEmail" class="col-form-label col-form-label-sm text-center fw-bolder">How did you hear about us?</p>
+                            <p for="staticEmail" class="col-form-label col-form-label-sm text-center fw-bolder">@lang("site/apps.How did you hear about us?")</p>
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Google</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Google")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" {{ (old('about_us_google') == 1) ? "checked":""}} value="1" id="about_us_google" name="about_us_google">
@@ -72,7 +63,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Facebook</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Facebook")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_facebook" name="about_us_facebook">
@@ -89,7 +80,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">YouTube/vimeo</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.YouTube/vimeo")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_youtube') == 1) ? 'checked':""}} id="about_us_youtube" name="about_us_youtube">
@@ -106,7 +97,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Twitter</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Twitter")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_twiter" name="about_us_twiter">
@@ -123,7 +114,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Web forums</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Web forums")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_forums" name="about_us_forums">
@@ -140,7 +131,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Instagram</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Instagram")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_instagram" name="about_us_instagram">
@@ -157,7 +148,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Radio</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Radio")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_facebook') == 1) ? "checked":""}} id="about_us_radio" name="about_us_radio">
@@ -174,7 +165,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Email</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Email")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_email') == 1) ? "checked":""}} id="about_us_email" name="about_us_email">
@@ -191,7 +182,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Referred by a friend</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Referred by a friend")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_frend') == 1) ? "checked":""}} id="about_us_frend" name="about_us_frend">
@@ -208,7 +199,7 @@
                     </div>
 
                     <div class="mb-3 row mt-1 about_us_frend" @if (old('about_us_frend') == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Friends name</span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Friends name")</span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="friend_name" name="friend_name" value="{{ $patient->friend_name ?? old('friend_name') }}" placeholder="">
                             @error('friend_name')
@@ -220,7 +211,7 @@
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Other</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Other")</label>
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="1" {{ (old('about_us_other') == 1) ? "checked":""}} id="about_us_other" name="about_us_other">
@@ -237,7 +228,7 @@
                     </div>
 
                     <div class="mb-3 row mt-1 about_us_other" @if (old('about_us_other') == 1)@else style="display: none"@endif>
-                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Specify media</span></label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Specify media")</span></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control form-control-sm" id="about_us_description_other" name="about_us_description_other" value="{{ $patient->about_us_description_other ?? old('about_us_description_other') }}" placeholder="">
                             @error('about_us_description_other')
@@ -251,20 +242,20 @@
                     <div class="mb-3 row">
                         <div class="col-6">
                             @if ($treatment->service_id == 3)
-                                <a href="{{ route('createGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('createGeneralHealthData') }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                             @else
-                                <a href="{{ route('createGynecologicalData') }}" class="btn btn-main btn-sm mx-1">Back</a>
+                                <a href="{{ route('createGynecologicalData') }}" class="btn btn-main btn-sm mx-1">@lang("site/apps.Back")</a>
                             @endif
                             
                         </div>
                         <div class="col-6 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-main btn-sm mx-1 send">Next</button>
-                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">Cancel</button>
+                            <button type="submit" class="btn btn-main btn-sm mx-1 send">@lang("site/apps.Next")</button>
+                            <button type="button" class="btn btn-main btn-sm mx-1 cancel">@lang("site/apps.Cancel")</button>
                             <button type="reset" class="d-none reset">Reset</button>
                         </div>
                     </div>
                 </form>
-            <div class="col-md-4 d-none d-md-block"></div>
+            <div class="col-md-3 d-none d-md-block"></div>
         </div>
     </section>
     <!-- End Contact Section -->
