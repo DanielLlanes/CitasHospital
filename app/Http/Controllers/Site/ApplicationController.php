@@ -22,6 +22,7 @@ use App\Traits\DatesLangTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,7 @@ class ApplicationController extends Controller
      */
     public function index($id)
     {
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
         $exists = Treatment::where('active', true)
         ->findOrFail($id);
 
@@ -115,7 +116,7 @@ class ApplicationController extends Controller
             'email' => 'required|max:255|email',
         ]);
 
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
 
         $patient = Patient::where('email', $request->email)->first();
         $treatment = Session::get('treatment');
@@ -209,7 +210,7 @@ class ApplicationController extends Controller
 
     public function createServicesData(Request $request)
     {
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1) {
@@ -361,7 +362,7 @@ class ApplicationController extends Controller
 
     public function createHealthData()
     {
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
         $treatment = Session::get('treatment');
 
 
@@ -1420,7 +1421,7 @@ class ApplicationController extends Controller
                 $app->friend_name = $request->friend_name;
             }
 
-            $lang = app()->getLocale();
+            $lang = Cookie::get('PublicLang');
 
 
 

@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	"Welcome to" => "Bienvenido a",
+	"Welcome to" => "Welcome to",
 
 	"Get Started" => "Empezar",
 	"Watch Video" => "Ver Video",

@@ -47,7 +47,7 @@ function aboutUs2($lang){
 }
 
 function ourMission($lang){
-	if ($lang = 'en') {
+	if ($lang == 'en') {
 		return '<h5 class="card-title text-main">
                 Our Mission
             </h5>
@@ -66,7 +66,7 @@ function ourMission($lang){
 	
 }
 function ourPlan($lang){
-	if ($lang = 'en') {
+	if ($lang == 'en') {
 		return ' <h5 class="card-title text-main">
                         Our Plan
                     </h5>
@@ -99,7 +99,7 @@ function ourPlan($lang){
 	}
 }
 function ourVision($lang){
-	if ($lang = 'en') {
+	if ($lang == 'en') {
 		return '<h5 class="card-title text-main">
                     Our Vision
                 </h5>
@@ -116,16 +116,16 @@ function ourVision($lang){
 	}
 }
 function ourBrands($lang){
-	if ($lang = 'en') {
+	if ($lang == 'en') {
 		return '<h2>Our <strong>Brands</strong></h2>';
 	} else {
 			return '<h2>Nuestras <strong>Marcas</strong></h2>';
 	}
 }
 function ourCoordinatos($lang){
-	if ($lang = 'en') {
+	if ($lang == 'en') {
 		return '<h2>Our <strong>Coordinators</strong></h2>';
 	} else {
-			return '<h2>Our <strong>Coordinadores</strong></h2>';
+		return '<h2>Nuestros <strong>Coordinadores</strong></h2>';
 	}
 }

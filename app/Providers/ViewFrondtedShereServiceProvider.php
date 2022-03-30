@@ -10,6 +10,7 @@ use App\Models\Staff\Service;
 use App\Models\Staff\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -42,7 +43,7 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) 
         {
             date_default_timezone_set('America/Tijuana');
-            $lang = app()->getLocale();
+            $lang = Cookie::get('PublicLang');
             $brands = [];
             $coordinatorFooter = [];
             $debateMessages = [];

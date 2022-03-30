@@ -53,8 +53,16 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-                        <li><a href="#" class="text-uppercase">@lang('site/menu.Spanish')</a></li>
-                        <li><a href="#" class="text-uppercase">@lang('site/menu.English')</a></li>
+                        <li>
+                            <a href="{{ (Cookie::get('PublicLang') == 'es') ? 'javascript:;' : route("publicLang", "es") }}" class="text-uppercase">
+                                @lang('site/menu.Spanish')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ (Cookie::get('PublicLang') == 'en') ? 'javascript:;' : route("publicLang", "en") }}" class="text-uppercase">
+                                @lang('site/menu.English')
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>

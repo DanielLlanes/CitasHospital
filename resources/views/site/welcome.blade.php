@@ -74,24 +74,22 @@
 <!-- End Hero -->
 
 <main id="main">
-
-
     <!-- ======= About Us Section ======= -->
     <section id="about-us" class="about-us">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                <h2>About <strong>Us</strong></h2>
+                {!! (Cookie::get('PublicLang') == "en") ? '<h2>About <strong>Us</strong></h2>': '<h2>Sobre <strong>Nosotros</strong></h2>'  !!}
             </div>
             <div class="row no-gutters">
                 <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-lg-start p-5" data-aos="fade-right" style="background: url('https://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-logo-footer.png') center no-repeat;"></div>
                 <div class="col-xl-7 ps-0 ps-lg-5 pe-lg-1 d-flex align-items-stretch">
                     <div class="content d-flex flex-column justify-content-around p-3">
-                        {!! aboutUs(app()->getLocale()) !!}
+                        {!! aboutUs(Cookie::get('PublicLang')) !!}
                     </div>
                 </div>
             </div>
             <div class="col-12 my-3">
-                {!! aboutUs(app()->getLocale()) !!}
+                {!! aboutUs(Cookie::get('PublicLang')) !!}
             </div>
         </div>
     </section>
@@ -109,7 +107,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            {!! ourMission(app()->getLocale()) !!}
+                            {!! ourMission(Cookie::get('PublicLang')) !!}
                         </div>
                     </div>
                 </div>
@@ -120,7 +118,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            {!! ourPlan(app()->getLocale()) !!}
+                            {!! ourPlan(Cookie::get('PublicLang')) !!}
                         </div>
                     </div>
                 </div>
@@ -131,7 +129,7 @@
                             <i class="bi bi-brush bg-main"></i>
                         </div>
                         <div class="card-body">
-                            {!! ourVision(app()->getLocale()) !!}
+                            {!! ourVision(Cookie::get('PublicLang')) !!}
                         </div>
                     </div>
                 </div>
@@ -145,7 +143,7 @@
     <section id="services" class="services section section-bg">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                {!! ourBrands(app()->getLocale()) !!}
+                {!! ourBrands(Cookie::get('PublicLang')) !!}
             </div>
             
             <div class="row">
@@ -172,7 +170,7 @@
 
         <div class="container">
             <div class="section-title" data-aos="fade-up">
-                <h2>Our <strong>Coordinators</strong></h2>
+                {!! ourCoordinatos(Cookie::get('PublicLang')) !!}
             </div>
 
             <div class="splide" id="splide" data-aos="fade-up">

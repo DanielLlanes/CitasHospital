@@ -12,6 +12,7 @@ use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +21,7 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
         $coordinator = Staff::role('coordinator')
         ->with
         (
@@ -44,7 +45,7 @@ class HomeController extends Controller
     public function team($url = null)
     {
         //return($url);
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
 
         if (is_null($url)) {
             $doctors = Staff::role('doctor')
@@ -147,7 +148,7 @@ class HomeController extends Controller
     }
     public function faqs()
     {
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
         $faqs = Faq::where('active', true)
         ->select('id', "question_$lang As question", "awnser_$lang As awnser")
         ->get();
@@ -162,7 +163,7 @@ class HomeController extends Controller
         Session::forget('form_session');
         Session::forget('treatment');
 
-        $lang = app()->getLocale();
+        $lang = Cookie::get('PublicLang');
 
         $brandExist = Brand::where('url', $brand)->first();
 
