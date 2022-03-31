@@ -165,8 +165,6 @@ class ProcedureController extends Controller
         $procedure->procedure_en = $request->procedure_en;
         $procedure->procedure_es = $request->procedure_es;
         $procedure->has_package = $request->has_package;
-        $procedure->description_en = $request->description_en;
-        $procedure->description_es = $request->description_es;
         $procedure->code = time().uniqid(Str::random(30));
 
         if ($procedure->save()) {
