@@ -106,7 +106,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/profile/deleteImagesPublicProfile', [ProfileController::class, 'deleteImagesPublicProfile'])->name('deleteImagesPublicProfile');
 	});
 	Route::name('lang.')->group(function(){
-		Route::get('/lang/change-lang/{lang}', [LangController::class, 'update'])->name('update');
+		Route::get('/lang/change-lang/{lang}', [LangController::class, 'language'])->name('lang');
 	});
 
     Route::name('treatments.')->group( function(){

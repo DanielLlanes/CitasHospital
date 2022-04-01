@@ -38,7 +38,7 @@ class ProcedureController extends Controller
     public function procedure()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $packages = Package::where('active', '=', '1')
         ->select('id', "package_$lang AS name")
@@ -51,7 +51,7 @@ class ProcedureController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $procedures = Procedure::select("*", "procedure_$lang as procedure")
             ->with(
@@ -200,7 +200,7 @@ class ProcedureController extends Controller
     public function edit(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $procedure = Procedure::with(
             [
                 'service' => function($q) use ($lang){

@@ -38,7 +38,7 @@ class ProfileController extends Controller
         $staffID = Auth::guard('staff')->user()->id;
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with([
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);
@@ -107,7 +107,7 @@ class ProfileController extends Controller
     public function create()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with([
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);

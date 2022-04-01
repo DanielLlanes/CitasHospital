@@ -31,7 +31,7 @@ class PackageController extends Controller
     public function package()
     {
         $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
         return view('staff.packages-manager.list');
     }
@@ -40,7 +40,7 @@ class PackageController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $packages = Package::select(["id", "active",  "package_$lang As package" ])->get();
             return DataTables::of($packages)

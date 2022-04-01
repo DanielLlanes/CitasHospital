@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function products()
     {
         $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
         $products = Product::selectRaw("id, brand_id, service_id, procedure_id, package_id, price, description_$lang description")
         ->with
         (
@@ -58,7 +58,7 @@ class ProductController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $products = Product::with
             (
@@ -220,7 +220,7 @@ class ProductController extends Controller
     public function edit(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $product = Product::with
             (
                 [

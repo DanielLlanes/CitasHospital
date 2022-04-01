@@ -54,7 +54,7 @@ Route::post('/applications/post-gynecological-data', [ApplicationController::cla
 Route::post('/applications/chek-if-patient-exist', [ApplicationController::class, 'chekIfPatientExist'])->name('chekIfPatientExist');
 Route::post('/search-states', [ApplicationController::class, 'getStates'])->name('getStates');
 
-Route::get('change-lang/{lang}', [LangController::class, 'publicLang'])->name('publicLang');
+Route::get('language/{lang}', [LangController::class, 'language'])->name('language');
 
 // brands Routes
 // 

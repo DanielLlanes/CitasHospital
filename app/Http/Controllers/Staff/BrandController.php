@@ -34,7 +34,7 @@ class BrandController extends Controller
     public function brand()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
 
         return view('staff.brand-manager.list');
@@ -44,7 +44,7 @@ class BrandController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $brands = Brand::with([
                 'imageOne', 

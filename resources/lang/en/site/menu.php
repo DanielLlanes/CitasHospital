@@ -22,6 +22,6 @@ return [
 	"Contact" => "Contact",
 	"Blog" => "Blog",
 	"Language" => "Language",
-	"Spanish" => "Spanish",
+	"Spanish" => "Español",
 	"English" => "English",
 ];

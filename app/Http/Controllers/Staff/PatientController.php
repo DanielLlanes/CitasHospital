@@ -47,7 +47,7 @@ class PatientController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $patient = Patient::with(
                 [

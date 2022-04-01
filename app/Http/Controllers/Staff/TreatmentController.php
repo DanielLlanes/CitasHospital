@@ -39,7 +39,7 @@ class TreatmentController extends Controller
     public function treatments()
     {
         $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
         $treatment = Treatment::selectRaw("id, brand_id, service_id, procedure_id, package_id, price")
         ->with
         (
@@ -71,7 +71,7 @@ class TreatmentController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $treatment = Treatment::with
             (
@@ -273,7 +273,7 @@ class TreatmentController extends Controller
     public function edit(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $treatment = Treatment::with
             (
                 [

@@ -21,7 +21,8 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $lang = Cookie::get('PublicLang');
+        $lang = \App::getLocale();
+
         $coordinator = Staff::role('coordinator')
         ->with
         (
@@ -45,7 +46,7 @@ class HomeController extends Controller
     public function team($url = null)
     {
         //return($url);
-        $lang = Cookie::get('PublicLang');
+        $lang = \App::getLocale();
 
         if (is_null($url)) {
             $doctors = Staff::role('doctor')
@@ -148,7 +149,7 @@ class HomeController extends Controller
     }
     public function faqs()
     {
-        $lang = Cookie::get('PublicLang');
+        $lang = \App::getLocale();
         $faqs = Faq::where('active', true)
         ->select('id', "question_$lang As question", "awnser_$lang As awnser")
         ->get();
@@ -163,7 +164,7 @@ class HomeController extends Controller
         Session::forget('form_session');
         Session::forget('treatment');
 
-        $lang = Cookie::get('PublicLang');
+        $lang = \App::getLocale();
 
         $brandExist = Brand::where('url', $brand)->first();
 
@@ -199,20 +200,22 @@ class HomeController extends Controller
 
         $service = Brand::where('url', $brand)
         ->with(
-            'service', function($q)
+            'service', function($q) use ($lang)
+            
             {
-                $q->selectRaw("service_en AS service, brand_id");
+                $q->selectRaw("service_$lang AS service, brand_id");
             }
         )
         ->selectRaw("id")
         ->first();
 
+
         $doctors = Staff::role('doctor')
         ->whereHas
         (
-            'assignToService', function($q)use($service)
+            'assignToService', function($q)use($service, $lang)
             {
-                $q->where("service_en", $service->service->service);
+                $q->where("service_$lang", $service->service->service);
             }
         )
         ->where("public_profile", 1)

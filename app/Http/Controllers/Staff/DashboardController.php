@@ -27,14 +27,14 @@ class DashboardController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         return view('staff.dashboard');
     }
 
     public function dashboard()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
          return redirect()->route('staff.dashboard');
     }
 }

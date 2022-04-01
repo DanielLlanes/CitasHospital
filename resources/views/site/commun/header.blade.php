@@ -54,12 +54,12 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="{{ (Cookie::get('PublicLang') == 'es') ? 'javascript:;' : route("publicLang", "es") }}" class="text-uppercase">
+                            <a href="{{ (app()->getLocale() == 'es') ? 'javascript:;' : route("language", "es") }}" class="text-uppercase">
                                 @lang('site/menu.Spanish')
                             </a>
                         </li>
                         <li>
-                            <a href="{{ (Cookie::get('PublicLang') == 'en') ? 'javascript:;' : route("publicLang", "en") }}" class="text-uppercase">
+                            <a href="{{ (app()->getLocale() == 'en') ? 'javascript:;' : route("language", "en") }}" class="text-uppercase">
                                 @lang('site/menu.English')
                             </a>
                         </li>

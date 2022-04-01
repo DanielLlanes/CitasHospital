@@ -37,7 +37,7 @@ class EventController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         
         $events = Event::with(
             [
@@ -52,7 +52,7 @@ class EventController extends Controller
     public function eventSources()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $events = Event::with(
             [
                 'staff',
@@ -131,7 +131,7 @@ class EventController extends Controller
     public function eventDrop(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $event = Event::find($request->id);
         if ($event) {
             $date = explode( 'T', $request->start );
@@ -158,7 +158,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
         if ($request->app == 'undefined') {unset($request['app']);}
         if ($request->isApp == '0') {unset($request['isApp']);}
@@ -272,7 +272,7 @@ class EventController extends Controller
             Mail::send(new NewEventPatient($dataMsg));
             Mail::send(new NewEventStaff($dataMsg));
 
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
             return response()->json(
                 [
                     'icon' => 'success',
@@ -295,7 +295,7 @@ class EventController extends Controller
     {
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $todayDate = Date('Y-m-d');
         $event = Event::find($request->event);
         if ($request->app == 'undefined') {unset($request['app']);}
@@ -363,7 +363,7 @@ class EventController extends Controller
     public function destroy(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $event = Event::find($request->id);
         if($event->exists()){
             $event->delete();
@@ -389,7 +389,7 @@ class EventController extends Controller
 
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $applications = Application::with(
                 [

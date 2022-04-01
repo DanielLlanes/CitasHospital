@@ -51,7 +51,7 @@ class AppController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         if (Auth::guard("staff")->user()->can('applications.all')) {
             $apps = Application::with(
                 [
@@ -108,7 +108,7 @@ class AppController extends Controller
 
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
             if (Auth::guard("staff")->user()->can('applications.all')) {
                 $apps = Application::with(
                     [
@@ -278,7 +278,7 @@ class AppController extends Controller
     public function show($id)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $applications = Application::with(
             [
@@ -494,7 +494,7 @@ class AppController extends Controller
     public function patientApss(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $patientApp = Application::with(
             [
                 'patient' => function($q) {
@@ -576,7 +576,7 @@ class AppController extends Controller
     {
         //return $request;
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang); 
+        $lang = app()->getLocale(); 
 
         $oldStaff = !is_null($request->oldName);
 
@@ -659,7 +659,7 @@ class AppController extends Controller
         $specialty = $request->specialty;
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         
 
@@ -730,7 +730,7 @@ class AppController extends Controller
     public function sendDebateMessage(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang); 
+        $lang = app()->getLocale(); 
         $validator = Validator::make($request->all(), [
                 'message' => 'required|string',
                 'debate' => 'required|integer|exists:applications,id',
@@ -780,7 +780,7 @@ class AppController extends Controller
         $search = $request->search;
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $app = $applications = Application::with(
             [
@@ -833,7 +833,7 @@ class AppController extends Controller
     {
         //return $request;
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $app = Application::with(
             [
 
@@ -938,7 +938,7 @@ class AppController extends Controller
     public function getNewPackage(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $search = $request->search;
         $app = $applications = Application::with(
             [
@@ -967,7 +967,7 @@ class AppController extends Controller
     public function setNewPackage(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $app = Application::with(
             [
                 'treatment' => function($q) use($lang) {
@@ -1031,7 +1031,7 @@ class AppController extends Controller
     public function setStatusAcepted(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
             'id' => 'string|required|exists:services,id',
             'app' => 'required|exists:applications,id',
@@ -1156,7 +1156,7 @@ class AppController extends Controller
     public function setStatusDeclined(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
             'app' => 'required|exists:applications,id',
             'declinedReazon' => 'required|string',

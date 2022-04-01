@@ -43,7 +43,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) 
         {
             date_default_timezone_set('America/Tijuana');
-            $lang = Cookie::get('PublicLang');
+            $lang = app()->getLocale();
+            $lang = ($lang == 'es') ? 'es' : "en";
             $brands = [];
             $coordinatorFooter = [];
             $debateMessages = [];
@@ -67,7 +68,7 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     )
                 ->get();
 
-                $lang = ($lang == 'es') ? 'es' : "en";
+                
                 
                 $brands = Brand::select("*")
                 ->whereHas

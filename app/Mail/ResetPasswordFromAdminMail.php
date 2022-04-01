@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordFromAdminMail extends Mailable implements ShouldQueue
+class ResetPasswordFromAdminMail extends Mailable 
 {
     use Queueable, SerializesModels;
     public $dataMsg;
@@ -20,7 +20,7 @@ class ResetPasswordFromAdminMail extends Mailable implements ShouldQueue
 
     public function build()
     {
-        app()->setLocale($this->dataMsg['lang']);
+       app()->setLocale($this->dataMsg['lang']);
 
         return $this->to($this->dataMsg['reciver'], $this->dataMsg['reciverName'])
         ->subject(str_replace('_', " ", config('app.name', 'Laravel')))

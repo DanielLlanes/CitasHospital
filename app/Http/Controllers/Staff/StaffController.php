@@ -32,7 +32,7 @@ class StaffController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         
         if (!Auth::guard('staff')->user()->can('admin.list') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
@@ -44,7 +44,7 @@ class StaffController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
             $can_list_admins = Auth::guard('staff')->user()->can('admin.list');
             $staff = Staff::whereHas(
                 'roles', function($query) use ($lang, $can_list_admins) {
@@ -166,7 +166,7 @@ class StaffController extends Controller
         }
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.permisions');
@@ -175,7 +175,7 @@ class StaffController extends Controller
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $admin = "admins";
 
 
@@ -213,7 +213,7 @@ class StaffController extends Controller
     public function getSpecialty(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $specialties = Specialty::select(["id", "name_$lang AS name", "assignable"])
         ->where('role_id', $request->id)->get();
@@ -243,7 +243,7 @@ class StaffController extends Controller
     {
         //return $request;
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $specialty = Specialty::where
         (
@@ -288,7 +288,7 @@ class StaffController extends Controller
         
         //return $request;
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $assingnamentCheck = [];
         //$assingnamentCheck = 0;
@@ -307,8 +307,6 @@ class StaffController extends Controller
         }
         $staff_create_admins = Auth::guard('staff')->user()->can('admin.create');
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
-        $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
 
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
@@ -455,7 +453,6 @@ class StaffController extends Controller
 
 
             $staff->syncRoles([$request->role]);
-            app()->setLocale($lang);
             return redirect()->route('staff.staff.staff')->with(
                 [
                     'sys-message' => '',
@@ -479,7 +476,7 @@ class StaffController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
@@ -487,9 +484,6 @@ class StaffController extends Controller
         $staff_edit_admins = Auth::guard('staff')->user()->can('admin.edit');
         $staff_edit_permisions_admins = Auth::guard('staff')->user()->can('admin.edit.permisions');
         $admin = "admins";
-
-        $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
 
         $staff = Staff::where('show', true)
         ->with([
@@ -554,7 +548,7 @@ class StaffController extends Controller
             abort(403, 'Unauthorized action.');
         }
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $staff_edit = Auth::guard('staff')->user()->can('staff.edit');
         $staff_edit_permisions = Auth::guard('staff')->user()->can('staff.edit.permisions');
@@ -727,7 +721,7 @@ class StaffController extends Controller
     public function destroy(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with('imageOne')->find($request->id);
         if($staff->exists()){
             if (!$staff->imageOn) {
@@ -757,7 +751,7 @@ class StaffController extends Controller
     public function activate(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with(['roles'])
         ->find($request->id);
         $staff_activate = Auth::guard('staff')->user()->can('staff.activate');
@@ -791,7 +785,7 @@ class StaffController extends Controller
     {
         //return($request);
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with(['roles'])->find($request->id);
         $staff_reset_password = Auth::guard('staff')->user()->can('staff.reset.password');
         $staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
@@ -859,7 +853,7 @@ class StaffController extends Controller
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $staff_create = Auth::guard('staff')->user()->can('staff.create');
         $staff_create_permisions = Auth::guard('staff')->user()->can('staff.permisions');
@@ -930,7 +924,7 @@ class StaffController extends Controller
         $staffID = $id;
         
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with([
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);
@@ -958,7 +952,7 @@ class StaffController extends Controller
     {
         $staffID = $id;
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $staff = Staff::with([
             'roles' => function($query) use ($lang) {
                 $query->select(["id", "name_$lang AS Rname"]);

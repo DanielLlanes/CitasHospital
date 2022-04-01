@@ -37,7 +37,7 @@ class AutocompleteController extends Controller
     public function searchPatient(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         
         $search = Patient::where("name",'like', "%".$request->key."%")
         ->with(
@@ -76,7 +76,7 @@ class AutocompleteController extends Controller
     {
 
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
             $search = Service::where("service_$lang",'like', "%".$request->key."%")
             ->select('id', "service_$lang AS service")
@@ -88,7 +88,7 @@ class AutocompleteController extends Controller
     public function searchProcedure(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         if ($request->has('service')) {
 
@@ -119,7 +119,7 @@ class AutocompleteController extends Controller
     public function searchPackage(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         if ($request->has('package')) {
 

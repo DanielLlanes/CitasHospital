@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewEventPatient extends Mailable implements ShouldQueue
+class NewEventPatient extends Mailable 
 {
     use Queueable, SerializesModels;
 

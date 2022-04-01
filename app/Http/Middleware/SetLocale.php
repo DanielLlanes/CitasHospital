@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-//use Symfony\Component\HttpFoundation\Cookie;
 
-class PublicLanguage 
+class SetLocale 
 {
     /**
      * Handle an incoming request.
@@ -18,11 +17,11 @@ class PublicLanguage
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Cookie::has('PublicLang')) {
-            app()->setLocale(Cookie::get('PublicLang'));
-            return $next($request);
-        }
-        return $next($request)
-            ->withCookie(Cookie::forever('PublicLang', app()->getLocale()));
+        if(session()->has('locale'))
+            app()->setLocale(session('locale'));
+        else 
+            app()->setLocale(config('app.locale'));
+
+        return $next($request);
     }
 }

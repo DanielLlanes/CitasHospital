@@ -32,7 +32,7 @@ class PaymentController extends Controller
     public function index()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $paymentMethod = PaymentMethod::selectRaw("id, code, name_$lang AS name")
         ->where('active', 1)
         ->get();  
@@ -74,7 +74,7 @@ class PaymentController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             
 
@@ -156,7 +156,7 @@ class PaymentController extends Controller
     public function patientsApps(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $patientApp = Application::whereHas(
             'statusOne', function($q){
@@ -205,7 +205,7 @@ class PaymentController extends Controller
     public function searchPatientAppDetails(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
         $apps = Application::where("id", $request->id)
         ->with(
             [
@@ -235,7 +235,7 @@ class PaymentController extends Controller
     public function searchPatientWithApps(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $search = Patient::where("name",'like', "%".$request->search."%")
         ->whereHas('applications', function($q){

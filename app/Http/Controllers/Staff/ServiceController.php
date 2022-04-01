@@ -33,7 +33,7 @@ class ServiceController extends Controller
     public function service()
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $specialites = Specialty::whereHas(
                     'role', function($q) use ($lang){
@@ -53,7 +53,7 @@ class ServiceController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            app()->setLocale($lang);
+            $lang = app()->getLocale();
 
             $service = Service::with([
                 'specialties' => function($q) use ($lang){
@@ -177,7 +177,7 @@ class ServiceController extends Controller
     public function edit(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        app()->setLocale($lang);
+        $lang = app()->getLocale();
 
         $service = Service::with([
             'specialties' => function($q) use ($lang){

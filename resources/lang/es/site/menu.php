@@ -18,10 +18,10 @@ return [
 	"Services" => "Servicios",
 	"Team" => "Equipo",
 	"Faqs" => "Faqs",
-	"Testimonials" => "Testimonialess",
+	"Testimonials" => "Testimoniales",
 	"Contact" => "Contacto",
 	"Blog" => "blog",
 	"Language" => "Idioma",
 	"Spanish" => "Español",
-	"English" => "Ingles",
+	"English" => "English",
 ];

@@ -44,7 +44,7 @@ class ApplicationController extends Controller
      */
     public function index($id)
     {
-        $lang = Cookie::get('PublicLang');
+        $lang = app()->getLocale();
         $exists = Treatment::where('active', true)
         ->findOrFail($id);
 
@@ -116,7 +116,7 @@ class ApplicationController extends Controller
             'email' => 'required|max:255|email',
         ]);
 
-        $lang = Cookie::get('PublicLang');
+        $lang = app()->getLocale();
 
         $patient = Patient::where('email', $request->email)->first();
         $treatment = Session::get('treatment');
@@ -210,7 +210,7 @@ class ApplicationController extends Controller
 
     public function createServicesData(Request $request)
     {
-        $lang = Cookie::get('PublicLang');
+        $lang = app()->getLocale();
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
             if ($getData->generalData == 1) {
@@ -362,7 +362,7 @@ class ApplicationController extends Controller
 
     public function createHealthData()
     {
-        $lang = Cookie::get('PublicLang');
+        $lang = app()->getLocale();
         $treatment = Session::get('treatment');
 
 
@@ -1421,7 +1421,7 @@ class ApplicationController extends Controller
                 $app->friend_name = $request->friend_name;
             }
 
-            $lang = Cookie::get('PublicLang');
+            $lang = app()->getLocale();
 
 
 
