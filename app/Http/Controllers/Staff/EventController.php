@@ -9,6 +9,7 @@ use App\Models\Site\Application;
 use App\Models\Staff\Event;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Staff;
+use App\Models\Staff\Status;
 use App\Traits\DatesLangTrait;
 use Carbon\Carbon;
 use DataTables;
@@ -39,14 +40,50 @@ class EventController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         
+        $status = Status::select('id', 'color', "name_$lang as name")->where('type', 'Event')->get();
+
         $events = Event::with(
             [
                 'staff',
-                'patient'
+                'patient',
+                'statusOne' => function($q)use($lang){
+                    $q->with([
+                        'status' => function($q)use($lang){
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
+                },
+                'application' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            'treatment' => function($q) use($lang) {
+                                $q->with(
+                                    [
+                                        "brand" => function($q){
+                                            $q->select("brand", "id", "color");
+                                        },
+                                        "service" => function($q) use($lang) {
+                                            $q->select("service_$lang AS service", "id");
+                                        },
+                                        "procedure" => function($q) use($lang) {
+                                            $q->select("procedure_$lang AS procedure", "id");
+                                        },
+                                        "package" => function($q) use($lang) {
+                                            $q->select("package_$lang AS package", "id");
+                                        },
+                                    ]
+                                );
+                            },
+                        ]
+                    );
+                }
             ]
         )
         ->get();
-        return view('staff.events-manager.list');
+
+// return($events);
+        return view('staff.events-manager.list', ['status' => $status]);
     }
 
     public function eventSources()
@@ -57,6 +94,14 @@ class EventController extends Controller
             [
                 'staff',
                 'patient',
+                'statusOne' => function($q)use($lang){
+                    $q->with([
+                        'status' => function($q)use($lang){
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
+                },
                 'application' => function($q) use($lang) {
                     $q->with(
                         [
@@ -91,8 +136,16 @@ class EventController extends Controller
         {
 
             $singleEvent['id'] = $events[$i]->id;
-            $singleEvent['backgroundColor'] = 'linear-gradient(70deg,'.$events[$i]->staff->color.' 90%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 10%)';
-            $singleEvent['borderColor'] = $events[$i]->staff->color;
+
+            if (!is_null($events[$i]->statusOne)) {
+                $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
+                $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
+            } else {
+                $singleEvent['backgroundColor'] = 'linear-gradient(70deg,'.$events[$i]->staff->color.' 90%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 10%)';
+                $singleEvent['borderColor'] = $events[$i]->staff->color;
+            }
+
+            
             $singleEvent['title'] = $events[$i]->title;
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
@@ -106,9 +159,11 @@ class EventController extends Controller
             $extendedProps['lang'] = $events[$i]->patient->lang;
             $extendedProps['phone'] = $events[$i]->patient->phone;
             $extendedProps['startDate'] = $events[$i]->start_date;
-            $extendedProps['startTime'] = $events[$i]->start_time;;
+            $extendedProps['startTime'] = $events[$i]->start_time;
             $extendedProps['endDate'] = $events[$i]->start_date;
             $extendedProps['endTime'] = $events[$i]->end_time;
+
+            $extendedProps['status'] = (is_null($events[$i]->statusOne)? '0':$events[$i]->statusOne->status_id);
 
             $extendedProps['isapp'] = (!is_null($events[$i]->is_application)? "si":'no');
             $extendedProps['application_id'] = (!is_null($events[$i]->is_application)? $events[$i]->application_id : '0');
@@ -386,7 +441,6 @@ class EventController extends Controller
 
     public function getApps(Request $request)
     {
-
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
@@ -468,6 +522,49 @@ class EventController extends Controller
                     ]
                 )
             ->make(true);
+        }
+    }
+
+    public function changeStatus(Request $request)
+    {
+   // return($request);
+        if ($request->ajax()) {
+            $event = Event::with('statusOne')->find($request->event);
+            if ($event) {
+
+                if ($request->key == 0) {
+                    if (!is_null($event->statusOne)) {
+                        $event->statusOne->delete();
+                    }
+                    return response()->json($event);
+                } else {
+                    $validator = Validator::make($request->all(), [
+                        'key' => 'required|exists:statuses,id',
+                    ]);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'success' => false,
+                            'go' => '0',
+                            'errors' => $validator->getMessageBag()->toArray()
+                        ]);
+                    }
+                    $status = Status::find($request->key);
+                    if ($status) {
+                        if ($status->type === 'Event') {
+                            if (!is_null($event->statusOne)) {
+                                $event->statusOne->delete();
+                            }
+                            $event->statusOne()->create(
+                                [
+                                    'status_id' => $request->key,
+                                    'code' => getCode(),
+                                ]
+                            );
+                            return response()->json($event);
+                        }
+                    }
+                }
+            }
         }
     }
 }

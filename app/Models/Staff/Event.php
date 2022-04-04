@@ -29,8 +29,8 @@ class Event extends Model
     {
         return $this->belongsTo(Application::class);
     }
-    public function status()
+    public function statusOne()
     {
-        return $this->morphOne(Status::class, 'statuable');
+        return $this->morphOne(StatusOne::class, 'statusOneable');
     }
 }

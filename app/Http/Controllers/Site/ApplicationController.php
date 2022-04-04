@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewAppEmail;
 use App\Models\Site\Application;
 use App\Models\Site\BirthControlApplication;
 use App\Models\Site\Country;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -248,7 +250,7 @@ class ApplicationController extends Controller
 
             $image = $request->file('dropify');
 
-            $code = time().uniqid(Str::random(30));
+            
 
             if ($request->code != 'undefined' || !is_null($request->code)) {
 
@@ -280,7 +282,7 @@ class ApplicationController extends Controller
             $image = "storage/application/image/$img_name";
             $img->destroy();
             
-            $image = $app->imageMany()->create(["code" => $code, 'image' => $image, 'title' => null, 'order' => $request->order]); 
+            $image = $app->imageMany()->create(["code" => getCode(), 'image' => $image, 'title' => null, 'order' => $request->order]); 
 
             $app = Application::find($getData->id);
 
@@ -383,7 +385,7 @@ class ApplicationController extends Controller
         
         $medication_cadena = [];
         $collection = new Collection();
-        $code = time().uniqid(Str::random(30));
+        
         if ($request->has('medication_name') || $request->has('medication_reason') || $request->has('medication_dosage') || $request->has('medication_frecuency')) {
             for ($i=0; $i < count($request->medication_name); $i++) {
                 $medication_cadena[] = [
@@ -391,7 +393,7 @@ class ApplicationController extends Controller
                     'medication_reason' => $request->medication_reason[$i],
                     'medication_dosage' => $request->medication_dosage[$i],
                     'medication_frecuency' => $request->medication_frecuency[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ];
 
                 $collection->push((object)[
@@ -399,7 +401,7 @@ class ApplicationController extends Controller
                     'medication_reason' => $request->medication_reason[$i],
                     'medication_dosage' => $request->medication_dosage[$i],
                     'medication_frecuency' => $request->medication_frecuency[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ]);
 
             }
@@ -521,7 +523,7 @@ class ApplicationController extends Controller
     {
         $surgey_cadena = [];
         $collection = new Collection();
-        $code = time().uniqid(Str::random(30));
+        
         if ($request->has('surgey_type') || $request->has('surgey_name') || $request->has('surgey_age') || $request->has('surgey_year') || $request->has('surgey_complications')) {
             for ($i=0; $i < count($request->surgey_type); $i++) {
                 $surgey_cadena[] = [
@@ -530,7 +532,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
-                    'code' => $code, 
+                    'code' => getCode(), 
                 ];
 
                 $collection->push((object)[
@@ -539,7 +541,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
-                    'code' => $code, 
+                    'code' => getCode(), 
                 ]);
 
             }
@@ -636,21 +638,21 @@ class ApplicationController extends Controller
 
         $illness_cadena = [];
         $collection = new Collection();
-        $code = time().uniqid(Str::random(30));
+        
         if ($request->has('illness') || $request->has('diagnostic_date') || $request->has('treatment')) {
             for ($i=0; $i < count($request->illness); $i++) {
                 $illness_cadena[] = [
                     'illness' => $request->illness[$i],
                     'diagnostic_date' => $request->diagnostic_date[$i],
                     'treatment' => $request->treatment[$i],
-                    'code' => $code
+                    'code' => getCode()
                 ];
 
                 $collection->push((object)[
                     'illness' => $request->illness[$i],
                     'diagnostic_date' => $request->diagnostic_date[$i],
                     'treatment' => $request->treatment[$i],
-                    'code' => $code
+                    'code' => getCode()
                 ]);
 
             }
@@ -821,7 +823,7 @@ class ApplicationController extends Controller
     {
         $exercise_cadena = [];
         $collection = new Collection();
-        $code = time().uniqid(Str::random(30));
+        
         if ($request->has('exercise_type') || $request->has('exercise_how_long') || $request->has('exercise_how_frecuen') || $request->has('exercise_hours')) {
             for ($i=0; $i < count($request->exercise_type); $i++) {
                 $exercise_cadena[] = [
@@ -829,7 +831,7 @@ class ApplicationController extends Controller
                     'exercise_how_long' => $request->exercise_how_long[$i],
                     'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
                     'exercise_hours' => $request->exercise_hours[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ];
 
                 $collection->push((object)[
@@ -837,7 +839,7 @@ class ApplicationController extends Controller
                     'exercise_how_long' => $request->exercise_how_long[$i],
                     'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
                     'exercise_hours' => $request->exercise_hours[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ]);
 
             }
@@ -1220,19 +1222,19 @@ class ApplicationController extends Controller
     {
         $birth_control_cadena = [];
         $collection_bc = new Collection();
-        $code = time().uniqid(Str::random(30));
+        
         if ($request->has('birthControl_type') || $request->has('birthControl_how_long')) {
             for ($i=0; $i < count($request->birthControl_type); $i++) {
                 $birth_control_cadena[] = [
                     'birthControl_type' => $request->birthControl_type[$i],
                     'birthControl_how_long' => $request->birthControl_how_long[$i],
-                    'code' => $code
+                    'code' => getCode()
                 ];
 
                 $collection_bc->push((object)[
                     'birthControl_type' => $request->birthControl_type[$i],
                     'birthControl_how_long' => $request->birthControl_how_long[$i],
-                    'code' => $code
+                    'code' => getCode()
                 ]);
 
             }
@@ -1246,13 +1248,13 @@ class ApplicationController extends Controller
                 $hormone_cadena[] = [
                     'hormone_type' => $request->hormone_type[$i],
                     'hormone_how_long' => $request->hormone_how_long[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ];
 
                 $collectionHor->push((object)[
                     'hormone_type' => $request->hormone_type[$i],
                     'hormone_how_long' => $request->hormone_how_long[$i],
-                    'code' => $code,
+                    'code' => getCode(),
                 ]);
 
             }
@@ -1370,9 +1372,10 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            $code = time().uniqid(Str::random(30));
+            
             $app = Application::find($getData->id);
             $treatment = Session::get('treatment');
+            $patient = Patient::find($app->patient_id);
 
 
             if ($request->about_us_other == 1) {
@@ -1455,6 +1458,11 @@ class ApplicationController extends Controller
                 ]
             )
             ->first();
+            
+            $toEmail = new Collection;
+            // $app
+            // $treatment
+            // $patient
 
             $newMessage = "A new application has been assigned to you";
             $response = [];
@@ -1463,7 +1471,7 @@ class ApplicationController extends Controller
                     'application_id' => $getData->id,
                     'staff_id' => $assignment_staff->id,
                     'ass_as' => $assignment_staff->specialties[0]->id,
-                    'code' => $code,
+                    'code' => getCode(),
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
                 $assignment_staff->save();
@@ -1483,10 +1491,18 @@ class ApplicationController extends Controller
                     'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
                     'message' => $newMessage,
-                    'code' => $code,
+                    'code' => getCode(),
                 ]);
-                //send Email to coordintion
+                $toEmail->push((object)[
+                    'staff_name' => $assignment_staff->name,
+                    'staff_email' => $assignment_staff->email,
+                    'app_id' => $getData->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient, 
+                    "subject" => $newMessage,
+                ]);
             }
+
 
             $other_staff = Staff::whereHas
             (
@@ -1522,12 +1538,25 @@ class ApplicationController extends Controller
                         'staff_id' => $staff->id,
                         'type' => 'New application',
                         'message' => 'Hay una nueva aplicación de ' .$treatment->service->service,
-                        'code' => $code,
+                        'code' => getCode(),
                     ]);
-                    //send Email other staff
+                    $toEmail->push((object)[
+                        'staff_name' => $staff->name,
+                        'staff_email' => $staff->email,
+                        'app_id' => $getData->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                    ]);
                 }
             }
 
+            foreach ($toEmail as $key => $data) {
+                Mail::to($data->staff_email)
+                ->send(
+                    new NewAppEmail($data)
+                );
+            }
+            
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
 
@@ -1535,7 +1564,7 @@ class ApplicationController extends Controller
                 $app->statusOne()->create(
                     [
                         'status_id' => 9,
-                        'code' => $code
+                        'code' => getCode()
                     ]
                 );
             }

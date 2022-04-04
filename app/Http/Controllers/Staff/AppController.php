@@ -1095,7 +1095,7 @@ class AppController extends Controller
                         'status_id' => 1,
                         'indications' => $request->medicalIndications,
                         'recomendations' => $request->medicalRecommendations,
-                        'code' => time().uniqid(Str::random(30)),
+                        'code' => getCode(),
                     ]
                 );
 

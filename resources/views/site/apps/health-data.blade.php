@@ -423,7 +423,7 @@
                                 <label class="form-check-label" for="if_latex_yes">@lang('site/apps.Yes')</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0" @if (old('penicilin') == "0") checked @elseif(!empty($app) && $app->penicilin == '0') checked @endif>
+                                <input class="form-check-input" type="radio" name="latex" id="if_latex_no" value="0" @if (old('latex') == "0") checked @elseif(!empty($app) && $app->latex == '0') checked @endif>
                                 <label class="form-check-label" for="if_latex_no">@lang('site/apps.No')</label>
                             </div>
                             @error('latex')

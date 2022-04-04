@@ -91,6 +91,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::post('/enent/update/', [EventController::class, 'update'])->name('editEvent');
 		Route::post('/event/destroy', [EventController::class, 'destroy'])->name('destroy');
         Route::get('/event/getApps',    [EventController::class, 'getApps'])->name('getApps');
+        Route::post('events/status', [EventController::class, 'changeStatus'])->name('status');
 	});
 	Route::name('profile.')->group(function(){
 		Route::get('/profile/profile', [ProfileController::class, 'index'])->name('profile');

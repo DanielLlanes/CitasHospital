@@ -208,15 +208,33 @@
                     <div class="notas text"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
-                @can('calendar.edit')
-                    <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
-                @endcan
-                @can('calendar.destroyx')
-                    <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
-                @endcan
+            <div class="modal-footer flex-nowrap">
+                <div class="col-6 d-flex flex-row">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="status0" name="status" class="custom-control-input" value="0">
+                        <label class="custom-control-label badge text-dark" style="background-color: transparent;" for="status0">Active</label>
+                    </div>
+                    @foreach ($status as $k => $st)
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="status{{ $k+1 }}" name="status" class="custom-control-input" value="{{ $st->id }}">
+                            <label class="custom-control-label badge" style="background-color: {{ $st->color }}" for="status{{ $k+1 }}">{{ $st->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="col-6 d-flex flex-wrap justify-content-end">
+                    <span>
+                        <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
+                        @can('calendar.edit')
+                            <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
+                        @endcan
+                        @can('calendar.destroyx')
+                            <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
+                        @endcan
+                </div>
             </div>
+            {{-- <div class="modal-footer">
+                
+            </div> --}}
         </div>
     </div>
 </div>
@@ -283,6 +301,7 @@
         var globalEditEvent = '{{ route('staff.events.editEvent') }}'
         var globalDestroyEvent = '{{ route('staff.events.destroy') }}'
         var globalRouteobtenerLista = '{{ route('staff.events.getApps') }}'
+        var globalStatusEvent = '{{ route('staff.events.status') }}'
     </script>
 	<script>
         var calendar;
@@ -322,7 +341,7 @@
                         url: globaleventSources,
                         method: 'get',
                         success: function(data) {
-                            //console.log(data);
+                           // console.log(data);
                         },
                         failure: function() {
                             alert('there was an error while fetching events!');
@@ -523,6 +542,12 @@
             minDate : moment(),
             defaultDate:moment()
         });
+
+        $(document).on('dp.change', '#start', function(event) {
+            event.preventDefault();
+            alert()
+            alert(('#start').val());
+        });
         
         $('#timeStart').bootstrapMaterialDatePicker({
             date: false,
@@ -690,6 +715,33 @@
                     }
                 });
             });
+            $(document).on('change', '[name=status]', function(event) {
+                event.preventDefault();
+                var dataString = new FormData();
+                dataString.append('key', $(this).val());
+                dataString.append('event', $('.eventEdit').attr('data-id'));
+                $.ajax({
+                    type: "POST",
+                    url: globalStatusEvent,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        console.log("data", data);
+                       refetchCalendarEvents()
+                       socket.emit('eventCalendarRefetchToServer');
+                    }
+                });
+            });
         @endcan
         $(document).on('click', '#formCancel', function(event) {
             event.preventDefault();
@@ -710,6 +762,8 @@
                 // $(".fechaInicio").html('Date: '+arg.event.extendedProps.formatedDate)
                 // $(".notas").html('Notes: '+arg.event.extendedProps.notas)
                 $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
+
+
 
                 var eventModalBody =' <div class="col-12">\
                                     <div class="title text-center font-weight-bold text-capitalize">' + arg.event.title + '</div>\
@@ -735,6 +789,9 @@
                         <div class="notas text">Notes: ' + arg.event.extendedProps.notas + '</div>\
                     </div>\
                 ';
+                $('')
+                $("input[name=status][value=" + arg.event.extendedProps.status + "]").prop('checked', true);
+                console.log("arg.event.extendedProps", arg.event.extendedProps);
                 $('#eventModalBody').html('')
                 $('#eventModalBody').html(eventModalBody);
             }).modal('show')

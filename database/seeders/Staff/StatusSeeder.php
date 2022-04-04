@@ -87,8 +87,8 @@ class StatusSeeder extends Seeder
                 'code' => time().uniqid(Str::random(30)),
             ],
             [
-                "name_en" => "Pospuesta",
-                "name_es" => "Postponed",
+                "name_en" => "Postponed",
+                "name_es" => "Pospuesta",
                 'color' => "#c9158c",//
                 "type" => 'Event',
                 'code' => time().uniqid(Str::random(30)),
