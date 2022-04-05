@@ -51,8 +51,7 @@ class EventController extends Controller
                         'status' => function($q)use($lang){
                             $q->select("name_$lang as name", 'id', 'color');
                         }
-                    ])
-                    ->select("*")->orderBy('created_at', 'desc')->first();
+                    ]);
                 },
                 'application' => function($q) use($lang) {
                     $q->with(
@@ -99,8 +98,7 @@ class EventController extends Controller
                         'status' => function($q)use($lang){
                             $q->select("name_$lang as name", 'id', 'color');
                         }
-                    ])
-                    ->select("*")->orderBy('created_at', 'desc')->first();
+                    ]);
                 },
                 'application' => function($q) use($lang) {
                     $q->with(
@@ -212,6 +210,8 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+
+        //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
@@ -530,11 +530,12 @@ class EventController extends Controller
    // return($request);
         if ($request->ajax()) {
             $event = Event::with('statusOne')->find($request->event);
+            //return($event);
             if ($event) {
 
                 if ($request->key == 0) {
                     if (!is_null($event->statusOne)) {
-                        $event->statusOne->delete();
+                        $event->statusOne->delete($event->statusOne->id);
                     }
                     return response()->json($event);
                 } else {
@@ -552,7 +553,7 @@ class EventController extends Controller
                     if ($status) {
                         if ($status->type === 'Event') {
                             if (!is_null($event->statusOne)) {
-                                $event->statusOne->delete();
+                                $event->statusOne->delete($event->statusOne->id);
                             }
                             $event->statusOne()->create(
                                 [

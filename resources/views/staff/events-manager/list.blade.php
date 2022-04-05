@@ -90,7 +90,7 @@
                             <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
-                        <div class="form-group mb-2" style="display: none">
+                        <div class="form-group mb-2 is_app_div" style="display: none">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Is Application')
                                 <span class="required">  </span>
                             </label>
@@ -116,31 +116,36 @@
                             </label>
                             <div class="col-md-12">
                                 <div class="input-group date form_date"  data-date="" data-date-format="dd MM yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                            <input class="form-control input-sm" size="16" name="start" id="start" placeholder="@lang('Date of appointment')" type="text" value="">
-                            <div class="error text-danger col-form-label-sm"></div>
-                        </div>
-                        <input type="hidden" id="dtp_input2" value="" />
+                                    <input class="form-control input-sm" size="16" name="start" id="start" placeholder="" type="text">
+                                    <div class="error text-danger col-form-label-sm"></div>
+                                </div>
+                                <small id="emailHelp" class="form-text text-muted">Format mm/dd/yyyy</small>
                             </div>
                         </div>
-                        <div class="form-group has-success mb-2">
-                            {{-- <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Time</label> --}}
+                        <div class="form-group mb-2">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">From
+                                <span class="required"> * </span>
+                            </label>
                             <div class="col-md-12">
-                                <div class="row">
-                                    <label class="control-label col-form-label-sm small-label col-md-2">From</label>
-                                    <span class="required" aria-required="true"> * </span>
-                                    <div class="col-md-12">
-                                        <input class="form-control input-sm" id="timeStart" name="timeStart" type="time" aria-invalid="false" aria-describedby="example-time-input-error">
-                                        <div class="error text-danger col-form-label-sm"></div>
-                                    </div>
-                                     <label class="control-label col-form-label-sm small-label col-md-2">To</label>
-                                     <span class="required" aria-required="true"> * </span>
-                                    <div class="col-md-12">
-                                        <input class="form-control input-sm" id="timeEnd" name="timeEnd" type="time">
-                                        <div class="error text-danger col-form-label-sm"></div>
-                                    </div>
+                                <div class="input-group date form_date"  data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                                    <input class="form-control input-sm" size="16" name="timeStart" id="timeStart" placeholder="Date Of Appointment" type="time">
+                                    <div class="error text-danger col-form-label-sm"></div>
+                                </div>
+                                <inpit type="hidden" id="dtp_input3">
+                            </div>
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">To
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="col-md-12">
+                                <div class="input-group date form_date"  data-date="" data-date-format="hh:ii" data-link-field="dtp_input4" data-link-format="hh:ii">
+                                    <input class="form-control input-sm" size="16" name="timeEnd" id="timeEnd" placeholder="" type="time">
+                                    <div class="error text-danger col-form-label-sm"></div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
                                 <span class="required"> * </span>
@@ -274,8 +279,9 @@
 </div>
 @endsection
 @section('styles')
-	<link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css') }}" />
 @endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
@@ -292,6 +298,8 @@
     <script src="{{ asset('staffFiles/assets/plugins/material/material.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.js') }}"></script>
+
+    <script src="{{ asset('staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js') }}"></script>
     <script>
         var globalSearchStaff = '{{ route('staff.autocomplete.AutocompleteStaff') }}'
         var globalSearchPatient = '{{ route('staff.autocomplete.AutocompletePatient') }}'
@@ -341,7 +349,7 @@
                         url: globaleventSources,
                         method: 'get',
                         success: function(data) {
-                           // console.log(data);
+                           console.log(data);
                         },
                         failure: function() {
                             alert('there was an error while fetching events!');
@@ -531,39 +539,116 @@
                 }
             });
         });
-        socket.on('eventCalendarRefetchToClient', () => {
-            refetchCalendarEvents()
-        });
-        //console.log(moment())
-        $('#start').bootstrapMaterialDatePicker({
-            time: false,
-            clearButton: true,
-            format : 'DD/MM/YYYY',
-            minDate : moment(),
-            defaultDate:moment()
+
+
+        $('#start').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: 'dd/mm/yyyy',
+            startDate: new Date(),
+        }).on('changeDate', function (ev) {
+            var chengeDate = new Date(ev.date);
+            var now = new Date();
+            var test = moment(now)
+            var testDos = new Date(test);
+            var diff = chengeDate.setHours(0,0,0,0) > now.setHours(0,0,0,0);
+            console.log("diff", diff);
+            if (diff) {
+                $('#timeStart').datetimepicker('remove');
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: chengeDate,
+                    minDate: chengeDate,
+                }).on('changeDate', function(event) {
+                    console.log("event", event);
+                });
+                $('#timeEnd').datetimepicker('remove');
+                newDate = setTime = moment(new Date(chengeDate)).add(10, 'minutes')
+                valTime = moment(new Date(chengeDate)).add(10, 'minutes').format('hh:mm')
+                $('#timeEnd').datetimepicker('remove');
+                $('#timeEnd').val(valTime)
+                $('#timeEnd').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(newDate),   
+                    minDate: new Date(newDate),     
+                });
+            } else {
+                $('#timeStart').datetimepicker('remove');
+                valDate = moment(new Date()).format('hh:mm')
+                valTime = moment(new Date()).add(10, 'minutes').format('hh:mm')
+                newTime = moment(new Date()).add(10, 'minutes');
+                $('#timeStart').val(valDate)
+                $('#timeEnd').val(valTime)
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(),
+                    minDate: new Date(),
+                });
+                $('#timeStart').datetimepicker('remove');
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(newTime),
+                    minDate: new Date(newTime),
+                });
+            }
         });
 
-        $(document).on('dp.change', '#start', function(event) {
-            event.preventDefault();
-            alert()
-            alert(('#start').val());
-        });
+        // $('#timeStart').datetimepicker({
+        //     pickDate: false,
+        //     minuteStep: 10,
+        //     format: 'HH:ii',
+        //     autoclose: true,
+        //     startView: 1,
+        //     maxView: 1,
+        //     startDate: new Date(),
+        //     minDate: new Date(),
+        // }).on('changeDate', function(event) {
+        //     console.log("event", event.date);
+        //     setTime = moment(new Date(event.date)).add(10, 'minutes')
+        //     valTime = moment(new Date(event.date)).add(10, 'minutes').format('hh:mm')
+        //     newDate = new Date(setTime)
+        //     console.log("newDate", newDate);
+        //     $('#timeEnd').datetimepicker('remove');
+        //     $('#timeStart').datetimepicker('remove');
+        //     ('#timeStart').val(valTime)
+        //     $('#timeEnd').val(valTime)
+        //     $('#timeEnd').datetimepicker({
+        //         pickDate: false,
+        //         minuteStep: 10,
+        //         format: 'HH:ii',
+        //         autoclose: true,
+        //         startView: 1,
+        //         maxView: 1,
+        //         startDate: new Date(newDate),   
+        //         minDate: new Date(newDate),     
+        //     });
+        // });
         
-        $('#timeStart').bootstrapMaterialDatePicker({
-            date: false,
-            format: 'HH:mm',
-            minDate: moment(),
-        }).on('change', function(e, date) {
-            var timex = moment(date)
-                .add(2, 'minutes')
-            //console.log(timex);
-            $('#timeEnd').bootstrapMaterialDatePicker('setMinDate', timex);
-        });
-
-        $('#timeEnd').bootstrapMaterialDatePicker({
-            date: false,
-            format: 'HH:mm',
-        })
         function dateCheck(sss){
             if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
         }
@@ -736,7 +821,6 @@
 
                     },
                     success: function(data) {
-                        console.log("data", data);
                        refetchCalendarEvents()
                        socket.emit('eventCalendarRefetchToServer');
                     }
@@ -951,6 +1035,10 @@
             $("#is_app").prop('checked', false);
             $("#is_app").parent().removeClass('is-checked');
             $("#app").removeAttr("data-id")
+            $('#is_app').parents('.form-group').hide('fast')
         }
+        socket.on('eventCalendarRefetchToClient', () => {
+            refetchCalendarEvents()
+        });
 </script>
 @endsection
