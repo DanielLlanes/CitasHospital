@@ -260,7 +260,7 @@ class EventController extends Controller
             $patient->email = $request->email;
             $patient->phone = $request->phone;
             $patient->lang = $lang;
-            $patient->code = time().uniqid(Str::random(30));
+            $patient->code = getCode();
             $patient->password = Hash::make(Str::random(10));
             $patient->save();
             $patient_id = $patient->id;
@@ -277,7 +277,7 @@ class EventController extends Controller
         $event->end_time = $request->timeEnd;
         $event->note = $request->notes;
         $event->title = $request->title;
-        $event->code = time().uniqid(Str::random(30));
+        $event->code = getCode();
         $event->application_id = $request->has('isApp') ? $request->app: null;
         $event->is_application = $request->has('isApp') ? $request->isApp: null;
 
@@ -309,17 +309,16 @@ class EventController extends Controller
             );
 
             if (!is_null($event->application_id) ) {
-                $app = Application::find($event->application_id);
+                $app = Application::with('statusOne')->find($event->application_id);
+                $app->statusOne()->delete($app->statusOne->id);
                 $app->statusOne()->create(
                     [
                         'status_id' => 6,
                         'indications' => $request->medicalIndications,
                         'recomendations' => $request->medicalRecommendations,
-                        'code' => time().uniqid(Str::random(30)),
+                        'code' => getCode(),
                     ]
                 );
-
-                
             }
             
 
@@ -391,7 +390,7 @@ class EventController extends Controller
             $event->end_time = $request->timeEnd;
             $event->note = $request->notes;
             $event->title = $request->title;
-            $event->code = time().uniqid(Str::random(30));
+            $event->code = getCode();
             $event->application_id = $request->has('isApp') ? $request->app: null;
             $event->is_application = $request->has('isApp') ? $request->isApp: null;
 

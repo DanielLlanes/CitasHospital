@@ -55,13 +55,12 @@ class AppController extends Controller
         if (Auth::guard("staff")->user()->can('applications.all')) {
             $apps = Application::with(
                 [
-                    'statusOne' => function($q)use($lang){
+                   'statusOne' => function($q)use($lang){
                         $q->with([
                             'status' => function($q)use($lang){
                                 $q->select("name_$lang as name", 'id', 'color');
                             }
-                        ])
-                        ->select("*");
+                        ]);
                     },
                     'patient' => function($q){
                         $q->select('name', 'id');
@@ -96,7 +95,7 @@ class AppController extends Controller
             ->where('is_complete', true)
             ->get();
         }
-        //return $apps[1];
+        //return $apps;
         return view
         (
             'staff.application-manager.list'
