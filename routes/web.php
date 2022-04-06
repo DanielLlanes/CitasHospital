@@ -20,6 +20,7 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/team/{url?}', [HomeController::class, 'team'])->name('team');
 Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/facilities', [HomeController::class, 'facilities'])->name('facilities');
 Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-post');
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');

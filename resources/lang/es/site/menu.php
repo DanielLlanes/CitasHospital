@@ -24,4 +24,5 @@ return [
 	"Language" => "Idioma",
 	"Spanish" => "Español",
 	"English" => "English",
+	"Facilities" => "Instalaciones",
 ];

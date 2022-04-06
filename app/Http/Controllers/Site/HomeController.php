@@ -155,6 +155,10 @@ class HomeController extends Controller
         ->get();
         return view('site.faqs', ['faqs' => $faqs]);
     }
+    public function facilities()
+    {
+        return view('site.facilities');
+    }
     public function brand($brand)
     {
 

@@ -22,6 +22,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ route('team') }}">@lang('site/menu.Team')</a></li>
+                <li><a href="{{ route('facilities') }}">@lang('site/menu.Facilities')</a></li>
                 <li><a href="{{ route('faqs') }}">@lang('site/menu.Faqs')</a></li>
                 <li><a href="{{ route('testimonials') }}">@lang('site/menu.Testimonials')</a></li>
                 {{-- <li class="dropdown">
