@@ -364,8 +364,18 @@
         })
         $('.autocomplete.staff').on('keyup click', function() {
             var key = $(this).val();
+            isApp = false;
+            if ($('#is_app').is(":checked")) {
+                isApp = true;
+                var app = $("#app").attr("data-id")
+            } else {
+                isApp = false;
+                var app = $("#app").attr("data-id")
+            }
             var dataString = new FormData();
             dataString.append('key', key);
+            dataString.append('isApp', isApp);
+            dataString.append('app', app);
             $.ajax({
                 type: "POST",
                 url: globalSearchStaff,
@@ -383,7 +393,7 @@
                     //$('#myInputautocomplete-list.staff').remove();
                 },
                 success: function(data) {
-                    //console.log("data", data);
+                    console.log("data", data);
                     var sugerencias = '';
                     if (data.length > 0) {
                         for (var i = 0; i < data.length; i++) {
