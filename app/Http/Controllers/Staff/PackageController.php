@@ -90,8 +90,8 @@ class PackageController extends Controller
 
         $package = New Package;
 
-        $package->package_en = ucwords($request->package_en);
-        $package->package_es = ucwords($request->package_es);
+        $package->package_en = getUcWords($request->package_en);
+        $package->package_es = getUcWords($request->package_es);
         $package->code = time().uniqid(Str::random(30));
 
         if ($package->save()) {
@@ -166,8 +166,8 @@ class PackageController extends Controller
                 ]);
             }
 
-            $package->package_en = ucwords($request->package_en);
-            $package->package_es = ucwords($request->package_es);
+            $package->package_en = getUcWords($request->package_en);
+            $package->package_es = getUcWords($request->package_es);
             $package->code = time().uniqid(Str::random(30));
 
             if ($package->save()) {

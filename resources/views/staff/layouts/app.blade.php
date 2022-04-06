@@ -140,106 +140,22 @@
         <!-- Moments -->
         <script src="{{ asset('staffFiles/assets/plugins/moment/moment.min.js') }}"></script>
         <!-- end js include path -->
-        <script src="{{ asset('staffFiles/assets/js/customjs/layout.js') }}"></script>
         {{-- plugins Langs --}}
 
         <script>
-            (function($) {
-              $.fn.inputFilter = function(inputFilter) {
-                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
-                  if (inputFilter(this.value)) {
-                    this.oldValue = this.value;
-                    this.oldSelectionStart = this.selectionStart;
-                    this.oldSelectionEnd = this.selectionEnd;
-                  } else if (this.hasOwnProperty("oldValue")) {
-                    this.value = this.oldValue;
-                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-                  } else {
-                    this.value = "";
-                  }
-                });
-              };
-            }(jQuery));
-
             globalRouteChechSession = "{{ route('staff.chechSession') }}"
             var dataTablesLangEs;
             var notification_new = '{{ asset('sounds/facebook-pop.mp3') }}'
             var message_new = '{{ asset('sounds/facebook-nuevo-mensaje.wav') }}'
-            var lang = '{{\Auth::guard('staff')->user()->lang}}'
+            lang = '{{\Auth::guard('staff')->user()->lang}}'
             var user_id = "{{ auth()->guard('staff')->user()->id }}";
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }
+            var ip_address = window.location.hostname;
+            var socket_port = '3000';
+            var socket = io(ip_address + ':' + socket_port );
 
-            let ip_address = window.location.hostname;
-            let socket_port = '3000';
-            let socket = io(ip_address + ':' + socket_port );
-            
-            socket.on('connect', function() {
-               socket.emit('user_connected', user_id);
-            });
-            
-            socket.on('sendMesageDebateToClient', (data) => {
-                let $notifyAra = $('.debateNotifications')
-                $.each(data.members, function(i, val) {
-                    if (data.user_id == val.member_id) {
-                        $thisData = data.members[i]
-                        debateItem($thisData, data)
-                    }
-                });
-            });
-
-            socket.on('sendNewNotificationToClient', (data) => {
-                if (data.staff_id == user_id) {
-                    notifyItem(data);
-                }
-            })
-
-            function notifyItem(data) {
-                let notifyList = "";
-                notifyList += '<li>',
-                notifyList += '<a href="javascript:;">',
-                notifyList += '<span class="time">' + data.timeDiff + '</span>',
-                notifyList += '<span class="details">',
-                notifyList += '<span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-check"></i></span> ' + data.message + ' </span>',
-                notifyList += '</a>'
-                notifyList += '</li>'
-
-                $('.notyNotifications').prepend(notifyList);
-                beep( notification_new )
-            }
-
-            function debateItem($thisData, data){
-                let debateList = '';
-                debateList += '<li>';
-                debateList += '<a href="http://prado.test/staff/applications/view/' + data.group_id + ' ">';
-                debateList += '<span class="photo">';
-                debateList += '<img src=" ' + $thisData.member_avatar + ' " class="img-circle" alt=""> </span>';
-                debateList += '<span class="subject">';
-                debateList += '<span class="from"> ' + $thisData.member_name  + ' </span>';
-                debateList += '<span class="time"> ' + data.timeDiff + ' </span>';
-                debateList += '<br>';
-                debateList += '<span class="read" id="msgRead"><i class="fa fa-circle text-primary" title="Unread" aria-hidden="true"></i> </span>';
-                debateList += '</span>';
-                debateList += '<span class="message"> ' + data.msgStrac + ' </span>';
-                debateList += '</a>';
-                debateList += '</li>';
-
-                var actual = parseInt($('#new-messages-span').html());
-                console.log("actual", actual);
-
-                if (!isNaN(actual)) {$('#new-messages-span').html((actual + 1))}
-                
-
-                $('.debateNotifications li .message p').css({
-                    'margin-block-start': '0',
-                    'margin-inline-start': '0'
-                });
-                $('.debateNotifications').prepend(debateList);
-                beep( message_new )
-            }
-        </script>
-        <script>
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -254,10 +170,8 @@
             
             var drEvent = $('.dropify').dropify();
         </script>
+        <script src="{{ asset('staffFiles/assets/js/customjs/layout.min.js') }}"></script>
         @yield('scripts')
-        <script>
-            $.fn.modal.Constructor.prototype.enforceFocus = function () {};
-        </script>
       </body>
 </body>
 </html>
