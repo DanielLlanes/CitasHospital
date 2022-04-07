@@ -75,7 +75,9 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" />
+                                                        {{-- <input type="text" name="brand" id="brand" autocomplete="off" placeholder="@lang('Enter brand name')" class="form-control input-sm autocomplete brand" onClick="this.setSelectionRange(0, this.value.length)" /> --}}
+                                                        <select class="form-control input-height" id="choice-brand-select">
+                                                        </select>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                         <div id="myInputautocomplete-list" class="autocomplete-items brand" style="overflow-x: auto; max-height: 200px">
                                                         </div>

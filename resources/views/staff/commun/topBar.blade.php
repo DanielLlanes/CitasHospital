@@ -169,7 +169,7 @@
                                 @if (count($debateMessages) > 0)
                                    @foreach ($debateMessages as $message)
                                         <li>
-                                            <a href="#" id="">
+                                            <a href="{{ route('staff.applications.show', [$message->debateInverseMessages->application_id]) }}" id="">
                                                 <span class="photo">
                                                     <img src="{{ asset(getAvatar($message->debateInverseMessages->staffDebate)) }}" class="img-circle" alt=""> </span>
                                                 <span class="subject">

@@ -204,7 +204,7 @@ class ProcedureController extends Controller
         $procedure = Procedure::with(
             [
                 'service' => function($q) use ($lang){
-                    $q->select("id", "brand_id", "service_$lang");
+                    $q->select("id", "brand_id", "service_$lang as service");
                 },
                 'descriptionOne' => function($q)use($lang){
                     $q->select('*', "description_$lang as description");

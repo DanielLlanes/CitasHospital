@@ -160,7 +160,8 @@ class PaymentController extends Controller
 
         $patientApp = Application::whereHas(
             'statusOne', function($q){
-                $q->where('status_id', 5);
+                $q->where('status_id', '!=', 3)
+                  ->where('status_id', '!=', 9);
             }
         )
         ->with(
@@ -242,7 +243,9 @@ class PaymentController extends Controller
             $q->where('is_complete', 1)
             ->whereHas(
                 'statusOne', function($q){
-                    $q->where('status_id', 5); //where accepted
+                    $q->where('status_id', '!=', 3)
+                    ->where('status_id', '!=', 9)
+                    ->where('status_id', '!=', 1);
                 }
             );
         })
