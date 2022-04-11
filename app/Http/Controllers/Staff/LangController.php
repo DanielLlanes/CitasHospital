@@ -20,11 +20,13 @@ class LangController extends Controller
                     $staff->lang = $lang;
                     $staff->save();
                     session()->put('locale', $lang);
+                    app()->setLocale(session('locale'));
                     return redirect()->back();
                 }
             }
+            session()->put('locale', $lang);
+            app()->setLocale(session('locale'));
         }
-        session()->put('locale', $lang);
         return redirect()->back();
     }
 }

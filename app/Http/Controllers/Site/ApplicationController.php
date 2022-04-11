@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
 use App\Mail\NewAppEmail;
+use App\Mail\WelcomeLetterEmail;
 use App\Models\Site\Application;
 use App\Models\Site\BirthControlApplication;
 use App\Models\Site\Country;
@@ -56,7 +57,8 @@ class ApplicationController extends Controller
         (
             [
                 'service' => function($query) use ($lang) {
-                    $query->select('id', "active", "service_$lang as service", "need_images", "qty_images");
+                    $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
+                    ->with('brand');
                  },
                 'procedure' => function($query) use ($lang) {
                     $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
@@ -180,7 +182,6 @@ class ApplicationController extends Controller
             }
             $patient->save();
         }
-
 
         if(!Session::has('form_session'))
         {
@@ -1451,6 +1452,7 @@ class ApplicationController extends Controller
             (
                 [
                     'specialties',
+                    'roles',
                     'assignToService' => function($q)
                     {
                         $q->first();
@@ -1460,9 +1462,6 @@ class ApplicationController extends Controller
             ->first();
             
             $toEmail = new Collection;
-            // $app
-            // $treatment
-            // $patient
 
             $newMessage = "A new application has been assigned to you";
             $response = [];
@@ -1502,8 +1501,6 @@ class ApplicationController extends Controller
                     "subject" => $newMessage,
                 ]);
             }
-
-
             $other_staff = Staff::whereHas
             (
                 
@@ -1556,7 +1553,9 @@ class ApplicationController extends Controller
                     new NewAppEmail($data)
                 );
             }
-            
+
+            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
 

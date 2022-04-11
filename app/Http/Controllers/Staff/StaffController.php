@@ -24,13 +24,21 @@ use Spatie\Permission\Models\Role;
 
 class StaffController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth:staff');
         date_default_timezone_set('America/Tijuana');
     }
+
     public function index()
     {
+
+        $fullClass  = get_class($this);
+        //dd($fullClass);
+        $fullClass = trim(str_replace("App\\Http\\Controllers\\Staff\\", "", $fullClass));
+        $fullClass = trim(str_replace("Controller", "", $fullClass));
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         
