@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('backup:run')
-        ->dailyAt('03:00')
+        ->dailyAt('01:00')
         ->timezone('America/Tijuana');
     }
 

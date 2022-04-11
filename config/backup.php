@@ -34,6 +34,7 @@ return [
 
                 /*
                  * Determines if symlinks should be followed.
+                 * * * * * * cd /var/www/jlpradosc.com && php artisan schedule:run >> /dev/null 2>&1
                  */
                 'follow_links' => false,
 
