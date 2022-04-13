@@ -135,7 +135,7 @@
                     </div>
                     <div class="card-body " id="">
                         <div class="row">
-                            <table style="" cellspacing="0" class="table table-hover dt-responsive nowrap" id="applicationsTable">
+                            <table style="font-size: .8rem;" cellspacing="0" class="table table-hover dt-responsive nowrap" id="applicationsTable">
                                 <thead>
                                     <tr id="lastFiveApps d-none">
                                         <th> @lang('Paciente') </th>
