@@ -135,17 +135,17 @@
                     </div>
                     <div class="card-body " id="">
                         <div class="row">
-                            <table style="width:100%; min-width:100% height:20px;" class="table table-hover dt-responsive nowrap" id="applicationsTable">
+                            <table style="" cellspacing="0" class="table table-hover dt-responsive nowrap" id="applicationsTable">
                                 <thead>
                                     <tr id="lastFiveApps d-none">
                                         <th> @lang('Paciente') </th>
-                                        <th> @lang('Marca') </th>
-                                        <th> @lang('Servicio') </th>
-                                        <th> @lang('Procedimiento') </th>
-                                        <th> @lang('Paquete') </th>
+                                        <th> @lang('Status') </th>
                                         <th> @lang('Coordinador') </th>
                                         <th> @lang('Fecha') </th>
-                                        <th> @lang('Status') </th>
+                                        <th> @lang('Procedimiento') </th>
+                                        <th> @lang('Servicio') </th>
+                                        <th> @lang('Marca') </th>
+                                        <th> @lang('Paquete') </th>
                                         <th> @lang('Código') </th>
                                     </tr>
                                 </thead>
