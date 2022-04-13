@@ -57,6 +57,13 @@ Route::name('staff.')->namespace('Staff')->group(function(){
     //Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
 	Route::get('/staff/', [DashboardController::class, 'dashboard'])->name('dashboards');
 
+
+    Route::name('stats.')->group( function(){
+        Route::get('getCounters', [DashboardController::class, 'getCounters'])->name('getCounters');
+        Route::get('getSocialMedia', [DashboardController::class, 'getSocialMedia'])->name('socialMedia');
+        Route::get('lastFiveApps', [DashboardController::class, 'lastFiveApps'])->name('lastFiveApps');
+    });
+
     Route::name('autocomplete.')->group(function(){
         Route::post('/search-Staff',        [AutocompleteController::class, 'searchStaff'])->name('AutocompleteStaff');
 		Route::post('/search-Patient',      [AutocompleteController::class, 'searchPatient'])->name('AutocompletePatient');

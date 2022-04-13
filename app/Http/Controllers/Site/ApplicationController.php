@@ -1568,7 +1568,6 @@ class ApplicationController extends Controller
                 );
             }
 
-
             Session::forget('form_session');
             Session::forget('treatment');
             return redirect()->route('home')

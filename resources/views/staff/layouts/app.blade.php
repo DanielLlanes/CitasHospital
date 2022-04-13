@@ -122,6 +122,7 @@
         <!-- morris chart -->
         <script src="{{ asset('staffFiles/assets/plugins/morris/morris.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/morris/raphael-min.js') }}" ></script>
+        <!-- SweetAlert2 -->
         <script src="{{ asset('staffFiles/assets/plugins/sweetalert/sweetalert2.js') }}"></script>
         <!-- Drppify -->
         <script src="{{ asset('staffFiles/assets/plugins/dropify/dist/js/dropify.min.js') }}"></script>
