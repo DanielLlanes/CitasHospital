@@ -19,7 +19,7 @@ class StatusSeeder extends Seeder
             [
                 "name_en" => "Waiting",
                 "name_es" => "En espera",//
-                'color' => "#fdfd96",
+                'color' => "#fdcae1",
                 "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
