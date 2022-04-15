@@ -53,7 +53,7 @@
                         @foreach ($treatments as $treatment)
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
-                                    <div class="card altura">
+                                    <div class="card altura mb-5">
                                         <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
