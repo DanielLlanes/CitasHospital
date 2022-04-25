@@ -31,7 +31,7 @@ class WelcomeNewMemberOfStaff extends Mailable implements ShouldQueue
     public function build()
     {
         //return $this->view('view.name');
-        $lang = auth()->guard('staff')->user()->lang;
+        //$lang = auth()->guard('staff')->user()->lang;
         app()->setLocale($this->dataMsg['lang']);
 
         return $this->to($this->dataMsg['reciver'], $this->dataMsg['reciverName'])

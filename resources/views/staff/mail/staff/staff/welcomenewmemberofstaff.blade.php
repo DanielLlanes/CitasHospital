@@ -14,6 +14,7 @@
                                 <br style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                                 <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
                                     @lang('This is to inform you that, Your account on :app_name has been created successfully. Log in for more details.', ['app_name' => str_replace('_', " ", config('app.name', 'Laravel'))])
+                                   // @lang('This email is to inform you that your :app_name account has been created, log in to start using it.', ['app_name' => str_replace('_', " ", config('app.name', 'Laravel'))])
                                 </p>
                                 <div class="callout" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                                     <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
