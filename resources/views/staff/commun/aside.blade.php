@@ -31,14 +31,14 @@
                 @can('applications.list')
                     <li class="nav-item">
                         <a href="{{ route('staff.applications.application') }}" class="nav-link nav-toggle"> <i class="material-icons">view_list</i>
-                            <span class="title">@lang('Aplications')</span>
+                            <span class="title">@lang('Applications')</span>
                         </a>
                     </li>
                 @endcan
                 @can('treatment.list')  
                     <li class="nav-item  ">
                         <a href="{{ route('staff.treatments.treatments') }}" class="nav-link nav-toggle"> <i class="material-icons">shopping_cart</i>
-                            <span class="title">Treatment</span>
+                            <span class="title">@lang('Treatment')</span>
                         </a>
                     </li>
                 @endcan

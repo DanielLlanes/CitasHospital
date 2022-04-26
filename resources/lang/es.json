@@ -85,6 +85,10 @@
         "Patient Invoice" : "Factura del Paciente",
         "Configuration" : "Configuración",
         "Widget" : "Widget",
+
+        "Applications": "Aplicaciones",
+        "Treatment": "Tratamientos",
+        "Calendar": "Calendario",
     "_endAside" : "",
     "_breadcrumb" : "",
         "Home" :"Inicio",
