@@ -8,11 +8,11 @@
                     <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;">
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
-                                <p>Dear {{ $patient->name }}</p>
+                                <p>Dear <b>{{ $patient->name }}</b></p>
                                  
-                                <p>We are very thrilled and excited you have chosen {{ getUcWords($treatment->service->brand->brand) }} for your weight loss journey.  My name is {{ $coordinator->name }} and I will be your medical coordinator.  We have received your application and it is undergoing review for approval.  We expect to have an answer in the next 24-48 hrs and wish to thank you for your patience.</p>
+                                <p>We are very thrilled and excited you have chosen <b>{{ getUcWords($treatment->service->brand->brand) }}</b> for your weight loss journey.  My name is </b>{{ $coordinator->name }}</b> and I will be your medical coordinator.  We have received your application and it is undergoing review for approval.  We expect to have an answer in the next 24-48 hrs and wish to thank you for your patience.</p>
                                  
-                                <p>I will be very happy to answer all your questions regarding weight loss surgery and clear any doubts about your package.  Once your application is approved, you will receive an APPROVAL LETTER with BOOKING & PAYMENT INFORMATION.</p>
+                                <p>I will be very happy to answer all your questions regarding weight loss surgery and clear any doubts about your package.  Once your application is approved, you will receive an <b>APPROVAL LETTER</b> with <b>BOOKING & PAYMENT INFORMATION.</b></p>
                                  
                                 <p>Please let me know if you have any questions or need assistance.</p>
 
