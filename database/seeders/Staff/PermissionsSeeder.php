@@ -362,7 +362,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.list",
             "guard_name" => "staff",
             "description_es" => "Mostrar pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "Show payments",
             "group_en" => "Payments"
         ]);
@@ -370,7 +370,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.edit",
             "guard_name" => "staff",
             "description_es" => "Editar pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "Edit payments",
             "group_en" => "Payments"
         ]);
@@ -378,7 +378,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.create",
             "guard_name" => "staff",
             "description_es" => "Agregar pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "Add payments",
             "group_en" => "Payments"
         ]);
@@ -386,7 +386,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.destroy",
             "guard_name" => "staff",
             "description_es" => "Eliminar pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "Delete payments",
             "group_en" => "Payments"
         ]);
@@ -394,7 +394,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.show",
             "guard_name" => "staff",
             "description_es" => "Ver detalles de pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "view payments details",
             "group_en" => "Payments"
         ]);
@@ -402,7 +402,7 @@ class PermissionsSeeder extends Seeder
             "name" => "payments.details",
             "guard_name" => "staff",
             "description_es" => "Ver detalles de pagos",
-            "group_es" => "packages",
+            "group_es" => "Pagos",
             "description_en" => "view payments details",
             "group_en" => "Payments"
         ]);

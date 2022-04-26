@@ -231,6 +231,21 @@ class RolesSeeder extends Seeder
             "patients.edit",
             "patients.details",
             "patients.show",
+
+            "payments.list",
+            "payments.create",
+            "payments.edit",
+            "payments.destroy",
+            "payments.show",
+            "payments.details",
+
+            "patients.list",
+            "patients.create",
+            "patients.edit",
+            "patients.destroy",
+            "patients.details",
+            "patients.show",
+
         ];
 
         $dios->givePermissionTo(Permission::all());
