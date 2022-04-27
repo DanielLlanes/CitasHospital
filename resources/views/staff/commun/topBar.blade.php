@@ -110,7 +110,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="dropdown dropdown-extended dropdown-notification" >
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="material-icons">notifications</i>
@@ -127,7 +126,7 @@
                                 @if (count($notifications) > 0)
                                     @foreach ($notifications as $element)
                                         <li>
-                                            <a href="javascript:;">
+                                            <a href="{{ route('staff.applications.show', ["id" => $element->notificationable_id]) }}">
                                                 <span class="time">{{ $element->created_at->diffForHumans() }}</span>
                                                 <span class="details">
                                                 <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-check"></i></span> {{ $element->message }} </span>
@@ -144,16 +143,16 @@
                 </li>
                 <!-- end notification dropdown -->
                 <!-- start message dropdown -->
-
-                @foreach ($debateMessages as $element)
-                    
-                @endforeach
+                @if (count($debateMessages) > 0)
                 <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="material-icons">question_answer</i>
                         {{-- <span class="notify"></span> --}}
                         {{-- <span class="heartbeat"></span> --}}
                     </a>
+                    
+                        
+                    
                     <ul class="dropdown-menu">
                         <li class="external">
                             <h3><span class="bold">Messages</span></h3>
@@ -169,7 +168,7 @@
                                 @if (count($debateMessages) > 0)
                                    @foreach ($debateMessages as $message)
                                         <li>
-                                            <a href="{{ route('staff.applications.show', [$message->debateInverseMessages->application_id]) }}" id="">
+                                            <a href="{{ route('staff.applications.show', [$message->debateInverseMessages->application_id]) }}#debateChat" id="">
                                                 <span class="photo">
                                                     <img src="{{ asset(getAvatar($message->debateInverseMessages->staffDebate)) }}" class="img-circle" alt=""> </span>
                                                 <span class="subject">
@@ -193,6 +192,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
                 <!-- end message dropdown -->
                 <!-- start manage user dropdown -->
                 <li class="dropdown dropdown-user">

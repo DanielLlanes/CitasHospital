@@ -171,7 +171,7 @@
             
             var drEvent = $('.dropify').dropify();
         </script>
-        <script src="{{ asset('staffFiles/assets/js/customjs/layout.min.js') }}"></script>
+        <script src="{{ asset('staffFiles/assets/js/customjs/layout.min.js') }}?{{  md5(time()); }}"></script>
         @yield('scripts')
       </body>
 </body>

@@ -209,5 +209,6 @@
         globalRouteLastFiveApps = "{{ route('staff.stats.lastFiveApps') }}";
         globalgetSocialMedia = "{{ route('staff.stats.socialMedia') }}"
     </script>
+    {{-- <script src="{{ asset('staffFiles/assets/js/customjs/home.min.js') }}"></script> --}}
     <script src="{{ asset('staffFiles/assets/js/customjs/home.min.js') }}"></script>
 @endsection

@@ -1465,6 +1465,7 @@ class ApplicationController extends Controller
 
             $newMessage = "A new application has been assigned to you";
             $response = [];
+            $notifications = new Collection;
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $getData->id,
@@ -1477,14 +1478,25 @@ class ApplicationController extends Controller
 
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
-                //$response = [];
-                
+                $response = [];
+                $notifications = new Collection;
                 $response['staff_id'] = $assignment_staff->id;
                 $response['message'] = $newMessage;
                 $response['application_id'] = $getData->id;
                 $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
                 $response['timeDiff'] = $date->diffForHumans();
                 $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+
+                $notifications->push((object)[
+                    'staff_id' => $assignment_staff->id,
+                    'message' => $newMessage,
+                    'application_id' => $getData->id,
+                    'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                    'timeDiff' => $date->diffForHumans(),
+                    'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
+                    'url' => route('staff.applications.show', ["id" => $getData->id]);
+                ]);
+
 
                 $app->notification()->create([
                     'staff_id' => $assignment_staff->id,
@@ -1544,6 +1556,17 @@ class ApplicationController extends Controller
                         'treatment' => $treatment,
                         "patient" => $patient,
                     ]);
+                    $date = Carbon::now();
+                    $hours = $date->format('g:i A');
+                    $notifications->push((object)[
+                        'staff_id' => $staff->id,
+                        'message' => 'Hay una nueva aplicación de ' .$treatment->service->service,
+                        'application_id' => $getData->id,
+                        'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                        'timeDiff' => $date->diffForHumans(),
+                        'msgStrac' => \Str::of("Hay una nueva aplicación")->limit(20),
+                        'url' => route('staff.applications.show', ["id" => $getData->id]);
+                    ]);
                 }
             }
 
@@ -1553,6 +1576,8 @@ class ApplicationController extends Controller
                     new NewAppEmail($data)
                 );
             }
+
+            //return $notifications;
 
             Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
@@ -1576,7 +1601,7 @@ class ApplicationController extends Controller
                     'sys-message' => '',
                     'icon' => 'success',
                     'msg' => Lang::get('Your application has been sent successfully'),
-                    'data' => $response,
+                    'data' => $notifications,
                 ]
             );
         } else {

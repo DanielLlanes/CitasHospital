@@ -1551,6 +1551,8 @@ echo '</pre>';
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
     var canChangeProcedure = "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}";
+    
+
     var date = new Date();   //Creates date object
     var hours = date.getHours();   //get hour using date object
     var minutes = date.getMinutes();    //get minutes using date object
@@ -1562,9 +1564,7 @@ echo '</pre>';
     var dayname = date.getDay();  // get day of particular week
 
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-
     var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
-
     var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
 
     var debateMembers = {!! json_encode($debateMembers) !!}
@@ -1731,6 +1731,10 @@ echo '</pre>';
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
         container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
+    }
+
+    function send_notification($data) {
+        
     }
 
     
@@ -2114,6 +2118,7 @@ echo '</pre>';
             },
         })
     });
+
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
         if (response.success) {
             $('#change-procedure-p').html(response.name);
@@ -2128,6 +2133,7 @@ echo '</pre>';
             }
         } 
     });
+
     socket.on('sendChangeAppPackageToClient', (response) =>  {
         if (response.success) {
             $('#change-package-p').html(response.name);
@@ -2142,6 +2148,7 @@ echo '</pre>';
             }
         } 
     });
+
     socket.on('sendDebateToClient', (data) => {
         if (data.group_id == debate_id) {
             $.each(data.members, function(i, val) {
@@ -2162,6 +2169,7 @@ echo '</pre>';
             });
         }
     });
+
     socket.on('updateUserStatus', (data) => {
         //console.clear()
         let $userStatusIcon = $('.user-status-icon');
@@ -2178,10 +2186,12 @@ echo '</pre>';
             }
         });
     });
+
     socket.on('sendNewStaffToClient', (data) =>  {
         var langSpecialty = (user_lang == "es") ? data.lang_es:data.lang_en;
         $('#nameStaff'+langSpecialty).text(data.staff_name)
     });
+
     socket.on('sendChangeAppStatusToclient', (response) =>  {
         $("#current-status-p").html(response.status)
         $('#status-declined-modal').modal('hide');
