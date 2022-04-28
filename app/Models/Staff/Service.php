@@ -18,7 +18,6 @@ class Service extends Model
     {
         return $this->belongsToMany(Specialty::class);
     }
-
     public function brand()
     {
         return $this->belongsTo(Brand::class);
@@ -30,11 +29,15 @@ class Service extends Model
     }
     public function seviceAssignedTo()
     {
-        return $this->belongsToMany(Staff::class)->withPivot('order')->withTimestamps();
+        return $this->belongsToMany(Staff::class)->withTimestamps();
     }
     public function descriptionone()
     {
         return $this->morphOne(DescriptionOne::class, 'descriptionOneable');
+    }
+    public function specialty()
+    {
+        return $this->belongsTo(Service::class);
     }
 
 }

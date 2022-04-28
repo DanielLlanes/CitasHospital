@@ -8,7 +8,7 @@
 @section('content')
 
 @php
-echo "<pre>";
+// echo "<pre>";
     $arrays = [];
     $arraysDos = [];
     foreach($appInfo->treatment->service->specialties as $object){$arrays[] = $object->toArray();}
@@ -30,8 +30,7 @@ echo "<pre>";
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
         $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
     });
-
-echo '</pre>';
+// echo '</pre>';
 @endphp
 
 

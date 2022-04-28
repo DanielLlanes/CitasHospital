@@ -50,52 +50,6 @@ class AppController extends Controller
      */
     public function index()
     {
-        $lang = Auth::guard('staff')->user()->lang;
-        $lang = app()->getLocale();
-        if (Auth::guard("staff")->user()->can('applications.all')) {
-            $apps = Application::with(
-                [
-                   'statusOne' => function($q)use($lang){
-                        $q->with([
-                            'status' => function($q)use($lang){
-                                $q->select("name_$lang as name", 'id', 'color');
-                            }
-                        ]);
-                    },
-                    'patient' => function($q){
-                        $q->select('name', 'id');
-                    },
-                    'treatment' => function($q) use($lang) {
-                        $q->with(
-                            [
-                                "brand" => function($q){
-                                    $q->select("brand", "id", "color");
-                                },
-                                "service" => function($q) use($lang) {
-                                    $q->select("service_$lang AS service", "id");
-                                },
-                                "procedure" => function($q) use($lang) {
-                                    $q->select("procedure_$lang AS procedure", "id");
-                                },
-                                "package" => function($q) use($lang) {
-                                    $q->select("package_$lang AS package", "id");
-                                },
-                            ]
-                        );
-                    },
-                    'assignments' => function($q) use($lang) {
-                        $q->whereHas(
-                            'specialties', function($q){
-                                $q->where("name_en", "Coordination");
-                            }
-                        );
-                    }
-                ]
-            )
-            ->where('is_complete', true)
-            ->get();
-        }
-        //return $apps;
         return view
         (
             'staff.application-manager.list'

@@ -179,3 +179,9 @@ table.table td p{
     -webkit-user-select: none;
     font-size: 12px;
 }
+
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+     border: 0px solid #aaa; 
+    border-radius: 4px;
+}

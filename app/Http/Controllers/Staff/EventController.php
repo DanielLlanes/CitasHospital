@@ -81,7 +81,7 @@ class EventController extends Controller
         )
         ->get();
 
-// return($events);
+        // return($events);
         return view('staff.events-manager.list', ['status' => $status]);
     }
 
@@ -526,7 +526,6 @@ class EventController extends Controller
 
     public function changeStatus(Request $request)
     {
-   // return($request);
         if ($request->ajax()) {
             $event = Event::with('statusOne')->find($request->event);
             //return($event);

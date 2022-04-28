@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Http\Controllers\Controller;
+use App\Models\Site\Application;
 use App\Models\Staff\Brand;
-use App\Models\Staff\Staff;
-use Illuminate\Http\Request;
 use App\Models\Staff\Package;
 use App\Models\Staff\Patient;
-use App\Models\Staff\Service;
 use App\Models\Staff\Procedure;
-use App\Http\Controllers\Controller;
+use App\Models\Staff\Service;
+use App\Models\Staff\Specialty;
+use App\Models\Staff\Staff;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AutocompleteController extends Controller
@@ -17,23 +19,78 @@ class AutocompleteController extends Controller
     public function searchStaff(Request $request)
     {
     
-            $search = Staff::where
-            (
-                [
-                    ["name",'like', "%".$request->key."%"],
-                    ['show', "=", 1]
-                ]
+            // $search = Staff::where
+            // (
+            //     [
+            //         ["name",'like', "%".$request->search."%"],
+            //         ['show', "=", 1]
+            //     ]
+            // )
+            // ->orWhere
+            // (
+            //     [
+            //         ["email",'like', "%".$request->search."%"],
+            //         ['show', "=", 1]
+            //     ]
+            // )
+            // ->get();
+            // 
+            // 
+        
+        if ($request->has('app')) {
+            $appSearch = Application::with(['treatment' => function($q)use($request){ $q->with('service');}])->where('id', $request->app)->first();
+            $service = $appSearch->treatment->service->service_en; 
+            $search = Staff::whereHas(
+                'assignment', function($q)use($request){
+                    $q->where('applications.id', $request->app);
+                }
             )
-            ->orWhere
-            (
+            ->whereHas(
+                'assignToSpecialty', function($q)use($service){
+                    $q->whereHas(
+                        'services', function($q)use($service) {
+                            $q->where('service_en', $service);
+                        }
+                    );
+                }
+            )
+            ->where(
                 [
-                    ["email",'like', "%".$request->key."%"],
+                    ["name",'like', "%".$request->search."%"],
                     ['show', "=", 1]
                 ]
             )
             ->get();
+        } else {
+            $search = Staff::whereHas(
+                
+                'specialties', function($q){
+                   $q->where(
+                        [
+                            ['specialties.id', '!=', 10],
+                            ['specialties.id', '!=', 1],
+                            ['specialties.id', '!=', 2],
+                            ['specialties.id', '!=', 3],
+                            ['specialties.id', '!=', 9],
+                            ['specialties.id', '!=', 11],
+                            ['specialties.id', '!=', 16],
+                        ]
+                    );
+                },
+            )
+            
+            ->get();
+        }
+            
+        
 
-        return $search;
+        
+        
+        return($search);
+
+        return response()->json([
+            "service" => $service
+        ]);
     }
 
     public function searchPatient(Request $request)

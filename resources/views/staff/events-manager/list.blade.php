@@ -53,7 +53,9 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" />
+                                {{-- <input type="text" name="patient" id="patient" autocomplete="off" placeholder="@lang('Enter patient name')" class="form-control input-sm autocomplete patient" onClick="this.setSelectionRange(0, this.value.length)" /> --}}
+                                <select class="form-control input-height " id="patient-search-select">
+                                </select>
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items patient" style="overflow-x: auto; max-height: 200px">
                                 </div>
@@ -151,7 +153,9 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12 aqui">
-                                <input type="text" name="staff" id="staff" placeholder="@lang('Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" />
+                                {{-- <input type="text" name="staff" id="staff" placeholder="@lang('Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" /> --}}
+                                <select class="form-control input-height " id="staff-search-select">
+                                </select>
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items staff" style="overflow-x: auto; max-height: 200px">
                                 </div>
@@ -313,6 +317,85 @@
     </script>
 	<script>
         var calendar;
+
+        $('#patient-search-select').empty().attr('placeholder', "Select click here").trigger('change')
+        $('#patient-search-select').select2({
+            placeholder: "Select click here",
+            ajax: {
+                url: globalSearchPatient,
+                type: 'post',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        search: params.term,
+                    }
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.name,
+                                phone: obj.phone,
+                                email: obj.email,
+                                lang: obj.lang,
+                                app: obj.applications,
+                            };
+                        })
+                    };
+                },
+                cache: true,
+            }
+        });
+        $('#patient-search-select').on('select2:select', function (e) {
+            var data = e.params.data;
+            if (data) {
+                $('#email').val('').removeAttr('disabled')
+                $('#phone').val('').removeAttr('disabled')
+                $('#lang').val('').removeAttr('disabled')
+                $('#applications option:not(:first)').remove();
+                $('#email').val(data.email).prop('disabled', true)
+                $('#phone').val(data.phone).prop('disabled', true)
+                $('#lang').val(data.lang).prop('disabled', true)
+                if (data.app.length == 0) { $('#is_app').parents('.form-group').hide('fast') } else { $('#is_app').parents('.form-group').show('fast') }
+            }               
+        });
+        $('#staff-search-select').empty().attr('placeholder', "Select click here").trigger('change')
+        $('#staff-search-select').select2({
+            placeholder: "Select click here",
+            ajax: {
+                url: globalSearchStaff,
+                type: 'post',
+                dataType: 'json',
+                data: function (params) {
+                    isApp = false;
+                    if ($('#is_app').is(":checked")) {
+                        isApp = true;
+                        var app = $("#app").attr("data-id")
+                    } else {
+                        isApp = false;
+                        var app = $("#app").attr("data-id")
+                    }
+
+                    return {
+                        search: params.term,
+                        isApp: isApp,
+                        app: app,
+                    }
+                },
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.name,
+                            };
+                        })
+                    };
+                },
+                cache: true,
+            }
+        });
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var initialLocaleCode = 'es';
@@ -349,7 +432,7 @@
                         url: globaleventSources,
                         method: 'get',
                         success: function(data) {
-                           console.log(data);
+                           //console.log(data);
                         },
                         failure: function() {
                             alert('there was an error while fetching events!');
@@ -362,140 +445,43 @@
             });
             calendar.render();
         })
-        $('.autocomplete.staff').on('keyup click', function() {
-            var key = $(this).val();
-            isApp = false;
+        $(document).on('change', '#is_app',function () {
             if ($('#is_app').is(":checked")) {
-                isApp = true;
-                var app = $("#app").attr("data-id")
+                $('.eventApp').show('fast');
+                getApps()
             } else {
-                isApp = false;
-                var app = $("#app").attr("data-id")
+                $('.eventApp').hide('fast');
+                $("#app").removeAttr("data-id")
+                $("#app").val("")
             }
-            var dataString = new FormData();
-            dataString.append('key', key);
-            dataString.append('isApp', isApp);
-            dataString.append('app', app);
-            $.ajax({
-                type: "POST",
-                url: globalSearchStaff,
-                method:"POST",
-                data:dataString,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function(){
-                    $('#myInputautocomplete-list.staff').html('');
-                    //$('#myInputautocomplete-list.staff').remove();
-                },
-                success: function(data) {
-                    console.log("data", data);
-                    var sugerencias = '';
-                    if (data.length > 0) {
-                        for (var i = 0; i < data.length; i++) {
-                           sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '" id="">' + data[i].name + '</a></div>';
-                        }
-                    } else {
-                        sugerencias += '<div><a class="suggest-element no-show-staff" data="" id="">No se encontraron resultados</a></div>';
-                        return false;
-                    }
-                    $('#myInputautocomplete-list.staff').fadeIn(1000).append(sugerencias);
-                    $('.suggest-element').not('.no-show-staff').on('click', function(){
-                            var id = $(this).attr('data');
-                            var name = $(this).text();
-                            var objIndex = data.findIndex((obj => obj.id == id));
-                            //console.log("objIndex", objIndex);
-                            $('.autocomplete.staff').val(name).attr('data-id', id);
-                            $('#phone').val()
-                            $('#myInputautocomplete-list.staff').fadeOut(1000).html('');
-                    });
-                }
-            });
         });
-        $('.autocomplete.patient').on('keyup click', function() {
-            var key = $(this).val();
-            $('#email').val('').removeAttr('disabled')
-            $('#phone').val('').removeAttr('disabled')
-            var dataString = new FormData();
-            dataString.append('key', key);
-            $.ajax({
-                type: "POST",
-                url: globalSearchPatient,
-                method:"POST",
-                data:dataString,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function(){
-                    $('#myInputautocomplete-list.patient').html('');
-                    $('#email').val('').prop('disabled', false);
-                    $('#phone').val('').prop('disabled', false);
-                },
-                success: function(data) {
-                    var sugerencias = '';
-                    if (data.length > 0) {
-                        for (var i = 0; i < data.length; i++) {
-                            //console.log();
-                            var app = 0;
-                            if (data[i].applications.length > 0) {
-                                app = 1;
-                            }
-                           sugerencias += '<div><a class="suggest-element" app="'+ app +'" lang="'+ data[i].lang+'" data="' + data[i].id + '" id="" email="' + data[i].email + '" phone="' + data[i].phone + '">' + data[i].name + '</a></div>';
-                        }
-                    } else {
-                        sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
-                    }
-                    $('#myInputautocomplete-list.patient').fadeIn(1000).append(sugerencias);
-                    $('.suggest-element').not('.no-show-patient').on('click', function(){
-                            var id = $(this).attr('data');
-                            var name = $(this).text();
-                            var email = $(this).attr('email');
-                            var phone = $(this).attr('phone');
-                            var lang = $(this).attr('lang');
-                            var app = $(this).attr('app')
-                            $('.autocomplete.patient').val(name).attr('data-id', id);
-                            $('#email').val(email).prop('disabled', true);
-                            $('#phone').val(phone).prop('disabled', true);
-                            $('#lang option[value='+lang+']').attr('selected','selected');
-                            $('#lang').prop('disabled', true);
-                            $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
-                            if (app == 1) {
-                                $('#is_app').parents('.form-group').show('fast')
-                            }
-                            else {
-                                $('#is_app').parents('.form-group').hide('fast')
-                            }
-                            return false;
-                    });
-                }
-            });
+        $(document).on('click', ".btn-add", function () {
+            $("#app").val($(this).attr("name"))
+            $("#app").attr("data-id", $(this).attr("data-id"))
+            $('#appsModal').modal("hide")
         });
-        $(document).on('click', '.no-show-patient', function(event) {
-            event.preventDefault();
-            $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
-            //$('.autocomplete.patient').val('').focus().attr('data-id', '')
-            $('.autocomplete.patient').attr('data-id', '')
+        $(document).on("click", "#btnAppsModal",function () {
+            $('.eventApp').hide('fast');
+            $("#app").removeAttr("data-id")
+            $("#app").val("")
+            $("#is_app").prop('checked', false);
+            $("#is_app").parent().removeClass('is-checked');
         });
-        $(document).on('click', '.no-show-staff', function(event) {
-            event.preventDefault();
-            $('#myInputautocomplete-list.staff').fadeOut(1000).html('');
-            $('.autocomplete.staff').val('').focus().attr('data-id', '')
-        });
+        $('#appsModal').on('hide.bs.modal', function (e) {
+            $('#appsTable').empty();
+        })
         $(document).on('click', '#formSubmit', function(event) {
             event.preventDefault();
             $('.error').html('')
+            var data = $('#patient-search-select').select2('data');
+            var datax = $('#staff-search-select').select2('data');
+            var patient_id = data[0].id;
+            var staff_id =  datax[0].id
+            var staff =  datax[0].id
             var date = $('#start').val();
             var formatdate = date.split("/").reverse().join("/");
             var dataString = new FormData()
-            dataString.append('patient_id', $('#patient').attr('data-id'))
+            dataString.append('patient_id', patient_id)
             dataString.append('phone', $('#phone').val())
             dataString.append('title', $('#title').val())
             dataString.append('email', $('#email').val())
@@ -506,8 +492,8 @@
             dataString.append('start', formatdate)
             dataString.append('timeStart', $('#timeStart').val())
             dataString.append('timeEnd', $('#timeEnd').val())
-            dataString.append('staff_id', $('#staff').attr('data-id'))
-            dataString.append('staff', $('#staff').attr('data-id'))
+            dataString.append('staff_id', staff)
+            dataString.append('staff', staff)
             dataString.append('notes', $('#notes').val())
             $.ajax({
                 type: "POST",
@@ -525,7 +511,6 @@
 
                 },
                 success: function(data) {
-                    console.log("data", data);
                     refetchCalendarEvents()
                     if (data.reload) {
                         Toast.fire({
@@ -540,6 +525,7 @@
                         $("#is_app").prop('checked', false);
                         $("#is_app").parent().removeClass('is-checked');
                         $("#app").removeAttr("data-id")
+                        resetForm()
                         socket.emit('eventCalendarRefetchToServer');
                     } else {
                         $.each( data.errors, function( key, value ) {
@@ -549,122 +535,20 @@
                 }
             });
         });
-
-
-        $('#start').datetimepicker({
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0,
-            format: 'dd/mm/yyyy',
-            startDate: new Date(),
-        }).on('changeDate', function (ev) {
-            var chengeDate = new Date(ev.date);
-            var now = new Date();
-            var test = moment(now)
-            var testDos = new Date(test);
-            var diff = chengeDate.setHours(0,0,0,0) > now.setHours(0,0,0,0);
-            console.log("diff", diff);
-            if (diff) {
-                $('#timeStart').datetimepicker('remove');
-                $('#timeStart').datetimepicker({
-                    pickDate: false,
-                    minuteStep: 10,
-                    format: 'HH:ii',
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    startDate: chengeDate,
-                    minDate: chengeDate,
-                }).on('changeDate', function(event) {
-                    console.log("event", event);
-                });
-                $('#timeEnd').datetimepicker('remove');
-                newDate = setTime = moment(new Date(chengeDate)).add(10, 'minutes')
-                valTime = moment(new Date(chengeDate)).add(10, 'minutes').format('hh:mm')
-                $('#timeEnd').datetimepicker('remove');
-                $('#timeEnd').val(valTime)
-                $('#timeEnd').datetimepicker({
-                    pickDate: false,
-                    minuteStep: 10,
-                    format: 'HH:ii',
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    startDate: new Date(newDate),   
-                    minDate: new Date(newDate),     
-                });
-            } else {
-                $('#timeStart').datetimepicker('remove');
-                valDate = moment(new Date()).format('hh:mm')
-                valTime = moment(new Date()).add(10, 'minutes').format('hh:mm')
-                newTime = moment(new Date()).add(10, 'minutes');
-                $('#timeStart').val(valDate)
-                $('#timeEnd').val(valTime)
-                $('#timeStart').datetimepicker({
-                    pickDate: false,
-                    minuteStep: 10,
-                    format: 'HH:ii',
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    startDate: new Date(),
-                    minDate: new Date(),
-                });
-                $('#timeStart').datetimepicker('remove');
-                $('#timeStart').datetimepicker({
-                    pickDate: false,
-                    minuteStep: 10,
-                    format: 'HH:ii',
-                    autoclose: true,
-                    startView: 1,
-                    maxView: 1,
-                    startDate: new Date(newTime),
-                    minDate: new Date(newTime),
-                });
-            }
+        $(document).on('click', '#formCancel', function(event) {
+            event.preventDefault();
+            resetForm()
         });
-
-        // $('#timeStart').datetimepicker({
-        //     pickDate: false,
-        //     minuteStep: 10,
-        //     format: 'HH:ii',
-        //     autoclose: true,
-        //     startView: 1,
-        //     maxView: 1,
-        //     startDate: new Date(),
-        //     minDate: new Date(),
-        // }).on('changeDate', function(event) {
-        //     console.log("event", event.date);
-        //     setTime = moment(new Date(event.date)).add(10, 'minutes')
-        //     valTime = moment(new Date(event.date)).add(10, 'minutes').format('hh:mm')
-        //     newDate = new Date(setTime)
-        //     console.log("newDate", newDate);
-        //     $('#timeEnd').datetimepicker('remove');
-        //     $('#timeStart').datetimepicker('remove');
-        //     ('#timeStart').val(valTime)
-        //     $('#timeEnd').val(valTime)
-        //     $('#timeEnd').datetimepicker({
-        //         pickDate: false,
-        //         minuteStep: 10,
-        //         format: 'HH:ii',
-        //         autoclose: true,
-        //         startView: 1,
-        //         maxView: 1,
-        //         startDate: new Date(newDate),   
-        //         minDate: new Date(newDate),     
-        //     });
-        // });
-        
-        function dateCheck(sss){
-            if (/[^\d/]/g.test(sss.value)) sss.value = sss.value.replace(/[^\d/]/g,'')
-        }
+        $(document).on('click', '.closeModal', function(event) {
+            event.preventDefault();
+            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
+            $('input').removeAttr("disabled")
+            $('#lang').removeAttr('disabled');
+            $('#formReset').click();
+            $('.error').html('')
+        });
         @can('calendar.edit')
             function eventDrop(event){
-                console.log("event", event);
                 var form_data = new FormData();
                 form_data.append('id', event.event.id);
                 form_data.append('start', event.event.startStr);
@@ -711,7 +595,7 @@
                     id: 'formEdit'
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
-                console.log("event", event);
+
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
 
@@ -726,15 +610,28 @@
                 //
                 $('#start').val(moment(event.start).format('DD/MM/YYYY'))
 
-
-                console.log("event.extendedProps.startDate", event.extendedProps.startDate);
                 $('#lang').val(event.extendedProps.lang);
                 $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
                 $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
                 $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
                 $('#notes').val(event.extendedProps.notas);
 
-                
+                var staff = {
+                    id: event.extendedProps.staff_id,
+                    text: event.extendedProps.staff
+                };
+
+                var patient = {
+                    id: event.extendedProps.patient_id,
+                    text: event.extendedProps.patient
+                };
+
+                var newStaff = new Option(staff.text, staff.id, false, false);
+                $('#staff-search-select').append(newStaff).trigger('change');
+                var newPatient = new Option(patient.text, patient.id, false, false);
+                $('#patient-search-select').append(newPatient).trigger('change');
+
+
 
                 if (event.extendedProps.isapp == "si") {
                     $('#is_app').parents('.form-group').show('fast')
@@ -759,8 +656,15 @@
                 $('.error').html('')
                 var date = $('#start').val();
                 var formatdate = date.split("/").reverse().join("/");
+                var data = $('#patient-search-select').select2('data');
+                var datax = $('#staff-search-select').select2('data');
+                var patient_id = data[0].id;
+                var patient = data[0].name;
+                var staff_id =  datax[0].id
+                var staff =  datax[0].name
+
                 var dataString = new FormData()
-                dataString.append('patient_id', $('#patient').attr('data-id'))
+                dataString.append('patient_id', patient_id)
                 dataString.append('phone', $('#phone').val())
                 dataString.append('title', $('#title').val())
                 dataString.append('email', $('#email').val())
@@ -768,12 +672,12 @@
                 dataString.append('app', $('#app').attr("data-id"))
                 dataString.append('lang', $("#lang option:selected" ).val())
                 dataString.append('lang', $("#lang option:selected" ).val())
-                dataString.append('patient', $('#patient').val())
+                dataString.append('patient', patient)
                 dataString.append('start', formatdate)
                 dataString.append('timeStart', $('#timeStart').val())
                 dataString.append('timeEnd', $('#timeEnd').val())
-                dataString.append('staff_id', $('#staff').attr('data-id'))
-                dataString.append('staff', $('#staff').val())
+                dataString.append('staff_id', staff_id)
+                dataString.append('staff', staff)
                 dataString.append('notes', $('#notes').val())
                 dataString.append('event', $('#formEdit').attr('event'))
                 $.ajax({
@@ -837,9 +741,131 @@
                 });
             });
         @endcan
-        $(document).on('click', '#formCancel', function(event) {
-            event.preventDefault();
-            resetForm()
+        @can('calendar.destroy')
+            $(document).on('click', '.eventDelete', function(event) {
+                event.preventDefault();
+
+                $('#viewEvantModal').modal('hide')
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            eventDelete($(this).attr('data-id'))
+                        }
+                    })
+            });
+            function eventDelete(id) {
+                var dataString = new FormData()
+                dataString.append('id', id)
+                $.ajax({
+                    type: "POST",
+                    url: globalDestroyEvent,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        $('#formReset').click();
+                        $('.error').html('')
+                        if (data.reload) {
+                        socket.emit('eventCalendarRefetchToServer');
+
+                        }
+                    }
+                });
+            }
+        @endcan
+        $('#start').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: 'dd/mm/yyyy',
+            startDate: new Date(),
+        }).on('changeDate', function (ev) {
+            var chengeDate = new Date(ev.date);
+            var now = new Date();
+            var test = moment(now)
+            var testDos = new Date(test);
+            var diff = chengeDate.setHours(0,0,0,0) > now.setHours(0,0,0,0);
+            if (diff) {
+                $('#timeStart').datetimepicker('remove');
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: chengeDate,
+                    minDate: chengeDate,
+                }).on('changeDate', function(event) {
+                });
+                $('#timeEnd').datetimepicker('remove');
+                newDate = setTime = moment(new Date(chengeDate)).add(10, 'minutes')
+                valTime = moment(new Date(chengeDate)).add(10, 'minutes').format('hh:mm')
+                $('#timeEnd').datetimepicker('remove');
+                $('#timeEnd').val(valTime)
+                $('#timeEnd').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(newDate),   
+                    minDate: new Date(newDate),     
+                });
+            } else {
+                $('#timeStart').datetimepicker('remove');
+                valDate = moment(new Date()).format('hh:mm')
+                valTime = moment(new Date()).add(10, 'minutes').format('hh:mm')
+                newTime = moment(new Date()).add(10, 'minutes');
+                $('#timeStart').val(valDate)
+                $('#timeEnd').val(valTime)
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(),
+                    minDate: new Date(),
+                });
+                $('#timeStart').datetimepicker('remove');
+                $('#timeStart').datetimepicker({
+                    pickDate: false,
+                    minuteStep: 10,
+                    format: 'HH:ii',
+                    autoclose: true,
+                    startView: 1,
+                    maxView: 1,
+                    startDate: new Date(newTime),
+                    minDate: new Date(newTime),
+                });
+            }
         });
         function eventClick(arg) {
             //console.log(arg.event)
@@ -885,32 +911,37 @@
                 ';
                 $('')
                 $("input[name=status][value=" + arg.event.extendedProps.status + "]").prop('checked', true);
-                console.log("arg.event.extendedProps", arg.event.extendedProps);
                 $('#eventModalBody').html('')
                 $('#eventModalBody').html(eventModalBody);
             }).modal('show')
         }
-        $(document).on('change', '#is_app',function () {
-            if ($('#is_app').is(":checked")) {
-                $('.eventApp').show('fast');
-                getApps()
-            } else {
-                $('.eventApp').hide('fast');
-                $("#app").removeAttr("data-id")
-                $("#app").val("")
-            }
-        });
-        $(document).on("click", "#btnAppsModal",function () {
+        function refetchCalendarEvents(){
+            calendar.refetchEvents()
+        }
+        function resetForm(){
+            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
+            $('input').removeAttr("disabled")
+            $('#lang').removeAttr('disabled');
+            $('#formReset').click();
+            $('.error').html('')
             $('.eventApp').hide('fast');
-            $("#app").removeAttr("data-id")
-            $("#app").val("")
             $("#is_app").prop('checked', false);
             $("#is_app").parent().removeClass('is-checked');
+            $("#app").removeAttr("data-id")
+            $('#is_app').parents('.form-group').hide('fast')
+            $('#patient-search-select').val(null).trigger('change');
+            $('#staff-search-select').val(null).trigger('change');
+        }
+        socket.on('eventCalendarRefetchToClient', () => {
+            refetchCalendarEvents()
         });
         function getApps(){
             $('#appsModal').on('shown.bs.modal', function (e) {
-                var id = $('.autocomplete.patient').attr('data-id');
+                //var id = $('.autocomplete.patient').attr('data-id');
                 //console.log("id", id);
+                //
+                var data = $('#patient-search-select').select2('data');
+                var id = data[0].id;
 
                 $($.fn.dataTable.tables(true)).DataTable()
                 .columns.adjust()
@@ -964,91 +995,5 @@
                 }
             )
         }
-        $('#appsModal').on('hide.bs.modal', function (e) {
-            $('#appsTable').empty();
-        })
-        $(document).on('click', ".btn-add", function () {
-            $("#app").val($(this).attr("name"))
-            $("#app").attr("data-id", $(this).attr("data-id"))
-            $('#appsModal').modal("hide")
-        });
-        $(document).on('click', '.closeModal', function(event) {
-            event.preventDefault();
-            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
-            $('input').removeAttr("disabled")
-            $('#lang').removeAttr('disabled');
-            $('#formReset').click();
-            $('.error').html('')
-        });
-        @can('calendar.destroy')
-            $(document).on('click', '.eventDelete', function(event) {
-                event.preventDefault();
-
-                $('#viewEvantModal').modal('hide')
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            eventDelete($(this).attr('data-id'))
-                        }
-                    })
-            });
-            function eventDelete(id) {
-                var dataString = new FormData()
-                dataString.append('id', id)
-                $.ajax({
-                    type: "POST",
-                    url: globalDestroyEvent,
-                    method:"POST",
-                    data:dataString,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function(){
-
-                    },
-                    success: function(data) {
-                        Toast.fire({
-                            icon: data.icon,
-                            title: data.msg
-                        })
-                        $('#formReset').click();
-                        $('.error').html('')
-                        if (data.reload) {
-                        socket.emit('eventCalendarRefetchToServer');
-
-                        }
-                    }
-                });
-            }
-        @endcan
-        function refetchCalendarEvents(){
-            calendar.refetchEvents()
-        }
-        function resetForm(){
-            $('#formEdit').html('add').removeAttr('event').attr('id', 'formSubmit')
-            $('input').removeAttr("disabled")
-            $('#lang').removeAttr('disabled');
-            $('#formReset').click();
-            $('.error').html('')
-            $('.eventApp').hide('fast');
-            $("#is_app").prop('checked', false);
-            $("#is_app").parent().removeClass('is-checked');
-            $("#app").removeAttr("data-id")
-            $('#is_app').parents('.form-group').hide('fast')
-        }
-        socket.on('eventCalendarRefetchToClient', () => {
-            refetchCalendarEvents()
-        });
 </script>
 @endsection

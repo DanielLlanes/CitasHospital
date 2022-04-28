@@ -22,7 +22,7 @@ class Specialty extends Model
     }
     public function services()
     {
-        return $this->belongsToMany(Service::class)->withPivot('order')->withTimestamps();
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
     public function staff()
     {
