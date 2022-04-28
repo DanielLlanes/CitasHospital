@@ -87,10 +87,12 @@
                                 </div>
                                 <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                     <br>
-                                    <div class="d-flex justify-content-between">
-                                        <button id="status-accepted-button" class="btn btn-success">accepted</button>
-                                        <button id="status-declined-button" class="btn btn-danger">Declined</button>
-                                    </div>
+                                    @if ($appInfo->statusOne->status->name == 'new' || $appInfo->statusOne->status->name == 'Waiting' || $appInfo->statusOne->status->name == 'Debate' || $appInfo->statusOne->status->name == 'Second opinion' || Auth::guard('staff')->user()->hasRole(['dios']))
+                                        <div class="d-flex justify-content-between">
+                                            <button id="status-accepted-button" class="btn btn-success">accepted</button>
+                                            <button id="status-declined-button" class="btn btn-danger">Declined</button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <hr>
@@ -237,7 +239,6 @@
                                             <br>
                                             <p class="text-muted" procedure_id="{{ $appInfo->treatment->procedure->id }}" id="change-procedure-p">{{ $appInfo->treatment->procedure->procedure }}</p>
                                                 @if ($appInfo->statusOne->status->id == 5 && !is_null($appInfo->recommended_id))
-                                                    {{-- <p><button id="change-procedure-button" class="btn btn-warning btn-sm">Change</button></p> --}}
                                                 @endif
                                         </div>
                                         <div class="col-md-3 col-6 mb-2 b-r"> <strong>Paquete</strong>
@@ -253,11 +254,29 @@
                                         <div class="row" id="recommended-procedure-row">
                                     @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
                                         @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
-                                            <div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: <span>{{ $appInfo->recommended->procedure }}</span></strong>
+                                            <div class="col-12 col-md-4 mb-2 b-r"> <strong>Procedimiento sugerido: <span>{{ $appInfo->recommended->procedure }}</span></strong>
                                                 <br>
                                                 <div class="form-group form-check">
                                                    <input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">
                                                    <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
+                                                 </div>
+                                            </div>
+                                            <div class="col-12 col-md-8 mb-2 b-r"> <strong>Comentarios del doctor:</strong>
+                                                <br>
+                                                <p class="font-weight-bold">Aceptada con reservas</p>
+                                                <div class="form-group ">
+                                                   @if (!is_null($appInfo->statusOne->indications))
+                                                       <h4 class="font-weight-bold mb-0 pb-0">Indicaciones</h4>
+                                                       {!! $appInfo->statusOne->indications !!}
+                                                   @endif
+                                                   @if (!is_null($appInfo->statusOne->recomendations))
+                                                       <h4 class="font-weight-bold mb-0 pb-0">Recomendaciones</h4>
+                                                       {!! $appInfo->statusOne->recomendations !!}
+                                                   @endif
+                                                   @if (!is_null($appInfo->statusOne->reason))
+                                                       <h4 class="font-weight-bold mb-0 pb-0">Razón</h4>
+                                                       {!! $appInfo->statusOne->reason !!}
+                                                   @endif
                                                  </div>
                                             </div>
                                         @endif
@@ -723,6 +742,12 @@
                                                 </div>
                                             @endif
                                         @endif
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4 col-6 mb-2"> <strong>Vape</strong>
+                                            <br>
+                                            <p class="text-muted">{{ ($appInfo->vape == 0)? "No":"Yes" }}</p>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 col-6 mb-2"> <strong>Bebe alcohol</strong>
