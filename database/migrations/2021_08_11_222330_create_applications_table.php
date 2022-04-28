@@ -117,6 +117,8 @@ class CreateApplicationsTable extends Migration
             $table->text('smoke_cigars')->nullable();
             $table->text('smoke_years')->nullable();
 
+            $table->boolean('vape')->nullable();
+
             $table->boolean('stop_smoking')->nullable();
             $table->text('when_stop_smoking')->nullable();
 

@@ -865,6 +865,7 @@ class ApplicationController extends Controller
                     "smoke_cigars" => "required_if:smoke,1|nullable|integer",
                     "smoke_years" => "required_if:smoke,1|nullable|numeric",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "vape" => "required|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
                     "volumen_alcohol" => [
@@ -914,6 +915,7 @@ class ApplicationController extends Controller
                     "smoke_cigars" => "required_if:smoke,1|nullable|string",
                     "smoke_years" => "required_if:smoke,1|nullable|numeric",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "vape" => "required|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
                     "volumen_alcohol" => [
@@ -1036,6 +1038,7 @@ class ApplicationController extends Controller
                     "smoke_cigars" => "required_if:smoke,1|nullable|string",
                     "smoke_years" => "required_if:smoke,1|nullable|integer",
                     "stop_smoking" => "required_if:smoke,1|nullable|boolean",
+                    "vape" => "required|boolean",
                     "when_stop_smoking" => "required_if:stop_smoking,1|nullable|string",
                     "alcohol" => "required|boolean",
                     "volumen_alcohol" => "required_if:alcohol,1|string",
@@ -1114,6 +1117,7 @@ class ApplicationController extends Controller
             $app->stop_smoking = $request->stop_smoking;
             $app->when_stop_smoking = $request->when_stop_smoking;
             $app->alcohol = $request->alcohol;
+            $app->vale = $request->vape;
             $app->volumen_alcohol = $request->volumen_alcohol;
             $app->recreative_drugs = $request->recreative_drugs;
             $app->total_recreative_drugs = $request->total_recreative_drugs;

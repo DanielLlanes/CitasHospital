@@ -117,6 +117,25 @@
                     </div>
 
                     <div class="mb-3 row">
+                        <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Vape</label>
+                        <div class="col-sm-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="vape" id="vape_yes" value="1" @if (old('vape') == "1") checked @elseif(!empty($app) && $app->vape == '1') checked @endif>
+                                <label class="form-check-label" for="vape_yes">@lang("site/apps.Yes")</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="vape" id="vape_no" value="0" @if (old('vape') == "0") checked @elseif(!empty($app) && $app->vape == '0') checked @endif>
+                                <label class="form-check-label" for="vape_no">@lang("site/apps.No")</label>
+                            </div>
+                            @error('vape')
+                                <span class="invalid-feedback" style="display: block!important;" role="alert">
+                                    <strong class="error">{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
                         <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">@lang("site/apps.Do you drink alcohol?")</label>
                         <div class="col-sm-9">
                             <div class="form-check form-check-inline">
