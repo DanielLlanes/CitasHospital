@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                     <br>
-                                    @if ($appInfo->statusOne->status->name == 'new' || $appInfo->statusOne->status->name == 'Waiting' || $appInfo->statusOne->status->name == 'Debate' || $appInfo->statusOne->status->name == 'Second opinion' || Auth::guard('staff')->user()->hasRole(['dios']))
+                                    @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4 || Auth::guard('staff')->user()->hasRole(['dios']))
                                         <div class="d-flex justify-content-between">
                                             <button id="status-accepted-button" class="btn btn-success">accepted</button>
                                             <button id="status-declined-button" class="btn btn-danger">Declined</button>
@@ -251,7 +251,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                        <div class="row" id="recommended-procedure-row">
+                                    <div class="row" id="recommended-procedure-row">
                                     @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
                                         @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
                                             <div class="col-12 col-md-4 mb-2 b-r"> <strong>Procedimiento sugerido: <span>{{ $appInfo->recommended->procedure }}</span></strong>
@@ -261,27 +261,37 @@
                                                    <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
                                                  </div>
                                             </div>
-                                            <div class="col-12 col-md-8 mb-2 b-r"> <strong>Comentarios del doctor:</strong>
-                                                <br>
-                                                <p class="font-weight-bold">Aceptada con reservas</p>
-                                                <div class="form-group ">
-                                                   @if (!is_null($appInfo->statusOne->indications))
-                                                       <h4 class="font-weight-bold mb-0 pb-0">Indicaciones</h4>
-                                                       {!! $appInfo->statusOne->indications !!}
-                                                   @endif
-                                                   @if (!is_null($appInfo->statusOne->recomendations))
-                                                       <h4 class="font-weight-bold mb-0 pb-0">Recomendaciones</h4>
-                                                       {!! $appInfo->statusOne->recomendations !!}
-                                                   @endif
-                                                   @if (!is_null($appInfo->statusOne->reason))
-                                                       <h4 class="font-weight-bold mb-0 pb-0">Razón</h4>
-                                                       {!! $appInfo->statusOne->reason !!}
-                                                   @endif
-                                                 </div>
-                                            </div>
                                         @endif
                                     @endif
-                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-8 mb-2 b-r"> 
+                                        @if ($appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 5 || $appInfo->statusOne->status->id == 3)
+                                            <strong>Comentarios del doctor:</strong>
+                                        @endif
+                                        <br>
+                                        @if ($appInfo->statusOne->status->id == 1)
+                                            <p class="font-weight-bold">Aceptada con reservas</p>
+                                        @elseif($appInfo->statusOne->status->id == 5)
+                                            <p class="font-weight-bold">Aceptada</p>
+
+                                        @elseif($appInfo->statusOne->status->id == 3)
+                                            <p class="font-weight-bold">Declinada</p>
+                                        @endif
+                                        <div class="form-group ">
+                                           @if (!is_null($appInfo->statusOne->indications))
+                                               <h4 class="font-weight-bold mb-0 pb-0">Indicaciones</h4>
+                                               {!! $appInfo->statusOne->indications !!}
+                                           @endif
+                                           @if (!is_null($appInfo->statusOne->recomendations))
+                                               <h4 class="font-weight-bold mb-0 pb-0">Recomendaciones</h4>
+                                               {!! $appInfo->statusOne->recomendations !!}
+                                           @endif
+                                           @if (!is_null($appInfo->statusOne->reason))
+                                               <h4 class="font-weight-bold mb-0 pb-0">Razón</h4>
+                                               {!! $appInfo->statusOne->reason !!}
+                                           @endif
+                                         </div>
+                                    </div>
                                     @if (count($appInfo->imageMany) > 0)
                                         Área de imágenes
                                         <div class="row" id="imageRow">
