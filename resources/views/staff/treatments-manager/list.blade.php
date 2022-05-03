@@ -85,7 +85,8 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="service" id="service" placeholder="@lang('Enter service name')" class="form-control input-sm autocomplete service" onclick="this.setSelectionRange(0, this.value.length)"/>
+                                                        {{-- <input type="text" name="service" id="service" placeholder="@lang('Enter service name')" class="form-control input-sm autocomplete service" onclick="this.setSelectionRange(0, this.value.length)"/> --}}
+                                                        <select name="service" id="service" class="form-control input-sm"></select>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                         <div id="" class="autocomplete-items myInputautocomplete-list service" style="overflow-x: auto; max-height: 200px">
                                                         </div>
@@ -96,7 +97,8 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="procedure" id="procedure" placeholder="@lang('Enter procedure name')" class="form-control input-sm autocomplete procedure" onclick="this.setSelectionRange(0, this.value.length)"/>
+                                                        {{-- <input type="text" name="procedure" id="procedure" placeholder="@lang('Enter procedure name')" class="form-control input-sm autocomplete procedure" onclick="this.setSelectionRange(0, this.value.length)"/> --}}
+                                                        <select name="procedure" id="procedure" class="form-control input-sm" ></select>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                         <div id="" class="autocomplete-items myInputautocomplete-list procedure" style="overflow-x: auto; max-height: 200px">
                                                         </div>
@@ -107,7 +109,8 @@
                                                         <span class="required"> * </span>
                                                     </label>
                                                     <div class="col-md-12">
-                                                        <input type="text" name="package" id="package" placeholder="@lang('Enter package name')" class="form-control input-sm autocomplete package" onclick="this.setSelectionRange(0, this.value.length)"/>
+                                                        {{-- <input type="text" name="package" id="package" placeholder="@lang('Enter package name')" class="form-control input-sm autocomplete package" onclick="this.setSelectionRange(0, this.value.length)"/> --}}
+                                                        <select name="package" id="package" class="form-control input-sm"></select>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                         <div id="" class="autocomplete-items myInputautocomplete-list package" style="overflow-x: auto; max-height: 200px">
                                                         </div>
@@ -253,10 +256,16 @@
             $(document).on("click", "#formSubmit", function () {
                 $('.error').html('')
                 var form_data = new FormData();
-                //form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service', $('#service').attr('data-id'))
-                form_data.append('procedure', $('#procedure').attr('data-id'))
-                form_data.append('package', $('#package').attr('data-id'))
+                let data_service = $('#service').select2('data')[0];
+                let data_procedure = $('#procedure').select2('data')[0];
+                let data_package = $('#package').select2('data');
+                if (data_package.length > 0 ) {
+                    packId = data_package[0].id}else{packId = 0
+                };
+
+                form_data.append('service', data_service.id)
+                form_data.append('procedure', data_procedure.id)
+                form_data.append('package', packId)
                 form_data.append('price', $('#price').val())
                 form_data.append('clave', $('#clave').val())
                 form_data.append('image', $('#image').prop('files')[0])
@@ -307,16 +316,6 @@
                             });
                         }
 
-                    },
-                    error: function (err)
-                    {
-                        //console.clear()
-                        var data = err.responseJSON;
-                        $.each( data.errors, function( key, value ) {
-                            kFormat = key.replace(".", "_");
-                            $('*[id^='+kFormat+']').parent().find('.error').append('<p>'+value+'</p>')
-                            $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
-                        });
                     },
                     complete: function()
                     {
@@ -414,96 +413,101 @@
                 });
             });
 
-            $('.autocomplete.procedure').on('keyup click', function() {
-                var key = $(this).val();
-                var dataString = new FormData();
-                dataString.append('key', key);
-                dataString.append('service', $('#service').attr('data-id'));
-                $('.package').val('').removeAttr('data-id')
-                $.ajax({
-                    type: "POST",
+            $('#service').empty().attr('placeholder', "Select click here").trigger('change');
+            $('#procedure').empty().attr('placeholder', "Select click here").trigger('change');
+            $('#procedure').select2({placeholder: 'select ...',});
+            $('#package').select2({placeholder: 'select ...',});
+            $('#service').select2({
+                placeholder: 'Select...',
+                ajax: {
+                 url: globalRouteSearchService,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            key: params.term,
+                        }
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.service,
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            })
+            $('#service').on('select2:select', function(e){
+                let data = e.params.data;
+                $('#procedure').val(null).empty().attr('placeholder', "Select click here").trigger('change');
+                $('#package').val(null).empty().attr('placeholder', "Select click here").trigger('change');
+                getProcedure(data.id)
+            })
+            function getProcedure(id){
+                $('#procedure').select2({
+                    placeholder: 'Select...',
+                    ajax: {
                     url: globalRouteSearchProcedure,
-                    method:"POST",
-                    data:dataString,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function(){
-                        $('.myInputautocomplete-list.procedure').html('');
-                    },
-                    success: function(data) {
-                        var sugerencias = '';
-                        if (data.length > 0) {
-                            for (var i = 0; i < data.length; i++) {
-                                sugerencias += '<div><a class="suggest-element getpack" pack="' + data[i].package + '" data="' + data[i].id + '">' + data[i].procedure + '</a></div>';
+                        type: 'post',
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                key: params.term,
+                                service: id,
                             }
-
-                        } else {
-                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
-                        }
-                        $('.myInputautocomplete-list.procedure').fadeIn(1000).append(sugerencias);
-                        $('.suggest-element').not('.no-show-patient').on('click', function(){
-                            var id = $(this).attr('data');
-                            var procedure = $(this).text();
-                            var pack = $(this).attr('pack');
-                            $('.autocomplete.procedure').val(procedure).attr('data-id', id);
-                            $('.autocomplete.procedure').attr('pack', pack);
-                            $('.myInputautocomplete-list.procedure').fadeOut(1000).html('');
-                            if (pack == '1') {
-                                $('.pack_div').show('fast')
-                            } else {
-                                $('.pack_div').hide('fast')
-                            }
-                            return false;
-                        });
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(obj) {
+                                    return {
+                                        id: obj.id,
+                                        text: obj.procedure,
+                                        package: obj.package,
+                                    };
+                                })
+                            };
+                        },
+                        cache: true,
                     }
-                });
-            });
-
-            $('.autocomplete.package').on('keyup click', function() {
-                var key = $(this).val();
-                var dataString = new FormData();
-                dataString.append('key', key);
-                dataString.append('procedure', $('#procedure').attr('data-id'));
-                $.ajax({
-                    type: "POST",
+                })
+            }
+            $('#procedure').on('select2:select', function(e){
+                let data = e.params.data;
+                $('#package').val(null).empty().attr('placeholder', "Select click here").trigger('change');
+                if (data.package == 1) {$('.pack_div').show('fast')} else {$('.pack_div').hide('fast')}
+                getPackage(data.id)
+            })
+            function getPackage(id){
+                $('#package').select2({
+                    placeholder: 'Select...',
+                    ajax: {
                     url: globalRouteSearchPackage,
-                    method:"POST",
-                    data:dataString,
-                    dataType:'JSON',
-                    contentType: false,
-                    cache: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    processData: false,
-                    beforeSend: function(){
-                        $('.myInputautocomplete-list.package').html('');
-                    },
-                    success: function(data) {
-                        var sugerencias = '';
-                        if (data.length > 0) {
-                            for (var i = 0; i < data.length; i++) {
-                                sugerencias += '<div><a class="suggest-element" data="' + data[i].id + '">' + data[i].package + '</a></div>';
+                        type: 'post',
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                key: params.term,
+                                service: id,
                             }
-                        } else {
-                            sugerencias += '<div><a class="suggest-element no-show-patient" data="" id="">No se encontraron resultados</a></div>';
-                        }
-                        $('.myInputautocomplete-list.package').fadeIn(1000).append(sugerencias);
-                        $('.suggest-element').not('.no-show-patient').on('click', function(){
-                            var id = $(this).attr('data');
-                            var package = $(this).text();
-                            $('.autocomplete.package').val(package).attr('data-id', id);
-                            $('.myInputautocomplete-list.package').fadeOut(1000).html('');
-                            return false;
-                        });
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(obj) {
+                                    return {
+                                        id: obj.id,
+                                        text: obj.package,
+                                    };
+                                })
+                            };
+                        },
+                        cache: true,
                     }
-                });
-            });
+                })
+            }
 
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
@@ -561,6 +565,7 @@
                     },
                     success:function(data)
                     {
+                        console.log(data);
                         if (data.success) {
                             var image_url;
                             if (data.info.image_one) {
@@ -577,11 +582,31 @@
                             }
 
                             $('form').attr('treatments', data.info.id)
-                            $('#service').val(data.info.service.service).attr('data-id', data.info.service.id);
-                            $('#procedure').attr('pack', data.info.procedure.package);
-                            $('#procedure').val(data.info.procedure.procedur).attr('data-id', data.info.procedure.id);
+
+                            var service = {
+                                id: data.info.service.id,
+                                text: data.info.service.service
+                            };
+
+                            var procedure = {
+                                id:data.info.procedure.id,
+                                text: data.info.procedure.procedur
+                            };
+
+                            var newService = new Option(service.text, service.id, false, false);
+                            var newProcedure = new Option(procedure.text, procedure.id, false, false);
+                            $('#service').append(newService).trigger('change');
+                            $('#procedure').append(newProcedure).trigger('change');
+                            getProcedure(data.info.service.id)
                             if (data.info.package_id !== null) {
-                                $('#package').val(data.info.package.package).attr('data-id', data.info.package.id).parents('.pack_div').show('fast')
+                                var package = {
+                                    id:data.info.package.id,
+                                    text: data.info.package.package
+                                };
+                                var newPackage = new Option(package.text, package.id, false, false);
+                                $('#package').append(newPackage).trigger('change');
+                                $('#package').parents('.pack_div').show('fast');
+                                getPackage(data.info.procedure.id)
                             } else {
                                 $('#package').parents('.pack_div').hide('fast').val('').removeAttr('data-id')
                             }
@@ -626,10 +651,16 @@
                 $('.error').html('')
 
                 var form_data = new FormData();
-                form_data.append('brand', $('#brand').attr('data-id'))
-                form_data.append('service', $('#service').attr('data-id'))
-                form_data.append('procedure', $('#procedure').attr('data-id'))
-                form_data.append('package', $('#package').attr('data-id'))
+                let data_service = $('#service').select2('data')[0];
+                let data_procedure = $('#procedure').select2('data')[0];
+                let data_package = $('#package').select2('data');
+                if (data_package.length > 0 ) {
+                    packId = data_package[0].id}else{packId = 0
+                };
+
+                form_data.append('service', data_service.id)
+                form_data.append('procedure', data_procedure.id)
+                form_data.append('package', packId)
                 form_data.append('price', $('#price').val())
                 form_data.append('clave', $('#clave').val())
                 form_data.append('description_en', $('#description_en').val());
@@ -812,10 +843,9 @@
                 drEvents.clearElement();
             }
             function clearForm(){
-                $('#brand').val('').removeAttr('data-id')
-                $('#service').val('').removeAttr('data-id')
-                $('#procedure').val('').removeAttr('data-id')
-                $('#package').val('').removeAttr('data-id')
+                $('#service').val(null).empty().attr('placeholder', "Select click here").trigger('change');
+                $('#procedure').val(null).empty().attr('placeholder', "Select click here").trigger('change');
+                $('#package').val(null).empty().attr('placeholder', "Select click here").trigger('change');
                 $('#price').val('')
                 $('#clave').val('')
                 $("#formReset").click()

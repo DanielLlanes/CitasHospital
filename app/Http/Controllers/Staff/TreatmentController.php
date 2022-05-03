@@ -145,14 +145,21 @@ class TreatmentController extends Controller
 
     public function store(Request $request)
     {
-        //return $request;
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
+        $exist = false;
+        if ($request->package == 0) {
+            $exist = Treatment::where("procedure_id", $request->procedure)
+            ->first();
+        } else {
+            $exist = Treatment::where("procedure_id", $request->procedure)
+            ->where('package_id', $request->package)
+            ->first();
+        }
 
-        $exist = Treatment::where("procedure_id", $request->procedure)
-        ->where('package_id', $request->package)
-        ->first();
+
+
         if ($exist) {
             return response()->json(
                 [
@@ -163,7 +170,6 @@ class TreatmentController extends Controller
                 ]
             );
         }
-
         $has_package = Procedure::selectRaw("has_package")->find($request->procedure);
 
         $request->request->add(['has_package' => $has_package->has_package]);
@@ -323,10 +329,28 @@ class TreatmentController extends Controller
             $request->request->remove('image');
         }
 
-        $exist = Treatment::where("procedure_id", $request->procedure)
-        ->where('package_id', $request->package)
-        ->where('id', '<>', $request->id)
-        ->first();
+        $treatment = Treatment::with('imageOne')->find($request->id);
+        if (!$treatment) {
+            return response()->json(
+                [
+                    'icon' => 'error',
+                    'msg' => Lang::get("This treatment doesn't exist!"),
+                    'reload' => false
+                ]
+            );
+        }
+
+        $exist = false;
+        if ($request->package == 0) {
+            $exist = Treatment::where("procedure_id", $request->procedure)
+            ->where('id', '<>', $request->id)
+            ->first();
+        } else {
+            $exist = Treatment::where("procedure_id", $request->procedure)
+            ->where('package_id', $request->package)
+            ->where('id', '<>', $request->id)
+            ->first();
+        }
 
         if ($exist) {
             return response()->json(
@@ -365,9 +389,6 @@ class TreatmentController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-
-        $treatment = Treatment::with('imageOne')->find($request->id);
-        //return($treatment->imageOne);
 
 
         $lastPhoto = null;
