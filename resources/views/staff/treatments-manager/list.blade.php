@@ -114,6 +114,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Clave')
+                                                        <span class="required"> * </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="clave" id="clave"  class="form-control input-sm " placeholder="@lang('Enter clave')"/>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Price')
                                                         <span class="required"> * </span>
                                                     </label>
@@ -187,7 +196,7 @@
     @endif
 
 	<script>
-        
+
         var globalRouteobtenerLista = "{{ route('staff.treatments.getTreatmentsList') }}";
         var globalRouteStore = "{{ route('staff.treatments.storeProduct') }}";
         var globalRouteActivar = "{{ route('staff.treatments.activateProduct') }}"
@@ -202,7 +211,7 @@
 
         $(document).ready(function () {
             addIncludes()
-            $('.form-body').slimscroll({ 
+            $('.form-body').slimscroll({
                 height: $('#form_sample_1').height(),
                 position: "right",
                 size: "5px",
@@ -249,6 +258,7 @@
                 form_data.append('procedure', $('#procedure').attr('data-id'))
                 form_data.append('package', $('#package').attr('data-id'))
                 form_data.append('price', $('#price').val())
+                form_data.append('clave', $('#clave').val())
                 form_data.append('image', $('#image').prop('files')[0])
                 var include_es = [];
                 var include_en = [];
@@ -262,7 +272,7 @@
 
                 form_data.append('includes_en', JSON.stringify(include_en))
                 form_data.append('includes_es', JSON.stringify(include_es))
-                
+
                 $.ajax({
                     url: globalRouteStore,
                     method:"POST",
@@ -296,7 +306,7 @@
                                 $('*[id^='+kFormat+']').parents('.cloned').find('.error').append('<p>'+value+'</p>')
                             });
                         }
-                        
+
                     },
                     error: function (err)
                     {
@@ -547,7 +557,7 @@
                     beforeSend: function()
                     {
                         clearDropify()
-                        
+
                     },
                     success:function(data)
                     {
@@ -565,7 +575,7 @@
                             if (data.info.image_one) {
                                 $('#image').attr('data-id', data.info.image_one.id);
                             }
-                            
+
                             $('form').attr('treatments', data.info.id)
                             $('#service').val(data.info.service.service).attr('data-id', data.info.service.id);
                             $('#procedure').attr('pack', data.info.procedure.package);
@@ -576,6 +586,7 @@
                                 $('#package').parents('.pack_div').hide('fast').val('').removeAttr('data-id')
                             }
                             $('#price').val(data.info.price);
+                            $('#clave').val(data.info.clave);
 
                             if (data.info.contains.length > 0) {
                                     $("#includes").html('')
@@ -620,6 +631,7 @@
                 form_data.append('procedure', $('#procedure').attr('data-id'))
                 form_data.append('package', $('#package').attr('data-id'))
                 form_data.append('price', $('#price').val())
+                form_data.append('clave', $('#clave').val())
                 form_data.append('description_en', $('#description_en').val());
                 form_data.append('description_es', $('#description_es').val());
                 form_data.append('image', $('#image').prop('files')[0])
@@ -668,7 +680,7 @@
                                 $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
                             });
                         }
-                        
+
 
                     },
                     error: function (err)
@@ -805,6 +817,7 @@
                 $('#procedure').val('').removeAttr('data-id')
                 $('#package').val('').removeAttr('data-id')
                 $('#price').val('')
+                $('#clave').val('')
                 $("#formReset").click()
                 $('#formEdit')
                 .removeAttr('service')

@@ -192,7 +192,7 @@ class CreateApplicationsTable extends Migration
             $table->boolean('about_us_youtube')->default(false);
             $table->boolean('about_us_twiter')->default(false);
             $table->boolean('about_us_forums')->default(false);
-            $table->boolean('about_us_friend')->default(false);
+            //$table->boolean('about_us_friend')->default(false);
             $table->boolean('about_us_instagram')->default(false);
             $table->boolean('about_us_radio')->default(false);
             $table->boolean('about_us_email')->default(false);

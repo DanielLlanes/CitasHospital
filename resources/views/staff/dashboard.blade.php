@@ -189,7 +189,7 @@
                     </div>
                 </div>
                 <div class="card-body no-padding height-9">
-                    
+
                 </div>
             </div>
         </div>
@@ -197,7 +197,6 @@
 @endcan
 @endsection
 @section('scripts')
-
     <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.waypoints.min.js') }}" ></script>
     <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.counterup.min.js') }}" ></script>
     <!--Chart JS-->

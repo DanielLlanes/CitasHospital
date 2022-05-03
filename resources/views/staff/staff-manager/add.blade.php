@@ -289,7 +289,7 @@
         //     var assignableArray = [];
         //     todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
 
-        //     var cont = 0; 
+        //     var cont = 0;
 
         //     for (var x=0; x < checkboxs.length; x++) {
         //         if (checkboxs[x].checked) {
@@ -311,13 +311,13 @@
         // })
 
         var domain = window.location.protocol+"//"+window.location.hostname+"/";
-        $('#basic-url-span').html(domain)
+        $('#basic-url-span').html(domain+'team/')
         $(document).on('keyup', '#name', function(){
             var value = $(this).val();
-            
+
             $("#url").val(value.stringToSlug(value))
         })
-        
+
     </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
@@ -382,7 +382,7 @@
                 },
                 processData: false,
                 beforeSend: function()
-                { 
+                {
                     $("#specialtiesArea .col-12:not(:first)").remove();
                     $("#specialty").prop("selectedIndex", 0);
                     $('.assignable_area').hide('fast')
@@ -491,8 +491,8 @@
     </script>
     @if ($errors->any())
         <script>
-            
-            @if (old('specialties')) 
+
+            @if (old('specialties'))
                 var array = {!!json_encode(old('specialties'))!!};
             @endif
 

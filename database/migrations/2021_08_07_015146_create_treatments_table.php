@@ -27,6 +27,7 @@ class CreateTreatmentsTable extends Migration
             $table->text('group_en');
             $table->boolean('active')->default(true);
             $table->string('code');
+            $table->string('clave');
             $table->timestamps();
             $table->softDeletes();
         });

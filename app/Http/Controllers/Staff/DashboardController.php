@@ -85,33 +85,53 @@ class DashboardController extends Controller
 
         $countNewersPatients = Patient::where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
         $countAllPatients = Patient::count();
-        $incrementPatients = ceil((($countNewersPatients / $countAllPatients)) * 100);
+        if ($countNewersPatients > 0 && $countAllPatients > 0) {
+            $incrementPatients = ceil((($countNewersPatients / $countAllPatients)) * 100);
+        } else {
+            $incrementPatients = 0;
+        }
+
 
         $countNewersEvents = Event::where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
-        $countAllEvents = Event::count();  
-        $incrementEvents = ceil((($countNewersEvents / $countAllEvents)) * 100);
-        
+        $countAllEvents = Event::count();
+        if ($countNewersEvents > 0 && $countAllEvents > 0) {
+            $incrementEvents = ceil((($countNewersEvents / $countAllEvents)) * 100);
+        } else {
+            $incrementEvents = 0;
+        }
+
+
         $countNewersApps = Application::where('is_complete', 1)->where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
-        $countAllApps = Application::where('is_complete', 1)->count();  
-        $incrementApps = ceil((($countNewersApps / $countAllApps)) * 100);
+        $countAllApps = Application::where('is_complete', 1)->count();
+        if ($countNewersApps > 0 && $countAllApp > 0) {
+            $incrementApps = ceil((($countNewersApps / $countAllApps)) * 100);
+        } else {
+            $incrementApps = 0;
+        }
+
 
         $countNewersPayments = Payment::where('created_at', '>', now()->startOfMonth()->endOfDay())->sum('amount');
-        $countAllPayments = Payment::sum('amount');  
-        $incrementPayments = ceil((($countNewersPayments / $countAllPayments)) * 100);
+        $countAllPayments = Payment::sum('amount');
+        if ($countNewersPayments > 0 && $countAllPayments > 0) {
+            $incrementPayments = ceil((($countNewersPayments / $countAllPayments)) * 100);
+        } else {
+            $incrementPayments = 0;
+        }
 
-        return view('staff.dashboard', 
+
+        return view('staff.dashboard',
             [
-                'countNewersPatients' => $countNewersPatients,
-                'incrementPatients' => $incrementPatients,
+                'countNewersPatients'   => $countNewersPatients,
+                'incrementPatients'     => $incrementPatients,
 
-                'countNewersEvents' => $countNewersEvents,
-                'incrementEvents' => $incrementEvents,
+                'countNewersEvents'     => $countNewersEvents,
+                'incrementEvents'       => $incrementEvents,
 
-                'countNewersApps' => $countNewersApps,
-                'incrementApps' => $incrementApps,
+                'countNewersApps'       => $countNewersApps,
+                'incrementApps'         => $incrementApps,
 
-                'countNewersPayments' => $countNewersPayments,
-                'incrementPayments' => $incrementPayments,
+                'countNewersPayments'   => $countNewersPayments,
+                'incrementPayments'     => $incrementPayments,
             ]
         );
     }
@@ -129,29 +149,29 @@ class DashboardController extends Controller
         $incrementPatients = ceil((($countNewersPatients / $countAllPatients)) * 100);
 
         $countNewersEvents = Event::where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
-        $countAllEvents = Event::count();  
+        $countAllEvents = Event::count();
         $incrementEvents = ceil((($countNewersEvents / $countAllEvents)) * 100);
-        
+
         $countNewersApps = Application::where('is_complete', 1)->where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
-        $countAllApps = Application::where('is_complete', 1)->count();  
+        $countAllApps = Application::where('is_complete', 1)->count();
         $incrementApps = ceil((($countNewersApps / $countAllApps)) * 100);
 
         $countNewersPayments = Payment::where('created_at', '>', now()->startOfMonth()->endOfDay())->sum('amount');
-        $countAllPayments = Payment::sum('amount');  
+        $countAllPayments = Payment::sum('amount');
         $incrementPayments = ceil((($countNewersPayments / $countAllPayments)) * 100);
 
         return response()->json([
-            'countNewersPatients' => $countNewersPatients,
-            'incrementPatients' => $incrementPatients,
+            'countNewersPatients'   => $countNewersPatients,
+            'incrementPatients'     => $incrementPatients,
 
-            'countNewersEvents' => $countNewersEvents,
-            'incrementEvents' => $incrementEvents,
+            'countNewersEvents'     => $countNewersEvents,
+            'incrementEvents'       => $incrementEvents,
 
-            'countNewersApps' => $countNewersApps,
-            'incrementApps' => $incrementApps,
+            'countNewersApps'       => $countNewersApps,
+            'incrementApps'         => $incrementApps,
 
-            'countNewersPayments' => $countNewersPayments,
-            'incrementPayments' => $incrementPayments,
+            'countNewersPayments'   => $countNewersPayments,
+            'incrementPayments'     => $incrementPayments,
 
         ]);
     }
@@ -185,7 +205,7 @@ class DashboardController extends Controller
     }
     public function lastFiveApps(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
@@ -270,7 +290,7 @@ class DashboardController extends Controller
                 ->addColumn('fecha', function($apps){
                     return '<span>'. $this->datesLangTrait($apps->created_at, Auth::guard('staff')->user()->lang). '</span>';
                 })
-               
+
                 ->addColumn('status', function($apps){
                     return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
                     return $apps->statusOne;

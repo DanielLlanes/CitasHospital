@@ -68,7 +68,7 @@
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
-                        </div>      
+                        </div>
                         <div class="form-group row">
                             <label class="control-label col-md-3">@lang('url')
                                 <span class="required"> * </span>
@@ -272,13 +272,13 @@
         //         input.prop('checked', false);
         //     }
         // });
-        // 
-        
+        //
+
         var domain = window.location.protocol+"//"+window.location.hostname+"/";
-        $('#basic-url-span').html(domain)
+        $('#basic-url-span').html(domain+'team/')
         $(document).on('keyup', '#name', function(){
             var value = $(this).val();
-            
+
             $("#url").val(value.stringToSlug(value))
         })
 
@@ -292,7 +292,7 @@
         //     var assignableArray = [];
         //     todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
 
-        //     // var cont = 0; 
+        //     // var cont = 0;
 
         //     for (var x=0; x < checkboxs.length; x++) {
         //         if (checkboxs[x].checked) {
@@ -317,7 +317,7 @@
         // })
 
         $(document).on('submit','form#add-staff',function(){
-           var cont = 0; 
+           var cont = 0;
            var assignableArray = [];
            var checkboxs = $(".specialtyCheckbox");
             for (var x=0; x < checkboxs.length; x++) {
@@ -334,15 +334,15 @@
                 $('.assignable_area_div').hide('fast').html('');
             }
         });
-    </script>   
+    </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
     </script>
         <script>
-        @if ($staff->specialties) 
+        @if ($staff->specialties)
             var array = {!!json_encode($staff->specialties)!!};
-        @endif   
+        @endif
 
         var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
         $(document).on('change', '#role', function(event) {
@@ -375,7 +375,7 @@
                 },
                 processData: false,
                 beforeSend: function()
-                { 
+                {
                     $("#specialtiesArea .col-12:not(:first)").remove();
                 },
                 success:function(data)

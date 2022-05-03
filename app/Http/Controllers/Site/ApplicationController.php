@@ -222,7 +222,7 @@ class ApplicationController extends Controller
                     'medications',
                     'imageMany' => function($q) {
                         $q->orderBy('order', 'asc');
-                    }, 
+                    },
                 ])
                 ->find($getData->id);
                 $treatment = Session::get('treatment');
@@ -251,7 +251,7 @@ class ApplicationController extends Controller
 
             $image = $request->file('dropify');
 
-            
+
 
             if ($request->code != 'undefined' || !is_null($request->code)) {
 
@@ -282,8 +282,8 @@ class ApplicationController extends Controller
             $img->save($destinationPath."/".$img_name, '90');
             $image = "storage/application/image/$img_name";
             $img->destroy();
-            
-            $image = $app->imageMany()->create(["code" => getCode(), 'image' => $image, 'title' => null, 'order' => $request->order]); 
+
+            $image = $app->imageMany()->create(["code" => getCode(), 'image' => $image, 'title' => null, 'order' => $request->order]);
 
             $app = Application::find($getData->id);
 
@@ -383,10 +383,10 @@ class ApplicationController extends Controller
 
     public function postHealthData(Request $request)
     {
-        
+
         $medication_cadena = [];
         $collection = new Collection();
-        
+
         if ($request->has('medication_name') || $request->has('medication_reason') || $request->has('medication_dosage') || $request->has('medication_frecuency')) {
             for ($i=0; $i < count($request->medication_name); $i++) {
                 $medication_cadena[] = [
@@ -524,7 +524,7 @@ class ApplicationController extends Controller
     {
         $surgey_cadena = [];
         $collection = new Collection();
-        
+
         if ($request->has('surgey_type') || $request->has('surgey_name') || $request->has('surgey_age') || $request->has('surgey_year') || $request->has('surgey_complications')) {
             for ($i=0; $i < count($request->surgey_type); $i++) {
                 $surgey_cadena[] = [
@@ -533,7 +533,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
-                    'code' => getCode(), 
+                    'code' => getCode(),
                 ];
 
                 $collection->push((object)[
@@ -542,7 +542,7 @@ class ApplicationController extends Controller
                     'surgey_age' => $request->surgey_age[$i],
                     'surgey_year' => $request->surgey_year[$i],
                     'surgey_complications' => $request->surgey_complications[$i],
-                    'code' => getCode(), 
+                    'code' => getCode(),
                 ]);
 
             }
@@ -639,7 +639,7 @@ class ApplicationController extends Controller
 
         $illness_cadena = [];
         $collection = new Collection();
-        
+
         if ($request->has('illness') || $request->has('diagnostic_date') || $request->has('treatment')) {
             for ($i=0; $i < count($request->illness); $i++) {
                 $illness_cadena[] = [
@@ -824,7 +824,7 @@ class ApplicationController extends Controller
     {
         $exercise_cadena = [];
         $collection = new Collection();
-        
+
         if ($request->has('exercise_type') || $request->has('exercise_how_long') || $request->has('exercise_how_frecuen') || $request->has('exercise_hours')) {
             for ($i=0; $i < count($request->exercise_type); $i++) {
                 $exercise_cadena[] = [
@@ -1067,7 +1067,7 @@ class ApplicationController extends Controller
                     "exercise_hours" => ['required_if:exercise,1','array'],
                     ///////////////////////////////////////////////////////
                     "hours_you_sleep_at_night" => ['required', 'numeric'],
-                    
+
                     'do_you_take_sleeping_pills' => ['required', 'boolean'],
                     'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
                     'do_you_take_pills_for_anxiety_or_depression' => ['required', 'boolean'],
@@ -1117,7 +1117,7 @@ class ApplicationController extends Controller
             $app->stop_smoking = $request->stop_smoking;
             $app->when_stop_smoking = $request->when_stop_smoking;
             $app->alcohol = $request->alcohol;
-            $app->vale = $request->vape;
+            $app->vape = $request->vape;
             $app->volumen_alcohol = $request->volumen_alcohol;
             $app->recreative_drugs = $request->recreative_drugs;
             $app->total_recreative_drugs = $request->total_recreative_drugs;
@@ -1227,7 +1227,7 @@ class ApplicationController extends Controller
     {
         $birth_control_cadena = [];
         $collection_bc = new Collection();
-        
+
         if ($request->has('birthControl_type') || $request->has('birthControl_how_long')) {
             for ($i=0; $i < count($request->birthControl_type); $i++) {
                 $birth_control_cadena[] = [
@@ -1377,7 +1377,7 @@ class ApplicationController extends Controller
     {
         if (Session::has('form_session')) {
             $getData = Session::get('form_session');
-            
+
             $app = Application::find($getData->id);
             $treatment = Session::get('treatment');
             $patient = Patient::find($app->patient_id);
@@ -1438,7 +1438,7 @@ class ApplicationController extends Controller
 
             $assignment_staff = Staff::whereHas
             (
-                
+
                 'specialties', function($q)
                 {
                    $q->where('specialties.id', 10);
@@ -1449,7 +1449,7 @@ class ApplicationController extends Controller
                 'assignToService', function($q) use($treatment)
                 {
                     $q->where("services.id", $treatment->service->id);
-                }  
+                }
             )
             ->orderBy('last_assignment', 'ASC')
             ->with
@@ -1464,7 +1464,7 @@ class ApplicationController extends Controller
                 ]
             )
             ->first();
-            
+
             $toEmail = new Collection;
 
             $newMessage = "A new application has been assigned to you";
@@ -1498,7 +1498,7 @@ class ApplicationController extends Controller
                     'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
                     'timeDiff' => $date->diffForHumans(),
                     'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
-                    'url' => route('staff.applications.show', ["id" => $getData->id]);
+                    'url' => route('staff.applications.show', ["id" => $getData->id]),
                 ]);
 
 
@@ -1513,13 +1513,13 @@ class ApplicationController extends Controller
                     'staff_email' => $assignment_staff->email,
                     'app_id' => $getData->id,
                     'treatment' => $treatment,
-                    "patient" => $patient, 
+                    "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
             }
             $other_staff = Staff::whereHas
             (
-                
+
                 'specialties', function($q)
                 {
                    $q->where('specialties.id', '!=', 10);
@@ -1530,7 +1530,7 @@ class ApplicationController extends Controller
                 'assignToService', function($q) use($treatment)
                 {
                     $q->where("services.id", $treatment->service->id);
-                }  
+                }
             )
             ->orderBy('last_assignment', 'ASC')
             ->with
@@ -1569,7 +1569,7 @@ class ApplicationController extends Controller
                         'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
                         'timeDiff' => $date->diffForHumans(),
                         'msgStrac' => \Str::of("Hay una nueva aplicación")->limit(20),
-                        'url' => route('staff.applications.show', ["id" => $getData->id]);
+                        'url' => route('staff.applications.show', ["id" => $getData->id]),
                     ]);
                 }
             }

@@ -164,13 +164,14 @@ class TreatmentController extends Controller
             );
         }
 
-        $has_package = Procedure::selectRaw("has_package")->find($request->procedure);  
+        $has_package = Procedure::selectRaw("has_package")->find($request->procedure);
 
         $request->request->add(['has_package' => $has_package->has_package]);
         //return($request);
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|integer|exists:services,id',
+            'clave' => 'required|string|unique:treatments',
             'procedure' => 'required|integer|exists:procedures,id',
             'package' =>
             [
@@ -224,6 +225,7 @@ class TreatmentController extends Controller
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
         $treatment->price = $request->price;
+        $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
         $treatment->code = time().uniqid(Str::random(30));
@@ -235,14 +237,14 @@ class TreatmentController extends Controller
                        'contain_en' => $contains_en[$i]->include_en,
                        'contain_es' => $contains_es[$i]->include_es,
                    ]);
-            }   
+            }
         }
 
         if ($treatment->save()) {
             if ($image != '') {
                 $treatment->imageOne()->create(
                     ['image' => $image, 'code' => time().uniqid(Str::random(30))]
-                ); 
+                );
             }
             foreach ($contains as $k => $con) {
                 $treatment->contains()->create([
@@ -342,6 +344,7 @@ class TreatmentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|integer|exists:services,id',
+            'clave' => 'required|string|unique:treatments,clave,'.$request->id,
             'procedure' => 'required|integer|exists:procedures,id',
             'package' =>
             [
@@ -375,7 +378,7 @@ class TreatmentController extends Controller
             $lastPhoto = $treatment->imageOne->image;
             $lastPhotoId = $treatment->imageOne->id;
             //return response()->json(['xD' => 'paso']);
-        } 
+        }
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -396,9 +399,9 @@ class TreatmentController extends Controller
 
 
             if (!is_null($lastPhotoId)) {
-               $treatment->imageOne->delete($lastPhotoId); 
+               $treatment->imageOne->delete($lastPhotoId);
             }
-            
+
             $treatment->imageOne()->create(
                 ['image' => $image, 'code' => time().uniqid(Str::random(30))]
             );
@@ -430,7 +433,7 @@ class TreatmentController extends Controller
                        'contain_en' => $contains_en[$i]->include_en,
                        'contain_es' => $contains_es[$i]->include_es,
                    ]);
-            }   
+            }
         }
         $treatment->contains()->delete();
         foreach ($contains as $k => $con) {
@@ -472,7 +475,7 @@ class TreatmentController extends Controller
                 //unlink(public_path($lastPhoto));
                 $treatment->contains()->delete();
                 $treatment->imageOne->delete($lastPhotoId);
-            } 
+            }
             $treatment->delete();
             return response()->json(
                 [
@@ -494,7 +497,7 @@ class TreatmentController extends Controller
     public function imageDestroy(Request $request)
     {
         //return $request;
-       
+
         $treatment = Treatment::with('imageOne')->find($request->treatment);
         //return($treatment);
 
