@@ -256,7 +256,12 @@
 @endsection
 
 @section('scripts')
-    <script>
+    <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}"></script>
+    <script type="text/javascript">
+        var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
+        var globalRouteGetAssignation = '{{ route('staff.staff.getAssignation') }}'
+
+
         $("#selectAll").click(function() {
             $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
         });
@@ -276,40 +281,9 @@
             }
         });
 
-        ////////////new/////////
-
         $("#checkbox-selectAll").click(function() {
             $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
         });
-
-        // $(document).on("click", ".specialtyCheckbox", function(){
-        //     alert()
-        //     var checkboxs = $(".specialtyCheckbox");
-        //     var todos = checkboxs.length === checkboxs.filter(":checked").length;
-        //     var assignableArray = [];
-        //     todos ? $("#checkbox-selectAll").prop("checked", true): $("#checkbox-selectAll").prop("checked", false);
-
-        //     var cont = 0;
-
-        //     for (var x=0; x < checkboxs.length; x++) {
-        //         if (checkboxs[x].checked) {
-        //             cont = checkboxs[x].getAttribute("assignable");
-        //             if (checkboxs[x].getAttribute("assignable") > 0) {
-        //                 assignableArray.push(checkboxs[x].getAttribute("assignable"))
-        //             }
-        //         }
-        //     }
-
-        //     if (assignableArray.length > 0) {
-        //         $('.assignable_area').show('fast')
-        //         $('.assignable_area_div').show('fast').html('');
-        //         add_asiggnable()
-        //     } else {
-        //         $('.assignable_area').hide('fast')
-        //         $('.assignable_area_div').hide('fast').html('');
-        //     }
-        // })
-
         var domain = window.location.protocol+"//"+window.location.hostname+"/";
         $('#basic-url-span').html(domain+'team/')
         $(document).on('keyup', '#name', function(){
@@ -318,13 +292,7 @@
             $("#url").val(value.stringToSlug(value))
         })
 
-    </script>
-    <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
-    <script type="text/javascript">
-        var globalRouteGetSpecialty = '{{ route('staff.staff.getSpecialty') }}'
-        var globalRouteGetAssignation = '{{ route('staff.staff.getAssignation') }}'
-    </script>
-    <script>
+
         function get_assignable(id)
         {
             var form_data = new FormData();
@@ -435,24 +403,10 @@
             var id = $( "#role option:selected" ).val()
             if (!isNaN(id)) {
                 getSpecialty(id)
-                //$('.assignable_area').hide('fast')
-                //$('.assignable_area_div').hide('fast').html('');
             } else {
                 location.reload(true);
             }
         });
-
-        // $(document).on('change', '#specialty', function(event) {
-        //     event.preventDefault();
-        //     var id = $( "#specialty option:selected" ).val()
-        //     var assignable = $( "#specialty option:selected" ).attr('assignable')
-        //     if (assignable == 1) {
-        //         get_assignable(id)
-        //     } else {
-        //         $('.assignable_area').hide('fast')
-        //         $('.assignable_area_div').hide('fast').html('');
-        //     }
-        // });
 
         $(document).on("click", ".btn-remove-assign", function () {
             $(this).parents('.assigned_cloned').remove();
@@ -495,8 +449,6 @@
             @if (old('specialties'))
                 var array = {!!json_encode(old('specialties'))!!};
             @endif
-
-
             getSpecialty({{ old('role') }})
             function getSpecialty(id)
             {
@@ -562,12 +514,10 @@
                 })
             }
             var oldSpecialties = [];
-
             $(document).on('click', '#cancel', function(event) {
                 event.preventDefault();
                 clearDropify();
             });
-
             function clearDropify(){
                 drEvents = drEvent.data('dropify');
                 drEvents.resetPreview();

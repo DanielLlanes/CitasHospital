@@ -39,7 +39,7 @@ class EventController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
-        
+
         $status = Status::select('id', 'color', "name_$lang as name")->where('type', 'Event')->get();
 
         $events = Event::with(
@@ -143,8 +143,11 @@ class EventController extends Controller
                 $singleEvent['borderColor'] = $events[$i]->staff->color;
             }
 
-            
-            $singleEvent['title'] = $events[$i]->title;
+
+
+            $isappx = (!is_null($events[$i]->is_application) ? $events[$i]->application->treatment->clave : $events[$i]->title);
+
+            $singleEvent['title'] = $isappx;
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
             $singleEvent['allDay'] = false;
@@ -237,7 +240,7 @@ class EventController extends Controller
             ],
             'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -320,7 +323,7 @@ class EventController extends Controller
                     ]
                 );
             }
-            
+
 
 
             Mail::send(new NewEventPatient($dataMsg));
@@ -488,7 +491,6 @@ class EventController extends Controller
                 }
             }
 
-
             return DataTables::of($applications)
                 ->addIndexColumn()
                 ->addColumn('action', function($applications){
@@ -496,7 +498,8 @@ class EventController extends Controller
                     $service = $applications->treatment->service->service;
                     $procedure = $applications->treatment->procedure->procedure;
                     $package = $applications->treatment->package->package;
-                    return '<button type="button" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect margin-right-10 btn-primary btn-add" style="height: 36px; min-width: 36px;width: 36px;" name="'.$brand.', '.$service.', '.$procedure.', '.$package.'" data-id=" '.$applications->id.' "><i class="material-icons">add</i></button>';
+                    $title = $applications->treatment->clave;
+                    return '<button type="button" data-clave="'.$title.'" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect margin-right-10 btn-primary btn-add" style="height: 36px; min-width: 36px;width: 36px;" name="'.$brand.', '.$service.', '.$procedure.', '.$package.'" data-id=" '.$applications->id.' "><i class="material-icons">add</i></button>';
                 })
                 ->addColumn('treatment', function($applications){
                     $brand = $applications->treatment->brand->brand;

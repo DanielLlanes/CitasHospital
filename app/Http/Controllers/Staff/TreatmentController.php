@@ -440,6 +440,7 @@ class TreatmentController extends Controller
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
         $treatment->price = $request->price;
+        $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
         $treatment->code = getCode();

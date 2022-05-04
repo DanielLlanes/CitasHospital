@@ -264,7 +264,7 @@
                                         @endif
                                     @endif
                                     </div>
-                                    <div class="col-12 col-md-8 mb-2 b-r"> 
+                                    <div class="col-12 col-md-8 mb-2 b-r">
                                         @if ($appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 5 || $appInfo->statusOne->status->id == 3)
                                             <strong>Comentarios del doctor:</strong>
                                         @endif
@@ -300,7 +300,7 @@
                                                     <div class="card">
                                                         <a href="{{ asset($image->image) }}" title="{{ $image->title }}" data-effect="mfp-zoom-in" class="a">
                                                             <img src="{{ asset($image->image) }}" class="img-thumbnail" alt="">
-                                                        </a>    
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -320,7 +320,7 @@
                                             <strong>
                                                 {{ $value['specialty'] }}
                                             </strong>
-                
+
                                             <p class="text-muted" id="nameStaff{{ $value['specialty'] }}">{!! is_null($value['name']) ? "<br>": $value['name'] !!}
                                             </p>
                                             @if ($value['id'] == 10)
@@ -1130,7 +1130,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                           
+                                </div>
                             </div>
                             <div class="tab-pane fontawesome-demo" id="timeLine">
                                 <div id="biography">
@@ -1384,13 +1384,13 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                
+
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
                 </div>';
-            } 
+            }
         } elseif(Auth::guard('staff')->user()->can('applications.changeStaff')){
             echo '<div class="modal fade" id="change'.$value['specialty'].'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -1414,7 +1414,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            
+
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1446,7 +1446,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="confirm-change-procedure-button">Change</button>
             </div>
@@ -1585,7 +1585,7 @@
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
     var canChangeProcedure = "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}";
-    
+
 
     var date = new Date();   //Creates date object
     var hours = date.getHours();   //get hour using date object
@@ -1598,7 +1598,7 @@
     var dayname = date.getDay();  // get day of particular week
 
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
-    var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; 
+    var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
 
     var debateMembers = {!! json_encode($debateMembers) !!}
@@ -1606,8 +1606,8 @@
     var app_id = {{ $appInfo->id }}
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
-    
-    itemContainer.slimscroll({ 
+
+    itemContainer.slimscroll({
         scrollTo : '500px',
         start: 'bottom',
         position: "right",
@@ -1649,7 +1649,7 @@
             $.each(debateMembers, function(index, val) {
                  if (val.member_id == user_id) {
                      sendDebateToServer($('#messageInput').val())
-                 } 
+                 }
             });
         }
     });
@@ -1686,13 +1686,14 @@
             processData: false,
             beforeSend: function()
             {
-                
+
             },
             success:function(response)
             {
                 $('#nameStaff'+specialty).text(response.response.staff_name)
-                
+
                 socket.emit('sendNewStaffToServer', response.response);
+                socket.emit('eventCalendarRefetchToServer');
                 $('#change'+specialty+"App").modal('hide')
             },
             complete: function()
@@ -1712,7 +1713,7 @@
            jsonForm[i] = $(this).attr("id");
          })
         form_data.append('members', JSON.stringify(jsonForm));
-        
+
         $.ajax({
             url: globalRouteSendDebateMessage,
             method:"POST",
@@ -1726,7 +1727,7 @@
             processData: false,
             beforeSend: function()
             {
-                
+
             },
             success:function(response)
             {
@@ -1745,7 +1746,7 @@
             },
         })
     }
-    
+
     function senderDebate(message)
     {
         $msg = '<li class="out">';
@@ -1764,14 +1765,14 @@
     function debateToDownLast(){
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
-        container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()}); 
+        container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()});
     }
 
     function send_notification($data) {
-        
+
     }
 
-    
+
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
@@ -1787,7 +1788,7 @@
                     dataType: 'json',
                     data: function (params) {
                         return {
-                            search: params.term, 
+                            search: params.term,
                             specialty: specialty[1],
                             app: app_id,
                         }
@@ -1869,7 +1870,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    
+
                 },
                 success:function(response)
                 {
@@ -1889,7 +1890,8 @@
                         $("#current-status-p").html(response.status)
                         socket.emit('sendChangeAppProcedureToServer', response);
                         socket.emit('updateDataTablesToServer');
-                    } 
+                        socket.emit('eventCalendarRefetchToServer');
+                    }
                     if (response.hasOwnProperty('icon')) {
                         Toast.fire({
                           icon: response.icon,
@@ -1962,7 +1964,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    
+
                 },
                 success:function(response)
                 {
@@ -1979,7 +1981,8 @@
                         }
                         socket.emit('sendChangeAppPackageToServer', response);
                         socket.emit('updateDataTablesToServer');
-                    } 
+                        socket.emit('eventCalendarRefetchToServer');
+                    }
                     if (response.hasOwnProperty('icon')) {
                         Toast.fire({
                           icon: response.icon,
@@ -2058,7 +2061,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    
+
                 },
                 success:function(response)
                 {
@@ -2069,7 +2072,7 @@
                         $("#recommended-procedure-row").html('')
                         $('#status-accepted-modal').modal('hide')
                         $("#current-status-p").html(response.status)
-                        
+
                     }
                     if (response.hasOwnProperty('data')) {
                         var recommended = "";
@@ -2103,7 +2106,7 @@
             if ( $("#change-procedure-p") ) {
               $("#change-procedure-p").append(btn);
             }
-            
+
         } else {
             $('#change-procedure-button').remove();
         }
@@ -2111,12 +2114,12 @@
     $(document).on('click', '#status-declined-button', function(event) {
         event.preventDefault();
         $('#status-declined-modal').on('show.bs.modal', function () {
-            
+
         }).modal('show')
     });
     $(document).on('click', '#confirm-status-declined-button', function(event) {
         event.preventDefault();
-    
+
         var declinedReazon = $('#declined-app').val();
         var form_data = new FormData();
         form_data.append('declinedReazon', declinedReazon);
@@ -2134,7 +2137,7 @@
             processData: false,
             beforeSend: function()
             {
-                
+
             },
             success:function(response)
             {
@@ -2165,7 +2168,7 @@
             } else {
                 $('#change-procedure-button').show('fast');
             }
-        } 
+        }
     });
 
     socket.on('sendChangeAppPackageToClient', (response) =>  {
@@ -2180,7 +2183,7 @@
             } else {
                 $('#change-package-button').show('fast');
             }
-        } 
+        }
     });
 
     socket.on('sendDebateToClient', (data) => {
@@ -2216,7 +2219,7 @@
                 $userIcon.addClass('text-success');
                 $userIcon.removeClass('text-danger');
                 $userIcon.attr('title','Online');
-            
+
             }
         });
     });
