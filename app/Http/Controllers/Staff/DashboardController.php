@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
-use App\Models\Site\Application;
 use App\Models\Staff\Event;
+use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
 use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Site\Application;
 use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Collection;
 
 class DashboardController extends Controller
 {
@@ -103,7 +104,7 @@ class DashboardController extends Controller
 
         $countNewersApps = Application::where('is_complete', 1)->where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
         $countAllApps = Application::where('is_complete', 1)->count();
-        if ($countNewersApps > 0 && $countAllApp > 0) {
+        if ($countNewersApps > 0 && $countAllApps > 0) {
             $incrementApps = ceil((($countNewersApps / $countAllApps)) * 100);
         } else {
             $incrementApps = 0;

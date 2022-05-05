@@ -145,7 +145,7 @@
             <div class="section-title" data-aos="fade-up">
                 {!! ourBrands(app()->getLocale()) !!}
             </div>
-            
+
             <div class="row">
                 @foreach ($brands as $brand)
                     <div class="col-sm-4 mb-1 mb-lg-3" data-aos="fade-up">
@@ -213,7 +213,7 @@
               title: '{{\Session::get('msg')}}',
             })
             var data = {!! json_encode(\Session::get('data')) !!}
-            
+
             socket.emit('sendNewNotificationToServer', data);
             socket.emit('updateDataTablesToServer');
         </script>

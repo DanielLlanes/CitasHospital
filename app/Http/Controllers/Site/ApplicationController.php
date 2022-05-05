@@ -1441,7 +1441,7 @@ class ApplicationController extends Controller
 
                 'specialties', function($q)
                 {
-                   $q->where('specialties.id', 10);
+                    $q->where('specialties.id', 10);
                 },
             )
             ->whereHas

@@ -30,10 +30,10 @@
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
         $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
     });
+
+
 // echo '</pre>';
 @endphp
-
-
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
@@ -1769,9 +1769,7 @@
     }
 
     function send_notification($data) {
-
     }
-
 
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
@@ -2065,8 +2063,7 @@
                 },
                 success:function(response)
                 {
-
-                    console.log("response", response);
+                    //console.log("response", response);
                     if (response.success) {
                         $("#recommended-procedure-span").html('')
                         $("#recommended-procedure-row").html('')
