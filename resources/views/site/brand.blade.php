@@ -49,6 +49,24 @@
                             @endif
                         </p>
                     </div>
+                    <style>
+                        .altura {
+                            transition: box-shadow .3s;
+                        }
+                        .altura:hover {
+                            box-shadow: 1px -1px 17px 2px rgba(33,33,33,.2);
+                        }
+                        .btn-apply{
+                            visibility: hidden;
+                            opacity: 0;
+                        transition: visibility 0s, opacity 0.5s linear;
+                        }
+                        .altura:hover .btn-apply{
+                            visibility: visible;
+                            opacity: 1;
+                            display: block;
+                        }
+                    </style>
                     <div class="row" data-aos="fade-up">
                         @foreach ($treatments as $treatment)
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
@@ -58,7 +76,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
-                                            <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }}</h6>
+                                            <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h6>
                                             <p class="card-text"></p>
                                             <span class="summer">
                                                 <ul class="p-0">
@@ -68,7 +86,9 @@
                                                 </ul>
                                             </span>
                                         </div>
-                                    <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
+                                        <div class="card-fotter">
+                                            <a href="{{ route('appIndex', ['id' => $treatment->id]) }}" class="btn btn-main btn-block btn-sm text-uppercase btn-apply"><i class="bi bi-clipboard-check me-3"></i> apply now</a>
+                                        </div>
                                     </div>
                                 </div>
                         @endif
@@ -87,7 +107,7 @@
                     </p>
                 </div>
                 <code>
-                    
+
                 </code>
                 <div class="row">
                     @foreach($doctors as $doctor)
@@ -112,7 +132,7 @@
                 </div>
             </div>
         </section>
-    
+
     @else
     <section id="team" class="team">
         <div class="container">
@@ -140,5 +160,5 @@
         $('.altura').each(function(){//RECORREMOS DE NUEVO LOS CONTENEDORES
             $(this).css('height',altura_arr[0]);//LES PONEMOS A TODOS LOS CONTENEDORES EL PRIMERO ELEMENTO DE ALTURA DEL ARREGLO, QUE ES EL MAS GRANDE.
         });
-    </script>   
+    </script>
 @endsection
