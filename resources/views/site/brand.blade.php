@@ -67,7 +67,7 @@
                             display: block;
                         }
                     </style>
-                    <div class="row" data-aos="fade-up">
+                    <div class="row justify-content-center" data-aos="fade-up">
                         @foreach ($treatments as $treatment)
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
