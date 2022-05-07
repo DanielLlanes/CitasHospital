@@ -41,7 +41,7 @@ class StaffController extends Controller
 
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
-        
+
         if (!Auth::guard('staff')->user()->can('admin.list') && !Auth::guard('staff')->user()->can('staff.list')) {
             abort(403, 'Unauthorized action.');
         }
@@ -293,7 +293,7 @@ class StaffController extends Controller
     }
     public function store(Request $request)
     {
-        
+
         //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
@@ -431,9 +431,9 @@ class StaffController extends Controller
                         'code' => time().uniqid(Str::random(30)),
                     ];
                 }
-                $staff->assignToService()->sync($assignTo);               
+                $staff->assignToService()->sync($assignTo);
             }
-            
+
             $ass = [];
 
             if (count($request->specialties) > 0 ) {
@@ -456,7 +456,7 @@ class StaffController extends Controller
                 'senderName' => Auth::guard('staff')->user()->name,
                 'lang' => $request->language
             );
-            
+
             Mail::send(new WelcomeNewMemberOfStaff($dataMsg));
 
 
@@ -522,18 +522,18 @@ class StaffController extends Controller
             $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
             ->where('show', 1)
             ->get();
-            
+
         } elseif ($staff_edit_admins && !$staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
             ->where('name', '=', 'administrator')
             ->get();
-            
+
             $specialties = Specialty::selectRaw("id, name_$lang AS Sname, assignable")
             ->where('show', 1)
             ->where('name', '=', 'administrator')
             ->get();
-            
+
         } elseif (!$staff_edit_admins && $staff_edit) {
             $roles = Role::selectRaw("id, name_$lang AS name")
             ->where('show', '=', '1')
@@ -573,7 +573,7 @@ class StaffController extends Controller
         //$assingnamentCheck = 0;
 
         if ($request->has('specialties')) {
-            
+
             foreach ($request->specialties as $specialty) {
                 $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
                 //return $hasAssignable->assignable;
@@ -626,21 +626,21 @@ class StaffController extends Controller
 
             }
         }
-        
+
         $lastPhoto = null;
         $avatar;
         //return $staff->imageOne;
         if ($staff->imageOne) {
             $lastPhoto = $staff->imageOne->image;
             $lastPhotoId = $staff->imageOne->id;
-        } 
+        }
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $destinationPath = storage_path('app/public').'/staff/avatar';
             $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
             $img = Image::make($avatar->getRealPath());
-            $width = 600;
-            $height = 600;
+            $width = 800;
+            $height = 800;
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
@@ -655,7 +655,7 @@ class StaffController extends Controller
             if (!is_null($lastPhoto)) {
                 $staff->imageOne->delete($lastPhotoId);
             }
-            
+
             $staff->imageOne()->create(
                 ['image' => $avatar, 'code' => time().uniqid(Str::random(30))]
             );
@@ -696,7 +696,7 @@ class StaffController extends Controller
                 }
                 //$staff->assignToService()->remove();
                 $staff->assignToService()->sync($assignTo);
-                
+
             }
             $ass = [];
 
@@ -737,7 +737,7 @@ class StaffController extends Controller
                 $lastPhotoId = $staff->imageOne->id;
                 unlink(public_path($lastPhoto));
                 $staff->imageOne->delete($lastPhotoId);
-            } 
+            }
 
             $staff->delete();
             return response()->json(
@@ -918,7 +918,7 @@ class StaffController extends Controller
         $staff  = Staff::find($request->id);
 
         $list = json_decode($request->permissionsList);
-        
+
         $staff->syncPermissions($list);
         return response()->json(
             [
@@ -930,7 +930,7 @@ class StaffController extends Controller
     public function publicProfile($id)
     {
         $staffID = $id;
-        
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $staff = Staff::with([
