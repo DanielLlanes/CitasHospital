@@ -46,7 +46,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	    // Route::get('email/verify','VerificationController@show')->name('verification.notice');
 	    // Route::get('email/verify/{id}','VerificationController@verify')->name('verification.verify');
 	    // Route::get('email/resend','VerificationController@resend')->name('verification.resend');
-        
+
         //ckeIfsession
         Route::post('/checksession', function(){
             return response()->json(['status' => Auth::guard('staff')->check()]);
@@ -112,6 +112,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/profile/updateCourses', [ProfileController::class, 'updateCourses'])->name('updateCourses');
         Route::post('/profile/uploadImagesPublicProfile', [ProfileController::class, 'uploadImagesPublicProfile'])->name('uploadImagesPublicProfile');
         Route::post('/profile/deleteImagesPublicProfile', [ProfileController::class, 'deleteImagesPublicProfile'])->name('deleteImagesPublicProfile');
+        Route::post('/profile/deleteSurgeriesPerformed', [ProfileController::class, 'deleteSurgeriesPerformed'])->name('deleteSurgeriesPerformed');
+        Route::post('/profile/addSurgeriesPerformed', [ProfileController::class, 'addSurgeriesPerformed'])->name('addSurgeriesPerformed');
 	});
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'language'])->name('lang');
@@ -167,8 +169,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/applications/get-list',    [AppController::class, 'getList'])->name('getList');
         Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
         Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
-        Route::post('/applications/getNewStaff', [AppController::class, 'getNewStaff'])->name('getNewStaff'); 
-        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewStaff'])->name('setNewStaff'); 
+        Route::post('/applications/getNewStaff', [AppController::class, 'getNewStaff'])->name('getNewStaff');
+        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewStaff'])->name('setNewStaff');
         Route::post('/applications/sendDebateMessage', [AppController::class, 'sendDebateMessage'])->name('sendDebateMessage');
         Route::post('/applications/getNewProcedure', [AppController::class, 'getNewProcedure'])->name('getNewProcedure');
         Route::post('/applications/setNewProcedure', [AppController::class, 'setNewProcedure'])->name('setNewProcedure');

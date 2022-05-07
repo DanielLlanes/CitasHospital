@@ -20,7 +20,7 @@
                         @foreach($coordinatorFooter as $coordinator)
                         <div class="col-6 d">
                             <p>
-                                <strong>{{ $coordinator->name }}</strong><br> 
+                                <strong>{{ $coordinator->name }}</strong><br>
                                 {{ $coordinator->cellphone }} <br>
                                 {{ $coordinator->email }}<br>
                             </p>
@@ -29,13 +29,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-12 footer-newsletter">
+                {{-- <div class="col-lg-4 col-md-12 footer-newsletter">
                     <h4>Join Our Newsletter</h4>
                     <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     <form action="" method="post">
                         <input type="email" name="email"><input type="submit" value="Subscribe">
                     </form>
-                </div>
+                </div> --}}
 
             </div>
         </div>

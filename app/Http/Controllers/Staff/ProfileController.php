@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
-use App\Models\Staff\CareerObjetiveStaff;
-use App\Models\Staff\EducationBackgroundStaff;
-use App\Models\Staff\ImageProfileStaff;
-use App\Models\Staff\PostgraduateStudiesStaff;
 use App\Models\Staff\Staff;
-use App\Models\Staff\UpdateCourseStaff;
-use App\Models\Staff\WorkHistoryStaff;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use App\Models\Staff\WorkHistoryStaff;
+use App\Models\Staff\ImageProfileStaff;
+use App\Models\Staff\UpdateCourseStaff;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Staff\CareerObjetiveStaff;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Staff\SurgeryPerformedStaff;
+use App\Models\Staff\EducationBackgroundStaff;
+use App\Models\Staff\PostgraduateStudiesStaff;
 
 
 class ProfileController extends Controller
@@ -51,6 +52,7 @@ class ProfileController extends Controller
             'imageOne',
             'imageMany',
             'careerobjetive',
+            'surgeryperformed',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);
             },
@@ -134,7 +136,7 @@ class ProfileController extends Controller
     }
     public function workHistory(Request $request)
     {
-        
+
         $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
         $staff = Staff::findOrFail($staffID);
         $validator = Validator::make($request->all(), [
@@ -158,7 +160,7 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
+
         $insert_jobs = [];
         for ($i = 0; $i < count($request->job_company); $i++) {
             $insert_jobs[] = [
@@ -206,7 +208,7 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
+
         $insert_education = [];
         for ($i = 0; $i < count($request->education_school); $i++) {
             $insert_education[] = [
@@ -254,7 +256,7 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
+
         $insert_postgraduate = [];
         for ($i = 0; $i < count($request->postgraduate_school); $i++) {
             $insert_postgraduate[] = [
@@ -298,7 +300,7 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
+
         $insert_course = [];
         for ($i = 0; $i < count($request->course_school); $i++) {
             $insert_course[] = [
@@ -335,7 +337,7 @@ class ProfileController extends Controller
 
             ]); // 400 being the HTTP code for an invalid request.
         }
-        
+
         $staff->careerobjetive()->delete();
         CareerObjetiveStaff::insert(['staff_id' => $staffID, 'career_objective' => $request->career_objective, 'code' => getCode()]);
         return response()->json([
@@ -348,11 +350,11 @@ class ProfileController extends Controller
     public function uploadImagesPublicProfile(Request $request)
     {
         //return $request;
-        
+
         $staffID = ($request->has('id')) ? $request->id : Auth::guard('staff')->user()->id;
-        
+
         $staff = Staff::findOrFail($staffID);
-        
+
         $validator = Validator::make($request->all(), [
             "dropify"       => "required|image|mimes:jpeg,png,jpg,gif",
             "title"       => "required|string|max:50",
@@ -392,7 +394,7 @@ class ProfileController extends Controller
                     unlink(public_path($imageForDelete));
                 }
                 //return;
-            } 
+            }
             $request->merge(["code" => $code]);
 
             $image = $request->file('dropify');
@@ -408,12 +410,12 @@ class ProfileController extends Controller
             $img->save($destinationPath."/".$img_name, '99');
             $image = "storage/staff/public_profile/$img_name";
             $img->destroy();
-           
+
             //return $request;
             //$id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
             //
             $image = $staff->imageMany()->create(["code" => $code, 'image' => $image, 'title' => $request->title, 'order' => $request->order]);
-            
+
             return response()->json([
                 'success' => true,
                 'go' => '1',
@@ -428,8 +430,8 @@ class ProfileController extends Controller
             'go' => '2',
             'image' => '',
             'icon' => 'error',
-            'title' => "This user does't have a public profile" 
-        ]);        
+            'title' => "This user does't have a public profile"
+        ]);
     }
     public function deleteImagesPublicProfile(Request $request)
     {
@@ -465,5 +467,44 @@ class ProfileController extends Controller
             ]);
 
         }
+    }
+    public function addSurgeriesPerformed(Request $request)
+    {
+       // return $request;
+        $staffID = ($request->has('id')) ? $request->id :Auth::guard('staff')->user()->id;
+        $staff = Staff::findOrFail($staffID);
+        $validator = Validator::make($request->all(), [
+            "surgery_title"       => "required|array|min:1",
+            "surgery_title.*"     => "required|max:50|string",
+            "surgery_cant"         => "required|array|min:1",
+            "surgery_cant.*"       => "required|integer",
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([
+                'success'   => false,
+                'go'        => '0',
+                'errors'    => $validator->getMessageBag()->toArray()
+
+            ]); // 400 being the HTTP code for an invalid request.
+        }
+
+        $insert_surgery = [];
+        for ($i = 0; $i < count($request->surgery_title); $i++) {
+            $insert_surgery[] = [
+                'staff_id' => $staffID,
+                'surgery_title' => $request->surgery_title[$i],
+                'surgery_number' => $request->surgery_cant[$i],
+                'code' => getCode()
+            ];
+        }
+        $staff->surgeryperformed()->delete();
+        SurgeryPerformedStaff::insert($insert_surgery);
+        return response()->json([
+            'success' => true,
+            'go' => '1',
+            'icon' => 'success',
+            'title' => 'the surgery data was uploaded successfully'
+        ]);
     }
 }

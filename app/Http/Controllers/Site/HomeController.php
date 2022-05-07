@@ -28,7 +28,7 @@ class HomeController extends Controller
         (
             [
                 'imageOne',
-                'assignToService' => function($q) use($lang) 
+                'assignToService' => function($q) use($lang)
                 {
                     $q->selectRaw("services.id, service_$lang as service, brand_id");
                     $q->with
@@ -53,7 +53,7 @@ class HomeController extends Controller
             ->with
             (
                 [
-                    'assignToService' => function($q) use($lang) 
+                    'assignToService' => function($q) use($lang)
                     {
                         $q->selectRaw("services.id, service_$lang as service, brand_id");
                         $q->with
@@ -87,8 +87,8 @@ class HomeController extends Controller
                     $collection->push($dsp);
                 }
             }
-            $unique = $collection->unique('specialty')->values()->all(); 
-            
+            $unique = $collection->unique('specialty')->values()->all();
+
             foreach ($unique as $value) {
                 $titles->push((object)[
                     'id' => $value->id,
@@ -98,10 +98,10 @@ class HomeController extends Controller
             //return $title;
 
             return view('site.team', ['doctors' => $doctors, 'titles' => $unique]);
-        } 
+        }
 
         $staffUrl= $url;
-        
+
 
         $doctor = Staff::with([
             'roles' => function($query) use ($lang) {
@@ -114,6 +114,7 @@ class HomeController extends Controller
             'imageOne',
             'imageMany',
             'careerobjetive',
+            'surgeryperformed',
             'specialties' => function($query) use ($lang){
                 $query->select(["specialties.id", "name_$lang AS Sname"]);
             },
@@ -124,7 +125,7 @@ class HomeController extends Controller
         ->where("url", $staffUrl)
         ->where("public_profile", 1)
         ->first();
-        
+
         if (!$doctor) {abort(404);}
 
         //if ($doctor) { if ($doctor->public_profile == 0) {}}
@@ -200,12 +201,12 @@ class HomeController extends Controller
         ->orderBy('procedure_id', 'ASC')
         ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
         ->get();
-        
+
 
         $service = Brand::where('url', $brand)
         ->with(
             'service', function($q) use ($lang)
-            
+
             {
                 $q->selectRaw("service_$lang AS service, brand_id");
             }
@@ -240,7 +241,7 @@ class HomeController extends Controller
                             $q->select('*', "description_$lang as description");
                         }
                     );
-                 }, 
+                 },
              )
             ->distinct()
             ->get();

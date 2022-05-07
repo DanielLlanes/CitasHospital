@@ -90,6 +90,10 @@ class Staff extends Authenticatable
     {
         return $this->hasMany(WorkHistoryStaff::class);
     }
+    public function surgeryperformed()
+    {
+        return $this->hasMany(SurgeryPerformedStaff::class);
+    }
     public function educationbackground()
     {
         return $this->hasMany(EducationBackgroundStaff::class);

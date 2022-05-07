@@ -66,8 +66,11 @@
     <script src="{{ asset('siteFiles/assets/vendor/aos/aos.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
-    <script src="{{ asset('siteFiles/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>{{-- 
+    <script src="{{ asset('siteFiles/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>{{--
     <script src="{{ asset('siteFiles/assets/vendor/php-email-form/validate.js') }}"></script> --}}
+    <!-- counterup -->
+    <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.waypoints.min.js') }}" ></script>
+    <script src="{{ asset('staffFiles/assets/plugins/counterup/jquery.counterup.min.js') }}" ></script>
     <script src="{{ asset('siteFiles/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
     <script src="{{ asset('siteFiles/assets/vendor/splide-2.4.21/dist/js/splide.min.js') }}"></script>
