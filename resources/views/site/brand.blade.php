@@ -109,7 +109,7 @@
                 <code>
 
                 </code>
-                <div class="row">
+                <div class="row justify-content-center">
                     @foreach($doctors as $doctor)
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="doctor" data-aos="fade-up" data-aos-delay="100">
