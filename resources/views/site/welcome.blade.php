@@ -186,7 +186,7 @@
                                         <h4>{{ $coordinator->name }}</h4>
                                         <span>Coordinator</span>
                                         <p style="margin-block-end: 0"><a href="tel:{{ $coordinator->cellphone }}">Call me</a></p>
-                                        <p><a href="mailto:{{ $coordinator->email }}">@lang('Send me a email')</a></p>
+                                        <p><a href="mailto:{{ $coordinator->email }}">@lang('Send me an email')</a></p>
                                         <div class="mt-3">
                                             @foreach($coordinator->assignToService as $service)
                                             <a style="text-decoration: none" href="{{ asset($service->brand->url) }}" class="me-2">{{ $service->service }}</a>
