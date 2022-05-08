@@ -56,6 +56,7 @@ class ProcedureController extends Controller
             $procedures = Procedure::select("*", "procedure_$lang as procedure")
             ->with(
                 [
+                    'imageOne',
                     'service' => function($q) use ($lang){
                         $q->select("id", "brand_id", "service_$lang as service")
                         ->with(
@@ -74,6 +75,22 @@ class ProcedureController extends Controller
             ->get();
             return DataTables::of($procedures)
                 ->addIndexColumn()
+                ->addColumn('image', function($staff){
+                    if (is_null($staff->imageOne)) {
+                       $avatar ='
+                                <a href="'.asset("staffFiles/assets/img/treatment/no-image-available.jpeg").'" data-effect="mfp-zoom-in" class="a">
+                                    <img src="'.asset("staffFiles/assets/img/treatment/no-image-available.jpeg").'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$staff->name.'"/>
+                                </a>
+                            ';
+                    } else {
+                        $avatar = '
+                                    <a href="'.asset($staff->imageOne->image).'" data-effect="mfp-zoom-in" class="a">
+                                        <img src="'.asset($staff->imageOne->image).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$staff->name.'"/>
+                                    </a>
+                                ';
+                    }
+                    return $avatar;
+                })
                 ->addColumn('brand', function($procedures){
                     return '<span style="font-weight: 500; color: '.$procedures->service->brand->color.'">'.$procedures->service->brand->brand.'</span>';
                 })
@@ -114,7 +131,7 @@ class ProcedureController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.procedure-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'haspackage', 'description', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'service', 'procedure', 'haspackage', 'description', 'active', 'action'])
                 ->make(true);
         }
     }
@@ -135,6 +152,7 @@ class ProcedureController extends Controller
             'description_en' => 'required|string',
             'description_es' => 'required|string',
             'has_package' => 'required|integer',
+            'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -144,21 +162,22 @@ class ProcedureController extends Controller
             ]);
         }
 
-        // $image = null;
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $destinationPath = storage_path('app/public').'/staff/procedure-image';
-        //     $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
-        //     $img = Image::make($image->getRealPath());
-        //     $width = 680;
-        //     $img->resize($width, null, function ($constraint) {
-        //         $constraint->aspectRatio();
-        //     });
-        //     File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+        $image = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/procedure/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 680;
+            $img->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-        //     $img->save($destinationPath."/".$img_name, '80');
-        //     $image = "storage/staff/procedure-image/$img_name";
-        // }
+            $img->save($destinationPath."/".$img_name, '99');
+            $image = "storage/procedure/image/$img_name";
+            $img->destroy();
+        }
 
         $procedure = new Procedure;
         $procedure->service_id = $request->service;
@@ -168,6 +187,11 @@ class ProcedureController extends Controller
         $procedure->code = time().uniqid(Str::random(30));
 
         if ($procedure->save()) {
+            if ($image != '') {
+                $procedure->imageOne()->create(
+                    ['image' => $image, 'code' => time().uniqid(Str::random(30))]
+                );
+            }
             $procedure->descriptionOne()->create([
                 'description_es' => $request->description_es,
                 'description_en' => $request->description_en,
@@ -203,6 +227,7 @@ class ProcedureController extends Controller
         $lang = app()->getLocale();
         $procedure = Procedure::with(
             [
+                'imageOne',
                 'service' => function($q) use ($lang){
                     $q->select("id", "brand_id", "service_$lang as service");
                 },
@@ -265,6 +290,44 @@ class ProcedureController extends Controller
         $procedure->procedure_es = $request->procedure_es;
         $procedure->has_package = $request->has_package;
         $procedure->code = time().uniqid(Str::random(30));
+
+        $lastPhoto = null;
+        $lastPhotoId = null;
+        $avatar;
+
+        if ($procedure->imageOne) {
+            $lastPhoto = $procedure->imageOne->image;
+            $lastPhotoId = $procedure->imageOne->id;
+            //return response()->json(['xD' => 'paso']);
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = storage_path('app/public').'/procedure/image';
+            $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+            $img = Image::make($image->getRealPath());
+            $width = 600;
+            $height = 600;
+            $img->resize($width, $height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+            $img->save($destinationPath."/".$img_name, '100');
+            $image = "storage/procedure/image/$img_name";
+
+            $imageExist = $procedure->imageOne()->where('id', $lastPhotoId)->first();
+
+
+            if (!is_null($lastPhotoId)) {
+               $procedure->imageOne->delete($lastPhotoId);
+            }
+
+            $procedure->imageOne()->create(
+                ['image' => $image, 'code' => time().uniqid(Str::random(30))]
+            );
+            $img->destroy();
+        }
         
         if ($procedure->save()) {
             if (!is_null($procedure->descriptionOne)) {
@@ -347,5 +410,33 @@ class ProcedureController extends Controller
                 ]
             );
         }
+    }
+    public function imageDestroy(Request $request)
+    {
+        //return $request;
+
+        $procedure = Procedure::with('imageOne')->find($request->procedure);
+        //return($procedure);
+
+        if ($procedure) {
+            $imageExist = $procedure->imageOne()->where('id', $request->id_image)->first();
+            //return($imageExist);
+
+            if ($imageExist) {
+                if ($imageExist->code == $request->id_code) {
+                   //return($imageExist);
+                    $lastPhoto = $procedure->imageOne->image;
+                    $lastPhotoId = $procedure->imageOne->id;
+                    $procedure->imageOne()->delete($lastPhotoId);
+                    //$imageExist->delete();
+                    // if( file_exists($lastPhoto) ){
+                    //     unlink(public_path($lastPhoto));
+                    // }
+                }
+                    
+            }
+        }
+
+        return response()->json(['x' => 1]);
     }
 }

@@ -46,7 +46,6 @@
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
-                                                    <th> @lang('Image') </th>
                                                     <th> @lang('Brand') </th>
                                                     <th> @lang('Service') </th>
                                                     <th> @lang('Procedure') </th>
@@ -71,15 +70,6 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                <div class="form-group mb-2">
-                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image Treatment')
-                                                        <span class="required"> * </span>
-                                                    </label>
-                                                    <div class="col-md-12">
-                                                        <input type="file" name="image" id="image" class="dropify" />
-                                                        <div class="error text-danger col-form-label-sm"></div>
-                                                    </div>
-                                                </div>
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -209,8 +199,11 @@
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
         var globalRouteSearchProcedure = "{{ route('staff.autocomplete.AutocompleteProcedure') }}";
         var globalRouteSearchPackage = "{{ route('staff.autocomplete.AutocompletePackage') }}";
-        var globalRouteDeleteFile = "{{ route('staff.treatments.imageDestroy') }}";
+        
     </script>
 
     <script src="{{ asset('staffFiles/assets/js/customjs/treatment.min.js') }}"></script>
+    <script>
+        
+    </script>
 @endsection()

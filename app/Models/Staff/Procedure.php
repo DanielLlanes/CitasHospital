@@ -35,4 +35,8 @@ class Procedure extends Model
     {
         return $this->morphOne(DescriptionOne::class, 'descriptionOneable');
     }
+    public function imageOne()
+    {
+        return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
 }

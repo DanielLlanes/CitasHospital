@@ -48,6 +48,13 @@
                                 {!! $item->procedure->descriptionOne->description !!}
                             @endif
                         </p>
+                        @if (!is_null($item->procedure->imageOne))
+                            <span class="images">
+                                <a href="{{ asset($item->procedure->imageOne->image ) }}" data-effect="mfp-zoom-in" class="a">
+                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail" alt="{{ $item->procedure->procedure }}"/>
+                                </a>
+                            </span>
+                        @endif
                     </div>
                     <style>
                         .altura {
@@ -72,7 +79,7 @@
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card altura mb-5">
-                                        <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px">
+                                       {{--  <img src="{{ asset( getTreamentImage($treatment)) }}" class="card-img-top" alt="{{ $treatment->procedure->procedure }}" style="height: 200px"> --}}
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>

@@ -191,7 +191,7 @@ class HomeController extends Controller
                 'package' => function($query) use ($lang) {
                     $query->select('id', "active", "package_$lang as package");
                  },
-                 'imageOne',
+                 //'imageOne',
                  "contains" => function($q)use($lang){
                     $q->select('*', "contain_$lang as include");
                  },
@@ -237,9 +237,12 @@ class HomeController extends Controller
                 'procedure', function($query) use ($lang) {
                     $query->select('id', "procedure_$lang as procedure")
                     ->with(
-                        'descriptionOne', function($q)use($lang){
-                            $q->select('*', "description_$lang as description");
-                        }
+                        [
+                            'imageOne',
+                            'descriptionOne' => function($q)use($lang){
+                                $q->select('*', "description_$lang as description");
+                            },
+                        ]
                     );
                  },
              )

@@ -39,6 +39,7 @@
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
+                                                    <th> @lang('Image') </th>
                                                     <th> @lang('Brand') </th>
                                                     <th> @lang('Service') </th>
                                                     <th> @lang('Procedure') </th>
@@ -63,7 +64,7 @@
                                     <div class="card-body" id="bar-parent">
                                        <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
                                             <div class="form-body">
-                                                {{-- <div class="form-group mb-2" style="overflow: hidden">
+                                                <div class="form-group mb-2" style="overflow: hidden">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Image')
                                                     <span class="required">  </span>
                                                     </label>
@@ -79,7 +80,7 @@
                                                     <div class="col-md-12 imagePreview">
 
                                                     </div>
-                                                </div> --}}
+                                                </div>
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Service')
                                                         <span class="required"> * </span>
@@ -197,7 +198,11 @@
         var globalRouteUpdate = "{{ route('staff.treatments.configuration.updateProcedure') }}"
         var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyProcedure') }}"
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
+        var globalRouteDeleteFile = "{{ route('staff.treatments.configuration.imageDestroy') }}";
 
     </script>
-    <script src="{{ asset('staffFiles/assets/js/customjs/procedures.min.js') }}"></script>
+    <script src="{{ asset('staffFiles/assets/js/customjs/procedures.min.js') }}"></script> 
+    <script>
+        
+    </script>
 @endsection

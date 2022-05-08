@@ -145,6 +145,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
             Route::post('/procedure/edit', [ProcedureController::class, 'edit'])->name('editProcedure');
             Route::post('/procedure/update', [ProcedureController::class, 'update'])->name('updateProcedure');
             Route::post('/procedure/destroy', [ProcedureController::class, 'destroy'])->name('destroyProcedure');
+            Route::post('/procedure/imageDestroy', [ProcedureController::class, 'imageDestroy'])->name('imageDestroy');
             //packages
             Route::get('/packages/listar', [PackageController::class, 'package'])->name('package');
             Route::get('/packages/get-brand-list', [PackageController::class, 'getPackageList'])->name('getPackageList');
@@ -161,7 +162,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/treatments/edit', [TreatmentController::class, 'edit'])->name('editProduct');
         Route::post('/treatments/update', [TreatmentController::class, 'update'])->name('updateProduct');
         Route::post('/treatments/destroy', [TreatmentController::class, 'destroy'])->name('destroyProduct');
-        Route::post('/treatments/imageDestroy', [TreatmentController::class, 'imageDestroy'])->name('imageDestroy');
+        
     });
 
     Route::name('applications.')->group( function(){

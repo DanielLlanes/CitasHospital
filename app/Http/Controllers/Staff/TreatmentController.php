@@ -94,14 +94,6 @@ class TreatmentController extends Controller
             ->get();
             return DataTables::of($treatment)
                 ->addIndexColumn()
-                ->addColumn('image', function($treatment){
-                    $image ='
-                            <a href="'.asset(getTreamentImage($treatment)).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset(getTreamentImage($treatment)).'" class="img-thumbnail" style="width:100px; height:auto" alt="treatment"/>
-                            </a>
-                        ';
-                    return $image;
-                })
                 ->addColumn('brand', function($treatment){
                     return '<span style="font-size: .7vw; font-weight: 800; color: '.$treatment->brand->color.'">'.strtoupper($treatment->brand->brand).'</span>';
                 })
@@ -138,7 +130,7 @@ class TreatmentController extends Controller
                     return $btn;
                 })
                 ->addColumn('action', 'staff.treatments-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'image', 'brand', 'service', 'procedure', 'package', 'price', 'active', 'action'])
+                ->rawColumns(['DT_RowIndex', 'brand', 'service', 'procedure', 'package', 'price', 'active', 'action'])
                 ->make(true);
         }
     }
@@ -187,7 +179,6 @@ class TreatmentController extends Controller
                 ($request->has_package == '1') ? 'required' : '',
             ],
             'price' => 'nullable|sometimes|numeric',
-            'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
         ]);
 
         if ($validator->fails()) {
@@ -516,32 +507,37 @@ class TreatmentController extends Controller
         );
     }
 
-    public function imageDestroy(Request $request)
-    {
-        //return $request;
+    // public function imageDestroy(Request $request)
+    // {
+    //     return $request;
 
-        $treatment = Treatment::with('imageOne')->find($request->treatment);
-        //return($treatment);
+    //     $treatment = Treatment::with('imageOne')->find($request->treatment);
+    //     return($treatment);
 
-        if ($treatment) {
-            $imageExist = $treatment->imageOne()->where('id', $request->id_image)->first();
+    //     if ($treatment) {
+    //         $imageExist = $treatment->imageOne()->where('id', $request->id_image)->first();
+    //         return($imageExist);
 
-            if ($imageExist) {
-                $lastPhoto = $treatment->imageOne->image;
-                $lastPhotoId = $treatment->imageOne->id;
-                $imageExist->delete();
-                // if( file_exists($lastPhoto) ){
-                //     unlink(public_path($lastPhoto));
-                // }
-            }
-        }
+    //         if ($imageExist) {
+    //             if ($imageExist == $request->id_code) {
+    //                 $lastPhoto = $treatment->imageOne->image;
+    //                 $lastPhotoId = $treatment->imageOne->id;
+    //                 $imageExist->delete();
+    //                 $treatment->imageOne->delete($request->treatment);
+    //                 // if( file_exists($lastPhoto) ){
+    //                 //     unlink(public_path($lastPhoto));
+    //                 // }
+    //             }
+    //         }
+    //     }
 
-        return response()->json(['x' => 1]);
-    }
+    //     return response()->json(['x' => 1]);
+    // }
 
     public function activate(Request $request)
     {
         $treatment = Treatment::find($request->id);
+
         if ($treatment) {
             if ($treatment->active == 1) {
                 $treatment->active = false;
