@@ -81,7 +81,10 @@
                 {!! (app()->getLocale() == "en") ? '<h2>About <strong>Us</strong></h2>': '<h2>Sobre <strong>Nosotros</strong></h2>'  !!}
             </div>
             <div class="row no-gutters">
-                <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-lg-start p-5" data-aos="fade-right" style="background: url('https://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-logo-footer.png') center no-repeat;"></div>
+                {{-- <div class="image col-xl-5 d-flex align-items-stretch justify-content-center justify-content-lg-start p-5" data-aos="fade-right" style="background: url('https://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-logo-footer.png') center no-repeat;"></div> --}}
+                <div class="col-12 col-xl-5 ">
+                    <img src="https://jlpradosc.com/wp-content/uploads/2020/09/jlprado-img-logo-footer.png" class="rounded mx-auto d-block">
+                </div>
                 <div class="col-xl-7 ps-0 ps-lg-5 pe-lg-1 d-flex align-items-stretch">
                     <div class="content d-flex flex-column justify-content-around p-3">
                         {!! aboutUs(app()->getLocale()) !!}

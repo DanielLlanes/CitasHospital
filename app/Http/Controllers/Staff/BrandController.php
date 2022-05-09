@@ -63,7 +63,7 @@ class BrandController extends Controller
                     }
                     $image ='
                             <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:50px" alt="'.$brands->name.'"/>
+                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:65px" alt="'.$brands->name.'"/>
                             </a>
                         ';
                         return $image;

@@ -401,6 +401,7 @@ class StaffController extends Controller
             $height = 800;
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
