@@ -165,16 +165,19 @@ class ProcedureController extends Controller
         $image = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
+            return($image);
             $destinationPath = storage_path('app/public').'/procedure/image';
             $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
             $img = Image::make($image->getRealPath());
-            $width = 680;
-            $img->resize($width, null, function ($constraint) {
+            $width = 1024;
+            $height = 684;
+            
+            $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '99');
+            $img->save($destinationPath."/".$img_name, '100');
             $image = "storage/procedure/image/$img_name";
             $img->destroy();
         }
@@ -306,14 +309,15 @@ class ProcedureController extends Controller
             $destinationPath = storage_path('app/public').'/procedure/image';
             $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
             $img = Image::make($image->getRealPath());
-            $width = 600;
-            $height = 600;
+            $width = 1024;
+            $height = 684;
+            
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-            $img->save($destinationPath."/".$img_name, '100');
+            $img->save($destinationPath."/".$img_name, '90');
             $image = "storage/procedure/image/$img_name";
 
             $imageExist = $procedure->imageOne()->where('id', $lastPhotoId)->first();

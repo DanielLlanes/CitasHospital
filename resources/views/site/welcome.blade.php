@@ -72,7 +72,7 @@
     </div>
 </section>
 <!-- End Hero -->
-
+{{ public_path('storage/') }}
 <main id="main">
     <!-- ======= About Us Section ======= -->
     <section id="about-us" class="about-us">

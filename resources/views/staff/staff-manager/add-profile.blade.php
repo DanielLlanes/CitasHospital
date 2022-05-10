@@ -24,9 +24,8 @@
                 <div class="card-body no-padding height-9">
                     <div class="row">
                         <div class="profile-userpic">
-                            <img src="{{ asset( getAvatar($staff) ) }}" class="img-responsive" alt="{{ auth()->guard('staff')->user()->name }}"> </div>
+                            <img src="{{ asset( getAvatarCached(auth()->guard('staff')->user(), 'avatar') ) }} }}" class="img-responsive" alt="{{ $staff->name }}"> </div>
                     </div>
-
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-name">{{ $staff->name }} </div>
                         <h3 class="m-0">Role</h3>

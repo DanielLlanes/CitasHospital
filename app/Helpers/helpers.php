@@ -81,3 +81,15 @@ if (!function_exists('getUcWords')) {
     }
 }
 
+if (!function_exists('getAvatarChached')) {
+    function getAvatarCached($user, $filter) {
+        if (!is_null($user->load('imageOne')->imageOne)) {
+            $fileName = $user->load('imageOne')->imageOne->image;
+            return("imagecache/$filter/$fileName");
+        } else {
+            return "staffFiles/assets/img/user/user.jpg";
+        }
+    }
+}
+
+

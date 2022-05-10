@@ -317,7 +317,7 @@ class StaffController extends Controller
         $staff_create_permisions_admins = Auth::guard('staff')->user()->can('admin.permisions');
 
         $validated = $request->validate([
-            'avatar' => 'sometimes|image',
+            'avatar' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
             'name' => 'required|string|max:255',
             'language' => 'required|string|max:2',
             'username' => 'required|unique:staff',
@@ -397,8 +397,8 @@ class StaffController extends Controller
             $destinationPath = storage_path('app/public').'/staff/avatar';
             $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
             $img = Image::make($avatar->getRealPath());
-            $width = 800;
-            $height = 800;
+            $width = 684;
+            $height = 1024;
             $img->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
@@ -640,11 +640,12 @@ class StaffController extends Controller
             $destinationPath = storage_path('app/public').'/staff/avatar';
             $img_name = time().uniqid(Str::random(30)).'.'.$avatar->getClientOriginalExtension();
             $img = Image::make($avatar->getRealPath());
-            $width = 800;
-            $height = 800;
-            $img->resize($width, $height, function ($constraint) {
+            $tumb = Image::make($avatar->getRealPath());
+            $width = 684;
+            $height = 1024;
+            $img->resize($height, $width, function ($constraint) {
                 $constraint->aspectRatio();
-            });
+            })->orientate();
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
             $img->save($destinationPath."/".$img_name, '100');

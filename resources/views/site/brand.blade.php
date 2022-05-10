@@ -51,7 +51,7 @@
                         @if (!is_null($item->procedure->imageOne))
                             <span class="images">
                                 <a href="{{ asset($item->procedure->imageOne->image ) }}" data-effect="mfp-zoom-in" class="a">
-                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail" alt="{{ $item->procedure->procedure }}"/>
+                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail" alt="{{ $item->procedure->procedure }}">
                                 </a>
                             </span>
                         @endif

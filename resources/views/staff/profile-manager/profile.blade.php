@@ -24,7 +24,7 @@
                 <div class="card-body no-padding height-9">
                     <div class="row">
                         <div class="profile-userpic">
-                            <img src="{{ asset( getAvatar(auth()->guard('staff')->user()) ) }}" class="img-responsive" alt="{{ auth()->guard('staff')->user()->name }}"> </div>
+                            <img src="{{ asset( getAvatarCached(auth()->guard('staff')->user(), 'avatar') ) }}" class="img-responsive" alt="{{ auth()->guard('staff')->user()->name }}"> </div>
                     </div>
                     
                     <div class="profile-usertitle">
@@ -138,7 +138,7 @@
                                         </div>
 
                                     </div>
-                                    <h5 class="font-weight-bold mt-5 mb-3 text-center">Education Background</h5>
+                                    <h5 class="font-weight-bold mt-5 mb-3">Education Background</h5>
                                     <div class="">
                                         <div >
                                             @foreach ($staff->educationbackground as $educationbackground)
@@ -175,10 +175,10 @@
                                             <hr>
                                         @endforeach
                                     </div>
-                                    <h5></h5>
+                                    <h5 class="font-weight-bold mt-5 mb-3">Images:</h5>
                                     <div class="col-12">
                                         <div class="row">
-                                            @foreach ($staff->imagespublicprofile as $imagespublicprofile)
+                                            @foreach ($staff->imageMany as $imagespublicprofile)
                                                 <div class="col-md-4">
                                                     <p>{{ $imagespublicprofile->title }}</p>
                                                     <img class="img-responsive" src="{{ asset($imagespublicprofile->image) }}" alt="{{ $imagespublicprofile->title }}">
