@@ -91,6 +91,8 @@ class TreatmentController extends Controller
                 ]
             )
             ->selectRaw("id, brand_id, service_id, procedure_id, package_id, price, active")
+            ->orderBy('service_id', "asc")
+            ->orderBy('procedure_id', 'asc')
             ->get();
             return DataTables::of($treatment)
                 ->addIndexColumn()
