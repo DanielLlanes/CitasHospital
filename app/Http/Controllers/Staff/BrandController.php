@@ -63,7 +63,7 @@ class BrandController extends Controller
                     }
                     $image ='
                             <a href="'.asset($images).'" data-effect="mfp-zoom-in" class="a">
-                                <img src="'.asset($images).'" class="img-thumbnail" style="width:50px; height:65px" alt="'.$brands->name.'"/>
+                                <img src="'.asset($images).'" class="img-thumbnail" alt="'.$brands->name.'"/>
                             </a>
                         ';
                         return $image;
@@ -119,7 +119,7 @@ class BrandController extends Controller
                 'unique:statuses',
                 'regex:/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'
             ],
-            'image' => "sometimes|image|mimes:jpg,png,jpeg",
+            'image' => "image|mimes:jpg,png,jpeg",
             // 'description_en' => 'required|string',
             // 'description_en' => 'required|string',
           ]
@@ -218,6 +218,8 @@ class BrandController extends Controller
      */
     public function update(Request $request)
     {
+    
+
         $brand = Brand::with('imageOne')->find($request->id);
         if ($brand) {
             $validator = Validator::make($request->all(), [
@@ -242,22 +244,23 @@ class BrandController extends Controller
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
             }
-
             $lastPhoto = null;
             $avatar;
-            if (!$brand->imageOne) {
+            if (!is_null($brand->imageOne)) {
                 $lastPhoto = $brand->imageOne->image;
                 $lastPhotoId = $brand->imageOne->id;
+                
             } 
 
 
             if ($request->hasFile('image')) {
+
                 $image = $request->file('image');
                 $destinationPath = storage_path('app/public').'/brand/image';
                 $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
                 $img = Image::make($image->getRealPath());
-                $width = 380;
-                $height = 220;
+                $width = 1373;
+                $height = 682;
                 $img->resize($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
                 });
@@ -268,8 +271,9 @@ class BrandController extends Controller
 
                 if (!is_null($lastPhoto)) {
                     //unlink(public_path($lastPhoto));
+                    $brand->imageOne->delete($lastPhotoId);
                 }
-                $brand->imageOne->delete($lastPhotoId);
+                
                 $brand->imageOne()->create(
                     ['image' => $image, 'code' => time().uniqid(Str::random(30))]
                 );

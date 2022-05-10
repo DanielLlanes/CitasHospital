@@ -39,6 +39,7 @@
                             {!! $brand->service->descriptionOne->description !!}
                         @endif
                     </p>
+                    <img src="{{ getBrandImage($brand) }}" alt="{{ $brand->service->service }}" class="img-fluid w-75">
                 </div>
                 @foreach ($title as $item)
                     <div class="section-title m-5 mb-0" data-aos="fade-up">
@@ -51,7 +52,7 @@
                         @if (!is_null($item->procedure->imageOne))
                             <span class="images">
                                 <a href="{{ asset($item->procedure->imageOne->image ) }}" data-effect="mfp-zoom-in" class="a">
-                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail" alt="{{ $item->procedure->procedure }}">
+                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail w-50" alt="{{ $item->procedure->procedure }}">
                                 </a>
                             </span>
                         @endif

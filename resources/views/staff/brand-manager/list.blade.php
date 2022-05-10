@@ -171,4 +171,8 @@
 
     </script>
     <script src="{{ asset('staffFiles/assets/js/customjs/brands.min.js') }}"></script>
+
+    <script type="text/javascript">
+        
+    </script>
 @endsection
