@@ -79,13 +79,13 @@ class ProcedureController extends Controller
                     if (is_null($staff->imageOne)) {
                        $avatar ='
                                 <a href="'.asset("staffFiles/assets/img/treatment/no-image-available.jpeg").'" data-effect="mfp-zoom-in" class="a">
-                                    <img src="'.asset("staffFiles/assets/img/treatment/no-image-available.jpeg").'" class="img-thumbnail" style="width:50px; height:65px" alt="'.$staff->name.'"/>
+                                    <img src="'.asset("staffFiles/assets/img/treatment/no-image-available.jpeg").'" class="img-thumbnail" alt="'.$staff->name.'"/>
                                 </a>
                             ';
                     } else {
                         $avatar = '
                                     <a href="'.asset($staff->imageOne->image).'" data-effect="mfp-zoom-in" class="a">
-                                        <img src="'.asset($staff->imageOne->image).'" class="img-thumbnail" style="width:50px; height:65px" alt="'.$staff->name.'"/>
+                                        <img src="'.asset($staff->imageOne->image).'" class="img-thumbnail" alt="'.$staff->name.'"/>
                                     </a>
                                 ';
                     }
