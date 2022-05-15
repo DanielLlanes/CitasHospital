@@ -168,6 +168,51 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item master-menu">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="material-icons">settings</i>
+                        <span class="title">Settings</span>
+                        <span class="arrow "></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="fa fa-product-hunt"></i> Public page
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                @can('brand.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
+                                            <i class="ml-3"></i> Slider
+                                        </a>
+                                    </li>
+                                @endcan
+                                {{-- @can('services.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
+                                            <i class="ml-3"></i> Services</a>
+                                    </li>
+                                @endcan
+                                @can('procedures.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
+                                            <i class="ml-3"></i> Procedures
+                                         </a>
+                                    </li>
+                                @endcan
+                                @can('packages.list')
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
+                                            <i class="ml-3"></i> Packages
+                                         </a>
+                                    </li>
+                                @endcan --}}
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Mail\ContactFormEmail;
 use App\Models\Site\Faq;
 use App\Models\Staff\Brand;
 use App\Models\Staff\Procedure;
+use App\Models\Staff\Slider;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
@@ -22,6 +23,8 @@ class HomeController extends Controller
     public function home()
     {
         $lang = \App::getLocale();
+
+        $sliders = Slider::with(['imageOne', 'videoOne'])->where('active', 1)->get();
 
         $coordinator = Staff::role('coordinator')
         ->with
@@ -41,7 +44,7 @@ class HomeController extends Controller
             ]
         )
         ->get();
-        return view('site.welcome', ["coordinators" => $coordinator]);
+        return view('site.welcome', ["coordinators" => $coordinator, 'sliders' => $sliders]);
     }
     public function team($url = null)
     {

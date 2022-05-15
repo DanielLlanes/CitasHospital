@@ -1,26 +1,27 @@
 <?php
 
 
-use App\Http\Controllers\Staff\AppController;
-use App\Http\Controllers\Staff\LangController;
-use App\Http\Controllers\Staff\BrandController;
-use App\Http\Controllers\Staff\EventController;
-use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\PackageController;
-use App\Http\Controllers\Staff\PaymentController;
-use App\Http\Controllers\Staff\ProductController;
-use App\Http\Controllers\Staff\PatientController;
-use App\Http\Controllers\Staff\ProfileController;
-use App\Http\Controllers\Staff\ServiceController;
-use App\Http\Controllers\Staff\DashboardController;
-use App\Http\Controllers\Staff\ProcedureController;
-use App\Http\Controllers\Staff\TreatmentController;
 use App\Http\Controllers\Site\ApplicationController;
-use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\AppController;
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
-use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
+use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\BrandController;
+use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\PackageController;
+use App\Http\Controllers\Staff\PatientController;
+use App\Http\Controllers\Staff\PaymentController;
+use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Staff\ProductController;
+use App\Http\Controllers\Staff\ProfileController;
+use App\Http\Controllers\Staff\ServiceController;
+use App\Http\Controllers\Staff\SliderController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\TreatmentController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
@@ -187,8 +188,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::get('/payments/view/{id}',               [PaymentController::class, 'show'])->name('show');
         Route::post('/payments/patientApps',            [PaymentController::class, 'patientsApps'])->name('patientsApps');
         Route::post('/payments/searchPatientWithApps',  [PaymentController::class, 'searchPatientWithApps'])->name('searchPatientWithApps');
-        Route::post('/payments/searchPatientAppDetails',  [PaymentController::class, 'searchPatientAppDetails'])->name('searchPatientAppDetails');
-        Route::post('/payments/store',  [PaymentController::class, 'store'])->name('store');
+        Route::post('/payments/searchPatientAppDetails',[PaymentController::class, 'searchPatientAppDetails'])->name('searchPatientAppDetails');
+        Route::post('/payments/store',                  [PaymentController::class, 'store'])->name('store');
     });
 
     Route::name('patients.')->group( function(){
@@ -200,6 +201,12 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 		Route::get('/patient/edit/{id}',   [PatientController::class, 'edit'])->name('edit');
 		Route::post('/patient/update/{id}',[PatientController::class, 'update'])->name('update');
 		Route::post('/patient/destroy',    [PatientController::class, 'destroy'])->name('destroy');
+    });
+    Route::name('public_page.')->group( function (){
+        Route::get('/slider/listar',       [SliderController::class, 'index'])->name('slider');
+        Route::post('/slider/submit',      [SliderController::class, 'store'])->name('store');
+        Route::post('/slider/destoy',      [SliderController::class, 'destroy'])->name('destroy');
+        Route::post('/slider/update',        [SliderController::class, 'update'])->name('update');
     });
 
 });

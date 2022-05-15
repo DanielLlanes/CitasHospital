@@ -5,6 +5,14 @@
 
 @include('site.trans.home')
 
+<style>
+    #hero .carousel-content {
+        text-align: center;
+        position: relative;
+        border; 1px solid red;
+    }
+</style>
+
 <!-- ======= Hero Section ======= -->
 <section id="hero">
     <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -12,50 +20,19 @@
         <div class="carousel-inner" role="listbox">
 
             <!-- Slide 1 -->
-            <div class="carousel-item active" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-1.jpg') }});">
-                <div class="carousel-container">
-                    <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
-                        <p><br></p>
-
-                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
-                        <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
-                            <i class="bi bi-play-circle"></i>
-                            <span>@lang('site/home.Watch Video')</span>
-                        </a>
+            @foreach ($sliders as $key => $item)
+                <div class="carousel-item {{ ($key == 0)? 'active':"" }}" style="background-image: url({{ asset($item->imageOne->image) }});" s>
+                    <div class="carousel-container">
+                        <div class="carousel-content animate__animated animate__fadeInUp">
+                            <h2>{{ $item->title }}</h2>
+                            <video width="596" controls>
+                              <source src="{{ asset($item->videoOne->video) }}" type="{{ $item->videoOne->mime }}">
+                              Your browser does not support HTML video.
+                            </video>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-2.jpg') }});">
-                <div class="carousel-container">
-                    <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
-                        <p><br></p>
-                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
-                        <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
-                            <i class="bi bi-play-circle"></i>
-                            <span>@lang('site/home.Watch Video')</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="carousel-item" style="background-image: url({{ asset('siteFiles/assets/img/slide/slide-3.jpg') }});">
-                <div class="carousel-container">
-                    <div class="carousel-content animate__animated animate__fadeInUp">
-                        <h2>@lang('site/home.Welcome to') <span>J.L. Prado</span></h2>
-                        <p><br></p>
-                        <a href="#about" class="btn-get-started scrollto">@lang('site/home.Get Started')</a>
-                        <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox btn-watch-video">
-                            <i class="bi bi-play-circle"></i>
-                            <span>@lang('site/home.Watch Video')</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @endforeach
 
         </div>
 
@@ -67,12 +44,12 @@
             <span class="carousel-control-next-icon bx bx-right-arrow" aria-hidden="true"></span>
         </a>
 
-        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+        <ol class="carousel-indicators" id="hero-carousel-indicators">
+        </ol>
 
     </div>
 </section>
 <!-- End Hero -->
-{{ public_path('storage/') }}
 <main id="main">
     <!-- ======= About Us Section ======= -->
     <section id="about-us" class="about-us">
