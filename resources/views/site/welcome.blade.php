@@ -9,7 +9,6 @@
     #hero .carousel-content {
         text-align: center;
         position: relative;
-        border; 1px solid red;
     }
 </style>
 
