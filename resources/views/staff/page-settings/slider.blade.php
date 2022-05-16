@@ -145,12 +145,23 @@
 		globalRouteSubmitSlider = '{{ route('staff.public_page.store') }}'
 		globalRouteDestroy = '{{ route('staff.public_page.destroy') }}'
 		globalRouteEditSlider = '{{ route('staff.public_page.update') }}'
+		globalUpdateOrder = '{{ route('staff.public_page.updateOrder') }}'
 		var sliderCount = '{{ count($slider) }}';
     </script>
 
     <script type="text/javascript">  
     	$( function() {
-    	    $( "#sortable" ).sortable();
+    	    $( "#sortable" ).sortable({
+    	    	update: function( event, ui ) {
+    	    		let $count = $(this).find('.clone').length
+    	    		let $child = $(this).find('.clone');
+    	    		$.each($child, function(index, val) {
+    	    			$(this).attr('data-clone', index+1).addClass('updated')
+    	    		});
+    	    		updateOrder()
+    	    	},
+    	    	axis: "y",
+    	    });
     	    if (sliderCount == 0) {addSlider(1)}
 
     	    $(document).on('click', '.button-add-slider', function(event) {
@@ -226,6 +237,40 @@
             	if ($count_slider == 0) {addSlider($count_slider+1)}
     	    });
     	});
+
+    	function updateOrder() {
+    		$parent = document.getElementById('sortable');
+    		$count = document.querySelectorAll('.updated');
+    		$count.forEach(function (item, index) {
+    		  	
+    		});
+			$.ajax({
+				url: globalUpdateOrder,
+	           	method:"POST",
+	           	data:{param1: 'value1'},
+	           	dataType:'JSON',
+				contentType: false,
+				cache: false,
+				headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				},
+				processData: false,
+				beforeSend: function(){
+				},
+	           	success:function(data){
+	           		console.log("data", data);
+	           		// $count.forEach(function (item, index) {
+	           		//   $(this).removeClass('updated')	
+	           		// });
+	           		Toast.fire({
+	           			icon: data.icon,
+	           			title: data.title,
+	           		})
+	           },
+			})
+
+    	}
+
     	
     	function clearDropify(){
     	    drEvents = drEvent.data('dropify');

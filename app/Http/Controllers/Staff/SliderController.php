@@ -20,33 +20,22 @@ class SliderController extends Controller
         date_default_timezone_set('America/Tijuana');
         $this->middleware('auth:staff');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $slider = Slider::with(["imageOne", "videoOne"])->get();
+        $slider = Slider::with(["imageOne", "videoOne"])->orderBy('order', 'ASC')->get();
+        
         return view('staff.page-settings.slider', ["slider" => $slider]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function updateOrder()
     {
-        //
-    }
+       $sliders = Slider::all();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreSliderRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+       foreach ($sliders as $k => $slide) {
+           $slide->order = ($k +1);
+           $slide->save();
+       }
+    }
     public function store(Request $request)
     {
     
@@ -156,7 +145,6 @@ class SliderController extends Controller
         $lastVideo = null;
         $image;
         $video;
-        //return $staff->imageOne;
         if ($slider->imageOne) {
             $lastPhoto = $slider->imageOne->image;
             $lastPhotoId = $slider->imageOne->id;
@@ -180,12 +168,7 @@ class SliderController extends Controller
                 });
                 File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-                // if (!is_null($lastPhoto)) {
-                //     unlink(public_path($lastPhoto));
-                // }
-                if (!is_null($lastPhoto)) {
-                    $slider->imageOne->delete($lastPhotoId);
-                }
+                self::destroyMedia($slider, false, true);
 
                 $img->save($destinationPath."/".$img_name, '100');
                 $image = "storage/page/slider/image/$img_name";
@@ -200,12 +183,7 @@ class SliderController extends Controller
                 $vid_name = time().uniqid(Str::random(30)).'.'.$video->getClientOriginalExtension();
                 File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-                // if (!is_null($lastPhoto)) {
-                //     unlink(public_path($lastPhoto));
-                // }
-                if (!is_null($lastVideo)) {
-                    $slider->videoOne->delete($lastVideoId);
-                }
+                self::destroyMedia($slider, true, false);
                 $video->move($destinationPath, $vid_name);
                 $video = "storage/page/slider/video/$vid_name";
             }
@@ -239,19 +217,15 @@ class SliderController extends Controller
         );
 
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Staff\Slider  $slider
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
         $slider = Slider::where('code', $request->id)->with(['imageOne', 'videoOne'])->first();
 
         if ($slider) {
             $order = $slider->order;
-            $slider->delete();
+            $slider->forceDelete();
+            self::updateOrder();
+            self::destroyMedia($slider, true, true);
         }
 
         return response()->json([
@@ -260,5 +234,29 @@ class SliderController extends Controller
             'reload' => true,
             'order' => $order
         ]);
+    }
+
+    protected function destroyMedia($model, $video, $image)
+    {
+        if ($image) {
+            if ($model->imageOne) {
+                $lastPhoto = $model->imageOne->image;
+                $lastPhotoId = $model->imageOne->id;
+            }
+            if (!is_null($lastPhoto)) {
+                unlink(public_path($lastPhoto));
+                $model->imageOne->forceDelete($lastPhotoId);
+            }
+        }
+        if ($video) {
+           if ($model->videoOne) {
+                $lastVideo = $model->videoOne->video;
+                $lastVideoId = $model->videoOne->id;
+            }
+            if (!is_null($lastVideo)) {
+                unlink(public_path($lastVideo));
+                $model->videoOne->forceDelete($lastVideoId);
+            }
+        }
     }
 }

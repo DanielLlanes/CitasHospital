@@ -207,6 +207,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/slider/submit',      [SliderController::class, 'store'])->name('store');
         Route::post('/slider/destoy',      [SliderController::class, 'destroy'])->name('destroy');
         Route::post('/slider/update',        [SliderController::class, 'update'])->name('update');
+        Route::post('/slider/updateOrder',        [SliderController::class, 'updateOrder'])->name('updateOrder');
     });
 
 });

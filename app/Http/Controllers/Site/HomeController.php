@@ -24,7 +24,7 @@ class HomeController extends Controller
     {
         $lang = \App::getLocale();
 
-        $sliders = Slider::with(['imageOne', 'videoOne'])->where('active', 1)->get();
+        $sliders = Slider::with(['imageOne', 'videoOne'])->where('active', 1)->orderBy('order', 'ASC')->get();
 
         $coordinator = Staff::role('coordinator')
         ->with
