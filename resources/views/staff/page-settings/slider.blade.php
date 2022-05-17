@@ -149,5 +149,5 @@
 		var sliderCount = '{{ count($slider) }}';
     </script>
 
-    <script type="text/javascript" src="{{ asset('staffFiles/assets/js/customjs/page/slider.min.js') }}"> </script>
+    <script type="text/javascript" src="{{ asset('staffFiles/assets/js/uncodeJs/page/slider.min.js') }}"> </script>
 @endsection
