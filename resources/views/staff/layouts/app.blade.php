@@ -169,6 +169,8 @@
                     toast.addEventListener('mouseleave', Swal.resumeTimer)
                 }
             })
+            let currentTime = new Date();
+            let number = currentTime.getFullYear()
             
             var drEvent = $('.dropify').dropify();
         </script>

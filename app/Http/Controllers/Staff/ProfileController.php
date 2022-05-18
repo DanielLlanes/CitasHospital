@@ -144,10 +144,10 @@ class ProfileController extends Controller
             "job_company.*"     => "required|max:50|string",
             "job_title"         => "required|array|min:1",
             "job_title.*"       => "required|max:50|string",
-            "job_from_year"     => "required|array|min:1",
-            "job_from_year.*"   => "required|max:50|string",
-            "job_to_year"       => "required|array|min:1",
-            "job_to_year.*"     => "required|max:50|string",
+            "job_from_year"     => "nullable|array|min:1",
+            "job_from_year.*"   => "nullable||integer|max:".date('Y'),
+            "job_to_year"       => "nullable|array|min:1",
+            "job_to_year.*"     => "nullable||integer|max:".date('Y'),
             "job_notes"         => "required|array|min:1",
             "job_notes.*"       => "required|string",
         ]);
@@ -192,12 +192,12 @@ class ProfileController extends Controller
             "education_school.*"     => "required|max:50|string",
             "education_title"         => "required|array|min:1",
             "education_title.*"       => "required|max:50|string",
-            "education_from_year"     => "required|array|min:1",
-            "education_from_year.*"   => "required|max:50|string",
-            "education_to_year"       => "required|array|min:1",
-            "education_to_year.*"     => "required|max:50|string",
+            "education_from_year"     => "nullable|array|min:1",
+            "education_from_year.*"   => "nullable||integer|max:".date('Y'),
+            "education_to_year"       => "nullable|array|min:1",
+            "education_to_year.*"     => "nullable||integer|max:".date('Y'),
             "education_notes"         => "required|array|min:1",
-            "education_notes.*"       => "required|string",
+            "education_notes.*"       => "nullable|string",
         ]);
         if ($validator->fails())
         {
@@ -240,10 +240,10 @@ class ProfileController extends Controller
             "postgraduate_school.*"     => "required|max:50|string",
             "postgraduate_title"         => "required|array|min:1",
             "postgraduate_title.*"       => "required|max:50|string",
-            "postgraduate_from_year"     => "required|array|min:1",
-            "postgraduate_from_year.*"   => "required|max:50|string",
-            "postgraduate_to_year"       => "required|array|min:1",
-            "postgraduate_to_year.*"     => "required|max:50|string",
+            "postgraduate_from_year"     => "nullable|array|min:1",
+            "postgraduate_from_year.*"   => "nullable|integer|max:".date('Y'),
+            "postgraduate_to_year"       => "nullable|array|min:1",
+            "postgraduate_to_year.*"     => "nullable|integer|max:".date('Y'),
             "postgraduate_notes"         => "required|array|min:1",
             "postgraduate_notes.*"       => "required|string",
         ]);
@@ -288,8 +288,8 @@ class ProfileController extends Controller
             "course_school.*"     => "required|max:50|string",
             "course_title"         => "required|array|min:1",
             "course_title.*"       => "required|max:50|string",
-            "course_year"     => "required|array|min:1",
-            "course_year.*"   => "required|max:50|string",
+            "course_year"     => "nullable|array|min:1",
+            "course_year.*"   => "nullable|integer|max:".date('Y'),
         ]);
         if ($validator->fails())
         {

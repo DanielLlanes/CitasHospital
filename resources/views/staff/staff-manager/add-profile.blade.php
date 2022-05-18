@@ -148,14 +148,14 @@
                                                        <div class="col-md-6">
                                                            <div class="form-group">
                                                                <label for="simpleFormEmail">From Year</label>
-                                                               <input type="date" class="form-control datepicker" name="job_from_year[]" placeholder="Job Title" value="{{ $workhistory->job_from_year }}">
+                                                               <input type="text" class="form-control intLimitTextBox" name="job_from_year[]" placeholder="Job Title" value="{{ $workhistory->job_from_year }}">
                                                                <div class="error text-danger"></div>
                                                            </div>
                                                        </div>
                                                        <div class="col-md-6">
                                                            <div class="form-group">
                                                                <label for="simpleFormPassword">To Year</label>
-                                                               <input type="date" class="form-control datepicker" name="job_to_year[]"id="simpleFormPassword" placeholder="Job Company" value="{{ $workhistory->job_to_year }}">
+                                                               <input type="text" class="form-control intLimitTextBox" name="job_to_year[]"id="simpleFormPassword" placeholder="Job Company" value="{{ $workhistory->job_to_year }}">
                                                                <div class="error text-danger"></div>
                                                            </div>
                                                        </div>
@@ -212,14 +212,14 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="simpleFormEmail">From Year</label>
-                                                                <input type="date" class="form-control datepicker education_from_year" name="education_from_year[]" value="{{ $educationbackground->education_from_year }}">
+                                                                <input type="text" class="form-control intLimitTextBox education_from_year" name="education_from_year[]" value="{{ $educationbackground->education_from_year }}">
                                                                 <div class="error text-danger"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="simpleFormPassword">To Year</label>
-                                                                <input type="date" class="form-control datepicker education_to_year" name="education_to_year[]" value="{{ $educationbackground->education_to_year }}">
+                                                                <input type="text" class="form-control intLimitTextBox education_to_year" name="education_to_year[]" value="{{ $educationbackground->education_to_year }}">
                                                                 <div class="error text-danger"></div>
                                                             </div>
                                                         </div>
@@ -276,14 +276,14 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="simpleFormEmail">From Year</label>
-                                                                <input type="date" class="form-control datepicker postgraduate_from_year" name="postgraduate_from_year[]"  value="{{ $postgraduatestudies->postgraduate_from_year }}">
+                                                                <input type="text" class="form-control intLimitTextBox postgraduate_from_year intLimitTextBox" name="postgraduate_from_year[]"  value="{{ $postgraduatestudies->postgraduate_from_year }}">
                                                                 <div class="error text-danger"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="simpleFormPassword">To Year</label>
-                                                                <input type="date" class="form-control datepicker postgraduate_to_year" name="postgraduate_to_year[]" value="{{ $postgraduatestudies->postgraduate_to_year }}">
+                                                                <input type="text" class="form-control intLimitTextBox postgraduate_to_year intLimitTextBox" name="postgraduate_to_year[]" value="{{ $postgraduatestudies->postgraduate_to_year }}">
                                                                 <div class="error text-danger"></div>
                                                             </div>
                                                         </div>
@@ -340,7 +340,7 @@
                                                         <div class="col-md-4">
                                                             <div class="form-group">
                                                                 <label for="simpleFormEmail">Year</label>
-                                                                <input type="date" class="form-control datepicker course_year" name="course_year[]" value="{{ $updatecourses->course_year}}">
+                                                                <input type="text" class="form-control intLimitTextBox course_year" name="course_year[]" value="{{ $updatecourses->course_year}}">
                                                                 <div class="error text-danger"></div>
                                                             </div>
                                                         </div>
@@ -464,6 +464,6 @@
         var surgeryPerformedForm = "{{ count($staff->surgeryperformed) }}"
         var staffID = "{{ $staff->id}}"
     </script>
-     <script src="{{ asset('staffFiles/assets/js/customjs/staff-add-profile.min.js') }}"></script>
+    <script src="{{ asset('staffFiles/assets/js/customjs/staff-add-profile.min.js') }}"></script>
 
 @endsection
