@@ -65,14 +65,11 @@
                             box-shadow: 1px -1px 17px 2px rgba(33,33,33,.2);
                         }
                         .btn-apply{
-                            visibility: hidden;
-                            opacity: 0;
-                        transition: visibility 0s, opacity 0.5s linear;
+                            transition: box-shadow .3s;
+                            display: block;
                         }
                         .altura:hover .btn-apply{
-                            visibility: visible;
-                            opacity: 1;
-                            display: block;
+                            box-shadow: 1px -1px 17px 2px rgba(33,33,33,.2);
                         }
                     </style>
                     <div class="row justify-content-center" data-aos="fade-up">
