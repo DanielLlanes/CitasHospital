@@ -13,9 +13,11 @@ class ChangeEducationBackgroundStaffTables extends Migration
      */
     public function up()
     {
-        Schema::table('education_background_staff', function (Blueprint $table) {
-            $table->dropColumn(['education_from_year', 'education_to_year']);
-        });
+        if (Schema::hasColumn('education_background_staff', 'education_to_year') && Schema::hasColumn('education_background_staff', 'education_from_year')){
+            Schema::table('education_background_staff', function (Blueprint $table) {
+                $table->dropColumn(['education_from_year', 'education_to_year']);
+            });
+        }
 
         Schema::table('education_background_staff', function (Blueprint $table) {
             $table->integer('education_from_year')->nullable();
