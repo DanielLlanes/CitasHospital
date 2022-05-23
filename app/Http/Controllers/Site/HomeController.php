@@ -135,8 +135,23 @@ class HomeController extends Controller
 
         return view('site.public_profile', ['doctor' => $doctor]);
     }
-    public function testimonials()
+    public function testimonials(Request $request, $brand, $media)
     {
+        $brand = Brand::where('url', $brand)->first();
+        $flag = null;
+        if (!$brand) {abort(404);}
+        if ($media == 'image' || $media == 'video') { $flag = true;} else {abort(404);}
+        if ($flag) {
+            if ($media == 'image') {
+                
+            } elseif($media == 'video') {
+
+            } else {
+                abort(404);
+            }
+        }
+
+
         return view('site.testimonials');
     }
     public function contact()
@@ -173,13 +188,10 @@ class HomeController extends Controller
         Session::forget('treatment');
 
         $lang = \App::getLocale();
-
         $brandExist = Brand::where('url', $brand)->first();
-
         if (!$brandExist) {
             abort(404);
         }
-
         $treatment = Treatment::whereHas('brand', function($query) use ($brand) {
             $query->where('url', $brand);
          })
@@ -288,7 +300,6 @@ class HomeController extends Controller
     {
         return view('site.profile');
     }
-
     public function contactForm(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'bail|string|required',

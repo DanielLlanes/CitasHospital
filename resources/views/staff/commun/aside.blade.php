@@ -189,13 +189,13 @@
                                         </a>
                                     </li>
                                 @endcan
-                                {{-- @can('services.list')
+                                @can('services.list')
                                     <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
-                                            <i class="ml-3"></i> Services</a>
+                                        <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
+                                            <i class="ml-3"></i> Testimonials</a>
                                     </li>
                                 @endcan
-                                @can('procedures.list')
+                                {{-- @can('procedures.list')
                                     <li class="nav-item">
                                         <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
                                             <i class="ml-3"></i> Procedures

@@ -34,8 +34,8 @@
                         @foreach ($brands as $brand)
                             <li class="dropdown"><a href="#"><span class="text-uppercase">{{ $brand->acronym }} - {{ $brand->brand }}</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul class="text-uppercase">
-                                    <li><a href="#" class="text-uppercase">Images</a></li>
-                                    <li><a href="#" class="text-uppercase">Videos</a></li>
+                                    <li><a href="{{ route('testimonials', ['brand'=> $brand->url, 'media'=> 'image']) }}" class="text-uppercase">Images - {{ (app()->getLocale() == "en") ?  "Before - after":"Antes -Después"}}</a></li>
+                                    <li><a href="{{ route('testimonials', ['brand'=> $brand->url, 'media'=> 'video']) }}" class="text-uppercase">Videos - {{ (app()->getLocale() == "en") ?  "Testimonials":"Testimonios"}}</a></li>
                                 </ul>
                             </li>
                         @endforeach

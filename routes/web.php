@@ -18,13 +18,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/team/{url?}', [HomeController::class, 'team'])->name('team');
-Route::get('/testimonials', [HomeController::class, 'testimonials'])->name('testimonials');
+Route::get('/testimonials/{brand}/{media}', [HomeController::class, 'testimonials'])->name('testimonials');
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/facilities', [HomeController::class, 'facilities'])->name('facilities');
 Route::get('/single/blog', [HomeController::class, 'singlePost'])->name('single-post');
 Route::get('/faqs', [HomeController::class, 'faqs'])->name('faqs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact-form', [HomeController::class, 'contactForm'])->name('contactForm');
+
+
 
 
 Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');
@@ -61,6 +63,8 @@ Route::get('language/{lang}', [LangController::class, 'language'])->name('langua
 // 
 
 Route::get('/{brand}', [HomeController::class, 'brand']);
+// Route::get('/testimonial/{brand}/image', [HomeController::class, 'testimonialImage]');
+// Route::get('/testimonial/{brand}/video', [HomeController::class, 'testimonialVideo']);
 
 
 // public profile
