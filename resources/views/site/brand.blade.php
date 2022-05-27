@@ -74,6 +74,15 @@
                     </style>
                     <div class="row justify-content-center" data-aos="fade-up">
                         @foreach ($treatments as $treatment)
+                        @php
+                            if ($treatment->discountType == 'porcent') {
+                                $discountPrice = ($treatment->price * $treatment->discount) / 100;
+                            }
+
+                            if ($treatment->discountType == 'money') {
+                                $discountPrice = ($treatment->price - $treatment->discount);
+                            }
+                        @endphp
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card altura mb-5">
@@ -81,7 +90,36 @@
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
-                                            <h6 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h6>
+                                            <h5 class="small text-center">{{ ($treatment->starting == 1) ?  'Price started at':'' }}</h5>
+                                            
+                                            @if ($treatment->discountType == 'porcent')
+                                               <div class="row">
+                                                   <div class="col-6">
+                                                       <p class="text-danger">{{ $treatment->discount +0 }}% OFF</p>
+                                                   </div>
+                                                   <div class="col-6">
+                                                       <p class="card-title text-center" style="text-decoration:line-through;">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </p>
+                                                       <p class="card-title text-center text-danger">{{ is_null($treatment->price) ? '' : '$ '.$discountPrice }} USD </p>
+                                                   </div>
+                                               </div>
+                                            @endif
+
+                                            @if ($treatment->discountType == "money")
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <p class="text-danger">{{ $treatment->discount +0}} DLLS OFF</p>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="card-title text-center" style="text-decoration:line-through;">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </p>
+                                                        <p class="card-title text-center text-danger">{{ is_null($treatment->price) ? '' : '$ '.$discountPrice }} USD </p>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+
+                                            @if (is_null($treatment->discountType))
+                                                <h5 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h5>
+                                            @endif
                                             <p class="card-text"></p>
                                             <span class="summer">
                                                 <ul class="p-0">

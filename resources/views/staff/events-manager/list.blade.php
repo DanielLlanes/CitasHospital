@@ -100,7 +100,7 @@
                                 <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="is_app">
                                     <input type="checkbox" id="is_app" name="is_app" value="1" class="mdl-checkbox__input">
                                     <span class="mdl-checkbox__label"></span>
-                                  </label>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group mb-2 eventApp" style="display: none">

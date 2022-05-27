@@ -117,10 +117,46 @@
                                                 </div>
                                                 <div class="form-group mb-2">
                                                     <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Price')
-                                                        <span class="required"> * </span>
+                                                        <span class="required">  </span>
                                                     </label>
                                                     <div class="col-md-12">
                                                         <input type="text" name="price" id="price"  class="form-control input-sm floatTextBox" placeholder="@lang('Enter price')"/>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Is it a starting price?')
+                                                        <span class="required">  </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="starting">
+                                                            <input type="checkbox" id="starting" name="starting" value="1" class="mdl-checkbox__input">
+                                                            <span class="mdl-checkbox__label"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Discount')
+                                                        <span class="required">  </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" name="discount" id="discount"  class="form-control input-sm floatTextBox" placeholder="@lang('Enter Discount')"/>
+                                                        <div class="error text-danger col-form-label-sm"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-2">
+                                                    <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Discount type')
+                                                        <span class="required">  </span>
+                                                    </label>
+                                                    <div class="col-md-12">
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="discunt_porcent_1" name="discountCheck" value="porcent" class="custom-control-input">
+                                                            <label class="custom-control-label" for="discunt_porcent_1">% Porcent</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio">
+                                                            <input type="radio" id="discunt_porcent_2" name="discountCheck" value="money" class="custom-control-input">
+                                                            <label class="custom-control-label" for="discunt_porcent_2">$ Money</label>
+                                                        </div>
                                                         <div class="error text-danger col-form-label-sm"></div>
                                                     </div>
                                                 </div>

@@ -21,6 +21,7 @@ use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\TestimonialController;
 use App\Http\Controllers\Staff\TreatmentController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
@@ -208,6 +209,12 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/slider/destoy',      [SliderController::class, 'destroy'])->name('destroy');
         Route::post('/slider/update',        [SliderController::class, 'update'])->name('update');
         Route::post('/slider/updateOrder',        [SliderController::class, 'updateOrder'])->name('updateOrder');
+
+        Route::get('/testimonials/listar',       [TestimonialController::class, 'index'])->name('testimonials');
+        Route::post('/testimonials/getTestimonials/',       [TestimonialController::class, 'show'])->name('getTestimonials');
+        Route::post('/testimonials/storeTestimonials/',       [TestimonialController::class, 'store'])->name('storeTestimonials');
+        Route::post('/testimonials/updateOrderTest',        [TestimonialController::class, 'updateOrder'])->name('updateOrderTest');
+        Route::post('/testimonials/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
     });
 
 });

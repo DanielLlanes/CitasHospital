@@ -15,7 +15,18 @@ class CreateTestimonialsTable extends Migration
     {
         Schema::create('testimonials', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('brand_id')->unsigned()->nullable();
+            $table->bigInteger('procedure_id')->unsigned()->nullable();
+            $table->integer("order")->nullable();
+            $table->boolean('active')->default(true);
+            $table->text('code')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::table('testimonials', function($table) {
+            $table->foreign('procedure_id')->references('id')->on('procedures')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

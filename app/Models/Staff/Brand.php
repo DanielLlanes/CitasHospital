@@ -32,4 +32,19 @@ class Brand extends Model
     {
         return $this->morphOne(DescriptionOne::class, 'descriptionOneable');
     }
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
+    /**
+     * Brand has many Procedure.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function procedureBrand()
+    {
+        // hasMany(RelatedModel, foreignKeyOnRelatedModel = brand_id, localKey = id)
+        return $this->hasManyThrough(Procedure::class, Service::class);
+    }
 }

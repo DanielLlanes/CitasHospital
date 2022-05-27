@@ -139,6 +139,9 @@ class TreatmentController extends Controller
 
     public function store(Request $request)
     {
+
+        //return($request);
+
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
@@ -181,8 +184,16 @@ class TreatmentController extends Controller
                 ($request->has_package == '1') ? 'required' : '',
             ],
             'price' => 'nullable|sometimes|numeric',
-        ]);
+            'starting' => 'required|boolean',
+            "discount" => "sometimes|nullable|numeric",
+            'discountType' => 
+            [
+                ($request->has('discount')) ? 'required' : '',
+                ($request->has('discount')) ? "in:money,porcent" : '',
 
+            ],
+        ]);
+        //return $request;
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -228,6 +239,9 @@ class TreatmentController extends Controller
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
         $treatment->code = time().uniqid(Str::random(30));
+        $treatment->discount = ($request->has('discount')) ? $request->discount : null;
+        $treatment->discountType = ($request->has('discount')) ? $request->discountType : null;
+        $treatment->starting = $request->starting;
 
         $contains = new Collection;
         for ($i = 0; $i < count($contains_en); $i++) {
@@ -317,7 +331,7 @@ class TreatmentController extends Controller
 
     public function update(Request $request)
     {
-
+        //return $request;
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
@@ -371,6 +385,14 @@ class TreatmentController extends Controller
                 ($request->has_package == '1') ? 'exists:packages,id' : '',
             ],
             'price' => 'nullable|sometimes|numeric',
+            'starting' => 'required|boolean',
+            "discount" => "sometimes|nullable|numeric",
+            'discountType' => 
+                [
+                    ($request->has('discount')) ? 'required' : '',
+                    ($request->has('discount')) ? "in:money,porcent" : '',
+                ],
+
             'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
           ]
         );
@@ -437,6 +459,9 @@ class TreatmentController extends Controller
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
         $treatment->code = getCode();
+        $treatment->discount = ($request->has('discount')) ? $request->discount : null;
+        $treatment->discountType = ($request->has('discount')) ? $request->discountType : null;;
+        $treatment->starting = $request->starting;
 
         $contains_en = json_decode($request->includes_en);
         $contains_es = json_decode($request->includes_es);

@@ -191,7 +191,7 @@
                                 @endcan
                                 @can('services.list')
                                     <li class="nav-item">
-                                        <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
+                                        <a href="{{ route('staff.public_page.testimonials') }}" class="nav-link">
                                             <i class="ml-3"></i> Testimonials</a>
                                     </li>
                                 @endcan

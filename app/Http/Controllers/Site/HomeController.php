@@ -214,7 +214,7 @@ class HomeController extends Controller
         )
         ->where('active', true)
         ->orderBy('procedure_id', 'ASC')
-        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
+       // ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price", "*")
         ->get();
 
 

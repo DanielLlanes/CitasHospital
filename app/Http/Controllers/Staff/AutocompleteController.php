@@ -208,6 +208,17 @@ class AutocompleteController extends Controller
 
     public function searchBrand(Request $request)
     {
+        $lang = Auth::guard('staff')->user()->lang;
+        if ($request->has('procedures')) {
+            $search = Brand::where("brand",'like', "%".$request->key."%")
+            ->with(
+                 'procedureBrand', function($q)use($lang){
+                     $q->select('*', "procedures.id", "procedure_$lang as procedure");
+                 }
+             )
+            ->get();
+            return $search;
+        } 
         $search = Brand::where("brand",'like', "%".$request->key."%")
         ->get();
         return $search;
