@@ -118,7 +118,12 @@
 
 
                                             @if (is_null($treatment->discountType))
-                                                <h5 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h5>
+                                                @if (is_null($treatment->price || $treatment->price <= 0))
+                                                    <h5 class="card-title text-center">Get a quote</h5>
+                                                @else
+                                                    <h5 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h5>
+                                                @endif
+                                                
                                             @endif
                                             <p class="card-text"></p>
                                             <span class="summer">
