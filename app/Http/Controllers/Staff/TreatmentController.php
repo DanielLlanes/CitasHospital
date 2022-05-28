@@ -171,7 +171,7 @@ class TreatmentController extends Controller
         $has_package = Procedure::selectRaw("has_package")->find($request->procedure);
 
         $request->request->add(['has_package' => $has_package->has_package]);
-        return($request);
+
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|integer|exists:services,id',
