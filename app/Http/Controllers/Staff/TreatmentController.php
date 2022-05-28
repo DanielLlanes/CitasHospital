@@ -235,7 +235,7 @@ class TreatmentController extends Controller
         $treatment->service_id = $request->service;
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
-        $treatment->price = $request->price;
+        $treatment->price = ($request->price <= 0 ) ? $request->price: null ;
         $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
@@ -332,7 +332,6 @@ class TreatmentController extends Controller
 
     public function update(Request $request)
     {
-        //return $request;
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
@@ -373,6 +372,8 @@ class TreatmentController extends Controller
         $has_package = Procedure::selectRaw("has_package")
         ->find($request->procedure);
         $request->request->add(['has_package' => $has_package->has_package]);
+
+
 
         $validator = Validator::make($request->all(), [
             'service' => 'required|integer|exists:services,id',
@@ -455,7 +456,7 @@ class TreatmentController extends Controller
         $treatment->service_id = $request->service;
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
-        $treatment->price = $request->price;
+        $treatment->price = ($request->price <= 0 ) ? $request->price: null ;
         $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;

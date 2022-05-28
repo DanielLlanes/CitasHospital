@@ -74,6 +74,7 @@
                     </style>
                     <div class="row justify-content-center" data-aos="fade-up">
                         @foreach ($treatments as $treatment)
+                        
                         @php
                             if ($treatment->discountType == 'porcent') {
                                 $discountPrice = ($treatment->price * $treatment->discount) / 100;
@@ -102,9 +103,7 @@
                                                        <p class="card-title text-center text-danger">{{ is_null($treatment->price) ? '' : '$ '.$discountPrice }} USD </p>
                                                    </div>
                                                </div>
-                                            @endif
-
-                                            @if ($treatment->discountType == "money")
+                                               @elseif ($treatment->discountType == "money")
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <p class="text-danger">{{ $treatment->discount +0}} DLLS OFF</p>
@@ -114,16 +113,12 @@
                                                         <p class="card-title text-center text-danger">{{ is_null($treatment->price) ? '' : '$ '.$discountPrice }} USD </p>
                                                     </div>
                                                 </div>
-                                            @endif
-
-
-                                            @if (is_null($treatment->discountType))
-                                                @if (is_null($treatment->price || $treatment->price <= 0))
+                                                @else
+                                                @if (is_null($treatment->price) || $treatment->price < 1)
                                                     <h5 class="card-title text-center">Get a quote</h5>
                                                 @else
                                                     <h5 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h5>
                                                 @endif
-                                                
                                             @endif
                                             <p class="card-text"></p>
                                             <span class="summer">

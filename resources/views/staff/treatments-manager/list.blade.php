@@ -558,6 +558,7 @@
                     },
                     success:function(data)
                     {
+                    console.log("data", data);
                         if (data.success) {
                            
                             clearForm()
@@ -660,48 +661,53 @@
                 form_data.append('id_image', $('#image').attr('data-id'))
                 form_data.append('id', $(this).attr('product'));
 
-                $starting = $('#starting').is(":checked") 
+                 $starting = $('#starting').is(":checked") 
                 if ($starting) {
                     form_data.append('starting', 1)
                 } else {
                     form_data.append('starting', 0)
                 }
 
-                $discount = $('#discount').val();
-                $typeDiscount = $('input[name="discountCheck"]:checked').val();
+                    $discount = $('#discount').val();
+                    $typeDiscount = $('input[name="discountCheck"]:checked').val();
+                    $price = $('#price').val();
 
-                if ($discount) {
-                    form_data.append('discount', $discount);
-                    if (!$('#price').val()) {
-                        $('#discount').next('.error').html('This field should only be filled if a price is set');
-                        return
-                    }
-                }
-                if ($typeDiscount) {
-                    form_data.append('discountType', $typeDiscount);
-                    if (!$discount) {
-                        $('#discount').next('.error').html('please set a discount amotnt first');
-                        $('input[name="discountCheck"]').prop('checked', false);
-                        return
-                    }
-                }
+                    if ($discount) {
+                        if ($price) {
+                            form_data.append('discount', $discount);
+                        }
 
-
-                if ($typeDiscount) {
-                    if ($typeDiscount == 'money') {
-                        if ($discount >= $('#price').val()) {
-                            $('#discount').next('.error').html('The cash discount must be less than the price of the treatment.');
+                        if (!$('#price').val()) {
+                            $('#discount').next('.error').html('This field should only be filled if a price is set');
                             return
                         }
-                    } else if ($typeDiscount == "porcent"){
-                        if ($discount > 100) {
-                            $('#discount').next('.error').html('The percentage discount cannot exceed 100 %.');
+                    }
+                    if ($typeDiscount) {
+                        form_data.append('discountType', $typeDiscount);
+                        if (!$discount) {
+                            $('#discount').next('.error').html('please set a discount amotnt first');
+                            $('input[name="discountCheck"]').prop('checked', false);
                             return
                         }
-                    } else {
-                        $('#discount').next('.error').html('This type of discount is not allowed');
                     }
-                }
+
+
+
+                    if ($typeDiscount) {
+                        if ($typeDiscount == 'money') {
+                            if ($discount >= $('#price').val()) {
+                                $('#discount').next('.error').html('The cash discount must be less than the price of the treatment.');
+                                return
+                            }
+                        } else if ($typeDiscount == "porcent"){
+                            if ($discount > 100) {
+                                $('#discount').next('.error').html('The percentage discount cannot exceed 100 %.');
+                                return
+                            }
+                        } else {
+                            $('#discount').next('.error').html('This type of discount is not allowed');
+                        }
+                    }
 
 
 
