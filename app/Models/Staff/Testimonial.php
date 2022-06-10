@@ -22,4 +22,8 @@ class Testimonial extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+    public function procedure()
+    {
+        return $this->belongsTo(Procedure::class);
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\Staff\Procedure;
 use App\Models\Staff\Slider;
 use App\Models\Staff\Specialty;
 use App\Models\Staff\Staff;
+use App\Models\Staff\Testimonial;
 use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -139,10 +140,24 @@ class HomeController extends Controller
     {
         $brand = Brand::where('url', $brand)->first();
         $flag = null;
+        $testimonials = [];
         if (!$brand) {abort(404);}
+        if (!$media) {abort(404);}
         if ($media == 'image' || $media == 'video') { $flag = true;} else {abort(404);}
         if ($flag) {
+            
             if ($media == 'image') {
+
+                $testimonials = Testimonial::where('brand_id', $brand->id)
+                ->with([
+                    'imageOne',
+                    'procedure',
+                    'brand' =>function($q){
+                        $q->with('service');
+                    }
+                ])
+                ->paginate(3);
+                
                 
             } elseif($media == 'video') {
 
@@ -152,7 +167,7 @@ class HomeController extends Controller
         }
 
 
-        return view('site.testimonials');
+        return view('site.testimonials', ['testimonials' => $testimonials]);
     }
     public function contact()
     {

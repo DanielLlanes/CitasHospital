@@ -34,34 +34,24 @@
 
             <div class="row">
 
-                <div class="col-lg-6" data-aos="fade-up">
-                    <div class="card">
-                        <div class="card-video position-relative">
-                            <div class="card-thumbnail">
-                                <img src="https://img.youtube.com/vi/8FM3P9DXslQ/maxresdefault.jpg" class="card-img-top" alt="... ">
-                            </div>
-                            <div class="card-btn position-absolute">
-                                <a href="https://www.youtube.com/watch?v=8FM3P9DXslQ" class="glightbox button">
-                                    <i class=" bi bi-play "></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-6" data-aos="fade-up">
-                    <div class="card">
-                        <div class="card-video position-relative">
-                            <div class="card-thumbnail">
-                                <img src="https://img.youtube.com/vi/0ZbRiVwx87Q/maxresdefault.jpg " class="card-img-top" alt="... ">
-                            </div>
-                            <div class="card-btn position-absolute">
-                                <a href="https://www.youtube.com/watch?v=0ZbRiVwx87Q" class="glightbox button ">
-                                    <i class=" bi bi-play "></i>
-                                </a>
+                @foreach ($testimonials as $element)
+                    <div class="col-lg-4" data-aos="fade-up">
+                        <div class="card border-0" style="width: 18rem;">
+                            <img src="{{ asset($element->imageOne->image) }}" class="card-img-top" height="250px" alt="...">
+                            <div class="card-body p-0">{{-- 
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a> --}}
                             </div>
                         </div>
                     </div>
+                @endforeach
+
+                
+
+                <div class="col-12 mt-5 d-flex justify-content-end">
+                    {!! $testimonials->links('vendor.pagination.bootstrap-4') !!}
                 </div>
             </div>
         </div>

@@ -738,10 +738,10 @@ class StaffController extends Controller
                 $lastPhoto = $staff->imageOne->image;
                 $lastPhotoId = $staff->imageOne->id;
                 unlink(public_path($lastPhoto));
-                $staff->imageOne->delete($lastPhotoId);
+                $staff->imageOne->forceDelete($lastPhotoId);
             }
 
-            $staff->delete();
+            $staff->forceDelete();
             return response()->json(
                 [
                     'icon' => 'success',
