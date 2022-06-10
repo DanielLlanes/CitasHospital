@@ -145,7 +145,7 @@ class HomeController extends Controller
         if (!$media) {abort(404);}
         if ($media == 'image' || $media == 'video') { $flag = true;} else {abort(404);}
         if ($flag) {
-            
+
             if ($media == 'image') {
 
                 $testimonials = Testimonial::where('brand_id', $brand->id)
@@ -160,7 +160,7 @@ class HomeController extends Controller
                 
                 
             } elseif($media == 'video') {
-
+                abort(404);
             } else {
                 abort(404);
             }
