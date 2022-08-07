@@ -146,6 +146,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'imagenes.*' => "imagen",
+        'imagenes' => "iamgen"
+    ],
 
 ];

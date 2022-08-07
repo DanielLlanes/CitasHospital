@@ -13,6 +13,7 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
     socket.on("user_connected", function (user_id) { // user conected works
+    console.log("user_id", user_id);
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });

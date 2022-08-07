@@ -19,5 +19,9 @@ class Package extends Model
     {
         return $this->belongsToMany(Procedure::class)->withTimestamps();
     }
+    public function treatment()
+    {
+        return $this->hasMany(Treatment::class);
+    }
 
 }

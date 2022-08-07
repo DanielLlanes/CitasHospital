@@ -22,7 +22,10 @@ class Service extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-
+    public function treatments()
+    {
+        return $this->hasMany(Treatment::class);
+    }
     public function procedures()
     {
         return $this->hasMany(Procedure::class);

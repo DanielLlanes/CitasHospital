@@ -251,8 +251,6 @@ class ApplicationController extends Controller
 
             $image = $request->file('dropify');
 
-
-
             if ($request->code != 'undefined' || !is_null($request->code)) {
 
                 $imageExist = $app->imageMany()->where('code', $request->code)->first();
@@ -906,7 +904,6 @@ class ApplicationController extends Controller
                         ->withInput();
                 }
             }
-
 
             if ($treatment->service_id == 3 && $patient->sex == 'male') {
                 $validator2 = Validator::make($request->all(), [

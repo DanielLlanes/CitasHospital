@@ -17,7 +17,6 @@ class Procedure extends Model
     public function packages()
     {
         return $this->belongsToMany(Package::class)->withPivot('order', 'price')->withTimestamps();
-
     }
     public function service()
     {

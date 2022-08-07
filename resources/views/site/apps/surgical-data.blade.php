@@ -213,14 +213,11 @@
 @section('scripts')
 
     <script>
-
         $(document).on('click', '.deleteSurgey', function(event) {
             $(this).parents('tr').remove()
-
             if ($("#medication_table tbody tr").length < 1) {
                 addMedicationFields()
             }
-
         });
 
         $(document).on('click', '#surgeyTableAdd',function () {
@@ -229,7 +226,6 @@
         });
 
         $(document).on('change', 'input[type=radio][name=previus_surgery]',  function (e) {
-
             if ($("input[type=radio][name=previus_surgery]:checked").val() == '1') {
                 $('#medication_table').show('fast')
                 addMedicationFields()
@@ -269,7 +265,6 @@
             $('#state_id').val($("#target option:first").val());
             $("#state_id").attr('disabled', false)
         }
-
 
         function addMedicationFields() {
             var medicationField = '';

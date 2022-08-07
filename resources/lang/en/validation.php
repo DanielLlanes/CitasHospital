@@ -134,8 +134,56 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'treatmentBefore' => [
+            'boolean' => 'The treatment before field must be yes or not.',
+        ],
+        'medication_name*' => [
+            'required_if' => 'The :attribute field is required when you take any drugs.',
+        ],
+        'medication_reason*' => [
+            'required_if' => 'The :attribute field is required when you take any drugs.',
+        ],
+        'medication_dosage*' => [
+            'required_if' => 'The :attribute field is required when you take any drugs.',
+        ],
+        'medication_frecuency*' => [
+            'required_if' => 'The :attribute field is required when you take any drugs.',
+        ],
+        'surgey_type*' => [
+            'required_if' => 'The :attribute field is required when you had any surgery.',
+        ],
+        'surgey_name*' => [
+            'required_if' => 'The :attribute field is required when you had any surgery.',
+        ],
+        'surgey_age*' => [
+            'required_if' => 'The :attribute field is required when you had any surgery.',
+        ],
+        'surgey_year*' => [
+            'required_if' => 'The :attribute field is required when you had any surgery.',
+        ],
+        'surgey_complications*' => [
+            'required_if' => 'The :attribute field is required when you had any surgery.',
+        ],
+        'illness*' => [
+            'required_if' => 'The :attribute field is required when you had any illness.',
+        ],
+        'diagnostic_date*' => [
+            'required_if' => 'The :attribute field is required when you had any illness.',
+        ],
+        'treatment*' => [
+            'required_if' => 'The :attribute field is required when you had any illness.',
+        ],
+        'exercise_type*' => [
+            'required_if' => 'The :attribute field is required when you had any exercise.',
+        ],
+        'exercise_how_long*' => [
+            'required_if' => 'The :attribute field is required when you had any exercise.',
+        ],
+        'exercise_how_frecuent*' => [
+            'required_if' => 'The :attribute field is required when you had any exercise.',
+        ],
+        'exercise_hours*' => [
+            'required_if' => 'The :attribute field is required when you had any exercise.',
         ],
     ],
 
@@ -150,6 +198,17 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'imagenes.*' => "images",
+        'imagenes' => "iamges",
+        'medication_name.*' => 'medication name', 
+        'medication_reason.*' => 'medication reason', 
+        'medication_dosage.*' => 'medication dosage', 
+        'medication_frecuency.*' => 'medication frecuency', 
+        'birthControl_how_long.*' => 'birth Control how long',
+        'birthControl_type.*' => 'birth Control type',
+        'hormone_how_long.*' => 'hormone how long',
+        'hormone_type.*' => 'hormone type'
+    ],
 
 ];
