@@ -10,6 +10,7 @@ use App\Models\Staff\Package;
 use App\Models\Staff\Procedure;
 use App\Models\Staff\Service;
 use App\Models\Staff\Treatment;
+use App\Models\Partners\Partner;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
@@ -18,8 +19,16 @@ use Illuminate\Support\Facades\Validator;
 class PartnetsSiteController extends Controller
 {
     
-    public function index()
+    public function index($code)
     {
+
+        $partner = Partner::where('code', $code)->first();
+        if ($partner) {
+            return view('partners.site.index', ["code" => $partner->code]);
+        } 
+
+        return abort(404);
+
         $lang = 'es';
         
         $countries = Country::where('active', 1)->orderBy('name', 'desc')->select("id", "name")->get();

@@ -35,7 +35,19 @@
         <div class="col-xl-9 col-md-12">
             <div class="info-box bg-white" style="height: 156.03px;">
                 <div class="info-box-content">
-                    
+                    <span class="info-box-text text-center">Partner Info</span>
+                    <div class="row">
+                        <div class="col-4">
+                            {{ Auth()->guard('partners')->user()->name }} <br>  
+                            {{ Auth()->guard('partners')->user()->company }} <br>
+                            {{ Auth()->guard('partners')->user()->website }} <br>
+                        </div>
+                        <div class="col">
+                            {{ Auth()->guard('partners')->user()->email }} <br>
+                            API url 
+                            {{ url('/partners/api/'.Auth()->guard('partners')->user()->code) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

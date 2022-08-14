@@ -42,11 +42,6 @@ Route::name('partners.')->namespace('Partners')->group(function(){
 	
 	Route::get('/partners/site/{code}/{brand}', [DashController::class, 'dashboard'])->name('showPartners');
 
-	Route::post('/partners/service', [PartnetsSiteController::class, 'services'])->name('services');
-	Route::post('/partners/procedures', [PartnetsSiteController::class, 'procedures'])->name('procedures');
-	Route::post('/partners/packages', [PartnetsSiteController::class, 'packages'])->name('packages');
-	Route::post('/partners/countries', [PartnetsSiteController::class, 'countries'])->name('countries');
-	Route::post('/partners/states', [PartnetsSiteController::class, 'states'])->name('states');
 	
 
 });

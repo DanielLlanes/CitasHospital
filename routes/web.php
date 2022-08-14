@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Partners\PartnetsSiteController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Staff\LangController;
@@ -27,7 +28,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact-form', [HomeController::class, 'contactForm'])->name('contactForm');
 
 
-Route::get('/partners/api/x-123', [HomeController::class, 'contact'])->name('contact');
+Route::get('/partners/api/{code}', [PartnetsSiteController::class, 'index']);
 
 
 Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');

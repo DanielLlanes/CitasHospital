@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\partners;
+namespace App\Models\Partners;
 
 use App\Models\Staff\ImageOne;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,6 +21,11 @@ class Partner extends Authenticatable
     use SoftDeletes; //Implementamos
 
     public $timestamps = true;
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected $dates = ['deleted_at'];
 

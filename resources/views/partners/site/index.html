@@ -39,9 +39,6 @@
         line-height: 1.5;
         color: #555;
       }
-      select {
-        width: 100%!important;
-      }
     </style>
 
     <title>Applications</title>
@@ -101,7 +98,7 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Sexo biologico</label>
                     <div class="col-sm-9">
-                      <select name="sex" id="sex" class="form-control form-control-sm w-100">
+                      <select name="sex" id="sex" class="form-control form-control-sm">
                         <option value="" disabled selected>Select....</option>
                         <option value="male" >Male</option>
                         <option value="female" >Female</option>
@@ -147,14 +144,14 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Pais</label>
                     <div class="col-sm-9">
-                      <select name="country_id" id="country_id" country="" class="form-control form-control-sm w-100"></select>
+                      <select name="country_id" id="country_id" country="" class="form-control form-control-sm"></select>
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">site/apps.State </label>
                     <div class="col-sm-9">
-                      <select name="state_id" state="" id="state_id" class="form-control form-control-sm w-100">
+                      <select name="state_id" state="" id="state_id" class="form-control form-control-sm">
                         <option value="" disabled selected>Select....</option>
                       </select>
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -191,20 +188,20 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar servicio </label>
                     <div class="col-sm-9">
-                      <select name="service" id="select-service-select" class="form-control form-control-sm w-100"></select>
+                      <select name="service" id="select-service-select" class="form-control form-control-sm"></select>
                     </div>
                   </div>
                 </div>
                 <div class="mb-3 row">
                   <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar procedimiento</label>
                   <div class="col-sm-9">
-                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100"></select>
+                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm"></select>
                   </div>
                 </div>
                 <div class="mb-3 row d-none" id="package">
                   <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar paquete</label>
                   <div class="col-sm-9">
-                  <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;"></select>
+                  <select name="package" id="select-package-select" class="form-control form-control-sm" style="width: 100%;"></select>
                   </div>
                 </div>
                 <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
@@ -1664,7 +1661,7 @@
             <div class="col-md-3"></div>
           </div>
         </section>
-        </div>
+    	</div>
       <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -1732,8 +1729,6 @@
       let bodyElement = document.querySelector('body');
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
-      let url = '{{ $code }}';
-      console.log("url", url);
 
       form.onsubmit = () => {
           return false
@@ -1773,18 +1768,18 @@
         }
       });
 
-      fetch(' http://prado.test/api/partners/site/' + url + '/countries ')
+      fetch(' http://prado.test/api/partners/site/32123/countries ')
       .then(response => response.json())
       .then(json => getCountry(json))
-      fetch(' http://prado.test/api/partners/site/' + url + '/services ')
+      fetch(' http://prado.test/api/partners/site/32123/services ')
       .then(response => response.json())
       .then(json => getServices(json))
-      $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
+      $('#state_id').select2({placeholder: 'Selecciona un estado o provincia'})
       $('#country_id').select2();
       $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
-      $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
-      $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
-      $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
+      $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio',});
+      $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento',});
+      $('#select-package-select').select2({ placeholder: 'Selecciona tu packete',});
       $('#country_id').on('select2:select', function(e){
         let data = e.params.data;
         getStates(data.id);
@@ -1800,7 +1795,6 @@
           if (data.package === 1) {getPackages(data)}
       })
       function getCountry(data){
-        console.log("data", data);
         $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
         $('#country_id').prepend('<option selected></option>').select2({
             placeholder: 'Selecciona tu pais',
@@ -1808,10 +1802,9 @@
         })
       }
       function getStates(id){
-        console.log("id", id);
         let data = new FormData();
         data.append('id', id)
-        fetch('http://prado.test/api/partners/site/' + url + '/states', {
+        fetch('http://prado.test/api/partners/site/32123/states', {
           method: "POST",
           body: data
         })
@@ -1836,13 +1829,12 @@
       function getProcedures(id){
         let data = new FormData();
         data.append('id', id)
-        fetch('http://prado.test/api/partners/site/' + url + '/procedures', {
+        fetch('http://prado.test/api/partners/site/32123/procedures', {
           method: "POST",
           body: data
         })
         .then(response => response.json())
         .then( function(data) {
-          console.log("data", data);
            $('#select-procedure-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
            $('#select-procedure-select').prepend('<option selected></option>').select2({
                 placeholder: 'Selecciona un estado o provincia',
@@ -1855,7 +1847,7 @@
         let data = new FormData();
         if (d.package === 1) { $("#package").removeClass('d-none') }else { $("#package").addClass('d-none') }
         data.append('id', d.id)
-        fetch('http://prado.test/api/partners/site/' + url + '/packages', {
+        fetch('http://prado.test/api/partners/site/32123/packages', {
           method: "POST",
           body: data
         })
@@ -1934,7 +1926,7 @@
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
         form_data.append('step', current_step);
-        fetch('http://prado.test/api/partners/site/' + url + '/checkData', {
+        fetch('http://prado.test/api/partners/site/32123/checkData', {
           method: "POST",
           body: form_data
         })
@@ -1960,7 +1952,7 @@
           form = document.getElementsByTagName('form')[0]
           var form_data = new FormData(form);
           form_data.append('step', current_step);
-          fetch('http://prado.test/api/partners/site/' + url + '/getData', {
+          fetch('http://prado.test/api/partners/site/32123/getData', {
             method: "POST",
             body: form_data
           })
@@ -1973,7 +1965,7 @@
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
         form_data.append('step', current_step);
-        fetch('http://prado.test/api/partners/site/' + url + '/storeData', {
+        fetch('http://prado.test/api/partners/site/32123/storeData', {
           method: "POST",
           body: form_data
         })
