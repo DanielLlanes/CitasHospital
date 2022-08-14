@@ -26,3 +26,5 @@ Route::get('/partners/site/{code}/services', [ApiPartnersController::class, 'ser
 Route::post('/partners/site/{code}/procedures',   [ApiPartnersController::class, 'procedures']);
 Route::post('/partners/site/{code}/packages',   [ApiPartnersController::class, 'packages']);
 Route::post('/partners/site/{code}/checkData',   [ApiPartnersController::class, 'checkData']);
+Route::post('/partners/site/{code}/getData',   [ApiPartnersController::class, 'getData']);
+Route::post('/partners/site/{code}/storeData',   [ApiPartnersController::class, 'storeData']);

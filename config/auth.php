@@ -43,13 +43,24 @@ return [
 
         'api' => [
             'driver' => 'token',
-            'provider' => 'users',
+            'provider' => 'partners',
             'hash' => false,
         ],
 
         'staff' => [
             'driver' => 'session',
             'provider' => 'staff',
+        ],
+
+        'partners' => [
+            'driver' => 'session',
+            'provider' => 'partners',
+        ],
+
+        'partners_api' => [
+            'driver' => 'token',
+            'provider' => 'partners',
+            'hash' => false,
         ],
     ],
 
@@ -80,6 +91,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Staff\Staff::class,
         ],
+
+        'partners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Partners\Partner::class,
+        ],
     ],
 
     /*
@@ -107,6 +123,12 @@ return [
 
         'staff' => [
             'provider' => 'staff',
+            'table' => 'password_resets',
+            'expire' => 15,
+            'throttle' => 60,
+        ],
+        'partners' => [
+            'provider' => 'partners',
             'table' => 'password_resets',
             'expire' => 15,
             'throttle' => 60,

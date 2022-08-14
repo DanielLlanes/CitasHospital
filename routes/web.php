@@ -27,6 +27,7 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact-form', [HomeController::class, 'contactForm'])->name('contactForm');
 
 
+Route::get('/partners/api/x-123', [HomeController::class, 'contact'])->name('contact');
 
 
 Route::post('/applications/nextstep', [ApplicationController::class, 'nextStep'])->name('imagesNextStep');
@@ -72,3 +73,5 @@ Route::get('/{brand}', [HomeController::class, 'brand']);
 route::get('/{profile}', [HomeController::class, 'profile']);
 
 Route::prefix('staff')->group(base_path('routes/staff.php'));
+
+Route::prefix('partners')->group(base_path('routes/partner.php'));

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Partners\PartnersController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
@@ -215,6 +216,17 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/testimonials/storeTestimonials/',       [TestimonialController::class, 'store'])->name('storeTestimonials');
         Route::post('/testimonials/updateOrderTest',        [TestimonialController::class, 'updateOrder'])->name('updateOrderTest');
         Route::post('/testimonials/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
+    });
+
+    Route::name('partners.')->group( function () {
+        Route::get('/partner/listar',       [PartnersController::class, 'index'])->name('partners');
+        Route::post('/partner/store', [PartnersController::class, 'store'])->name('storePartners');
+        Route::get('/partner/get-partner-list', [PartnersController::class, 'getPartnersList'])->name('getPartnersList');
+        Route::post('/partner/activate', [PartnersController::class, 'activate'])->name('activatePartners');
+        Route::post('/partner/edit', [PartnersController::class, 'edit'])->name('editPartners');
+        Route::post('/partner/update', [PartnersController::class, 'update'])->name('updatePartners');
+        //Route::post('/partner/destroy', [PartnersController::class, 'destroy'])->name('destroyPartners')
+        Route::post('/partners/reset-password', [PartnersController::class, 'resetPassword'])->name('resetPassword');
     });
 
 });

@@ -199,6 +199,11 @@ class HomeController extends Controller
         if ($brand === 'staff') {
             return redirect()->route('staff.dashboard');
         }
+
+        if ($brand === 'partners') {
+            return redirect()->route('partners.dashboard');
+        }
+        
         Session::forget('form_session');
         Session::forget('treatment');
 

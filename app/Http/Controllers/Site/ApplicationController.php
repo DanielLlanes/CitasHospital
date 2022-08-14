@@ -402,7 +402,6 @@ class ApplicationController extends Controller
                     'medication_frecuency' => $request->medication_frecuency[$i],
                     'code' => getCode(),
                 ]);
-
             }
         }
 

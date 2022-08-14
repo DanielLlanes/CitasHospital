@@ -104,6 +104,21 @@
                     </ul>
                 </li>
 
+                @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))
+                    <li class="nav-item">
+                        <a href="#" class="nav-link nav-toggle"> <i class="material-icons">business</i>
+                            <span class="title">@lang("Partners") </span> <span class="arrow"></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item  ">
+                                <a href="{{ route('staff.partners.partners') }}"  class="nav-link "> <span class="title">@lang("Partners") </span>
+                                </a>
+                            </li>
+                        
+                        </ul>
+                    </li>
+                @endif
+
                 <li class="nav-item master-menu">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="material-icons">settings</i>
