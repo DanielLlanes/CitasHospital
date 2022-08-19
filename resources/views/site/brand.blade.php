@@ -40,7 +40,38 @@
                     </p>
                     <img src="{{ getBrandImage($brand) }}" alt="{{ $brand->service->service }}" class="img-fluid w-75">
                 </div>
-                
+                @foreach ($title as $item)
+                    <div class="section-title m-5 mb-0" data-aos="fade-up">
+                        <h2><strong>{{ $item->procedure->procedure }}</strong></h2>
+                        <p>
+                            @if (!is_null($item->procedure->descriptionOne))
+                                {!! $item->procedure->descriptionOne->description !!}
+                            @endif
+                        </p>
+                        @if (!is_null($item->procedure->imageOne))
+                            <span class="images">
+                                <a href="{{ asset($item->procedure->imageOne->image ) }}" data-effect="mfp-zoom-in" class="a">
+                                    <img src="{{ asset($item->procedure->imageOne->image ) }}" class="img-thumbnail w-50" alt="{{ $item->procedure->procedure }}">
+                                </a>
+                            </span>
+                        @endif
+                    </div>
+                    <style>
+                        .altura {
+                            transition: box-shadow .3s;
+                        }
+                        .altura:hover {
+                            box-shadow: 1px -1px 17px 2px rgba(33,33,33,.2);
+                        }
+                        .btn-apply{
+                            transition: box-shadow .3s;
+                            display: block;
+                        }
+                        .altura:hover .btn-apply{
+                            box-shadow: 1px -1px 17px 2px rgba(33,33,33,.2);
+                        }
+                    </style>
+                @endforeach
             </div>
         </section>
 
