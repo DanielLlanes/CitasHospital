@@ -235,7 +235,7 @@ class TreatmentController extends Controller
         $treatment->service_id = $request->service;
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
-        $treatment->price = ($request->price <= 0 ) ? $request->price: null ;
+        $treatment->price = ($request->price > 0 ) ? $request->price: null ;
         $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;
@@ -456,7 +456,7 @@ class TreatmentController extends Controller
         $treatment->service_id = $request->service;
         $treatment->procedure_id = $request->procedure;
         $treatment->package_id = ($request->has_package == '1') ? $request->package : null;
-        $treatment->price = ($request->price <= 0 ) ? $request->price: null ;
+        $treatment->price = ($request->price > 0 ) ? $request->price: null ;
         $treatment->clave = $request->clave;
         $treatment->group_es = $group->procedure_es;
         $treatment->group_en = $group->procedure_en;

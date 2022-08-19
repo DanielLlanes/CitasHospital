@@ -91,7 +91,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title text-center">{{ $treatment->procedure->procedure }}</h4>
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
-                                            <h5 class="small text-center">{{ ($treatment->starting == 1) ?  'Price started at':'' }}</h5>
+                                            <h5 class="small text-center">{{ ($treatment->starting == 1) ?  'Starting price':'' }}</h5>
                                             
                                             @if ($treatment->discountType == 'porcent')
                                                <div class="row">
