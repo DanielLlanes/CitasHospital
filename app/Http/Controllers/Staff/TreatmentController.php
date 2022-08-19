@@ -512,13 +512,13 @@ class TreatmentController extends Controller
     {
         $treatment = Treatment::with('imageOne', 'contains')->find($request->id);
         if($treatment->exists()){
-            if (!$treatment->imageOn) {
-                $lastPhoto = $treatment->imageOne->image;
-                $lastPhotoId = $treatment->imageOne->id;
-                //unlink(public_path($lastPhoto));
+            // if (!$treatment->imageOn) {
+            //     $lastPhoto = $treatment->imageOne->image;
+            //     $lastPhotoId = $treatment->imageOne->id;
+            //     //unlink(public_path($lastPhoto));
+            //     $treatment->imageOne->delete($lastPhotoId);
+            // }
                 $treatment->contains()->delete();
-                $treatment->imageOne->delete($lastPhotoId);
-            }
             $treatment->delete();
             return response()->json(
                 [
