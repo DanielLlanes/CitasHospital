@@ -104,7 +104,7 @@ class TreatmentController extends Controller
                     return $treatment->service->service;
                 })
                 ->addColumn('procedure', function($treatment){
-                    return $treatment->procedure;
+                    return $treatment->procedure[0]->procedure;
                 })
                 ->addColumn('package', function($treatment){
                     if (!is_null($treatment->package_id)) {
