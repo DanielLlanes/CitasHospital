@@ -95,8 +95,6 @@ class TreatmentController extends Controller
             ->orderBy('procedure_id', 'asc')
             ->get();
 
-            retrun $treatment;
-
             return DataTables::of($treatment)
                 ->addIndexColumn()
                 ->addColumn('brand', function($treatment){
@@ -106,7 +104,7 @@ class TreatmentController extends Controller
                     return $treatment->service->service;
                 })
                 ->addColumn('procedure', function($treatment){
-                    return $treatment->procedure->procedur;
+                    return "aqui?";
                 })
                 ->addColumn('package', function($treatment){
                     if (!is_null($treatment->package_id)) {
