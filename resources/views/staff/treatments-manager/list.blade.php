@@ -262,6 +262,9 @@
                     data: {"estable": codigo},
                     error: function (xhr, error, thrown) {
                     },
+                    success: function(data) {
+                        console.log(data)
+                    }
                  },
                 language: {
                     "url": dataTablesLangEs
