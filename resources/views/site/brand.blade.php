@@ -84,6 +84,7 @@
                                 $discountPrice = ($treatment->price - $treatment->discount);
                             }
                         @endphp
+{{$treatment[0]}}
                         @if ($treatment->procedure->procedure === $item->procedure->procedure)
                                 <div class="col-sm-3 mb-3 mb-md-0" data-aos="fade-up">
                                     <div class="card altura mb-5">
@@ -93,7 +94,7 @@
                                             <h5 class="card-title text-center" style="color: {{ $treatment->brand->color }}">{{ is_null($treatment->package_id) ? '' : $treatment->package->package }}</h5>
                                             <h5 class="small text-center">{{ ($treatment->starting == 1) ?  'Starting price':'' }}</h5>
                                             
-                                            @if ($treatment->discountType == 'porcent')
+                                           {{--  @if ($treatment->discountType == 'porcent')
                                                <div class="row">
                                                    <div class="col-6">
                                                        <p class="text-danger">{{ $treatment->discount +0 }}% OFF</p>
@@ -119,7 +120,7 @@
                                                 @else
                                                     <h5 class="card-title text-center">{{ is_null($treatment->price) ? '' : '$ '.$treatment->price }} USD </h5>
                                                 @endif
-                                            @endif
+                                            @endif --}}
                                             <p class="card-text"></p>
                                             <span class="summer">
                                                 <ul class="p-0">
