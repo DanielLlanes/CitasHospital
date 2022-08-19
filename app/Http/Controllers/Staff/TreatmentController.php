@@ -64,7 +64,7 @@ class TreatmentController extends Controller
 
         //return $treatment;
 
-        return view('staff.treatments-manager.list');
+        return view('staff.treatments-manager.list', ['p' =>$treatment]);
     }
 
     public function getTreatmentsList(Request $request)
