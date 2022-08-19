@@ -29,7 +29,20 @@
     </section>
     <!-- End Breadcrumbs -->
     @if (count($treatments) > 0)
-        vamos
+        <section id="team" class="team">
+            <div class="container">
+                <div class="section-title m-5" data-aos="fade-up">
+                    <h2><strong>{{ $brand->service->service }}</strong></h2>
+                    <p>
+                        @if (!is_null($brand->service->descriptionOne))
+                            {!! $brand->service->descriptionOne->description !!}
+                        @endif
+                    </p>
+                    <img src="{{ getBrandImage($brand) }}" alt="{{ $brand->service->service }}" class="img-fluid w-75">
+                </div>
+                
+            </div>
+        </section>
 
     @else
     <section id="team" class="team">
