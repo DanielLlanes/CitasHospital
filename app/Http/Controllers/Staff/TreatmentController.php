@@ -64,7 +64,7 @@ class TreatmentController extends Controller
 
         //return $treatment;
 
-        return view('staff.treatments-manager.list', ['p' =>$treatment]);
+        return view('staff.treatments-manager.list');
     }
 
     public function getTreatmentsList(Request $request)
@@ -94,6 +94,9 @@ class TreatmentController extends Controller
             ->orderBy('service_id', "asc")
             ->orderBy('procedure_id', 'asc')
             ->get();
+
+            retrun $treatment;
+
             return DataTables::of($treatment)
                 ->addIndexColumn()
                 ->addColumn('brand', function($treatment){
