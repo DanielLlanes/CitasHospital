@@ -225,7 +225,7 @@
               title: '{{\Session::get('msg')}}',
             })
         </script>
-    @endif
+    @endif 
 
 	<script>
         var globalRouteobtenerLista = "{{ route('staff.treatments.getTreatmentsList') }}";

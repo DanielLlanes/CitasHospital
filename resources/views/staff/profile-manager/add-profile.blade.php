@@ -370,10 +370,11 @@
                                                 @foreach ($staff->imageMany as $imagespublicprofile)
                                                     <div class="col-md-4" id="">
                                                         <div class="form-group">
+                                                            
                                                             <label>Image Title</label>
                                                             <input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title" value="{{ $imagespublicprofile->title }}">
                                                             <div class="error text-danger"></div>
-                                                            <input type="file" class="form-control dropify image_file" id="file_'+count+'" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
+                                                            <input type="file" class="form-control dropify image_file" data-allowed-file-extensions="pdf png jpg jpge" id="file_'+count+'" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
                                                             <div class="error text-danger"></div>
                                                         </div>
                                                         <div class="col-12" id="delbtn">
@@ -791,7 +792,7 @@
             dropify += '<label>Image Title</label>';
             dropify += '<input type="text" class="form-control mb-2 image_title" id="title_'+count+'" name="image_title" placeholder="Image Title">';
             dropify += '<div class="error text-danger"></div>';
-            dropify += '<input type="file" class="form-control dropify image_file" count="'+order+'" id="file_'+count+'" name="image_file">';
+            dropify += '<input type="file" class="form-control dropify image_file" data-allowed-file-extensions="pdf png jpg jpge" count="'+order+'" id="file_'+count+'" name="image_file">';
             dropify += '<div class="error text-danger"></div>';
             dropify += '</div>';
             dropify += delBtn;

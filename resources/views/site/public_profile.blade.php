@@ -138,7 +138,17 @@
                                         <div class="col-12 col-md-3" data-aos="fade-up">
                                             <div class="card">
                                                 <a href="{{ asset($img->image) }}" data-effect="mfp-zoom-in" class="a" title="{{ $img->title }}">
-                                                    <img src="{{ asset($img->image) }}" class="card-img-top" alt="{{ $img->title }}">
+                                                    @php
+                                                        $mine = stristr($img->image, '.');
+                                                    @endphp
+                                                    @if ($mine == '.pdf')
+                                                        {{-- <iframe src="http://docs.google.com/gview?url=http://www.educoas.org/portal/bdigital/contenido/valzacchi/ValzacchiCapitulo-2New.pdf&embedded=true" style="width:100%; height:350px;" frameborder="0" ></iframe> --}}
+                                                        {{-- <embed src="{{ asset($img->image) }}" type="application/pdf" width="100%" height="350" /> --}}
+                                                        {{-- <object data="{{ asset($img->image) }}" height="350px" width="100%"></object> --}}
+                                                        <iframe src="{{ asset($img->image) }}" height="350px" width="100%" rameborder="0"></iframe>
+                                                    @elseif($mine == '.png' || $mine == '.jpg' || $mine == '.jpeg')
+                                                        <img src="{{ asset($img->image) }}" class="card-img-top" alt="{{ $img->title }}" height="350">
+                                                    @endif
                                                 </a>
                                                 <div class="card-body pb-0">
                                                     <h5 class="card-title text-center">{{ $img->title }}</h5>

@@ -349,17 +349,15 @@ class ProfileController extends Controller
     }
     public function uploadImagesPublicProfile(Request $request)
     {
-        //return $request;
 
         $staffID = ($request->has('id')) ? $request->id : Auth::guard('staff')->user()->id;
 
         $staff = Staff::findOrFail($staffID);
-
+        
         $validator = Validator::make($request->all(), [
-            "dropify"       => "required|image|mimes:jpeg,png,jpg,gif",
+            "dropify"       => "required|mimes:jpeg,png,jpg,pdf",
             "title"       => "required|string|max:50",
         ]);
-
         if ($validator->fails())
         {
             return response()->json([
@@ -370,11 +368,9 @@ class ProfileController extends Controller
             ]); // 400 being the HTTP code for an invalid request.
         }
         $code = time().uniqid(Str::random(30));
-
         if ($staff->public_profile == 1) {
-            if ($request->code != 'undefined') {
-                return $request;
 
+            if ($request->code != 'undefined') {
                 $old_image = $staff->imageMany()->where('code', $request->code)->first();
                 //return($old_image);
 
@@ -400,20 +396,25 @@ class ProfileController extends Controller
             $image = $request->file('dropify');
 
             $destinationPath = storage_path('app/public/staff/public_profile');
-            $img_name = $code.'.'.$image->getClientOriginalExtension();
-            $img = Image::make($image->getRealPath());
-            $width = Image::make($image)->width();
-            $img->resize($width, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+            $ext = $image->getClientOriginalExtension();
+            $img_name = $code.'.'.$ext;
             File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
-            $img->save($destinationPath."/".$img_name, '99');
-            $image = "storage/staff/public_profile/$img_name";
-            $img->destroy();
-
-            //return $request;
-            //$id = ImageProfileStaff::insertGetId(["staff_id" => $staffID, "code" => $code, 'image' => $image, 'title' => $request->title]);
-            //
+            if ($ext == 'pdf') {
+                #return response()->json(['aqui' => $request->file('dropify')]);
+                $request->file('dropify')->move($destinationPath, $img_name);
+                $image = "storage/staff/public_profile/$img_name";
+            } else {
+                $img = Image::make($image->getRealPath());
+                $width = Image::make($image)->width();
+                $img->resize($width, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                //File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+                $img->save($destinationPath."/".$img_name, '99');
+                $image = "storage/staff/public_profile/$img_name";
+                $img->destroy();
+            }
+                
             $image = $staff->imageMany()->create(["code" => $code, 'image' => $image, 'title' => $request->title, 'order' => $request->order]);
 
             return response()->json([

@@ -3,7 +3,6 @@
     @lang('User Profile')
 @endsection
 @section('content')
-
 <div class="page-bar">
     <div class="page-title-breadcrumb">
         <div class=" pull-left">
@@ -377,7 +376,7 @@
                                                             <label>Image Title</label>
                                                             <input type="text" class="form-control mb-2 image_title" name="image_title" placeholder="Image Title" value="{{ $imagespublicprofile->title }}">
                                                             <div class="error text-danger"></div>
-                                                            <input type="file" class="form-control dropify image_file" count="{{ $imagespublicprofile->order }}" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
+                                                            <input type="file" class="form-control dropify image_file" data-allowed-file-extensions="pdf png jpg jpge" count="{{ $imagespublicprofile->order }}" name="image_file" data-default-file="{{ asset($imagespublicprofile->image) }}" code="{{ $imagespublicprofile->code }}">
                                                             <div class="error text-danger"></div>
                                                         </div>
                                                         <div class="col-12" id="delbtn">
