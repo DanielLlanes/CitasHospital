@@ -1733,7 +1733,6 @@
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
       let url = '{{ $code }}';
-      console.log("url", url);
 
       form.onsubmit = () => {
           return false
@@ -1742,7 +1741,6 @@
       checkBox = $("input[type='radio'][value='0']")
       checkBox.each(function(index, el) {
         $(this).attr('checked', 'true');
-        
       });
       let current_step = 0;
       let stepCount = step.length;
@@ -1776,9 +1774,11 @@
       fetch(' http://prado.test/api/partners/site/' + url + '/countries ')
       .then(response => response.json())
       .then(json => getCountry(json))
+
       fetch(' http://prado.test/api/partners/site/' + url + '/services ')
       .then(response => response.json())
       .then(json => getServices(json))
+
       $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
       $('#country_id').select2();
       $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
@@ -1800,7 +1800,6 @@
           if (data.package === 1) {getPackages(data)}
       })
       function getCountry(data){
-        console.log("data", data);
         $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
         $('#country_id').prepend('<option selected></option>').select2({
             placeholder: 'Selecciona tu pais',
@@ -1980,7 +1979,6 @@
         .then(response => response.json())
         .then( function(data) {
           console.log("data", data);
-
           if (!data.success) {
             $.each( data.errors, function( key, value ) {
               console.log("value", value);

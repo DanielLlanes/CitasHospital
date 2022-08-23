@@ -2,6 +2,7 @@
 
 namespace App\Models\Partners;
 
+use App\Models\Site\Application;
 use App\Models\Staff\ImageOne;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,4 +34,9 @@ class Partner extends Authenticatable
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
     }
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 }

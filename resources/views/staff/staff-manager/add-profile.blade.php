@@ -89,7 +89,7 @@
                             <li class="nav-item tab-all p-l-20">
                                 <a class="nav-link" href="#uploadImages" data-toggle="tab">Upload Images</a>
                             </li>
-                            @if (Auth::guard('staff')->user()->hasAnyRole(['dios']))
+                            @if (Auth::guard('staff')->user()->hasAnyRole(['dios', 'administrator', 'super-administrator']))
                                 <li class="nav-item tab-all p-l-20">
                                     <a class="nav-link" href="#surgeriesPerfored" data-toggle="tab">Surgeries performed</a>
                                 </li>
