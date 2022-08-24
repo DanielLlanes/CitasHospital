@@ -408,10 +408,10 @@
                                                 <div class="cloned" style="display: contents">
                                                     <div class="col-md-4"><div class="form-group">
                                                         <label for="simpleFormEmail">Surgery Title</label>
-                                                        <input type="text" class="form-control surgery_title" name="surgery_title[]" placeholder="Study Title" value="{{ $surgery->surgery_title }}">
+                                                        <input type="text" class="form-control surgery_title" name="surgery_title[]" placeholder="Cx Title" value="{{ $surgery->surgery_title }}">
                                                         <div class="error text-danger"></div></div><div class="form-group">
                                                             <label for="simpleFormEmail">SurgeryCount</label>
-                                                            <input type="text" class="form-control surgery_cant uintTextBox" name="surgery_cant[]" placeholder="Study Title" value="{{ $surgery->surgery_number }}">
+                                                            <input type="text" class="form-control surgery_cant uintTextBox" name="surgery_cant[]" placeholder="Cx Title" value="{{ $surgery->surgery_number }}">
                                                             <div class="error text-danger"></div>
                                                         </div>
                                                         <div class="col-12" id="delbtn">
@@ -429,7 +429,7 @@
                                             <button type="button" id="addbtn" class="btn btn-warning">+ @lang('Add')</button>
                                         </div>
                                         <div class="addbtnArea text-right mt-5">
-                                            <button type="submit" id="surgeryPerformedBtn" class="btn btn-success">+ @lang('Upload Update Courses')</button>
+                                            <button type="submit" id="surgeryPerformedBtn" class="btn btn-success">+ @lang('Upload Update Cx')</button>
                                         </div>
                                     </form>
                                 </div>
