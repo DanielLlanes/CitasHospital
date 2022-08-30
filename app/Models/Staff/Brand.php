@@ -44,7 +44,6 @@ class Brand extends Model
      */
     public function procedureBrand()
     {
-        // hasMany(RelatedModel, foreignKeyOnRelatedModel = brand_id, localKey = id)
         return $this->hasManyThrough(Procedure::class, Service::class);
     }
 }

@@ -1981,14 +1981,15 @@
           console.log("data", data);
           if (!data.success) {
             $.each( data.errors, function( key, value ) {
-              console.log("value", value);
                 $real = key.replace('.', '-')
                 $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
                 $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
                 $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
             });
           } else {
-            alert();
+            // for (var i = 0; i < stepCount; i++) {
+            //   step[i].classList.add('d-none')
+            // }
           }
         })
       })

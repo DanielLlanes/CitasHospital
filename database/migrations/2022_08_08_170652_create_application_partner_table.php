@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAplicationsPartnerTable extends Migration
+class CreateApplicationPartnerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAplicationsPartnerTable extends Migration
      */
     public function up()
     {
-        Schema::create('aplications_partner', function (Blueprint $table) {
+        Schema::create('application_partner', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('application_id')->unsigned()->nullable();
             $table->bigInteger('partner_id')->unsigned()->nullable();
@@ -21,7 +21,7 @@ class CreateAplicationsPartnerTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        Schema::table('aplications_partner', function($table) {
+        Schema::table('application_partner', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('partner_id')->references('id')->on('patients')->onDelete('cascade')->onUpdate('cascade');        
         });
@@ -34,6 +34,6 @@ class CreateAplicationsPartnerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aplications_partner');
+        Schema::dropIfExists('application_partner');
     }
 }

@@ -96,8 +96,8 @@ class Application extends Model
     {
         return $this->hasOne(Procedure::class, 'id', 'recommended_id');
     }
-    public function partner()
+    public function partners()
     {
-        return $this->hasOne(Partner::class);
+        return $this->belongsToMany(Partner::class, 'application_partner')->withPivot(['application_id', 'partner_id', 'code']);
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Partners;
 
 use App\Http\Controllers\Controller;
+use App\Mail\NewAppEmail;
+use App\Mail\WelcomeLetterEmail;
+use App\Models\Partners\Partner;
 use App\Models\Site\Application;
 use App\Models\Site\BirthControlApplication;
 use App\Models\Site\Country;
@@ -16,7 +19,11 @@ use App\Models\Staff\Package;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Procedure;
 use App\Models\Staff\Service;
+use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
+use App\Traits\DatesLangTrait;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -29,6 +36,8 @@ use Intervention\Image\Facades\Image;
 
 class ApiPartnersController extends Controller
 {
+    use DatesLangTrait;
+
     public function countries(Request $request, $code)
     {
         $countries = Country::where('active', 1)
@@ -608,10 +617,12 @@ class ApiPartnersController extends Controller
     
     public function storeData(Request $request, $code)
     {
+        $partnerCode = $code;
         $lang = 'es';
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
         else { $exist = Treatment::where("procedure_id", $request->procedure)->where('package_id', $request->package)->first(); }
+        $treatment = $exist;
 
         if (!$exist) {
             return response()->json(
@@ -623,12 +634,11 @@ class ApiPartnersController extends Controller
                 ]
             );
         }
-
         $need_images = Service::select('need_images', 'qty_images')->find($request->service);
         $patient = Patient::where('email', $request->email)->first();
 
         if (!$patient) {
-            $validator = Validator::make($request->all(), [
+            $validator0 = Validator::make($request->all(), [
                 'treatmentBefore' => 'required|boolean',
                 'name' => 'required|string',
                 'sex' => 'required|string|',
@@ -646,7 +656,7 @@ class ApiPartnersController extends Controller
                 'ecp' => ['required', 'different:phone', 'different:mobile','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             ]);
         } else {
-            $validator = Validator::make($request->all(), [
+            $validator0 = Validator::make($request->all(), [
                 'treatmentBefore' => 'nullable',
                 'name' => 'nullable',
                 'sex' => 'nullable|',
@@ -664,7 +674,6 @@ class ApiPartnersController extends Controller
                 'ecp' => ['nullable'],
             ]);
         }
-
         if ($need_images->need_images == 1) {
             $validator1 = Validator::make($request->all(), [
                 'imagenes' => "required|array|min:" . $need_images->qty_images, 
@@ -780,7 +789,8 @@ class ApiPartnersController extends Controller
             "treatment.*" => ['required_if:any_other_illnesses,1','string'],
         ]);
 
-        if ($request->service != 3 && $request->sex != 'male') {
+        //if ($request->service != 3 && $request->sex != 'male') {
+        if ($request->service != 3) {
             $validator5 = Validator::make($request->all(), [
                 "smoke" => "required|boolean",
                 "cigars_smoke" => "required_if:smoke,1|nullable|integer",
@@ -1021,13 +1031,15 @@ class ApiPartnersController extends Controller
                 "is_or_can_be_pregman" => "required|boolean",
             ]);
         }
+
         if ($request->sex == 'male') {
+
             $validator6 = Validator::make($request->all(), [
                 "last_menstrual_period" => "nullable",
                 "bleeding_whas" => "nullable",
                 "have_you_been_pregnant" => "nullable",
                 "how_many_times" => 'nullable',
-                "c_section" => 'nullable', //boleano
+                "c_section" => 'nullable',
                 "birth_control" => "nullable",
 
                 "birth_control" =>"nullable",
@@ -1045,24 +1057,23 @@ class ApiPartnersController extends Controller
                 "is_or_can_be_pregman" => "nullable",
             ]);
         }
-        if (
-            $validator->fails()  ||
+
+        if ($validator0->fails() ||
             $validator1->fails() ||
             $validator2->fails() ||
             $validator3->fails() ||
             $validator4->fails() ||
             $validator5->fails() ||
-            $validator6->fails()
-            ) {
-            $messages = array_merge_recursive(
-                $validator->messages()->toArray(), 
-                $validator1->messages()->toArray(), 
-                $validator2->messages()->toArray(),
-                $validator3->messages()->toArray(),
-                $validator4->messages()->toArray(),
-                $validator5->messages()->toArray(),
-                $validator6->messages()->toArray(),
-            );
+            $validator6->fails() ) {
+                $messages = array_merge_recursive(
+                    $validator0->messages()->toArray(), 
+                    $validator1->messages()->toArray(), 
+                    $validator2->messages()->toArray(),
+                    $validator3->messages()->toArray(),
+                    $validator4->messages()->toArray(),
+                    $validator5->messages()->toArray(),
+                    $validator6->messages()->toArray(),
+                );
             $bag = new MessageBag($messages);
             return response()->json([
                 'success' => false,
@@ -1070,7 +1081,7 @@ class ApiPartnersController extends Controller
                 'errors' => $bag
             ]);
         }
-
+        
         $unHashPassword = Str::random(8);
         if (!$patient) {
             $patient = new Patient;
@@ -1094,6 +1105,483 @@ class ApiPartnersController extends Controller
             $patient->code = getCode();
             $patient->save();
         }
-        
+
+        $app = new Application;
+
+        $app->temp_code = Str::random(10);
+        $app->patient_id = $patient->id;
+
+        $app->temp_code = Str::random(10);
+        $app->patient_id = $patient->id;
+        $app->treatment_id = $treatment->id;
+
+        $app->mesure_sistem = $request->mesure_sistem;
+        $app->weight = $request->max_weigh;
+        $app->max_weigh = $request->weight;
+        $app->height = $request->height;
+        $app->imc = $request->imc;
+        $app->if_take_medication = $request->take_medication;
+        $app->if_take_blood_thinners = $request->blood_thinners;
+        $app->razon_blood_thinners = $request->razon_blood_thinners;
+        $app->acid_reflux = $request->acid_reflux;
+        $app->penicilin = $request->penicilin;
+        $app->drugs_sulfa = $request->drugs_sulfa;
+        $app->iodine = $request->iodine;
+        $app->tape = $request->tape;
+        $app->latex = $request->latex;
+        $app->aspirin = $request->aspirin;
+        $app->other_allergy = (is_null($request->other_allergy)? null:$request->other_allergy );
+        $app->describe_other_allergy = $request->other_allergy;
+
+        $app->if_have_surgeries = $request->previus_surgery;
+
+        $app->addiction = $request->addiction;
+        $app->which_one_adiction = $request->which_one_adiction;
+        $app->high_lipid_levels = $request->high_lipid_levels;
+        $app->date_high_lipd_levels = $request->date_high_lipid_levels;
+        $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
+        $app->cancer = $request->cancer;
+        $app->date_cancer = $request->date_cancer;
+        $app->cancer_treatment = $request->treatment_cancer;
+        $app->arthritis = $request->arthritis;
+        $app->date_arthritis = $request->date_arthritis;
+        $app->arthritis_treatment = $request->treatment_arthritis;
+        $app->cholesterol = $request->cholesterol;
+        $app->date_cholesterol = $request->date_cholesterol;
+        $app->cholesterol_treatment = $request->treatment_cholesterol;
+        $app->triglycerides = $request->triglycerides;
+        $app->date_triglycerides = $request->date_triglycerides;
+        $app->triglycerides_treatment = $request->treatment_triglycerides;
+        $app->disease_stroke = $request->stroke;
+        $app->date_disease_stroke = $request->date_stroke;
+        $app->disease_stroke_treatment = $request->treatment_stroke;
+        $app->diabetes = $request->diabetes;
+        $app->date_diabetes = $request->date_diabetes;
+        $app->diabetes_treatment = $request->treatment_diabetes;
+        $app->coronary_artery_disease = $request->coronary_artery_disease;
+        $app->date_coronary_artery_disease = $request->date_coronary_artery_disease;
+        $app->coronary_artery_disease_treatment = $request->treatment_coronary_artery_disease;
+        $app->disease_liver = $request->liver_disease;
+        $app->date_disease_liver = $request->date_liver_disease;
+        $app->disease_liver_treatment = $request->treatment_liver_disease;
+        $app->disease_lung = $request->lugn_disease;
+        $app->date_disease_lung = $request->date_lugn_disease;
+        $app->disease_lung_treatment = $request->treatment_lugn_disease;
+        $app->disease_renal = $request->renal_disease;
+        $app->date_disease_renal = $request->date_renal_disease;
+        $app->disease_renal_treatment = $request->treatment_renal_disease;
+        $app->disease_thyroid = $request->thyroid_disease;
+        $app->date_disease_thyroid = $request->date_thyroid_disease;
+        $app->disease_thyroid_treatment = $request->treatment_thyroid_disease;
+        $app->ypertension = $request->hypertension;
+        $app->hypertension = $request->date_hypertension;
+        $app->hypertension_treatment = $request->treatment_hypertension;
+        $app->disease_other = $request->any_other_illnesses;
+
+        $app->smoke = $request->smoke;
+        $app->smoke_cigars = $request->cigars_smoke;
+        $app->smoke_years = $request->years_smoke;
+        $app->stop_smoking = $request->stop_smoking;
+        $app->when_stop_smoking = $request->when_stop_smoking;
+        $app->alcohol = $request->alcohol;
+        $app->vape = $request->vape;
+        $app->volumen_alcohol = $request->volumen_alcohol;
+        $app->recreative_drugs = $request->recreative_drugs;
+        $app->total_recreative_drugs = $request->total_recreative_drugs;
+        $app->intravenous_drugs = $request->intravenous_drugs;
+        $app->description_intravenous_drugs = $request->description_intravenous_drugs;
+        $app->fatigue = $request->fatigue;
+        $app->trouble_breathe = $request->trouble_breathe;
+        $app->asthma = $request->asthma;
+        $app->bipap_cpap = $request->bipap_cpap;
+        $app->exercise = $request->exercise;
+
+        $app->hours_you_sleep_at_night = $request->hours_you_sleep_at_night;
+        $app->do_you_take_sleeping_pills = $request->do_you_take_sleeping_pills;
+        $app->do_you_suffer_from_anxiety_or_depression = $request->do_you_suffer_from_anxiety_or_depression;
+        $app->do_you_take_pills_for_anxiety_or_depression = $request->do_you_take_pills_for_anxiety_or_depression;
+        $app->do_you_feel_under_stress = $request->do_you_feel_under_stress;
+        $app->do_you_have_erections_at_the_morning = $request->do_you_have_erections_at_the_morning;
+        $app->how_many_per_week = $request->how_many_per_week;
+        $app->do_you_have_problems_getting_erections = $request->do_you_have_problems_getting_erections;
+        $app->since_when = $request->since_when;
+        $app->describe_your_erection_problem = $request->describe_your_erection_problem;
+        $app->do_you_have_problems_maintaining_an_erection = $request->do_you_have_problems_maintaining_an_erection;
+        $app->do_you_take_any_natural_remedy_for_erectile_dysfunction = $request->do_you_take_any_natural_remedy_for_erectile_dysfunction;
+        $app->what_kind = $request->what_kind;
+        $app->how_did_it_work_natural_remedy = $request->how_did_it_work_natural_remedy;
+        $app->where_did_you_get_them = $request->where_did_you_get_them;
+        $app->has_medication_been_injected_for_dysfunction_erectile = $request->has_medication_been_injected_for_dysfunction_erectile;
+        $app->how_many_times_have_injected = $request->how_many_times_have_injected;
+        $app->how_did_it_work = $request->how_did_it_work;
+        $app->have_you_had_an_erection_longer_than_six_hours = $request->have_you_had_an_erection_longer_than_six_hours;
+        $app->when_you_had_a_six_hours_erection = $request->when_you_had_a_six_hours_erection;
+        $app->how_was_it_resolved = $request->how_was_it_resolved;
+        $app->did_you_get_medical_attention = $request->did_you_get_medical_attention;
+        $app->do_you_suffer_from_penile_curvature = $request->do_you_suffer_from_penile_curvature;
+        $app->how_intense = $request->how_intense;
+        $app->which_direction = $request->which_direction;
+        $app->does_it_hurt = $request->does_it_hurt;
+        $app->does_it_prevent_intercourse = $request->does_it_prevent_intercourse;
+        $app->has_prp_been_injected_for_erectile_dysfunction = $request->has_prp_been_injected_for_erectile_dysfunction;
+        $app->have_you_received_stem_cell_treatment_for_erectile_dysfunction = $request->have_you_received_stem_cell_treatment_for_erectile_dysfunction;
+        $app->hyrvrntwliwtfed = $request->hyrvrntwliwtfed;
+
+
+        $app->last_menstrual_period = $request->last_menstrual_period;
+        $app->bleeding_whas = $request->bleeding_whas;
+                    
+        $app->have_you_been_pregnant = $request->have_you_been_pregnant;
+        $app->how_many_times = $request->how_many_times;
+        $app->c_section = $request->c_section;
+        $app->birth_control = $request->birth_control;
+        $app->use_hormones = $request->use_hormones;
+        $app->is_or_can_be_pregmant = $request->is_or_can_be_pregman;
+
+        $medication_cadena = [];
+        if ($request->has('medication_name') || $request->has('medication_reason') || $request->has('medication_dosage') || $request->has('medication_frecuency')) {
+            for ($i=0; $i < count($request->medication_name); $i++) {
+                $medication_cadena[] = [
+                'medication_name' => $request->medication_name[$i],
+                'medication_reason' => $request->medication_reason[$i],
+                'medication_dosage' => $request->medication_dosage[$i],
+                'medication_frecuency' => $request->medication_frecuency[$i],
+                'code' => getCode(),
+                ];
+            }
+        }
+        $surgey_cadena = [];
+        if ($request->has('surgey_type') || $request->has('surgey_name') || $request->has('surgey_age') || $request->has('surgey_year') || $request->has('surgey_complications')) {
+            for ($i=0; $i < count($request->surgey_type); $i++) {
+                $surgey_cadena[] = [
+                    'surgey_type' => $request->surgey_type[$i],
+                    'surgey_name' => $request->surgey_name[$i],
+                    'surgey_age' => $request->surgey_age[$i],
+                    'surgey_year' => $request->surgey_year[$i],
+                    'surgey_complications' => $request->surgey_complications[$i],
+                    'code' => getCode(),
+                ];
+            }
+        }
+        $illness_cadena = [];
+        if ($request->has('illness') || $request->has('diagnostic_date') || $request->has('treatment')) {
+            for ($i=0; $i < count($request->illness); $i++) {
+                $illness_cadena[] = [
+                    'illness' => $request->illness[$i],
+                    'diagnostic_date' => $request->diagnostic_date[$i],
+                    'treatment' => $request->treatment[$i],
+                    'code' => getCode()
+                ];
+            }
+        }
+        $exercise_cadena = [];
+        if ($request->has('exercise_type') || $request->has('exercise_how_long') || $request->has('exercise_how_frecuen') || $request->has('exercise_hours')) {
+            for ($i=0; $i < count($request->exercise_type); $i++) {
+                $exercise_cadena[] = [
+                'exercise_type' => $request->exercise_type[$i],
+                'exercise_how_long' => $request->exercise_how_long[$i],
+                'exercise_how_frecuent' => $request->exercise_how_frecuent[$i],
+                'exercise_hours' => $request->exercise_hours[$i],
+                'code' => getCode(),
+                ];
+            }
+        }
+        $birth_control_cadena = [];
+        if ($request->has('birthControl_type') || $request->has('birthControl_how_long')) {
+            for ($i=0; $i < count($request->birthControl_type); $i++) {
+                $birth_control_cadena[] = [
+                'birthControl_type' => $request->birthControl_type[$i],
+                'birthControl_how_long' => $request->birthControl_how_long[$i],
+                'code' => getCode()
+                ];
+            }
+        }
+        $hormone_cadena = [];
+        if ($request->has('hormone_type') || $request->has('hormone_how_long')) {
+            for ($i=0; $i < count($request->hormone_type); $i++) {
+                $hormone_cadena[] = [
+                'hormone_type' => $request->hormone_type[$i],
+                'hormone_how_long' => $request->hormone_how_long[$i],
+                'code' => getCode(),
+                ];
+            }
+        }
+
+        $partnerExist = Partner::where('code', $partnerCode)->first();
+        if (!$partnerExist) {
+            return response()->json([
+                'success' => false,
+                "go" => '0',
+                "reload" => true,
+                "icon" => 'error',
+                "msg" => "Undefined error"
+            ]);
+        }
+
+        if ($app->save()) {
+            $insert_medications = [];
+            $insert_surgeries = [];
+            $insert_illnesses = [];
+            $insert_exercise = [];
+            $insert_bControl = [];
+            $insert_hormone = [];
+
+            for ($i = 0; $i < count($medication_cadena); $i++) {
+                $insert_medications[] = [
+                'application_id' => $app->id,
+                'name' => $medication_cadena[$i]['medication_name'],
+                'reason' => $medication_cadena[$i]['medication_reason'],
+                'dosage' => $medication_cadena[$i]['medication_dosage'],
+                'frecuency' => $medication_cadena[$i]['medication_frecuency'],
+                'code' => $medication_cadena[$i]['code'],
+                ];
+            }
+            for ($i = 0; $i < count($surgey_cadena); $i++) {
+                $insert_surgeries[] = [
+                'application_id' => $app->id,
+                'type' => $surgey_cadena[$i]['surgey_type'],
+                'name' => $surgey_cadena[$i]['surgey_name'],
+                'age' => $surgey_cadena[$i]['surgey_age'],
+                'year' => $surgey_cadena[$i]['surgey_year'],
+                'complications' => $surgey_cadena[$i]['surgey_complications'],
+                'code' => $surgey_cadena[$i]['code'],
+                ];
+            }
+            for ($i = 0; $i < count($illness_cadena); $i++) {
+                $insert_illnesses[] = [
+                'application_id' => $app->id,
+                'illness' => $illness_cadena[$i]['illness'],
+                'diagnostic_date' => $illness_cadena[$i]['diagnostic_date'],
+                'treatment' => $illness_cadena[$i]['treatment'],
+                'code' => $illness_cadena[$i]['code']
+                ];
+            }
+            for ($i = 0; $i < count($exercise_cadena); $i++) {
+                $insert_exercise[] = [
+                'application_id' => $app->id,
+                'type' => $exercise_cadena[$i]['exercise_type'],
+                'how_long' => $exercise_cadena[$i]['exercise_how_long'],
+                'how_frecuency' => $exercise_cadena[$i]['exercise_how_frecuent'],
+                'Hours_per_day' => $exercise_cadena[$i]['exercise_hours'],
+                'code' => $exercise_cadena[$i]['code'],
+                ];
+            }
+            for ($i = 0; $i < count($birth_control_cadena); $i++) {
+                $insert_bControl[] = [
+                'application_id' => $app->id,
+                'type' => $birth_control_cadena[$i]['birthControl_type'],
+                'how_along_time' => $birth_control_cadena[$i]['birthControl_how_long'],
+                'code' => $birth_control_cadena[$i]['code'],
+                ];
+            }
+            for ($i = 0; $i < count($hormone_cadena); $i++) {
+                $insert_hormone[] = [
+                'application_id' => $app->id,
+                'type' => $hormone_cadena[$i]['hormone_type'],
+                'how_along_time' => $hormone_cadena[$i]['hormone_how_long'],
+                'code' => $hormone_cadena[$i]['code'],
+                ];
+            }
+
+            $app->medications()->delete();
+            MedicationApplication::insert($insert_medications);
+            $app->surgeries()->delete();
+            SurgeryApplication::insert($insert_surgeries);
+            $app->illnessess()->delete();
+            IllnsessApplication::insert($insert_illnesses);
+            $app->exercices()->delete();
+            ExerciseApplication::insert($insert_exercise);
+            $app->birthcontrol()->delete();
+            BirthControlApplication::insert($insert_bControl);
+            $app->hormones()->delete();
+            HormonesApplication::insert($insert_hormone);
+
+            if ($need_images->need_images == 1) {
+                if ($request->has('images')) {
+                    foreach ($images as $key => $image) {
+                        $destinationPath = storage_path('app/public').'/application/image';
+                        $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
+                        $img = Image::make($image->getRealPath());
+                        $width = Image::make($image)->width();
+                        $img->resize($width, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                        File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+
+                        $img->save($destinationPath."/".$img_name, '90');
+                        $image = "storage/application/image/$img_name";
+                        $img->destroy();
+
+                        $image = $app->imageMany()->create(["code" => getCode(), 'image' => $image, 'title' => null, 'order' => $key]);
+                    }
+                }
+            }
+            $partnerExist = Partner::where('code', $code)->first();
+            if (!$partnerExist) {
+                return response()->json([
+                    'success' => false,
+                    "go" => '0',
+                    "reload" => true,
+                    "icon" => 'error',
+                    "msg" => "Undefined error"
+                ]);
+            }
+        }
+
+        $assignment_staff = Staff::whereHas(
+            'specialties', function($q){
+                $q->where('specialties.id', 10);
+            },
+        )->whereHas(
+            'assignToService', function($q) use($request){
+                $q->where("services.id", $request->service);
+            }
+        )
+        ->orderBy('last_assignment', 'ASC')
+        ->with([
+                'specialties',
+                'roles',
+                'assignToService' => function($q){
+                    $q->first();
+                }
+            ])
+        ->first();
+        $other_staff = Staff::whereHas(
+            'specialties', function($q){
+                $q->where('specialties.id', '!=', 10);
+            },
+        )->whereHas(
+            'assignToService', function($q) use($request){
+                $q->where("services.id", $request->service);
+            }
+        )
+        ->orderBy('last_assignment', 'ASC')
+        ->with([
+            'specialties',
+            'assignToService' => function($q){
+                $q->first();
+            }
+        ])->get();
+
+        $treatment = Treatment::where("procedure_id", $request->procedure)
+            ->where('package_id', $request->package)
+            ->with([
+                'service' => function($query) use ($lang) {
+                    $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
+                    ->with('brand');
+                 },
+                'procedure' => function($query) use ($lang) {
+                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
+                 },
+                'package' => function($query) use ($lang) {
+                    $query->select('id', "active", "package_$lang as package");
+                 }
+            ])
+        ->first();
+
+        $toEmail = new Collection;
+        $notifications = new Collection;
+        $newMessage = "A new application has been assigned to you";
+        $response = [];
+        $assignment = [];
+        if ($assignment_staff) {
+            $assignment[] = [
+                'application_id' => $app->id,
+                'staff_id' => $assignment_staff->id,
+                'ass_as' => $assignment_staff->specialties[0]->id,
+                'code' => getCode(),
+            ];
+            $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+            $assignment_staff->save();
+
+            $date = Carbon::now();
+            $hours = $date->format('g:i A');
+            $response = [];
+            $notifications = new Collection;
+            $response['staff_id'] = $assignment_staff->id;
+            $response['message'] = $newMessage;
+            $response['application_id'] = $app->id;
+            $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
+            $response['timeDiff'] = $date->diffForHumans();
+            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+
+            $notifications->push((object)[
+                'staff_id' => $assignment_staff->id,
+                'message' => $newMessage,
+                'application_id' => $app->id,
+                'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                'timeDiff' => $date->diffForHumans(),
+                'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
+                'url' => route('staff.applications.show', ["id" => $app->id]),
+            ]);
+            $app->notification()->create([
+                'staff_id' => $assignment_staff->id,
+                'type' => 'New application',
+                'message' => $newMessage,
+                'code' => getCode(),
+            ]);
+            $toEmail->push((object)[
+                'staff_name' => $assignment_staff->name,
+                'staff_email' => $assignment_staff->email,
+                'app_id' => $app->id,
+                'treatment' => $treatment,
+                "patient" => $patient,
+                "subject" => $newMessage,
+            ]);
+        }
+        if (count($other_staff) > 0) {
+            foreach ($other_staff as $staff) {
+                $app->notification()->create([
+                    'staff_id' => $staff->id,
+                    'type' => 'New application',
+                    'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
+                    'code' => getCode(),
+                ]);
+
+                $toEmail->push((object)[
+                    'staff_name' => $staff->name,
+                    'staff_email' => $staff->email,
+                    'app_id' => $app->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                    "subject" => $newMessage,
+                ]);
+                $date = Carbon::now();
+                $hours = $date->format('g:i A');
+                $notifications->push((object)[
+                    'staff_id' => $staff->id,
+                    'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
+                    'application_id' => $app->id,
+                    'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                    'timeDiff' => $date->diffForHumans(),
+                    'msgStrac' => \Str::of("Hay una nueva aplicación")->limit(20),
+                    'url' => route('staff.applications.show', ["id" => $app->id]),
+                ]);
+            }
+        }
+        foreach ($toEmail as $key => $data) {
+            Mail::to($data->staff_email)
+            ->send(
+                new NewAppEmail($data)
+            );
+        }
+        Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+
+        $app->assignments()->sync($assignment);
+        $app->is_complete = true;
+
+        if ($app->save()) {
+            $app->statusOne()->create(
+                [
+                    'status_id' => 9,
+                    'code' => getCode()
+                ]
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'terminado' => true,
+        ]);
     }
 }

@@ -23,6 +23,8 @@ class Partner extends Authenticatable
 
     public $timestamps = true;
 
+    protected $fillable = ['code', 'application_id', 'partner_id'];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -36,7 +38,7 @@ class Partner extends Authenticatable
     }
     public function applications()
     {
-        return $this->hasMany(Application::class);
+        return $this->belongsToMany(Application::class, "applications_partner")->withPivot(['application_id', 'partner_id', 'code']);
     }
 
 }
