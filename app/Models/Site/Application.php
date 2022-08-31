@@ -31,27 +31,22 @@ class Application extends Model
     {
         return $this->hasMany(ImageApplication::class);
     }
-
     public function imageMany()
     {
         return $this->morphMany(ImageMany::class, 'imageManyable');
     }
-
     public function medications()
     {
         return $this->hasMany(MedicationApplication::class);
     }
-
     public function surgeries()
     {
         return $this->hasMany(SurgeryApplication::class);
     }
-
     public function illnessess()
     {
         return $this->hasMany(IllnsessApplication::class);
     }
-
     public function hormones()
     {
         return $this->hasMany(HormonesApplication::class);
@@ -98,6 +93,6 @@ class Application extends Model
     }
     public function partners()
     {
-        return $this->belongsToMany(Partner::class, 'application_partner')->withPivot(['application_id', 'partner_id', 'code']);
+        return $this->belongsToMany(Partner::class);
     }
 }

@@ -38,7 +38,7 @@ class Partner extends Authenticatable
     }
     public function applications()
     {
-        return $this->belongsToMany(Application::class, "applications_partner")->withPivot(['application_id', 'partner_id', 'code']);
+        return $this->belongsToMany(Application::class);
     }
 
 }

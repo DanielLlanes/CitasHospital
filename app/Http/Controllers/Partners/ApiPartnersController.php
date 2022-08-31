@@ -1317,7 +1317,16 @@ class ApiPartnersController extends Controller
                 "msg" => "Undefined error"
             ]);
         }
-
+        $partnerExist = Partner::where('code', $code)->first();
+        if (!$partnerExist) {
+            return response()->json([
+                'success' => false,
+                "go" => '0',
+                "reload" => true,
+                "icon" => 'error',
+                "msg" => "Undefined error"
+            ]);
+        }
         if ($app->save()) {
             $insert_medications = [];
             $insert_surgeries = [];
@@ -1382,7 +1391,14 @@ class ApiPartnersController extends Controller
                 'code' => $hormone_cadena[$i]['code'],
                 ];
             }
+            $partnerAttach = array(
+                "application_id" => $app->id,
+                "partner_id" => $partnerExist->id,
+                "code" => getCode()
+            );
 
+//return($partnerAttach);
+            $app->partners()->attach([$partnerAttach]);
             $app->medications()->delete();
             MedicationApplication::insert($insert_medications);
             $app->surgeries()->delete();
@@ -1416,159 +1432,148 @@ class ApiPartnersController extends Controller
                     }
                 }
             }
-            $partnerExist = Partner::where('code', $code)->first();
-            if (!$partnerExist) {
-                return response()->json([
-                    'success' => false,
-                    "go" => '0',
-                    "reload" => true,
-                    "icon" => 'error',
-                    "msg" => "Undefined error"
-                ]);
-            }
-        }
-
-        $assignment_staff = Staff::whereHas(
-            'specialties', function($q){
-                $q->where('specialties.id', 10);
-            },
-        )->whereHas(
-            'assignToService', function($q) use($request){
-                $q->where("services.id", $request->service);
-            }
-        )
-        ->orderBy('last_assignment', 'ASC')
-        ->with([
+            $assignment_staff = Staff::whereHas(
+                'specialties', function($q){
+                    $q->where('specialties.id', 10);
+                },
+            )->whereHas(
+                'assignToService', function($q) use($request){
+                    $q->where("services.id", $request->service);
+                }
+            )
+            ->orderBy('last_assignment', 'ASC')
+            ->with([
+                    'specialties',
+                    'roles',
+                    'assignToService' => function($q){
+                        $q->first();
+                    }
+                ])
+            ->first();
+            $other_staff = Staff::whereHas(
+                'specialties', function($q){
+                    $q->where('specialties.id', '!=', 10);
+                },
+            )->whereHas(
+                'assignToService', function($q) use($request){
+                    $q->where("services.id", $request->service);
+                }
+            )
+            ->orderBy('last_assignment', 'ASC')
+            ->with([
                 'specialties',
-                'roles',
                 'assignToService' => function($q){
                     $q->first();
                 }
-            ])
-        ->first();
-        $other_staff = Staff::whereHas(
-            'specialties', function($q){
-                $q->where('specialties.id', '!=', 10);
-            },
-        )->whereHas(
-            'assignToService', function($q) use($request){
-                $q->where("services.id", $request->service);
-            }
-        )
-        ->orderBy('last_assignment', 'ASC')
-        ->with([
-            'specialties',
-            'assignToService' => function($q){
-                $q->first();
-            }
-        ])->get();
+            ])->get();
 
-        $treatment = Treatment::where("procedure_id", $request->procedure)
-            ->where('package_id', $request->package)
-            ->with([
-                'service' => function($query) use ($lang) {
-                    $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
-                    ->with('brand');
-                 },
-                'procedure' => function($query) use ($lang) {
-                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
-                 },
-                'package' => function($query) use ($lang) {
-                    $query->select('id', "active", "package_$lang as package");
-                 }
-            ])
-        ->first();
+            $treatment = Treatment::where("procedure_id", $request->procedure)
+                ->where('package_id', $request->package)
+                ->with([
+                    'service' => function($query) use ($lang) {
+                        $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
+                        ->with('brand');
+                     },
+                    'procedure' => function($query) use ($lang) {
+                        $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
+                     },
+                    'package' => function($query) use ($lang) {
+                        $query->select('id', "active", "package_$lang as package");
+                     }
+                ])
+            ->first();
 
-        $toEmail = new Collection;
-        $notifications = new Collection;
-        $newMessage = "A new application has been assigned to you";
-        $response = [];
-        $assignment = [];
-        if ($assignment_staff) {
-            $assignment[] = [
-                'application_id' => $app->id,
-                'staff_id' => $assignment_staff->id,
-                'ass_as' => $assignment_staff->specialties[0]->id,
-                'code' => getCode(),
-            ];
-            $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-            $assignment_staff->save();
-
-            $date = Carbon::now();
-            $hours = $date->format('g:i A');
-            $response = [];
+            $toEmail = new Collection;
             $notifications = new Collection;
-            $response['staff_id'] = $assignment_staff->id;
-            $response['message'] = $newMessage;
-            $response['application_id'] = $app->id;
-            $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
-            $response['timeDiff'] = $date->diffForHumans();
-            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+            $newMessage = "A new application has been assigned to you";
+            $response = [];
+            $assignment = [];
+            if ($assignment_staff) {
+                $assignment[] = [
+                    'application_id' => $app->id,
+                    'staff_id' => $assignment_staff->id,
+                    'ass_as' => $assignment_staff->specialties[0]->id,
+                    'code' => getCode(),
+                ];
+                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
+                $assignment_staff->save();
 
-            $notifications->push((object)[
-                'staff_id' => $assignment_staff->id,
-                'message' => $newMessage,
-                'application_id' => $app->id,
-                'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
-                'timeDiff' => $date->diffForHumans(),
-                'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
-                'url' => route('staff.applications.show', ["id" => $app->id]),
-            ]);
-            $app->notification()->create([
-                'staff_id' => $assignment_staff->id,
-                'type' => 'New application',
-                'message' => $newMessage,
-                'code' => getCode(),
-            ]);
-            $toEmail->push((object)[
-                'staff_name' => $assignment_staff->name,
-                'staff_email' => $assignment_staff->email,
-                'app_id' => $app->id,
-                'treatment' => $treatment,
-                "patient" => $patient,
-                "subject" => $newMessage,
-            ]);
-        }
-        if (count($other_staff) > 0) {
-            foreach ($other_staff as $staff) {
+                $date = Carbon::now();
+                $hours = $date->format('g:i A');
+                $response = [];
+                $notifications = new Collection;
+                $response['staff_id'] = $assignment_staff->id;
+                $response['message'] = $newMessage;
+                $response['application_id'] = $app->id;
+                $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
+                $response['timeDiff'] = $date->diffForHumans();
+                $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+
+                $notifications->push((object)[
+                    'staff_id' => $assignment_staff->id,
+                    'message' => $newMessage,
+                    'application_id' => $app->id,
+                    'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                    'timeDiff' => $date->diffForHumans(),
+                    'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
+                    'url' => route('staff.applications.show', ["id" => $app->id]),
+                ]);
                 $app->notification()->create([
-                    'staff_id' => $staff->id,
+                    'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
-                    'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
+                    'message' => $newMessage,
                     'code' => getCode(),
                 ]);
-
                 $toEmail->push((object)[
-                    'staff_name' => $staff->name,
-                    'staff_email' => $staff->email,
+                    'staff_name' => $assignment_staff->name,
+                    'staff_email' => $assignment_staff->email,
                     'app_id' => $app->id,
                     'treatment' => $treatment,
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
-                $date = Carbon::now();
-                $hours = $date->format('g:i A');
-                $notifications->push((object)[
-                    'staff_id' => $staff->id,
-                    'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
-                    'application_id' => $app->id,
-                    'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
-                    'timeDiff' => $date->diffForHumans(),
-                    'msgStrac' => \Str::of("Hay una nueva aplicación")->limit(20),
-                    'url' => route('staff.applications.show', ["id" => $app->id]),
-                ]);
             }
-        }
-        foreach ($toEmail as $key => $data) {
-            Mail::to($data->staff_email)
-            ->send(
-                new NewAppEmail($data)
-            );
-        }
-        Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+            if (count($other_staff) > 0) {
+                foreach ($other_staff as $staff) {
+                    $app->notification()->create([
+                        'staff_id' => $staff->id,
+                        'type' => 'New application',
+                        'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
+                        'code' => getCode(),
+                    ]);
 
-        $app->assignments()->sync($assignment);
-        $app->is_complete = true;
+                    $toEmail->push((object)[
+                        'staff_name' => $staff->name,
+                        'staff_email' => $staff->email,
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]);
+                    $date = Carbon::now();
+                    $hours = $date->format('g:i A');
+                    $notifications->push((object)[
+                        'staff_id' => $staff->id,
+                        'message' => 'Hay una nueva aplicación de ' .$treatment->service->service_es,
+                        'application_id' => $app->id,
+                        'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
+                        'timeDiff' => $date->diffForHumans(),
+                        'msgStrac' => \Str::of("Hay una nueva aplicación")->limit(20),
+                        'url' => route('staff.applications.show', ["id" => $app->id]),
+                    ]);
+                }
+            }
+            foreach ($toEmail as $key => $data) {
+                Mail::to($data->staff_email)
+                ->send(
+                    new NewAppEmail($data)
+                );
+            }
+            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+
+            $app->assignments()->sync($assignment);
+            $app->is_complete = true;
+        } //
 
         if ($app->save()) {
             $app->statusOne()->create(
