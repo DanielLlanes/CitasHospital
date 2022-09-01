@@ -55,6 +55,24 @@
                 <li><a href="{{ route('blog') }}">@lang('site/menu.Blog')</a></li>
                 <li class="dropdown">
                     <a href="#">
+                        <span>@lang('site/menu.Financing')</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="https://hipaa.jotform.com/Citerra/loan-application" target="_blank" class="text-uppercase">
+                                @lang('Citerra')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.unitedcredit.com/start-an-application/?pid=0010L00001kXhrY" target="_blank" class="text-uppercase">
+                                @lang('United Medical Credit')
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">
                         <span>@lang('site/menu.Language')</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>

@@ -25,4 +25,5 @@ return [
 	"Spanish" => "Español",
 	"English" => "English",
 	"Facilities" => "Facilities",
+	"Financing" => "Financing",
 ];
