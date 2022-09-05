@@ -49,6 +49,7 @@
                                                     <th> @lang('Precio') </th>
                                                     <th> @lang('Status') </th>
                                                     <th> @lang('Código') </th>
+                                                    <th> @lang('Promotor') </th>
                                                     <th> @lang('Acciones') </th>
                                                 </tr>
                                             </thead>
@@ -146,6 +147,7 @@
                     { data: "precio" },
                     { data: "status" },
                     { data: "codigo" },
+                    { data: "partner" },
 		            { data: "acciones", orderable: false, searchable: false },
 
 		        ],

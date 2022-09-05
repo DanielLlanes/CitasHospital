@@ -123,8 +123,7 @@ class ApiPartnersController extends Controller
     }
     public function checkData(Request $request)
     {  
-    
-
+        //return($request);
             $lang = 'es';
             if ($request->step == 0) {
                 $exist = false;
@@ -319,7 +318,7 @@ class ApiPartnersController extends Controller
 
             if ($request->step == 5) {
 
-                if ($request->service != 3 && $request->sex != 'male') {
+                if ($request->service != 3) {
                     $validator = Validator::make($request->all(), [
                         "smoke" => "required|boolean",
                         "cigars_smoke" => "required_if:smoke,1|nullable|integer",
@@ -349,14 +348,38 @@ class ApiPartnersController extends Controller
                         "bipap_cpap" => "required|boolean",
                         "exercise" => "required|boolean",
 
-                        "exercise_type" => ['required_if:exercise,1','array'],
-                        "exercise_type.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_long" => ['required_if:exercise,1','array'],
-                        "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                        "exercise_hours.*" => ['required_if:exercise,1','string'],
-                        "exercise_hours" => ['required_if:exercise,1','array'],
+                        "exercise_type" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_type.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_long" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_how_long.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_hours.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_hours" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
                     ]);
 
                     if ($validator->fails()) {
@@ -401,14 +424,38 @@ class ApiPartnersController extends Controller
                         "bipap_cpap" => "required|boolean",
                         "exercise" => "required|boolean",
 
-                        "exercise_type" => ['required_if:exercise,1','array'],
-                        "exercise_type.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_long" => ['required_if:exercise,1','array'],
-                        "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                        "exercise_hours.*" => ['required_if:exercise,1','numeric'],
-                        "exercise_hours" => ['required_if:exercise,1','array'],
+                        "exercise_type" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_type.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_long" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_how_long.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_hours.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_hours" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
                         ///////////////////////////////////////////////////////
                         "hours_you_sleep_at_night" => ['required', 'numeric'],
                         'do_you_take_sleeping_pills' => ['required', 'boolean'],
@@ -530,14 +577,38 @@ class ApiPartnersController extends Controller
                         "bipap_cpap" => "required|boolean",
                         "exercise" => "required|boolean",
 
-                        "exercise_type" => ['required_if:exercise,1','array'],
-                        "exercise_type.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_long" => ['required_if:exercise,1','array'],
-                        "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                        "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                        "exercise_hours.*" => ['required_if:exercise,1','numeric'],
-                        "exercise_hours" => ['required_if:exercise,1','array'],
+                        "exercise_type" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_type.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_long" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_how_long.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_how_frecuent" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
+                        "exercise_hours.*" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "string": null,
+                        ],
+                        "exercise_hours" => [
+                            ($request->exercise == '1') ? "required": null,
+                            ($request->exercise == '1') ? "array": null,
+                        ],
                         ///////////////////////////////////////////////////////
                         "hours_you_sleep_at_night" => ['required', 'numeric'],
 
@@ -617,6 +688,7 @@ class ApiPartnersController extends Controller
     
     public function storeData(Request $request, $code)
     {
+        return $request;
         $partnerCode = $code;
         $lang = 'es';
         $exist = false;

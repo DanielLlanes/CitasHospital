@@ -40,8 +40,22 @@ Route::name('partners.')->namespace('Partners')->group(function(){
 	Route::get('/dashboard/', [DashController::class, 'index'])->name('dashboard');
 	Route::get('/partners/', [DashController::class, 'dashboard'])->name('dashboards');
 	
-	Route::get('/partners/site/{code}/{brand}', [DashController::class, 'dashboard'])->name('showPartners');
+	//Route::get('/partners/site/{code}/{brand}', [DashController::class, 'dashboard'])->name('showPartners');
 
+	Route::name('applications.')->group( function(){
+        Route::get('/applications/get-list',    [DashController::class, 'getList'])->name('getList');
+        Route::get('/applications/view/{id}',   [AppController::class, 'show'])->name('show');
+        Route::get('/applications/patient/patientApss', [AppController::class, 'patientApss'])->name('patientApss');
+        Route::post('/applications/getNewStaff', [AppController::class, 'getNewStaff'])->name('getNewStaff');
+        Route::POST('/applications/setNewDoctor', [AppController::class, 'setNewStaff'])->name('setNewStaff');
+        Route::post('/applications/sendDebateMessage', [AppController::class, 'sendDebateMessage'])->name('sendDebateMessage');
+        Route::post('/applications/getNewProcedure', [AppController::class, 'getNewProcedure'])->name('getNewProcedure');
+        Route::post('/applications/setNewProcedure', [AppController::class, 'setNewProcedure'])->name('setNewProcedure');
+        Route::post('/applications/getNewPackage', [AppController::class, 'getNewPackage'])->name('getNewPackage');
+        Route::post('/applications/setNewPackage', [AppController::class, 'setNewPackage'])->name('setNewPackage');
+        Route::post('/applications/setStatusAcepted', [AppController::class, 'setStatusAcepted'])->name('setStatusAcepted');
+        Route::post('/applications/setStatusDeclined', [AppController::class, 'setStatusDeclined'])->name('setStatusDeclined');
+    });
 	
 
 });

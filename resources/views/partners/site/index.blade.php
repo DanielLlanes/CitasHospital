@@ -1939,6 +1939,7 @@
         })
         .then(response => response.json())
         .then( function(data) {
+          console.log("data", data);
           if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
           if (data.hasOwnProperty('success')) {
             if (!data.success) {

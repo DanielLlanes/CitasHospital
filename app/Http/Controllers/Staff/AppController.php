@@ -52,6 +52,54 @@ class AppController extends Controller
      */
     public function index()
     {
+        $lang = 'es';
+        $apps = Application::with(
+                    [
+                        'statusOne' => function ($q) use ($lang) {
+                            $q->with([
+                                'status' => function ($q) use ($lang) {
+                                    $q->select("name_$lang as name", 'id', 'color');
+                                }
+                            ])
+                                ->select("*");
+                        },
+                        'patient' => function ($q) {
+                            $q->select('name', 'id');
+                        },
+                        'partners' => function($q){
+                            $q->select('*');
+                        },
+                        'treatment' => function ($q) use ($lang) {
+                            $q->with(
+                                [
+                                    "brand" => function ($q) {
+                                        $q->select("brand", "id", "color");
+                                    },
+                                    "service" => function ($q) use ($lang) {
+                                        $q->select("service_$lang AS service", "id");
+                                    },
+                                    "procedure" => function ($q) use ($lang) {
+                                        $q->select("procedure_$lang AS procedure", "id");
+                                    },
+                                    "package" => function ($q) use ($lang) {
+                                        $q->select("package_$lang AS package", "id");
+                                    },
+                                ]
+                            );
+                        },
+                        'assignments' => function ($q) use ($lang) {
+                            $q->whereHas(
+                                'specialties',
+                                function ($q) {
+                                    $q->where("name_en", "Coordination");
+                                }
+                            );
+                        }
+                    ]
+                )
+                    ->where('is_complete', true)
+                    ->get();
+            //return $apps;
         return view(
             'staff.application-manager.list'
         );
@@ -76,6 +124,9 @@ class AppController extends Controller
                         },
                         'patient' => function ($q) {
                             $q->select('name', 'id');
+                        },
+                        'partners' => function($q){
+                            $q->select('*');
                         },
                         'treatment' => function ($q) use ($lang) {
                             $q->with(
@@ -138,6 +189,9 @@ class AppController extends Controller
                                             },
                                             'patient' => function ($q) {
                                                 $q->select('name', 'id');
+                                            },
+                                            'partners' => function($q){
+                                                $q->select('*');
                                             },
                                             'treatment' => function ($q) use ($lang) {
                                                 $q->with(
@@ -227,8 +281,14 @@ class AppController extends Controller
                     return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
                     return $apps->statusOne;
                 })
+                ->addColumn('partner', function ($apps) {
+                    if (count($apps->partners)) {
+                        return  '<span style="background-color: #ff6961;padding: 5px;border-radius: 0.3rem;">' . $apps->partners[0]->name . '</span>';
+                    }
+                    return '----';
+                })
                 ->addColumn('acciones', 'staff.application-manager.actions-list')
-                ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio',  'status', 'acciones'])
+                ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio', 'partner', 'status', 'acciones'])
                 ->make(true);
         }
     }
