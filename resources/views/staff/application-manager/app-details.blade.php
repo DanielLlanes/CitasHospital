@@ -2034,7 +2034,6 @@
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
         var data = $('#accepted-status-select').select2('data');
-        //return
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text
@@ -2063,7 +2062,7 @@
                 },
                 success:function(response)
                 {
-                    //console.log("response", response);
+                    console.log("response", response);
                     if (response.success) {
                         $("#recommended-procedure-span").html('')
                         $("#recommended-procedure-row").html('')

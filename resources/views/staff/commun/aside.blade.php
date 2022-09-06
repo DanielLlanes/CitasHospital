@@ -197,33 +197,25 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                @can('brand.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
-                                            <i class="ml-3"></i> Slider
-                                        </a>
-                                    </li>
-                                @endcan
-                                @can('services.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.public_page.testimonials') }}" class="nav-link">
-                                            <i class="ml-3"></i> Testimonials</a>
-                                    </li>
-                                @endcan
-                                {{-- @can('procedures.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
-                                            <i class="ml-3"></i> Procedures
-                                         </a>
-                                    </li>
-                                @endcan
-                                @can('packages.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
-                                            <i class="ml-3"></i> Packages
-                                         </a>
-                                    </li>
-                                @endcan --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
+                                        <i class="ml-3"></i> Slider
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.public_page.testimonials') }}" class="nav-link">
+                                        <i class="ml-3"></i> Testimonials</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.public_page.facilities') }}" class="nav-link">
+                                        <i class="ml-3"></i> Facilities
+                                     </a>
+                                </li>
+                                {{-- <li class="nav-item">
+                                    <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
+                                        <i class="ml-3"></i> Packages
+                                     </a>
+                                </li> --}}
                             </ul>
                         </li>
                     </ul>

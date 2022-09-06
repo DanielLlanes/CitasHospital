@@ -42,7 +42,7 @@ class AppController extends Controller
         // $this->middleware('can:DeleteAdmins')->only(['destroy']);
         // $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
         $this->middleware('can:applications.show')->only(['show']);
-        $this->middleware('can:applications.show')->only(['show']);
+        //$this->middleware('can:applications.show')->only(['show']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -1114,6 +1114,7 @@ class AppController extends Controller
 
     public function setStatusAcepted(Request $request)
     {
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
@@ -1170,7 +1171,7 @@ class AppController extends Controller
                 'assignments',
             ]
         )
-            ->find($request->app);
+        ->find($request->app);
 
         $coor = Staff::whereHas(
             'assignment',
@@ -1187,10 +1188,7 @@ class AppController extends Controller
             ->get();
 
 
-
-
         $dataEmail = new Collection();
-
 
         if ($app) {
             $app->statusOne->delete($app->statusOne->id);
@@ -1250,11 +1248,11 @@ class AppController extends Controller
                     },
                 ]
             )
-                ->find($request->app);
+            ->find($request->app);
 
             $status->recommended_id = null;
 
-            return $dataEmail[0];
+            //return $dataEmail[0];
             $status->save();
             $dataEmail->push((object)[
                 'patient' => $app->patient->name,

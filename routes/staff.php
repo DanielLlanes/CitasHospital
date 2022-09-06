@@ -12,6 +12,7 @@ use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\LangController;
 use App\Http\Controllers\Staff\PackageController;
 use App\Http\Controllers\Staff\PatientController;
@@ -216,6 +217,12 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/testimonials/storeTestimonials/',       [TestimonialController::class, 'store'])->name('storeTestimonials');
         Route::post('/testimonials/updateOrderTest',        [TestimonialController::class, 'updateOrder'])->name('updateOrderTest');
         Route::post('/testimonials/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
+
+        Route::get('/facilities/listar',       [FacilityController::class, 'index'])->name('facilities');
+        // Route::post('/facilities/getfacilities/',       [TestimonialController::class, 'show'])->name('getfacilities');
+        // Route::post('/facilities/storefacilities/',       [TestimonialController::class, 'store'])->name('storefacilities');
+        // Route::post('/facilities/updateOrderTest',        [TestimonialController::class, 'updateOrder'])->name('updateOrderTest');
+        // Route::post('/facilities/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
     });
 
     Route::name('partners.')->group( function () {
