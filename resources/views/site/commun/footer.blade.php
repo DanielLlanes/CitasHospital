@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-12 col-md-3 footer-contact" style="border:5px solid red">
+                <div class="col-12 col-md-3 footer-contact">
                     <h3>J.L. Prado</h3>
                     <p>
                         Erasmo Castellanos 874 - 102<br> Zona Rio Tijuana,<br> BC, México<br><br>
@@ -14,7 +14,7 @@
                         <strong>Email:</strong> info@jlpradosc.com<br>
                     </p>
                 </div>
-                <div class="col-md-9 col-12" style="border:5px solid green">
+                <div class="col-md-9 col-12">
                     <h4>@lang('site/home.Coordinators')</h4>
                     <div class="d-flex">
                         @foreach($coordinatorFooter as $coordinator)
