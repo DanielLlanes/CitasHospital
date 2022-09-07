@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-12 footer-contact">
+                <div class="col-12 col-md-3 footer-contact" style="border:5px solid red">
                     <h3>J.L. Prado</h3>
                     <p>
                         Erasmo Castellanos 874 - 102<br> Zona Rio Tijuana,<br> BC, México<br><br>
@@ -14,17 +14,17 @@
                         <strong>Email:</strong> info@jlpradosc.com<br>
                     </p>
                 </div>
-                <div class="col-lg-5 col-md-12 d-flex flex-column">
+                <div class="col-md-9 col-12" style="border:5px solid green">
                     <h4>@lang('site/home.Coordinators')</h4>
-                    <div class="d-md-flex justify-content-md-around">
+                    <div class="d-flex">
                         @foreach($coordinatorFooter as $coordinator)
-                        <div class="col-6 d">
-                            <p>
-                                <strong>{{ $coordinator->name }}</strong><br>
-                                {{ $coordinator->cellphone }} <br>
-                                {{ $coordinator->email }}<br>
-                            </p>
-                        </div>
+                            <div class="col">
+                                <p>
+                                    <strong>{{ $coordinator->name }}</strong><br>
+                                    {{ $coordinator->cellphone }} <br>
+                                    {{ $coordinator->email }}<br>
+                                </p>
+                            </div>
                         @endforeach
                     </div>
                 </div>

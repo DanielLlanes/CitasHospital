@@ -219,10 +219,11 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/testimonials/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
 
         Route::get('/facilities/listar',       [FacilityController::class, 'index'])->name('facilities');
-        // Route::post('/facilities/getfacilities/',       [TestimonialController::class, 'show'])->name('getfacilities');
-        // Route::post('/facilities/storefacilities/',       [TestimonialController::class, 'store'])->name('storefacilities');
-        // Route::post('/facilities/updateOrderTest',        [TestimonialController::class, 'updateOrder'])->name('updateOrderTest');
-        // Route::post('/facilities/destroyTest',        [TestimonialController::class, 'destroy'])->name('destroyTest');
+        Route::post('/facilities/getfacilities/',       [FacilityController::class, 'show'])->name('getFacilities');
+        Route::post('/facilities/storefacilities/',       [FacilityController::class, 'store'])->name('storeFacilities');
+        Route::post('/facilities/updateOrderFacilities',        [FacilityController::class, 'updateOrder'])->name('updateOrderFacilities');
+        Route::post('/facilities/updateFacilities',        [FacilityController::class, 'updateOrder'])->name('updateFacilities');
+        Route::post('/facilities/destroyFacilities',        [FacilityController::class, 'destroy'])->name('destroyFacilities');
     });
 
     Route::name('partners.')->group( function () {

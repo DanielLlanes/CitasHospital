@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreFacilityRequest;
 use App\Http\Requests\UpdateFacilityRequest;
 use App\Models\Staff\Facility;
+use Illuminate\Http\Request;
 
 class FacilityController extends Controller
 {
@@ -16,17 +17,8 @@ class FacilityController extends Controller
      */
     public function index()
     {
-        return view('staff.page-settings.facilities', ["slider" => $slider]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $facilities = Facility::all();
+        return view('staff.page-settings.facilities', ['facilities' => $facilities]);
     }
 
     /**
@@ -35,31 +27,9 @@ class FacilityController extends Controller
      * @param  \App\Http\Requests\StoreFacilityRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFacilityRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Staff\Facility  $facility
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Facility $facility)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Staff\Facility  $facility
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Facility $facility)
-    {
-        //
+        return $request;
     }
 
     /**
