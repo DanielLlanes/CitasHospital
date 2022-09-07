@@ -2,7 +2,8 @@
     <div class="container d-flex justify-content-center justify-content-md-between">
         <div class="contact-info d-flex align-items-center">
             <i class="bi bi-envelope d-flex align-items-center"><a target="_blank" href="mailto:info@jlpradosc.com">info@jlpradosc.com</a></i>
-            <i class="bi bi-phone d-flex align-items-center ms-4"><span><a href="tel:+18008880513"></a>+1 800 8888 0513</span></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span><a href="tel:+18008880513"></a>1-888-0513</span></i>
+            <i class="bi bi-phone d-flex align-items-center ms-4"><span><a href="tel:+18008880513"></a>1-888-416-1079</span></i>
             <i class="bi bi-phone d-flex align-items-center ms-4"><span><a href="tel:+526646341153"></a>+52 664 634 1153</span></i>
         </div>
         <div class="social-links d-none d-md-flex align-items-center">

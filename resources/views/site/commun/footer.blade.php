@@ -12,6 +12,13 @@
                         <strong>Phone:</strong> +1 800 8888 0513<br>
                         <strong>Phone:</strong> +52 664 634 1153<br>
                         <strong>Email:</strong> info@jlpradosc.com<br>
+                        <strong>Toll Free:</strong>
+                        <ul>
+                            <li>1-888-0513</li>
+                            <li>1-888-416-1079</li>
+                        </ul>
+
+
                     </p>
                 </div>
                 <div class="col-md-9 col-12">
