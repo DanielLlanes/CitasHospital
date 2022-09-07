@@ -2137,6 +2137,8 @@
             },
             success:function(response)
             {
+                
+console.log("response", response);
                 $("#current-status-p").html(response.status)
                 socket.emit('updateDataTablesToServer');
                 socket.emit('sendChangeAppStatusToServer', response);

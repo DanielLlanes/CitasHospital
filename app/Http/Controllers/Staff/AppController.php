@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Carbon\Carbon;
-use App\Models\Staff\Staff;
-use Illuminate\Support\Str;
+use App\Events\DebateChatEvent;
+use App\Http\Controllers\Controller;
+use App\Jobs\Staff\Debate\DebateMessagesJob;
+use App\Mail\AcceptedLetterEmail;
+use App\Mail\DeclidedLetterEmail;
+use App\Models\Site\Application;
 use App\Models\Staff\Debate;
-use Illuminate\Http\Request;
 use App\Models\Staff\Package;
 use App\Models\Staff\Patient;
-use App\Models\Staff\Service;
-use App\Traits\DatesLangTrait;
-use App\Events\DebateChatEvent;
 use App\Models\Staff\Procedure;
+use App\Models\Staff\Service;
 use App\Models\Staff\Specialty;
+use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
+use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
-use App\Models\Site\Application;
-use Yajra\DataTables\DataTables;
-use App\Mail\AcceptedLetterEmail;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
-use App\Jobs\Staff\Debate\DebateMessagesJob;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class AppController extends Controller
 {
@@ -1252,7 +1253,8 @@ class AppController extends Controller
 
             $status->recommended_id = null;
 
-            //return $dataEmail[0];
+
+
             $status->save();
             $dataEmail->push((object)[
                 'patient' => $app->patient->name,
@@ -1279,6 +1281,8 @@ class AppController extends Controller
     }
     public function setStatusDeclined(Request $request)
     {
+
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
@@ -1293,7 +1297,7 @@ class AppController extends Controller
             ]);
         }
 
-        $app = Application::select('id')
+        $app = Application::with('patient')
             ->find($request->app);
         //return $app;
         $app->statusOne->delete($app->statusOne->id);
@@ -1304,6 +1308,41 @@ class AppController extends Controller
                 'code' => time() . uniqid(Str::random(30)),
             ]
         );
+
+        $coor = Staff::whereHas(
+            'assignment', function ($q) use ($app) {
+                $q->where('applications.id', $app->id);
+            })
+            ->whereHas(
+                'assignToSpecialty',
+                function ($q) {
+                    $q->where('specialties.id', 10);
+                }
+            )
+            ->get();
+
+
+        $dataEmail = new Collection();
+        $dataEmail->push((object)[
+            'patient' => $app->patient->name,
+            'verga' => '$si',
+            'email' => $app->patient->email,
+            'lang' => $app->patient->lang,
+            'brand' => $app->treatment->brand,
+            'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
+            'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
+            'package' => ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en,
+            'includes' => $app->treatment->contains,
+            "price" => $app->treatment->price,
+            "downPayment" => ((float) $app->treatment->price * .10),
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'coordinator' => $coor[0],
+            'declinedReazon' => $request->declinedReazon,
+            ]);
+
+            Mail::send(new DeclidedLetterEmail($dataEmail[0]));
+
 
 
         $app = Application::select('id')
