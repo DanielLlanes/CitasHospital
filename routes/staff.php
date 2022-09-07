@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Partners\PartnersController;
 use App\Http\Controllers\Site\ApplicationController;
+use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
@@ -224,6 +225,13 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/facilities/updateOrderFacilities',        [FacilityController::class, 'updateOrder'])->name('updateOrderFacilities');
         Route::post('/facilities/updateFacilities',        [FacilityController::class, 'updateOrder'])->name('updateFacilities');
         Route::post('/facilities/destroyFacilities',        [FacilityController::class, 'destroy'])->name('destroyFacilities');
+
+        Route::get('/faqs/listar',       [FaqController::class, 'index'])->name('faqs');
+        Route::post('/faqs/getfaqs/',       [FaqController::class, 'show'])->name('getfaqs');
+        Route::post('/faqs/storefaqs/',       [FaqController::class, 'store'])->name('storefaqs');
+        Route::post('/faqs/updateOrderfaqs',        [FaqController::class, 'updateOrder'])->name('updateOrderfaqs');
+        Route::post('/faqs/updatefaqs',        [FaqController::class, 'updateOrder'])->name('updatefaqs');
+        Route::post('/faqs/destroyfaqs',        [FaqController::class, 'destroy'])->name('destroyfaqs');
     });
 
     Route::name('partners.')->group( function () {

@@ -211,6 +211,11 @@
                                         <i class="ml-3"></i> Facilities
                                      </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('staff.public_page.faqs') }}" class="nav-link">
+                                        <i class="ml-3"></i> FAQ's
+                                     </a>
+                                </li>
                                 {{-- <li class="nav-item">
                                     <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
                                         <i class="ml-3"></i> Packages

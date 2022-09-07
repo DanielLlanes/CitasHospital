@@ -1174,6 +1174,7 @@ class AppController extends Controller
         )
         ->find($request->app);
 
+
         $coor = Staff::whereHas(
             'assignment',
             function ($q) use ($request) {
@@ -1253,6 +1254,12 @@ class AppController extends Controller
 
             $status->recommended_id = null;
 
+            $pack = '';
+            if (is_null( $app->treatment->package)) {
+                $pack == '-----';
+            } else {
+                $pack = ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en;
+            }
 
 
             $status->save();
@@ -1263,7 +1270,7 @@ class AppController extends Controller
                 'brand' => $app->treatment->brand,
                 'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
                 'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
-                'package' => ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en,
+                'package' => $pack,
                 'includes' => $app->treatment->contains,
                 "price" => $app->treatment->price,
                 "downPayment" => ((float) $app->treatment->price * .10),
@@ -1320,7 +1327,12 @@ class AppController extends Controller
                 }
             )
             ->get();
-
+            $pack = '';
+        if (is_null( $app->treatment->package)) {
+            $pack == '-----';
+        } else {
+            $pack = ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en;
+        }
 
         $dataEmail = new Collection();
         $dataEmail->push((object)[
@@ -1331,7 +1343,7 @@ class AppController extends Controller
             'brand' => $app->treatment->brand,
             'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
             'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
-            'package' => ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en,
+            'package' => $pack,
             'includes' => $app->treatment->contains,
             "price" => $app->treatment->price,
             "downPayment" => ((float) $app->treatment->price * .10),
