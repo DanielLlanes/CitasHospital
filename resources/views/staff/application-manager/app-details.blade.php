@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                     <br>
-                                    @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4 || Auth::guard('staff')->user()->hasRole(['dios']))
+                                    @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4 || Auth::guard('staff')->user()->hasRole(['dios', 'administrator']))
                                         <div class="d-flex justify-content-between">
                                             <button id="status-accepted-button" class="btn btn-success">accepted</button>
                                             <button id="status-declined-button" class="btn btn-danger">Declined</button>
@@ -2137,8 +2137,7 @@
             },
             success:function(response)
             {
-                
-console.log("response", response);
+
                 $("#current-status-p").html(response.status)
                 socket.emit('updateDataTablesToServer');
                 socket.emit('sendChangeAppStatusToServer', response);
