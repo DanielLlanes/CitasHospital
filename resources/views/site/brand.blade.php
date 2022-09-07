@@ -175,7 +175,6 @@
                 </div>
             </div>
         </section>
-
     @else
     <section id="team" class="team">
         <div class="container">

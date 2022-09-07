@@ -15,9 +15,11 @@
                     </a>
                     <ul>
                         @foreach ( $brands as $brand)
-                            <li>
-                                <a href="{{ url($brand->url) }}" class="text-uppercase">{{ $brand->brand }} - {{ $brand->service->service }}</a>
-                            </li>
+                            @if (count($brand->service->procedures) > 0)
+                                <li>
+                                    <a href="{{ url($brand->url) }}" class="text-uppercase">{{ $brand->brand }} - {{ $brand->service->service }}</a>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 </li>
@@ -52,7 +54,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ route('contact') }}">@lang('site/menu.Contact')</a></li>
-                <li><a href="{{ route('blog') }}">@lang('site/menu.Blog')</a></li>
+                {{-- <li><a href="{{ route('blog') }}">@lang('site/menu.Blog')</a></li> --}}
                 <li class="dropdown">
                     <a href="#">
                         <span>@lang('site/menu.Financing')</span>

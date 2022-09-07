@@ -68,8 +68,6 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                     )
                 ->get();
 
-                
-                
                 $brands = Brand::select("*")
                 ->whereHas
                     (
@@ -83,7 +81,8 @@ class ViewFrondtedShereServiceProvider extends ServiceProvider
                         [
                             'imageOne',
                             'service' => function($q) use ($lang){
-                                $q->select(["id", "brand_id", "service_$lang AS service"]);
+                                $q->select(["id", "brand_id", "service_$lang AS service"])
+                                ->with('procedures');
                             },
                         ]
                     )

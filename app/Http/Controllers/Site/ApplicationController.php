@@ -1570,6 +1570,44 @@ class ApplicationController extends Controller
                 }
             }
 
+            if ($treatment->service->service == 'Bariatric Surgery' || $treatment->service->service == 'Cirugía Bariátrica') {
+                $toEmail->push((object)[
+                    'staff_name' => "Admin",
+                    'staff_email' => 'info@aslimmerme.clinic',
+                    'app_id' => $getData->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                ]);
+            }
+            if ($treatment->service->service == 'Bariatric Surgery' || $treatment->service->service == 'Cirugía Bariátrica') {
+                $toEmail->push((object)[
+                    'staff_name' => "Admin",
+                    'staff_email' => 'info@aslimmerme.clinic',
+                    'app_id' => $getData->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                ]);
+            }
+            if ($treatment->service->service == 'Plactic Surgery' || $treatment->service->service == 'Cirugía Plástica') {
+                $toEmail->push((object)[
+                    'staff_name' => "Admin",
+                    'staff_email' => 'info@abeautifulme.clinic',
+                    'app_id' => $getData->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                ]);
+            }
+
+            if ($treatment->service->service == 'Dental' || $treatment->service->service == 'Dental') {
+                $toEmail->push((object)[
+                    'staff_name' => "Admin",
+                    'staff_email' => 'info@jlpradosc.com',
+                    'app_id' => $getData->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                ]);
+            }
+
             foreach ($toEmail as $key => $data) {
                 Mail::to($data->staff_email)
                 ->send(
