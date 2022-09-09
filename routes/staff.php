@@ -227,11 +227,11 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/facilities/destroyFacilities',        [FacilityController::class, 'destroy'])->name('destroyFacilities');
 
         Route::get('/faqs/listar',       [FaqController::class, 'index'])->name('faqs');
-        Route::post('/faqs/getfaqs/',       [FaqController::class, 'show'])->name('getfaqs');
+        Route::post('/faqs/active/',       [FaqController::class, 'activate'])->name('activate');
         Route::post('/faqs/storefaqs/',       [FaqController::class, 'store'])->name('storefaqs');
         Route::post('/faqs/updateOrderfaqs',        [FaqController::class, 'updateOrder'])->name('updateOrderfaqs');
-        Route::post('/faqs/updatefaqs',        [FaqController::class, 'updateOrder'])->name('updatefaqs');
-        Route::post('/faqs/destroyfaqs',        [FaqController::class, 'destroy'])->name('destroyfaqs');
+        Route::post('/faqs/updatefaqs',        [FaqController::class, 'update'])->name('updatefaqs');
+        Route::post('/faqs/destroyfaqs',        [FaqController::class, 'destroy'])->name('destroyFaq');
     });
 
     Route::name('partners.')->group( function () {
