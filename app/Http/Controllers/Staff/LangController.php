@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Cookie;
 
 class LangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:staff');
+    }
     public function language(Request $request, $lang)
     {
         if ($lang == "en" || $lang == "es") {
