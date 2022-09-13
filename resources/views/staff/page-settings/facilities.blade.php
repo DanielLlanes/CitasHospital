@@ -36,7 +36,125 @@
 				<div class="panel-group accordion" id="sortable">
 					@if (count($facilities) > 0)
 						@foreach ($facilities as $facility)
+						<form class="panel panel-default form clone" data-clone="{{ $facility->order }}" code="{{ $facility->code }}">
+							<div class="panel-heading panel-heading-gray">
+								<h4 class="panel-title">
+									<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"  data-parent="#sortable" href="#facilities-{{ $facility->order }}">New Facility {{ $facility->order }}</a>
+									<div class="toolxs" style="float: right; padding-left: 16px;margin-left: 24px!important; line-height: normal; vertical-align: middle;margin-top: 7px; margin-bottom: 7px">
+										<a class="fa fa-trash btn-color btn btn-danger btn-sm delete-global" id="delete-{{ $facility->order }}" code="{{ $facility->code }}" href="javascript:;"> Eliminar</a>
+									</div>
+								</h4>
+							</div>
+							<div id="facilities-{{ $facility->order }}" class="panel-collapse in collapse">
+								<div class="panel-body">
+									<form class="form-horizontal" enctype="multipart/form-data">
+										<div class="form-body">
+											<div class="row">
+												<div class="col-md-6">
+													<div class="form-group mb-2">
+														<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Title En
+															<span class="required"> * </span>
+														</label>
+														<div class="col-md-12">
+															<input type="text" name="title_en" id="title_en-${order}" placeholder="Title En" class="form-control input-sm" value="{{ $facility->name_en }}">
+															<div class="error text-danger col-form-label-sm"></div>
+														</div>
+													</div>
+													<div class="form-group mb-2">
+														<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Title Es
+															<span class="required"> * </span>
+														</label>
+														<div class="col-md-12">
+															<input type="text" name="title_es" id="title_es-{{ $facility->order }}" placeholder="Title Es" class="form-control input-sm" value="{{ $facility->name_es }}">
+															<div class="error text-danger col-form-label-sm"></div>
+														</div>
+													</div>
+													<div class="form-group mb-2">
+														<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Description En
+															<span class="required"> * </span>
+														</label>
+														<div class="col-md-12">
+															<textarea cols="15" rows="10" type="text" name="description_en" id="description_en-${order}" placeholder="Description En" class="form-control input-sm">{{ $facility->description_en }}</textarea>
+															<div class="error text-danger col-form-label-sm"></div>
+														</div>
+													</div>
+													<div class="form-group mb-2">
+														<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Description Es
+															<span class="required"> * </span>
+														</label>
+														<div class="col-md-12">
+															<textarea cols="15" rows="10" type="text" name="description_es" id="description_es-{{ $facility->order }}" placeholder="Description Es" class="form-control input-sm">{{ $facility->description_es }}</textarea>
+															<div class="error text-danger col-form-label-sm"></div>
+														</div>
+													</div>
+													<div class="form-group mb-2">
+														<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Activar?
+															<span class="required"> * </span>
+														</label>
+														<div class="col-md-12">
+															<div class=" bt-switch">
+																<input type="checkbox" checked data-on-color="success" data-off-color="warning">
+															</div>
+															<div class="error text-danger col-form-label-sm"></div>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="row sortable" id="image-area" parent="{{ $facility->order }}" code="{{ $facility->code }}">
+														@foreach ($facility->imageMany as $image)
+														<div class="col-md-6 item">
+															<div class="card">
+																<div class="form-group mb-2">
+																	<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Facility Image {{ $image->order }}            
+																		<span class="required"> * </span>
+																	</label>
+																	<div class="col-md-12">
+																		<input type="file" code="{{ $image->code }}" name="image[]" parent="{{ $facility->order }}" data-default-file="{{ asset($image->image) }}" id="image-{{ $image->order }}" class="dropify" accept="image/*"/>
+																		<div class="error text-danger col-form-label-sm"></div>
+																	</div>
+																</div>
+																<div class="form-group mb-2">
+																	<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption En
+																		<span class="required"> * </span>
+																	</label>
+																	<div class="col-md-12">
+																		<input type="text" name="caption_en[]" parent="{{ $facility->order }}" id="caption_en-{{ $image->order }}" placeholder="Caption En" class="form-control input-sm" value="{{ $image->caption_en }}">
+																		<div class="error text-danger col-form-label-sm"></div>
 
+																	</div>
+																</div>
+																<div class="form-group mb-2">
+																	<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption Es 
+																		<span class="required"> * </span>
+																	</label>
+																	<div class="col-md-12">
+																		<input type="text" name="caption_es[]" parent="${order}" id="caption_es-{{ $image->order }}" placeholder="Caption Es" class="form-control input-sm" value="{{ $image->caption_en }}">
+																		<div class="error text-danger col-form-label-sm"></div>
+																	</div>
+																</div>
+																<div class="col-12 mb-2 d-flex justify-content-end">
+																	<button type="button" class="btn btn-danger btn-del" code="{{ $image->code }}">Delete</button>
+																</div>
+															</div>
+														</div>
+														@endforeach
+													</div>
+													<div class="col-12 d-flex justify-content-end">
+														<button type="button" class="btn btn-warning btn-add">Add image</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="offset-md-10 col-md-12">
+												<button type="submit" code="{{ $facility->code }}" class="btn btn-info btn-edit">Edit</button>
+												<button type="button" class="btn btn-default btn-cancel">Cancel</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</form>
 						@endforeach
 					@endif
 				</div>
@@ -70,12 +188,63 @@
     {{-- <script type="text/javascript" src="{{ asset('staffFiles/assets/js/customjs/page/facilities.min.js') }}"> </script> --}}
 
     <script>
+    	$(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+	    var radioswitch = function() {
+	        var bt = function() {
+	            $(".radio-switch").on("switch-change", function() {
+	                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
+	                }),
+	                $(".radio-switch").on("switch-change", function() {
+	                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+	                }),
+	                $(".radio-switch").on("switch-change", function() {
+	                    $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+	                })
+	        };
+	        return {
+	            init: function() {
+	                bt()
+	            }
+	        }
+	    }();
+	    $(document).ready(function() {
+	        radioswitch.init()
+	    });
 	    $( function() {
 		    $( "#sortable" ).sortable({
+		    	update: function( event, ui ) {
+		    		console.log('works')
+		    		let $count = $(this).find('.clone').length
+		    		let $child = $(this).find('.clone');
+		    		 facilities = $('#sortable > .clone');
+		            $.each(facilities, function(index, val) {
+		            	 $ele = $(this);
+		            	 var i = (index+1)
+		            	 $ele.attr('data-clone', i);
+		            	 $ele.find('.accordion-toggle').attr('href', '#facilities-' + i);
+		            	 $ele.find('.accordion-toggle').html('New Faclity '+ i)
+		            	 $ele.find('.delete-global').attr('id', 'delete-' + i);
+		            	 $ele.find('.panel-collapse').attr('id', 'facilities-' + i);
+		            	 $ele.find('.input[name="title_en"]').attr('id', 'title_en-' + i);
+		            	 $ele.find('.input[name="title_es"]').attr('id', 'title_es-' + i);
+		            	 $ele.find('.input[name="desciption_es"]').attr('id', 'desciption_es-' + i);
+		            	 $ele.find('.input[name="desciption_en"]').attr('id', 'desciption_en-' + i);
+		            	 $ele.find('#image-area').attr('parent', i);
+
+		            	 $ele.find('[name="caption_es[]"]').attr('parent', i);
+		            	 $ele.find('[name="caption_en[]"]').attr('parent', i);
+		            	 $ele.find('[name="images[]"]').attr('parent', i);
+		            });
+		    		updateOrder()
+		    	},
+		    	axis: "y",
+		    });
+		    $( ".sortable" ).sortable({
 		    	update: function( event, ui ) {
 		    		let $count = $(this).find('.clone').length
 		    		let $child = $(this).find('.clone');
 		    		$.each($child, function(index, val) {
+		    			console.log('works 2')
 		    			let $order = (index+1); 
 		    			$(this).attr('data-clone', $order).addClass('updated')
 		    			$(this).find('.accordion-toggle').attr('href', '#facilities-'+ $order)
@@ -97,15 +266,24 @@
 		    		});
 		    		updateOrder()
 		    	},
-		    	axis: "y",
 		    });
-		    if (facilitiesCount == 0) {addFaclities(1)}
+		    if (facilitiesCount == 0) {addFaclities(1, 1)}
 
 		    $(document).on('click', '.button-add-facilities', function(event) {
 		    	event.preventDefault();
 		    	$count_facilities = $('#sortable > .clone').length;
-		    	addFaclities($count_facilities+1);
+		    	$('.panel-collapse').removeClass('show');
+		    	addFaclities($count_facilities+1, 1);
 		    });
+			$(document).on('click', '.btn-del', function(event) {
+				event.preventDefault();
+				$btn = $(this);
+				$items = $btn.parents('#image-area')
+				$parent = $items.attr('parent');
+				$btn.parents('.item').remove()
+				$count = $items.find('.item').length
+				if ($count == 0) {addFacilityImage($items, 1)}
+			});
 		    $(document).on('click', '.btn-submit', function(event) {
 		    	event.preventDefault();
 		    	$clone = $(this).parents('.clone');
@@ -114,24 +292,40 @@
 		    	$title_es = $clone.find('[name="title_es"]')
 		    	$descripcion_en = $clone.find('[name="description_en"]')
 		    	$descripcion_es = $clone.find('[name="description_es"]')
-		    	$image = $clone.find('[name="image"]');
-		    	$caption_en = $clone.find('[name="caption_en"]');
-		    	$caption_es = $clone.find('[name="caption_es"]');
+
+		    	$image = $clone.find('[name="image[]"]');
+		    	$caption_en = $clone.find('[name="caption_en[]"]');
+		    	$caption_es = $clone.find('[name="caption_es[]"]');
 		    	$form_data = new FormData()
+				
+		    	$.each($caption_en, function(index, val) {
+		    		if ($(this).val() != '') {
+		    			$form_data.append('caption_en[]', $(this).val())
+		    		}
+		    	});
+		    	$.each($caption_es, function(index, val) {
+		    		if ($(this).val() != '') {
+						$form_data.append('caption_es[]', $(this).val())
+		    		}
+		    	});
+
+		    	$.each($image, function(index, val) {
+		    		if ($(this).prop('files')[0]) {$form_data.append('files[]', $(this).prop('files')[0])}
+		    	});
+
+		    	
 		    	$form_data.append('title_en', $title_en.val())
 		    	$form_data.append('title_es', $title_es.val())
 		    	$form_data.append('order', $order)
-		    	$form_data.append('caption_en', $caption_en.val())
-		    	$form_data.append('caption_es', $caption_es.val())
-		    	$form_data.append('image', $image.prop('files')[0])
 		    	$form_data.append('description_es', $descripcion_es.val())
 		    	$form_data.append('description_en', $descripcion_en.val())
 		    	$(this).prop('id', 'btn-add-'+$order);
-		    	submitFacilities($form_data);
+		    	submitFacilities($form_data, $clone);
 		    });
-		    $(document).on('click', '.delete-button-facilities', function(e) {
+		    $(document).on('click', '.delete-global', function(e) {
 		        e.preventDefault();
 		        var id = $(this).attr('code');
+		        console.log("id", id);
 		        var clone = $(this).parents('.clone')
 		        Swal.fire({
 		            title: '¿Esta seguro?',
@@ -172,20 +366,39 @@
 		    	$(this).prop('id', 'btn-add-'+$clone);
 		    	editFaclities($form_data);
 		    });
-		    $(document).on('click', '.delete-local', function(event) {
-		    	event.preventDefault();
-		    	var clone = $(this).parents('.clone')
-		    	clone.remove()
-		    	$count_facilities = $('#sortable > .clone').length;
-		    	if ($count_facilities == 0) {addFaclities($count_facilities+1)}
-		    });
+		    $(document).on('click', '.btn-add', function(event) {
+		    	$imgs = $(this).parent().siblings().find('.item').length
+		    	$element = $(this).parent().siblings();
+		    	$parent = $element.attr('parent');
+		    	var attr = $element.attr('code');
+		    	var $flag = false
+		    	if (typeof attr !== 'undefined' && attr !== false) {
+		    		$flag = true;
+				}
+		    	addFacilityImage($element, $imgs+1, 1, $flag)
+		    })
 		});
 		function updateOrder() {
-			$parent = document.getElementById('sortable');
-			$count = document.querySelectorAll('.updated');
-			$count.forEach(function (item, index) {
-			  	
-			});
+			$items = $('.faq-item');
+			myobj = []
+			$.each( $items, function( key, value ) {
+				$k = (key + 1);
+				$(this).attr('data-order', $k)
+				$question_es = $(this).find('input[name=question_es]');
+				$question_en = $(this).find('input[name=question_en]');
+				$awnser_es = $(this).find('input[name=awnser_es]');
+				$awnser_en = $(this).find('input[name=awnser_en]');
+				$order = $(this).find('.order');
+				$order.html($k)
+				$question_es.attr('id', 'question_es-'+$k)
+				$question_en.attr('id', 'question_en-'+$k)
+				$awnser_es.attr('id', 'awnser_es-'+$k)
+				myobj.push(
+				{
+					code: $(this).attr('code'), 
+					order: $k
+				});
+    		});
 			$.ajax({
 				url: globalUpdateOrder,
 		       	method:"POST",
@@ -200,9 +413,6 @@
 				beforeSend: function(){
 				},
 		       	success:function(data){
-		       		$count.forEach(function (item, index) {
-		       		  $(this).removeClass('updated')	
-		       		});
 		       		Toast.fire({
 		       			icon: data.icon,
 		       			title: data.title,
@@ -258,7 +468,7 @@
 		       },
 			})
 		}
-		function submitFacilities(formData) {
+		function submitFacilities(formData, clone) {
 			$.ajax({
 				url: globalRouteSubmitFaclities,
 		       method:"POST",
@@ -274,33 +484,28 @@
 		       },
 		       success:function(data){
 		       	console.log("data", data);
+					$image = clone.find('[name="image[]"]');
+					if (data.facility.image_many) {
+						$.each($image, function(index, val) {
+							image_url = window.location.origin+"/"+data.facility.image_many[index].image
+							drEvent = $(this).data('dropify');
+							drEvent.resetPreview();
+							drEvent.clearElement();
+							drEvent.settings.defaultFile = image_url;
+							drEvent.destroy();
+							drEvent.init();
+							$(this).attr('code', data.facility.image_many[index].code)
+							$(this).parents('.item').find('.btn-del').attr('code', data.facility.image_many[index].code)
+						});
+					}
 
-		       	if (data.hasOwnProperty('success') ){
-		       		$.each( data.errors, function( key, value ) {
-		       			var Nkey = key.replace('.', '-')
-		       			$('#'+key.replace('.', '-')).parent().find('.error').text(value)
-		       			$('#'+key.replace('.', '-')).parent().addClass('has-error has-danger')
-		       		});
-		       		return
-		       	}
-
-		       	if (data.reload) {
-		       		if (data.hasOwnProperty('image')) {
-		       			loadImage(data.order)
-		       		}
-		       		if (data.hasOwnProperty('video')) {
-		       			loadVideo(data.order)
-		       		}
-
-		       		$('#delete-' + data.order).prop('code', data.facilities.code)
-		       		$('#delete-' + data.order).removeClass('delete-local').addClass('delete-button-facilities').attr('code', data.facilities.code)
-		       		$('#btn-add-' + $order).removeClass('btn-submit').addClass('btn-edit').html('EDIT').prop('code-id', data.facilities.code)
-
-		       	}
-		       	Toast.fire({
-		       		icon: data.icon,
-		       		title: data.title,
-		       	})
+					$btn = clone.find('.btn-submit').attr('code', data.facility.code).removeClass('btn-submit', 'btn-info').addClass('btn-edit', 'btn-info').html('edit')
+					$del = clone.find('.delete-global').attr('code', data.facility.code); // no guasrda codigo
+					$del.parents('clone').attr('code', data.facility.code);
+			       	Toast.fire({
+			       		icon: data.icon,
+			       		title: data.title,
+			       	})
 		       },
 			})
 		}
@@ -336,7 +541,7 @@
 		};
 		function deleteRecord(id, clone){
 		    var form_data = new FormData();
-		    form_data.append('id', id);
+		    form_data.append('code', id);
 		    $.ajax({
 		        url: globalRouteDestroy,
 		        method:"POST",
@@ -353,18 +558,30 @@
 		        },
 		        success:function(data)
 		        {
-		            Toast.fire({
-		              icon: data.icon,
-		              title: data.msg
-		            })
+		        	console.log("data", data);
+		            clone.remove()
+		            $count_facilities = $('#sortable > .clone').length;
+		            if ($count_facilities == 0) {addFaclities($count_facilities+1)}
 
+		            facilities = $('#sortable > .clone');
+		            $.each(facilities, function(index, val) {
+		            	 $ele = $(this);
+		            	 var i = (index+1)
+		            	 $ele.attr('data-clone', i);
+		            	 $ele.find('.accordion-toggle').attr('href', '#facilities-' + i);
+		            	 $ele.find('.accordion-toggle').html('New Faclity '+ i)
+		            	 $ele.find('.delete-global').attr('id', 'delete-' + i);
+		            	 $ele.find('.panel-collapse').attr('id', 'facilities-' + i);
+		            	 $ele.find('.input[name="title_en"]').attr('id', 'title_en-' + i);
+		            	 $ele.find('.input[name="title_es"]').attr('id', 'title_es-' + i);
+		            	 $ele.find('.input[name="desciption_es"]').attr('id', 'desciption_es-' + i);
+		            	 $ele.find('.input[name="desciption_en"]').attr('id', 'desciption_en-' + i);
+		            	 $ele.find('#image-area').attr('parent', i);
 
-		            if (data.reload) {
-		            	clone.remove()
-		            	$count_facilities = $('#sortable > .clone').length;
-		            	if ($count_facilities == 0) {addFaclities($count_facilities+1)}
-		            }
-		            
+		            	 $ele.find('[name="caption_es[]"]').attr('parent', i);
+		            	 $ele.find('[name="caption_en[]"]').attr('parent', i);
+		            	 $ele.find('[name="images[]"]').attr('parent', i);
+		            });
 		        },
 		        error: function (err)
 		        {
@@ -375,14 +592,14 @@
 		        },
 		    })
 		}
-		function addFaclities(order) {
+		function addFaclities(order, imgs) {
 			$facilities = `
-				<div class="panel panel-default clone" data-clone="${order}">
+				<form class="panel panel-default form clone" data-clone="${order}">
 					<div class="panel-heading panel-heading-gray">
 						<h4 class="panel-title">
-							<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"  data-parent="#sortable" href="#facilities-${order}">New Facility</a>
+							<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"  data-parent="#sortable" href="#facilities-${order}">New Facility ${order}</a>
 							<div class="toolxs" style="float: right; padding-left: 16px;margin-left: 24px!important; line-height: normal; vertical-align: middle;margin-top: 7px; margin-bottom: 7px">
-								<a class="fa fa-trash btn-color btn btn-danger btn-sm delete-local" id="delete-${order}" href="javascript:;"> Eliminar</a>
+								<a class="fa fa-trash btn-color btn btn-danger btn-sm delete-global" id="delete-${order}" href="javascript:;"> Eliminar</a>
 							</div>
 						</h4>
 					</div>
@@ -428,43 +645,58 @@
 													<div class="error text-danger col-form-label-sm"></div>
 												</div>
 											</div>
+											<div class="form-group mb-2">
+												<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Activar?
+													<span class="required"> * </span>
+												</label>
+												<div class="col-md-12">
+													<div class=" bt-switch">
+				                                        <input type="checkbox" checked data-on-color="success" data-off-color="warning">
+				                                	</div>
+													<div class="error text-danger col-form-label-sm"></div>
+												</div>
+											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group mb-2">
-												<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Cover Image              
-													<span class="required"> * </span>
-												</label>
-												<div class="col-md-12">
-													<input type="file" name="image" id="image-${order}" class="dropify" accept="image/*"/>
-													<div class="error text-danger col-form-label-sm"></div>
-												</div>
-											</div>
-											<div class="form-group mb-2" id="imagePreview-${order}" style="display:none">
-												<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Cover Image              
-													<span class="required"> * </span>
-												</label>
-												<div class="col-md-12">
-												 <img src="" alt="" id="image-view-${order}" class="img-fluid" style="width: 100%; height:240px">
-												</div>
-											</div>
-											<div class="form-group mb-2">
-												<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption En
-													<span class="required"> * </span>
-												</label>
-												<div class="col-md-12">
-													<input type="text" name="caption_en" id="caption_en-${order}" placeholder="Caption En" class="form-control input-sm">
-													<div class="error text-danger col-form-label-sm"></div>
+											<div class="row sortable" id="image-area" parent="${order}">
+												<div class="col-md-6 item">
+													<div class="card">
+														<div class="form-group mb-2">
+															<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Facility Image ${imgs}             
+																<span class="required"> * </span>
+															</label>
+															<div class="col-md-12">
+																<input type="file" name="image[]" parent="${order}" id="image-${order}" class="dropify" accept="image/*"/>
+																<div class="error text-danger col-form-label-sm"></div>
+															</div>
+														</div>
+														<div class="form-group mb-2">
+															<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption En
+																<span class="required"> * </span>
+															</label>
+															<div class="col-md-12">
+																<input type="text" name="caption_en[]" parent="${order}" id="caption_en-${order}" placeholder="Caption En" class="form-control input-sm">
+																<div class="error text-danger col-form-label-sm"></div>
 
+															</div>
+														</div>
+														<div class="form-group mb-2">
+															<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption Es 
+																<span class="required"> * </span>
+															</label>
+															<div class="col-md-12">
+																<input type="text" name="caption_es[]" parent="${order}" id="caption_es-${order}" placeholder="Caption Es" class="form-control input-sm">
+																<div class="error text-danger col-form-label-sm"></div>
+															</div>
+														</div>
+														<div class="col-12 mb-2 d-flex justify-content-end">
+															<button type="button" class="btn btn-danger btn-del">Delete</button>
+														</div>
+													</div>
 												</div>
 											</div>
-											<div class="form-group mb-2">
-												<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption Es 
-													<span class="required"> * </span>
-												</label>
-												<div class="col-md-12">
-													<input type="text" name="caption_es" id="caption_es-${order}" placeholder="Caption Es" class="form-control input-sm">
-													<div class="error text-danger col-form-label-sm"></div>
-												</div>
+											<div class="col-12 d-flex justify-content-end">
+												<button type="button" class="btn btn-warning btn-add">Add image</button>
 											</div>
 										</div>
 									</div>
@@ -478,10 +710,66 @@
 							</form>
 						</div>
 					</div>
-				</div>
+				</form>
 			`;
 			$('#sortable').append($facilities);
 			$('.dropify').dropify();
+			$(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+			radioswitch.init()
+			activeSortable()
+		}
+		function addFacilityImage(element, imgs, parent, flag) {
+			if (flag) {$local_add = `<button type="button" class="btn btn-success btn-add-local ml-1">Add</button>`;} 
+			else {$local_add = "";}
+			let $image = `
+				<div class="col-md-6 item">
+					<div class="card">
+						<div class="form-group mb-2">
+							<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Facility Image ${imgs}         
+								<span class="required"> * </span>
+							</label>
+							<div class="col-md-12">
+								<input type="file" name="image[]" parent="${parent}" id="image-${imgs}" class="dropify" accept="image/*"/>
+								<div class="error text-danger col-form-label-sm"></div>
+							</div>
+						</div>
+						<div class="form-group mb-2">
+							<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption En
+								<span class="required"> * </span>
+							</label>
+							<div class="col-md-12">
+								<input type="text" name="caption_en[]" parent="${parent}" id="caption_en-${imgs}" placeholder="Caption En" class="form-control input-sm">
+								<div class="error text-danger col-form-label-sm"></div>
+
+							</div>
+						</div>
+						<div class="form-group mb-2">
+							<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Caption Es 
+								<span class="required"> * </span>
+							</label>
+							<div class="col-md-12">
+								<input type="text" name="caption_es[]" parent="${parent}" id="caption_es-${imgs}" placeholder="Caption Es" class="form-control input-sm">
+								<div class="error text-danger col-form-label-sm"></div>
+							</div>
+						</div>
+						<div class="col-12 mb-2 d-flex justify-content-end">
+							<button type="button" class="btn btn-danger btn-del">Delete</button>
+							${$local_add}
+						</div>
+					</div>
+				</div>
+			`
+			element.append($image)
+			$('.dropify').dropify();
+			activeSortable()
+		}
+		activeSortable()
+		function activeSortable(){
+			$( ".sortable" ).sortable({
+				update: function( event, ui ) {
+					updateOrder()
+				},
+			}) 
 		}
     </script>
 

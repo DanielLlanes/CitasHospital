@@ -14,4 +14,8 @@ class Facility extends Model
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
     }
+    public function imageMany()
+    {
+        return $this->morphMany(ImageMany::class, 'imageManyable');
+    }
 }

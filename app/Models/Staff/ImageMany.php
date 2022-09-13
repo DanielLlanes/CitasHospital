@@ -15,7 +15,7 @@ class ImageMany extends Model
 
     protected $dates = ['deleted_at'];
         
-    protected $fillable = ['image', 'code', 'title', 'type', 'order', 'code'];
+    protected $fillable = ['image', 'code', 'title', 'type', 'order', 'code', 'caption_en', 'caption_es'];
 
     public function ImageManyable()
     {

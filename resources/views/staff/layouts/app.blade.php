@@ -21,6 +21,7 @@
     <!--bootstrap -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('staffFiles/assets/plugins/bootstrap-switch/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/pages/formlayout.css') }}" rel="stylesheet" >
     <!-- Material Design Lite CSS -->
     <link href="{{ asset('staffFiles/assets/plugins/material/material.min.css') }}" rel="stylesheet" type="text/css" />
@@ -109,6 +110,7 @@
         <script src="{{ asset('staffFiles/assets/plugins/jquery-ui/jquery-ui-1.3.min.js') }}"></script>
         <!-- bootstrap -->
         <script src="{{ asset('staffFiles/assets/plugins/bootstrap/js/bootstrap.min.js') }}" ></script>
+        <script src="{{ asset('staffFiles/assets/plugins/bootstrap-switch/bootstrap-switch.min.js') }}" ></script>
         <!-- beeps -->
         <script src="{{ asset('staffFiles/assets/js/beeps.js') }}{{ $noCache }}"></script>
         <!-- counterup -->

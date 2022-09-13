@@ -16,9 +16,11 @@ class CreateFacilitiesTable extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
             $table->text('name_es');
-            $table->text('name`_en');
+            $table->text('name_en');
+            $table->integer('order');
             $table->text('description_es');
             $table->text('description_en');
+            $table->text('code');
             $table->timestamps();
         });
     }
