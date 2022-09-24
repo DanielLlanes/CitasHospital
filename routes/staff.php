@@ -225,6 +225,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/facilities/updateOrderFacilities',        [FacilityController::class, 'updateOrder'])->name('updateOrderFacilities');
         Route::post('/facilities/updateFacilities',        [FacilityController::class, 'updateOrder'])->name('updateFacilities');
         Route::post('/facilities/destroyFacilities',        [FacilityController::class, 'destroy'])->name('destroyFacilities');
+        Route::post('/facilities/singleImage',        [FacilityController::class, 'singleImage'])->name('facilitySingleImage');
+        Route::post('/facilities/deleteSingleImage',        [FacilityController::class, 'delete'])->name('facilityDeleteSingleImage');
 
         Route::get('/faqs/listar',       [FaqController::class, 'index'])->name('faqs');
         Route::post('/faqs/active/',       [FaqController::class, 'activate'])->name('activate');

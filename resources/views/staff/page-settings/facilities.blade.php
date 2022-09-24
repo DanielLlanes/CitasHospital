@@ -36,7 +36,7 @@
 				<div class="panel-group accordion" id="sortable">
 					@if (count($facilities) > 0)
 						@foreach ($facilities as $facility)
-						<form class="panel panel-default form clone" data-clone="{{ $facility->order }}" code="{{ $facility->code }}">
+						<form class="panel panel-default form clone facility-item" data-clone="{{ $facility->order }}" code="{{ $facility->code }}" >
 							<div class="panel-heading panel-heading-gray">
 								<h4 class="panel-title">
 									<a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse"  data-parent="#sortable" href="#facilities-{{ $facility->order }}">New Facility {{ $facility->order }}</a>
@@ -100,16 +100,16 @@
 													</div>
 												</div>
 												<div class="col-md-6">
-													<div class="row sortable" id="image-area" parent="{{ $facility->order }}" code="{{ $facility->code }}">
-														@foreach ($facility->imageMany as $image)
+													<div class="row image-area sortable" id="image-area" parent="{{ $facility->order }}" code="{{ $facility->code }}">
+														@foreach ($facility->imageMany->sortBy('order') as $image)
 														<div class="col-md-6 item">
 															<div class="card">
 																<div class="form-group mb-2">
-																	<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Facility Image {{ $image->order }}            
+																	<label class="control-label col-form-label-sm col-md-3 text-left text-nowrap name">Facility Image     
 																		<span class="required"> * </span>
 																	</label>
 																	<div class="col-md-12">
-																		<input type="file" code="{{ $image->code }}" name="image[]" parent="{{ $facility->order }}" data-default-file="{{ asset($image->image) }}" id="image-{{ $image->order }}" class="dropify" accept="image/*"/>
+																		<input type="file" code="{{ $image->code }}" order="{{ $image->order }}" name="image[]"  parent="{{ $facility->order }}" data-default-file="{{ asset($image->image) }}" id="image-{{ $image->order }}" class="dropify" accept="image/*"/>
 																		<div class="error text-danger col-form-label-sm"></div>
 																	</div>
 																</div>
@@ -181,11 +181,13 @@
 		globalRouteSubmitFaclities = '{{ route('staff.public_page.storeFacilities') }}'
 		globalRouteDestroy = '{{ route('staff.public_page.destroyFacilities') }}'
 		globalRouteEditFaclities = '{{ route('staff.public_page.updateFacilities') }}'
-		globalUpdateOrder = '{{ route('staff.public_page.updateOrderFacilities') }}'
+		globalFacilityOrder = '{{ route('staff.public_page.updateOrderFacilities') }}'
+		globalFacilitySingleImage = '{{ route('staff.public_page.facilitySingleImage') }}'
+		globalFacilityDeleteSingleImage = '{{ route('staff.public_page.facilityDeleteSingleImage') }}'
 		var facilitiesCount = '{{ count($facilities) }}';
     </script>
 
-    {{-- <script type="text/javascript" src="{{ asset('staffFiles/assets/js/customjs/page/facilities.min.js') }}"> </script> --}}
+    <script type="text/javascript" src="{{ asset('staffFiles/assets/js/customjs/page/facilities.min.js') }}"> </script>
 
     <script>
     	
