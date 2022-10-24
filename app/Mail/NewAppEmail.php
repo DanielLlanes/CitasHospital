@@ -37,7 +37,7 @@ class NewAppEmail extends Mailable implements ShouldQueue
             [
                 'service' => $this->data->treatment->service->service,
                 'procedure' => $this->data->treatment->procedure->procedure,
-                'package' => $this->data->treatment->package->package,
+                'package' => (is_null($this->data->treatment->package) ? '':$this->data->treatment->package->package ),
                 'patient_name' => $this->data->patient->name,
                 'patient_phone' => $this->data->patient->phone,
                 'patient_email' => $this->data->patient->email,

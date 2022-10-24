@@ -370,7 +370,7 @@ class AppController extends Controller
         )
             ->findOrFail($id);
 
-        //return $applications;
+        // return $applications;
 
         $StaffAss = Staff::with('assignToSpecialty', 'imageOne')->find(Auth::guard('staff')->user()->id);
 
@@ -585,13 +585,13 @@ class AppController extends Controller
 
     public function setNewStaff(Request $request)
     {
-        //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
 
         $oldStaff = !is_null($request->oldName);
 
         //return response()->json($oldStaff);
+        $request->merge(["specialty" => str_replace("_", " ", $request->specialty)]);
         $validator = Validator::make($request->all(), [
             'name' => 'string|required|exists:staff,name',
             'id' => 'string|required|exists:staff,id',
@@ -694,7 +694,7 @@ class AppController extends Controller
                 },
             ]
         )
-            ->findOrFail($request->app);
+        ->findOrFail($request->app);
 
         $treatment = $applications->treatment;
 

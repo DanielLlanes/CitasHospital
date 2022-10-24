@@ -1607,7 +1607,6 @@ class ApplicationController extends Controller
                     "patient" => $patient,
                 ]);
             }
-
             foreach ($toEmail as $key => $data) {
                 Mail::to($data->staff_email)
                 ->send(

@@ -25,6 +25,7 @@ use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\TestimonialController;
+use App\Http\Controllers\Staff\TimeLineController;
 use App\Http\Controllers\Staff\TreatmentController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
@@ -118,7 +119,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/profile/uploadImagesPublicProfile', [ProfileController::class, 'uploadImagesPublicProfile'])->name('uploadImagesPublicProfile');
         Route::post('/profile/deleteImagesPublicProfile', [ProfileController::class, 'deleteImagesPublicProfile'])->name('deleteImagesPublicProfile');
         Route::post('/profile/deleteSurgeriesPerformed', [ProfileController::class, 'deleteSurgeriesPerformed'])->name('deleteSurgeriesPerformed');
-        Route::post('/profile/addSurgeriesPerformed', [ProfileController::class, 'addSurgeriesPerformed'])->name('addSurgeriesPerformed');
+        Route::post('/profile/addSurgeriesPerformed', [ProfileController::class, 'addSurgeriesPerformed'])->name('addSurgeriesPerformed');        
 	});
 	Route::name('lang.')->group(function(){
 		Route::get('/lang/change-lang/{lang}', [LangController::class, 'language'])->name('lang');
@@ -184,6 +185,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/applications/setNewPackage', [AppController::class, 'setNewPackage'])->name('setNewPackage');
         Route::post('/applications/setStatusAcepted', [AppController::class, 'setStatusAcepted'])->name('setStatusAcepted');
         Route::post('/applications/setStatusDeclined', [AppController::class, 'setStatusDeclined'])->name('setStatusDeclined');
+        //
+        Route::post('/aplications/add-timeline-post', [TimeLineController::class, 'store'])->name('storePostTimeline');
+        Route::post('/aplications/show-timeline-post', [TimeLineController::class, 'show'])->name('showPostTimeline');
     });
 
     Route::name('payments.')->group( function(){

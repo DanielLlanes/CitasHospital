@@ -25,13 +25,15 @@
 
     $ass = array_column($arraysDos, 'name', 'ass');
     $otro = array_column($arraysDos, 'id', 'ass');
+
     array_walk($arrays, function(&$staff) use ($ass, $otro) {
         $id = $staff['id'];
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
         $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
     });
 
-
+// echo "<pre>";
+    
 // echo '</pre>';
 @endphp
 <div class="page-bar">
@@ -321,7 +323,7 @@
                                                 {{ $value['specialty'] }}
                                             </strong>
 
-                                            <p class="text-muted" id="nameStaff{{ $value['specialty'] }}">{!! is_null($value['name']) ? "<br>": $value['name'] !!}
+                                            <p class="text-muted" id="nameStaff{{ str_replace(" ", "_", (string)$value['specialty']) }}">{!! is_null($value['name']) ? "<br>": $value['name'] !!}
                                             </p>
                                             @if ($value['id'] == 10)
                                                 @if (Auth::guard('staff')->user()->can('applications.changeCoordinator'))
@@ -331,7 +333,7 @@
                                                 @endif
                                             @else
                                                 @if (Auth::guard('staff')->user()->can('applications.changeStaff'))
-                                                    <button type="button" id="appChange{{ $value['specialty'] }}" service="{{ $appInfo->id }}" class="btn btn-success">
+                                                    <button type="button" id="appChange{{ str_replace(" ", "_", (string)$value['specialty']) }}" service="{{ $appInfo->id }}" class="btn btn-success">
                                                         Assing / Change {{ $value['specialty'] }}
                                                     </button>
                                                 @endif
@@ -1138,104 +1140,12 @@
                                         <div class="full-width p-l-20">
                                             <div class="panel">
                                                 <form>
-                                                    <textarea class="form-control p-text-area" rows="4" placeholder="Add time line notes"></textarea>
+                                                    <textarea class="form-control p-text-area" id="post-area-timeline" rows="4" placeholder="Add time line notes"></textarea>
                                                 </form>
-                                                <footer class="panel-footer">
-                                                    <button class="btn btn-post pull-right">Post</button>
-                                                    <ul class="nav nav-pills p-option">
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-user"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-camera"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa  fa-location-arrow"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-meh-o"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </footer>
                                             </div>
-                                        </div>
-                                        <div class="full-width p-l-20">
-                                            <ul class="activity-list">
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Rajesh</a> <span>Uploaded 3 new photos</span></h5>
-                                                        <p class="text-muted">7 minutes ago near Alaska, USA</p>
-                                                        <div class="album">
-                                                            <a href="#">
-                                                                <img alt="" src="https://www.orliman.com/wp-content/uploads/post13042017_quirofano-inteligente.jpg">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img alt="" src="https://2.bp.blogspot.com/-KN8x77y7Qx4/TrMHGh9BUCI/AAAAAAAAD5M/rqTY3ZmwrIs/w1200-h630-p-k-no-nu/Imagen+or1.jpg">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img alt="" src="https://i0.wp.com/yoamoenfermeriablog.com/wp-content/uploads/2018/10/quirofano_moncloa1_15_1000x564.jpg?resize=790%2C446&ssl=1">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">John Doe</a> <span>attended a meeting with</span>
-                                                                        <a href="#">Lina Smith.</a></h5>
-                                                        <p class="text-muted">2 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Kehn Anderson</a> <span>completed the task “wireframe design” within the dead line</span></h5>
-                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Jacob Ryan</a> <span>was absent office due to sickness</span></h5>
-                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 13 minutes ago</span>
-                                                <div class="post-img"><img src="https://previews.123rf.com/images/siraphol/siraphol1704/siraphol170400471/75206739-interior-borroso-abstracto-del-hospital-y-de-la-cl%C3%ADnica-para-el-fondo.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 37 minutes ago</span>
-                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                             <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 53 minutes ago</span>
-                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 p-t-20 text-center">
-                                                  <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-info">Load More</button>
+                                            <div class="full-width">
+                                                <ul class="activity-list post-timeline-view">
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -1362,7 +1272,7 @@
     foreach ($arrays as $value) {
         if ($value['id'] == 10) {
             if (Auth::guard('staff')->user()->can('applications.changeCoordinator')) {
-                echo '<div class="modal fade" id="change'.$value['specialty'].'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                echo '<div class="modal fade" id="change'.str_replace(" ", "_", (string)$value['specialty']).'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1377,7 +1287,7 @@
                                         <span class="required"> * </span>
                                     </label>
                                     <div class="col-md-12">
-                                        <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
+                                        <select class="form-control input-height" id="getStaff'.str_replace(" ", "_", (string)$value['specialty']).'">
                                         </select>
                                         <span class="help-block text-danger">  </span>
                                     </div>
@@ -1392,7 +1302,7 @@
                 </div>';
             }
         } elseif(Auth::guard('staff')->user()->can('applications.changeStaff')){
-            echo '<div class="modal fade" id="change'.$value['specialty'].'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            echo '<div class="modal fade" id="change'.str_replace(" ", "_", (string)$value['specialty']).'App" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -1407,7 +1317,7 @@
                                     <span class="required"> * </span>
                                 </label>
                                 <div class="col-md-12">
-                                    <select class="form-control input-height" id="getStaff'.$value['specialty'].'">
+                                    <select class="form-control input-height" id="getStaff'.str_replace(" ", "_", (string)$value['specialty']).'">
                                     </select>
                                     <span class="help-block text-danger">  </span>
                                 </div>
@@ -1552,6 +1462,73 @@
         </div>
     </div>
 </div>
+<div id="timeline-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar notas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Add time line notes:</label>
+                        <textarea class="form-control p-text-area post-area-timeline" id="post-area-timeline" rows="4" placeholder="Add time line notes"></textarea>
+                    </div>
+                    <style>
+                        #imagen-dropyfy {
+                            border-radius: 10px;
+                            width: 100%;
+                            height: 250px;
+                            border: .5px solid;
+                            border-color: #eee;
+                            position: relative;
+                            overflow-y: scroll;
+                        }
+                        #images-input {
+                            height: inherit;
+                            width: inherit;
+                            opacity: 0;
+                            z-index: 10060;
+                            position: absolute;
+                        }
+                         .cleck-test {
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            text-align: center;
+                            z-index: 10055;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            color: #000!important;
+                        }
+
+                        .note-editor .note-dropzone { opacity: 1 !important; }
+                    </style>
+                    <div class="form-group droparea">
+                        <label for="message-text" class="control-label">Imagenes</label>
+                        <br>
+                        <div class="imagen-dropyfy" id="imagen-dropyfy">
+                            <small class="small text-muted cleck-test">has click para agrgar imagenes</small>    
+                            <input type="file" name="image-timeline-upload[]" id="images-input" multiple>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect cancel-post-btn">Cancelar</button>
+                <button type="button" class="btn btn-danger waves-effect waves-light" id="post-timeline-btn">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .note-editable > p {
+        margin: 0 !important;
+    }
+</style>
 
 @endsection
 @section('styles')
@@ -1581,6 +1558,8 @@
     var globalRouteSetNewPackage = "{{ route('staff.applications.setNewPackage') }}"
     var globalRouteSetStatusAcepted = "{{ route('staff.applications.setStatusAcepted') }}"
     var globalRouteSetStatusDeclined = "{{ route('staff.applications.setStatusDeclined') }}"
+    var globalRouteStorePostTimeline = "{{ route('staff.applications.storePostTimeline') }}"
+    var globalRouteShowPostTimeline = "{{ route('staff.applications.showPostTimeline') }}"
 
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
@@ -1607,6 +1586,8 @@
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
 
+    var baseURL = '{{ asset('/') }}'
+
     itemContainer.slimscroll({
         scrollTo : '500px',
         start: 'bottom',
@@ -1617,13 +1598,19 @@
         wheelStep: 5
     })
 
+    getTimeLinePost()
+
+    $(window).scroll(function() {
+        if($(window).scrollTop() == $(document).height() - $(window).height()) {
+            getTimeLinePost()
+        }
+    })
     $('#messageInput').summernote({
         placeholder: 'placeholder',
         height: 50,
         toolbar: false,
         disableResizeEditor: true,
     })
-
     $('#imageRow').magnificPopup({
           delegate: 'a.a',
           type: 'image',
@@ -1638,7 +1625,6 @@
           closeOnContentClick: true,
           midClick: true // allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source.
     });
-
     $('#messageInput').on('summernote.keydown', function(we, e) {
         if ( e.which === 13 && !e.shiftKey ) {
             e.preventDefault();
@@ -1653,20 +1639,164 @@
             });
         }
     });
-
     $(document).on( 'shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
        if ($(this).attr('href') == '#debateChat') {debateToDownLast()}
     })
-
     $('.summernote').summernote({
         placeholder: 'placeholder',
         height: 100,
         toolbar: false,
         disableResizeEditor: true,
     })
+    var $myArr = [];
+    var $viewArr = [];
+    
+    function getTimeLinePost() {
+        let $offset = $('.tl-card').length;
+        let $limit = 10;
+        let $formData = new FormData();
+        $formData.append('app', app_id)
+        $formData.append('offset', $offset)
+        $formData.append('limit', $limit)
 
-    function setNewStaff(lastValue, lastText, specialty)
-    {
+        $.ajax({
+            url: globalRouteShowPostTimeline,
+            method:"POST",
+            data:$formData,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+
+            },
+            success:function(response)
+            {
+                $.each(response.post, function(i, val) {
+                    addNewTimeLinePost(response.post[i], 'append')
+                });
+            },
+            complete: function()
+            {
+            },
+        })
+    }
+    function  uploadImagePreview($filesCount, $files) {
+        var $prev = '';
+        $.each($files, function(i, img) {
+            if (img) {
+                var myObj = {
+                    img
+                };
+                $myArr.push(myObj);
+                $viewArr.push(URL.createObjectURL(img));
+            }
+        });       
+       setUploadGrid($viewArr);
+        return
+        $('#imagen-dropyfy').imagesGrid({
+            images: $viewArr,
+            align: true,
+            upload: true,
+        });
+    }
+    function setUploadGrid($viewArr) {
+        var $imagesArr = $viewArr,
+            $imagesArrCount = $viewArr.length
+            $imagesGrid = 5,
+            $element = $('#imagen-dropyfy');
+            $imagesGridCount = ($imagesArrCount < $imagesGrid) ? $imagesArrCount : $imagesGrid; 
+
+        $element.removeClass().addClass('imagen-dropyfy imgs-grid imgs-grid-' + $imagesGridCount);
+
+
+        let $divimages = [];
+        $addRow = `<div class="row dropArea"></div>`;
+        $('.dropArea').remove();
+        $element.append($addRow);
+        for (var i = 0; i < $imagesArrCount; ++i) {
+            // if (i === $imagesGrid) {
+            //     break;
+            // }
+
+            $template = ` <div class="col-3 divArea">
+                                <div class="card">
+                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
+                                </div>
+                            </div>`
+            $('.dropArea').append($template);   
+
+
+            ///
+        }
+        $( ".dropArea" ).sortable();
+
+        $(".dropArea").sortable("refresh");
+
+        $divimages = $('.imgs-grid-image')
+
+        switch ($divimages.length) {
+            case 2:
+            case 3:
+                getImgHeith($divimages);
+                break;
+            case 4:
+                getImgHeith($divimages.slice(0, 2));
+                getImgHeith($divimages.slice(2));
+                break;
+            case 5:
+            case 6:
+                getImgHeith($divimages.slice(0, 3));
+                getImgHeith($divimages.slice(3));
+                break;
+        }
+    }
+    function getImgHeith(items) {
+        var $altura_arr = [];
+        $.each(items, function(i, val) {
+            $q = $(this).find('img')
+            let $img = new Image()
+            $img.src = $q.attr('src');
+            $img.onload = function () {
+                $altura_arr.push(this.height)
+                if (items.length == (i+1)) {
+                    outherImg($altura_arr, items)
+                }
+            }
+        });
+    }
+    function outherImg($altura_arr, items){
+        altura_arr = [];
+        $(items).each(function() {
+            var items = $(this),
+                imgWraps = items.find('.image-wrap'),
+                imgs = items.find('img'),
+                imgHeights = imgs.height();
+                altura_arr.push(imgHeights)
+        });
+        $sort = altura_arr.sort(function(a, b){return a - b});
+        var normalizedHeight = $sort[0];
+        $(items).each(function() {
+
+            var item = $(this),
+                imgWrap = item.find('.image-wrap'),
+                img = item.find('img'),
+                imgHeight = img.height();
+
+                imgWrap.height(normalizedHeight);
+
+            if (imgHeight > normalizedHeight) {
+                var top = Math.floor((imgHeight - normalizedHeight) / 2);
+                console.log("top", top);
+                img.css({ top: -top });
+            }
+        });
+    }
+    function setNewStaff(lastValue, lastText, specialty){
         var form_data = new FormData();
         form_data.append('name', lastText);
         form_data.append('id', lastValue);
@@ -1690,6 +1820,9 @@
             },
             success:function(response)
             {
+
+                
+console.log("response", response);
                 $('#nameStaff'+specialty).text(response.response.staff_name)
 
                 socket.emit('sendNewStaffToServer', response.response);
@@ -1701,9 +1834,7 @@
             },
         })
     }
-
-    function sendDebateToServer(messageInput)
-    {
+    function sendDebateToServer(messageInput) {
         form_data = new FormData();
         form_data.append('message', messageInput);
         form_data.append('debate', debate_id);
@@ -1746,9 +1877,7 @@
             },
         })
     }
-
-    function senderDebate(message)
-    {
+    function senderDebate(message) {
         $msg = '<li class="out">';
             $msg += '<img src="{{ asset(getAvatar(auth()->guard('staff')->user())) }} " class="avatar" alt="">';
             $msg += '<div class="message">';
@@ -1761,19 +1890,124 @@
         $('#chatDiv').append($msg)
         debateToDownLast()
     }
-
     function debateToDownLast(){
         var container = $('ul.chat');
         var scrollTo = $("ul.chat li:last");
         container.animate({scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()});
     }
-
     function send_notification($data) {
     }
+    function addNewTimeLinePost(data, mode) {
+        let $avatar = 'staffFiles/assets/img/user/user.jpg';
+        let $countImages = '';
+        if (data.staff.image_one !== null) {
+            $avatar = data.staff.image_one.image
+        }
+        let $message = (data.message == null)? '': data.message;
+        var date = new Date(data.created_at);
+        let $time = moment(date).fromNow()
+        let $post = ` 
+            <li class="card p-3 tl-card" post="${data.code}" id="post-${data.id}">
+                <div class="avatar">
+                    <img src="${baseURL}${$avatar}" alt="" />
+                </div>
+                <div class="activity-desk">
+                    <h5><a href="#">${data.staff.name}</a> ${ data.id } <span id="countImages"></span></h5><small></smal>
+                    <p class="text-muted">${$time}</p>
+                    <div class="activity-desk ml-0">
+                        <h5><span>${$message}</span></h5>
+                    </div>
+                    <hr>
+                    <br>
+                    <div class="album" id="album-${data.code}">
+                        
+                    </div>
+                </div>
+            </li>
+        `
+        
+        if (mode == 'prepend') {$('.post-timeline-view').prepend($post)} else {$('.post-timeline-view').append($post)}
 
+        if (data.image_many !== null) {
+            $countImages = data.image_many.length
+            for (var i = 0; i < data.image_many.length; i++) {
+                $countImages = 'Agrego'+ ' ' + data.image_many.length +  ' ' + 'imagenes'
+                $('#countImages').html($countImages); 
+                let $images = `
+                    <a href="#">
+                        <img alt="" src="${baseURL}${data.image_many[i].image}">
+                    </a>
+                `;
+                
+                $('#album-'+data.code).append($images)
+            }
+        }
+        $('.dropArea').remove();
+        $('#images-input').empty();
+        $("#images-input").val('');
+        $('#post-area-timeline').val('');
+        $('#timeline-modal').modal('hide')
+    }
+    $(document).on('click', '.cancel-post-btn', function(event) {
+        event.preventDefault();
+        $('.dropArea').remove();
+        $('#images-input').empty();
+        $("#images-input").val('');
+        $('#post-area-timeline').val('');
+        $('#timeline-modal').modal('hide')
+    });
+    $(document).on('click', '#post-timeline-btn', function(event) {
+        event.preventDefault();
+        let $message = $('.post-area-timeline').summernote('code');
+        let $images = $('#images-input').prop('files')
+        let $imagesCount = $('#images-input').prop('files').length;
+        let $imageArr = [];
+        let $formData = new FormData();
+        $.each($images, function(i, img) {
+            if (img) {
+                $formData.append("file[]", img);
+            }
+        });
+        $formData.append('app', app_id);
+        $formData.append('message', $message);
+        $.ajax({
+            url: globalRouteStorePostTimeline,
+            method:"POST",
+            data:$formData,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+
+            },
+            success:function(response)
+            {
+            console.log("response", response);
+                if (response.success) {
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.message,
+                    })
+
+                    addNewTimeLinePost(response.post, 'prepend');
+                }
+            },
+            complete: function()
+            {
+            },
+        })  
+    });
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
+        console.log("specialty", specialty);
+        specialtyFormated = specialty[1].replace("_", " ");
+        console.log("specialtyFormated", specialtyFormated);
         $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
         $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
             $('#getStaff'+specialty[1]).select2({
@@ -1787,13 +2021,14 @@
                     data: function (params) {
                         return {
                             search: params.term,
-                            specialty: specialty[1],
+                            specialty: specialtyFormated,
                             app: app_id,
                         }
                     },
                     processResults: function(data) {
                         return {
                             results: $.map(data, function(obj) {
+                                console.log("obj", obj);
                                 return {
                                     id: obj.id,
                                     text: obj.name
@@ -1806,7 +2041,9 @@
             }).on("change", function(e) {
                 //$("#getStaff"+specialty[1]).empty()
                 var lastValue = $.trim(e.currentTarget.value);
+                console.log("lastValue", lastValue);
                 var lastText = $.trim(e.currentTarget.textContent);
+                console.log("lastText", lastText);
                 setNewStaff(lastValue, lastText, specialty[1])
             });
         }).modal('show');
@@ -2152,7 +2389,31 @@
             },
         })
     });
-
+    $('#timeline-modal').on('hidden.bs.modal', function (e) {
+        $('.dropArea').remove();
+        $('#images-input').empty();
+        $("#images-input").val('');
+        $('.post-area-timeline').summernote('reset');
+    })
+    $(document).on('change', '#images-input', function(event) {
+        event.preventDefault();
+        $files = $(this).prop('files')
+        $filesCount = $(this).prop('files').length
+        //$('#images-input').addClass('d-none')
+        uploadImagePreview($filesCount, $files)
+    });
+    $(document).on('click', '#post-area-timeline', function(event) {
+        event.preventDefault();
+        $('#timeline-modal').modal('show')
+    });
+    $('.post-area-timeline').summernote({
+            placeholder: 'Agregar notas',
+            height: 250,
+            toolbar: false,
+            disableResizeEditor: true,
+           disableDragAndDrop:true,
+        })
+        
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
         if (response.success) {
             $('#change-procedure-p').html(response.name);

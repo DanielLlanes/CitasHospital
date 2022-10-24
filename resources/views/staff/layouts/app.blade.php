@@ -38,6 +38,8 @@
     <link href="{{ asset('staffFiles/assets/plugins/select2/dist/css/select2.css') }}" rel="stylesheet">
     <!-- Jq Te -->
     <link href="{{ asset('staffFiles/assets/plugins/jQuery-TE/jquery-te-1.4.0.css') }}" rel="stylesheet">
+    <!-- Image Grid -->
+    <link href="{{ asset('staffFiles/assets/plugins/jQuery-images-grid/src/images-grid.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
     <link href="{{ asset('staffFiles/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
@@ -135,7 +137,8 @@
         <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
         <!-- slugify-->
         <script src="{{ asset('staffFiles/assets/js/slugify.js') }}"></script>
-
+        <!-- Image-grid-->
+        <script src="{{ asset('staffFiles/assets/plugins//jQuery-images-grid/src/images-grid.js') }}"></script>
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- Select2 -->
         <script src="{{ asset('staffFiles/assets/plugins/select2/dist/js/select2.full.js') }}"></script>

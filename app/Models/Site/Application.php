@@ -13,6 +13,7 @@ use App\Models\Staff\Product;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Status;
 use App\Models\Staff\StatusOne;
+use App\Models\Staff\TimeLine;
 use App\Models\Staff\Treatment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -94,5 +95,9 @@ class Application extends Model
     public function partners()
     {
         return $this->belongsToMany(Partner::class);
+    }
+    public function timelines()
+    {
+        return $this->hasMany(TimeLine::class);
     }
 }
