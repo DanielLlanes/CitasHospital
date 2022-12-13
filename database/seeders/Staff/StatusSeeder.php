@@ -102,4 +102,6 @@ class StatusSeeder extends Seeder
             ],
         ]);
     }
+
+    #INSERT INTO `statuses`(`name_en`, `name_es`, `color`, `code`, `type` ) VALUES ('Cambio de procedimiento','Change of procedure','#f73b31','1661809714L71jPIDOjzcTW9HOFYVbvxNFNlD4PB630d341234567','Application');
 }

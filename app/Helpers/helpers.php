@@ -92,4 +92,15 @@ if (!function_exists('getAvatarChached')) {
     }
 }
 
+if (! function_exists('baseUrl')) {
+    function baseUrl() {
+        return config('app.base_url');
+    }
+}
+
+if (! function_exists('staffUrl')) {
+    function staffUrl() {
+        return config('app.staff_subdomain') . '.' . baseUrl();
+    }
+}
 

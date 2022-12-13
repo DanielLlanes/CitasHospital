@@ -87,15 +87,17 @@
                                     <br>
                                     <p id="current-status-p">{!!  getStatus($appInfo->statusOne->status->name, $appInfo->statusOne->status->color) !!}</p>
                                 </div>
-                                <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
-                                    <br>
-                                    @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4 || Auth::guard('staff')->user()->hasRole(['dios', 'administrator']))
-                                        <div class="d-flex justify-content-between">
-                                            <button id="status-accepted-button" class="btn btn-success">accepted</button>
-                                            <button id="status-declined-button" class="btn btn-danger">Declined</button>
+                                @if ($appInfo->statusOne->status->id == 14 || $appInfo->statusOne->status->id == 13 || $appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4)
+                                    @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                                        <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
+                                            <br>
+                                                <div class="d-flex justify-content-between">
+                                                    <button id="status-accepted-button" class="btn btn-success">accepted</button>
+                                                    <button id="status-declined-button" class="btn btn-danger">Declined</button>
+                                                </div>
                                         </div>
                                     @endif
-                                </div>
+                                @endif
                             </div>
                             <hr>
                         </div>
@@ -1685,7 +1687,7 @@
             },
         })
     }
-    function  uploadImagePreview($filesCount, $files) {
+    function uploadImagePreview($filesCount, $files) {
         var $prev = '';
         $.each($files, function(i, img) {
             if (img) {
@@ -1820,9 +1822,11 @@
             },
             success:function(response)
             {
-
+                $("#recommended-procedure-span").html('')
+                $("#recommended-procedure-row").html('')
+                $('#status-accepted-modal').modal('hide')
+                $("#current-status-p").html(response.status)
                 
-console.log("response", response);
                 $('#nameStaff'+specialty).text(response.response.staff_name)
 
                 socket.emit('sendNewStaffToServer', response.response);
@@ -2028,7 +2032,6 @@ console.log("response", response);
                     processResults: function(data) {
                         return {
                             results: $.map(data, function(obj) {
-                                console.log("obj", obj);
                                 return {
                                     id: obj.id,
                                     text: obj.name
@@ -2041,9 +2044,7 @@ console.log("response", response);
             }).on("change", function(e) {
                 //$("#getStaff"+specialty[1]).empty()
                 var lastValue = $.trim(e.currentTarget.value);
-                console.log("lastValue", lastValue);
                 var lastText = $.trim(e.currentTarget.textContent);
-                console.log("lastText", lastText);
                 setNewStaff(lastValue, lastText, specialty[1])
             });
         }).modal('show');

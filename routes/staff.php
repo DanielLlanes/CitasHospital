@@ -32,8 +32,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
 
 	    //Login Routes
-	    Route::get('/login', [StaffLoginController::class, 'showLoginForm'])->name('login');
-	    Route::post('/login', [StaffLoginController::class, 'login']);
+	    Route::get('/', [StaffLoginController::class, 'showLoginForm']);
+	    Route::post('/', [StaffLoginController::class, 'login'])->name('login');
 	    Route::post('/logout', [StaffLoginController::class, 'logout'])->name('logout');
 
 	    //Register Routes
@@ -167,8 +167,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/treatments/activate', [TreatmentController::class, 'activate'])->name('activateProduct');
         Route::post('/treatments/edit', [TreatmentController::class, 'edit'])->name('editProduct');
         Route::post('/treatments/update', [TreatmentController::class, 'update'])->name('updateProduct');
-        Route::post('/treatments/destroy', [TreatmentController::class, 'destroy'])->name('destroyProduct');
-        
+        Route::post('/treatments/destroy', [TreatmentController::class, 'destroy'])->name('destroyProduct'); 
     });
 
     Route::name('applications.')->group( function(){

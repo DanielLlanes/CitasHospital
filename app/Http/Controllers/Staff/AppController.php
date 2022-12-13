@@ -6,6 +6,8 @@ use App\Events\DebateChatEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\Staff\Debate\DebateMessagesJob;
 use App\Mail\AcceptedLetterEmail;
+use App\Mail\AcceptedUnassignedEmail;
+use App\Mail\AcceptedWithChangeOfProcedureEmail;
 use App\Mail\DeclidedLetterEmail;
 use App\Models\Site\Application;
 use App\Models\Staff\Debate;
@@ -108,7 +110,6 @@ class AppController extends Controller
 
     public function getList(Request $request)
     {
-
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
@@ -637,6 +638,15 @@ class AppController extends Controller
 
         $response = [];
 
+        // $app->statusOne()->create(
+        //     [
+        //         'status_id' => 5,
+        //         'indications' => null,
+        //         'recomendations' => null,
+        //         'code' => getCode(),
+        //     ]
+        // );
+
         if ($saveStaff->save()) {
             $date = Carbon::now();
             $hours = $date->format('g:i A');
@@ -650,7 +660,45 @@ class AppController extends Controller
             $response['lang_en'] = $order->name_en;
             $response['lang_es'] = $order->name_es;
             $response['staff_name'] = $newStaff->name;
-            $app =  Application::find($request->app);
+            $app =  Application::with([
+                'assignments',
+                'statusOne' => function ($q) use ($lang) {
+                    $q->with([
+                        'status' => function ($q) use ($lang) {
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
+                },
+            ])
+            ->find($request->app);
+            $changeStatus = false;
+            $setStatus = 1;
+            if ($app->statusOne->status_id == 14) {
+                if ( count($app->assignments) >= 3 ) {
+                    $setStatus = 5;
+                    $changeStatus = true;
+                }
+            } 
+            if ($app->statusOne->status_id == 5) {
+                if ( count($app->assignments) >= 3 ) {
+                    $setStatus = 1;
+                    $changeStatus = true;
+                }
+            }
+
+            if ($changeStatus) {
+                $app->statusOne()->create(
+                    [
+                        'status_id' => $setStatus,
+                        'indications' => null,
+                        'recomendations' => null,
+                        'code' => getCode(),
+                    ]
+                );
+            }
+
+
             $app->notification()->create([
                 'staff_id' => $newStaff->id,
                 'type' => 'New application',
@@ -659,8 +707,23 @@ class AppController extends Controller
             ]);
         }
 
+        $status = Application::with(
+                [
+                    'statusOne' => function ($q) use ($lang) {
+                        $q->with([
+                            'status' => function ($q) use ($lang) {
+                                $q->select("name_$lang as name", 'id', 'color');
+                            }
+                        ])
+                            ->select("*")->orderBy('created_at', 'desc')->first();
+                    },
+                ]
+            )
+            ->find($request->app);
+
         return response()->json([
             'response' => $response,
+            'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
         ]);
     }
 
@@ -834,10 +897,8 @@ class AppController extends Controller
 
         return ($procedures);
     }
-
     public function setNewProcedure(Request $request)
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $app = Application::with(
@@ -1068,7 +1129,7 @@ class AppController extends Controller
                 },
             ]
         )
-            ->find($request->app);
+        ->find($request->app);
 
         if ($app) {
             if ($app->treatment->procedure->has_package == 1) {
@@ -1115,7 +1176,6 @@ class AppController extends Controller
 
     public function setStatusAcepted(Request $request)
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
@@ -1174,21 +1234,19 @@ class AppController extends Controller
         )
         ->find($request->app);
 
-
         $coor = Staff::whereHas(
             'assignment',
             function ($q) use ($request) {
                 $q->where('applications.id', $request->app);
             }
         )
-            ->whereHas(
-                'assignToSpecialty',
-                function ($q) {
-                    $q->where('specialties.id', 10);
-                }
-            )
-            ->get();
-
+        ->whereHas(
+            'assignToSpecialty',
+            function ($q) {
+                $q->where('specialties.id', 10);
+            }
+        )
+        ->get();
 
         $dataEmail = new Collection();
 
@@ -1197,9 +1255,11 @@ class AppController extends Controller
             if ($app->treatment->procedure->id != $request->id) {
                 $app->recommended_id = $request->id;
 
+                $oldTreat = Procedure::find($request->id);
+
                 $app->statusOne()->create(
                     [
-                        'status_id' => 1,
+                        'status_id' => 13,
                         'indications' => $request->medicalIndications,
                         'recomendations' => $request->medicalRecommendations,
                         'code' => getCode(),
@@ -1219,7 +1279,23 @@ class AppController extends Controller
                             },
                         ]
                     )
-                        ->find($request->app);
+                    ->find($request->app);
+                    $data = new Collection();
+                    $data->push((object)[
+                        'patient' => $app->patient->name,
+                        'phone' => $app->patient->phone,
+                        'mobile' => $app->patient->mobile,
+                        'email' => $app->patient->email,
+                        'coor' => $coor[0]->name,
+                        'email' => $coor[0]->email,
+                        'lang' => $coor[0]->lang,
+                        'reccomended' => ($coor[0]->lang == 'es'? $app->treatment->procedure->procedure_en:$app->treatment->procedure->procedure_es ),
+                        'old' =>  ($coor[0]->lang == 'es'? $oldTreat->procedure_es:$oldTreat->procedure_es ),
+                        'doctor' => auth()->guard('staff')->user()->name,
+                        'medicalRecommendations' => $request->medicalRecommendations,
+                        'medicalIndications' => $request->medicalIndications,
+                    ]);
+                    Mail::send(new AcceptedWithChangeOfProcedureEmail($data[0]));
                     return response()->json([
                         'success' => true,
                         'data' => $app,
@@ -1229,9 +1305,27 @@ class AppController extends Controller
                 }
             }
 
+            $statusx = '13';
+            if (count($app->assignments) < 3) {
+                $statusx = '14';
+
+                if ($statusx == '14') {
+                    $dataE = new Collection();
+                    $dataE->push((object)[
+                        'coor' => $coor[0]->name,
+                        'email' => $coor[0]->email,
+                        'lang' => $coor[0]->lang,
+                        'doctor' => auth()->guard('staff')->user()->name,
+                        'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
+                    ]); 
+                    Mail::send(new AcceptedUnassignedEmail($dataE[0]));
+                } 
+
+            }
+
             $app->statusOne()->create(
                 [
-                    'status_id' => 5,
+                    'status_id' => $statusx,
                     'indications' => $request->medicalIndications,
                     'recomendations' => $request->medicalRecommendations,
                     'code' => time() . uniqid(Str::random(30)),
@@ -1279,13 +1373,16 @@ class AppController extends Controller
                 'coordinator' => $coor[0],
             ]);
 
+            
             Mail::send(new AcceptedLetterEmail($dataEmail[0]));
+
             return response()->json([
                 'success' => true,
                 'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
             ]);
         }
     }
+
     public function setStatusDeclined(Request $request)
     {
 

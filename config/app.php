@@ -51,11 +51,13 @@ return [
     | your application so that it is used when running Artisan tasks.
     |
     */
+    'base_url' => env('APP_BASE_URL'), // NEW
 
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL', null),
 
+    'staff_subdomain' => env('APP_BASE_SUBDOMAIN'), // NEW
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
