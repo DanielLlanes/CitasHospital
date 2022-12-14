@@ -1734,7 +1734,6 @@
       let progressBar = document.getElementById('steps');
       let url = '{{ $code }}';
       let domain = window.location.origin;
-      console.log("domain", domain);
 
       form.onsubmit = () => {
           return false
@@ -1809,7 +1808,6 @@
         })
       }
       function getStates(id){
-        console.log("id", id);
         let data = new FormData();
         data.append('id', id)
         fetch( domain + '/api/partners/site/' + url + '/states', {
@@ -1843,7 +1841,6 @@
         })
         .then(response => response.json())
         .then( function(data) {
-          console.log("data", data);
            $('#select-procedure-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
            $('#select-procedure-select').prepend('<option selected></option>').select2({
                 placeholder: 'Selecciona un estado o provincia',
@@ -1941,12 +1938,10 @@
         })
         .then(response => response.json())
         .then( function(data) {
-          console.log("data", data);
           if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
           if (data.hasOwnProperty('success')) {
             if (!data.success) {
               $.each( data.errors, function( key, value ) {
-                console.log("value", value);
                   $real = key.replace('.', '-')
                   $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
                   $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
@@ -1972,7 +1967,6 @@
           })
       });
       submitBtn.addEventListener('click', () =>{
-        console.log('aqui')
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
         form_data.append('step', current_step);
@@ -1982,7 +1976,7 @@
         })
         .then(response => response.json())
         .then( function(data) {
-          console.log("data", data);
+          
           if (!data.success) {
             $.each( data.errors, function( key, value ) {
                 $real = key.replace('.', '-')
@@ -2235,7 +2229,6 @@
       });
       $(document).on('click', '.send', function(e){
         e.preventDefault();
-        console.log(medication_cadena.length);
         if (medication_cadena.length > 0) {
           $('#formHealthData').append("<input type='hidden' name='medication_cadena' value='" + JSON.stringify(medication_cadena) +"'>")
         }
@@ -2504,7 +2497,6 @@
       $(document).on('click', '.deleteillness', function(event) {
           $(this).parents('tr').remove()
 
-          console.log($("illness_table tbody tr").length);
 
           if ($("#illness_table tbody tr").length < 1) {
               addillnessFields()
