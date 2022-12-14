@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="http://prado.test/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
+    <link href="{{ env('APP_URL_PARTNER') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <style>
       .select2-container .select2-selection--single .select2-selection__rendered {
           height: 30px;
@@ -481,7 +481,7 @@
                 <div class="mb-3 row mt-1">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Other allergy </span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" id="other_allergy" name="other_allergy" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="describe_other_allergy" name="describe_other_allergy" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -1721,7 +1721,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="http://prado.test/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
     <script>
       let step = document.getElementsByClassName('step');
       let prevBtn = document.getElementById('prev-btn');
@@ -1733,6 +1733,8 @@
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
       let url = '{{ $code }}';
+      let domain = window.location.origin;
+      console.log("domain", domain);
 
       form.onsubmit = () => {
           return false
@@ -1771,11 +1773,11 @@
         }
       });
 
-      fetch(' http://prado.test/api/partners/site/' + url + '/countries ')
+      fetch( domain + '/api/partners/site/' + url + '/countries ')
       .then(response => response.json())
       .then(json => getCountry(json))
 
-      fetch(' http://prado.test/api/partners/site/' + url + '/services ')
+      fetch( domain + '/api/partners/site/' + url + '/services ')
       .then(response => response.json())
       .then(json => getServices(json))
 
@@ -1810,7 +1812,7 @@
         console.log("id", id);
         let data = new FormData();
         data.append('id', id)
-        fetch('http://prado.test/api/partners/site/' + url + '/states', {
+        fetch( domain + '/api/partners/site/' + url + '/states', {
           method: "POST",
           body: data
         })
@@ -1835,7 +1837,7 @@
       function getProcedures(id){
         let data = new FormData();
         data.append('id', id)
-        fetch('http://prado.test/api/partners/site/' + url + '/procedures', {
+        fetch( domain + '/api/partners/site/' + url + '/procedures', {
           method: "POST",
           body: data
         })
@@ -1854,7 +1856,7 @@
         let data = new FormData();
         if (d.package === 1) { $("#package").removeClass('d-none') }else { $("#package").addClass('d-none') }
         data.append('id', d.id)
-        fetch('http://prado.test/api/partners/site/' + url + '/packages', {
+        fetch( domain + '/api/partners/site/' + url + '/packages', {
           method: "POST",
           body: data
         })
@@ -1933,7 +1935,7 @@
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
         form_data.append('step', current_step);
-        fetch('http://prado.test/api/partners/site/' + url + '/checkData', {
+        fetch( domain + '/api/partners/site/' + url + '/checkData', {
           method: "POST",
           body: form_data
         })
@@ -1960,7 +1962,7 @@
           form = document.getElementsByTagName('form')[0]
           var form_data = new FormData(form);
           form_data.append('step', current_step);
-          fetch('http://prado.test/api/partners/site/' + url + '/getData', {
+          fetch( domain + '/api/partners/site/' + url + '/getData', {
             method: "POST",
             body: form_data
           })
@@ -1970,10 +1972,11 @@
           })
       });
       submitBtn.addEventListener('click', () =>{
+        console.log('aqui')
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
         form_data.append('step', current_step);
-        fetch('http://prado.test/api/partners/site/' + url + '/storeData', {
+        fetch( domain + '/api/partners/site/' + url + '/storeData', {
           method: "POST",
           body: form_data
         })
@@ -1991,6 +1994,8 @@
             // for (var i = 0; i < stepCount; i++) {
             //   step[i].classList.add('d-none')
             // }
+
+            window.location.href = "http://jlpradosc.online";
           }
         })
       })

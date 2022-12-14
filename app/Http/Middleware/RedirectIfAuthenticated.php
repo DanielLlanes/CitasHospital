@@ -22,9 +22,9 @@ class RedirectIfAuthenticated
         if ($guard == "staff" && Auth::guard($guard)->check()) {
             return redirect(RouteServiceProvider::SDASHBOARD);
         }
-        // if ($guard == "student" && Auth::guard($guard)->check()) {
-        //     return redirect(RouteServiceProvider::HOME);
-        // }
+        if ($guard == "partner" && Auth::guard($guard)->check()) {
+            return redirect(RouteServiceProvider::HOME);
+        }
         return $next($request);
     }
 }

@@ -15,8 +15,8 @@ Route::name('partners.')->namespace('Partners')->group(function(){
 		Route::namespace('Auth')->group(function(){
 
 		    //Login Routes
-		    Route::get('/login', [PartnerLoginController::class, 'showLoginForm'])->name('login');
-		    Route::post('/login', [PartnerLoginController::class, 'login']);
+		    Route::get('/', [PartnerLoginController::class, 'showLoginForm'])->name('login');
+		    Route::post('/', [PartnerLoginController::class, 'login']);
 		    Route::post('/logout', [PartnerLoginController::class, 'logout'])->name('logout');
 
 		   
@@ -38,7 +38,7 @@ Route::name('partners.')->namespace('Partners')->group(function(){
 		});
 
 	Route::get('/dashboard/', [DashController::class, 'index'])->name('dashboard');
-	Route::get('/partners/', [DashController::class, 'dashboard'])->name('dashboards');
+	//Route::get('/partners/', [DashController::class, 'index'])->name('dashboards');
 	
 	//Route::get('/partners/site/{code}/{brand}', [DashController::class, 'dashboard'])->name('showPartners');
 

@@ -57,7 +57,9 @@ return [
 
     'asset_url' => env('ASSET_URL', null),
 
-    'staff_subdomain' => env('APP_BASE_SUBDOMAIN'), // NEW
+    'staff_subdomain' => env('APP_BASE_ADMIN_SUBDOMAIN'), // NEW
+
+    'partners_subdomain' => env('APP_BASE_PARTNERS_SUBDOMAIN'), // NEW
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

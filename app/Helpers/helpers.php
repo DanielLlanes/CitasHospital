@@ -104,3 +104,8 @@ if (! function_exists('staffUrl')) {
     }
 }
 
+if (! function_exists('partnersUrl')) {
+    function partnersUrl() {
+        return config('app.partners_subdomain') . '.' . baseUrl();
+    }
+}

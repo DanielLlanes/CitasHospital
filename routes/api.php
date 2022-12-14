@@ -19,12 +19,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::domain(partnersUrl())->group( function() {
 
-Route::get('/partners/site/{code}/countries', [ApiPartnersController::class, 'countries']);
-Route::post('/partners/site/{code}/states',   [ApiPartnersController::class, 'states']);
-Route::get('/partners/site/{code}/services', [ApiPartnersController::class, 'services']);
-Route::post('/partners/site/{code}/procedures',   [ApiPartnersController::class, 'procedures']);
-Route::post('/partners/site/{code}/packages',   [ApiPartnersController::class, 'packages']);
-Route::post('/partners/site/{code}/checkData',   [ApiPartnersController::class, 'checkData']);
-Route::post('/partners/site/{code}/getData',   [ApiPartnersController::class, 'getData']);
-Route::post('/partners/site/{code}/storeData',   [ApiPartnersController::class, 'storeData']);
+    Route::get('/partners/site/{code}/countries', [ApiPartnersController::class, 'countries']);
+    Route::post('/partners/site/{code}/states',   [ApiPartnersController::class, 'states']);
+    Route::get('/partners/site/{code}/services', [ApiPartnersController::class, 'services']);
+    Route::post('/partners/site/{code}/procedures',   [ApiPartnersController::class, 'procedures']);
+    Route::post('/partners/site/{code}/packages',   [ApiPartnersController::class, 'packages']);
+    Route::post('/partners/site/{code}/checkData',   [ApiPartnersController::class, 'checkData']);
+    Route::post('/partners/site/{code}/getData',   [ApiPartnersController::class, 'getData']);
+    Route::post('/partners/site/{code}/storeData',   [ApiPartnersController::class, 'storeData']);
+
+    
+});
+

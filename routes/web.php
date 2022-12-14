@@ -80,8 +80,11 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 
+Route::get('/partners/api/{code}', [PartnetsSiteController::class, 'index']);
 Route::domain(staffUrl())->group(base_path('routes/staff.php'));
 
+Route::domain(partnersUrl())->group(base_path('routes/partner.php'));
 
 
-Route::prefix('partners')->group(base_path('routes/partner.php'));
+
+//Route::prefix('partners')->group(base_path('routes/partner.php'));

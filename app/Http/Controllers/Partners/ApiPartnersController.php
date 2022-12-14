@@ -688,7 +688,7 @@ class ApiPartnersController extends Controller
     
     public function storeData(Request $request, $code)
     {
-        return $request;
+        //return $request;
         $partnerCode = $code;
         $lang = 'es';
         $exist = false;
@@ -785,7 +785,8 @@ class ApiPartnersController extends Controller
             "tape"          => 'required|boolean',
             "latex"         => 'required|boolean',
             "aspirin"       => 'required|boolean',
-            "other_allergy" => 'sometimes|nullable|string'
+            "other_allergy" => 'sometimes|nullable|string',
+            "describe_other_allergy" => 'sometimes|nullable|string',
         ]);
 
         $validator3 = Validator::make($request->all(), [
@@ -1180,6 +1181,12 @@ class ApiPartnersController extends Controller
 
         $app = new Application;
 
+        if (!is_null($request->describe_other_allergy)) {
+            $otherAlergies = null;
+        } else {
+            $otherAlergies = 1;
+        }
+
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;
 
@@ -1202,8 +1209,8 @@ class ApiPartnersController extends Controller
         $app->tape = $request->tape;
         $app->latex = $request->latex;
         $app->aspirin = $request->aspirin;
-        $app->other_allergy = (is_null($request->other_allergy)? null:$request->other_allergy );
-        $app->describe_other_allergy = $request->other_allergy;
+        $app->other_allergy = (is_null($request->other_allergy)? null:$otherAlergies );
+        $app->describe_other_allergy = (is_null($request->describe_other_allergy)? null:$request->describe_other_allergy );
 
         $app->if_have_surgeries = $request->previus_surgery;
 
