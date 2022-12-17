@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Partners;
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Mail\NewAppEmail;
@@ -34,9 +34,43 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-class ApiPartnersController extends Controller
+class ApiAppsController extends Controller
 {
     use DatesLangTrait;
+
+    public function index($code)
+    {
+        
+        //return abort(404);
+
+        $lang = 'es';
+        
+        $countries = Country::where('active', 1)->orderBy('name', 'desc')->select("id", "name")->get();
+
+        $treatment = Treatment::with
+        (
+            [
+                'service' => function($query) use ($lang) {
+                    $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
+                    ->with('brand');
+                 },
+                'procedure' => function($query) use ($lang) {
+                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
+                 },
+                'package' => function($query) use ($lang) {
+                    $query->select('id', "active", "package_$lang as package");
+                 }
+            ]
+        )
+        ->where('active', true)
+        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
+        ->get();
+
+        $service = Service::with('procedures')->get();
+        //return($treatment);
+
+        return view('staff.api-apps-manager.index', ['countries' => $countries, 'service' => $service, "treatment" => $treatment]);
+    }
 
     public function countries(Request $request, $code)
     {
@@ -673,7 +707,6 @@ class ApiPartnersController extends Controller
     }
     public function getData(Request $request)
     {  
-
         $lang = 'es';
         $need_images = Service::select('need_images', 'qty_images')->find($request->service);
         return response()->json([
@@ -1384,26 +1417,35 @@ class ApiPartnersController extends Controller
             }
         }
 
-        $partnerExist = Partner::where('code', $partnerCode)->first();
-        if (!$partnerExist) {
-            return response()->json([
-                'success' => false,
-                "go" => '0',
-                "reload" => true,
-                "icon" => 'error',
-                "msg" => "Undefined error"
-            ]);
-        }
-        $partnerExist = Partner::where('code', $code)->first();
-        if (!$partnerExist) {
-            return response()->json([
-                'success' => false,
-                "go" => '0',
-                "reload" => true,
-                "icon" => 'error',
-                "msg" => "Undefined error"
-            ]);
-        }
+
+        /**
+         * Description
+         *
+         * Check if partner exist
+         *
+         */
+
+        // $partnerExist = Partner::where('code', $partnerCode)->first();
+        // if (!$partnerExist) {
+        //     return response()->json([
+        //         'success' => false,
+        //         "go" => '0',
+        //         "reload" => true,
+        //         "icon" => 'error',
+        //         "msg" => "Undefined error"
+        //     ]);
+        // }
+        // $partnerExist = Partner::where('code', $code)->first();
+        // if (!$partnerExist) {
+        //     return response()->json([
+        //         'success' => false,
+        //         "go" => '0',
+        //         "reload" => true,
+        //         "icon" => 'error',
+        //         "msg" => "Undefined error"
+        //     ]);
+        // }
+
         if ($app->save()) {
             $insert_medications = [];
             $insert_surgeries = [];
@@ -1468,12 +1510,15 @@ class ApiPartnersController extends Controller
                 'code' => $hormone_cadena[$i]['code'],
                 ];
             }
-            $partnerAttach = array(
-                "application_id" => $app->id,
-                "partner_id" => $partnerExist->id,
-                "code" => getCode()
-            );
-            $app->partners()->attach([$partnerAttach]);
+
+            // $partnerAttach = array(
+            //     "application_id" => $app->id,
+            //     "partner_id" => $partnerExist->id,
+            //     "code" => getCode()
+            // );
+
+            //$app->partners()->attach([$partnerAttach]);
+
             $app->medications()->delete();
             MedicationApplication::insert($insert_medications);
             $app->surgeries()->delete();
@@ -1648,7 +1693,7 @@ class ApiPartnersController extends Controller
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
-        } //
+        } 
 
         if ($app->save()) {
             $app->statusOne()->create(

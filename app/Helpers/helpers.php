@@ -109,3 +109,9 @@ if (! function_exists('partnersUrl')) {
         return config('app.partners_subdomain') . '.' . baseUrl();
     }
 }
+
+if (! function_exists('apiUrl')) {
+    function apiUrl() {
+        return config('app.api_subdomain') . '.' . baseUrl();
+    }
+}

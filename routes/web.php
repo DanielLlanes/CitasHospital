@@ -5,6 +5,7 @@ use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Staff\LangController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Staff\AppController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,11 +81,16 @@ use Illuminate\Support\Facades\Route;
 //     });
 // });
 
-Route::get('/partners/api/{code}', [PartnetsSiteController::class, 'index']);
 Route::domain(staffUrl())->group(base_path('routes/staff.php'));
 
 Route::domain(partnersUrl())->group(base_path('routes/partner.php'));
 
+
+// Route::domain(apiUrl())->group( function() {
+// 	Route::get('/api/v1/{code}', [PartnetsSiteController::class, 'index']);
+// });
+
+//Route::get('/partners/api/{code}', [PartnetsSiteController::class, 'index']);
 
 
 //Route::prefix('partners')->group(base_path('routes/partner.php'));

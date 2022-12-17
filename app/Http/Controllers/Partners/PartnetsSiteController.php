@@ -21,7 +21,6 @@ class PartnetsSiteController extends Controller
     
     public function index($code)
     {
-
         $partner = Partner::where('code', $code)->first();
         if ($partner) {
             return view('partners.site.index', ["code" => $partner->code]);

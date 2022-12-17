@@ -7,6 +7,7 @@ use App\Http\Controllers\Partner\Auth\PartnerResetPasswordController;
 use App\Http\Controllers\Partners\Auth\PartnerLoginController;
 use App\Http\Controllers\Partners\DashController;
 use App\Http\Controllers\Partners\PartnetsSiteController;
+use App\Http\Controllers\Staff\AppController;
 
 
 

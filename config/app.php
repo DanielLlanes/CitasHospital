@@ -60,6 +60,8 @@ return [
     'staff_subdomain' => env('APP_BASE_ADMIN_SUBDOMAIN'), // NEW
 
     'partners_subdomain' => env('APP_BASE_PARTNERS_SUBDOMAIN'), // NEW
+
+    'api_subdomain' => env('APP_BASE_API_SUBDOMAIN'), // NEW
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
