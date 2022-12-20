@@ -1735,6 +1735,7 @@
       let url = '12345';
       let domain = window.location.origin;
       let endPoint = domain + '/api/v1/en/' + url;
+      console.log("endPoint", endPoint);
 
       form.onsubmit = () => {
           return false

@@ -243,6 +243,7 @@
 
     {{-- <script src="{{ asset('staffFiles/assets/js/customjs/treatment.min.js') }}"></script> --}}
     <script>
+        var editor;
         $(document).ready(function () {
             addIncludes()
             $('.form-body').slimscroll({
@@ -267,7 +268,6 @@
                     "url": dataTablesLangEs
                 },
                 "columns": [
-
                     { data: 'DT_RowIndex' },
                     { data: "brand" },
                     { data: "service" },
@@ -281,7 +281,31 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).addClass('odd gradeX');
                 },
+                "pageLength": 10,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'My button',
+                        action: function ( e, dt, node, config ) {
+                           // alertas( 'Button activatedccccc' );
+                        }
+                    }
+                ]
             });
+
+            function alertas(argument) {
+                var treatmentsTable = $('#treatmentsTable').DataTable({
+                    "pageLength": 'all',
+                });
+
+                oTable = $("#treatmentsTable").DataTable();
+                var oSettings = oTable.fnSettings();
+                oSettings.bInfo= true;
+                oSettings.bPaginate = true;
+                pageLength = 'all';
+                oTable.destroy();
+                $("#treatmentsTable").DataTable(oSettings);
+            }
             $(document).on("click", "#formSubmit", function () {
                 //console.log("\"click\"", "click");
 
