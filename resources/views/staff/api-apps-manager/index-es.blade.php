@@ -151,7 +151,7 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">site/apps.State </label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
                     <div class="col-sm-9">
                       <select name="state_id" state="" id="state_id" class="form-control form-control-sm w-100">
                         <option value="" disabled selected>Select....</option>
@@ -1286,14 +1286,14 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"   style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">site/apps.Since when?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="since_when" name="since_when" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"   style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">site/apps.Describe</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Describe</label>
                       <div class="col-sm-6">
                         <textarea class="form-control form-control-sm" id="describe_your_erection_problem" name="describe_your_erection_problem" value="" placeholder=""></textarea>
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -1732,7 +1732,7 @@
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
       let url = '12345';
-      let domain = window.location.origin;
+      let domain = '{{ env('APP_URL_API') }}';;
       let endPoint = domain + '/api/v1/es/ ' + url;
 
       form.onsubmit = () => {

@@ -1733,7 +1733,7 @@
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
       let url = '12345';
-      let domain = window.location.origin;
+      let domain = '{{ env('APP_URL_API') }}';
       let endPoint = domain + '/api/v1/en/' + url;
       console.log("endPoint", endPoint);
 
