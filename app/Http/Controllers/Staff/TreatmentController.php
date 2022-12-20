@@ -39,31 +39,29 @@ class TreatmentController extends Controller
     public function treatments()
     {
         $lang = Auth::guard('staff')->user()->lang;
-            $lang = app()->getLocale();
-        $treatment = Treatment::selectRaw("id, brand_id, service_id, procedure_id, package_id, price")
-        ->with
-        (
-            [
-                'brand' => function($q) use ($lang){
-                    $q->selectRaw("id, brand, color");
-                },
-                'service' => function($q) use ($lang){
-                    $q->selectRaw("id, service_$lang service");
-                },
-                'procedure' => function($q) use ($lang){
-                    $q->selectRaw("id, procedure_$lang procedur");
-                },
-                'package' => function($q) use ($lang){
-                    $q->selectRaw("id, package_$lang package");
-                },
-                'imageOne',
-                'contains',
-            ]
-        )
-        ->get();
-
-        //return $treatment;
-
+        $lang = app()->getLocale();
+        $treatment = Treatment::with
+            (
+                [
+                    'brand' => function($q) use ($lang){
+                        $q->selectRaw("id, brand, color");
+                    },
+                    'service' => function($q) use ($lang){
+                        $q->selectRaw("id, service_$lang service");
+                    },
+                    'procedure' => function($q) use ($lang){
+                        $q->selectRaw("id, procedure_$lang procedur");
+                    },
+                    'package' => function($q) use ($lang){
+                        $q->selectRaw("id, package_$lang package");
+                    },
+                ]
+            )
+            ->selectRaw("*")
+            ->orderBy('service_id', "asc")
+            ->orderBy('order', 'asc')
+            ->get();
+    
         return view('staff.treatments-manager.list');
     }
 
@@ -90,15 +88,15 @@ class TreatmentController extends Controller
                     },
                 ]
             )
-            ->selectRaw("id, brand_id, service_id, procedure_id, package_id, price, active")
+            ->selectRaw("*")
+            ->orderBy('order', 'asc')
             ->orderBy('service_id', "asc")
-            ->orderBy('procedure_id', 'asc')
             ->get();
 
             return DataTables::of($treatment)
                 ->addIndexColumn()
                 ->addColumn('brand', function($treatment){
-                    return '<span style="font-size: .7vw; font-weight: 800; color: '.$treatment->brand->color.'">'.strtoupper($treatment->brand->brand).'</span>';
+                    return '<span code="' .$treatment->code. '" brand="' .$treatment->brand->id. '" order-group="' .$treatment->brand->id. '" order="' .(is_null($treatment->order)? '':$treatment->order). '" style="font-size: .7vw; font-weight: 800; color: '.$treatment->brand->color.'">'.strtoupper($treatment->brand->brand).'</span>';
                 })
                 ->addColumn('service', function($treatment){
                     return $treatment->service->service;
@@ -591,5 +589,21 @@ class TreatmentController extends Controller
                 ]
             );
         }
+    }
+
+    public function updateOrder(Request $request){
+        $arr = json_decode($request->obj, true);
+        foreach ($arr as $k => $v) {
+            $r = treatment::where('code', $v['code'])->first();
+            $r->order = $v['order'];
+            $r->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'icon' => 'success',
+            'msg' => 'Reordenado con exito',
+            'faqs' => $arr
+        ]);
     }
 }

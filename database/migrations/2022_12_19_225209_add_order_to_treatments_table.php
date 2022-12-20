@@ -14,7 +14,7 @@ class AddOrderToTreatmentsTable extends Migration
     public function up()
     {
         Schema::table('treatments', function (Blueprint $table) {
-            $table->integer('order-group')->nullable();
+            $table->integer('order_group')->nullable();
             $table->integer('order')->nullable();
         });
     }
@@ -27,7 +27,7 @@ class AddOrderToTreatmentsTable extends Migration
     public function down()
     {
         Schema::table('treatments', function (Blueprint $table) {
-            $table->integer('order-group')->nullable();
+            $table->integer('order_group')->nullable();
             $table->integer('order')->nullable();
         });
     }

@@ -217,6 +217,13 @@
     @endforeach
 </datalist> --}}
 @endsection
+@section('styles')
+    <style>
+        div.dataTables_wrapper div.dataTables_filter {
+            text-align: left!important; 
+        }
+    </style>
+@endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
         <script>
@@ -238,6 +245,7 @@
         var globalRouteSearchService = "{{ route('staff.autocomplete.AutocompleteService') }}";
         var globalRouteSearchProcedure = "{{ route('staff.autocomplete.AutocompleteProcedure') }}";
         var globalRouteSearchPackage = "{{ route('staff.autocomplete.AutocompletePackage') }}";
+        var globalUpdateOrder = "{{ route('staff.treatments.updateOrder') }}"
         
     </script>
 
@@ -252,11 +260,16 @@
                 size: "5px",
                 color: "#9ea5ab",
             })
-            var codigo = 1;
-            var treatmentsTable = $('#treatmentsTable').DataTable({
+            //initDataTables()
+
+
+                var codigo = 1;
+                var treatmentsTable = $('#treatmentsTable').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                colReorder: true,
+                lengthChange: true,
                 ajax:{
                     url : globalRouteobtenerLista,
                     type: "get",
@@ -267,7 +280,7 @@
                 language: {
                     "url": dataTablesLangEs
                 },
-                "columns": [
+                columns: [
                     { data: 'DT_RowIndex' },
                     { data: "brand" },
                     { data: "service" },
@@ -281,30 +294,24 @@
                 createdRow: function (row, data, dataIndex) {
                     $(row).addClass('odd gradeX');
                 },
-                "pageLength": 10,
-                dom: 'Bfrtip',
+                lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
+                pageLength: 10,
+                dom: 'Blfrtip',
                 buttons: [
                     {
-                        text: 'My button',
+                        text: 'Cambiar orden',
                         action: function ( e, dt, node, config ) {
-                           // alertas( 'Button activatedccccc' );
+                            alertas( 'Button activatedccccc' );
                         }
                     }
                 ]
             });
 
-            function alertas(argument) {
-                var treatmentsTable = $('#treatmentsTable').DataTable({
-                    "pageLength": 'all',
-                });
 
-                oTable = $("#treatmentsTable").DataTable();
-                var oSettings = oTable.fnSettings();
-                oSettings.bInfo= true;
-                oSettings.bPaginate = true;
-                pageLength = 'all';
-                oTable.destroy();
-                $("#treatmentsTable").DataTable(oSettings);
+
+            function alertas(argument) {
+                treatmentsTable.page.len( 'All' ).draw();
+                addSortable()
             }
             $(document).on("click", "#formSubmit", function () {
                 //console.log("\"click\"", "click");
@@ -938,6 +945,80 @@
                 $("#includes").append(includes);
             }
 
+            // $("#treatmentsTable tbody").sortable({
+            //     cursor: "move",
+            //     placeholder: "sortable-placeholder",
+            //     helper: function(e, tr)
+            //     {
+            //         var $originals = tr.children();
+            //         var $helper = tr.clone();
+            //         $helper.children().each(function(index)
+            //         {
+            //             $(this).width($originals.eq(index).width());
+            //         });
+            //         return $helper;
+            //     }
+            // }).disableSelection();
+
+
+            function addSortable(){
+                $( "#treatmentsTable tbody" ).sortable({
+                    placeholder: "clone",
+                    cursor: "move",
+                    update: function( event, ui ) {
+                        let $count = $(this).find('[order]').length
+                        let $child = $(this).find('[order]');
+                        let $arr = [];
+                        let $obj = {};
+                        $.each($child, function(index, val) {
+                            let $order = (index+1); 
+                            $(this).attr('order', $order).addClass('updated');
+                            $getCode = $(this).attr('code')
+                            $arr.push(
+                            {
+                                code: $getCode, 
+                                order: $order
+                            })
+                        });
+
+                        updateOrder($arr)
+                    },
+                    axis: "y",
+                });
+            }
+
+            function updateOrder($arr) {
+                let data = new FormData()
+                data.append('obj', JSON.stringify($arr))
+               $.ajax({
+                    url: globalUpdateOrder,
+                    method:"POST",
+                    data:data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+                    },
+                    success:function(data){
+                        console.log("data", data);
+                        $count = document.querySelectorAll('.updated');
+                        $count.forEach(function (item, index) {
+                          $(this).removeClass('updated')    
+                        });
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.title,
+                        })
+                        treatmentsTable.page.len( 10 ).draw();
+                        $( "#treatmentsTable tbody" ).sortable( "destroy" );
+                        treatmentsTable.ajax.reload( null, false );
+                    },
+                })
+            }
             socket.on('updateDataTablesToClient', () =>  {
                 treatmentsTable.ajax.reload( null, false );
             });
