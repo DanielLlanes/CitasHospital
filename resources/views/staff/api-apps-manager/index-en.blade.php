@@ -67,7 +67,7 @@
                 <div class="mb-2 row">
                   <div class="col-3"></div>
                   <div class="col-sm-9">
-                    <p for="staticEmail" class="col-form-label col-form-label-sm text-center">¿Has recibido algún tratamiento con nosotros anteriormente?</p>
+                    <p for="staticEmail" class="col-form-label col-form-label-sm text-center">Have you received any treatment with us before?</p>
                   </div>
                 </div>
                 <div class="row mb-5">
@@ -75,7 +75,7 @@
                   <div class="col-sm-9 text-center checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="treatmentBefore" id="treatmentBeforeYes" value="1" >
-                      <label class="form-check-label" for="treatmentBeforeYes">Si</label>
+                      <label class="form-check-label" for="treatmentBeforeYes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="treatmentBefore" checked id="treatmentBeforeNo" value="0" >
@@ -85,21 +85,21 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Correo electrónico</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Email</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="email" name="email" value="" placeholder="email@example.com">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">name</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="name" name="name" value="" placeholder="Name">
                   </div>
                 </div>
                 <div id="data-hidde">
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Sexo biologico</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Biological sex</label>
                     <div class="col-sm-9">
                       <select name="sex" id="sex" class="form-control form-control-sm w-100">
                         <option value="" disabled selected>Select....</option>
@@ -110,49 +110,49 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Fecha de naciemiento</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
                     <div class="col-sm-9">
                       <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="" placeholder="Date of Birth">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Edad</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Age</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="age" name="age" value="" placeholder="Age">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Teléfono</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Phone</label>
                     <div class="col-sm-9">
                       <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="" placeholder="phone">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Movil</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Mobile</label>
                     <div class="col-sm-9">
                       <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="" placeholder="Mobile">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Dirección</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Address</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="address" name="address" value="" placeholder="Address">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Pais</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Country</label>
                     <div class="col-sm-9">
                       <select name="country_id" id="country_id" country="" class="form-control form-control-sm w-100"></select>
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">site/apps.State </label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
                     <div class="col-sm-9">
                       <select name="state_id" state="" id="state_id" class="form-control form-control-sm w-100">
                         <option value="" disabled selected>Select....</option>
@@ -161,48 +161,48 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Ciudad</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">City</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="city" name="city" value="" placeholder="City">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Código Postal</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Zip Code</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="zip" name="zip" value="" placeholder="Zip">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Nombre de contacto de emergencia</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency contact name</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="ecn" name="ecn" value="" placeholder="Emergency Contact Name">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Teléfono de contacto de emergencia</label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Emergency Contact Phone</label>
                     <div class="col-sm-9">
                       <input type="text" class="form-control form-control-sm" id="ecp" name="ecp" value="" placeholder="Emergency Contact Phone">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar servicio </label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select service</label>
                     <div class="col-sm-9">
                       <select name="service" id="select-service-select" class="form-control form-control-sm w-100"></select>
                     </div>
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar procedimiento</label>
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select procedure</label>
                   <div class="col-sm-9">
                     <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100"></select>
                   </div>
                 </div>
                 <div class="mb-3 row d-none" id="package">
-                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar paquete</label>
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select package</label>
                   <div class="col-sm-9">
                   <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;"></select>
                   </div>
@@ -956,11 +956,11 @@
               <div class="step">
                 <h1>5</h1>
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Fuma cigarrillos?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you smoke cigarettes?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="smoke" id="smoke_yes" value="1" >
-                      <label class="form-check-label" for="smoke_yes">Si</label>
+                      <label class="form-check-label" for="smoke_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="smoke" id="smoke_no" value="0" >
@@ -970,25 +970,25 @@
                   </div>
                 </div>
                 <div class="mb-3 row mt-1 smoke"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Cantidad </span></label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="cigars_smoke" name="cigars_smoke" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
                 <div class="mb-3 row mt-1 smoke"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Numero de años </span></label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Number of years smoking </span></label>
                   <div class="col-sm-9">
                     <input type="number" class="form-control form-control-sm" id="years_smoke" name="years_smoke" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
                 <div class="mb-3 row smoke"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Has dejado de fumar?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you quit smoking?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="stop_smoking" id="stop_smoking_yes" value="1" >
-                      <label class="form-check-label" for="stop_smoking_yes">Si</label>
+                      <label class="form-check-label" for="stop_smoking_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="stop_smoking" id="stop_smoking_no" value="0" >
@@ -998,7 +998,7 @@
                   </div>
                 </div>
                 <div class="mb-3 row mt-1 smoke_quit"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Cuánto tiempo? </span></label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How long?</span></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="when_stop_smoking" name="when_stop_smoking" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -1010,7 +1010,7 @@
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="vape" id="vape_yes" value="1" >
-                      <label class="form-check-label" for="vape_yes">Si</label>
+                      <label class="form-check-label" for="vape_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="vape" id="vape_no" value="0" >
@@ -1021,11 +1021,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Consume usted alcohol?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you drink alcohol?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="alcohol" id="alcohol_yes" value="1" >
-                      <label class="form-check-label" for="alcohol_yes">Si</label>
+                      <label class="form-check-label" for="alcohol_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="alcohol" id="alcohol_no" value="0" >
@@ -1035,7 +1035,7 @@
                   </div>
                 </div>
                 <div class="mb-3 row mt-1 alcohol"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Cantidad </span></label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Amount </span></label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="volumen_alcohol" name="volumen_alcohol" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -1043,11 +1043,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Consume drogas recreativas?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use recreational drugs?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="recreative_drugs" id="recreative_drugs_yes" value="1" >
-                      <label class="form-check-label" for="recreative_drugs_yes">Si</label>
+                      <label class="form-check-label" for="recreative_drugs_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="recreative_drugs" id="recreative_drugs_no" value="0" >
@@ -1064,11 +1064,11 @@
                   </div>
                 </div>
                 <div class="mb-3 row recreative_drugs"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Has consumido alguna vez drogas intravenosas (o de piel)?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you ever used intravenous (or skin) drugs?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="intravenous_drugs" id="intravenous_drugs_yes" value="1" >
-                      <label class="form-check-label" for="intravenous_drugs_yes">Si</label>
+                      <label class="form-check-label" for="intravenous_drugs_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="intravenous_drugs" id="intravenous_drugs_no" value="0" >
@@ -1079,7 +1079,7 @@
                 </div>
 
                 <div class="mb-3 row mt-1 intravenous_drugs"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Describir las drogas intravenosas </span></label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Describe intravenous drugs</span></label>
                   <div class="col-sm-9">
                     <textarea type="text" class="form-control form-control-sm" id="description_intravenous_drugs" name="description_intravenous_drugs" value="" placeholder=""></textarea>
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -1087,11 +1087,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Se fatiga con facilidad?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you tire easily?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="fatigue" id="fatigue_yes" value="1" >
-                      <label class="form-check-label" for="fatigue_yes">Si</label>
+                      <label class="form-check-label" for="fatigue_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="fatigue" id="fatigue_no" value="0" >
@@ -1102,11 +1102,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Le falta el aire?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you short of breath?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="trouble_breathe" id="trouble_breathe_yes" value="1" >
-                      <label class="form-check-label" for="trouble_breathe_yes">Si</label>
+                      <label class="form-check-label" for="trouble_breathe_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="trouble_breathe" id="trouble_breathe_no" value="0" >
@@ -1117,11 +1117,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Tienes asma?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you have asthma?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="asthma" id="asthma_yes" value="1" >
-                      <label class="form-check-label" for="asthma_yes">Si</label>
+                      <label class="form-check-label" for="asthma_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="asthma" id="asthma_no" value="0" >
@@ -1132,11 +1132,11 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Utiliza un B-PAP o C-PAP mientras duerme?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use a B-PAP or C-PAP while you sleep?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bipap_cpap" id="bipap_cpap_yes" value="1" >
-                      <label class="form-check-label" for="bipap_cpap_yes">Si</label>
+                      <label class="form-check-label" for="bipap_cpap_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bipap_cpap" id="bipap_cpap_no" value="0" >
@@ -1147,11 +1147,11 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Hace ejercicio?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you exercise?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="exercise" id="exercise_yes" value="1" >
-                      <label class="form-check-label" for="exercise_yes">Si</label>
+                      <label class="form-check-label" for="exercise_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" checked type="radio" name="exercise" id="exercise_no" value="0" >
@@ -1165,19 +1165,19 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
-                        <th style="font-weight: 600; font-size: .9rem;">¿Cuánto tiempo?</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Frecuencia</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Horas al día</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Acciones</th>
+                        <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Type</th>
+                        <th style="font-weight: 600; font-size: .9rem;">How long?</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Frequency</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Hours a day</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                     </tbody>
                   </table>
                   <div class="col-12 d-flex justify-content-end">
-                    <button type="button" class="btn btn-second text-white mb-3" id="exerciceTableAdd">Añadir ejercicio</button>
+                    <button type="button" class="btn btn-second text-white mb-3" id="exerciceTableAdd">Add exercise</button>
                   </div>
                 </div>
 
@@ -1195,11 +1195,11 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Tomas pastillas para dormir?</label>
+                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you take sleeping pills?</label>
                     <div class="col-sm-6 checkBox">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_take_sleeping_pills" id="do_you_take_sleeping_pills_yes" value="1" >
-                        <label class="form-check-label" for="do_you_take_sleeping_pills_yes">Si</label>
+                        <label class="form-check-label" for="do_you_take_sleeping_pills_yes">Yes</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_take_sleeping_pills" id="do_you_take_sleeping_pills_no" value="0" >
@@ -1209,11 +1209,11 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Sufre de ansiedad o depresión?</label>
+                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you suffer from anxiety or depression?</label>
                     <div class="col-sm-6 checkBox">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_suffer_from_anxiety_or_depression" id="do_you_suffer_from_anxiety_or_depression_yes" value="1" >
-                        <label class="form-check-label" for="do_you_suffer_from_anxiety_or_depression_yes">Si</label>
+                        <label class="form-check-label" for="do_you_suffer_from_anxiety_or_depression_yes">Yes</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_suffer_from_anxiety_or_depression" id="do_you_suffer_from_anxiety_or_depression_no" value="0" >
@@ -1223,11 +1223,11 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Toma pastillas para la ansiedad o la depresión?</label>
+                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you take pills for anxiety or depression?</label>
                     <div class="col-sm-6 checkBox">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_take_pills_for_anxiety_or_depression" id="do_you_take_pills_for_anxiety_or_depression_yes" value="1" >
-                        <label class="form-check-label" for="do_you_take_pills_for_anxiety_or_depression_yes">Si</label>
+                        <label class="form-check-label" for="do_you_take_pills_for_anxiety_or_depression_yes">Yes</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_take_pills_for_anxiety_or_depression" id="do_you_take_pills_for_anxiety_or_depression_no" value="0" >
@@ -1237,11 +1237,11 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Se siente estresado?</label>
+                    <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you feel stressed?</label>
                     <div class="col-sm-6 checkBox">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_feel_under_stress" id="do_you_feel_under_stress_yes" value="1" >
-                        <label class="form-check-label" for="do_you_feel_under_stress_yes">Si</label>
+                        <label class="form-check-label" for="do_you_feel_under_stress_yes">Yes</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="do_you_feel_under_stress" id="do_you_feel_under_stress_no" value="0" >
@@ -1252,11 +1252,11 @@
                   </div>
                   <div class="div-gender" style="display: none;">
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Tienes erecciones por la mañana?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have erections in the morning?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_yes" value="1" >
-                          <label class="form-check-label" for="do_you_have_erections_at_the_morning_yes">Si</label>
+                          <label class="form-check-label" for="do_you_have_erections_at_the_morning_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_erections_at_the_morning" id="do_you_have_erections_at_the_morning_no" value="0" >
@@ -1266,18 +1266,18 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_have_erections_at_the_morning"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cuántos por semana?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How many per week?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_many_per_week" name="how_many_per_week" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Tiene problemas de erección?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have erection problems?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_yes" value="1" >
-                          <label class="form-check-label" for="do_you_have_problems_getting_erections_yes">Si</label>
+                          <label class="form-check-label" for="do_you_have_problems_getting_erections_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_problems_getting_erections" id="do_you_have_problems_getting_erections_no" value="0" >
@@ -1287,25 +1287,25 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"   style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">site/apps.Since when?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Since when?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="since_when" name="since_when" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_have_problems_getting_erections"   style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">site/apps.Describe</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Describe</label>
                       <div class="col-sm-6">
                         <textarea class="form-control form-control-sm" id="describe_your_erection_problem" name="describe_your_erection_problem" value="" placeholder=""></textarea>
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Tiene problemas para mantener la erección?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you have problems maintaining an erection?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_yes" value="1" >
-                          <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Si</label>
+                          <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_have_problems_maintaining_an_erection" id="do_you_have_problems_maintaining_an_erection_no" value="0" >
@@ -1315,11 +1315,11 @@
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Toma algún remedio natural para la disfunción eréctil?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you take any natural remedies for erectile dysfunction?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_yes" value="1" >
-                          <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Si</label>
+                          <label class="form-check-label" for="do_you_have_problems_maintaining_an_erection_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_take_any_natural_remedy_for_erectile_dysfunction" id="do_you_have_problems_maintaining_an_erection_no" value="0" >
@@ -1329,32 +1329,32 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿De qué tipo?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">What type?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="what_kind" name="what_kind" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cómo han funcionado?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How have they worked?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_did_it_work_natural_remedy" name="how_did_it_work_natural_remedy" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_take_any_natural_remedy_for_erectile_dysfunction"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿De dónde los has sacado?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Where did you get them from?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="where_did_you_get_them" name="where_did_you_get_them" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Se ha inyectado medicación para la disfunción eréctil?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you injected medication for erectile dysfunction?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_yes" value="1" >
-                          <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_yes">Si</label>
+                          <label class="form-check-label" for="has_medication_been_injected_for_dysfunction_erectile_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="has_medication_been_injected_for_dysfunction_erectile" id="has_medication_been_injected_for_dysfunction_erectile_no" value="0" >
@@ -1364,25 +1364,25 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 has_medication_been_injected_for_dysfunction_erectile"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cuántas veces?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How often?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_many_times_have_injected" name="how_many_times_have_injected" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 has_medication_been_injected_for_dysfunction_erectile"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cómo han funcionado?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How have they worked?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_did_it_work" name="how_did_it_work" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Ha tenido una erección de más de 6 horas?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you had an erection for more than 6 hours?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_yes" value="1" >
-                          <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_yes">Si</label>
+                          <label class="form-check-label" for="have_you_had_an_erection_longer_than_six_hours_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="have_you_had_an_erection_longer_than_six_hours" id="have_you_had_an_erection_longer_than_six_hours_no" value="0" >
@@ -1392,32 +1392,32 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cuándo?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">When?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="when_you_had_a_six_hours_erection" name="when_you_had_a_six_hours_erection" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cómo se resolvió?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How was it resolved?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_was_it_resolved" name="how_was_it_resolved" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 have_you_had_an_erection_longer_than_six_hours"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Recibió atención médica?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Did you receive medical attention?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="did_you_get_medical_attention" name="did_you_get_medical_attention" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Sufre de curvatura del pene?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Do you suffer from penile curvature?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_yes" value="1" >
-                          <label class="form-check-label" for="do_you_suffer_from_penile_curvature_yes">Si</label>
+                          <label class="form-check-label" for="do_you_suffer_from_penile_curvature_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="do_you_suffer_from_penile_curvature" id="do_you_suffer_from_penile_curvature_no" value="0" >
@@ -1427,39 +1427,39 @@
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Cómo de intenso?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">How intense?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="how_intense" name="how_intense" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿En qué dirección?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">In which direction?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="which_direction" name="which_direction" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Duele?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it hurt?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="does_it_hurt" name="does_it_hurt" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row mt-1 do_you_suffer_from_penile_curvature"  style="display: none" >
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Impide las relaciones sexuales?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Does it prevent sexual intercourse?</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control form-control-sm" id="does_it_prevent_intercourse" name="does_it_prevent_intercourse" value="" placeholder="">
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Se ha inyectado PRP para la disfunción eréctil?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you had PRP injections for erectile dysfunction?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_yes" value="1" >
-                          <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_yes">Si</label>
+                          <label class="form-check-label" for="has_prp_been_injected_for_erectile_dysfunction_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="has_prp_been_injected_for_erectile_dysfunction" id="has_prp_been_injected_for_erectile_dysfunction_no" value="0" >
@@ -1469,11 +1469,11 @@
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Ha recibido tratamiento con células madre para la disfunción eréctil?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received stem cell treatment for erectile dysfunction?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes" value="1" >
-                          <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes">Si</label>
+                          <label class="form-check-label" for="have_you_received_stem_cell_treatment_for_erectile_dysfunction_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="have_you_received_stem_cell_treatment_for_erectile_dysfunction" id="have_you_received_stem_cell_treatment_for_erectile_dysfunction_no" value="0" >
@@ -1483,11 +1483,11 @@
                       </div>
                     </div>
                     <div class="mb-3 row">
-                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">¿Ha recibido terapia de regeneración vascular con terapia de ondas de baja intensidad para la disfunción eréctil?</label>
+                      <label for="staticEmail" class="col-sm-6 col-form-label col-form-label-sm">Have you received vascular regeneration therapy with low intensity wave therapy for erectile dysfunction?</label>
                       <div class="col-sm-6 checkBox">
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_yes" value="1" >
-                          <label class="form-check-label" for="hyrvrntwliwtfed_yes">Si</label>
+                          <label class="form-check-label" for="hyrvrntwliwtfed_yes">Yes</label>
                         </div>
                         <div class="form-check form-check-inline">
                           <input class="form-check-input" type="radio" name="hyrvrntwliwtfed" id="hyrvrntwliwtfed_no" value="0" >
@@ -1505,14 +1505,14 @@
               <div class="step">
                 <h1>6</h1>
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de la última menstruación</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                   <div class="col-sm-9">
                     <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿El sangrado era?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">The bleeding was?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whasyes" value="normal"  checked >
@@ -1520,11 +1520,11 @@
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="light" >
-                      <label class="form-check-label" for="bleeding_whas_light">Ligero</label>
+                      <label class="form-check-label" for="bleeding_whas_light">Light</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_yes" value="heavy" >
-                      <label class="form-check-label" for="bleeding_whas_heavy">Pesado</label>
+                      <label class="form-check-label" for="bleeding_whas_heavy">Heavy</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="bleeding_whas" id="bleeding_whas_no" value="irregular" >
@@ -1535,11 +1535,11 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Has estado embarazada?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you ever been pregnant?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="have_you_been_pregnant_yes" value="1" >
-                      <label class="form-check-label" for="have_you_been_pregnant_yes">Si</label>
+                      <label class="form-check-label" for="have_you_been_pregnant_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="have_you_been_pregnant" id="have_you_been_pregnant_no" value="0" >
@@ -1549,14 +1549,14 @@
                   </div>
                 </div>
                 <div class="row mb-3 have_you_been_pregnant"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Cuántas veces?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">How many times?</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="how_many_times" name="how_many_times" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
                 <div class="row mb-3 have_you_been_pregnant"  style="display: none">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de la última menstruación</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="c_section" name="c_section" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -1564,11 +1564,11 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿Utiliza algún tipo de método anticonceptivo?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use any type of contraceptive method?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="birth_control" id="birth_control_yes" value="1" >
-                      <label class="form-check-label" for="birth_control_yes">Si</label>
+                      <label class="form-check-label" for="birth_control_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="birth_control" checked id="birth_control_no" value="0" >
@@ -1581,26 +1581,26 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
-                        <th style="font-weight: 600; font-size: .9rem;">¿Durante cuánto tiempo ha utilizado este anticonceptivo?</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Acciones</th>
+                        <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Type</th>
+                        <th style="font-weight: 600; font-size: .9rem;">How long have you been using this contraceptive?</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                     </tbody>
                   </table>
                   <div class="col-12 d-flex justify-content-end">
-                    <button type="button" class="btn btn-second text-white mb-3" id="birthControlTableAdd">Añadir el control de la natalidad</button>
+                    <button type="button" class="btn btn-second text-white mb-3" id="birthControlTableAdd">Add birth control</button>
                   </div>
                 </div>
 
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hormonas</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hormones</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="use_hormones" id="use_hormones_yes" value="1" >
-                      <label class="form-check-label" for="use_hormones_yes">Si</label>
+                      <label class="form-check-label" for="use_hormones_yes">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" checked name="use_hormones" id="use_hormones_no" value="0" >
@@ -1612,10 +1612,10 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
-                        <th style="font-weight: 600; font-size: .9rem;">¿Cuánto tiempo lleva usando esta hormona?</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Acciones</th>
+                        <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Type</th>
+                        <th style="font-weight: 600; font-size: .9rem;">How long have you been using this hormone?</th>
+                        <th style="font-weight: 600; font-size: .9rem;">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1627,11 +1627,11 @@
                 </div>
 
                 <div class="row mb-3">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">¿está usted embarazada? o ¿existe la posibilidad de que lo esté?</label>
+                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you pregnant or is there a possibility that you are pregnant?</label>
                   <div class="col-sm-9 checkBox">
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whasyes" value="1" >
-                      <label class="form-check-label" for="bleeding_whas_normal">Si</label>
+                      <label class="form-check-label" for="bleeding_whas_normal">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" name="is_or_can_be_pregman" id="bleeding_whas_no" value="0" >
@@ -1645,8 +1645,8 @@
                 <h1>7</h1>
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
-                    <h1 class="display-4 text-success font-weight-bolder fw-bolder">Gracias por su interes</h1>
-                    <p class="lead">En 24 horas un asesor se comunicara con usted para darle seguimiento a su formulario</p>
+                    <h1 class="display-4 text-success font-weight-bolder fw-bolder">Thank you for your interest</h1>
+                    <p class="lead">A consultant will contact you within 24 hours to follow up on your form.</p>
                   </div>
                 </div>
               </div>
@@ -1654,9 +1654,9 @@
                 <div class="col-6">
                 </div>
                 <div class="col-6 d-flex justify-content-end">
-                  <button type="button" class="btn btn-primary btn-sm mx-1 cancel" id="prev-btn">Anterior</button>
-                  <button type="button" class="btn btn-primary btn-sm mx-1" id="next-btn">Siguiente</button>
-                  <button type="button" class="btn btn-primary btn-sm mx-1" id="submit-btn">Enviar</button>
+                  <button type="button" class="btn btn-primary btn-sm mx-1 cancel" id="prev-btn">Previous</button>
+                  <button type="button" class="btn btn-primary btn-sm mx-1" id="next-btn">Next</button>
+                  <button type="button" class="btn btn-primary btn-sm mx-1" id="submit-btn">Submit</button>
                   <button type="reset" class="d-none reset">Reset</button>
                 </div>
               </div>
@@ -1734,7 +1734,7 @@
       let progressBar = document.getElementById('steps');
       let url = '12345';
       let domain = window.location.origin;
-      let endPoint = domain + '/api/v1/' + url;
+      let endPoint = domain + '/api/v1/en/' + url;
 
       form.onsubmit = () => {
           return false
