@@ -40,7 +40,7 @@ class EnApiAppsController extends Controller
 
     public function index($code)
     {
-        
+
         //return abort(404);
 
         $lang = 'en';
@@ -1193,7 +1193,7 @@ class EnApiAppsController extends Controller
             $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
-            $patient->dob = $request->dob;
+            $patient->dob = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
@@ -1248,43 +1248,43 @@ class EnApiAppsController extends Controller
         $app->addiction = $request->addiction;
         $app->which_one_adiction = $request->which_one_adiction;
         $app->high_lipid_levels = $request->high_lipid_levels;
-        $app->date_high_lipd_levels = $request->date_high_lipid_levels;
-        $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
+        $app->date_high_lipd_levels = Carbon::createFromFormat('m/d/Y', $request->date_high_lipid_levels)->format('Y-m-d');
+        $app->high_lipid_levels_treatment = Carbon::createFromFormat('m/d/Y', $request->high_lipid_levels_treatment)->format('Y-m-d');
         $app->cancer = $request->cancer;
         $app->date_cancer = $request->date_cancer;
-        $app->cancer_treatment = $request->treatment_cancer;
+        $app->cancer_treatment = Carbon::createFromFormat('m/d/Y', $request->treatment_cancer)->format('Y-m-d');
         $app->arthritis = $request->arthritis;
-        $app->date_arthritis = $request->date_arthritis;
+        $app->date_arthritis = Carbon::createFromFormat('m/d/Y', $request->date_arthritis)->format('Y-m-d');
         $app->arthritis_treatment = $request->treatment_arthritis;
         $app->cholesterol = $request->cholesterol;
-        $app->date_cholesterol = $request->date_cholesterol;
+        $app->date_cholesterol = Carbon::createFromFormat('m/d/Y', $request->date_cholesterol)->format('Y-m-d');
         $app->cholesterol_treatment = $request->treatment_cholesterol;
         $app->triglycerides = $request->triglycerides;
-        $app->date_triglycerides = $request->date_triglycerides;
+        $app->date_triglycerides = Carbon::createFromFormat('m/d/Y', $request->date_triglycerides)->format('Y-m-d');
         $app->triglycerides_treatment = $request->treatment_triglycerides;
         $app->disease_stroke = $request->stroke;
-        $app->date_disease_stroke = $request->date_stroke;
+        $app->date_disease_stroke = Carbon::createFromFormat('m/d/Y', $request->date_stroke)->format('Y-m-d');
         $app->disease_stroke_treatment = $request->treatment_stroke;
         $app->diabetes = $request->diabetes;
-        $app->date_diabetes = $request->date_diabetes;
+        $app->date_diabetes = Carbon::createFromFormat('m/d/Y', $request->date_diabetes)->format('Y-m-d');
         $app->diabetes_treatment = $request->treatment_diabetes;
         $app->coronary_artery_disease = $request->coronary_artery_disease;
-        $app->date_coronary_artery_disease = $request->date_coronary_artery_disease;
+        $app->date_coronary_artery_disease = Carbon::createFromFormat('m/d/Y', $request->date_coronary_artery_diseases)->format('Y-m-d');
         $app->coronary_artery_disease_treatment = $request->treatment_coronary_artery_disease;
         $app->disease_liver = $request->liver_disease;
-        $app->date_disease_liver = $request->date_liver_disease;
+        $app->date_disease_liver = Carbon::createFromFormat('m/d/Y', $request->date_liver_disease)->format('Y-m-d');
         $app->disease_liver_treatment = $request->treatment_liver_disease;
         $app->disease_lung = $request->lugn_disease;
-        $app->date_disease_lung = $request->date_lugn_disease;
+        $app->date_disease_lung = Carbon::createFromFormat('m/d/Y', $request->date_lugn_disease)->format('Y-m-d');
         $app->disease_lung_treatment = $request->treatment_lugn_disease;
         $app->disease_renal = $request->renal_disease;
-        $app->date_disease_renal = $request->date_renal_disease;
+        $app->date_disease_renal = Carbon::createFromFormat('m/d/Y', $request->date_renal_disease)->format('Y-m-d');
         $app->disease_renal_treatment = $request->treatment_renal_disease;
         $app->disease_thyroid = $request->thyroid_disease;
-        $app->date_disease_thyroid = $request->date_thyroid_disease;
+        $app->date_disease_thyroid = Carbon::createFromFormat('m/d/Y', $request->date_thyroid_disease)->format('Y-m-d');
         $app->disease_thyroid_treatment = $request->treatment_thyroid_disease;
         $app->ypertension = $request->hypertension;
-        $app->hypertension = $request->date_hypertension;
+        $app->hypertension = Carbon::createFromFormat('m/d/Y', $request->date_hypertension)->format('Y-m-d');
         $app->hypertension_treatment = $request->treatment_hypertension;
         $app->disease_other = $request->any_other_illnesses;
 
@@ -1378,7 +1378,7 @@ class EnApiAppsController extends Controller
             for ($i=0; $i < count($request->illness); $i++) {
                 $illness_cadena[] = [
                     'illness' => $request->illness[$i],
-                    'diagnostic_date' => $request->diagnostic_date[$i],
+                    'diagnostic_date' => Carbon::createFromFormat('m/d/Y', $request->diagnostic_date[$i])->format('Y-m-d'),
                     'treatment' => $request->treatment[$i],
                     'code' => getCode()
                 ];
@@ -1479,7 +1479,7 @@ class EnApiAppsController extends Controller
                 $insert_illnesses[] = [
                 'application_id' => $app->id,
                 'illness' => $illness_cadena[$i]['illness'],
-                'diagnostic_date' => $illness_cadena[$i]['diagnostic_date'],
+                'diagnostic_date' => Carbon::createFromFormat('m/d/Y', $illness_cadena[$i]['diagnostic_date'])->format('Y-m-d'),
                 'treatment' => $illness_cadena[$i]['treatment'],
                 'code' => $illness_cadena[$i]['code']
                 ];

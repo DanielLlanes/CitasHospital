@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -1711,6 +1711,9 @@
           </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
+    @section('styles')
+      <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    @endsection
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -1721,6 +1724,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
     <script>
       let step = document.getElementsByClassName('step');
       let prevBtn = document.getElementById('prev-btn');
@@ -1938,6 +1943,7 @@
         })
         .then(response => response.json())
         .then( function(data) {
+          console.log("data", data);
           if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
           if (data.hasOwnProperty('success')) {
             if (!data.success) {
@@ -2816,6 +2822,8 @@
         medicationField += '</tr>'
         $('#birth_control_table tbody').append(medicationField)
       }
+
+      
     </script>
   </body>
 </html>

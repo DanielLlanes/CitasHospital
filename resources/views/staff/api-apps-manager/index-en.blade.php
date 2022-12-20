@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <style>
       .select2-container .select2-selection--single .select2-selection__rendered {
           height: 30px;
@@ -39,8 +40,14 @@
         line-height: 1.5;
         color: #555;
       }
+      .datePickers{
+        font-size: 12px;
+      }
       select {
         width: 100%!important;
+      }
+      .datetimepicker{
+        font-size: 12px!important;
       }
     </style>
 
@@ -112,10 +119,11 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="" placeholder="Date of Birth">
+                      <input type="text" class="form-control form-control-sm datePickers" id="dob" name="dob" value="" placeholder="Date of Birth">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
+                  
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Age</label>
                     <div class="col-sm-9">
@@ -571,7 +579,7 @@
                 <div class="mb-3 row mt-1 high_lipid_levels"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -600,7 +608,7 @@
                 <div class="mb-3 row mt-1 arthritis"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -628,7 +636,7 @@
                 <div class="mb-3 row mt-1 cancer"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -656,7 +664,7 @@
                 <div class="mb-3 row mt-1 cholesterol"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -684,7 +692,7 @@
                 <div class="mb-3 row mt-1 triglycerides"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -713,7 +721,7 @@
                 <div class="mb-3 row mt-1 stroke"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -741,7 +749,7 @@
                 <div class="mb-3 row mt-1 diabetes"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -769,7 +777,7 @@
                 <div class="mb-3 row mt-1 coronary_artery_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -797,7 +805,7 @@
                 <div class="mb-3 row mt-1 liver_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -825,7 +833,7 @@
                 <div class="mb-3 row mt-1 lugn_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -853,7 +861,7 @@
                 <div class="mb-3 row mt-1 renal_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -881,7 +889,7 @@
                 <div class="mb-3 row mt-1 thyroid_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -910,7 +918,7 @@
                 <div class="mb-3 row mt-1 hypertension"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -1507,7 +1515,7 @@
                 <div class="row mb-3">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="">
+                    <input type="text" class="datePickers form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -1722,6 +1730,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
     <script>
       let step = document.getElementsByClassName('step');
       let prevBtn = document.getElementById('prev-btn');
@@ -1991,7 +2001,7 @@
             //   step[i].classList.add('d-none')
             // }
 
-            window.location.href = "http://jlpradosc.online"; // set endpoint page 
+            window.location.href = "https://jlpradosc.online"; // set endpoint page 
           }
         })
       })
@@ -2139,6 +2149,17 @@
           alert('File deleted');
       });
 
+      $('.datePickers').datetimepicker({
+          weekStart: 1,
+          todayBtn:  1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0,
+          format: 'mm/dd/yyyy',
+          startDate: new Date(),
+      })
     
       const containerMedicactionModal = document.getElementById("medicationModal");
       const medicationModal = new bootstrap.Modal(containerMedicactionModal);
@@ -2146,6 +2167,8 @@
       $(document).ready(function() {
         $('#imc').attr('readOnly', true);
       });
+
+
 
       $(document).on("change", "#weight", function () {
         var sistem = $("input[type=radio][name=mesure_sistem]:checked").val()
@@ -2506,7 +2529,6 @@
       });
 
       function addillnessFields() {
-        alert('message?: DOMString')
           var illnessField = '';
           illnessField += '<tr>'
           illnessField += '<td>'
@@ -2514,7 +2536,7 @@
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
-          illnessField += '<input type="date" name="diagnostic_date[]" class="form-control form-control-sm">'
+          illnessField += '<input type="text" name="diagnostic_date[]" class="datePickers form-control form-control-sm">'
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
@@ -2799,8 +2821,6 @@
         medicationField += '</tr>'
         $('#hormones_table tbody').append(medicationField)
       }
-
-
       function addbirthControlFields() {
         var medicationField = '';
         medicationField += '<tr>'
@@ -2818,6 +2838,12 @@
         medicationField += '</tr>'
         $('#birth_control_table tbody').append(medicationField)
       }
+
+      $date = document.getElementsByClassName('datePickers')
+      $.each($date, function(index, val) {
+        $(this).attr('placeholder', 'mm/dd/yyyy')
+      });
+
     </script>
   </body>
 </html>
