@@ -49,13 +49,41 @@
       .datetimepicker{
         font-size: 12px!important;
       }
+      .loading {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 120px;
+        height: 120px;
+        margin: -76px 0 0 -76px;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        display: none;
+      }
+
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      
     </style>
 
     <title>Applications</title>
   </head>
-  <body>
+  <body class="">
+    <div class="loading"></div>
     <div class="col-12" style="margin-bottom: 100px;"></div>
-    <div class="col-12">
+    <div class="col-12 animate-bottom">
       <section id="team" class="team">
         <div class="container">
           <div class="section-title mb-5" data-aos="fade-up">
@@ -1981,6 +2009,8 @@
       submitBtn.addEventListener('click', () =>{
         form = document.getElementsByTagName('form')[0]
         var form_data = new FormData(form);
+        $('.animate-bottom').css('display', 'none');
+        $('.loading').css('display', 'block');
         form_data.append('step', current_step);
         fetch( endPoint + '/storeData', {
           method: "POST",
@@ -1988,7 +2018,8 @@
         })
         .then(response => response.json())
         .then( function(data) {
-          
+          $('.animate-bottom').css('display', 'block');
+          $('.loading').css('display', 'none');
           if (!data.success) {
             $.each( data.errors, function( key, value ) {
                 $real = key.replace('.', '-')
