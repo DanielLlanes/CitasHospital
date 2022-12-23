@@ -375,7 +375,7 @@ class StaffController extends Controller
             }
         }
 
-        $unHashPassword = Str::random(8);
+        $unHashPassword = password(10);
         $staff = New Staff;
         $staff->name = getUcWords($request->name);
         $staff->username = $request->username;
@@ -799,7 +799,7 @@ class StaffController extends Controller
         $staff = Staff::with(['roles'])->find($request->id);
         $staff_reset_password = Auth::guard('staff')->user()->can('staff.reset.password');
         $staff_reset_password_admins = Auth::guard('staff')->user()->can('admin.reset.password');
-        $unHashPassword = Str::random(8);
+        $unHashPassword = password(10);
         if ($staff) {
             $dataMsg = array(
                 'reciver' => $staff->email,

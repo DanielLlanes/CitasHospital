@@ -115,3 +115,16 @@ if (! function_exists('apiUrl')) {
         return config('app.api_subdomain') . '.' . baseUrl();
     }
 }
+
+if (! function_exists('password')) {
+    function password($length = 8)
+    {
+        if ($length < 6) { $length = 6;}
+        $chars = "!@#$%^&*()_-=+;:,.?~`[]";
+        $bc = base_convert(sha1(uniqid(mt_rand())), 16, 36);
+        $tm = time();
+        $all = $bc.$tm.$chars;
+        $p = substr( str_shuffle( $all ), 0, $length );
+        return $p;
+    }
+}

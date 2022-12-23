@@ -670,18 +670,30 @@ class AppController extends Controller
                     ])
                     ->select("*")->orderBy('created_at', 'desc')->first();
                 },
+                'treatment' => function($q) use ($lang) {
+                    $q->with([
+                        'service' => function($q) {
+                            $q->with('specialties');
+                        },
+                    ]);
+                },
             ])
             ->find($request->app);
             $changeStatus = false;
+
+
+            $especialtiesNeeded = count($app->treatment->service->specialties);
+
+
             $setStatus = 1;
-            if ($app->statusOne->status_id == 14) {
-                if ( count($app->assignments) >= 3 ) {
+            if ($app->statusOne->status->id == 14) {
+                if ( count($app->assignments) >= $especialtiesNeeded ) {
                     $setStatus = 5;
                     $changeStatus = true;
                 }
             } 
-            if ($app->statusOne->status_id == 5) {
-                if ( count($app->assignments) >= 3 ) {
+            if ($app->statusOne->status_id == 9) {
+                if ( count($app->assignments) >= $especialtiesNeeded ) {
                     $setStatus = 1;
                     $changeStatus = true;
                 }
@@ -1176,10 +1188,13 @@ class AppController extends Controller
 
     public function setStatusAcepted(Request $request)
     {
+
+
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $validator = Validator::make($request->all(), [
-            'id' => 'string|required|exists:services,id',
+            'id' => 'string|required|exists:procedures,id',
             'app' => 'required|exists:applications,id',
             'medicalRecommendations' => 'required|string',
             'medicalIndications' => 'required|string',
@@ -1253,6 +1268,7 @@ class AppController extends Controller
         if ($app) {
             $app->statusOne->delete($app->statusOne->id);
             if ($app->treatment->procedure->id != $request->id) {
+
                 $app->recommended_id = $request->id;
 
                 $oldTreat = Procedure::find($request->id);
@@ -1305,7 +1321,7 @@ class AppController extends Controller
                 }
             }
 
-            $statusx = '13';
+            $statusx = '5';
             if (count($app->assignments) < 3) {
                 $statusx = '14';
 

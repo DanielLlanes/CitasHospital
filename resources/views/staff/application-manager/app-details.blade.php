@@ -1793,7 +1793,7 @@
 
             if (imgHeight > normalizedHeight) {
                 var top = Math.floor((imgHeight - normalizedHeight) / 2);
-                console.log("top", top);
+                //console.log("top", top);
                 img.css({ top: -top });
             }
         });
@@ -1822,6 +1822,8 @@
             },
             success:function(response)
             {
+
+//console.log("response", response);
                 $("#recommended-procedure-span").html('')
                 $("#recommended-procedure-row").html('')
                 $('#status-accepted-modal').modal('hide')
@@ -1991,7 +1993,7 @@
             },
             success:function(response)
             {
-            console.log("response", response);
+            //console.log("response", response);
                 if (response.success) {
                     Toast.fire({
                         icon: response.icon,
@@ -2009,9 +2011,9 @@
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
-        console.log("specialty", specialty);
+        //console.log("specialty", specialty);
         specialtyFormated = specialty[1].replace("_", " ");
-        console.log("specialtyFormated", specialtyFormated);
+        //console.log("specialtyFormated", specialtyFormated);
         $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
         $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
             $('#getStaff'+specialty[1]).select2({
@@ -2272,6 +2274,8 @@
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
         var data = $('#accepted-status-select').select2('data');
+        //console.log("data", data);
+   
         if (data.length > 0) {
             var id = data[0].id
             var name = data[0].text

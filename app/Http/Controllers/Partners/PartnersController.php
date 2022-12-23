@@ -125,7 +125,7 @@ class PartnersController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        $unHashPassword = Str::random(8);
+        $unHashPassword = password(10);
         $partner = New Partner;
 
         $image = '';
@@ -349,7 +349,7 @@ class PartnersController extends Controller
         $lang = app()->getLocale();
         $partner = Partner::find(1);
 
-        $unHashPassword = Str::random(8);
+        $unHashPassword = password(10);
         if ($partner) {
             $dataMsg = array(
                 'reciver' => $partner->email,

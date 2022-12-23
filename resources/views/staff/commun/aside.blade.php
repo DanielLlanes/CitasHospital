@@ -160,71 +160,74 @@
                                 @endcan
                             </ul>
                         </li>
-
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-cogs"></i> Roles & Permissions
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                @can('roles.list')
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="ml-3"></i> Roles</a>
-                                    </li>
-                                @endcan
-                                @can('permission.list')
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="ml-3"></i> Permissions</a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </li>
+                        @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                        
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa fa-cogs"></i> Roles & Permissions
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    @can('roles.list')
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="ml-3"></i> Roles</a>
+                                        </li>
+                                    @endcan
+                                    @can('permission.list')
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <i class="ml-3"></i> Permissions</a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </li>
-
-                <li class="nav-item master-menu">
-                    <a href="javascript:;" class="nav-link nav-toggle">
-                        <i class="material-icons">settings</i>
-                        <span class="title">Settings</span>
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-product-hunt"></i> Public page
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
-                                        <i class="ml-3"></i> Slider
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.public_page.testimonials') }}" class="nav-link">
-                                        <i class="ml-3"></i> Testimonials</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.public_page.facilities') }}" class="nav-link">
-                                        <i class="ml-3"></i> Facilities
-                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('staff.public_page.faqs') }}" class="nav-link">
-                                        <i class="ml-3"></i> FAQ's
-                                     </a>
-                                </li>
-                                {{-- <li class="nav-item">
-                                    <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
-                                        <i class="ml-3"></i> Packages
-                                     </a>
-                                </li> --}}
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
+                 @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                    <li class="nav-item master-menu">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <i class="material-icons">settings</i>
+                            <span class="title">Settings</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa fa-product-hunt"></i> Public page
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.public_page.slider') }}" class="nav-link">
+                                            <i class="ml-3"></i> Slider
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.public_page.testimonials') }}" class="nav-link">
+                                            <i class="ml-3"></i> Testimonials</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.public_page.facilities') }}" class="nav-link">
+                                            <i class="ml-3"></i> Facilities
+                                         </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.public_page.faqs') }}" class="nav-link">
+                                            <i class="ml-3"></i> FAQ's
+                                         </a>
+                                    </li>
+                                    {{-- <li class="nav-item">
+                                        <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
+                                            <i class="ml-3"></i> Packages
+                                         </a>
+                                    </li> --}}
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
     </div>

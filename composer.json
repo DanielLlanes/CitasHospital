@@ -23,6 +23,7 @@
         "spatie/flysystem-dropbox": "^1.0.0",
         "spatie/laravel-backup": "*",
         "spatie/laravel-permission": "^4.0",
+        "stripe/stripe-php": "^10.2",
         "yajra/laravel-datatables-oracle": "^9.18"
     },
     "require-dev": {

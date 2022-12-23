@@ -151,7 +151,7 @@ class PatientController extends Controller
                 'ecp' => ['required', 'different:phone', 'different:mobile','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             ]);
 
-            $unHashPassword = Str::random(8);
+            $unHashPassword = password(10);
             $patient = new Patient;
             $patient->treatmentBefore = $treatmentBefore;
             $patient->name = Str::ucfirst($request->name);

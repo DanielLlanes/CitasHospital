@@ -2189,7 +2189,6 @@
           minView: 2,
           forceParse: 0,
           format: 'mm/dd/yyyy',
-          startDate: new Date(),
       })
     
       const containerMedicactionModal = document.getElementById("medicationModal");
