@@ -100,6 +100,20 @@ class StatusSeeder extends Seeder
                 "type" => 'Event',
                 'code' => time().uniqid(Str::random(30)),
             ],
+            [
+                "name_en" => "Cambio de procedimiento",
+                "name_es" => "Change of procedure",
+                'color' => "#f73b31",//
+                "type" => 'Application',
+                'code' => time().uniqid(Str::random(30)),
+            ],
+            [
+                "name_en" => "Accepted unassigned",
+                "name_es" => "Aceptada sin asignar",
+                'color' => "#faa05f",//
+                "type" => 'Application',
+                'code' => time().uniqid(Str::random(30)),
+            ],
         ]);
     }
 

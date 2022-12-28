@@ -56,6 +56,10 @@ io.on('connection', (socket) => {
     socket.on('sendChangeAppStatusToServer', function(data){
         socket.broadcast.emit('sendChangeAppStatusToclient', data) //works
     })
+
+    socket.on('sendChangeAppProcedureAndPackageTo', function(data){
+        socket.broadcast.emit('sendChangeAppProcedureAndPackageToClient', data) //works
+    })
 });
 
 server.listen(3000, () => {

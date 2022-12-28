@@ -10,73 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
-    <style>
-      .select2-container .select2-selection--single .select2-selection__rendered {
-          height: 30px;
-          padding: 5px 10px;
-          font-size: 12px;
-          line-height: 1.5;
-          border-radius: 3px;
-          border: 1px solid #ccc;
-          color: #555;
-      }
-      .select2-results__option {
-          padding: 6px;
-          user-select: none;
-          -webkit-user-select: none;
-          font-size: 12px;
-      }
-
-      .select2-container--default .select2-selection--single {
-          background-color: #fff;
-           border: 0px solid #aaa; 
-          border-radius: 4px;
-      }
-      input[type~="date"],
-      input::placeholder {
-        height: 30px;
-        padding: 5px 10px;
-        font-size: 12px;
-        line-height: 1.5;
-        color: #555;
-      }
-      .datePickers{
-        font-size: 12px;
-      }
-      select {
-        width: 100%!important;
-      }
-      .datetimepicker{
-        font-size: 12px!important;
-      }
-      .loading {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        z-index: 1;
-        width: 120px;
-        height: 120px;
-        margin: -76px 0 0 -76px;
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #3498db;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-        display: none;
-      }
-
-      @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
-      
-    </style>
+    <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
 
     <title>Applications</title>
   </head>
@@ -2018,8 +1952,7 @@
         })
         .then(response => response.json())
         .then( function(data) {
-          $('.animate-bottom').css('display', 'block');
-          $('.loading').css('display', 'none');
+          console.log("data", data);
           if (!data.success) {
             $.each( data.errors, function( key, value ) {
                 $real = key.replace('.', '-')

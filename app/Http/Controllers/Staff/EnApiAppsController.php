@@ -1338,7 +1338,7 @@ class EnApiAppsController extends Controller
         $app->hyrvrntwliwtfed = $request->hyrvrntwliwtfed;
 
 
-        $app->last_menstrual_period = $request->last_menstrual_period;
+        $app->last_menstrual_period = (is_null($request->last_menstrual_period)? null:Carbon::createFromFormat('m/d/Y', $request->last_menstrual_period)->format('Y-m-d'));
         $app->bleeding_whas = $request->bleeding_whas;
                     
         $app->have_you_been_pregnant = $request->have_you_been_pregnant;

@@ -1185,7 +1185,7 @@ class EsApiAppsController extends Controller
                 'errors' => $bag
             ]);
         }
-        
+
         $unHashPassword = Str::random(8);
         if (!$patient) {
             $patient = new Patient;

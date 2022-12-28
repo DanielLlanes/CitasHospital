@@ -16,7 +16,7 @@
                                 <p>El prodedimiento Elegido por el paciente es:<b> {{ $old }}</b></p>
 
                                 <p>
-                                    Thank you for your application with <b>{{ $brand->brand }}</b>!! We are excited and thrilled that you have chosen us to begin a new journey.
+                                    
                                 </p>
 
                                 <p>

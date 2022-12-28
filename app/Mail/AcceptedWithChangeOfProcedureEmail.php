@@ -28,7 +28,7 @@ class AcceptedWithChangeOfProcedureEmail extends Mailable
      */
     public function build()
     {
-        return $this->to($this->data->coor, $this->data->email)
+        return $this->to($this->data->email, $this->data->coor)
         ->subject(str_replace('_', " ", config('app.name', 'Laravel')))
         ->view('staff.mail.staff.apps.'. $this->data->lang .'.changeOfProcedureEmail')
         ->with(
