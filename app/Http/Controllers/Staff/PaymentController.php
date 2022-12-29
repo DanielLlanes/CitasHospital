@@ -40,6 +40,7 @@ class PaymentController extends Controller
         $payments = Payment::with
         (
             [
+                'staff',
                 'paymentMethods' => function($q)use($lang)
                 {
                     $q->selectRaw("id, name_$lang As name");
@@ -80,7 +81,7 @@ class PaymentController extends Controller
 
             $payments = Payment::with
             (
-                [
+                [   'staff',
                     'imageOne',
                     'paymentMethods' => function($q)use($lang)
                     {
@@ -135,9 +136,9 @@ class PaymentController extends Controller
                 ->addColumn('currency', function($payments){
                     return $payments->currency;
                 })
-                // ->addColumn('number_of_payments', function($payments){
-                //     return 'number_of_payments';
-                // })
+                ->addColumn('staff', function($payments){
+                    return $payments->staff->name;
+                })
                 ->addColumn('payment_method', function($payments){
                     return $payments->paymentMethods->name;
                 })
@@ -148,7 +149,7 @@ class PaymentController extends Controller
                     return 'actions here';
                 })
                 //->addColumn('action', 'staff.brand-manager.actions-list')
-                ->rawColumns(['DT_RowIndex',  'image', 'patient', 'application', 'application_total', 'payment_amount', 'currency', 'payment_method', 'date', 'action'])
+                ->rawColumns(['DT_RowIndex',  'image', 'patient', 'application', 'application_total', 'payment_amount', 'currency', 'payment_method', 'staff', 'date', 'action'])
                 ->make(true);
         }
     }
@@ -275,11 +276,8 @@ class PaymentController extends Controller
             ]);
         }
 
-
-
         $itsSame = Application::find($request->id);
         
-
         if($request->code != $itsSame->temp_code || $request->patId != $itsSame->patient_id )
         {
             return response()->json(
@@ -316,6 +314,7 @@ class PaymentController extends Controller
         $payment->patient_id = $request->patId;
         $payment->payment_method_id = $paymentMethod->id;
         $payment->code = time().uniqid(Str::random(30));
+        $payment->staff_id = Auth::guard('staff')->user()->id;
 
         if ($payment->save()) {
             if ($evidence != '') {

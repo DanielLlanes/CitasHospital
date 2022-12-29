@@ -46,7 +46,8 @@
                                                     <th> @lang('Paquete') </th>
                                                     <th> @lang('Coordinador') </th>
                                                     <th> @lang('Fecha') </th>
-                                                    <th> @lang('Precio') </th>
+                                                    {{-- <th> @lang('Precio') </th>
+                                                    <th> @lang('Statring Price') </th> --}}
                                                     <th> @lang('Status') </th>
                                                     <th> @lang('Código') </th>
                                                     <th> @lang('Promotor') </th>
@@ -63,6 +64,32 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="addPriceModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar o editar precio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Precio</label>
+                    <input type="text" class="form-control currencyTextBox" name="price" id="appPrice" aria-describedby="emailHelp" placeholder="Set price">
+                    <small id="emailHelp" class="form-text text-muted">Agregar precio en dolares USD</small>
+                    <div class="error text-danger" id="error"></div>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-add-price">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -117,6 +144,8 @@
         var globalRouteEditar = "{{ route('staff.treatments.configuration.editPackage') }}"
         var globalRouteUpdate = "{{ route('staff.treatments.configuration.updatePackage') }}"
         var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
+        var globalRouteGetAppPrice = "{{ route('staff.applications.getAppPrice') }}"
+        var globalRouteSetAppPrice = "{{ route('staff.applications.setAppPrice') }}"
 
 		$(document).ready(function() {
 			var codigo = 1;
@@ -144,7 +173,8 @@
                     { data: "paquete" },
                     { data: "coordinador" },
                     { data: "fecha" },
-                    { data: "precio" },
+                    // { data: "precio" },
+                    // { data: "precio_inicial" },
                     { data: "status" },
                     { data: "codigo" },
                     { data: "partner" },
@@ -324,6 +354,108 @@
                         e.stopPropagation();
                     }
                 })
+            });
+
+            $(document).on('click', '.btn-tbl-addPrice', function(event) {
+                let id = $(this).attr('data-id');
+                let tempCode = $(this).attr('data-tempcode');
+                let code = $(this).attr('data-code');
+                
+                $('#addPriceModal').on('show.bs.modal', function (e) {
+                    var form_data = new FormData();
+                    form_data.append('id', id);
+                    form_data.append('tempcode', tempCode);
+                    form_data.append('code', code);
+                    $.ajax({
+                        url: globalRouteGetAppPrice,
+                        method:"POST",
+                        data:form_data,
+                        dataType:'JSON',
+                        contentType: false,
+                        cache: false,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        processData: false,
+                        beforeSend: function()
+                        {
+                        },
+                        success:function(data)
+                        {
+                            $('#appPrice').val(data.price);
+                            $('.btn-add-price').attr({
+                                id: data.id,
+                                tempcode: data.temp_code,
+                                code: data.code
+                            });
+
+                        },
+                        error: function (err)
+                        {
+                            console.log('err', err)
+                        },
+                        complete: function()
+                        {
+                        },
+                    })
+                }).modal('show')
+            });
+            $(document).on('click', '.btn-add-price', function(event) {
+                event.preventDefault();
+                let id = $(this).attr('id');
+                let tempCode = $(this).attr('tempcode');
+                let code = $(this).attr('code');
+                let price = $('#appPrice').val();
+                var form_data = new FormData();
+                    form_data.append('id', id);
+                    form_data.append('tempcode', tempCode);
+                    form_data.append('code', code);
+                    form_data.append('price', price);
+                    $.ajax({
+                        url: globalRouteSetAppPrice,
+                        method:"POST",
+                        data:form_data,
+                        dataType:'JSON',
+                        contentType: false,
+                        cache: false,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        processData: false,
+                        beforeSend: function()
+                        {
+                        },
+                        success:function(data)
+                        {
+
+                            if (data.success) {
+
+                                Toast.fire({
+                                    icon: data.icon,
+                                    title: data.mesg,
+                                })
+                                $('.btn-add-price').removeAttr('id')
+                                $('.btn-add-price').removeAttr('tempcode')
+                                $('.btn-add-price').removeAttr('code')
+                                $('#appPrice').val('');
+                                $('#addPriceModal').modal('hide')
+                            } else {
+                                $.each( data.errors, function( key, value ) {
+                                    $('*[name^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                                });
+                            }
+
+
+
+                        },
+                        error: function (err)
+                        {
+                            console.log('err', err)
+                        },
+                        complete: function()
+                        {
+                        },
+                    })
             });
 
             function deleteRecord(id)

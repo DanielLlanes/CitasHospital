@@ -1216,7 +1216,9 @@ class EsApiAppsController extends Controller
         }
 
         $app->temp_code = Str::random(10);
+        $app->code = getCode();
         $app->patient_id = $patient->id;
+        $app->price = (!is_null($treatment->price) ? $treatment->price: null);
 
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;

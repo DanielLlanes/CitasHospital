@@ -2,7 +2,9 @@
 
 namespace App\Models\Staff;
 
+
 use App\Models\Site\Application;
+use App\Models\Staff\Staff;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +36,11 @@ class Payment extends Model
     public function imageOne()
     {
         return $this->morphOne(ImageOne::class, 'imageOneable');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
     }
 
 }

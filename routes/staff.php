@@ -187,6 +187,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/applications/setStatusDeclined', [AppController::class, 'setStatusDeclined'])->name('setStatusDeclined');
         Route::post('/applications/changeNewProcedure', [AppController::class, 'changeNewProcedure'])->name('changeNewProcedure');
         Route::post('/applications/changeNewProcedureWithPackage', [AppController::class, 'changeNewProcedureWithPackage'])->name('changeNewProcedureWithPackage');
+        Route::post('/applications/getAppPrice', [AppController::class, 'getAppPrice'])->name('getAppPrice');
+        Route::post('/applications/setAppPrice', [AppController::class, 'setAppPrice'])->name('setAppPrice');
 
         //
         Route::post('/aplications/add-timeline-post', [TimeLineController::class, 'store'])->name('storePostTimeline');

@@ -102,7 +102,12 @@ class AppController extends Controller
         )
         ->where('is_complete', true)
         ->get();
-            //return $apps;
+
+
+        foreach ($apps as $key => $app) {
+            $app->price = (!is_null($app->treatment->price)) ? $app->treatment->price:$app->price;
+        }
+
         return view(
             'staff.application-manager.list'
         );
@@ -274,9 +279,14 @@ class AppController extends Controller
             ->addColumn('fecha', function ($apps) {
                 return '<span>' . $this->datesLangTrait($apps->created_at, Auth::guard('staff')->user()->lang) . '</span>';
             })
-            ->addColumn('precio', function ($apps) {
+            ->addColumn('precio_inicial', function ($apps) {
 
                 $price = ($apps->treatment->price != null ? '$ ' . $apps->treatment->price : "-----");
+                return '<span>' . $price . '</span>';
+            })
+            ->addColumn('precio', function ($apps) {
+
+                $price = ($apps->price != null ? '$ ' . $apps->price : "-----");
                 return '<span>' . $price . '</span>';
             })
             ->addColumn('status', function ($apps) {
@@ -291,8 +301,11 @@ class AppController extends Controller
                 }
                 return '----';
             })
-            ->addColumn('acciones', 'staff.application-manager.actions-list')
-            ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio', 'partner', 'status', 'acciones'])
+            ->addColumn('acciones', function($apps) {
+                return view('staff.application-manager.actions-list', compact('apps'));
+            })
+            //->addColumn('acciones', 'staff.application-manager.actions-list')
+            ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio', 'precio_inicial', 'partner', 'status', 'acciones'])
             ->make(true);
         }
     }
@@ -956,6 +969,7 @@ class AppController extends Controller
                 if ($request->id == $app->recommended_id) {
                     $app->treatment_id = $exist->id;
                     $app->recommended_id = null;
+                    $app->price = $exist->price;
                     if ($app->save()) {
                         $app->statusOne->delete($app->statusOne->id);
                         $app->statusOne()->create(
@@ -1140,6 +1154,7 @@ class AppController extends Controller
 
                 if ($exist) {
                     $app->treatment_id = $exist->id;
+                    $app->price = $exist->price;
                     if ($app->save()) {
                         return response()->json([
                             'success' => true,
@@ -1491,6 +1506,7 @@ class AppController extends Controller
         if ($exist) {
             $app->treatment_id = $exist->id;
             $app->recommended_id = null;
+            $app->price = $exist->price;
             if ($app->save()) {
                 $getStatusData = $app->statusOne;
                 $app->statusOne->delete($app->statusOne->id);
@@ -1567,6 +1583,7 @@ class AppController extends Controller
 
         $app->treatment_id = $tr->id;
         $app->recommended_id = null;
+        $app->price = $tr->price;
 
         if ($app->save()) {
             $getStatusData = $app->statusOne;
@@ -1675,5 +1692,46 @@ class AppController extends Controller
             },
         ])
         ->get();
+    }
+
+    public function getAppPrice(Request $request)
+    {
+        $app = Application::where([
+            'id' => $request->id,
+            'temp_code' => $request->tempcode,
+            'code' => $request->code,
+        ])->first();
+
+        return $app;
+    }
+
+    public function setAppPrice(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'price' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+        $app = Application::where([
+            'id' => $request->id,
+            'temp_code' => $request->tempcode,
+            'code' => $request->code,
+        ])->first();
+
+        if ($app) {
+            $app->price = $request->price;
+            if ($app->save()) {
+                return response()->json([
+                    'success' => true,
+                    'icon' => 'success',
+                    'msg' => 'Precio establecido',
+                ]);
+            }
+        }
     }
 }
