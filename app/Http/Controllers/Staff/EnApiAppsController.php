@@ -1204,7 +1204,7 @@ class EnApiAppsController extends Controller
             $patient->zip = $request->zip;
             $patient->ecn = $request->ecn;
             $patient->ecp = $request->ecp;
-            $patient->lang = 'es';
+            $patient->lang = 'en';
             $patient->password = Hash::make($unHashPassword);
             $patient->code = getCode();
             $patient->save();
