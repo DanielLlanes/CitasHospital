@@ -280,7 +280,9 @@ class AppController extends Controller
                 return '<span>' . $price . '</span>';
             })
             ->addColumn('status', function ($apps) {
-                return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
+                //return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
+                $viewUrl = route('staff.applications.show', ["id" => $apps->id]);
+                return '<a href="'.$viewUrl.'">' . getStatus($apps->statusOne->status->name, $apps->statusOne->status->color) . '</a>';
                 return $apps->statusOne;
             })
             ->addColumn('partner', function ($apps) {
@@ -727,7 +729,7 @@ class AppController extends Controller
             }
 
             if ($changeStatus) {
-                $app->statusOne->forceDelete($app->statusOne->id);
+                $app->statusOne->delete($app->statusOne->id);
                 $app->statusOne()->create(
                     [
                         'status_id' => $setStatus,
@@ -737,7 +739,6 @@ class AppController extends Controller
                     ]
                 );
             }
-
 
             $app->notification()->create([
                 'staff_id' => $newStaff->id,
@@ -956,7 +957,7 @@ class AppController extends Controller
                     $app->treatment_id = $exist->id;
                     $app->recommended_id = null;
                     if ($app->save()) {
-                        $app->statusOne->forceDelete($app->statusOne->id);
+                        $app->statusOne->delete($app->statusOne->id);
                         $app->statusOne()->create(
                             [
                                 'status_id' => 5,
@@ -1227,7 +1228,7 @@ class AppController extends Controller
         $dataEmail = new Collection();
 
         if ($app) {
-            $app->statusOne->forceDelete($app->statusOne->id);
+            $app->statusOne->delete($app->statusOne->id);
             if ($app->treatment->procedure->id != $request->id) {
                 $app->recommended_id = $request->id;
                 $oldTreat = Procedure::find($request->id);
@@ -1402,7 +1403,7 @@ class AppController extends Controller
 
         $app = Application::with('patient')->find($request->app);
 
-        $app->statusOne->forceDelete($app->statusOne->id);
+        $app->statusOne->delete($app->statusOne->id);
         $app->statusOne()->create(
             [
                 'status_id' => 3,
@@ -1492,7 +1493,7 @@ class AppController extends Controller
             $app->recommended_id = null;
             if ($app->save()) {
                 $getStatusData = $app->statusOne;
-                $app->statusOne->forceDelete($app->statusOne->id);
+                $app->statusOne->delete($app->statusOne->id);
 
                 $app->statusOne()->create(
                     [
@@ -1569,7 +1570,7 @@ class AppController extends Controller
 
         if ($app->save()) {
             $getStatusData = $app->statusOne;
-            $app->statusOne->forceDelete($app->statusOne->id);
+            $app->statusOne->delete($app->statusOne->id);
             $app->statusOne()->create(
                 [
                     'status_id' => 5,

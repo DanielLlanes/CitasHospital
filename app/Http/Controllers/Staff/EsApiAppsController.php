@@ -40,7 +40,6 @@ class EsApiAppsController extends Controller
 
     public function index($code)
     {
-        
         //return abort(404);
 
         $lang = 'es';
@@ -157,7 +156,6 @@ class EsApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
-        //return($request);
             $lang = 'es';
             if ($request->step == 0) {
                 $exist = false;
@@ -206,8 +204,7 @@ class EsApiAppsController extends Controller
                             'errors' => $validator->getMessageBag()->toArray()
                         ]);
                     }
-                }
-                    
+                }   
             }
             if ($request->step == 1) {
                 $need_images = Service::select('need_images', 'qty_images')->find($request->service);
@@ -1347,6 +1344,52 @@ class EsApiAppsController extends Controller
         $app->birth_control = $request->birth_control;
         $app->use_hormones = $request->use_hormones;
         $app->is_or_can_be_pregmant = $request->is_or_can_be_pregman;
+
+        if ($request->about_us_other == 1) {
+            $this->validate($request, [
+                "about_us_description_other" => "required|string",
+            ]);
+            $app->about_us_other = $request->about_us_other;
+            $app->about_us_description_other = $request->about_us_description_other;
+        }
+        if ($request->about_us_google == 1) {
+            $app->about_us_google = $request->about_us_google;
+        }
+        if ($request->about_us_youtube == 1) {
+            $app->about_us_youtube = $request->about_us_youtube;
+        }
+        if($request->about_us_facebook == 1)
+        {
+            $app->about_us_facebook = $request->about_us_facebook;
+        }
+        if($request->about_us_instagram == 1)
+        {
+            $app->about_us_instagram = $request->about_us_instagram;
+        }
+        if($request->about_us_twiter == 1)
+        {
+            $app->about_us_twiter = $request->about_us_twiter;
+        }
+        if($request->about_us_email == 1)
+        {
+            $app->about_us_email = $request->about_us_email;
+        }
+        if($request->about_us_radio == 1)
+        {
+            $app->about_us_radio = $request->about_us_radio;
+        }
+        if($request->about_us_forums == 1)
+        {
+            $app->about_us_forums = $request->about_us_forums;
+        }
+        if($request->about_us_friend == 1)
+        {
+            $this->validate($request, [
+                "friend_name" => "required|string",
+            ]);
+            $app->about_us_friend = $request->about_us_friend;
+            $app->friend_name = $request->friend_name;
+        }
 
         $medication_cadena = [];
         if ($request->has('medication_name') || $request->has('medication_reason') || $request->has('medication_dosage') || $request->has('medication_frecuency')) {
