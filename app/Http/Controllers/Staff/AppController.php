@@ -969,7 +969,7 @@ class AppController extends Controller
                 if ($request->id == $app->recommended_id) {
                     $app->treatment_id = $exist->id;
                     $app->recommended_id = null;
-                    $app->price = $exist->price;
+
                     if ($app->save()) {
                         $app->statusOne->delete($app->statusOne->id);
                         $app->statusOne()->create(
@@ -994,6 +994,10 @@ class AppController extends Controller
                             ]
                         )
                         ->find($request->app);
+
+                        $ap = $status;
+
+                        setAppPriceAuto($ap, $exist);
 
                         $newProcedure = Application::with(
                             [
@@ -1069,6 +1073,8 @@ class AppController extends Controller
                         ]
                     )
                     ->find($request->app);
+                    
+
                     return response()->json([
                         'success' => false,
                         'name' => $request->name,
@@ -1154,7 +1160,9 @@ class AppController extends Controller
 
                 if ($exist) {
                     $app->treatment_id = $exist->id;
-                    $app->price = $exist->price;
+
+                    setAppPriceAuto($app, $exist);
+
                     if ($app->save()) {
                         return response()->json([
                             'success' => true,
@@ -1583,7 +1591,7 @@ class AppController extends Controller
 
         $app->treatment_id = $tr->id;
         $app->recommended_id = null;
-        $app->price = $tr->price;
+        
 
         if ($app->save()) {
             $getStatusData = $app->statusOne;
@@ -1610,6 +1618,9 @@ class AppController extends Controller
                 ]
             )
             ->find($request->app);
+            $ap = $status;
+
+            setAppPriceAuto($ap, $tr);
 
             return response()->json([
                 'success' => true,
@@ -1732,6 +1743,14 @@ class AppController extends Controller
                     'msg' => 'Precio establecido',
                 ]);
             }
+        }
+    }
+
+    public function setAppPriceAuto($ap, $tr)
+    {
+        if ($ap->price < $tr->price) {
+            $ap->price = $tr->price;
+            $ap->save();
         }
     }
 }
