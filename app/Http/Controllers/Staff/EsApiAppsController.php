@@ -1578,8 +1578,8 @@ class EsApiAppsController extends Controller
             HormonesApplication::insert($insert_hormone);
 
             if ($need_images->need_images == 1) {
-                if ($request->has('images')) {
-                    foreach ($images as $key => $image) {
+                if ($request->has('imagenes')) {
+                    foreach ($request->imagenes as $key => $image) {
                         $destinationPath = storage_path('app/public').'/application/image';
                         $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
                         $img = Image::make($image->getRealPath());

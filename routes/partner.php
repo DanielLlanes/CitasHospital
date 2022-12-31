@@ -1,13 +1,14 @@
 <?php 
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Staff\AppController;
+use App\Http\Controllers\Partners\DashController;
 use App\Http\Controllers\Partners\PartnersController;
-use App\Http\Controllers\Partner\Auth\PartnerForgotPasswordController;
+use App\Http\Controllers\Partners\PartnetsSiteController;
+use App\Http\Controllers\Partners\Auth\PartnerLoginController;
 use App\Http\Controllers\Partner\Auth\PartnerRegisterController;
 use App\Http\Controllers\Partner\Auth\PartnerResetPasswordController;
-use App\Http\Controllers\Partners\Auth\PartnerLoginController;
-use App\Http\Controllers\Partners\DashController;
-use App\Http\Controllers\Partners\PartnetsSiteController;
-use App\Http\Controllers\Staff\AppController;
+use App\Http\Controllers\Partner\Auth\PartnerForgotPasswordController;
 
 
 

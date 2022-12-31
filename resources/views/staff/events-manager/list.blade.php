@@ -185,102 +185,101 @@
              </div>
          </div>
      </div>
+    </div>
 
-</div>
-
-<div class="modal fade" id="viewEvantModal" tabindex="-1" role="dialog" aria-labelledby="viewEvantModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="viewEvantModalLabel">@lang('Event details')</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body" id="eventModalBody">
-                <div class="col-12">
-                    <div class="title text-center font-weight-bold text-capitalize"></div>
+    <div class="modal fade" id="viewEvantModal" tabindex="-1" role="dialog" aria-labelledby="viewEvantModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="viewEvantModalLabel">@lang('Event details')</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="staffName"></div>
-                            <div class="patient"></div>
-                            <div class="fechaInicio"></div>
-                        </div>
-                        <div class="col-7">
+                <div class="modal-body" id="eventModalBody">
+                    <div class="col-12">
+                        <div class="title text-center font-weight-bold text-capitalize"></div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="staffName"></div>
+                                <div class="patient"></div>
+                                <div class="fechaInicio"></div>
+                            </div>
+                            <div class="col-7">
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 text-center">
-                    <div class="notas text"></div>
-                </div>
-            </div>
-            <div class="modal-footer flex-nowrap">
-                <div class="col-6 d-flex flex-row">
-                    <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="status0" name="status" class="custom-control-input" value="0">
-                        <label class="custom-control-label badge text-dark" style="background-color: transparent;" for="status0">Active</label>
+                    <div class="col-12 text-center">
+                        <div class="notas text"></div>
                     </div>
-                    @foreach ($status as $k => $st)
+                </div>
+                <div class="modal-footer flex-nowrap">
+                    <div class="col-6 d-flex flex-row">
                         <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="status{{ $k+1 }}" name="status" class="custom-control-input" value="{{ $st->id }}">
-                            <label class="custom-control-label badge" style="background-color: {{ $st->color }}" for="status{{ $k+1 }}">{{ $st->name }}</label>
+                            <input type="radio" id="status0" name="status" class="custom-control-input" value="0">
+                            <label class="custom-control-label badge text-dark" style="background-color: transparent;" for="status0">Active</label>
                         </div>
-                    @endforeach
+                        @foreach ($status as $k => $st)
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="status{{ $k+1 }}" name="status" class="custom-control-input" value="{{ $st->id }}">
+                                <label class="custom-control-label badge" style="background-color: {{ $st->color }}" for="status{{ $k+1 }}">{{ $st->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="col-6 d-flex flex-wrap justify-content-end">
+                        <span>
+                            <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
+                            @can('calendar.edit')
+                                <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
+                            @endcan
+                            @can('calendar.destroyx')
+                                <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
+                            @endcan
+                    </div>
                 </div>
-                <div class="col-6 d-flex flex-wrap justify-content-end">
-                    <span>
-                        <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
-                        @can('calendar.edit')
-                            <button type="button" class="btn btn-primary eventEdit">@lang('Edit')</button>
-                        @endcan
-                        @can('calendar.destroyx')
-                            <button type="button" class="btn btn-danger eventDelete">@lang('Delete')</button>
-                        @endcan
-                </div>
-            </div>
-            {{-- <div class="modal-footer">
+                {{-- <div class="modal-footer">
 
-            </div> --}}
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="appsModal" tabindex="-1" role="dialog" aria-labelledby="appsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="max-width: 1200px" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel">Modal title</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body position-relative" id="appsModalBody">
-                <div class="table-responsive p-3">
-                    <table class="table nowrap table-hover" style="width: 100%; overflow-x:auto" id="appsTable">
-                        <thead>
-                            <tr style="font-size: .8">
-                                <th> ID </th>
-                                <th> @lang('Action') </th>
-                                <th> @lang('Code') </th>
-                                <th> @lang('Treatment') </th>
-                                <th> @lang('Date') </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-
-                          </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btnAppsModal" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                </div> --}}
             </div>
         </div>
     </div>
-</div>
+    <div class="modal fade" id="appsModal" tabindex="-1" role="dialog" aria-labelledby="appsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 1200px" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Modal title</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body position-relative" id="appsModalBody">
+                    <div class="table-responsive p-3">
+                        <table class="table nowrap table-hover" style="width: 100%; overflow-x:auto" id="appsTable">
+                            <thead>
+                                <tr style="font-size: .8">
+                                    <th> ID </th>
+                                    <th> @lang('Action') </th>
+                                    <th> @lang('Code') </th>
+                                    <th> @lang('Treatment') </th>
+                                    <th> @lang('Date') </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnAppsModal" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />

@@ -1,32 +1,34 @@
 <?php
 
 
-use App\Http\Controllers\Partners\PartnersController;
-use App\Http\Controllers\Site\ApplicationController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
-use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
-use App\Http\Controllers\Staff\Auth\StaffLoginController;
-use App\Http\Controllers\Staff\Auth\StaffRegisterController;
-use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
-use App\Http\Controllers\Staff\AutocompleteController;
-use App\Http\Controllers\Staff\BrandController;
-use App\Http\Controllers\Staff\DashboardController;
-use App\Http\Controllers\Staff\EventController;
-use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\BrandController;
+use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\PackageController;
 use App\Http\Controllers\Staff\PatientController;
 use App\Http\Controllers\Staff\PaymentController;
-use App\Http\Controllers\Staff\ProcedureController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
-use App\Http\Controllers\Staff\SliderController;
-use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\TestimonialController;
+use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\TimeLineController;
+use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\ProcedureController;
 use App\Http\Controllers\Staff\TreatmentController;
+use App\Http\Controllers\Site\ApplicationController;
+use App\Http\Controllers\Partners\PartnersController;
+use App\Http\Controllers\Staff\TestimonialController;
+use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\Auth\StaffLoginController;
+use App\Http\Controllers\Staff\Auth\StaffRegisterController;
+use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
