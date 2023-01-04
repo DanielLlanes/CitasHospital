@@ -14,7 +14,7 @@ class StatusOne extends Model
 
     public $timestamps = true;
 
-    //protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
     protected $fillable = ['status_id','indications','recomendations','reason','code'];
 
     public function StatusOneable()

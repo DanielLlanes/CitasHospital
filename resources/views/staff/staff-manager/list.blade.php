@@ -200,6 +200,7 @@
                         })
                         if (data.reload) {
                             staffTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                         }
                     },
                     complete: function()
@@ -383,6 +384,10 @@
                 })
             });
 
+            socket.on('updateDataTablesToClient', () =>  {
+                staffTable.ajax.reload( null, false );
+            });
+
             function deleteRecord(id)
             {
                 var form_data = new FormData();
@@ -410,6 +415,7 @@
                         })
                         if (data.reload) {
                             staffTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             //adminTable.search('').draw();
                         }
                     },
@@ -442,6 +448,7 @@
                         })
                         if (data.reload) {
                             staffTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             //adminTable.search('').draw();
                         }
                     },

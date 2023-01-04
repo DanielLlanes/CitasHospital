@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class AcceptedWithChangeOfProcedureEmail extends Mailable 
+class AcceptedWithChangeOfProcedureEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $data;

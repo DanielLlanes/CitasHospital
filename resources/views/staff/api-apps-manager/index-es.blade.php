@@ -1844,6 +1844,7 @@
     <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <script>
       let step = document.getElementsByClassName('step');
       let prevBtn = document.getElementById('prev-btn');
@@ -1857,7 +1858,9 @@
       let url = '12345';
       let domain = '{{ env('APP_URL_API') }}';;
       let endPoint = domain + '/api/v1/es/ ' + url;
-
+      var ip_address = window.location.hostname;
+      var socket_port = '3000';
+      var socket = io(ip_address + ':' + socket_port );
       form.onsubmit = () => {
           return false
       }
@@ -2113,6 +2116,7 @@
                     });
                     $('.loading').css('display', 'block');
                 } else {
+                    socket.emit('updateDataTablesToServer');
                     window.location.href = "https://es.jlpradosc.online"; 
                 }
             })

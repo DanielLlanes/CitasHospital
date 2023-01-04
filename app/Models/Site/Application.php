@@ -2,22 +2,23 @@
 
 namespace App\Models\Site;
 
-use App\Models\Partners\Partner;
+use App\Models\Staff\Staff;
 use App\Models\Staff\Debate;
-use App\Models\Staff\ImageMany;
-use App\Models\Staff\Notification;
+use App\Models\Staff\Status;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
-use App\Models\Staff\Procedure;
 use App\Models\Staff\Product;
-use App\Models\Staff\Staff;
-use App\Models\Staff\Status;
-use App\Models\Staff\StatusOne;
 use App\Models\Staff\TimeLine;
+use App\Models\Staff\ImageMany;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\StatusOne;
 use App\Models\Staff\Treatment;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Partners\Partner;
+use App\Models\Staff\Suggestion;
+use App\Models\Staff\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Application extends Model
 {
@@ -99,5 +100,9 @@ class Application extends Model
     public function timelines()
     {
         return $this->hasMany(TimeLine::class);
+    }
+    public function suggestions()
+    {
+        return $this->hasMany(Suggestion::class);
     }
 }

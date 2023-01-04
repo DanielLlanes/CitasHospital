@@ -114,8 +114,15 @@ class StatusSeeder extends Seeder
                 "type" => 'Application',
                 'code' => time().uniqid(Str::random(30)),
             ],
+            [
+                "name_en" => "Con sugerencias",
+                "name_es" => "With suggestions",
+                'color' => "#d9c250",//
+                "type" => 'Application',
+                'code' => time().uniqid(Str::random(30)),
+            ],
         ]);
     }
 
-    #INSERT INTO `statuses`(`name_en`, `name_es`, `color`, `code`, `type` ) VALUES ('Cambio de procedimiento','Change of procedure','#f73b31','1661809714L71jPIDOjzcTW9HOFYVbvxNFNlD4PB630d341234567','Application');
+    #INSERT INTO `statuses`(`name_en`, `name_es`, `color`, `code`, `type` ) VALUES ('With suggestions','Con sugerencias','#d9c250','1672558163EO91sO1b7xGPclLt2gTWQpgYQeJ4mB63b136531faa1','Application');
 }

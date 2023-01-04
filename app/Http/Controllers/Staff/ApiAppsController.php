@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
+use Str;
+use Carbon\Carbon;
 use App\Mail\NewAppEmail;
+use App\Models\Site\State;
+use App\Models\Staff\Staff;
+use App\Models\Site\Country;
+use Illuminate\Http\Request;
+use App\Models\Staff\Package;
+use App\Models\Staff\Patient;
+use App\Models\Staff\Service;
+use App\Traits\DatesLangTrait;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\Treatment;
 use App\Mail\WelcomeLetterEmail;
 use App\Models\Partners\Partner;
 use App\Models\Site\Application;
-use App\Models\Site\BirthControlApplication;
-use App\Models\Site\Country;
+use Illuminate\Support\MessageBag;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
+use App\Models\Site\SurgeryApplication;
+use Illuminate\Support\Facades\Session;
 use App\Models\Site\ExerciseApplication;
 use App\Models\Site\HormonesApplication;
 use App\Models\Site\IllnsessApplication;
-use App\Models\Site\MedicationApplication;
-use App\Models\Site\State;
-use App\Models\Site\SurgeryApplication;
-use App\Models\Staff\Package;
-use App\Models\Staff\Patient;
-use App\Models\Staff\Procedure;
-use App\Models\Staff\Service;
-use App\Models\Staff\Staff;
-use App\Models\Staff\Treatment;
-use App\Traits\DatesLangTrait;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
+use App\Models\Site\MedicationApplication;
+use App\Models\Site\BirthControlApplication;
+use Illuminate\Database\Eloquent\Collection;
 
 class ApiAppsController extends Controller
 {

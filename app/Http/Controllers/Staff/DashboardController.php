@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Models\Staff\Event;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
@@ -85,6 +86,7 @@ class DashboardController extends Controller
         ->get();
 
         $countNewersPatients = Patient::where('created_at', '>', now()->startOfMonth()->endOfDay())->count();
+    
         $countAllPatients = Patient::count();
         if ($countNewersPatients > 0 && $countAllPatients > 0) {
             $incrementPatients = ceil((($countNewersPatients / $countAllPatients)) * 100);
@@ -187,7 +189,7 @@ class DashboardController extends Controller
                 $data[3] = Application::where('about_us_twiter', true)->count();
                 $data[4] = Application::where('about_us_forums', true)->count();
                 $data[5] = Application::where('about_us_instagram', true)->count();
-                $data[6] = Application::where('about_us_frend', true)->count();
+                $data[6] = Application::where('about_us_friend', true)->count();
                 $data[7] = Application::where('about_us_radio', true)->count();
                 $data[8] = Application::where('about_us_email', true)->count();
                 $data[9] = Application::where('about_us_other', true)->count();
@@ -202,11 +204,10 @@ class DashboardController extends Controller
             ],
         ];
 
-        return response()->json($results);
+    return response()->json($results);
     }
     public function lastFiveApps(Request $request)
     {
-
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
@@ -293,7 +294,8 @@ class DashboardController extends Controller
                 })
 
                 ->addColumn('status', function($apps){
-                    return getStatus($apps->statusOne->status->name, $apps->statusOne->status->color);
+                    $viewUrl = route('staff.applications.show', ["id" => $apps->id]);
+                    return '<a href="'.$viewUrl.'">' . getStatus($apps->statusOne->status->name, $apps->statusOne->status->color) . '</a>';
                     return $apps->statusOne;
                 })
                 ->rawColumns(['codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha',  'status'])

@@ -186,10 +186,6 @@
 		        },
 		    });
 
-            socket.on('updateDataTablesToClient', () =>  {
-                applicationsTable.ajax.reload( null, false );
-            });
-
             $(document).on('click', '#formCancel', function () {
                 clearForm()
             });
@@ -227,6 +223,7 @@
                         })
                         if (data.reload) {
                             applicationsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                         }
                     },
                     complete: function()
@@ -270,6 +267,7 @@
                                 title: data.msg
                             })
                             applicationsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             clearForm()
                         }
 
@@ -313,6 +311,7 @@
                         })
                         if (data.reload) {
                             applicationsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             clearForm()
                         } else {
                             $.each( data.errors, function( key, value ) {
@@ -484,6 +483,7 @@
                         })
                         if (data.reload) {
                             applicationsTable.ajax.reload( null, false );
+                            socket.emit('updateDataTablesToServer');
                             //adminTable.search('').draw();
                         }
                     },
@@ -496,6 +496,12 @@
                     },
                 })
             }
+            socket.on('updateDataTablesToClient', () =>  {
+                applicationsTable.ajax.reload( null, false );
+                console.log('entra?');
+            });
 		});
+
+        
     </script>
 @endsection

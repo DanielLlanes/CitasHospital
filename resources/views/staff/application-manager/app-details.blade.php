@@ -88,18 +88,18 @@
                                     <br>
                                     <p id="current-status-p">{!!  getStatus($appInfo->statusOne->status->name, $appInfo->statusOne->status->color) !!}</p>
                                 </div>
-                                @if ($appInfo->statusOne->status->id == 14 || $appInfo->statusOne->status->id == 13 || $appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || $appInfo->statusOne->status->id == 2 || $appInfo->statusOne->status->id == 4 || $appInfo->statusOne->status->id == 5)
-                                    @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                                    @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator', 'doctor', 'coordinator']))
                                         <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                             <br>
-                                                <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between">
+                                                @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || Auth::guard('staff')->user()->hasRole(['dios']))
                                                     <button id="status-accepted-button" class="btn btn-success">accepted</button>
-                                                    <button id="status-declined-button" class="btn btn-danger">Declined</button>
-                                                </div>
+                                                @endif
+                                                <button id="status-declined-button" class="btn btn-danger">Declined</button>
+                                            </div>
                                         </div>
                                     @endif
-                                @endif
-                            </div>
+                                </div>
                             <hr>
                         </div>
                     </div>
@@ -257,41 +257,69 @@
                                         </div>
                                     </div>
                                     <div class="row" id="recommended-procedure-row">
-                                    @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
-                                        @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
-                                            <div class="col-12 col-md-4 mb-2 b-r"> 
-                                                <strong>Procedimiento sugerido: 
-                                                    <br>
-                                                    <span>{{ $appInfo->recommended->procedure }}</span>
-                                                </strong>
-
-                                                <div class="packageDosentExist" id="packageDosentExist" style="@if ($exist) display: none; @endif">
-                                                    <br>
-                                                    <div class="alert alert-danger " role="alert">
-                                                        El paquete del procedimiento requerido es <strong class="oldPackage"> {!! (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) !!}</strong>. 
+                                        @if (!is_null($appInfo->recommended_id) && !is_null($appInfo->recommended_id))
+                                            @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
+                                                <div class="col-12"> 
+                                                    <strong>Procedimiento sugerido: 
                                                         <br>
-                                                        Y no se encuentra disponible en el nuevo procedimiento: <strong>{{ $appInfo->recommended->procedure }}</strong>
+                                                        <span>{{ $appInfo->recommended->procedure }}</span>
+                                                    </strong>
+                                                    <div class="packageDosentExist" id="packageDosentExist" style="@if ($exist) display: none; @endif">
                                                         <br>
-                                                        por favor informe al Paciente sobre el nuevo procedimiento y nuevo paquete 
-                                                        <br>
-                                                        los Paquetes disponibles para <strong>{{ $appInfo->recommended->procedure }}</strong> son:
-                                                        <ul class="availablePackahesList">
-                                                            @for ($i = 0; $i < count($packsDsponibles); $i++)
-                                                                <li>
-                                                                    <strong>{{ $packsDsponibles[$i]['package'] }}</strong>
-                                                                </li>
-                                                            @endfor
-                                                        </ul>
-                                                  </div>
+                                                        <div class="alert alert-danger " role="alert">
+                                                            El paquete del procedimiento requerido es <strong class="oldPackage"> {!! (is_null($appInfo->treatment->package) ? " ----- ": $appInfo->treatment->package->package) !!}</strong>. 
+                                                            <br>
+                                                            Y no se encuentra disponible en el nuevo procedimiento: <strong>{{ $appInfo->recommended->procedure }}</strong>
+                                                            <br>
+                                                            por favor informe al Paciente sobre el nuevo procedimiento y nuevo paquete 
+                                                            <br>
+                                                            los Paquetes disponibles para <strong>{{ $appInfo->recommended->procedure }}</strong> son:
+                                                            <ul class="availablePackahesList">
+                                                                @for ($i = 0; $i < count($packsDsponibles); $i++)
+                                                                    <li>
+                                                                        <strong>{{ $packsDsponibles[$i]['package'] }}</strong>
+                                                                    </li>
+                                                                @endfor
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                <br>
+                                                    <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">
+                                                    <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
+                                                    </div>
                                                 </div>
-                                              <br>
-                                                <div class="form-group form-check">
-                                                   <input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">
-                                                   <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
-                                                 </div>
-                                            </div>
+                                            @endif
                                         @endif
-                                    @endif
+                                        @if (count($sugerencias) > 0 && $appInfo->statusOne->status->id == 15)
+                                            @if (Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']))
+                                            <div class="col-12">
+                                                <div class="suggestionsDosentExist" id="suggestionsDosentExist" style="@if (count($sugerencias) < 0) display: none; @endif">
+                                                    <div class="alert alert-danger " role="alert">
+                                                        <p>El doctor <strong>{{ $sugerencias[0]['staff'] }}</strong> a sugerido otros procedimientos,</p>   
+
+                                                            <p>los procedimientos sugeridos son:</p>
+
+                                                            <ul class="availableSuggestionsList">
+                                                                @foreach ($sugerencias as $s)
+                                                                    <li>
+                                                                        <strong>{{ $s['name'] }}</strong>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                            <br>
+                                                            <p>por favor espere a que administracion realiza una cotización é informe al paciente sobre los nuevos procedimientos</p> 
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group form-check mb-auto">
+                                                        <input type="checkbox" class="form-check-input" id="suggestion-procedure-checkbox">
+                                                        <label class="form-check-label" for="suggestion-procedure-checkbox" id="recommended-procedure-span">El paciente acepta la cotización?* </label>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
                                     </div>
                                     <div class="col-12 col-md-8 mb-2 b-r">
 
@@ -1409,7 +1437,7 @@
     </div>
 </div>
 <div class="modal fade" id="status-accepted-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Application accepted</h5>
@@ -1418,7 +1446,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
+                <div class="row justify-content-center" style="align-content: center">
+                    @foreach ($statusOptions as $item)
+                    @if ($appInfo['treatment']['service_id'] == 2 )
+                        <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button>
+                    @elseif ($appInfo['treatment']['service_id'] != 2 && $item['id'] != 15)
+                    <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button>
+
+                    @endif
+                    @endforeach
+                </div>
+                <div class="text-center">
+                    <p class="d-blok m-0">Procedimiento: </p>
+                    <p class="d-blok m-0"><strong> {{ $appInfo->treatment->procedure->procedure }}</strong></p>
+                </div>
+                <div class="form-group row" data-id="5">
                     <label class="control-label col-md-12">Medical recommendations
                         <span class="required"> * </span>
                     </label>
@@ -1426,16 +1468,6 @@
                         <textarea name="medicalRecommendations" id="medicalRecommendations" class="summernote" cols="30" rows="10"></textarea>
                         <span class="help-block text-danger">  </span>
                     </div>
-
-                    <label class="control-label col-md-12">The patient has been approved for
-                        <span class="required"> * </span>
-                    </label>
-                    <div class="col-md-12">
-                        <select class="form-control input-height" id="accepted-status-select">
-                        </select>
-                        <span class="help-block text-danger">  </span>
-                    </div>
-
                     <label class="control-label col-md-12 mt-5">Medical indications
                         <span class="required"> * </span>
                     </label>
@@ -1444,10 +1476,37 @@
                         <span class="help-block text-danger">  </span>
                     </div>
                 </div>
+                <div class="form-group row step d-none" data-id="13">
+                    <label class="control-label col-md-12">The patient has been approved for
+                        <span class="required"> * </span>
+                    </label>
+                    <div class="col-md-12">
+                        <select class="form-control input-height" id="accepted-status-select">
+                        </select>
+                        <span class="help-block text-danger">  </span>
+                    </div>
+                </div>
+                <div class="form-group row step d-none" data-id="15">
+                    <label class="control-label col-md-12">Add suggestions
+                        <span class="required"> * </span>
+                    </label>
+                    <div class="col-12">
+                        <div class="row cbSugerencias">
+                            @foreach ($proceduresList as $it)
+                                <div class="col-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" code="{{ $it['code'] }}" id="procedure-{{ $it['id'] }}" value="{{ $it['id'] }}">
+                                        <label class="custom-control-label" for="procedure-{{ $it['id'] }}">{{ $it['name'] }}</label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="confirm-status-accepted-button">Change</button>
+                <button type="button" class="btn btn-primary" action="{{ $statusOptions[0]['id'] }}" codigo="{{ $statusOptions[0]['code'] }}" id="confirm-status-accepted-button">Change</button>
             </div>
         </div>
     </div>
@@ -1599,11 +1658,13 @@
     var globalRouteShowPostTimeline = "{{ route('staff.applications.showPostTimeline') }}"
     var globalRouteChangeNewProcedure = "{{ route('staff.applications.changeNewProcedure') }}"
     var globalRouteChangeNewProcedureWithPackage  = "{{ route('staff.applications.changeNewProcedureWithPackage') }}"
+    var globalRouteSetAceptesSuggestion = "{{ route('staff.applications.setAceptesSuggestion') }}"
 
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
     var canChangeProcedure = "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}";
     var hideStatusAreaLet = "{{ Auth::guard('staff')->user()->hasRole([['dios', 'super-administrator', 'administrator']]) }}"
+    var hideAcdeptedBtnLet = "{{ Auth::guard('staff')->user()->hasRole([['dios']]) }}"
 
 
     var date = new Date();   //Creates date object
@@ -1623,6 +1684,7 @@
     var debateMembers = {!! json_encode($debateMembers) !!}
     var debate_id = {{ $appInfo->id }}
     var app_id = {{ $appInfo->id }}
+    var app_code = '{{ $appInfo->code }}'
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
 
@@ -1860,6 +1922,7 @@
             },
             success:function(response)
             {
+                console.log(response);
                 $("#recommended-procedure-span").html('');
                 $("#recommended-procedure-row").html('');
                 $('#status-accepted-modal').modal('hide');
@@ -1870,11 +1933,18 @@
                 $('#s-recomendatons-recomendations').html(response.medicalRecommendations);
                 $('#s-recomendatons-reazon').remove();
                 
-                $('#nameStaff'+specialty).text(response.response.staff_name);
-
+                //$('#nameStaff'+specialty).text(response.staff_name);
+                console.log(response.status_id);
                 socket.emit('sendNewStaffToServer', response.response);
                 socket.emit('eventCalendarRefetchToServer');
+                socket.emit('updateDataTablesToServer');
+                socket.emit('sendChangeAppStatusToServer', response);
                 $('#change'+specialty+"App").modal('hide');
+                if(response.status_id != 9 ){
+                    if(response.status_id != 1){
+                        hideAcdeptedBtn()
+                    }
+                }
             },
             complete: function()
             {
@@ -2024,6 +2094,33 @@
 
         });
     }
+    function surggeriesWaning(response){
+        var warning = `
+            <br>
+            <div class="alert alert-danger " role="alert">
+                El paquete del procedimiento requerido es <strong class="oldPackage"> ${response.oldPacka}</strong>. 
+                <br>
+                Y no se encuentra disponible en el nuevo procedimiento: <strong>${response.oldProce}</strong>
+                <br>
+                por favor informe al Paciente sobre el nuevo procedimiento y nuevo paquete 
+                <br>
+                los Paquetes disponibles para <strong>${response.oldProce}</strong> son:
+                <ul class="availablePackahesList">  
+                </ul>
+            </div>
+        `;
+
+        //$('.packageDosentExist').append(warning)
+
+        $.each(response.sugerencia, function(index, val) {
+            var item = `<li> <strong> ${response.packs[index].package} </strong></li>`;
+            $('.availableSuggestionsList').append(item)
+
+        });
+    }
+    function hideAcdeptedBtn(){
+        if(!hideAcdeptedBtnLet){$('#status-accepted-button').remove();}
+    }
     $(document).on('click', '.cancel-post-btn', function(event) {
         event.preventDefault();
         $('.dropArea').remove();
@@ -2081,7 +2178,7 @@
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
-        //console.log("specialty", specialty);
+        console.log("specialty", specialty);
         specialtyFormated = specialty[1].replace("_", " ");
         //console.log("specialtyFormated", specialtyFormated);
         $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
@@ -2102,6 +2199,7 @@
                         }
                     },
                     processResults: function(data) {
+                        console.log(data);
                         return {
                             results: $.map(data, function(obj) {
                                 return {
@@ -2206,9 +2304,54 @@
                 },
             })
     });
-    // $(document).on('hidden.bs.modal', '#treatmenta-availables-modal',function (e) {
-    //   $('#treatmenta-availables-modal .modal-body').html('');
-    // })
+    $(document).on('click', '#suggestion-procedure-checkbox' ,function () {
+        if ($(this).is(":checked")) {
+          
+            let form_data = new FormData()
+            form_data.append('app', app_id);
+            $.ajax({
+                url: globalRouteSetAceptesSuggestion,
+                method:"POST",
+                data:form_data,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function()
+                {
+
+                },
+                success:function(response)
+                {
+                    console.log("response", response);
+                    if (response.success) { 
+                        $('#recommended-procedure-row').remove();
+                        $("#current-status-p").html(response.status)
+                        $("#span-status-name").html(response.status)
+                        $('#s-recomendatons-indications').html(response.indications)
+                        $('#s-recomendatons-recomendations').html(response.recomendations)
+                        $('#s-recomendatons-reazon').remove()
+                        hideAcdeptedBtn()
+                    }
+                    if (response.hasOwnProperty('icon')) {
+                        Toast.fire({
+                          icon: response.icon,
+                          title: response.msg
+                        })
+                    }
+                    if (response.hasOwnProperty('reload')) {
+                        location.reload();
+                    }
+                },
+                complete: function()
+                {
+                },
+            })
+        } 
+    });
     $(document).on('click', '#confirm-change-procedure-button', function(event) {
         event.preventDefault();
         var data = $('#change-procedure-select').select2('data');
@@ -2381,12 +2524,13 @@
     });
     $(document).on('click', '#status-accepted-button', function(event) {
         event.preventDefault();
+
         $('#status-accepted-modal').on('show.bs.modal', function () {
             $('#accepted-status-select').empty().attr('placeholder', "Select click here").trigger('change')
-            $('#accepted-status-select').append('<option selected value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
+            $('#accepted-status-select').append('<option selected  value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
             $('#accepted-status-select').select2({
                 placeholder: "Select click here",
-                allowClear: true,
+                allowClear: false,
                 ajax: {
                     url: globalRouteGetNewProcedure,
                     type: 'post',
@@ -2398,8 +2542,10 @@
                         }
                     },
                     processResults: function(data) {
+                        
                         return {
                             results: $.map(data, function(obj) {
+                                console.log(data)
                                 return {
                                     id: obj.id,
                                     text: obj.procedure,
@@ -2416,20 +2562,37 @@
     });
     $(document).on('click', '#confirm-status-accepted-button', function(event) {
         event.preventDefault();
-        var data = $('#accepted-status-select').select2('data');
 
+        var data = $('#accepted-status-select').select2('data');
         if (data.length > 0) {
-            var id = data[0].id
-            var name = data[0].text
-            var code = data[0].code
-            var medicalRecommendations = $('#medicalRecommendations').val()
-            var medicalIndications = $('#medicalIndications').val()
-            var form_data = new FormData();
+            console.log('la data')
+            let id = data[0].id
+            let name = data[0].text
+            let code = data[0].code
+            let medicalRecommendations = $('#medicalRecommendations').val()
+            let medicalIndications = $('#medicalIndications').val();
+            let action = event.target.getAttribute('action');
+            let codigo = event.target.getAttribute('code');
+            let checkboxes = document.querySelectorAll('.cbSugerencias input[type=checkbox]:checked');
+            let array = [];
+            $(checkboxes).each(function (index, element) {    
+                array[index] = {
+                    'id':$(this).val(),
+                    'code':$(this).attr('code')
+                }        
+            });
+            let form_data = new FormData();
             form_data.append('name', name);
             form_data.append('id', id);
             form_data.append('code', code);
             form_data.append('medicalRecommendations', medicalRecommendations);
             form_data.append('medicalIndications', medicalIndications);
+            form_data.append('action', action);
+            form_data.append('codigo', codigo);
+
+
+            form_data.append('sugerencias', JSON.stringify(array));
+
             form_data.append('app', app_id);
             $.ajax({
                 url: globalRouteSetStatusAcepted,
@@ -2449,6 +2612,7 @@
                 success:function(response)
                 {
                 console.log("response", response);
+
                     if (response.success) {
                         $("#recommended-procedure-span").html('')
                         $("#recommended-procedure-row").html('')
@@ -2456,9 +2620,9 @@
                         $("#current-status-p").html(response.status)
                         $("#span-status-name").html(response.status)
                         hideStatusArea()
+                        //$('#status-accepted-button').remove()
+                        //hideAcdeptedBtn()
                     }
-
-
                     $('#s-recomendatons-indications').html(response.indications)
                     $('#s-recomendatons-recomendations').html(response.recomendations)
                     $('#s-recomendatons-reazon').remove()
@@ -2483,11 +2647,42 @@
                         $("#recommended-procedure-row").html(recommended)
                     }
 
+
+                    if (response.hasOwnProperty('datax')) {  
+                        var data = `
+                        <div class="suggestionsDosentExist" id="suggestionsDosentExist">
+                            <div class="alert alert-danger " role="alert">
+                                <p>El doctor <strong>${response.doctor}</strong> a sugerido otros procedimientos,</p>   
+
+                                    <p>los procedimientos sugeridos son:</p>
+
+                                    <ul class="availableSuggestionsList">
+                                        
+                                    </ul>
+                                    <br>
+                                    <p>por favor espere a que administracion realiza una cotización é informe al paciente sobre los nuevos procedimientos</p> 
+                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group form-check mb-auto">
+                                <input type="checkbox" class="form-check-input" id="suggestion-procedure-checkbox">
+                                <label class="form-check-label" for="suggestion-procedure-checkbox" id="recommended-procedure-span">El paciente acepta la cotización?* </label>
+                            </div>
+                        </div>
+                        `
+                        $("#recommended-procedure-row").html(data)
+                    }
+
                     if (response.exist != null) {
                         $('#packageDosentExist').css('display', 'none');
                     } else {
                         $('packageDosentExist').remove();
                         packageWarning(response)
+                    }
+
+                    if (response.hasOwnProperty('sugerencia')) {
+                        surggeriesWaning(response);
                     }
 
                     socket.emit('updateDataTablesToServer');
@@ -2502,6 +2697,28 @@
             $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
         }
     });
+
+    $(document).on('click', '.data-status-select',function (event) {
+        //const ele = this.getElementsByClassName('data-status-select')
+        console.log(event);
+        let step = document.getElementsByClassName('step');
+        let code = event.target.getAttribute('code');
+        let visible = event.target.getAttribute('status')
+        let checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+        let stepCount = step.length;
+        $('#confirm-status-accepted-button').attr('action', visible)
+        $('#confirm-status-accepted-button').attr('code', code);
+
+        for (var i = 0; i < stepCount; i++) {
+            step[i].classList.add('d-none')
+        }
+        $(this).parents('.modal-body').find(`[data-id='${visible}']`).removeClass('d-none')
+
+        $(checkboxes).each(function (index, element) {
+            $(this).prop('checked', false);
+        });
+    });
+
     $(document).on('change', "#recommended-procedure-checkbox", function () {
         if ($(this).is(":checked")) {
             var btn = ""
@@ -2509,9 +2726,6 @@
             if ( $("#change-procedure-p") ) {
               $("#change-procedure-p").append(btn);
             }
-
-        } else {
-            $('#change-procedure-button').remove();
         }
     });
     $(document).on('click', '#status-declined-button', function(event) {
@@ -2594,7 +2808,7 @@
                 },
                 success:function(response)
                 {
-                    console.log("response", response);
+                    console.log(response)
                     if (response.success) {
                         $('#change-procedure-p').html(response.procedure);
                         $('#change-procedure-p').attr('procedure_id', response.procedure.id);
@@ -2787,37 +3001,87 @@
 
     socket.on('sendNewStaffToClient', (data) =>  {
         var langSpecialty = (user_lang == "es") ? data.lang_es:data.lang_en;
-        $('#nameStaff'+langSpecialty).text(data.staff_name)
+
+        $('#nameStaff'+langSpecialty.replace(' ', '_')).text(data.staff_name)
     });
 
     socket.on('sendChangeAppStatusToclient', (response) =>  {
-        $("#current-status-p").html(response.status)
-        $("#span-status-name").html(response.status)
-        $('#status-declined-modal').modal('hide');
-        $('#status-accepted-modal').modal('hide');
-        if (response.hasOwnProperty('data')) {
-            var recommended = "";
-            recommended += '<div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: '+response.name+'</strong>';
-                recommended += '<br>';
-                recommended += '<div class="form-group form-check">';
-                   recommended += '<input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">';
-                   recommended += '<label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>';
-                 recommended += '</div>';
-            recommended += '</div>';
-            var btn = ""
-            if ( "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}" == 1) {
-                $("#recommended-procedure-span").html(response.name)
-                $("#recommended-procedure-row").html(recommended)
+
+        console.log(response)
+        if (response.success) {
+            $("#recommended-procedure-span").html('')
+            $("#recommended-procedure-row").html('')
+            $('#status-accepted-modal').modal('hide')
+
+            $("#current-status-p").html(response.status);
+            $("#span-status-name").html(response.status);
+
+            hideStatusArea()
+        }
+        if(response.status_id != 9 ){
+            if(response.status_id != 1){
+                hideAcdeptedBtn()
             }
         }
-        $('#status-accepted-button').prop('disabled', true);
-        $('#status-declined-button').prop('disabled', true);
-        $('#confirm-status-declined-button').prop('disabled', true);
-        $('#confirm-status-acepted-button').prop('disabled', true);
-        if (response.hasOwnProperty('packs')) {
+        $('#s-recomendatons-indications').html(response.indications)
+        $('#s-recomendatons-recomendations').html(response.recomendations)
+        $('#s-recomendatons-reazon').remove()
+
+        
+        if (response.hasOwnProperty('data')) {
+            
+            var recommended = `   
+                <div class="col-6 mb-2 b-r"> <strong>Procedimiento sugerido: ${response.name}</strong>'
+                    <div class="packageDosentExist" id="packageDosentExist">
+                        
+                    </div>
+                    '<br>'
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="recommended-procedure-checkbox">
+                        <label class="form-check-label" for="recommended-procedure-checkbox" id="recommended-procedure-span">El paciente acepta el cambio? </label>
+                    </div>
+                </div>
+            `
+            var btn = ""
+            $("#recommended-procedure-span").html(response.name)
+            $("#recommended-procedure-row").html(recommended)
+        }
+
+        if (response.exist != null) {
+            $('#packageDosentExist').css('display', 'none');
+        } else {
+            $('packageDosentExist').remove();
             packageWarning(response)
         }
-        hideStatusArea()
+
+        if (response.hasOwnProperty('datax')) {  
+            var data = `
+            <div class="suggestionsDosentExist" id="suggestionsDosentExist">
+                <div class="alert alert-danger " role="alert">
+                    <p>El doctor <strong>${response.doctor}</strong> a sugerido otros procedimientos,</p>   
+
+                        <p>los procedimientos sugeridos son:</p>
+
+                        <ul class="availableSuggestionsList">
+                            
+                        </ul>
+                        <br>
+                        <p>por favor espere a que administracion realiza una cotización é informe al paciente sobre los nuevos procedimientos</p> 
+                        <br>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group form-check mb-auto">
+                    <input type="checkbox" class="form-check-input" id="suggestion-procedure-checkbox">
+                    <label class="form-check-label" for="suggestion-procedure-checkbox" id="recommended-procedure-span">El paciente acepta la cotización?* </label>
+                </div>
+            </div>
+            `
+            $("#recommended-procedure-row").html(data)
+        }
+        if (response.hasOwnProperty('sugerencia')) {
+            surggeriesWaning(response);
+        }
     });
 
 </script>

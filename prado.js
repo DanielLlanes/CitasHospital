@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("sendNewStaffToServer", function(data) { // assing new staff works
+        socket.emit('sendNewStaffToClient', data);
         socket.broadcast.emit('sendNewStaffToClient', data);
     });
 

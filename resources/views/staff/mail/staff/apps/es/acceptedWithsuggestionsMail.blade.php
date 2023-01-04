@@ -8,17 +8,30 @@
                     <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;">
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
-                                <p>Buenas tardes</p>
+                                <p>Estimado/a <b>{{ $staff_name }}</b></p>
 
-                                <p>Este mensaje es para informarle que el doctor {{ $doctor }}, aprobo una aplicacion en la que aun no se a asignado los especialstas</p>
+                                <p>El doctor <b>{{ $doctor }}</b>. a a sugerido procedimientos extras para el paciente <strong>{{ $patient }}</strong> </p>
+
+                                <p>El prodedimiento Elegido por el paciente es:<b> {{ $procedimiento }}</b></p>
 
                                 <p>
-                                    <a href="{{ $app }}">Ir a la aplicacion</a>
+                                    
                                 </p>
-                                <br>
+
                                 <p>
-                                    <a href="{{ $APP }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>
-                                </p>    
+                                    Las sugerencias son:
+                                </p>
+                                <ul style="list-style-type: none;">
+                                    @foreach ($sugerencias as $s)
+                                        <li>
+                                            <strong>{{ $s['name'] }}</strong>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <br>  
+                                <p>
+                                    <a href="{{ $app }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>
+                                </p>                              
                             </td>
                         </tr>
                     </table>

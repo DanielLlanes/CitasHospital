@@ -2,34 +2,36 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Events\DebateChatEvent;
-use App\Http\Controllers\Controller;
-use App\Jobs\Staff\Debate\DebateMessagesJob;
-use App\Mail\AcceptedLetterEmail;
-use App\Mail\AcceptedUnassignedEmail;
-use App\Mail\AcceptedWithChangeOfProcedureEmail;
-use App\Mail\DeclidedLetterEmail;
-use App\Models\Site\Application;
+use Carbon\Carbon;
+use App\Models\Staff\Staff;
+use Illuminate\Support\Str;
 use App\Models\Staff\Debate;
+use App\Models\Staff\Status;
+use Illuminate\Http\Request;
 use App\Models\Staff\Package;
 use App\Models\Staff\Patient;
-use App\Models\Staff\Procedure;
 use App\Models\Staff\Service;
-use App\Models\Staff\Specialty;
-use App\Models\Staff\Staff;
-use App\Models\Staff\Treatment;
 use App\Traits\DatesLangTrait;
+use App\Events\DebateChatEvent;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\Specialty;
+use App\Models\Staff\Treatment;
 use App\Traits\StatusAppsTrait;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Site\Application;
+use Yajra\DataTables\DataTables;
+use App\Mail\AcceptedLetterEmail;
+use App\Mail\DeclidedLetterEmail;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\AcceptedUnassignedEmail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Yajra\DataTables\DataTables;
+use App\Jobs\Staff\Debate\DebateMessagesJob;
+use Illuminate\Database\Eloquent\Collection;
+use App\Mail\AcceptedWithChangeOfProcedureEmail;
+use App\Mail\AcceptedWithsuggestionsMail;
 
 class AppController extends Controller
 {
@@ -40,12 +42,7 @@ class AppController extends Controller
     {
         $this->middleware('auth:staff');
         $this->middleware('can:applications.list')->only(['getAdmins', 'index']);
-        // $this->middleware('can:CreateAdmins')->only(['create','store']);
-        // $this->middleware('can:EditAdmins')->only(['edit','update']);
-        // $this->middleware('can:DeleteAdmins')->only(['destroy']);
-        // $this->middleware('can:ActivateAdmins')->only(['activarAdministradores']);
         $this->middleware('can:applications.show')->only(['show']);
-        //$this->middleware('can:applications.show')->only(['show']);
         date_default_timezone_set('America/Tijuana');
     }
     /**
@@ -313,7 +310,7 @@ class AppController extends Controller
     public function show($id)
     {
         $lang = Auth::guard('staff')->user()->lang;
-        $lang = app()->getLocale();
+        $locale = app()->getLocale();
 
         $applications = Application::with(
             [
@@ -369,6 +366,7 @@ class AppController extends Controller
                 'hormones',
                 'imageMany',
                 'birthcontrol',
+                'suggestions',
                 'recommended' => function ($q) use ($lang) {
                     $q->select("procedure_$lang AS procedure", "id", "code");
                 },
@@ -468,7 +466,7 @@ class AppController extends Controller
                 'imageOne'
             ]
         )
-            ->get();  // no se requiere
+        ->get();  // no se requiere
 
 
             $debateSpecialties =  $applications->treatment->service->specialties;
@@ -545,13 +543,58 @@ class AppController extends Controller
                 ]);
             }
 
+            $getStatus = Status::All();
+
+            $colStatus = new Collection();
+
+            for ($i=0; $i < count($getStatus); $i++) { 
+                if ($getStatus[$i]->id == 5 || $getStatus[$i]->id == 13 || $getStatus[$i]->id == 15) {
+                    $colStatus[] = [
+                        'id' => $getStatus[$i]->id,
+                        'name' => ($lang == 'en')? $getStatus[$i]->name_en:$getStatus[$i]->name_es,
+                        'color' => $getStatus[$i]->color,
+                        'code' => $getStatus[$i]->code,
+                    ];
+                }
+            };
+
+            $proceduresList = Procedure::where('service_id', $treatment->service->id)
+            ->where('active', 1)
+            ->selectRaw("*,procedure_$lang as name")
+            ->get();
+
+
+
+            $countSugerencias = count($applications->suggestions);
+            $sugerencias = $applications->suggestions;
+            //return $sugerencias;
+            
+
+            $suger = new Collection;
+            for ($i=0; $i < $countSugerencias; $i++) { 
+                $staff = Staff::where('id', $sugerencias[$i]->staff_id)->first();
+                $getPro = Procedure::where('id', $sugerencias[$i]->procedure_id)
+                            ->select("procedure_$lang as procedure", 'service_id')
+                            ->first();
+                if ($getPro) {
+                    $suger[] = [
+                        'name' => $getPro->procedure,
+                        'staff' => $staff->name,
+                        'service_id' => $getPro,
+                    ];
+                }
+            }
+
             return view(
                 'staff.application-manager.app-details',
                 [
-                    'appInfo' => $applications,
+                'appInfo' => $applications,
                 "debateMembers" => $debateMembers, // no se requiere
                 "packsDsponibles" => $packs,
                 "exist" => $existe,
+                "statusOptions" => $colStatus,
+                "proceduresList" => $proceduresList,
+                "sugerencias" => $suger,
             ]
         );
     }
@@ -696,7 +739,7 @@ class AppController extends Controller
             $response['application_id'] = $request->app;
             $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " . $hours;
             $response['timeDiff'] = $date->diffForHumans();
-            $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+            $response['msgStrac'] = Str::of("A new application has been assigned to you")->limit(20);
             $response['lang_en'] = $order->name_en;
             $response['lang_es'] = $order->name_es;
             $response['staff_name'] = $newStaff->name;
@@ -780,6 +823,8 @@ class AppController extends Controller
             'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
             'indications' => $app->statusOne->indications,
             'recomendations' => $app->statusOne->recomendations,
+            'success' => true,
+            'status_id' => $status->id,
         ]);
     }
 
@@ -891,7 +936,7 @@ class AppController extends Controller
             $response['debate_id'] = $debate->application_id;
             $response['timestamp'] = $this->datesLangTrait($date, Auth::guard('staff')->user()->lang) . ", " . $hours;
             $response['timeDiff'] = $date->diffForHumans();
-            $response['msgStrac'] = $slug = \Str::of($debate->message)->limit(50);
+            $response['msgStrac'] = $slug = Str::of($debate->message)->limit(50);
 
             $sender_id = Auth::guard("staff")->user()->id;
             DebateMessagesJob::dispatch(json_decode($request->debateMembers), $debate->id, $sender_id);
@@ -904,6 +949,7 @@ class AppController extends Controller
     ///
     public function getNewProcedure(Request $request)
     {
+
         $search = $request->search;
 
         $lang = Auth::guard('staff')->user()->lang;
@@ -980,24 +1026,11 @@ class AppController extends Controller
                                 'code' => time() . uniqid(Str::random(30)),
                             ]
                         );
-                        $status = Application::select('id')
-                        ->with(
-                            [
-                                'statusOne' => function ($q) use ($lang) {
-                                    $q->with([
-                                        'status' => function ($q) use ($lang) {
-                                            $q->select("name_$lang as name", 'id', 'color');
-                                        }
-                                    ])
-                                    ->select("*")->orderBy('created_at', 'desc')->first();
-                                },
-                            ]
-                        )
-                        ->find($request->app);
+                        $status = $this->getStatus($request->app);
 
                         $ap = $status;
 
-                        setAppPriceAuto($ap, $exist);
+                        $this->setAppPriceAuto($ap, $exist);
 
                         $newProcedure = Application::with(
                             [
@@ -1030,20 +1063,7 @@ class AppController extends Controller
 
                         Mail::send(new AcceptedLetterEmail($dataEmail[0]));
 
-                        $status = Application::select('id')
-                        ->with(
-                            [
-                                'statusOne' => function ($q) use ($lang) {
-                                    $q->with([
-                                        'status' => function ($q) use ($lang) {
-                                            $q->select("name_$lang as name", 'id', 'color');
-                                        }
-                                    ])
-                                    ->select("*")->orderBy('created_at', 'desc')->first();
-                                },
-                            ]
-                        )
-                        ->find($request->app);
+                        $status = $this->getStatus($request->app);
 
                         return response()->json([
                             'success' => true,
@@ -1059,20 +1079,7 @@ class AppController extends Controller
                         ]);
                     }
                 } else {
-                    $status = Application::select('id')
-                    ->with(
-                        [
-                            'statusOne' => function ($q) use ($lang) {
-                                $q->with([
-                                    'status' => function ($q) use ($lang) {
-                                        $q->select("name_$lang as name", 'id', 'color');
-                                    }
-                                ])
-                                ->select("*")->orderBy('created_at', 'desc')->first();
-                            },
-                        ]
-                    )
-                    ->find($request->app);
+                    $status = $this->getStatus($request->app);
                     
 
                     return response()->json([
@@ -1161,7 +1168,7 @@ class AppController extends Controller
                 if ($exist) {
                     $app->treatment_id = $exist->id;
 
-                    setAppPriceAuto($app, $exist);
+                    $this->setAppPriceAuto($app, $exist);
 
                     if ($app->save()) {
                         return response()->json([
@@ -1198,215 +1205,330 @@ class AppController extends Controller
         return response()->json([
             'success' => true,
             'reload' => true,
-            'exist' => $exist,
+            'exist' => $existe,
             'oldPackage' => $app->treatment->package
         ]);
     }
     public function setStatusAcepted(Request $request)
     {
+        if ($request->ajax()) {
+            $lang = Auth::guard('staff')->user()->lang;
+            $lang = app()->getLocale();
+    
+            if ($request->has('sugerencias')) {
+                $sugerencias = json_decode($request->sugerencias,true);
+            }
+            $request->merge(['sugerenciasArray' => $sugerencias]);
+
+            $lang = Auth::guard('staff')->user()->lang;
+            $lang = app()->getLocale();
+            $validator = Validator::make($request->all(), [
+                'id' => 'string|required|exists:procedures,id',
+                'app' => 'required|exists:applications,id',
+                'medicalRecommendations' => 'required|string',
+                'medicalIndications' => 'required|string',
+                "sugerenciasArray" => [
+                    ($request->action == "15") ? "array":null,
+                    ($request->action == "15") ? "min:1":null,
+                ],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'go' => '0',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }
+
+            $app = $this->getApplications($request->app);
+
+            $coor = Staff::whereHas(
+                'assignment',
+                function ($q) use ($request) {
+                    $q->where('applications.id', $request->app);
+                }
+            )
+            ->whereHas(
+                'assignToSpecialty',
+                function ($q) {
+                    $q->where('specialties.id', 10);
+                }
+            )
+            ->get();
+
+            $exist = false;
+            if ($app->treatment->procedure->has_package == 1) {
+                $exist = Treatment::where("procedure_id", $request->id)
+                ->where('package_id', $app->treatment->package->id)
+                ->first();
+            } else {
+                $exist = Treatment::where("procedure_id", $request->id)
+                ->first();
+            }
+
+
+            $dataEmail = new Collection();
+
+            if ($app) {
+                switch ($request->action) {
+                    case '15':
+                        return $this->withSuggestions($app, $request, $coor, $exist);
+                        break;
+                    case '13':
+                        return $this->changeProcedureApp($app, $request, $coor, $exist);
+                        break;
+                    
+                    default:
+                        return $this->aceptedApp($app, $request, $coor, $exist);
+                        break;
+                }
+            } 
+        }
+    }
+    public Function aceptedApp($app, $request, $coor, $exist)
+    {
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
-        $validator = Validator::make($request->all(), [
-            'id' => 'string|required|exists:procedures,id',
-            'app' => 'required|exists:applications,id',
-            'medicalRecommendations' => 'required|string',
-            'medicalIndications' => 'required|string',
+        $statusx = 5;
+        $dataEmail = new Collection();
+        if (count($app->assignments) < 3) {
+            $statusx = '14';
+
+            if ($statusx == '14') {
+                $dataE = new Collection();
+                $dataE->push((object)[
+                    'coor' => $coor[0]->name,
+                    'email' => $coor[0]->email,
+                    'lang' => $coor[0]->lang,
+                    'doctor' => auth()->guard('staff')->user()->name,
+                    'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
+                ]); 
+                Mail::send(new AcceptedUnassignedEmail($dataE[0]));
+            } 
+        }
+
+        $app->statusOne->delete($app->statusOne->id);
+        $app->statusOne()->create(
+            [
+                'status_id' => $statusx,
+                'indications' => $request->medicalIndications,
+                'recomendations' => $request->medicalRecommendations,
+                'code' => getCode(),
+            ]
+        );
+
+        $status = $this->getStatus($request->app);
+        $status->recommended_id = null;
+
+        $pack = '';
+        if (is_null( $app->treatment->package)) {
+            $pack == '-----';
+        } else {
+            $pack = ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en;
+        }
+
+
+        $status->save();
+        $dataEmail->push((object)[
+            'patient' => $app->patient->name,
+            'email' => $app->patient->email,
+            'lang' => $app->patient->lang,
+            'brand' => $app->treatment->brand,
+            'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
+            'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
+            'package' => $pack,
+            'includes' => $app->treatment->contains,
+            "price" => $app->treatment->price,
+            "downPayment" => ((float) $app->treatment->price * .10),
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'coordinator' => $coor[0],
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'go' => '0',
-                'errors' => $validator->getMessageBag()->toArray()
-            ]);
-        }
 
-        $app = $this->getApplications($request->app);
+        Mail::send(new AcceptedLetterEmail($dataEmail[0]));
 
-        $coor = Staff::whereHas(
-            'assignment',
-            function ($q) use ($request) {
-                $q->where('applications.id', $request->app);
-            }
-        )
-        ->whereHas(
-            'assignToSpecialty',
-            function ($q) {
-                $q->where('specialties.id', 10);
-            }
-        )
-        ->get();
+        return response()->json([
+            'success' => true,
+            'este' => '-',
+            'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+            'indications' => $request->medicalIndications,
+                'recomendations' => $request->medicalRecommendations,
+                    'reazon' => $status->statusOne->status->reazon,
+            'exist' => $exist,
+        ]);
+    }
+    public function changeProcedureApp($app, $request, $coor, $exist)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        $lang = app()->getLocale();
 
-        $exist = false;
-        if ($app->treatment->procedure->has_package == 1) {
-            $exist = Treatment::where("procedure_id", $request->id)
-            ->where('package_id', $app->treatment->package->id)
-            ->first();
-        } else {
-            $exist = Treatment::where("procedure_id", $request->id)
-            ->first();
-        }
-
-
-        $dataEmail = new Collection();
-
-        if ($app) {
+        if ($app->treatment->procedure->id != $request->id) {
+            $app->recommended_id = $request->id;
+            $oldTreat = Procedure::find($request->id);
+            $oldPacka = Package::find($app->treatment->package->id);
             $app->statusOne->delete($app->statusOne->id);
-            if ($app->treatment->procedure->id != $request->id) {
-                $app->recommended_id = $request->id;
-                $oldTreat = Procedure::find($request->id);
-                $oldPacka = Package::find($app->treatment->package->id);
-                $appStatus = $app->statusOne()->create(
-                    [
-                        'status_id' => 13,
-                        'indications' => $request->medicalIndications,
-                        'recomendations' => $request->medicalRecommendations,
-                        'code' => getCode(),
-                    ]
-                );
-
-                $status = $appStatus->load('status');
-
-                if ($app->save()) {
-                    $status = Application::with(
-                        [
-                            'statusOne' => function ($q) use ($lang) {
-                                $q->with([
-                                    'status' => function ($q) use ($lang) {
-                                        $q->selectRaw("name_$lang as name, id, color");
-                                    }
-                                ])
-                                ->select("*")->orderBy('created_at', 'desc')->first();
-                            },
-                        ]
-                    )
-                    ->find($app->id);
-
-                    $data = new Collection();
-                    $data->push((object)[ // data for email
-                        'patient' => $app->patient->name,
-                        'phone' => $app->patient->phone,
-                        'mobile' => $app->patient->mobile,
-                        'email' => $app->patient->email,
-                        'coor' => $coor[0]->name,
-                        'email' => $coor[0]->email,
-                        'lang' => $coor[0]->lang,
-                        'reccomended' => ($coor[0]->lang == 'es'? $app->treatment->procedure->procedure_es:$app->treatment->procedure->procedure_en ),
-                        'old' =>  ($coor[0]->lang == 'es'? $oldTreat->procedure_es:$oldTreat->procedure_en ),
-                        'oldPacka' =>  ($coor[0]->lang == 'es'? $oldPacka->package_es:$oldPacka->package_en ),
-                        'doctor' => auth()->guard('staff')->user()->name,
-                        'medicalRecommendations' => $request->medicalRecommendations,
-                        'medicalIndications' => $request->medicalIndications,
-                    ]);
-
-                    $tr = $this->getTreatments($request->id); 
-                    $packs = new Collection;
-
-                    for ($i=0; $i < count($tr); $i++) { 
-                        $packs[] = [
-                            'id' => $tr[$i]->package->id,
-                            'package' => $tr[$i]->package->package,
-                        ];
-                    };
-                    Mail::send(new AcceptedWithChangeOfProcedureEmail($data[0]));
-
-
-                    return response()->json([
-                        'success' => true,
-                        'data' => $app,
-                        'name' => $request->name,
-                        'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
-                        'exist' => $exist,
-                        'oldProce' => ($coor[0]->lang == 'es'? $oldTreat->procedure_es:$oldTreat->procedure_en ),
-                        'oldPacka' =>  ($coor[0]->lang == 'es'? $oldPacka->package_es:$oldPacka->package_en ),
-                        'packs' => $packs,
-                        'indications' => $request->medicalIndications,
-                        'recomendations' => $request->medicalRecommendations,
-                        'reazon' => $status->statusOne->status->reazon,
-                        'este' => 'x',
-                    ]);
-                }
-            }
-            $statusx = '5';
-            if (count($app->assignments) < 3) {
-                $statusx = '14';
-
-                if ($statusx == '14') {
-                    $dataE = new Collection();
-                    $dataE->push((object)[
-                        'coor' => $coor[0]->name,
-                        'email' => $coor[0]->email,
-                        'lang' => $coor[0]->lang,
-                        'doctor' => auth()->guard('staff')->user()->name,
-                        'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
-                    ]); 
-                    Mail::send(new AcceptedUnassignedEmail($dataE[0]));
-                } 
-            }
-
-            $app->statusOne()->create(
+            $appStatus = $app->statusOne()->create(
                 [
-                    'status_id' => $statusx,
+                    'status_id' => 13,
                     'indications' => $request->medicalIndications,
                     'recomendations' => $request->medicalRecommendations,
                     'code' => getCode(),
                 ]
             );
 
-            $status = Application::with(
-                [
-                    'statusOne' => function ($q) use ($lang) {
-                        $q->with([
-                            'status' => function ($q) use ($lang) {
-                                $q->select("name_$lang as name", 'id', 'color');
-                            }
-                        ])
-                        ->select("*")->orderBy('created_at', 'desc')->first();
-                    },
-                ]
-            )
-            ->find($request->app);
+            $status = $this->getStatus($request->app);
 
-            $status->recommended_id = null;
+            if ($app->save()) {
+                $status = $this->getStatus($request->app);
 
-            $pack = '';
-            if (is_null( $app->treatment->package)) {
-                $pack == '-----';
-            } else {
-                $pack = ($app->patient->lang == 'es') ? $app->treatment->package->package_es : $app->treatment->package->package_en;
+                $data = new Collection();
+                $data->push((object)[ // data for email
+                    'patient' => $app->patient->name,
+                    'phone' => $app->patient->phone,
+                    'mobile' => $app->patient->mobile,
+                    'email' => $app->patient->email,
+                    'coor' => $coor[0]->name,
+                    'email' => $coor[0]->email,
+                    'lang' => $coor[0]->lang,
+                    'reccomended' => ($coor[0]->lang == 'es'? $app->treatment->procedure->procedure_es:$app->treatment->procedure->procedure_en ),
+                    'old' =>  ($coor[0]->lang == 'es'? $oldTreat->procedure_es:$oldTreat->procedure_en ),
+                    'oldPacka' =>  ($coor[0]->lang == 'es'? $oldPacka->package_es:$oldPacka->package_en ),
+                    'doctor' => auth()->guard('staff')->user()->name,
+                    'medicalRecommendations' => $request->medicalRecommendations,
+                    'medicalIndications' => $request->medicalIndications,
+                ]);
+
+                $tr = $this->getTreatments($request->id); 
+                $packs = new Collection;
+
+                for ($i=0; $i < count($tr); $i++) { 
+                    $packs[] = [
+                        'id' => $tr[$i]->package->id,
+                        'package' => $tr[$i]->package->package,
+                    ];
+                };
+                Mail::send(new AcceptedWithChangeOfProcedureEmail($data[0]));
+
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $app,
+                    'name' => $request->name,
+                    'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+                    'exist' => $exist,
+                    'oldProce' => ($coor[0]->lang == 'es'? $oldTreat->procedure_es:$oldTreat->procedure_en ),
+                    'oldPacka' =>  ($coor[0]->lang == 'es'? $oldPacka->package_es:$oldPacka->package_en ),
+                    'packs' => $packs,
+                    'indications' => $request->medicalIndications,
+                    'recomendations' => $request->medicalRecommendations,
+                    'reazon' => $status->statusOne->status->reazon,
+                ]);
             }
+        }
+    }
+    public function withSuggestions($app, $request, $coor, $exist)
+    {
+        return response()->json([
+            'app' => $app,
+            'request' => $request,
+            'coor' => $coor,
+            'existe' => $exist,
+        ]);
+        $lang = Auth::guard('staff')->user()->lang;
+        $lang = app()->getLocale();
+
+        $admins = Staff::role('administrator')->get();
+        $patient = 'hola';
+        $toEmail = new Collection;
+        
+        $countSugerencias = count($request->sugerenciasArray);
+        $sugerencias = $request->sugerenciasArray;
+        $suger = new Collection;
+        for ($i=0; $i < $countSugerencias; $i++) { 
+            $getPro = Procedure::where('id', $sugerencias[$i]['id'])
+                        ->where('code', $sugerencias[$i]['code'])
+                        ->select("procedure_$lang as procedure")
+                        ->first();
+            if ($getPro) {
+                $suger[] = [
+                    'name' => $getPro->procedure,
+                ];
+                 $app->suggestions()->create([
+                    'application_id' => $request->app,
+                    'staff_id' => Auth::guard('staff')->user()->id,
+                    'procedure_id' => $sugerencias[$i]['id'],
+                    'code' => getCode(),
+                 ]);
+            }
+        }
+
+        foreach ($admins as $key => $value) {
+            $toEmail->push((object)[
+                'staff_name' => $value->name,
+                'staff_email' => $value->email,
+                'app_id' => $app->id,
+                'sugerencias' => $suger,
+                "patient" => $app->patient->name,
+                'doctor' => auth()->guard('staff')->user()->name,
+                'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
+                'procedimeiento' => $app->treatment->procedure->procedure,
+                'lang' => $value->lang,
+            ]);
+        }
 
 
-            $status->save();
-            $dataEmail->push((object)[
-                'patient' => $app->patient->name,
-                'email' => $app->patient->email,
-                'lang' => $app->patient->lang,
-                'brand' => $app->treatment->brand,
-                'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
-                'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
-                'package' => $pack,
-                'includes' => $app->treatment->contains,
-                "price" => $app->treatment->price,
-                "downPayment" => ((float) $app->treatment->price * .10),
+        $toEmail->push((object)[
+            'staff_name' => $coor[0]->name,
+            'staff_email' => $coor[0]->email,
+            'doctor' => auth()->guard('staff')->user()->name,
+            'app_id' => $app->id,
+            'sugerencias' => $suger,
+            'patient' => $app->patient->name,
+            'doctor' => auth()->guard('staff')->user()->name,
+            'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
+            'procedimeiento' => $app->treatment->procedure->procedure,
+            'lang' => $coor[0]->lang,
+        ]);
+
+        $app->statusOne->delete($app->statusOne->id);
+        $appStatus = $app->statusOne()->create(
+            [
+                'status_id' => 15,
                 'indications' => $request->medicalIndications,
                 'recomendations' => $request->medicalRecommendations,
-                'coordinator' => $coor[0],
-            ]);
+                'code' => getCode(),
+            ]
+        );
+
+        $status = $this->getStatus($request->app);
+
+        foreach ($toEmail as $key => $data) {
+            Mail::to($data->staff_email)
+            ->send(
+                new AcceptedWithsuggestionsMail($toEmail[$key])
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'datax' => $app,
+            'name' => $request->name,
+            'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+            'exist' => $exist,
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'reazon' => $status->statusOne->status->reazon,
+            'sugerencia' => $suger,
+            'doctor' => auth()->guard('staff')->user()->name,
+            'packs' => null,
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'reazon' => $status->statusOne->status->reazon,
+        ]);
 
 
-            Mail::send(new AcceptedLetterEmail($dataEmail[0]));
-
-            return response()->json([
-                'success' => true,
-                'este' => '-',
-                'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
-                'indications' => $request->medicalIndications,
-                    'recomendations' => $request->medicalRecommendations,
-                        'reazon' => $status->statusOne->status->reazon,
-                'exist' => $exist,
-            ]);
-        } 
     }
     public function setStatusDeclined(Request $request)
     {
@@ -1477,7 +1599,7 @@ class AppController extends Controller
 
 
 
-        $app = getApplications($request->app);
+        $app = $this->getApplications($request->app);
 
         $app->recommended_id = null;
         $app->save();
@@ -1568,13 +1690,24 @@ class AppController extends Controller
     }
     public function changeNewProcedureWithPackage(Request $request)
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
 
         $app = $this->getApplications($request->app);
 
-
+        $coor = Staff::whereHas(
+            'assignment',
+            function ($q) use ($request) {
+                $q->where('applications.id', $request->app);
+            }
+        )
+        ->whereHas(
+            'assignToSpecialty',
+            function ($q) {
+                $q->where('specialties.id', 10);
+            }
+        )
+        ->get();
 
         $tr = Treatment::where('code', $request->tr_cod)
         ->where('id', $request->tr_id)
@@ -1585,42 +1718,54 @@ class AppController extends Controller
             'procedure' => function($q) use ($lang) {
                 $q->select('id', "procedure_$lang AS procedure");
             },
+            'service' => function($q) use($lang) {
+                $q->with('specialties');
+            },
         ])
         ->first(); 
 
+        $needStaff = count($tr->service->specialties);
 
         $app->treatment_id = $tr->id;
         $app->recommended_id = null;
-        
 
+        
         if ($app->save()) {
             $getStatusData = $app->statusOne;
             $app->statusOne->delete($app->statusOne->id);
+            $status = $this->getApplications($request->app_id);
+            
+            $statusx = 5;
+            if (count($app->assignments) < $needStaff) {
+                $statusx = '14';
+                if ($statusx == '14') {
+                    $dataE = new Collection();
+                    $dataE->push((object)[
+                        'coor' => $coor[0]->name,
+                        'email' => $coor[0]->email,
+                        'lang' => $coor[0]->lang,
+                        'doctor' => auth()->guard('staff')->user()->name,
+                        'app' => env('APP_URL').'/staff/applications/view/'.$app->id,
+                    ]); 
+                    Mail::send(new AcceptedUnassignedEmail($dataE[0]));
+                } 
+            }
+
+            $app->statusOne->delete($app->statusOne->id);
+
             $app->statusOne()->create(
                 [
-                    'status_id' => 5,
-                    'indications' => $getStatusData->medicalIndications,
-                    'recomendations' => $getStatusData->medicalRecommendations,
+                    'status_id' => $statusx,
+                    'indications' => $app->statusOne->medicalIndications,
+                    'recomendations' => $app->statusOne->medicalRecommendations,
                     'code' => time() . uniqid(Str::random(30)),
                 ]
             );
-            $status = Application::select('id')
-            ->with(
-                [
-                    'statusOne' => function ($q) use ($lang) {
-                        $q->with([
-                            'status' => function ($q) use ($lang) {
-                                $q->select("name_$lang as name", 'id', 'color');
-                            }
-                        ])
-                        ->select("*")->orderBy('created_at', 'desc')->first();
-                    },
-                ]
-            )
-            ->find($request->app);
+            $status = $this->getStatus($request->app);
+
             $ap = $status;
 
-            setAppPriceAuto($ap, $tr);
+            $this->setAppPriceAuto($ap, $tr);
 
             return response()->json([
                 'success' => true,
@@ -1632,9 +1777,9 @@ class AppController extends Controller
                 "icon" => "success",
                 "msg" => "La aplicación fue editada con exito",
                 "status" => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
-                'indications' => $app->statusOne->status->medicalIndications,
-                'recomendations' => $app->statusOne->status->medicalRecommendations,
-                'reazon' => $app->statusOne->status->reazon,
+                'indications' => $app->statusOne->medicalIndications,
+                'recomendations' => $app->statusOne->medicalRecommendations,
+                'reazon' => $app->statusOne->reazon,
             ]);   
         }
     }
@@ -1752,5 +1897,77 @@ class AppController extends Controller
             $ap->price = $tr->price;
             $ap->save();
         }
+    }
+    public function getStatus($app_id)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        $lang = app()->getLocale();
+        return Application::select('id')
+                ->with(
+                    [
+                        'statusOne' => function ($q) use ($lang) {
+                            $q->with([
+                                'status' => function ($q) use ($lang) {
+                                    $q->select("name_$lang as name", 'id', 'color');
+                                }
+                            ])
+                            ->select("*")->orderBy('created_at', 'desc')->first();
+                        },
+                    ]
+                )
+                ->find($app_id);
+    }
+
+    public function setAceptesSuggestion(Request $request)
+    {
+        $lang = Auth::guard('staff')->user()->lang;
+        $lang = app()->getLocale();
+        $app = $this->getApplications($request->app);
+
+
+        $status = $this->getStatus($request->app);
+        $tr = Treatment::where('id', $app->treatment->id)
+        ->with([
+            'package' => function($q) use ($lang) {
+                $q->select('id', "package_$lang AS package");
+            },
+            'procedure' => function($q) use ($lang) {
+                $q->select('id', "procedure_$lang AS procedure");
+            },
+            'service' => function($q) use($lang) {
+                $q->with('specialties');
+            },
+        ])
+        ->first(); 
+
+        $needStaff = count($tr->service->specialties);
+        
+        $statusx = 5;
+        if (count($app->assignments) < $needStaff) {
+            $statusx = '14'; 
+        } 
+
+        //return response()->json($status->statusOne->indications);
+        $app->statusOne->delete($app->statusOne->id);
+        $app->statusOne()->create(
+            [
+                'status_id' => $statusx,
+                'indications' => $status->statusOne->indications,
+                'recomendations' => $status->statusOne->recomendations,
+                'code' => getCode(),
+            ]
+        );
+        $status = $this->getStatus($request->app);
+        return response()->json([
+            'success' => true,
+            'este' => '-',
+            'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
+            'indications' => $status->statusOne->indications,
+            'recomendations' => $status->statusOne->recomendations,
+            'reazon' => $status->statusOne->reazon,
+            'icon' => 'succes',
+            'msn' => 'editado con exito'
+        ]);
+
     }
 }

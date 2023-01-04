@@ -10,7 +10,7 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
-
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <title>Applications</title>
 </head>
 <body class="">
@@ -1851,7 +1851,9 @@
         let url = '12345';
         let domain = '{{ env('APP_URL_API') }}';
         let endPoint = domain + '/api/v1/en/' + url;
-        console.log("endPoint", endPoint);
+        var ip_address = window.location.hostname;
+        var socket_port = '3000';
+        var socket = io(ip_address + ':' + socket_port );
 
         form.onsubmit = () => {
             return false
@@ -2109,6 +2111,7 @@
                     });
                     $('.loading').css('display', 'block');
                 } else {
+                    socket.emit('updateDataTablesToServer');
                     window.location.href = "https://jlpradosc.online"; 
                 }
             })

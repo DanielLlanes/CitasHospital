@@ -36,7 +36,7 @@
                 </div>
                     <!-- /.info-box -->
             </div>
-            <!-- /.col -->
+            <!-- /`.col -->
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="info-box bg-white">
                     <span class="info-box-icon push-bottom bg-warning"><i class="material-icons">person</i></span>
@@ -47,7 +47,7 @@
                             <div class="progress-bar bg-warning" id="barPatients" style="width: {{ $incrementPatients }}%;"></div>
                         </div>
                         <span class="progress-description">
-                            <span id="incrementPatients">{{ $incrementPatients }}"</span>% Increase in the month
+                            <span id="incrementPatients">{{ $incrementPatients }}</span>% Increase in the month
                         </span>
                     </div>
                 </div>
