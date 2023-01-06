@@ -12,7 +12,7 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <title>Applications</title>
   </head>
-  <body>
+  <body id="top">
     <div class="loading"></div>
     </div>
     <div class="col-12" style="margin-bottom: 100px;"></div>
@@ -1983,6 +1983,11 @@
                 })
             })
         }
+        function toTop(){
+          $("html, body").animate({ scrollTop: 0 }, "fast");
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
         nextBtn.addEventListener('click', () => {
             $('.invalid-feedback').html('');
             let data_service = 0;
@@ -2057,6 +2062,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+              toTop()
                 if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
                     if (data.hasOwnProperty('success')) {
                         if (!data.success) {
@@ -2082,7 +2088,8 @@
             })
             .then(response => response.json())
             .then( function(data) {
-                prevStep(data.images, data.service, data.gender)
+              toTop()
+              prevStep(data.images, data.service, data.gender)
             })
         });
         submitBtn.addEventListener('click', () =>{
@@ -2097,8 +2104,8 @@
             .then(response => response.json())
             .then( function(data) {
                 console.log("data", data);
+                $('.loading').css('display', 'none');
                 if (!data.success) {
-                    $('.loading').css('display', 'none');
                     $.each( data.errors, function( key, value ) {
                         $real = key.replace('.', '-')
                         $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
@@ -2107,7 +2114,7 @@
                     });
                     $('.loading').css('display', 'block');
                 } else {
-                    socket.emit('updateDataTablesToServer');
+                    //socket.emit('updateDataTablesToServer');
                     window.location.href = "https://es.jlpradosc.com"; 
                 }
             })

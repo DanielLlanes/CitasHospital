@@ -1979,6 +1979,11 @@
                 })
             })
         }
+        function toTop(){
+          $("html, body").animate({ scrollTop: 0 }, "fast");
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
         nextBtn.addEventListener('click', () => {
             $('.invalid-feedback').html('');
             let data_service = 0;
@@ -2053,6 +2058,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+                toTop()
                 if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
                     if (data.hasOwnProperty('success')) {
                         if (!data.success) {
@@ -2078,6 +2084,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+                toTop()
                 prevStep(data.images, data.service, data.gender)
             })
         });
@@ -2092,6 +2099,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+                toTop()
                 console.log("data", data);
                 if (!data.success) {
                     $('.loading').css('display', 'none');
