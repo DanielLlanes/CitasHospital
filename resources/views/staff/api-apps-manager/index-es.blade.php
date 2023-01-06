@@ -1856,7 +1856,7 @@
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
       let url = '12345';
-      let domain = '{{ env('APP_URL_API') }}';;
+      let domain = '{{ env('APP_URL_API') }}';
       let endPoint = domain + '/api/v1/es/ ' + url;
       var ip_address = window.location.hostname;
       var socket_port = '3000';
