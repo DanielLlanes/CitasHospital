@@ -1748,7 +1748,7 @@
                     </div>
                 </div>
             </div>
-              <div class="step">
+              <div class="result">
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
                     <h1 class="display-4 text-success font-weight-bolder fw-bolder">Gracias por su interes</h1>
@@ -2115,7 +2115,18 @@
                     $('.loading').css('display', 'block');
                 } else {
                     //socket.emit('updateDataTablesToServer');
-                    window.location.href = "https://es.jlpradosc.com"; 
+                    //window.location.href = "https://es.jlpradosc.com"; 
+                    for (var i = 0; i < stepCount; i++) {
+                        step[i].classList.add('d-none')
+                    }
+
+                    prevBtn.classList.add('d-none');
+                    submitBtn.classList.add('d-none');
+                    nextBtn.classList.add('d-none');
+                    $('.progress').addClass('d-none');
+                    $('.result').removeClass('d-none')
+                    $('.result').addClass('d-block')
+                    $('.loading').css('display', 'none');
                 }
             })
         })

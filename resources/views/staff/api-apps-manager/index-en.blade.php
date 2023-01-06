@@ -31,7 +31,6 @@
                     </div>
                     <form enctype="multipart/form-data">
                         <div class="step">
-
                             <div class="mb-2 row">
                                 <div class="col-3"></div>
                                 <div class="col-sm-9">
@@ -1748,7 +1747,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="step">
+                        
+                        <div class="result mb-3 d-none">
                             <div class="jumbotron jumbotron-fluid">
                                 <div class="container">
                                     <h1 class="display-4 text-success font-weight-bolder fw-bolder">Thank you for your interest</h1>
@@ -2111,8 +2111,20 @@
                     });
                     $('.loading').css('display', 'block');
                 } else {
-                    socket.emit('updateDataTablesToServer');
-                    window.location.href = "https://jlpradosc.com"; 
+                    // socket.emit('updateDataTablesToServer');
+                    // window.location.href = "https://jlpradosc.com"; 
+
+                    for (var i = 0; i < stepCount; i++) {
+                        step[i].classList.add('d-none')
+                    }
+
+                    prevBtn.classList.add('d-none');
+                    submitBtn.classList.add('d-none');
+                    nextBtn.classList.add('d-none');
+                    $('.progress').addClass('d-none');
+                    $('.result').removeClass('d-none')
+                    $('.result').addClass('d-block')
+                    $('.loading').css('display', 'none');
                 }
             })
         })
