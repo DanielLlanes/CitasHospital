@@ -17,7 +17,7 @@
                                 </p>
                                 <br>
                                 <p>
-                                    <a href="{{ $APP }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>
+                                    <a href="{{ $app }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>
                                 </p>    
                             </td>
                         </tr>

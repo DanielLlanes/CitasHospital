@@ -1211,6 +1211,7 @@ class AppController extends Controller
     }
     public function setStatusAcepted(Request $request)
     {
+
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
