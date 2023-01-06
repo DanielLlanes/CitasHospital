@@ -31,7 +31,7 @@
                     </div>
                     <form enctype="multipart/form-data">
                         <div class="step">
-                            <h1>0</h1>
+
                             <div class="mb-2 row">
                                 <div class="col-3"></div>
                                 <div class="col-sm-9">
@@ -179,13 +179,11 @@
                             <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
                         </div>
                         <div class="step">
-                            <h1>1</h1>
                             <div class="row" id="images-area">
                                 <div id="images_all" class="text-center invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="step">
-                            <h1>2</h1>
                             <div class="mb-2 row">
                                 <div class="col-3"></div>
                                 <div class="col-sm-9">
@@ -456,7 +454,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>3</h1>
                             <div class="mb-2 row">
                                 <div class="col-3 d-none d-md-block"></div>
                                 <div class="col-sm-9">
@@ -501,7 +498,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>4</h1>
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Addictions</label>
                                 <div class="col-sm-9 checkBox">
@@ -923,7 +919,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>5</h1>
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you smoke cigarettes?</label>
                                 <div class="col-sm-9 checkBox">
@@ -1469,7 +1464,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>6</h1>
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                                 <div class="col-sm-9">
@@ -1608,7 +1602,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>7</h1>
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Google</label>
                                 <div class="col-sm-9">
@@ -1756,7 +1749,6 @@
                             </div>
                         </div>
                         <div class="step">
-                            <h1>8</h1>
                             <div class="jumbotron jumbotron-fluid">
                                 <div class="container">
                                     <h1 class="display-4 text-success font-weight-bolder fw-bolder">Thank you for your interest</h1>
