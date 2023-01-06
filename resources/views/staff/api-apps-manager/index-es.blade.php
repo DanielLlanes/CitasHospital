@@ -2117,7 +2117,7 @@
                     $('.loading').css('display', 'block');
                 } else {
                     socket.emit('updateDataTablesToServer');
-                    window.location.href = "https://es.jlpradosc.online"; 
+                    window.location.href = "https://es.jlpradosc.com"; 
                 }
             })
         })
