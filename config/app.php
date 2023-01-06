@@ -191,6 +191,8 @@ return [
         App\Providers\ViewFrondtedShereServiceProvider::class,
         //App\Providers\ViewBackendShereServiceProvider::class,
 
+        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+
 
     ],
 

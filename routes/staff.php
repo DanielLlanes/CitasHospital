@@ -24,6 +24,7 @@ use App\Http\Controllers\Staff\TreatmentController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Partners\PartnersController;
 use App\Http\Controllers\Staff\TestimonialController;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
@@ -65,6 +66,7 @@ Route::name('staff.')->namespace('Staff')->group(function(){
     //Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
 	Route::get('/staff/', [DashboardController::class, 'dashboard'])->name('dashboards');
 
+    Route::get('logs', [LogViewerController::class, 'index']);
 
     Route::name('stats.')->group( function(){
         Route::get('getCounters', [DashboardController::class, 'getCounters'])->name('getCounters');
