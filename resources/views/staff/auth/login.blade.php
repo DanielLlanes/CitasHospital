@@ -3,7 +3,7 @@
     {{ __('Login') }}
 @endsection
 @section('content')
-{{ env('APP_URL_API') }}
+
 <div class="limiter">
     <div class="container-login100 page-background">
         <div class="wrap-login100">
