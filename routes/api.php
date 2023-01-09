@@ -39,29 +39,29 @@ Route::domain(apiUrl())->group( function() {
      * Api español
      *
      */
-    Route::get('es/aplicacion', [EsApiAppsController::class, 'index']);
-    Route::get('es/aplicacion/countries', [EsApiAppsController::class, 'countries']);
-    Route::post('es/aplicacion/states',   [EsApiAppsController::class, 'states']);
-    Route::get('es/aplicacion/services', [EsApiAppsController::class, 'services']);
-    Route::post('es/aplicacion/procedures',   [EsApiAppsController::class, 'procedures']);
-    Route::post('es/aplicacion/packages',   [EsApiAppsController::class, 'packages']);
-    Route::post('es/aplicacion/checkData',   [EsApiAppsController::class, 'checkData']);
-    Route::post('es/aplicacion/getData',   [EsApiAppsController::class, 'getData']);
-    Route::post('es/aplicacion/storeData',   [EsApiAppsController::class, 'storeData']);
+    Route::get('aplicacion', [EsApiAppsController::class, 'index']);
+    Route::get('aplicacion/countries', [EsApiAppsController::class, 'countries']);
+    Route::post('aplicacion/states',   [EsApiAppsController::class, 'states']);
+    Route::get('aplicacion/services', [EsApiAppsController::class, 'services']);
+    Route::post('aplicacion/procedures',   [EsApiAppsController::class, 'procedures']);
+    Route::post('aplicacion/packages',   [EsApiAppsController::class, 'packages']);
+    Route::post('aplicacion/checkData',   [EsApiAppsController::class, 'checkData']);
+    Route::post('aplicacion/getData',   [EsApiAppsController::class, 'getData']);
+    Route::post('aplicacion/storeData',   [EsApiAppsController::class, 'storeData']);
 
     /**
      * Api ingles
      *
      */
-    Route::get('en/application', [EnApiAppsController::class, 'index']);
-    Route::get('en/application/countries', [EnApiAppsController::class, 'countries']);
-    Route::post('en/application/states',   [EnApiAppsController::class, 'states']);
-    Route::get('en/application/services', [EnApiAppsController::class, 'services']);
-    Route::post('en/application/procedures',   [EnApiAppsController::class, 'procedures']);
-    Route::post('en/application/packages',   [EnApiAppsController::class, 'packages']);
-    Route::post('en/application/checkData',   [EnApiAppsController::class, 'checkData']);
-    Route::post('en/application/getData',   [EnApiAppsController::class, 'getData']);
-    Route::post('en/application/storeData',   [EnApiAppsController::class, 'storeData']);
+    Route::get('application', [EnApiAppsController::class, 'index']);
+    Route::get('application/countries', [EnApiAppsController::class, 'countries']);
+    Route::post('application/states',   [EnApiAppsController::class, 'states']);
+    Route::get('application/services', [EnApiAppsController::class, 'services']);
+    Route::post('application/procedures',   [EnApiAppsController::class, 'procedures']);
+    Route::post('application/packages',   [EnApiAppsController::class, 'packages']);
+    Route::post('application/checkData',   [EnApiAppsController::class, 'checkData']);
+    Route::post('application/getData',   [EnApiAppsController::class, 'getData']);
+    Route::post('application/storeData',   [EnApiAppsController::class, 'storeData']);
 });
 
 

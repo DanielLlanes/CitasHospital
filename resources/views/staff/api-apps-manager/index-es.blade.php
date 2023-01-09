@@ -1848,7 +1848,7 @@
       let progressBar = document.getElementById('steps');
       let url = '12345';
       let domain = '{{ env('APP_URL_API') }}';
-      let endPoint = domain + '/es/aplicacion';
+      let endPoint = domain + '/aplicacion';
       var ip_address = window.location.hostname;
       var socket_port = '3000';
       var socket = io(ip_address + ':' + socket_port );
