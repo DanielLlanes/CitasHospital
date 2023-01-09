@@ -1748,7 +1748,7 @@
                     </div>
                 </div>
             </div>
-              <div class="result">
+              <div class="result d-none">
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
                     <h1 class="display-4 text-success font-weight-bolder fw-bolder">Gracias por su interes</h1>
@@ -1848,7 +1848,7 @@
       let progressBar = document.getElementById('steps');
       let url = '12345';
       let domain = '{{ env('APP_URL_API') }}';
-      let endPoint = domain + '/api/v1/es/ ' + url;
+      let endPoint = domain + '/es/aplicacion';
       var ip_address = window.location.hostname;
       var socket_port = '3000';
       var socket = io(ip_address + ':' + socket_port );

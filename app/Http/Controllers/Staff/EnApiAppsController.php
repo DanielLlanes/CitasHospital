@@ -38,7 +38,7 @@ class EnApiAppsController extends Controller
 {
     use DatesLangTrait;
 
-    public function index($code)
+    public function index()
     {
 
         //return abort(404);
@@ -72,7 +72,7 @@ class EnApiAppsController extends Controller
         return view('staff.api-apps-manager.index-en', ['countries' => $countries, 'service' => $service, "treatment" => $treatment]);
     }
 
-    public function countries(Request $request, $code)
+    public function countries(Request $request)
     {
         $countries = Country::where('active', 1)
         ->where("name",'like', "%".$request->search."%")
@@ -717,10 +717,10 @@ class EnApiAppsController extends Controller
             "gender" => $request->sex
         ]);
     }
-    public function storeData(Request $request, $code)
+    public function storeData(Request $request)
     {
         //return $request;
-        $partnerCode = $code;
+        //$partnerCode = $code;
         $lang = 'en';
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 

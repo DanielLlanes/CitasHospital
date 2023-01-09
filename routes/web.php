@@ -81,6 +81,8 @@ use App\Http\Controllers\Staff\AppController;
 //     });
 // });
 
+
+
 Route::domain(staffUrl())->group(base_path('routes/staff.php'));
 
 Route::domain(partnersUrl())->group(base_path('routes/partner.php'));
