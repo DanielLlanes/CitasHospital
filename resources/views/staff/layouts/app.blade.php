@@ -159,9 +159,9 @@
             if (lang == 'es') {
                 dataTablesLangEs =  "{{ asset('/lang/datatable-es.json') }}"
             }
-            var ip_address = window.location.protocol + '//' + window.location.hostname;
+            var ip_address = http + '//' + window.location.hostname;
             var socket_port = '3000';
-            var socket = io(ip_address + ':' + socket_port, {secure: true} );
+            var socket = io(ip_address + ':' + socket_port );
 
             const Toast = Swal.mixin({
                 toast: true,
