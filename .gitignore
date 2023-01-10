@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 protocol.js
+prado.js
 .env
 .env.backup
 .phpunit.result.cache
