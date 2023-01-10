@@ -1,23 +1,20 @@
-const express = require('express');
-const app = express();
-const server = require('https').createServer(app);
+const myModule = require('./protocol.js');
+let protocol = myModule.protocol(); // val is "Hello"   
+const httpServer = require(protocol).createServer();
+const options = { cors: '*' };
+const io = require("socket.io")(httpServer, options)
+var url = require('url');
 // var Redis = require('ioredis');
 // var redis = new Redis();
 var users = [];
 var groups = [];
 
-const io = require('socket.io')(server, {
-    cors: { origin: "*"}
-});
-
-const httpsServer = createServer({
-  key: readFileSync("/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem"),
-  cert: readFileSync("/etc/letsencrypt/live/api.jlpradosc.online/fullchain.pem")
-});
 
 io.on('connection', (socket) => {
     socket.on("user_connected", function (user_id) { // user conected works
     console.log("user_id", user_id);
+    var ip_address = protocol;
+    console.log(ip_address)
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });
@@ -67,5 +64,5 @@ io.on('connection', (socket) => {
     })
 });
 
-server.listen(3000, () => {
+httpServer.listen(3000, () => {
 });
