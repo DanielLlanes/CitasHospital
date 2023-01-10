@@ -161,7 +161,7 @@
             }
             var ip_address = window.location.protocol + '//' + window.location.hostname;
             var socket_port = '3000';
-            var socket = io(ip_address + ':' + socket_port, {secure: true} );
+            var socket = io('127.0.0.1' + ':' + socket_port, {secure: true} );
 
             const Toast = Swal.mixin({
                 toast: true,
