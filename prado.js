@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
+const server = require('https').createServer(app);
 // var Redis = require('ioredis');
 // var redis = new Redis();
 var users = [];
@@ -10,6 +10,10 @@ const io = require('socket.io')(server, {
     cors: { origin: "*"}
 });
 
+const httpsServer = createServer({
+  key: readFileSync("/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem"),
+  cert: readFileSync("/etc/letsencrypt/live/api.jlpradosc.online/fullchain.pem")
+});
 
 io.on('connection', (socket) => {
     socket.on("user_connected", function (user_id) { // user conected works
