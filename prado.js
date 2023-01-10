@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
+const server = require('https').createServer(app);
 // var Redis = require('ioredis');
 // var redis = new Redis();
 var users = [];
