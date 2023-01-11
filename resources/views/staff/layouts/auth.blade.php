@@ -7,6 +7,14 @@
     <meta name="description" content="Responsive Admin Template" />
     <meta name="author" content="RedstarHospital" />
     <title>{{ str_replace('_', " ", config('app.name', 'Laravel')) }} | @yield('title')</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#ffc40d">
+    <meta name="theme-color" content="#ffffff">
      <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet" type="text/css" />
     <!-- icons -->
@@ -17,6 +25,7 @@
     <link href="{{ asset('staffFiles/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- style -->
     <link rel="stylesheet" href="{{ asset('staffFiles/assets/css/pages/extra_pages.css') }}">
+    
     <style>
         input:-internal-autofill-selected {
             appearance: menulist-button;

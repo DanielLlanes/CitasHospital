@@ -1843,7 +1843,7 @@
 
         let domain = '{{ env('APP_URL_API') }}';
         let endPoint = domain + '/application';
-        var ip_address = window.location.hostname;
+        var ip_address = window.location.protocol + '//' + window.location.hostname;
         var socket_port = '3000';
         var socket = io(ip_address + ':' + socket_port );
 
