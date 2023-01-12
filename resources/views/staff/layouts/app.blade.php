@@ -89,7 +89,7 @@
     <div class="page-wrapper">
         <!-- start header -->
         <div class="page-header navbar navbar-fixed-top" style="">
-            <div class="alert alert-danger w-100 h-100 text-center" style="d-none" id="connStatus" style="z-index: 999999" role="alert">
+            <div class="alert alert-danger w-100 h-100 text-center" style="display: none" id="connStatus" style="z-index: 999999" role="alert">
                 <strong>No Internet Connection!</strong> <i class="fa fa-wifi"></i>
               </div>
             @include('staff.commun.topBar')
