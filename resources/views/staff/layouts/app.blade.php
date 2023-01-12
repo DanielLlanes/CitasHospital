@@ -5,6 +5,7 @@
     //$noCache = '';
 @endphp
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +14,9 @@
     <meta name="author" content="Sunray" />
     <title>{{ str_replace('_', " ", config('app.name', 'Laravel')) }} | @yield('title')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+    @laravelPWA
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
