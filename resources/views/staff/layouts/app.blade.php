@@ -206,6 +206,7 @@
                 var newState = "";
                 var state = navigator.onLine ? 'online' : 'offline';
                 newState.innerHTML += '' + timeBadge + ' Connection state changed to ' + state + '.';
+                log(newState)
             }
             ononline = (handleStateChange) => {connStatus.style.display = "none"};
             onoffline = (handleStateChange) => {connStatus.style.display = "block"};
