@@ -35,7 +35,7 @@
             log(newState)
         }
         ononline = (handleStateChange) => {
-            history.go();
+            location.href
         };
     </script>
 </body>
