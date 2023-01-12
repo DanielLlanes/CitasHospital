@@ -28,10 +28,7 @@
             <p style="text-align:center; font-size:2rem">No internet connection</p>
         </div>
     </section>
-
-@endsection
-@section('scipts')
-    <script>
+<script>
         let handleStateChange = () => {
                     var timeBadge = new Date().toTimeString().split(' ')[0];
                     var newState = "";
@@ -45,3 +42,4 @@
                 };
     </script>
 @endsection
+    
