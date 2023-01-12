@@ -28,18 +28,6 @@
             <p style="text-align:center; font-size:2rem">No internet connection</p>
         </div>
     </section>
-<script>
-        let handleStateChange = () => {
-                    var timeBadge = new Date().toTimeString().split(' ')[0];
-                    var newState = "";
-                    var state = navigator.onLine ? 'online' : 'offline';
-                    newState.innerHTML += '' + timeBadge + ' Connection state changed to ' + state + '.';
-                    log(newState)
-                }
-        ononline = (handleStateChange) => {
-                    connStatus.style.display = "none";
-                    location.reload()
-                };
-    </script>
+
 @endsection
     
