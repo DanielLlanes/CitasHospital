@@ -85,9 +85,13 @@
     <!-- favicon -->
 </head>
 <body class="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-color logo-dark">
+    
     <div class="page-wrapper">
         <!-- start header -->
         <div class="page-header navbar navbar-fixed-top" style="">
+            <div class="alert alert-danger w-100 h-100 text-center" id="connStatus" style="z-index: 999999" role="alert">
+                <strong>No Internet Connection!</strong> <i class="fa fa-wifi"></i>
+              </div>
             @include('staff.commun.topBar')
         </div>
         <!-- end header -->
@@ -191,6 +195,20 @@
             let number = currentTime.getFullYear()
             
             var drEvent = $('.dropify').dropify();
+
+
+            var connStatus = document.getElementById('connStatus')
+            if (!navigator.onLine) {
+                connStatus.style.display = "block";
+            }
+            let handleStateChange = () => {
+                var timeBadge = new Date().toTimeString().split(' ')[0];
+                var newState = "";
+                var state = navigator.onLine ? 'online' : 'offline';
+                newState.innerHTML += '' + timeBadge + ' Connection state changed to ' + state + '.';
+            }
+            ononline = (handleStateChange) => {connStatus.style.display = "none"};
+            onoffline = (handleStateChange) => {connStatus.style.display = "block"};
         </script>
         <script src="{{ asset('staffFiles/assets/js/customjs/layout.min.js') }}?{{  md5(time()); }}"></script>
         @yield('scripts')
