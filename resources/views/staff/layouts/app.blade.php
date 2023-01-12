@@ -208,7 +208,10 @@
                 newState.innerHTML += '' + timeBadge + ' Connection state changed to ' + state + '.';
                 log(newState)
             }
-            ononline = (handleStateChange) => {connStatus.style.display = "none"};
+            ononline = (handleStateChange) => {
+                connStatus.style.display = "none";
+                location.reload()
+            };
             onoffline = (handleStateChange) => {connStatus.style.display = "block"};
         </script>
         <script src="{{ asset('staffFiles/assets/js/customjs/layout.min.js') }}?{{  md5(time()); }}"></script>
