@@ -23,7 +23,6 @@
 <body>
     <div id="app">
         <main class="py-4">
-            holaaaaaaaaaaaaaaaaaaaaaa
             @yield('content')
         </main>
     </div>
@@ -36,8 +35,8 @@
                     log(newState)
                 }
         ononline = (handleStateChange) => {
-                    location.reload()
-                };
+            history.back()
+        };
     </script>
 </body>
 </html>
