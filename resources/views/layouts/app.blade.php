@@ -36,7 +36,6 @@
                     log(newState)
                 }
         ononline = (handleStateChange) => {
-                    connStatus.style.display = "none";
                     location.reload()
                 };
     </script>
