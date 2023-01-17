@@ -5,7 +5,7 @@ return [
     'manifest' => [
         'name' => env('J.L. Prado', 'J.L. Prado'),
         'short_name' => 'JLPrado',
-        'start_url' => '/',
+        'start_url' => '/dashboard',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
         'display' => 'standalone',
