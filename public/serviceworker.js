@@ -1,4 +1,6 @@
 var staticCacheName = "pwa-v" + new Date().getTime();
+
+console.log(staticCacheName);
 var filesToCache = [
     '/offline',
     '/staffFiles/assets/img/hospital1.png',
