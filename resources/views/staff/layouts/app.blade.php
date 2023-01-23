@@ -252,8 +252,9 @@
             });
 
             window.addEventListener('appinstalled', (evt) => {
-  console.log('a2hs installed');
-});
+                console.log('a2hs installed', evt);
+                console.log(deferredPrompt)
+            });
         </script>
       </body>
 </body>
