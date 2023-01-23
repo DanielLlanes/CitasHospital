@@ -92,8 +92,8 @@
             <div class="alert alert-danger w-100 h-100 text-center" style="display: none; z-index: 99999999" id="connStatus" style="z-index: 999999" role="alert">
                 <strong>No Internet Connection!</strong> <i class="fa fa-wifi"></i>
             </div>
-            <div class="col-12 w-100 h-100 text-center add-button" style=" z-index: 99999999; display: none">
-                <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20" id="">Install as mobile App</button>
+            <div class="col-12 w-100 h-100 text-center add-button-div" style=" z-index: 99999999; display: none">
+                <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20 add-button" id="">Install as mobile App</button>
             </div>
             @include('staff.commun.topBar')
         </div>
@@ -222,7 +222,7 @@
         <script>
             let deferredPrompt;
             const addBtn = document.querySelector(".add-button");
-            addBtn.style.display = "none";
+            const divBtn = document.querySelector(".add-button-div");
 
             window.addEventListener("beforeinstallprompt", (e) => {
                 // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -231,10 +231,12 @@
                 deferredPrompt = e;
                 // Update UI to notify the user they can add to home screen
                 addBtn.style.display = "block";
+                divBtn.style.display = "block";
 
                 addBtn.addEventListener("click", (e) => {
                     // hide our user interface that shows our A2HS button
                     addBtn.style.display = "none";
+                    divBtn.style.display = "none";
                     // Show the prompt
                     deferredPrompt.prompt();
                     // Wait for the user to respond to the prompt
@@ -248,6 +250,10 @@
                     });
                 });
             });
+
+            window.addEventListener('appinstalled', (evt) => {
+  console.log('a2hs installed');
+});
         </script>
       </body>
 </body>
