@@ -92,8 +92,8 @@
             <div class="alert alert-danger w-100 h-100 text-center" style="display: none; z-index: 99999999" id="connStatus" style="z-index: 999999" role="alert">
                 <strong>No Internet Connection!</strong> <i class="fa fa-wifi"></i>
             </div>
-            <div class="col-12 w-100 h-100 text-center" style=" z-index: 99999999">
-                <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20 add-button" id="">Install as mobile App</button>
+            <div class="col-12 w-100 h-100 text-center add-button" style=" z-index: 99999999; display: none">
+                <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20" id="">Install as mobile App</button>
             </div>
             @include('staff.commun.topBar')
         </div>
