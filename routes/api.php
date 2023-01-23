@@ -35,6 +35,7 @@ Route::domain(partnersUrl())->group( function() {
 });
 
 Route::domain(apiUrl())->group( function() {
+
     /**
      * Api español
      *
