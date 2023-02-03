@@ -378,7 +378,7 @@ class StaffController extends Controller
         $unHashPassword = password(10);
         $staff = New Staff;
         $staff->name = getUcWords($request->name);
-        $staff->username = $request->username;
+        $staff->username = Str::of($request->username)->lower();
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
         $staff->email = Str::of($request->email)->lower();
@@ -665,7 +665,7 @@ class StaffController extends Controller
         }
 
         $staff->name = getUcWords($request->name);;
-        $staff->username = $request->username;
+        $staff->username = Str::of($request->username)->lower();
         $staff->cellphone = $request->cellphone;
         $staff->phone = $request->phone;
         $staff->email = Str::of($request->email)->lower();
