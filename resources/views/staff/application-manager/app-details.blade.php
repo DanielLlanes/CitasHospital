@@ -83,7 +83,9 @@
                                 </div>
                             </div>
                             <hr>
-                            {{ $permissions = Auth()->guard('staff')->user()->getAllPermissions()}}
+                            @can('applications.approbe')
+                                hola
+                            @endcan
                             <div class="row">
                                 <div class="col-12 mb-2 text-center" id="current-status-area-div"> <strong>Current Status</strong>
                                     <br>
