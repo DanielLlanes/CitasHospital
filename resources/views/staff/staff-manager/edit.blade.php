@@ -254,26 +254,6 @@
 
 @section('scripts')
     <script>
-        // $("#selectAll").click(function() {
-        //     $("input[type=checkbox]").prop("checked", $(this).prop("checked"));
-        // });
-        // $("input[type=checkbox]").click(function() {
-        //     if (!$(this).prop("checked")) {
-        //         $("#selectAll").prop("checked", false);
-        //         $(this).parents('.card-body').siblings().find('.selectAllGroup').prop("checked", false);
-        //     }
-        // });
-        // $(".selectAllGroup").click(function() {
-        //     var input = $(this).parents('.card-head').siblings().find('.check-group')
-        //     var checked = $(this).is(":checked")
-        //     if (checked) {
-        //         input.prop('checked', true);
-        //     } else {
-        //         input.prop('checked', false);
-        //     }
-        // });
-        //
-
         var domain = window.location.protocol+"//"+window.location.hostname+"/";
         $('#basic-url-span').html(domain+'team/')
         $(document).on('keyup', '#name', function(){
@@ -282,9 +262,9 @@
             $("#url").val(value.stringToSlug(value))
         })
 
-        $("#checkbox-selectAll").click(function() {
-            $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
-        });
+        // $("#checkbox-selectAll").click(function() {
+        //     $(".specialtyCheckbox").prop("checked", $(this).prop("checked"));
+        // });
 
         // $(".specialtyCheckbox").on("click", function(){
         //     var checkboxs = $(".specialtyCheckbox");
@@ -358,6 +338,7 @@
             }
         });
         getSpecialty({{ $staff->roles[0]->id }})
+
         function getSpecialty(id, flag = false)
         {
             var form_data = new FormData();
@@ -376,7 +357,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    $("#specialtiesArea .col-12:not(:first)").remove();
+                    $("#specialtiesArea .col-12").remove();
                 },
                 success:function(data)
                 {
@@ -403,29 +384,66 @@
                                  ckhbx += '</div">';
                                  ckhbx += '</div">';
 
+                                 var rdobtn = ` 
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input radioSpecialties" ${selected} type="radio" assignable="${val.assignable}" name="specialties[]" id="flexRadio-${val.id}" style="font-size: 12px" value="${val.id}">
+                                        <label class="form-check-label" for="flexRadio-${val.id}">
+                                            ${val.name}
+                                        </label>
+                                    </div>
+                                </div">
+                            `;
+                            
                             if (val.assignable) {
                                 assignableArray.push(val.assignable)
                             }
-                            $('#specialtiesArea').append(ckhbx);
+                            //$('#specialtiesArea').append(ckhbx);
+                            $('#specialtiesArea').append(rdobtn);
                         });
+
+                        var radios = $(".radioSpecialties");
 
                         $('#specialyiesRow').show('fast');
                         var checkboxs = $('#specialtiesArea').find($('.specialtyCheckbox'));
                         if (typeof array !== 'undefined') {
-                            console.log("array", array);
                             $.each(array, function(index, val) {
-                                $('#checkbox-'+val.id).prop("checked", true)
+                                $('#flexRadio-'+val.id).prop("checked", true)
                             });
                         }
-                        if (assignableArray.length > 0) {
-                            $('.assignable_area').show('fast')
-                            $('.assignable_area_div').show('fast');
-                            if (flag) {add_asiggnable()}
+
+
+                        var radio = document.getElementsByClassName('radioSpecialties')
+                        for (i = 0; i < radio.length; i++) {
+                            isChecked = radio[i].checked;
+                            if (isChecked) {
+                                isAssignable = radio[i].getAttribute('assignable');
+                                if (isAssignable == 1) {
+                                    $('.assignable_area').show('fast')
+                                    $('.assignable_area_div').show('fast');
+                                    if (flag) {add_asiggnable()}
+                                    break;
+                                }
+                            }
                         }
                     }
                 },
             })
         }
+        $(document).on('change', '.radioSpecialties', function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                isAssignable = $(this).attr('assignable')
+                if (isAssignable == 1) {
+                    $('.assignable_area').show('fast')
+                    $('.assignable_area_div').show('fast').html('');
+                    add_asiggnable()
+                } else{
+                    $('.assignable_area').hide('fast')
+                    $('.assignable_area_div').hide('fast').html('');
+                }
+            }
+        });
         $(document).on("click", ".btn-remove-assign", function () {
             $(this).parents('.assigned_cloned').remove();
 

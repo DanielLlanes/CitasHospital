@@ -309,7 +309,7 @@ class StaffController extends Controller
                 }
             }
         }
-
+        //return $assingnamentCheck;
         if (!Auth::guard('staff')->user()->can('admin.create') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
@@ -734,14 +734,13 @@ class StaffController extends Controller
         $lang = app()->getLocale();
         $staff = Staff::with('imageOne')->find($request->id);
         if($staff->exists()){
-            if (!$staff->imageOn) {
+            if ($staff->imageOne) {
                 $lastPhoto = $staff->imageOne->image;
                 $lastPhotoId = $staff->imageOne->id;
-                unlink(public_path($lastPhoto));
-                $staff->imageOne->forceDelete($lastPhotoId);
+                // unlink(public_path($lastPhoto));
+                // $staff->imageOne->delete($lastPhotoId);
             }
-
-            $staff->forceDelete();
+            $staff->delete($staff->id);
             return response()->json(
                 [
                     'icon' => 'success',

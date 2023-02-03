@@ -12,6 +12,10 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <title>Applications</title>
+    <style>
+        
+
+    </style>
 </head>
 <body class="">
     <div class="loading"></div>
@@ -24,12 +28,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 px-5 p-md-0">
-                    <div class="progress">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 px-5 p-md-0">
+                    <div class="d-none progress">
                         <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
-                    <form enctype="multipart/form-data">
+                    <form enctype="multipart/form-data" style="mt-3 mb-3">
                         <div class="step">
                             <div class="mb-2 row">
                                 <div class="col-3"></div>
@@ -68,7 +72,7 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Biological sex</label>
                                     <div class="col-sm-9">
-                                        <select name="sex" id="sex" class="form-control form-control-sm w-100">
+                                        <select name="sex" id="sex" class="form-control form-control-sm">
                                             <option value="" disabled selected>Select....</option>
                                             <option value="male" >Male</option>
                                             <option value="female" >Female</option>
@@ -78,10 +82,27 @@
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm datePickers" id="dob" name="dob" value="" placeholder="Date of Birth">
-                                        <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                    <div class="col-sm-9 d-flex">
+                                        <div class="col-4 pe-3">
+                                            <select name="month" class="form-control form-control-sm month" id="month">
+                                                <option value="" disabled selected class="">Month....</option>
+                                            </select>
+                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                        </div>
+                                        <div class="col-4">
+                                            <select name="day" class="form-control form-control-sm day" id="day">
+                                                <option value="" disabled selected class="placeholder">Day....</option>
+                                            </select>
+                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                        </div>
+                                        <div class="col-4 ps-3">
+                                            <select name="year" class="form-control form-control-sm year" id="year">
+                                                <option value="" disabled selected class="">Year...</option>
+                                            </select>
+                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                        </div>
                                     </div>
+                                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
 
                                 <div class="mb-3 row">
@@ -534,8 +555,11 @@
                             </div>
                             <div class="mb-3 row mt-1 high_lipid_levels"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
+                                <div class="col-sm-9 d-flex">
+                                    <div class="col-sm-9">
+                                        <input type="text" class="datePickers form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                    </div>
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -1767,8 +1791,8 @@
                             </div>
                         </div>
                     </form>
-                    <div class="col-md-3"></div>
                 </div>
+                <div class="col-md-4"></div>
             </section>
         </div>
         <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel" aria-hidden="true">
@@ -1850,11 +1874,30 @@
         form.onsubmit = () => {
             return false
         }
-
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
         checkBox = $("input[type='radio'][value='0']")
         checkBox.each(function(index, el) {
             $(this).attr('checked', 'true');
         });
+
+        $('.datePickers').datetimepicker({
+		    weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: 'mm/dd/yyyy',
+            icons: {
+                  time: "fa fa-clock-o",
+                  date: "fa fa-calendar",
+                  up: "fa fa-arrow-up",
+                  down: "fa fa-arrow-down"
+              }
+		});
         let current_step = 0;
         let stepCount = step.length;
 
@@ -1893,9 +1936,43 @@
         .then(response => response.json())
         .then(json => getServices(json))
 
+        function getDays(className) {  
+            console.log(className)
+            for (i=1; i<32; i++) {
+                var data = {id: i.toString().padStart(2, '0'), text: i.toString().padStart(2, '0')};
+                var newOption = new Option(data.text, data.id, false, false);
+                $(className).append(newOption).trigger('change');
+            }
+        }
+
+        function getMonths(className) {  
+            var theMonths = ["January", "February", "March", "April", "May","June", "July", "August", "September", "October", "November", "December"];
+            for (i=0; i<theMonths.length; i++) {
+
+                var data = {id: (i+1).toString().padStart(2, '0'), text: theMonths[i]};
+                var newOption = new Option(data.text, data.id, false, false);
+                $('#month').append(newOption).trigger('change');
+            }
+        }
+
+        function getYears(){
+            var date = new Date()
+            const year = date.getFullYear();
+
+            for (var i = year; i >= (year-100); i--) {
+                var data = {id: i.toString().padStart(4, '0'), text: i.toString().padStart(4, '0')};
+                var newOption = new Option(data.text, data.id, false, false);
+                $('#year').append(newOption).trigger('change');
+            }
+        }
+
         $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
         $('#country_id').select2();
-        $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
+        $('#sex').select2({placeholder: 'Biological sex selection'});
+        $('#day').select2({placeholder: 'Day',});
+        $('#month').select2({placeholder: 'Month'});
+        $('#year').select2({placeholder: 'Year'});
+
         $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
         $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
         $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
@@ -2038,18 +2115,23 @@
                 $(this).find('input[name*="exercise_how_frecuent"]').attr('id', 'exercise_how_frecuent-'+index)
                 $(this).find('input[name*="exercise_hours"]').attr('id', 'exercise_hours-'+index)
             });
-
             $("#hormones_table tbody tr").each(function(index, el) {
                 $(this).find('input[name*="hormone_type"]').attr('id', 'hormone_type-'+index)
                 $(this).find('input[name*="hormone_how_long"]').attr('id', 'hormone_how_long-'+index)
             });
-
             $("#birth_control_table tbody tr").each(function(index, el) {
                 $(this).find('input[name*="birthControl_type"]').attr('id', 'birthControl_type-'+index)
                 $(this).find('input[name*="birthControl_how_long"]').attr('id', 'birthControl_how_long-'+index)
             });
 
-            form = document.getElementsByTagName('form')[0]
+            if ($('#state_id').data('select2')){
+                if ($('#state_id').select2('data').length > 0) {data_state_id = $('#state_id').select2('data')[0].id;}else {data_state_id = 0;}
+            }
+
+
+
+            form = document.getElementsByTagName('form')[0];
+
             var form_data = new FormData(form);
             form_data.append('step', current_step);
             fetch( endPoint + '/checkData', {
@@ -2058,6 +2140,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+                console.log(data)
                 toTop()
                 if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
                     if (data.hasOwnProperty('success')) {
@@ -2109,7 +2192,7 @@
                         $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
                         $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
                     });
-                    $('.loading').css('display', 'block');
+                    //$('.loading').css('display', 'block');
                 } else {
                     // socket.emit('updateDataTablesToServer');
                     // window.location.href = "https://jlpradosc.com"; 
@@ -2117,7 +2200,7 @@
                     for (var i = 0; i < stepCount; i++) {
                         step[i].classList.add('d-none')
                     }
-
+                    $('.loading').css('display', 'none');
                     prevBtn.classList.add('d-none');
                     submitBtn.classList.add('d-none');
                     nextBtn.classList.add('d-none');
@@ -2248,8 +2331,6 @@
             step[7].classList.remove('d-none')
             step[7].classList.add('d-inline-block')
         }
-
-
         function needImages(){
             $('#select-service-select').on('select2:select', function(e){
                 let data = e.params.data;
@@ -2260,25 +2341,12 @@
             alert('File deleted');
         });
 
-        $('.datePickers').datetimepicker({
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0,
-            format: 'mm/dd/yyyy',
-        })
-
         const containerMedicactionModal = document.getElementById("medicationModal");
         const medicationModal = new bootstrap.Modal(containerMedicactionModal);
         const medication_cadena = [];
         $(document).ready(function() {
             $('#imc').attr('readOnly', true);
         });
-
-
 
         $(document).on("change", "#weight", function () {
             var sistem = $("input[type=radio][name=mesure_sistem]:checked").val()
@@ -2418,7 +2486,7 @@
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             medicationField += '</td>'
             medicationField += '<td class="text-center">'
-            medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping">Delete</button>'
             medicationField += '</td>'
             medicationField += '</tr>'
             $('#medication_table tbody').append(medicationField)
@@ -2470,7 +2538,7 @@
             surgeryField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             surgeryField += '</td>'
             surgeryField += '<td class="text-center">'
-            surgeryField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            surgeryField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Delete</button>'
             surgeryField += '</td>'
             surgeryField += '</tr>'
             $('#surgery_table tbody').append(surgeryField)
@@ -2655,7 +2723,7 @@
             illnessField += '</td>'
             illnessField += '<td>'
             illnessField += '<td class="text-center">'
-            illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping">Delete</button>'
             illnessField += '</td>'
             illnessField += '</tr>'
             $('#illness_table tbody').append(illnessField)
@@ -2846,7 +2914,7 @@
             exerciseField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             exerciseField += '</td>'
             exerciseField += '<td class="text-center">'
-            exerciseField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            exerciseField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Delete</button>'
             exerciseField += '</td>'
             exerciseField += '</tr>'
             $('#exercise_table tbody').append(exerciseField)
@@ -2926,7 +2994,7 @@
             medicationField += '</td>'
             medicationField += '<td>'
             medicationField += '<td class="text-center">'
-            medicationField += '<button class="btn btn-danger btn-sm btn-block deleteHormone" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            medicationField += '<button class="btn btn-danger btn-sm btn-block deleteHormone" type="button" id="addon-wrapping">Delete</button>'
             medicationField += '</td>'
             medicationField += '</tr>'
             $('#hormones_table tbody').append(medicationField)
@@ -2943,15 +3011,64 @@
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             medicationField += '</td>'
             medicationField += '<td class="text-center">'
-            medicationField += '<button class="btn btn-danger btn-sm btn-block deletebirthControl" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+            medicationField += '<button class="btn btn-danger btn-sm btn-block deletebirthControl" type="button" id="addon-wrapping">Delete</button>'
             medicationField += '</td>'
             medicationField += '</tr>'
             $('#birth_control_table tbody').append(medicationField)
         }
-
+        getYears('.year')
+        getDays('.day')
+        getMonths('.month')
         $date = document.getElementsByClassName('datePickers')
         $.each($date, function(index, val) {
             $(this).attr('placeholder', 'mm/dd/yyyy')
+        });
+
+        (function($) {
+            $.fn.inputFilter = function(inputFilter) {
+                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+                });
+            };
+        }(jQuery));
+
+        $(function () {
+            $(".intTextBox").inputFilter(function(value) { // solo numeros
+                return /^-?\d*$/.test(value); 
+            });
+            $(".uintTextBox").inputFilter(function(value) { // solo enteros > 0
+                return /^\d*$/.test(value); 
+            });
+            $(".intLimitTextBox").inputFilter(function(value) { // limitado a 500
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(number)); 
+            });
+            $(".floatTextBox").inputFilter(function(value) { // con decimales
+                return /^-?\d*[.,]?\d*$/.test(value); 
+            });
+            $(".currencyTextBox").inputFilter(function(value) { //modeda
+                return /^-?\d*[.,]?\d{0,2}$/.test(value); 
+            });
+            $(".latinTextBox").inputFilter(function(value) { // solo letas
+                return /^[a-z]*$/i.test(value); 
+            });
+            $(".hexTextBox").inputFilter(function(value) { // exadecimal letas y numeros
+                return /^[0-9a-f]*$/i.test(value); 
+            });
+            $(".day").inputFilter(function(value) { // limitado a 500
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(31)); 
+            });
+            $(".year").inputFilter(function(value) { // limitado a 500
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(31)); 
+            });
         });
 
     </script>

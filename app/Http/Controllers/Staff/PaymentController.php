@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
-use App\Models\Site\Application;
+use App\Models\Staff\Role;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
+use App\Models\Site\Application;
+use Yajra\DataTables\DataTables;
 use App\Models\Staff\PaymentMethod;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use Yajra\DataTables\DataTables;
 
 
 class PaymentController extends Controller
@@ -36,6 +37,8 @@ class PaymentController extends Controller
         $paymentMethod = PaymentMethod::selectRaw("id, code, name_$lang AS name")
         ->where('active', 1)
         ->get();  
+
+       ;
 
         $payments = Payment::with
         (

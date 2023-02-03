@@ -6,6 +6,7 @@
 
 <div class="limiter">
     <div class="container-login100 page-background">
+        
         <div class="wrap-login100">
             <form class="login100-form" method="POST" action="{{ route('staff.login') }}">
                 @csrf
@@ -16,6 +17,11 @@
                 <span class="login100-form-title p-b-34 p-t-27">
                     {{ __('Login') }}
                 </span>
+                @if (session('error'))
+                    <div class="alert alert-danger text-center">
+                            {{ session('error') }}
+                    </div>
+                @endif
                 <div class="wrap-input100" data-validate = "Enter username">
                     <input class="input100" type="text" autocomplete="offs" name="login" value="{{ old('email') }}" placeholder="{{ __('Username or Email') }}">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>

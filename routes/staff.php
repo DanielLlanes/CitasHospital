@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\RoleController;
 use App\Http\Controllers\Staff\BrandController;
 use App\Http\Controllers\Staff\EventController;
 use App\Http\Controllers\Staff\StaffController;
@@ -20,9 +21,11 @@ use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\TimeLineController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Staff\SpecialtyController;
 use App\Http\Controllers\Staff\TreatmentController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Partners\PartnersController;
+use App\Http\Controllers\Staff\PermissionsController;
 use App\Http\Controllers\Staff\TestimonialController;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Controllers\Staff\AutocompleteController;
@@ -259,6 +262,38 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/partner/update', [PartnersController::class, 'update'])->name('updatePartners');
         //Route::post('/partner/destroy', [PartnersController::class, 'destroy'])->name('destroyPartners')
         Route::post('/partners/reset-password', [PartnersController::class, 'resetPassword'])->name('resetPassword');
+    });
+
+    Route::name('roles.')->group( function () {
+        Route::get('/roles/listar',       [RoleController::class, 'index'])->name('roles');
+        Route::get('/roles/getList',       [RoleController::class, 'getRoles'])->name('getRoles');
+        Route::post('/roles/activate', [RoleController::class, 'activate'])->name('activaterole');
+        Route::post('/roles/store', [RoleController::class, 'store'])->name('storeRole');
+        Route::post('/role/edit', [RoleController::class, 'edit'])->name('editRole');
+        Route::post('/role/update', [RoleController::class, 'update'])->name('updateRole');
+        Route::post('/role/destroy', [RoleController::class, 'destroy'])->name('destroyRole');
+        Route::post('/role/permissions', [RoleController::class, 'getRolesPermissions'])->name('getRolesPermissions');
+        Route::post('/roles/permissions',       [RoleController::class, 'permissionsSet'])->name('permissionsSet');
+    });
+
+    Route::name('permissions.')->group( function () {
+        Route::get('/permissions/listar',           [PermissionsController::class, 'index'])->name('permissions');
+        Route::get('/permissions/getList',          [PermissionsController::class, 'getPermissions'])->name('getPermissions');
+        Route::post('/permissions/activate',        [PermissionsController::class, 'activate'])->name('activatePermissions');
+        Route::post('/permissions/store',           [PermissionsController::class, 'store'])->name('storePermissions');
+        Route::post('/permissions/edit',            [PermissionsController::class, 'edit'])->name('editPermissions');
+        Route::post('/permissions/update',          [PermissionsController::class, 'update'])->name('updatePermissions');
+        Route::post('/permissions/destroy',         [PermissionsController::class, 'destroy'])->name('destroyPermissions');
+    });
+
+    Route::name('specialty.')->group ( Function () {
+        Route::get('/specialty/listar',           [SpecialtyController::class, 'index'])->name('specialties');
+        Route::get('/specialty/getList',          [SpecialtyController::class, 'getSpecialties'])->name('getSpecialties');
+        Route::post('/specialty/activate',        [SpecialtyController::class, 'activate'])->name('activateSpecialties');
+        Route::post('/specialty/store',           [SpecialtyController::class, 'store'])->name('storeSpecialties');
+        Route::post('/specialty/edit',            [SpecialtyController::class, 'edit'])->name('editSpecialties');
+        Route::post('/specialty/update',          [SpecialtyController::class, 'update'])->name('updateSpecialties');
+        Route::post('/specialty/destroy',         [SpecialtyController::class, 'destroy'])->name('destroySpecialties');
     });
 
 });

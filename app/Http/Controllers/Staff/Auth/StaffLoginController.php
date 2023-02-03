@@ -52,6 +52,14 @@ class StaffLoginController extends Controller
         return view('staff.auth.login');
     }
 
+
+    protected function credentials(Request $request)
+{
+
+    return array_merge($request->only($this->username(), 'password'), ['active' => 1]);
+    
+}
+
     /**
      * Get the guard to be used during authentication.
      *

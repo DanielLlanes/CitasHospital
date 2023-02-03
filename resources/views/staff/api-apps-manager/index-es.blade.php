@@ -25,10 +25,10 @@
         <div class="row">
           <div class="col-md-3"></div>
           <div class="col-md-6 px-5 p-md-0">
-            <div class="progress">
+            <div class="d-none progress">
               <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
-            <form enctype="multipart/form-data">
+            <form enctype="multipart/form-data mt-3 mb-3">
               <div class="step">
                 <div class="mb-2 row">
                   <div class="col-3"></div>
@@ -1460,9 +1460,6 @@
                   </div>
                 </div>
               </div>
-              <!-- 
-
-               -->
               <div class="step">
                 <div class="row mb-3">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de la última menstruación</label>
@@ -1747,7 +1744,7 @@
                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                 </div>
-            </div>
+              </div>
               <div class="result d-none">
                 <div class="jumbotron jumbotron-fluid">
                   <div class="container">
@@ -2408,7 +2405,7 @@
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
         medicationField += '</td>'
         medicationField += '<td class="text-center">'
-        medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+        medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
         $('#medication_table tbody').append(medicationField)
@@ -2460,7 +2457,7 @@
           surgeryField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           surgeryField += '</td>'
           surgeryField += '<td class="text-center">'
-          surgeryField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+          surgeryField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Eliminar</i></button>'
           surgeryField += '</td>'
           surgeryField += '</tr>'
           $('#surgery_table tbody').append(surgeryField)
@@ -2645,7 +2642,7 @@
           illnessField += '</td>'
           illnessField += '<td>'
           illnessField += '<td class="text-center">'
-          illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+          illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping">Eliminar</i></button>'
           illnessField += '</td>'
           illnessField += '</tr>'
           $('#illness_table tbody').append(illnessField)
@@ -2836,7 +2833,7 @@
           exerciseField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           exerciseField += '</td>'
           exerciseField += '<td class="text-center">'
-          exerciseField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+          exerciseField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Eliminar</i></button>'
           exerciseField += '</td>'
           exerciseField += '</tr>'
           $('#exercise_table tbody').append(exerciseField)
@@ -2916,7 +2913,7 @@
         medicationField += '</td>'
         medicationField += '<td>'
         medicationField += '<td class="text-center">'
-        medicationField += '<button class="btn btn-danger btn-sm btn-block deleteHormone" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+        medicationField += '<button class="btn btn-danger btn-sm btn-block deleteHormone" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
         $('#hormones_table tbody').append(medicationField)
@@ -2933,7 +2930,7 @@
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
         medicationField += '</td>'
         medicationField += '<td class="text-center">'
-        medicationField += '<button class="btn btn-danger btn-sm btn-block deletebirthControl" type="button" id="addon-wrapping"><i class="bi bi-trash-fill"></i></button>'
+        medicationField += '<button class="btn btn-danger btn-sm btn-block deletebirthControl" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
         $('#birth_control_table tbody').append(medicationField)

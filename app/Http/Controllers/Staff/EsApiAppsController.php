@@ -1615,6 +1615,7 @@ class EsApiAppsController extends Controller
                     }
                 ])
             ->first();
+            
             $other_staff = Staff::whereHas(
                 'specialties', function($q){
                     $q->where('specialties.id', '!=', 10);

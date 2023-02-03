@@ -161,17 +161,17 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row" id="specialyiesRow">
+                        <div class="form-group row" id="specialyiesRow" @if (old('assigned_to')) @else style="display: none" @endif>
                             <label class="control-label col-md-3">@lang('Specialty')
                                 <span class="required"> * </span>
                             </label>
 
-                            <div class="col-md-5" id="specialtiesArea">
+                            <div class="col-md-5" id="specialtiesArea" >
                                 <div class="col-12" >
-                                    <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                    {{-- <div class="checkbox checkbox-icon-red form-check form-check-inline">
                                         <input id="checkbox-selectAll" class="form-check-input" type="checkbox">
                                         <label for="checkbox-selectAll" class="form-check-label" style="font-size: 12px">@lang("Select All")</label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -351,14 +351,15 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    $("#specialtiesArea .col-12:not(:first)").remove();
+                    $("#specialtiesArea .col-12").remove();
                     $("#specialty").prop("selectedIndex", 0);
                     $('.assignable_area').hide('fast')
                     $('.assignable_area_div').hide('fast').html('');
                 },
                 success:function(data)
                 {
-                console.log("data", data);
+                    $("#checkbox-selectAll").prop("checked", false);
+                    console.log("data", data);
                     if (data.reload) {
                         Toast.fire({
                             icon: data.icon,
@@ -371,32 +372,62 @@
                         if (data.data.length == 1) {
                             selected = 'checked'
                             one = true;
+                           $("#checkbox-selectAll").prop("checked", 'checked');
                         }
                         var assignables = [];
                         $.each(data.data, function(index, val) {
                             var  ckhbx = '<div class="col-12">';
                                  ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
-                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
+                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'" name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
                                  ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
                                  ckhbx += '</div">';
                                  ckhbx += '</div">';
 
+                            var rdobtn = ` 
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input radioSpecialties" ${selected} type="radio" assignable="${val.assignable}" name="specialties[]" id="flexRadio-${val.id}" style="font-size: 12px" value="${val.id}">
+                                        <label class="form-check-label" for="flexRadio-${val.id}">
+                                            ${val.name}
+                                        </label>
+                                    </div>
+                                </div">
+                            `;
+
                             if (val.assignable) {
                                 assignableArray.push(val.assignable)
                             }
-                            $('#specialtiesArea').append(ckhbx);
+                            //$('#specialtiesArea').append(ckhbx);
+                            $('#specialtiesArea').append(rdobtn);
                         });
 
                         $('#specialyiesRow').show('fast');
-                        if (assignableArray.length > 0) {
-                            $('.assignable_area').show('fast')
-                            $('.assignable_area_div').show('fast').html('');
-                            add_asiggnable()
-                        }
+                        // if (assignableArray.length > 0) {
+                        //     $('.assignable_area').show('fast')
+                        //     $('.assignable_area_div').show('fast').html('');
+                        //     add_asiggnable()
+                        // }
                     }
                 },
             })
         }
+
+        $(document).on('change', '.radioSpecialties', function () {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                isAssignable = $(this).attr('assignable')
+                if (isAssignable == 1) {
+                    $('.assignable_area').show('fast')
+                    $('.assignable_area_div').show('fast').html('');
+                    add_asiggnable()
+                } else{
+                    $('.assignable_area').hide('fast')
+                    $('.assignable_area_div').hide('fast').html('');
+                }
+            }
+        });
+        
+        
 
         $(document).on('change', '#role', function(event) {
             event.preventDefault();

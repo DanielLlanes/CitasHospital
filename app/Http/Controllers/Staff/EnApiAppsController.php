@@ -157,7 +157,6 @@ class EnApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
-        //return($request);
             $lang = 'en';
             if ($request->step == 0) {
                 $exist = false;
@@ -180,13 +179,18 @@ class EnApiAppsController extends Controller
                     
                     $patient = Patient::where('email', $request->email)->first();
                 }
+                $minYear = date("Y") - 100;
+                $year = date("Y");
+
                 if (!$patient) {
                     $validator = Validator::make($request->all(), [
                         'treatmentBefore' => 'required|boolean',
                         'name' => 'required|string',
                         'sex' => 'required|string|',
                         'age' => 'required|numeric|between:18,99',
-                        'dob' => 'required|date',
+                        'day' => 'required|numeric|between:01,31',
+                        'month' => 'required|numeric|between:01,12',
+                        'year' => "required|numeric|between:$minYear,$year",
                         'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'email' => 'required|max:255|email',
@@ -739,14 +743,17 @@ class EnApiAppsController extends Controller
         }
         $need_images = Service::select('need_images', 'qty_images')->find($request->service);
         $patient = Patient::where('email', $request->email)->first();
-
+        $minYear = date("Y") - 100;
+        $year = date("Y");
         if (!$patient) {
             $validator0 = Validator::make($request->all(), [
                 'treatmentBefore' => 'required|boolean',
                 'name' => 'required|string',
                 'sex' => 'required|string|',
                 'age' => 'required|numeric|between:18,99',
-                'dob' => 'required|date',
+                'day' => 'required|numeric|between:01,31',
+                'month' => 'required|numeric|between:01,12',
+                'year' => "required|numeric|between:$minYear,$year",
                 'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email',
@@ -1187,13 +1194,16 @@ class EnApiAppsController extends Controller
         }
         
         $unHashPassword = Str::random(8);
+        $dob = date($request->month."/".$request->day."/".$request->year);
+        $car = Carbon::createFromFormat('m/d/Y', $dob)->format('Y-m-d');
+
         if (!$patient) {
             $patient = new Patient;
             $patient->treatmentBefore = $request->treatmentBefore;
             $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
-            $patient->dob = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
+            $patient->dob = Carbon::createFromFormat('m/d/Y', $dob)->format('Y-m-d');
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
@@ -1420,34 +1430,6 @@ class EnApiAppsController extends Controller
         }
 
 
-        /**
-         * Description
-         *
-         * Check if partner exist
-         *
-         */
-
-        // $partnerExist = Partner::where('code', $partnerCode)->first();
-        // if (!$partnerExist) {
-        //     return response()->json([
-        //         'success' => false,
-        //         "go" => '0',
-        //         "reload" => true,
-        //         "icon" => 'error',
-        //         "msg" => "Undefined error"
-        //     ]);
-        // }
-        // $partnerExist = Partner::where('code', $code)->first();
-        // if (!$partnerExist) {
-        //     return response()->json([
-        //         'success' => false,
-        //         "go" => '0',
-        //         "reload" => true,
-        //         "icon" => 'error',
-        //         "msg" => "Undefined error"
-        //     ]);
-        // }
-
         if ($app->save()) {
             $insert_medications = [];
             $insert_surgeries = [];
@@ -1512,14 +1494,6 @@ class EnApiAppsController extends Controller
                 'code' => $hormone_cadena[$i]['code'],
                 ];
             }
-
-            // $partnerAttach = array(
-            //     "application_id" => $app->id,
-            //     "partner_id" => $partnerExist->id,
-            //     "code" => getCode()
-            // );
-
-            //$app->partners()->attach([$partnerAttach]);
 
             $app->medications()->delete();
             MedicationApplication::insert($insert_medications);
@@ -1690,6 +1664,7 @@ class EnApiAppsController extends Controller
                 ->send(
                     new NewAppEmail($data)
                 );
+                sleep(3);
             }
             Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 

@@ -118,7 +118,7 @@
                         </ul>
                     </li>
                 @endif
-
+                @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))    
                 <li class="nav-item master-menu">
                     <a href="javascript:;" class="nav-link nav-toggle">
                         <i class="material-icons">settings</i>
@@ -160,32 +160,44 @@
                                 @endcan
                             </ul>
                         </li>
-                        @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                        @endif
                         
+                    </ul>
+                </li>
+                @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                    <li class="nav-item master-menu">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <i class="material-icons">settings</i>
+                            <span class="title">App config</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link nav-toggle">
-                                    <i class="fa fa-cogs"></i> Roles & Permissions
+                                    <i class="fa fa-product-hunt"></i> App Confg
                                     <span class="arrow"></span>
                                 </a>
                                 <ul class="sub-menu">
-                                    @can('roles.list')
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="ml-3"></i> Roles</a>
-                                        </li>
-                                    @endcan
-                                    @can('permission.list')
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">
-                                                <i class="ml-3"></i> Permissions</a>
-                                        </li>
-                                    @endcan
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.roles.roles') }}" class="nav-link">
+                                            <i class="ml-3"></i> Roles
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.permissions.permissions') }}" class="nav-link">
+                                            <i class="ml-3"></i> Permisos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.specialty.specialties') }}" class="nav-link">
+                                            <i class="ml-3"></i> Specialidades
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
-                        @endif
-                    </ul>
-                </li>
-                 @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
+                        </ul>
+                    </li>
+                @endif
+                {{-- @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
                     <li class="nav-item master-menu">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="material-icons">settings</i>
@@ -218,16 +230,16 @@
                                             <i class="ml-3"></i> FAQ's
                                          </a>
                                     </li>
-                                    {{-- <li class="nav-item">
+                                    <li class="nav-item">
                                         <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
                                             <i class="ml-3"></i> Packages
                                          </a>
-                                    </li> --}}
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
-                @endif
+                @endif --}}
             </ul>
         </div>
     </div>
