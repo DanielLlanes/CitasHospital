@@ -217,8 +217,8 @@ class PermissionsController extends Controller
                 $dios->givePermissionTo($permisionsAll);
                 $permisionsOthers = Permission::where('show', 1)->get();
 
-                $superAdmin = Role::where('name', 'super-administrator');
-                $admin = Role::where('name', 'administrator');
+                $superAdmin = Role::where('name', 'super-administrator')->first();
+                $admin = Role::where('name', 'administrator')->first();
 
                 $superAdmin->givePermissionTo($permisionsOthers);
                 $admin->givePermissionTo($permisionsOthers);
