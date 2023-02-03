@@ -84,7 +84,7 @@ class PermissionsController extends Controller
 
         //return $request;
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:roles,name',
             'group_es' => 'required|string',
             'group_en' => 'required|string',
             'description_en' => 'required|string',
@@ -185,7 +185,7 @@ class PermissionsController extends Controller
         
         if ($permissions) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
+                'name' => 'required|string|unique:roles,name'.$request->id,
                 'group_es' => 'required|string',
                 'group_en' => 'required|string',
                 'description_en' => 'required|string',

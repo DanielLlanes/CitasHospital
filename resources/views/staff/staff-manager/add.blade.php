@@ -212,7 +212,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="color" value="{{ old('color') }}" class="form-control input-height" name="color">
+                                <input autocomplete="off" id='color' type="color" value="{{ old('color') }}" class="form-control input-height" name="color">
                                 @error('color')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
@@ -472,6 +472,17 @@
             $assing += '</div>'
             $('.assignable_area_div').append($assing);
         }
+
+        const setColor = () => {
+            const randomColor = Math.floor(Math.random()*16777215).toString(16);
+            document.body.style.backgroundColor = "#" + randomColor;
+            color.innerHTML = "#" + randomColor;
+            document.getElementById("color").value = "#" + randomColor;
+            console.log("#" + randomColor)
+        }
+
+        //genNew.addEventListener("click", setBg);
+        setColor();
 
     </script>
     @if ($errors->any())
