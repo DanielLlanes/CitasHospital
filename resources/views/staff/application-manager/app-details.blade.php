@@ -89,6 +89,7 @@
                                     <p id="current-status-p">{!!  getStatus($appInfo->statusOne->status->name, $appInfo->statusOne->status->color) !!}</p>
                                 </div>
                                     @can('applications.approbe')
+                                    hola
                                         <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                             <br>
                                             <div class="d-flex justify-content-between">
