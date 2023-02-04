@@ -123,11 +123,11 @@ class PermissionsController extends Controller
 
             $superAdmin->givePermissionTo($permisionsOthers);
             $admin->givePermissionTo($permisionsOthers);
-            
+            app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
             return response()->json(
                 [
                     'icon' => 'success',
-                    'msg' => Lang::get('New role was successfully created!'),
+                    'msg' => Lang::get('New permissions was successfully created!'),
                     'reload' => true
                 ]
             );
@@ -136,7 +136,7 @@ class PermissionsController extends Controller
         return response()->json(
             [
                 'icon' => 'error',
-                'msg' => Lang::get('We couldn’t create the role please try again!'),
+                'msg' => Lang::get('We couldn’t create the permission please try again!'),
                 'reload' => false
             ]
         );
@@ -222,6 +222,8 @@ class PermissionsController extends Controller
 
                 $superAdmin->givePermissionTo($permisionsOthers);
                 $admin->givePermissionTo($permisionsOthers);
+
+                app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
                 return response()->json(
                     [
                         'icon' => 'success',
