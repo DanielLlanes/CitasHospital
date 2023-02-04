@@ -151,7 +151,7 @@
                                     <a class="nav-link" href="#timeLine" data-toggle="tab">Linea de tiempo </a>
                                 </li>
                             @endcan
-                            @can('applications.logisticNotes')
+                            @can('applications.logisticnotes')
                                 <li class="nav-item tab-all p-l-20">
                                     <a class="nav-link" href="#logisticsNotes" data-toggle="tab">Notas de logística</a>
                                 </li>
