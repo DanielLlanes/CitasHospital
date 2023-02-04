@@ -83,12 +83,6 @@
                                 </div>
                             </div>
                             <hr>
-                            @can('applications.approve')
-                                can
-                            @endcan
-                            @cannot('applications.approbe')
-                                can not
-                            @endcannot
                             <div class="row">
                                 <div class="col-12 mb-2 text-center" id="current-status-area-div"> <strong>Current Status</strong>
                                     <br>
