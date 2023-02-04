@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <hr>
-                            @can('applications.approbe')
+                            @can('applications.approve')
                                 can
                             @endcan
                             @cannot('applications.approbe')
