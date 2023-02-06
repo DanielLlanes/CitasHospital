@@ -2030,7 +2030,7 @@
                     <img src="${baseURL}${$avatar}" alt="" />
                 </div>
                 <div class="activity-desk">
-                    <h5><a href="#">${data.staff.name}</a> ${ data.id } <span id="countImages"></span></h5><small></smal>
+                    <h5><a href="#">${data.staff.name}</a> <span id="countImages"></span></h5><small></smal>
                     <p class="text-muted">${$time}</p>
                     <div class="activity-desk ml-0">
                         <h5><span>${$message}</span></h5>
@@ -2044,7 +2044,8 @@
             </li>
         `
         
-        if (mode == 'prepend') {$('.post-timeline-view').prepend($post)} else {$('.post-timeline-view').append($post)}
+        if (mode == 'prepend') {$('.post-timeline-view').prepend($post)} 
+        else {$('.post-timeline-view').append($post)}
 
         if (data.image_many !== null) {
             $countImages = data.image_many.length
