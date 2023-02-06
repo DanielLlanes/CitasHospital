@@ -552,7 +552,7 @@ class StaffController extends Controller
     }
     public function update(Request $request, $id)
     {
-        return $request;
+        //return $request;
         if (!Auth::guard('staff')->user()->can('admin.edit') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
@@ -584,6 +584,7 @@ class StaffController extends Controller
             }
         }
 
+        //return ($assingnamentCheck > 0) ? 'array':'no array';
 
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
@@ -608,6 +609,7 @@ class StaffController extends Controller
             [
                 ($assingnamentCheck > 0) ? 'array':'',
                 ($assingnamentCheck > 0) ? 'min:1':'',
+                ($assingnamentCheck > 0) ? 'required':'',
             ],
             "assigned_to.*" =>
             [
@@ -616,7 +618,7 @@ class StaffController extends Controller
                 ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
-
+        //return $validated;
         $admin = "admins";
 
         $is_admin = role::findOrFail($request->role);

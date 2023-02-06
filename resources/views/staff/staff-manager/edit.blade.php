@@ -167,10 +167,10 @@
                             </label>
                             <div class="col-md-5" id="specialtiesArea">
                                 <div class="col-12">
-                                    <div class="checkbox checkbox-icon-red form-check form-check-inline">
+                                    {{-- <div class="checkbox checkbox-icon-red form-check form-check-inline">
                                         <input id="checkbox-selectAll" class="form-check-input" type="checkbox">
                                         <label for="checkbox-selectAll" class="form-check-label" style="font-size: 12px">@lang("Select All")</label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -305,24 +305,24 @@
         //     }
         // })
 
-        $(document).on('submit','form#add-staff',function(){
-           var cont = 0;
-           var assignableArray = [];
-           var checkboxs = $(".specialtyCheckbox");
-            for (var x=0; x < checkboxs.length; x++) {
-                if (checkboxs[x].checked) {
-                    cont = checkboxs[x].getAttribute("assignable");
-                    if (checkboxs[x].getAttribute("assignable") > 0) {
-                        assignableArray.push(checkboxs[x].getAttribute("assignable"))
-                    }
-                }
-            }
+        // $(document).on('submit','form#add-staff',function(){
+        //    var cont = 0;
+        //    var assignableArray = [];
+        //    var checkboxs = $(".specialtyCheckbox");
+        //     for (var x=0; x < checkboxs.length; x++) {
+        //         if (checkboxs[x].checked) {
+        //             cont = checkboxs[x].getAttribute("assignable");
+        //             if (checkboxs[x].getAttribute("assignable") > 0) {
+        //                 assignableArray.push(checkboxs[x].getAttribute("assignable"))
+        //             }
+        //         }
+        //     }
 
-            if (assignableArray.length == 0) {
-                $('.assignable_area').hide('fast')
-                $('.assignable_area_div').hide('fast').html('');
-            }
-        });
+        //     if (assignableArray.length == 0) {
+        //         $('.assignable_area').hide('fast')
+        //         $('.assignable_area_div').hide('fast').html('');
+        //     }
+        // });
     </script>
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
     <script type="text/javascript">
@@ -348,106 +348,7 @@
         });
         getSpecialty({{ $staff->roles[0]->id }})
 
-        function getSpecialty(id, flag = false)
-        {
-            var form_data = new FormData();
-            var assignableArray = [];
-            form_data.append('id', id);
-            $.ajax({
-                url: globalRouteGetSpecialty,
-                method:"POST",
-                data:form_data,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function()
-                {
-                    $("#specialtiesArea .col-12").remove();
-                },
-                success:function(data)
-                {
-                    console.log("data", data);
-                    if (data.reload) {
-                        Toast.fire({
-                            icon: data.icon,
-                            title: data.msg
-                        })
-                        location.reload(true);
-                    } else {
-                        var selected = '';
-                        var one = false;
-                        if (data.data.length == 1) {
-                            selected = 'checked'
-                            one = true;
-                            // if (data.data[0].assignable == 1) {
-                            //     $('.assignable_area').show('fast')
-                            //     $('.assignable_area_div').show('fast').html('');
-                            //     add_asiggnable()
-                            // } else {
-                            //     $('.assignable_area').hide('fast')
-                            //     $('.assignable_area_div').hide('fast').html('');
-                            //     //add_asiggnable()
-                            // }
-                        }
-                        var assignables = [];
-                        $.each(data.data, function(index, val) {
-                            var  ckhbx = '<div class="col-12">';
-                                 ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
-                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
-                                 ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
-                                 ckhbx += '</div">';
-                                 ckhbx += '</div">';
-
-                                 var rdobtn = ` 
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input radioSpecialties" ${selected} type="radio" assignable="${val.assignable}" name="specialties[]" id="flexRadio-${val.id}" style="font-size: 12px" value="${val.id}">
-                                        <label class="form-check-label" for="flexRadio-${val.id}">
-                                            ${val.name}
-                                        </label>
-                                    </div>
-                                </div">
-                            `;
-                            
-                            if (val.assignable) {
-                                assignableArray.push(val.assignable)
-                            }
-                            //$('#specialtiesArea').append(ckhbx);
-                            $('#specialtiesArea').append(rdobtn);
-                        });
-
-                        var radios = $(".radioSpecialties");
-
-                        $('#specialyiesRow').show('fast');
-                        var checkboxs = $('#specialtiesArea').find($('.specialtyCheckbox'));
-                        if (typeof array !== 'undefined') {
-                            $.each(array, function(index, val) {
-                                $('#flexRadio-'+val.id).prop("checked", true)
-                            });
-                        }
-
-
-                        var radio = document.getElementsByClassName('radioSpecialties')
-                        for (i = 0; i < radio.length; i++) {
-                            isChecked = radio[i].checked;
-                            if (isChecked) {
-                                isAssignable = radio[i].getAttribute('assignable');
-                                if (isAssignable == 1) {
-                                    $('.assignable_area').show('fast')
-                                    $('.assignable_area_div').show('fast');
-                                    if (flag) {add_asiggnable()}
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                },
-            })
-        }
+        
         $(document).on('change', '.radioSpecialties', function () {
             var isChecked = $(this).is(':checked');
             if (isChecked) {
@@ -495,6 +396,110 @@
             $assing += '</div>'
             $assing += '</div>'
             $('.assignable_area_div').append($assing);
+        }
+        function getSpecialty(id, flag = false)
+        {
+            console.log('este', id);
+            var form_data = new FormData();
+            var assignableArray = [];
+            form_data.append('id', id);
+            $.ajax({
+                url: globalRouteGetSpecialty,
+                method:"POST",
+                data:form_data,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function()
+                {
+                    $("#specialtiesArea .col-12").remove();
+                },
+                success:function(data)
+                {
+                    console.log("data", data);
+                    if (data.reload) {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        location.reload(true);
+                    } else {
+                        var selected = '';
+                        var one = false;
+                        if (data.data.length == 1) {
+                            selected = 'checked'
+                            one = true;
+                            if (flag) {
+                                if (data.data[0].assignable == 1) {
+                                    $('.assignable_area').show('fast')
+                                    $('.assignable_area_div').show('fast').html('');
+                                    add_asiggnable()
+                                } else {
+                                    $('.assignable_area').hide('fast')
+                                    $('.assignable_area_div').hide('fast').html('');
+                                    //add_asiggnable()
+                                }
+                            }
+                            
+                        }
+                        var assignables = [];
+                        $.each(data.data, function(index, val) {
+                            var  ckhbx = '<div class="col-12">';
+                                 ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
+                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
+                                 ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
+                                 ckhbx += '</div">';
+                                 ckhbx += '</div">';
+
+                                 var rdobtn = ` 
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input radioSpecialties" ${selected} type="radio" assignable="${val.assignable}" name="specialties[]" id="flexRadio-${val.id}" style="font-size: 12px" value="${val.id}">
+                                            <label class="form-check-label" for="flexRadio-${val.id}">
+                                                ${val.name}
+                                            </label>
+                                        </div>
+                                    </div">
+                                `;
+                            
+                            if (val.assignable) {
+                                assignableArray.push(val.assignable)
+                            }
+                            //$('#specialtiesArea').append(ckhbx);
+                            $('#specialtiesArea').append(rdobtn);
+                        });
+
+                        var radios = $(".radioSpecialties");
+
+                        $('#specialyiesRow').show('fast');
+                        var checkboxs = $('#specialtiesArea').find($('.specialtyCheckbox'));
+                        if (typeof array !== 'undefined') {
+                            $.each(array, function(index, val) {
+                                $('#flexRadio-'+val.id).prop("checked", true)
+                            });
+                        }
+
+
+                        var radio = document.getElementsByClassName('radioSpecialties')
+                        for (i = 0; i < radio.length; i++) {
+                            isChecked = radio[i].checked;
+                            if (isChecked) {
+                                isAssignable = radio[i].getAttribute('assignable');
+                                if (isAssignable == 1) {
+                                    $('.assignable_area').show('fast')
+                                    $('.assignable_area_div').show('fast');
+                                    if (flag) {add_asiggnable()}
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                },
+            })
         }
     </script>
 @endsection

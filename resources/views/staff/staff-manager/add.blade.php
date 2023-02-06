@@ -538,9 +538,9 @@
                                 one = true;
                                 $("#checkbox-selectAll").prop("checked", 'checked');
                                 if (data.data[0].assignable == 1) {
-                                $('.assignable_area').show('fast')
-                                $('.assignable_area_div').show('fast').html('');
-                                add_asiggnable()
+                                    $('.assignable_area').show('fast')
+                                    $('.assignable_area_div').show('fast').html('');
+                                    add_asiggnable()
                                 } else {
                                     $('.assignable_area').hide('fast')
                                     $('.assignable_area_div').hide('fast').html('');
