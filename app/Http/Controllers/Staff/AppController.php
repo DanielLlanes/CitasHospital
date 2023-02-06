@@ -52,7 +52,7 @@ class AppController extends Controller
      */
     public function index()
     {
-        $lang = 'es';
+        $lang = Auth::guard('staff')->user()->lang;
         $apps = Application::with(
             [
                 'statusOne' => function ($q) use ($lang) {
@@ -99,7 +99,7 @@ class AppController extends Controller
         )
         ->where('is_complete', true)
         ->get();
-
+        
 
         foreach ($apps as $key => $app) {
             $app->price = (!is_null($app->treatment->price)) ? $app->treatment->price:$app->price;
@@ -830,6 +830,8 @@ class AppController extends Controller
 
     public function getNewStaff(Request $request)
     {
+
+        //return $request;
         $search = $request->search;
         $specialty = $request->specialty;
 
@@ -861,6 +863,25 @@ class AppController extends Controller
         ->findOrFail($request->app);
 
         $treatment = $applications->treatment;
+
+
+
+        $staff = Staff::orderby('name', 'asc')->select('id', 'name')->limit(5)
+        ->whereHas(
+            'specialties',
+            function ($q) use ($lang, $specialty) {
+                $q->where("specialties.name_$lang", $specialty);
+            },
+        )
+        ->whereHas(
+            'assignToService',
+            function ($q) use ($treatment) {
+                $q->where("services.id", $treatment->service->id);
+            }
+        )
+        ->get();
+
+        return $staff;
 
         if ($search == '') {
             $staff = Staff::orderby('name', 'asc')->select('id', 'name')->limit(5)
@@ -894,7 +915,7 @@ class AppController extends Controller
             )
             ->get();
         }
-
+        return $staff;
         return ($staff);
     }
 

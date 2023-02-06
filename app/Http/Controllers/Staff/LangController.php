@@ -17,14 +17,16 @@ class LangController extends Controller
     }
     public function language(Request $request, $lang)
     {
+
         if ($lang == "en" || $lang == "es") {
             if (Auth::guard('staff')->check()) {
                 $staff = Staff::findOrFail(Auth::guard('staff')->user()->id);
                 if ($lang != $staff->lang) {
                     $staff->lang = $lang;
                     $staff->save();
+                    app()->setLocale($lang);
                     session()->put('locale', $lang);
-                    app()->setLocale(session('locale'));
+                    //app()->setLocale(session('locale'));
                     return redirect()->back();
                 }
             }
