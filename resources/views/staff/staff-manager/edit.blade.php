@@ -43,6 +43,7 @@
                     </ul>
                 </div>
             @endif
+
             <div class="card-body" id="bar-parent">
                 <form method="POST" action="{{ route('staff.staff.update', $staff->id) }}" id="add-staff" class="form-horizontal" enctype="multipart/form-data">
                     @csrf
@@ -182,7 +183,15 @@
                                         </label>
                                         <div class="col-md-5">
                                             <div class="input-group">
-                                                <input autocomplete="off" list="valAutocomplete" type="text" onclick="this.setSelectionRange(0, this.value.length)" name="assigned_to[]" value="{{ $staff->assignToService[$i]->atsName }}" data-required="1" placeholder="@lang("Assigned To")" class="form-control input-height" />
+                                                <input autocomplete="off" 
+                                                list="valAutocomplete" 
+                                                type="text" 
+                                                onclick="this.setSelectionRange(0, this.value.length)" 
+                                                name="assigned_to[]" 
+                                                value="{{ $staff->assignToService[$i]->atsName }}" 
+                                                data-required="1" 
+                                                placeholder="@lang("Assigned To")" 
+                                                class="form-control input-height" />
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-danger btn-flat btn-remove-assign">
                                                         <i class="material-icons f-left" style="">remove_circle</i>
@@ -190,7 +199,7 @@
                                                 </span>
                                             </div>
                                             @error('assigned_to.'.$i)
-                                                <span class="help-block text-danger">{{ $message }}</span>
+                                            <span class="help-block text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
@@ -361,7 +370,7 @@
                 },
                 success:function(data)
                 {
-                console.log("data", data);
+                    console.log("data", data);
                     if (data.reload) {
                         Toast.fire({
                             icon: data.icon,
@@ -374,6 +383,15 @@
                         if (data.data.length == 1) {
                             selected = 'checked'
                             one = true;
+                            // if (data.data[0].assignable == 1) {
+                            //     $('.assignable_area').show('fast')
+                            //     $('.assignable_area_div').show('fast').html('');
+                            //     add_asiggnable()
+                            // } else {
+                            //     $('.assignable_area').hide('fast')
+                            //     $('.assignable_area_div').hide('fast').html('');
+                            //     //add_asiggnable()
+                            // }
                         }
                         var assignables = [];
                         $.each(data.data, function(index, val) {

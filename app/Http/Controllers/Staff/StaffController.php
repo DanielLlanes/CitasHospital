@@ -309,7 +309,7 @@ class StaffController extends Controller
                 }
             }
         }
-        //return $assingnamentCheck;
+        //return ($assingnamentCheck > 0) ? 'array':'no';
         if (!Auth::guard('staff')->user()->can('admin.create') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
@@ -552,7 +552,7 @@ class StaffController extends Controller
     }
     public function update(Request $request, $id)
     {
-        //return $request;
+        return $request;
         if (!Auth::guard('staff')->user()->can('admin.edit') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }

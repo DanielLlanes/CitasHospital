@@ -372,7 +372,16 @@
                         if (data.data.length == 1) {
                             selected = 'checked'
                             one = true;
-                           $("#checkbox-selectAll").prop("checked", 'checked');
+                            $("#checkbox-selectAll").prop("checked", 'checked');
+                            if (data.data[0].assignable == 1) {
+                            $('.assignable_area').show('fast')
+                            $('.assignable_area_div').show('fast').html('');
+                            add_asiggnable()
+                            } else {
+                                $('.assignable_area').hide('fast')
+                                $('.assignable_area_div').hide('fast').html('');
+                                //add_asiggnable()
+                            }
                         }
                         var assignables = [];
                         $.each(data.data, function(index, val) {
@@ -426,9 +435,6 @@
                 }
             }
         });
-        
-        
-
         $(document).on('change', '#role', function(event) {
             event.preventDefault();
             var id = $( "#role option:selected" ).val()
@@ -491,6 +497,7 @@
             @if (old('specialties'))
                 var array = {!!json_encode(old('specialties'))!!};
             @endif
+            console.log(array);
             getSpecialty({{ old('role') }})
             function getSpecialty(id)
             {
@@ -513,6 +520,7 @@
                     },
                     success:function(data)
                     {
+                        console.log(data);
                         if (data.reload) {
                             Toast.fire({
                                 icon: data.icon,
@@ -525,21 +533,49 @@
                             if (data.data.length == 1) {
                                 selected = 'checked'
                                 one = true;
+                                if (data.data.length == 1) {
+                                selected = 'checked'
+                                one = true;
+                                $("#checkbox-selectAll").prop("checked", 'checked');
+                                if (data.data[0].assignable == 1) {
+                                $('.assignable_area').show('fast')
+                                $('.assignable_area_div').show('fast').html('');
+                                add_asiggnable()
+                                } else {
+                                    $('.assignable_area').hide('fast')
+                                    $('.assignable_area_div').hide('fast').html('');
+                                    //add_asiggnable()
+                                }
+                            }
                             }
                             var assignables = [];
                             $.each(data.data, function(index, val) {
-                                var  ckhbx = '<div class="col-12">';
-                                     ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
-                                     ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'"  name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
-                                     ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
-                                     ckhbx += '</div">';
-                                     ckhbx += '</div">';
+                            var  ckhbx = '<div class="col-12">';
+                                 ckhbx += '<div class="checkbox checkbox-icon-red form-check form-check-inline">';
+                                 ckhbx += '<input id="checkbox-'+val.id+'" '+selected+' assignable="'+val.assignable+'" name="specialties[]" class="form-check-input specialtyCheckbox" type="checkbox" value="'+val.id+'">';
+                                 ckhbx += '<label for="checkbox-'+val.id+'" class="form-check-label" style="font-size: 12px">'+val.name+'</label>';
+                                 ckhbx += '</div">';
+                                 ckhbx += '</div">';
 
-                                if (val.assignable) {
-                                    assignableArray.push(val.assignable)
-                                }
-                                $('#specialtiesArea').append(ckhbx);
-                            });
+                            var rdobtn = ` 
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input radioSpecialties" ${selected} type="radio" assignable="${val.assignable}" name="specialties[]" id="flexRadio-${val.id}" style="font-size: 12px" value="${val.id}">
+                                        <label class="form-check-label" for="flexRadio-${val.id}">
+                                            ${val.name}
+                                        </label>
+                                    </div>
+                                </div">
+                            `;
+
+                            if (val.assignable) {
+                                assignableArray.push(val.assignable)
+                            }
+                            //$('#specialtiesArea').append(ckhbx);
+                            $('#specialtiesArea').append(rdobtn);
+                        });
+
+                        $('#specialyiesRow').show('fast');
 
                             $('#specialyiesRow').show('fast');
                             var checkboxs = $('#specialtiesArea').find($('.specialtyCheckbox'));

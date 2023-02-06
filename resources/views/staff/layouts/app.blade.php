@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 @php 
-    $lang = \App::setLocale(Auth::guard('staff')->user()->lang);
+    $locale = Auth::guard('staff')->user()->lang;
+    $lang = \App::setLocale($locale);
     $noCache = '?'.md5(time());
-    //$noCache = '';
+    session()->put('locale', $locale);
 @endphp
-<html lang="{{ str_replace('_', '-', $lang) }}">
+<html lang="{{ str_replace('_', '-', $locale) }}">
 
 <head>
     <meta charset="utf-8" />
