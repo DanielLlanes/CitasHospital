@@ -1756,7 +1756,7 @@
     
     function getTimeLinePost() {
         let $offset = $('.tl-card').length;
-        let $limit = 10;
+        let $limit = 5;
         let $formData = new FormData();
         $formData.append('app', app_id)
         $formData.append('offset', $offset)
@@ -1826,9 +1826,9 @@
             //     break;
             // }
 
-            $template = ` <div class="col-3 divArea">
+            $template = ` <div class="col-3 divArea" style="height: 100%">
                                 <div class="card">
-                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
+                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="100%" style="border: calc(0.25rem - 1px)">
                                 </div>
                             </div>`
             $('.dropArea').append($template);   
@@ -2016,6 +2016,7 @@
     function send_notification($data) {
     }
     function addNewTimeLinePost(data, mode) {
+        console.log(data)
         let $avatar = 'staffFiles/assets/img/user/user.jpg';
         let $countImages = '';
         if (data.staff.image_one !== null) {
@@ -2046,11 +2047,13 @@
         
         if (mode == 'prepend') {$('.post-timeline-view').prepend($post)} 
         else {$('.post-timeline-view').append($post)}
-
-        if (data.image_many !== null) {
-            $countImages = data.image_many.length
+        
+        $countImages = data.image_many.length
+            console.log('count -> ', $countImages);
+        if (data.image_many.length > 0) {
+            
             for (var i = 0; i < data.image_many.length; i++) {
-                $countImages = 'Agrego'+ ' ' + data.image_many.length +  ' ' + 'imagenes'
+                $countImages = 'Agrego'+ ' ' + data.image_many.length +  'xx ' + 'imagenes'
                 $('#countImages').html($countImages); 
                 let $images = `
                     <a href="#">
@@ -2062,8 +2065,8 @@
             }
         }
         $('.dropArea').remove();
-        $('#images-input').empty();
-        $("#images-input").val('');
+        var file = document.getElementById('images-input');
+        file.value = '';
         $('#post-area-timeline').val('');
         $('#timeline-modal').modal('hide')
     }
@@ -2699,7 +2702,6 @@
             $('#accepted-procedure-select').parents('.col-md-12').find('.help-block').html('Please select procedure')
         }
     });
-
     $(document).on('click', '.data-status-select',function (event) {
         //const ele = this.getElementsByClassName('data-status-select')
         console.log(event);
@@ -2720,7 +2722,6 @@
             $(this).prop('checked', false);
         });
     });
-
     $(document).on('change', "#recommended-procedure-checkbox", function () {
         if ($(this).is(":checked")) {
             var btn = ""
@@ -2888,13 +2889,18 @@
             height: 250,
             toolbar: false,
             disableResizeEditor: true,
-           disableDragAndDrop:true,
-        })
+            disableDragAndDrop:true,
+    })
+
     $('#timeline-modal').on('hidden.bs.modal', function (e) {
         $('.dropArea').remove();
-        $('#images-input').empty();
-        $("#images-input").val('');
+        var file = document.getElementById('images-input');
+        file.value = '';
+        file.removeAttribute('value');
+        file.parentNode.replaceChild(file.cloneNode(true),file);
         $('.post-area-timeline').summernote('reset');
+        var inputfile= $('#images-input');
+        inputfile.replaceWith(inputfile.val('').clone(true));
     })
 
     socket.on('sendChangeAppProcedureToClient', (response) =>  {

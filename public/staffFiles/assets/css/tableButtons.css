@@ -185,3 +185,12 @@ table.table td p{
      border: 0px solid #aaa; 
     border-radius: 4px;
 }
+
+.activity-desk .album a {
+    float: left;
+    margin-right: 10px;
+    width: 170px;
+    height: 100%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}

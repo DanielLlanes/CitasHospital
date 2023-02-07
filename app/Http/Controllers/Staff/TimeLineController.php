@@ -57,7 +57,7 @@ class TimeLineController extends Controller
         if ($flag) {
             $timeLine = new TimeLine;
             $timeLine->application_id = $request->app;
-            $timeLine->staff_id = \Auth::guard('staff')->user()->id;
+            $timeLine->staff_id = Auth::guard('staff')->user()->id;
             $timeLine->message = $request->message;
             $timeLine->code = getCode();
         }

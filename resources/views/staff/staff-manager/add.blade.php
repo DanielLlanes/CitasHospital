@@ -406,8 +406,8 @@
                             if (val.assignable) {
                                 assignableArray.push(val.assignable)
                             }
-                            //$('#specialtiesArea').append(ckhbx);
-                            $('#specialtiesArea').append(rdobtn);
+                            $('#specialtiesArea').append(ckhbx);
+                            //$('#specialtiesArea').append(rdobtn);
                         });
 
                         $('#specialyiesRow').show('fast');
