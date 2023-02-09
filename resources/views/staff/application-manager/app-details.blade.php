@@ -1540,7 +1540,7 @@
     </div>
 </div>
 <div id="timeline-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable" id="scroll">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Agregar notas</h4>
@@ -1556,40 +1556,41 @@
                         #imagen-dropyfy {
                             border-radius: 10px;
                             width: 100%;
-                            height: 250px;
+                            min-height: 250px;
+                            height: auto;
                             border: .5px solid;
                             border-color: #eee;
                             position: relative;
-                            overflow-y: scroll;
+                            overflow-y: hidden;
+                            overflow-x: hidden;
                         }
                         #images-input {
-                            height: inherit;
-                            width: inherit;
-                            opacity: 0;
-                            z-index: 10060;
+                            opacity: 0; 
                             position: absolute;
+                            left: 0px;    
+                            width: 100%;
+                            top: 0px;
+                            height: 100%;
                         }
                          .cleck-test {
                             position: absolute;
                             top: 50%;
-                            left: 0;
-                            right: 0;
-                            bottom: 0;
-                            text-align: center;
-                            z-index: 10055;
-                            font-size: 1rem;
-                            font-weight: 600;
-                            color: #000!important;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
                         }
-
                         .note-editor .note-dropzone { opacity: 1 !important; }
                     </style>
+                        {{-- <small class="small text-muted cleck-test">has click para agregar imagenes</small>    
+                        <input type="file" name="image-timeline-upload[]" id="images-input" multiple> --}}
                     <div class="form-group droparea">
                         <label for="message-text" class="control-label">Imagenes</label>
-                        <br>
                         <div class="imagen-dropyfy" id="imagen-dropyfy">
-                            <small class="small text-muted cleck-test">has click para agrgar imagenes</small>    
-                            <input type="file" name="image-timeline-upload[]" id="images-input" multiple>
+                            
+                            <div class="" id="imgs-grid">
+                                <small class="small text-muted cleck-test">has click para agregar imagenes</small>    
+                                <input type="file" name="image-timeline-upload[]" id="images-input" multiple>
+                            </div>
+                            
                         </div>
                     </div>
                 </form>
@@ -1643,6 +1644,7 @@
 @endif
 <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('staffFiles/assets/plugins/autosize-master/dist/autosize.min.js') }}"></script>
 
 <script>
     var itemContainer = $(".nice-chat");
@@ -1753,7 +1755,9 @@
     })
     var $myArr = [];
     var $viewArr = [];
-    
+    var imagesArray = [];
+    var $divimages = [];
+    var $altura_arr = [];
     function getTimeLinePost() {
         let $offset = $('.tl-card').length;
         let $limit = 5;
@@ -1799,13 +1803,7 @@
                 $viewArr.push(URL.createObjectURL(img));
             }
         });       
-       setUploadGrid($viewArr);
-        return
-        $('#imagen-dropyfy').imagesGrid({
-            images: $viewArr,
-            align: true,
-            upload: true,
-        });
+        setUploadGrid($viewArr);
     }
     function setUploadGrid($viewArr) {
         var $imagesArr = $viewArr,
@@ -1817,7 +1815,7 @@
         $element.removeClass().addClass('imagen-dropyfy imgs-grid imgs-grid-' + $imagesGridCount);
 
 
-        let $divimages = [];
+        //let $divimages = [];
         $addRow = `<div class="row dropArea"></div>`;
         $('.dropArea').remove();
         $element.append($addRow);
@@ -1826,9 +1824,10 @@
             //     break;
             // }
 
-            $template = ` <div class="col-3 divArea" style="height: 100%">
+            $template = ` <div class="col-3 divArea">
+                <span onclick="deleteImage(${i})">&times; delete</span>
                                 <div class="card">
-                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="100%" style="border: calc(0.25rem - 1px)">
+                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
                                 </div>
                             </div>`
             $('.dropArea').append($template);   
@@ -1859,7 +1858,7 @@
         }
     }
     function getImgHeith(items) {
-        var $altura_arr = [];
+        //var $altura_arr = [];
         $.each(items, function(i, val) {
             $q = $(this).find('img')
             let $img = new Image()
@@ -1873,7 +1872,7 @@
         });
     }
     function outherImg($altura_arr, items){
-        altura_arr = [];
+        
         $(items).each(function() {
             var items = $(this),
                 imgWraps = items.find('.image-wrap'),
@@ -2126,12 +2125,103 @@
     function hideAcdeptedBtn(){
         if(!hideAcdeptedBtnLet){$('#status-accepted-button').remove();}
     }
+    function clearArrayImages(){
+        $myArr = [];
+        $viewArr = [];
+        imagesArray = [];
+        $divimages = [];
+        $altura_arr = [];
+        $('.imgs-grid-image').remove();
+        console.log(imagesArray);
+    }
+    function deleteImage(index) {
+        imagesArray.splice(index, 1)
+        displayImages()
+    }
+    var input = document.getElementById('images-input')
+    var output = document.getElementById('imagen-dropyfy')
+    // input.addEventListener("change", () => {
+    //     console.log(document.getElementById("imgs-grid").offsetWidth)
+    //     console.log(document.getElementById("imgs-grid").clientWidth)
+    //     $('.imgs-grid-images').remove()
+    //     const files = input.files
+    //     for (let i = 0; i < files.length; i++) {
+    //         imagesArray.push(files[i])
+    //         console.log(imagesArray);
+    //     }
+    //     console.log(imagesArray.length);
+
+    //     setUploadGrid()
+    // })
+    // $(document).on("change", '#images-input', function () {
+    //     const files = input.files
+    //     for (let i = 0; i < files.length; i++) {
+    //         imagesArray.push(files[i])
+    //         console.log(i);
+    //     }
+    //     setUploadGrid()
+    //     console.log(imagesArray.length);
+    // });
+    // function setUploadGrid($viewArr) {
+    //     console.log(imagesArray.length);
+    //     imagesArray.forEach((image, index) => {
+    //         let $imgs_grid_image = document.createElement("div");
+    //         let currentDiv = document.getElementById("imgs-grid");
+    //         let $image_wrap = document.createElement("div");
+    //         $imgs_grid_image.classList.add('imgs-grid-images');
+    //         $image_wrap.classList.add('image_wraps');
+    //         currentDiv.appendChild($imgs_grid_image);
+    //         $imgs_grid_image.appendChild($image_wrap);
+    //     })
+    //     displayImages()
+    // }
+    // function displayImages() {
+    //     let images = ""
+    //     const el = document.getElementsByClassName('image_wraps');
+    //     const currentDiv = document.getElementById("imgs-grid");
+    //     currentDiv.classList.remove('imgs-grid-1', 'imgs-grid-2', 'imgs-grid-3', 'imgs-grid-4', 'imgs-grid-5');
+    //     console.log(el.length);
+    //     $elCount = el.length;
+    //     var ancho = document.getElementById("imgs-grid").clientWidth;
+    //     switch ($elCount) {
+    //         case 1:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-1');
+    //             ancho = ancho;
+    //             break;
+    //         case 2:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-2');
+    //             ancho = ancho;
+    //             break;
+    //         case 3:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-3');
+    //             break;
+    //         case 4:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-4');
+    //             break;
+    //         case 5:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-5');
+    //             break;
+        
+    //         default:
+    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-5');
+    //             break;
+    //     }
+    //     imagesArray.forEach((image, index) => {
+            
+    //         let img = document.createElement("img");
+    //         img.setAttribute('src', URL.createObjectURL(image))
+    //         img.style.cssText = "width: 450px;";
+    //         el[index].appendChild(img)
+    //     })
+    //    //output.innerHTML = images
+    // }
     $(document).on('click', '.cancel-post-btn', function(event) {
         event.preventDefault();
         $('.dropArea').remove();
         $('#images-input').empty();
         $("#images-input").val('');
         $('#post-area-timeline').val('');
+        clearArrayImages()
         $('#timeline-modal').modal('hide')
     });
     $(document).on('click', '#post-timeline-btn', function(event) {
@@ -2173,6 +2263,7 @@
                     })
 
                     addNewTimeLinePost(response.post, 'prepend');
+                    clearArrayImages()
                 }
             },
             complete: function()
@@ -2612,7 +2703,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-
+                    console.log("response", 'response');
                 },
                 success:function(response)
                 {
@@ -2625,8 +2716,18 @@
                         $("#current-status-p").html(response.status)
                         $("#span-status-name").html(response.status)
                         hideStatusArea()
+                        $('#status-accepted-modal').model('hide')
                         //$('#status-accepted-button').remove()
                         //hideAcdeptedBtn()
+                    }
+
+                    if (!response.success) {
+                        $.each( response.errors, function( key, value ) {
+                            $real = key.replace('.', '-')
+                            console.log($real)
+                            $('*[id^='+$real+']').parent().find('.help-block').append('<strong>' + value + '</strong>')
+                            //$('*[id^='+$real+']').remove()
+                        });
                     }
                     $('#s-recomendatons-indications').html(response.indications)
                     $('#s-recomendatons-recomendations').html(response.recomendations)
@@ -2775,13 +2876,20 @@
             },
         })
     });
+    $(document).on('input', '.note-editable', function () {
+        $target = $('#images-input');
+        $('.modal-body').animate({
+            scrollTop: $target.offset().top + 'px'
+        }, 'slow');
+
+    });
     $(document).on('change', '#images-input', function(event) {
         event.preventDefault();
         $files = $(this).prop('files')
         $filesCount = $(this).prop('files').length
-        //$('#images-input').addClass('d-none')
         uploadImagePreview($filesCount, $files)
     });
+    
     $(document).on('click', '#post-area-timeline', function(event) {
         event.preventDefault();
         $('#timeline-modal').modal('show')
@@ -2886,21 +2994,13 @@
     });
     $('.post-area-timeline').summernote({
             placeholder: 'Agregar notas',
-            height: 250,
+            height: 'auto',
             toolbar: false,
             disableResizeEditor: true,
             disableDragAndDrop:true,
     })
 
     $('#timeline-modal').on('hidden.bs.modal', function (e) {
-        $('.dropArea').remove();
-        var file = document.getElementById('images-input');
-        file.value = '';
-        file.removeAttribute('value');
-        file.parentNode.replaceChild(file.cloneNode(true),file);
-        $('.post-area-timeline').summernote('reset');
-        var inputfile= $('#images-input');
-        inputfile.replaceWith(inputfile.val('').clone(true));
     })
 
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
@@ -3091,6 +3191,7 @@
             surggeriesWaning(response);
         }
     });
-
+    
+        
 </script>
 @endsection

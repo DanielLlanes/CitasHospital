@@ -1,10 +1,13 @@
 .imgs-grid {
   max-width: 800px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   font-size: 0;
+  height: calc(100% - 20px);
+  border-radius: 10px;
+  position: relative;
 }
-.imgs-grid.imgs-grid-1 .imgs-grid-image {
-  width: 100%;
+.imgs-grid.imgs-grid-1  {
+  width: calc(100% - 20px);
   text-align: center;
 }
 .imgs-grid.imgs-grid-2 .imgs-grid-image,

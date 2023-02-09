@@ -70,6 +70,11 @@
             <li><a href="javascript:;" class="fullscreen-click font-size-20"><i class="fa fa-arrows-alt"></i></a></li>
             <!-- end full screen button -->
         </ul>
+        <ul class="nav navbar-nav navbar-left in">
+            <!-- start full screen button -->
+            <li><a href="javascript:;" onclick="Previous()" class=" font-size-20"><i class="fa fa-chevron-left"></i></a></li>
+            <!-- end full screen button -->
+        </ul>
         <!-- start mobile menu -->
         <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
             <span></span>

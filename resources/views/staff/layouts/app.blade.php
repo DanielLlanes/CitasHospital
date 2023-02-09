@@ -197,6 +197,11 @@
             })
             let currentTime = new Date();
             let number = currentTime.getFullYear()
+
+
+            function Previous() {
+                window.history.go(-1);
+            }
             
             var drEvent = $('.dropify').dropify();
 
