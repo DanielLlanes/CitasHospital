@@ -2050,7 +2050,7 @@
                 $(this).find('input[name*="birthControl_how_long"]').attr('id', 'birthControl_how_long-'+index)
             });
 
-            form = document.getElementsByTagName('form.appsForm')[0]
+            form = document.getElementsByTagName('form.appsForm')
             var form_data = new FormData(form);
             form_data.append('step', current_step);
             fetch( endPoint + '/checkData', {
