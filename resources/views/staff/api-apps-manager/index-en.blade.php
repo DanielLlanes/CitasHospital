@@ -1516,7 +1516,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Have you ever been pregnant?</label>
                                 <div class="col-sm-9 checkBox">
@@ -1545,7 +1544,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Do you use any type of contraceptive method?</label>
                                 <div class="col-sm-9 checkBox">
@@ -1577,7 +1575,6 @@
                                     <button type="button" class="btn btn-second text-white mb-3" id="birthControlTableAdd">Add birth control</button>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Hormones</label>
                                 <div class="col-sm-9 checkBox">
@@ -1608,7 +1605,6 @@
                                     <button type="button" class="btn btn-primary text-white mb-3" id="hormoneTableAdd">Add hormone</button>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Are you pregnant or is there a possibility that you are pregnant?</label>
                                 <div class="col-sm-9 checkBox">
@@ -1637,7 +1633,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Facebook</label>
                                 <div class="col-sm-9">
@@ -1650,7 +1645,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">YouTube/vimeo</label>
                                 <div class="col-sm-9">
@@ -1663,7 +1657,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Twitter</label>
                                 <div class="col-sm-9">
@@ -1676,7 +1669,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Web forums</label>
                                 <div class="col-sm-9">
@@ -1689,7 +1681,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Instagram</label>
                                 <div class="col-sm-9">
@@ -1702,7 +1693,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Radio</label>
                                 <div class="col-sm-9">
@@ -1715,7 +1705,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Email</label>
                                 <div class="col-sm-9">
@@ -1728,7 +1717,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Referred by friend</label>
                                 <div class="col-sm-9">
@@ -1749,7 +1737,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Other</label>
                                 <div class="col-sm-9">
@@ -1762,7 +1749,6 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-
                             <div class="mb-3 row mt-1 about_us_other">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Specify media</span></label>
                                 <div class="col-sm-9">
@@ -1771,7 +1757,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="result mb-3 d-none">
                             <div class="jumbotron jumbotron-fluid">
                                 <div class="container">
@@ -1965,6 +1950,10 @@
                 $('#year').append(newOption).trigger('change');
             }
         }
+
+        getYears('.year')
+        getDays('.day')
+        getMonths('.month')
 
         $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
         $('#country_id').select2();
@@ -3016,9 +3005,7 @@
             medicationField += '</tr>'
             $('#birth_control_table tbody').append(medicationField)
         }
-        getYears('.year')
-        getDays('.day')
-        getMonths('.month')
+        
         $date = document.getElementsByClassName('datePickers')
         $.each($date, function(index, val) {
             $(this).attr('placeholder', 'mm/dd/yyyy')

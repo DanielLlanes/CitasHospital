@@ -2059,6 +2059,7 @@
             })
             .then(response => response.json())
             .then( function(data) {
+              console.log(data);
               toTop()
                 if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
                     if (data.hasOwnProperty('success')) {

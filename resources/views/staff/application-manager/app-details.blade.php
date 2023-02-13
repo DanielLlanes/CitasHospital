@@ -1561,10 +1561,67 @@
                             border: .5px solid;
                             border-color: #eee;
                             position: relative;
-                            overflow-y: hidden;
+                            overflow-y: auto;
                             overflow-x: hidden;
                         }
                         #images-input {
+                            display: none;
+                        }
+                        #images-input::-webkit-file-upload-button {
+                        visibility: hidden;
+                        }
+                        #images-input::before {
+                        content: 'Select some files';
+                        color: black;
+                        display: inline-block;
+                        background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+                        border: 1px solid #999;
+                        border-radius: 3px;
+                        padding: 5px 8px;
+                        outline: none;
+                        white-space: nowrap;
+                        /* -webkit-user-select: none; */
+                        cursor: pointer;
+                        text-shadow: 1px 1px #fff;
+                        font-weight: 700;
+                        font-size: 10pt;
+                        }
+                        #images-input:hover::before {
+                        border-color: black;
+                        }
+                        #images-input:active {
+                        outline: 0;
+                        }
+                        #images-input:active::before {
+                        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+                        }
+
+                        #imgs-grid {
+                            position: relative;
+                            box-sizing: border-box
+                            border: .5px solid #eee;
+                            border-radius: 10px;
+                            min-height: 250px;
+                        }
+                        .imageWrap {
+                            position: relative;
+                        }
+                        .imageWrap span {
+                            position: absolute;
+                            top: 4px;
+                            right: 4px;
+                            cursor: pointer;
+                        }
+
+                        .imageWrap span:hover {
+                            opacity: 0.8;
+                        }
+
+                        /* output .span--hidden{
+                        visibility: hidden;
+                        } */
+                      
+                        /* #images-input {
                             opacity: 0; 
                             position: absolute;
                             left: 0px;    
@@ -1577,20 +1634,43 @@
                             top: 50%;
                             left: 50%;
                             transform: translate(-50%, -50%);
-                        }
+                        } */
                         .note-editor .note-dropzone { opacity: 1 !important; }
                     </style>
-                        {{-- <small class="small text-muted cleck-test">has click para agregar imagenes</small>    
-                        <input type="file" name="image-timeline-upload[]" id="images-input" multiple> --}}
-                    <div class="form-group droparea">
-                        <label for="message-text" class="control-label">Imagenes</label>
-                        <div class="imagen-dropyfy" id="imagen-dropyfy">
-                            
-                            <div class="" id="imgs-grid">
-                                <small class="small text-muted cleck-test">has click para agregar imagenes</small>    
-                                <input type="file" name="image-timeline-upload[]" id="images-input" multiple>
+                        {{-- <small class="small text-muted cleck-test">has click para agregar imagenes</small>     --}}
+                    <div class="form-group droparea mb-2">
+                        <div class="col-12 w-100 p-0 ">
+                            <div class="col-12 d-flex justify-content-between p-0 " id="head-area">
+                                <p class="align-self-center m-0">Imagenes</p>
+                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple>
+
+                                    <label for="images-input" class="btn btn-primary btn-sm">Select some files</label>
+
                             </div>
-                            
+                        </div>
+                        <div class="imagen-dropyfy mt-2" id="imagen-dropyfy">
+                            <div id="imgs-grid">
+                                <div class="row m-0">
+                                    <div class="w-50">
+                                        <img class="w-100 " alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
+                                    </div>
+                                    <div class="w-50">
+                                        <img class="w-100 " alt="" src="http://staff.prado.test/storage/application/timeLine/1676069360PuzdVzrvuVj82KpGXd0og8jhb8G5qK63e6c9f0e6672.jpg" style="padding: 2px;border-radius: 10px;">
+                                    </div>
+
+                                </div>
+                                <div class="row m-0">
+                                    <div style="width: 33.33%">
+                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
+                                    </div>
+                                    <div style="width: 33.33%">
+                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
+                                    </div>
+                                    <div style="width: 33.33%">
+                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -1792,6 +1872,7 @@
             },
         })
     }
+
     function uploadImagePreview($filesCount, $files) {
         var $prev = '';
         $.each($files, function(i, img) {
@@ -2015,7 +2096,6 @@
     function send_notification($data) {
     }
     function addNewTimeLinePost(data, mode) {
-        console.log(data)
         let $avatar = 'staffFiles/assets/img/user/user.jpg';
         let $countImages = '';
         if (data.staff.image_one !== null) {
@@ -2037,7 +2117,7 @@
                     </div>
                     <hr>
                     <br>
-                    <div class="album" id="album-${data.code}">
+                    <div class="album row" id="album-${data.code}">
                         
                     </div>
                 </div>
@@ -2048,7 +2128,6 @@
         else {$('.post-timeline-view').append($post)}
         
         $countImages = data.image_many.length
-            console.log('count -> ', $countImages);
         if (data.image_many.length > 0) {
             
             for (var i = 0; i < data.image_many.length; i++) {
@@ -2138,82 +2217,76 @@
         imagesArray.splice(index, 1)
         displayImages()
     }
-    var input = document.getElementById('images-input')
-    var output = document.getElementById('imagen-dropyfy')
+    // var input = document.getElementById('images-input')
+    // var output = document.getElementById('imagen-dropyfy')
     // input.addEventListener("change", () => {
     //     console.log(document.getElementById("imgs-grid").offsetWidth)
     //     console.log(document.getElementById("imgs-grid").clientWidth)
-    //     $('.imgs-grid-images').remove()
     //     const files = input.files
     //     for (let i = 0; i < files.length; i++) {
     //         imagesArray.push(files[i])
-    //         console.log(imagesArray);
     //     }
-    //     console.log(imagesArray.length);
-
-    //     setUploadGrid()
+    //     uploadImagePreview()
     // })
-    // $(document).on("change", '#images-input', function () {
-    //     const files = input.files
-    //     for (let i = 0; i < files.length; i++) {
-    //         imagesArray.push(files[i])
-    //         console.log(i);
-    //     }
-    //     setUploadGrid()
-    //     console.log(imagesArray.length);
-    // });
-    // function setUploadGrid($viewArr) {
-    //     console.log(imagesArray.length);
-    //     imagesArray.forEach((image, index) => {
-    //         let $imgs_grid_image = document.createElement("div");
-    //         let currentDiv = document.getElementById("imgs-grid");
-    //         let $image_wrap = document.createElement("div");
-    //         $imgs_grid_image.classList.add('imgs-grid-images');
-    //         $image_wrap.classList.add('image_wraps');
-    //         currentDiv.appendChild($imgs_grid_image);
-    //         $imgs_grid_image.appendChild($image_wrap);
-    //     })
-    //     displayImages()
+    // function deleteImage(index) {
+    //     imagesArray.splice(index, 1)
+    //     console.log(index);
+    //     uploadImagePreview()
     // }
-    // function displayImages() {
-    //     let images = ""
-    //     const el = document.getElementsByClassName('image_wraps');
-    //     const currentDiv = document.getElementById("imgs-grid");
-    //     currentDiv.classList.remove('imgs-grid-1', 'imgs-grid-2', 'imgs-grid-3', 'imgs-grid-4', 'imgs-grid-5');
-    //     console.log(el.length);
-    //     $elCount = el.length;
-    //     var ancho = document.getElementById("imgs-grid").clientWidth;
-    //     switch ($elCount) {
+    // function uploadImagePreview() {
+    //     $('#imgs-grid').html('')
+    //     console.log(imagesArray);
+    //     let $arCount = imagesArray.length;
+    //     switch ($arCount) {
     //         case 1:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-1');
-    //             ancho = ancho;
+    //             displayImages(imagesArray.slice(0, 1));
     //             break;
     //         case 2:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-2');
-    //             ancho = ancho;
+    //             displayImages(imagesArray.slice(0, 2));
     //             break;
     //         case 3:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-3');
+    //             displayImages(imagesArray.slice(0, 1));
+    //             displayImages(imagesArray.slice(1, 3));
     //             break;
     //         case 4:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-4');
+    //             displayImages(imagesArray.slice(0, 1));
+    //             displayImages(imagesArray.slice(1, 4));
     //             break;
     //         case 5:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-5');
+    //             displayImages(imagesArray.slice(0, 2));
+    //             displayImages(imagesArray.slice(2, 5));
     //             break;
-        
     //         default:
-    //             currentDiv.classList.add('imgs-grid', 'imgs-grid-5');
+    //             displayImages(imagesArray.slice(0, 2));
+    //             displayImages(imagesArray.slice(2, 5));
     //             break;
     //     }
-    //     imagesArray.forEach((image, index) => {
-            
-    //         let img = document.createElement("img");
-    //         img.setAttribute('src', URL.createObjectURL(image))
-    //         img.style.cssText = "width: 450px;";
-    //         el[index].appendChild(img)
+    //     //$imgsGrid.appendChild($newDiv)
+    //     //uploadImagePreview()
+    // }
+    // function displayImages(items){
+    //     $rowWidth = (100 / items.length)
+    //     var $grid = document.getElementById("imgs-grid");
+    //     var $row = document.createElement("div");
+    //     $row.classList.add('row', 'm-0');
+    //     $grid.appendChild($row);
+    //     var $img = document.createElement('img')
+    //     var _URL = window.URL || window.webkitURL;
+    //     var file, imgs;
+    //     let img = ""
+
+    //     items.forEach((image, index) => {
+    //         img += `<div class="${index} imageWrap" style="width: ${$rowWidth}%">
+    //                 <img class="w-100" alt="" src="${URL.createObjectURL(image)}" style="padding: 2px;border-radius: 10px;">
+
+    //                 <span class="details" onclick="deleteImage(${index})">
+    //                     <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span> 
+    //                 </span>
+    //         </div>`;
     //     })
-    //    //output.innerHTML = images
+                    
+    //     $row.innerHTML = img;
+        
     // }
     $(document).on('click', '.cancel-post-btn', function(event) {
         event.preventDefault();

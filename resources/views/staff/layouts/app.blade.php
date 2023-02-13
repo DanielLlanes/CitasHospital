@@ -131,6 +131,7 @@
         <script src="{{ asset('staffFiles/assets/plugins/jquery-blockui/jquery.blockui.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
         <script src="{{ asset('staffFiles/assets/plugins/jquery-ui/jquery-ui-1.3.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
         <!-- bootstrap -->
         <script src="{{ asset('staffFiles/assets/plugins/bootstrap/js/bootstrap.min.js') }}" ></script>
         <script src="{{ asset('staffFiles/assets/plugins/bootstrap-switch/bootstrap-switch.min.js') }}" ></script>
@@ -159,7 +160,7 @@
         <!-- slugify-->
         <script src="{{ asset('staffFiles/assets/js/slugify.js') }}"></script>
         <!-- Image-grid-->
-        <script src="{{ asset('staffFiles/assets/plugins//jQuery-images-grid/src/images-grid.js') }}"></script>
+        {{-- <script src="{{ asset('staffFiles/assets/plugins/jQuery-images-grid/src/images-grid.js') }}"></script> --}}
         {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/morris/morris-home-data.js') }}" ></script> --}}
         <!-- Select2 -->
         <script src="{{ asset('staffFiles/assets/plugins/select2/dist/js/select2.full.js') }}"></script>
