@@ -33,7 +33,7 @@
                     <div class="d-none progress">
                         <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
-                    <form enctype="multipart/form-data" style="mt-3 mb-3">
+                    <form class="appsForm" enctype="multipart/form-data" style="mt-3 mb-3">
                         <div class="step">
                             <div class="mb-2 row">
                                 <div class="col-3"></div>
@@ -2119,7 +2119,7 @@
 
 
 
-            form = document.getElementsByTagName('form')[0];
+            form = document.querySelector('form.appsForm')
 
             var form_data = new FormData(form);
             form_data.append('step', current_step);

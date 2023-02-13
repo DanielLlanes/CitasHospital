@@ -156,7 +156,6 @@ class EsApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
-        return $request;
             $lang = 'es';
             if ($request->step == 0) {
                 $exist = false;
