@@ -585,7 +585,7 @@ class StaffController extends Controller
         }
 
         //return ($assingnamentCheck > 0) ? 'array':'no array';
-
+//ok
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
             'name' => 'required|string|max:255',
@@ -605,18 +605,18 @@ class StaffController extends Controller
             "specialties" => "required|array|min:1",
             "specialties.*"  => "required|distinct|exists:specialties,id",
 
-            "assigned_to" =>
-            [
-                ($assingnamentCheck > 0) ? 'array':'',
-                ($assingnamentCheck > 0) ? 'min:1':'',
-                ($assingnamentCheck > 0) ? 'required':'',
-            ],
-            "assigned_to.*" =>
-            [
-                ($assingnamentCheck > 0) ? "string" : '',
-                ($assingnamentCheck > 0) ? "distinct" : '',
-                ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
-            ],
+            // "assigned_to" =>
+            // [
+            //     ($assingnamentCheck > 0) ? 'array':'',
+            //     ($assingnamentCheck > 0) ? 'min:1':'',
+            //     ($assingnamentCheck > 0) ? 'required':'',
+            // ],
+            // "assigned_to.*" =>
+            // [
+            //     ($assingnamentCheck > 0) ? "string" : '',
+            //     ($assingnamentCheck > 0) ? "distinct" : '',
+            //     ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
+            // ],
         ]);
         //return $validated;
         $admin = "admins";

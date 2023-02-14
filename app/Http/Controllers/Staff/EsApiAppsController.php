@@ -70,7 +70,6 @@ class EsApiAppsController extends Controller
 
         return view('staff.api-apps-manager.index-es', ['countries' => $countries, 'service' => $service, "treatment" => $treatment]);
     }
-
     public function countries(Request $request)
     {
         $countries = Country::where('active', 1)
