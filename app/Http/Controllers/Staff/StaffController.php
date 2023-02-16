@@ -309,7 +309,7 @@ class StaffController extends Controller
                 }
             }
         }
-        //return ($assingnamentCheck > 0) ? 'array':'no';
+        //return (count($assingnamentCheck) > 0) ? 'array':'no';
         if (!Auth::guard('staff')->user()->can('admin.create') && !Auth::guard('staff')->user()->can('staff.create')) {
             abort(403, 'Unauthorized action.');
         }
@@ -338,14 +338,14 @@ class StaffController extends Controller
 
             "assigned_to" =>
             [
-                ($assingnamentCheck > 0) ? 'array':'',
-                ($assingnamentCheck > 0) ? 'min:1':'',
+                (count($assingnamentCheck) > 0) ? 'array':'',
+                (count($assingnamentCheck) > 0) ? 'min:1':'',
             ],
             "assigned_to.*" =>
             [
-                ($assingnamentCheck > 0) ? "string" : '',
-                ($assingnamentCheck > 0) ? "distinct" : '',
-                ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
+                (count($assingnamentCheck) > 0) ? "string" : '',
+                (count($assingnamentCheck) > 0) ? "distinct" : '',
+                (count($assingnamentCheck) > 0) ? "exists:services,service_$lang" : '',
             ],
         ]);
 
@@ -552,7 +552,7 @@ class StaffController extends Controller
     }
     public function update(Request $request, $id)
     {
-        //return $request;
+
         if (!Auth::guard('staff')->user()->can('admin.edit') && !Auth::guard('staff')->user()->can('staff.edit')) {
             abort(403, 'Unauthorized action.');
         }
@@ -574,17 +574,15 @@ class StaffController extends Controller
         //$assingnamentCheck = 0;
 
         if ($request->has('specialties')) {
-
             foreach ($request->specialties as $specialty) {
-                $hasAssignable = Specialty::select('id', 'assignable')->where('id', $specialty)->first();
-                //return $hasAssignable->assignable;
+                $hasAssignable = Specialty::select('id', 'assignable', 'code')->where('id', $specialty)->first();
                 if ($hasAssignable->assignable == 1) {
-                     array_push($assingnamentCheck, $hasAssignable->assignable);
+                    array_push($assingnamentCheck, $hasAssignable->assignable);
                 }
             }
         }
 
-        //return ($assingnamentCheck > 0) ? 'array':'no array';
+        //return (count($assingnamentCheck) > 0) ? 'array':'no array';
 //ok
         $validated = $request->validate([
             'avatar' => 'sometimes|image',
@@ -605,18 +603,18 @@ class StaffController extends Controller
             "specialties" => "required|array|min:1",
             "specialties.*"  => "required|distinct|exists:specialties,id",
 
-            // "assigned_to" =>
-            // [
-            //     ($assingnamentCheck > 0) ? 'array':'',
-            //     ($assingnamentCheck > 0) ? 'min:1':'',
-            //     ($assingnamentCheck > 0) ? 'required':'',
-            // ],
-            // "assigned_to.*" =>
-            // [
-            //     ($assingnamentCheck > 0) ? "string" : '',
-            //     ($assingnamentCheck > 0) ? "distinct" : '',
-            //     ($assingnamentCheck > 0) ? "exists:services,service_$lang" : '',
-            // ],
+            "assigned_to" =>
+            [
+                (count($assingnamentCheck) > 0) ? 'array':'',
+                (count($assingnamentCheck) > 0) ? 'min:1':'',
+                (count($assingnamentCheck) > 0) ? 'required':'',
+            ],
+            "assigned_to.*" =>
+            [
+                (count($assingnamentCheck) > 0) ? "string" : '',
+                (count($assingnamentCheck) > 0) ? "distinct" : '',
+                (count($assingnamentCheck) > 0) ? "exists:services,service_$lang" : '',
+            ],
         ]);
         //return $validated;
         $admin = "admins";
