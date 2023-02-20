@@ -2054,6 +2054,7 @@
               for (var dat of data) {
                 let option = `<option value="${dat.id}">${dat.text}</option>`;
                 $('#select-package-select').append(option)
+                $('select').niceSelect('update');
               }
           })
       }
