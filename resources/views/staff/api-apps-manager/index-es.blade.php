@@ -49,6 +49,13 @@
           width: 100%;
           outline: none;
       }
+      .nice-select span.current {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 30px;
+      }
     </style>
       <section id="team" class="team">
         <div class="container">
