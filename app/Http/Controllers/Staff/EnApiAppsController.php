@@ -187,9 +187,7 @@ class EnApiAppsController extends Controller
                         'treatmentBefore' => 'required|boolean',
                         'name' => 'required|string',
                         'sex' => 'required|string|',
-                        'age' => 'required|numeric|between:18,99',
-                        'day' => 'required|numeric|between:01,31',
-                        'month' => 'required|numeric|between:01,12',
+                        'dob' => 'required|date|date_format:m/d/Y',
                         'year' => "required|numeric|between:$minYear,$year",
                         'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
@@ -298,40 +296,40 @@ class EnApiAppsController extends Controller
                     "addiction" => 'required|boolean',
                     "which_one_adiction" => 'required_if:addiction,1','string',
                     "high_lipid_levels" => 'required|boolean',
-                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:m/d/Y',
                     "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
                     "arthritis" => 'required|boolean',
-                    "date_arthritis" => 'required_if:arthritis,1','date',
+                    "date_arthritis" => 'required_if:arthritis,1','date','date_format:m/d/Y',
                     "treatment_arthritis" => 'required_if:arthritis,1','string',
                     "cancer" => 'required|boolean',
-                    "date_cancer" => 'required_if:cancer,1','date',
+                    "date_cancer" => 'required_if:cancer,1','date','date_format:m/d/Y',
                     "treatment_cancer" => 'required_if:cancer,1','string',
                     "cholesterol" => 'required|boolean',
-                    "date_cholesterol" => 'required_if:cholesterol,1','date',
+                    "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:m/d/Y',
                     "treatment_cholesterol" => 'required_if:cholesterol,1','string',
                     "triglycerides" => 'required|boolean',
-                    "date_triglycerides" => 'required_if:triglycerides,1','date',
+                    "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:m/d/Y',
                     "treatment_triglycerides" => 'required_if:triglycerides,1','string',
                     "stroke" => 'required|boolean',
-                    "date_stroke" => 'required_if:stroke,1','date',
+                    "date_stroke" => 'required_if:stroke,1','date','date_format:m/d/Y',
                     "treatment_stroke" => 'required_if:stroke,1','string',
                     "diabetes" => 'required|boolean',
-                    "date_diabetes" => 'required_if:diabetes,1','date',
+                    "date_diabetes" => 'required_if:diabetes,1','date','date_format:m/d/Y',
                     "treatment_diabetes" => 'required_if:diabetes,1','string',
                     "coronary_artery_disease" => 'required|boolean',
                     "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "liver_disease" => 'required|boolean',
-                    "date_liver_disease" => 'required_if:liver_disease,1','date',
-                    "treatment_liver_disease" => 'required_if:liver_disease,1','string',
+                    "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:m/d/Y',
+                    "treatment_liver_disease" => 'required_if:liver_disease,1','string','date_format:m/d/Y',
                     "lugn_disease" => 'required|boolean',
-                    "date_lugn_disease" => 'required_if:lugn_disease,1','date',
-                    "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
+                    "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:m/d/Y',
+                    "treatment_lugn_disease" => 'required_if:lugn_disease,1','string','date_format:m/d/Y',
                     "renal_disease" => 'required|boolean',
-                    "date_renal_disease" => 'required_if:renal_disease,1','date',
+                    "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:m/d/Y',
                     "treatment_renal_disease" => 'required_if:renal_disease,1','string',
                     "thyroid_disease" => 'required|boolean',
-                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:m/d/Y',
                     "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
                     "hypertension" => 'required|boolean',
                     "date_hypertension" => 'required_if:hypertension,1','string',
@@ -341,7 +339,7 @@ class EnApiAppsController extends Controller
                     "illness" => ['required_if:any_other_illnesses,1','array'],
                     "illness.*" => ['required_if:any_other_illnesses,1','string'],
                     "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:m/d/Y'],
                     "treatment" => ['required_if:any_other_illnesses,1','array'],
                     "treatment.*" => ['required_if:any_other_illnesses,1','string'],
                 ]);
@@ -669,7 +667,7 @@ class EnApiAppsController extends Controller
             if ($request->step == 6) {
                 $validator = Validator::make($request->all(), [
 
-                    "last_menstrual_period" => "required|date",
+                    "last_menstrual_period" => "required|date|date_format:m/d/Y",
                     "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                     "have_you_been_pregnant" => "required|boolean",
                     "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -751,9 +749,7 @@ class EnApiAppsController extends Controller
                 'name' => 'required|string',
                 'sex' => 'required|string|',
                 'age' => 'required|numeric|between:18,99',
-                'day' => 'required|numeric|between:01,31',
-                'month' => 'required|numeric|between:01,12',
-                'year' => "required|numeric|between:$minYear,$year",
+                'dob' => 'required|date|date_format:m/d/Y',
                 'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email',
@@ -852,40 +848,40 @@ class EnApiAppsController extends Controller
             "addiction" => 'required|boolean',
             "which_one_adiction" => 'required_if:addiction,1','string',
             "high_lipid_levels" => 'required|boolean',
-            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:m/d/Y',
             "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
             "arthritis" => 'required|boolean',
-            "date_arthritis" => 'required_if:arthritis,1','date',
+            "date_arthritis" => 'required_if:arthritis,1','date','date_format:m/d/Y',
             "treatment_arthritis" => 'required_if:arthritis,1','string',
             "cancer" => 'required|boolean',
-            "date_cancer" => 'required_if:cancer,1','date',
+            "date_cancer" => 'required_if:cancer,1','date','date_format:m/d/Y',
             "treatment_cancer" => 'required_if:cancer,1','string',
             "cholesterol" => 'required|boolean',
-            "date_cholesterol" => 'required_if:cholesterol,1','date',
+            "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:m/d/Y',
             "treatment_cholesterol" => 'required_if:cholesterol,1','string',
             "triglycerides" => 'required|boolean',
-            "date_triglycerides" => 'required_if:triglycerides,1','date',
+            "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:m/d/Y',
             "treatment_triglycerides" => 'required_if:triglycerides,1','string',
             "stroke" => 'required|boolean',
-            "date_stroke" => 'required_if:stroke,1','date',
+            "date_stroke" => 'required_if:stroke,1','date','date_format:m/d/Y',
             "treatment_stroke" => 'required_if:stroke,1','string',
             "diabetes" => 'required|boolean',
-            "date_diabetes" => 'required_if:diabetes,1','date',
+            "date_diabetes" => 'required_if:diabetes,1','date','date_format:m/d/Y',
             "treatment_diabetes" => 'required_if:diabetes,1','string',
             "coronary_artery_disease" => 'required|boolean',
             "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "liver_disease" => 'required|boolean',
-            "date_liver_disease" => 'required_if:liver_disease,1','date',
+            "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:m/d/Y',
             "treatment_liver_disease" => 'required_if:liver_disease,1','string',
             "lugn_disease" => 'required|boolean',
-            "date_lugn_disease" => 'required_if:lugn_disease,1','date',
+            "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:m/d/Y',
             "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
             "renal_disease" => 'required|boolean',
-            "date_renal_disease" => 'required_if:renal_disease,1','date',
+            "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:m/d/Y',
             "treatment_renal_disease" => 'required_if:renal_disease,1','string',
             "thyroid_disease" => 'required|boolean',
-            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:m/d/Y',
             "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
             "hypertension" => 'required|boolean',
             "date_hypertension" => 'required_if:hypertension,1','string',
@@ -895,7 +891,7 @@ class EnApiAppsController extends Controller
             "illness" => ['required_if:any_other_illnesses,1','array'],
             "illness.*" => ['required_if:any_other_illnesses,1','string'],
             "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:m/d/Y'],
             "treatment" => ['required_if:any_other_illnesses,1','array'],
             "treatment.*" => ['required_if:any_other_illnesses,1','string'],
         ]);
@@ -1120,7 +1116,7 @@ class EnApiAppsController extends Controller
 
         if ($request->sex == 'female') {
             $validator6 = Validator::make($request->all(), [
-                "last_menstrual_period" => "required|date",
+                "last_menstrual_period" => "required|date|'date_format:m/d/Y'",
                 "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                 "have_you_been_pregnant" => "required|boolean",
                 "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -1194,8 +1190,7 @@ class EnApiAppsController extends Controller
         }
         
         $unHashPassword = Str::random(8);
-        $dob = date($request->month."/".$request->day."/".$request->year);
-        $car = Carbon::createFromFormat('m/d/Y', $dob)->format('Y-m-d');
+        
 
         if (!$patient) {
             $patient = new Patient;
@@ -1203,13 +1198,13 @@ class EnApiAppsController extends Controller
             $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
-            $patient->dob = Carbon::createFromFormat('m/d/Y', $dob)->format('Y-m-d');
+            $patient->dob = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
-            $patient->country_id = $request->country_id;
-            $patient->state_id = $request->state_id;
+            $patient->pais = $request->country_id;
+            $patient->estado = $request->state_id;
             $patient->city = $request->city;
             $patient->zip = $request->zip;
             $patient->ecn = $request->ecn;
@@ -1263,8 +1258,8 @@ class EnApiAppsController extends Controller
         $app->date_high_lipd_levels = (is_null($request->date_high_lipid_levels)? null:Carbon::createFromFormat('m/d/Y', $request->date_high_lipid_levels)->format('Y-m-d'));
         $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
         $app->cancer = $request->cancer;
-        $app->date_cancer = $request->date_cancer;
-        $app->cancer_treatment = (is_null($request->treatment_cancer)? null:Carbon::createFromFormat('m/d/Y', $request->treatment_cancer)->format('Y-m-d'));
+        $app->date_cancer = (is_null($request->date_cancer)? null:Carbon::createFromFormat('m/d/Y', $request->date_cancer)->format('Y-m-d'));
+        $app->cancer_treatment = (is_null($request->treatment_cancer)? null:$request->treatment_cancer);
         $app->arthritis = $request->arthritis;
         $app->date_arthritis = (is_null($request->date_arthritis)? null:Carbon::createFromFormat('m/d/Y', $request->date_arthritis)->format('Y-m-d'));
         $app->arthritis_treatment = $request->treatment_arthritis;

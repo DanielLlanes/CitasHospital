@@ -67,8 +67,8 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Sexo biologico</label>
                     <div class="col-sm-9">
-                      <select name="sex" id="sex" class="form-control form-control-sm w-100">
-                        <option value="" disabled selected>Select....</option>
+                      <select name="sex" id="sex" class="form-select form-select-sm">
+                        <option value="" disabled selected>Selecionar....</option>
                         <option value="male" >Male</option>
                         <option value="female" >Female</option>
                       </select>
@@ -78,7 +78,7 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Fecha de naciemiento</label>
                     <div class="col-sm-9">
-                      <input type="date" class="form-control form-control-sm" id="dob" name="dob" value="" placeholder="Date of Birth">
+                      <input type="text" class="form-control form-control-sm fecha" id="dob" name="dob" value="" placeholder="Fecha de naciemiento" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
@@ -113,16 +113,14 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Pais</label>
                     <div class="col-sm-9">
-                      <select name="country_id" id="country_id" country="" class="form-control form-control-sm w-100"></select>
+                      <input type="text" class="form-control form-control-sm" name="country_id" id="country_id" value="" placeholder="Pais">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
+                    <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Estado </label>
                     <div class="col-sm-9">
-                      <select name="state_id" state="" id="state_id" class="form-control form-control-sm w-100">
-                        <option value="" disabled selected>Select....</option>
-                      </select>
+                      <input type="text" class="form-control form-control-sm" name="state_id" state="" id="state_id" value="" placeholder="Estado">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
@@ -157,20 +155,26 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar servicio </label>
                     <div class="col-sm-9">
-                      <select name="service" id="select-service-select" class="form-control form-control-sm w-100"></select>
+                      <select name="service" id="select-service-select" class="form-control form-control-sm w-100">
+                        <option value="" disabled selected>Selecionar....</option>
+                      </select>
                     </div>
                   </div>
                 </div>
                 <div class="mb-3 row">
                   <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar procedimiento</label>
                   <div class="col-sm-9">
-                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100"></select>
+                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100">
+                      <option value="" disabled selected>Selecionar....</option>
+                    </select>
                   </div>
                 </div>
                 <div class="mb-3 row d-none" id="package">
                   <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Seleccionar paquete</label>
                   <div class="col-sm-9">
-                  <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;"></select>
+                  <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;">
+                    <option value="" disabled selected>Selecionar....</option>
+                  </select>
                   </div>
                 </div>
                 <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
@@ -533,7 +537,7 @@
                 <div class="mb-3 row mt-1 high_lipid_levels"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico</span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
+                    <input type="input" class="form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -562,7 +566,7 @@
                 <div class="mb-3 row mt-1 arthritis"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="">
+                    <input type="input" class="form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -590,7 +594,7 @@
                 <div class="mb-3 row mt-1 cancer"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -618,7 +622,7 @@
                 <div class="mb-3 row mt-1 cholesterol"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -646,7 +650,7 @@
                 <div class="mb-3 row mt-1 triglycerides"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -675,7 +679,7 @@
                 <div class="mb-3 row mt-1 stroke"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -703,7 +707,7 @@
                 <div class="mb-3 row mt-1 diabetes"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -731,7 +735,7 @@
                 <div class="mb-3 row mt-1 coronary_artery_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -759,7 +763,7 @@
                 <div class="mb-3 row mt-1 liver_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -787,7 +791,7 @@
                 <div class="mb-3 row mt-1 lugn_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -815,7 +819,7 @@
                 <div class="mb-3 row mt-1 renal_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -843,7 +847,7 @@
                 <div class="mb-3 row mt-1 thyroid_disease"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -872,7 +876,7 @@
                 <div class="mb-3 row mt-1 hypertension"  style="display: none">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de diagnóstico </span></label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -1464,7 +1468,7 @@
                 <div class="row mb-3">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Fecha de la última menstruación</label>
                   <div class="col-sm-9">
-                    <input type="date" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="">
+                    <input type="text" class="form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'" >
                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                   </div>
                 </div>
@@ -1813,7 +1817,7 @@
                   </div>
               </div>
           </div>
-
+<option value=""></option>
     <!-- Optional JavaScript; choose one of the two! -->
     @section('styles')
       <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
@@ -1832,6 +1836,10 @@
     <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/bindings/inputmask.binding.js"></script>
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <script>
       let step = document.getElementsByClassName('step');
@@ -1852,6 +1860,8 @@
       form.onsubmit = () => {
           return false
       }
+
+      $('.date').inputmask({"mask": "(999) 999-9999"});
 
       checkBox = $("input[type='radio'][value='0']")
       checkBox.each(function(index, el) {
@@ -1886,368 +1896,387 @@
         }
       });
 
-      fetch( endPoint + '/countries ')
-      .then(response => response.json())
-      .then(json => getCountry(json))
+      // fetch( endPoint + '/countries ')
+      // .then(response => response.json())
+      // .then(json => getCountry(json))
 
       fetch( endPoint + '/services ')
       .then(response => response.json())
       .then(json => getServices(json))
 
-      $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
-      $('#country_id').select2();
-      $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
-      $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
-      $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
-      $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
-      $('#country_id').on('select2:select', function(e){
-        let data = e.params.data;
-        getStates(data.id);
+      // $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
+      // $('#country_id').select2();
+      // $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
+      // $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
+      // $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
+      // $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
+      // $('#country_id').on('select2:select', function(e){
+      //   let data = e.params.data;
+      //   getStates(data.id);
+      // })
+      // $('#select-service-select').on('select2:select', function(e){
+      //     let data = e.params.data;
+      //     $("#package").addClass('d-none')
+      //     getProcedures(data.id);
+      // })
+      // $('#select-procedure-select').on('select2:select', function(e){
+      //     let data = e.params.data;
+      //     $("#package").addClass('d-none')
+      //     if (data.package === 1) {getPackages(data)}
+      // })
+      $(document).on('change', '#select-service-select', function(event) {
+        event.preventDefault();
+        var id = $( "#select-service-select option:selected" ).val();
+        $("#package").addClass('d-none')
+        $( "#select-procedure-select" ).prop("selectedIndex", 0);
+        $( "#select-procedure-select" ).find('option').not(':first').remove();
+        getProcedures(id);
+      });
+      $(document).on('change', '#select-procedure-select', function(event) {
+        event.preventDefault();
+        var id = $( "#select-procedure-select option:selected" ).val();
+        var paq = $( "#select-procedure-select option:selected" ).attr('package');
+        $("#package").addClass('d-none')
+        if (paq == 1) {getPackages(id, paq)}
+      });
+      // function getCountry(data){
+      //   console.log("data", data);
+      //     $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
+      //     $('#country_id').prepend('<option selected></option>').select2({
+      //         placeholder: 'Selecciona tu pais',
+      //         data: data
+      //     })
+      //   }
+      // function getStates(id){
+      // //     let data = new FormData();
+      // //     data.append('id', id)
+      // //     fetch( endPoint + '/states', {
+      // //         method: "POST",
+      // //         body: data
+      // //     })
+      // //     .then(response => response.json())
+      // //     .then( function(data) {
+      // //         $('#state_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
+      // //         $('#state_id').prepend('<option selected></option>').select2({
+      // //             placeholder: 'Selecciona un estado o provincia',
+      // //             data: data
+      // //         })
+      // //     })
+      //  }
+      function getServices(data){
+        for (var dat of data) {
+          let option = `<option value="${dat.id}">${dat.text}</option>`;
+          $('#select-service-select').append(option)
+        }
+      }
+      function getProcedures(id){
+        console.log("id", id);
+          let data = new FormData();
+          data.append('id', id)
+          fetch( endPoint + '/procedures', {
+              method: "POST",
+              body: data
+          })
+          .then(response => response.json())
+          .then( function(data) {
+            console.log("data", data);
+            for (var dat of data) {
+              let option = `<option package="${dat.package}" value="${dat.id}">${dat.text}</option>`;
+              $('#select-procedure-select').append(option)
+            }
+          })
+      }
+      function getPackages(id, paq){
+          let data = new FormData();
+          $( "#select-package-select" ).prop("selectedIndex", 0);
+          $( "#select-package-select" ).find('option').not(':first').remove();
+          if (paq == 1) { 
+            $("#package").removeClass('d-none') }
+            else { 
+              $("#package").addClass('d-none') 
+          }
+              data.append('id', id)
+          fetch( endPoint + '/packages', {
+              method: "POST",
+              body: data
+          })
+          .then(response => response.json())
+          .then( function(data) {
+              // $('#select-package-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
+              // $('#select-package-select').prepend('<option selected></option>').select2({
+              //     placeholder: 'Selecciona un estado o provincia',
+              //     data: data
+              // })
+              for (var dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                $('#select-package-select').append(option)
+              }
+          })
+      }
+      function toTop(){
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+      nextBtn.addEventListener('click', () => {
+          $('.invalid-feedback').html('');
+          let data_service = 0;
+          let data_procedure = 0;
+          let data_package = 0;
+          let data_sex = '';
+
+
+
+
+
+
+          if ($('#select-service-select').data('select2')){
+              if ($('#select-service-select').select2('data').length > 0) {data_service = $('#select-service-select').select2('data')[0].id;}else {data_service = 0;}
+          }
+          if ($('#select-procedure-select').data('select2')){
+              if ($('#select-procedure-select').select2('data').length > 0) {data_procedure = $('#select-procedure-select').select2('data')[0].id;}else {data_procedure = 0;}
+          }
+          if ($('#select-package-select').data('select2')){
+              if ($('#select-package-select').select2('data').length > 0) {data_package = $('#select-package-select').select2('data')[0].id;}else {data_package = 0;}
+          }
+
+          if ($('#sex').data('select2')){
+              if ($('#sex').select2('data').length > 0) {data_sex = $('#sex').select2('data')[0].id;}else {data_sex = 0;}
+          }
+
+          $("#medication_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="medication_name"]').attr('id', 'medication_name-'+index)
+              $(this).find('input[name*="medication_reason"]').attr('id', 'medication_reason-'+index)
+              $(this).find('input[name*="medication_dosage"]').attr('id', 'medication_dosage-'+index)
+              $(this).find('input[name*="medication_frecuency"]').attr('id', 'medication_frecuency-'+index)
+          });
+          $("#surgery_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="surgey_type"]').attr('id', 'surgey_type-'+index)
+              $(this).find('input[name*="surgey_name"]').attr('id', 'surgey_name-'+index)
+              $(this).find('input[name*="surgey_age"]').attr('id', 'surgey_age-'+index)
+              $(this).find('input[name*="surgey_year"]').attr('id', 'surgey_year-'+index)
+              $(this).find('input[name*="surgey_complications"]').attr('id', 'surgey_complications-'+index)
+          });
+          $("#illness_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="illness"]').attr('id', 'illness-'+index)
+              $(this).find('input[name*="diagnostic_date"]').attr('id', 'diagnostic_date-'+index)
+              $(this).find('input[name*="treatment"]').attr('id', 'treatment-'+index)
+          });
+          $("#exercise_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="exercise_type"]').attr('id', 'exercise_type-'+index)
+              $(this).find('input[name*="exercise_how_long"]').attr('id', 'exercise_how_long-'+index)
+              $(this).find('input[name*="exercise_how_frecuent"]').attr('id', 'exercise_how_frecuent-'+index)
+              $(this).find('input[name*="exercise_hours"]').attr('id', 'exercise_hours-'+index)
+          });
+
+          $("#hormones_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="hormone_type"]').attr('id', 'hormone_type-'+index)
+              $(this).find('input[name*="hormone_how_long"]').attr('id', 'hormone_how_long-'+index)
+          });
+
+          $("#birth_control_table tbody tr").each(function(index, el) {
+              $(this).find('input[name*="birthControl_type"]').attr('id', 'birthControl_type-'+index)
+              $(this).find('input[name*="birthControl_how_long"]').attr('id', 'birthControl_how_long-'+index)
+          });
+
+          form = document.querySelector('form.appsForm')
+          var form_data = new FormData(form);
+          form_data.append('step', current_step);
+          fetch( endPoint + '/checkData', {
+              method: "POST",
+              body: form_data
+          })
+          .then(response => response.json())
+          .then( function(data) {
+            console.log(data);
+            toTop()
+              if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
+                  if (data.hasOwnProperty('success')) {
+                      if (!data.success) {
+                          $.each( data.errors, function( key, value ) {
+                              $real = key.replace('.', '-')
+                              $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
+                              $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
+                              $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
+                          });
+                      } else {
+                          nextStep(data.images, data.service, data.gender)
+                      }
+                  }
+              })
+      });
+      prevBtn.addEventListener('click', () => {
+          form = document.getElementsByTagName('form')[0]
+          var form_data = new FormData(form);
+          form_data.append('step', current_step);
+          fetch( endPoint + '/getData', {
+              method: "POST",
+              body: form_data
+          })
+          .then(response => response.json())
+          .then( function(data) {
+            toTop()
+            prevStep(data.images, data.service, data.gender)
+          })
+      });
+      submitBtn.addEventListener('click', () =>{
+          form = document.getElementsByTagName('form')[0]
+          var form_data = new FormData(form);
+          $('.loading').css('display', 'block');
+          form_data.append('step', current_step);
+          fetch( endPoint + '/storeData', {
+              method: "POST",
+              body: form_data
+          })
+          .then(response => response.json())
+          .then( function(data) {
+              console.log("data", data);
+              $('.loading').css('display', 'none');
+              if (!data.success) {
+                  $.each( data.errors, function( key, value ) {
+                      $real = key.replace('.', '-')
+                      $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
+                      $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
+                      $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
+                  });
+                  //$('.loading').css('display', 'block');
+              } else {
+                  //socket.emit('updateDataTablesToServer');
+                  //window.location.href = "https://es.jlpradosc.com"; 
+                  for (var i = 0; i < stepCount; i++) {
+                      step[i].classList.add('d-none')
+                  }
+
+                  prevBtn.classList.add('d-none');
+                  submitBtn.classList.add('d-none');
+                  nextBtn.classList.add('d-none');
+                  $('.progress').addClass('d-none');
+                  $('.result').removeClass('d-none')
+                  $('.result').addClass('d-block')
+                  $('.loading').css('display', 'none');
+              }
+          })
       })
-      $('#select-service-select').on('select2:select', function(e){
-          let data = e.params.data;
-          $("#package").addClass('d-none')
-          getProcedures(data.id);
-      })
-      $('#select-procedure-select').on('select2:select', function(e){
-          let data = e.params.data;
-          $("#package").addClass('d-none')
-          if (data.package === 1) {getPackages(data)}
-      })
-      function getCountry(data){
-            $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-            $('#country_id').prepend('<option selected></option>').select2({
-                placeholder: 'Selecciona tu pais',
-                data: data
-            })
-        }
-        function getStates(id){
-            let data = new FormData();
-            data.append('id', id)
-            fetch( endPoint + '/states', {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                $('#state_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#state_id').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
-                })
-            })
-        }
-        function getServices(data){
-            $('#select-service-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-            $('#select-service-select').prepend('<option selected></option>').select2({
-                placeholder: 'Selecciona un sevicio',
-                data: data
-            })
-            $('#select-procedure-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
-            $('#select-package-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
-        }
-        function getProcedures(id){
-            let data = new FormData();
-            data.append('id', id)
-            fetch( endPoint + '/procedures', {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                $('#select-procedure-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#select-procedure-select').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
-                })
-                $('#select-package-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
-            })
-        }
-        function getPackages(d){
-            let data = new FormData();
-            if (d.package === 1) { $("#package").removeClass('d-none') }else { $("#package").addClass('d-none') }
-                data.append('id', d.id)
-            fetch( endPoint + '/packages', {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                $('#select-package-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#select-package-select').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
-                })
-            })
-        }
-        function toTop(){
-          $("html, body").animate({ scrollTop: 0 }, "fast");
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
-        }
-        nextBtn.addEventListener('click', () => {
-            $('.invalid-feedback').html('');
-            let data_service = 0;
-            let data_procedure = 0;
-            let data_package = 0;
-            let data_sex = '';
-            let data_country_id = '';
-            let data_state_id = '';
+      function nextStep(images = null, service, gender){
+          $imagesArea = $('#images-area')
+          current_step++
+          if (images.need_images == 1) {
+              let dropifyCount = $('.dropify').length
+              if (dropifyCount < 4) {
+                  for (var i = 0; i < images.qty_images; i++) {
+                      var $fortify = `<div class="col-md-6 my-3">
+                      <input type="file"class="dropify"order="1"data-height="200" name="imagenes[]" data-allowed-file-extensions="png jpeg jpg" id="imagenes-${i}"/>
+                      <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
+                      </div>
+                      `;
+                      $imagesArea.append($fortify);
+                  }
+              }
+              $('.dropify').dropify();
+          } else {
+              if (current_step == 1) {current_step++;}
+          }
+
+          if (gender != "female") {
+              if (current_step == 6) {current_step++;}
+          }
+
+          for (var i = 0; i < stepCount; i++) {
+              step[i].classList.add('d-none')
+          }
+
+          let previous_step = current_step - 1
+
+          if (service == 3) {
+              $('.div-service').show('fast')
+              if (gender == "male") {
+                  $('.div-gender').show('fast')
+              }
+          } 
 
 
-            if ($('#select-service-select').data('select2')){
-                if ($('#select-service-select').select2('data').length > 0) {data_service = $('#select-service-select').select2('data')[0].id;}else {data_service = 0;}
-            }
-            if ($('#select-procedure-select').data('select2')){
-                if ($('#select-procedure-select').select2('data').length > 0) {data_procedure = $('#select-procedure-select').select2('data')[0].id;}else {data_procedure = 0;}
-            }
-            if ($('#select-package-select').data('select2')){
-                if ($('#select-package-select').select2('data').length > 0) {data_package = $('#select-package-select').select2('data')[0].id;}else {data_package = 0;}
-            }
+          if ((current_step > 0) && (current_step < stepCount)) {
 
-            if ($('#sex').data('select2')){
-                if ($('#sex').select2('data').length > 0) {data_sex = $('#sex').select2('data')[0].id;}else {data_sex = 0;}
-            }
+              prevBtn.classList.remove('d-none');
+              prevBtn.classList.add('d-inline-block');
 
-            if ($('#country_id').data('select2')){
-                if ($('#country_id').select2('data').length > 0) {data_country_id = $('#country_id').select2('data')[0].id;}else {data_country_id = 0;}
-            }
-            if ($('#state_id').data('select2')){
-                if ($('#state_id').select2('data').length > 0) {data_state_id = $('#state_id').select2('data')[0].id;}else {data_state_id = 0;}
-            }
-            $("#medication_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="medication_name"]').attr('id', 'medication_name-'+index)
-                $(this).find('input[name*="medication_reason"]').attr('id', 'medication_reason-'+index)
-                $(this).find('input[name*="medication_dosage"]').attr('id', 'medication_dosage-'+index)
-                $(this).find('input[name*="medication_frecuency"]').attr('id', 'medication_frecuency-'+index)
-            });
-            $("#surgery_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="surgey_type"]').attr('id', 'surgey_type-'+index)
-                $(this).find('input[name*="surgey_name"]').attr('id', 'surgey_name-'+index)
-                $(this).find('input[name*="surgey_age"]').attr('id', 'surgey_age-'+index)
-                $(this).find('input[name*="surgey_year"]').attr('id', 'surgey_year-'+index)
-                $(this).find('input[name*="surgey_complications"]').attr('id', 'surgey_complications-'+index)
-            });
-            $("#illness_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="illness"]').attr('id', 'illness-'+index)
-                $(this).find('input[name*="diagnostic_date"]').attr('id', 'diagnostic_date-'+index)
-                $(this).find('input[name*="treatment"]').attr('id', 'treatment-'+index)
-            });
-            $("#exercise_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="exercise_type"]').attr('id', 'exercise_type-'+index)
-                $(this).find('input[name*="exercise_how_long"]').attr('id', 'exercise_how_long-'+index)
-                $(this).find('input[name*="exercise_how_frecuent"]').attr('id', 'exercise_how_frecuent-'+index)
-                $(this).find('input[name*="exercise_hours"]').attr('id', 'exercise_hours-'+index)
-            });
+              step[current_step].classList.remove('d-none');
+              step[current_step].classList.add('d-block');
 
-            $("#hormones_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="hormone_type"]').attr('id', 'hormone_type-'+index)
-                $(this).find('input[name*="hormone_how_long"]').attr('id', 'hormone_how_long-'+index)
-            });
+              step[previous_step].classList.remove('d-block');
+              step[previous_step].classList.add('d-none');
 
-            $("#birth_control_table tbody tr").each(function(index, el) {
-                $(this).find('input[name*="birthControl_type"]').attr('id', 'birthControl_type-'+index)
-                $(this).find('input[name*="birthControl_how_long"]').attr('id', 'birthControl_how_long-'+index)
-            });
+              if (current_step == 7) {
+                  nextBtn.classList.remove('d-inline-block');
+                  nextBtn.classList.add('d-none');
+                  submitBtn.classList.remove('d-none');
+                  submitBtn.classList.add('d-inline-block');
+              }
 
-            form = document.querySelector('form.appsForm')
-            var form_data = new FormData(form);
-            form_data.append('step', current_step);
-            fetch( endPoint + '/checkData', {
-                method: "POST",
-                body: form_data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-              console.log(data);
-              toTop()
-                if (data.hasOwnProperty('exist') ){$('#treatment').html('<strong>'+data.msg+'</strong>')}
-                    if (data.hasOwnProperty('success')) {
-                        if (!data.success) {
-                            $.each( data.errors, function( key, value ) {
-                                $real = key.replace('.', '-')
-                                $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
-                                $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
-                                $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
-                            });
-                        } else {
-                            nextStep(data.images, data.service, data.gender)
-                        }
-                    }
-                })
-        });
-        prevBtn.addEventListener('click', () => {
-            form = document.getElementsByTagName('form')[0]
-            var form_data = new FormData(form);
-            form_data.append('step', current_step);
-            fetch( endPoint + '/getData', {
-                method: "POST",
-                body: form_data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-              toTop()
-              prevStep(data.images, data.service, data.gender)
-            })
-        });
-        submitBtn.addEventListener('click', () =>{
-            form = document.getElementsByTagName('form')[0]
-            var form_data = new FormData(form);
-            $('.loading').css('display', 'block');
-            form_data.append('step', current_step);
-            fetch( endPoint + '/storeData', {
-                method: "POST",
-                body: form_data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                console.log("data", data);
-                $('.loading').css('display', 'none');
-                if (!data.success) {
-                    $.each( data.errors, function( key, value ) {
-                        $real = key.replace('.', '-')
-                        $('*[id^='+$real+']').parent().find('.invalid-feedback').append('<strong>' + value + '</strong>')
-                        $('*[id^='+$real+']').parents('.dropify-wrapper').next('.invalid-feedback').append('<strong>' + value + '</strong>')
-                        $('*[id^='+$real+']').parents('.checkBox').find('.invalid-feedback').append('<strong>' + value + '</strong>')
-                    });
-                    $('.loading').css('display', 'block');
-                } else {
-                    //socket.emit('updateDataTablesToServer');
-                    //window.location.href = "https://es.jlpradosc.com"; 
-                    for (var i = 0; i < stepCount; i++) {
-                        step[i].classList.add('d-none')
-                    }
+              barra = 7;
 
-                    prevBtn.classList.add('d-none');
-                    submitBtn.classList.add('d-none');
-                    nextBtn.classList.add('d-none');
-                    $('.progress').addClass('d-none');
-                    $('.result').removeClass('d-none')
-                    $('.result').addClass('d-block')
-                    $('.loading').css('display', 'none');
-                }
-            })
-        })
-        function nextStep(images = null, service, gender){
-            $imagesArea = $('#images-area')
-            current_step++
-            if (images.need_images == 1) {
-                let dropifyCount = $('.dropify').length
-                if (dropifyCount < 4) {
-                    for (var i = 0; i < images.qty_images; i++) {
-                        var $fortify = `<div class="col-md-6 my-3">
-                        <input type="file"class="dropify"order="1"data-height="200" name="imagenes[]" data-allowed-file-extensions="png jpeg jpg" id="imagenes-${i}"/>
-                        <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
-                        </div>
-                        `;
-                        $imagesArea.append($fortify);
-                    }
-                }
-                $('.dropify').dropify();
-            } else {
-                if (current_step == 1) {current_step++;}
-            }
+              let progress = ((100 / barra) * current_step)
+              progressBar.style.width = Math.round(progress) + '%';
+              progressBar.innerText = Math.round(progress) + '%'
+          }
+      }
+      function prevStep(images = null, service, gender){
 
-            if (gender != "female") {
-                if (current_step == 6) {current_step++;}
-            }
+          if (current_step > 0) {
+              current_step--;
+              console.log("current_step", current_step);
+              let previous_step = current_step - 1;
+              // console.log("previous_step", previous_step);
 
-            for (var i = 0; i < stepCount; i++) {
-                step[i].classList.add('d-none')
-            }
+              if (images.need_images != 1) {
+                  if (current_step == 1) {current_step--;}
+              }
+              if (gender != "female") {
+                  if (current_step == 6) {current_step--;}
+              }
 
-            let previous_step = current_step - 1
+              for (var i = 0; i < stepCount; i++) {
+                  step[i].classList.add('d-none')
+                  if (i == current_step) {
+                      step[i].classList.remove('d-none');
+                      step[i].classList.add('d-block');
+                  }
+              }
 
-            if (service == 3) {
-                $('.div-service').show('fast')
-                if (gender == "male") {
-                    $('.div-gender').show('fast')
-                }
-            } 
+              prevBtn.classList.add('d-none');
+              prevBtn.classList.add('d-inline-block');
+              // step[current_step].classList.remove('d-none');
+              // step[current_step].classList.add('d-block')
+              // step[previous_step].classList.remove('d-block');
+              // step[previous_step].classList.add('d-none');
+              if (current_step < stepCount) {
+                  submitBtn.classList.remove('d-inline-block');
+                  submitBtn.classList.add('d-none');
+                  nextBtn.classList.remove('d-none');
+                  nextBtn.classList.add('d-inline-block');
+                  prevBtn.classList.remove('d-none');
+                  prevBtn.classList.add('d-inline-block');
+              }
+          }
+
+          if (current_step == 0) {
+              prevBtn.classList.remove('d-inline-block');
+              prevBtn.classList.add('d-none');
+          }
 
 
-            if ((current_step > 0) && (current_step < stepCount)) {
-
-                prevBtn.classList.remove('d-none');
-                prevBtn.classList.add('d-inline-block');
-
-                step[current_step].classList.remove('d-none');
-                step[current_step].classList.add('d-block');
-
-                step[previous_step].classList.remove('d-block');
-                step[previous_step].classList.add('d-none');
-
-                if (current_step == 7) {
-                    nextBtn.classList.remove('d-inline-block');
-                    nextBtn.classList.add('d-none');
-                    submitBtn.classList.remove('d-none');
-                    submitBtn.classList.add('d-inline-block');
-                }
-
-                barra = 7;
-
-                let progress = ((100 / barra) * current_step)
-                progressBar.style.width = Math.round(progress) + '%';
-                progressBar.innerText = Math.round(progress) + '%'
-            }
-        }
-        function prevStep(images = null, service, gender){
-
-            if (current_step > 0) {
-                current_step--;
-                console.log("current_step", current_step);
-                let previous_step = current_step - 1;
-                // console.log("previous_step", previous_step);
-
-                if (images.need_images != 1) {
-                    if (current_step == 1) {current_step--;}
-                }
-                if (gender != "female") {
-                    if (current_step == 6) {current_step--;}
-                }
-
-                for (var i = 0; i < stepCount; i++) {
-                    step[i].classList.add('d-none')
-                    if (i == current_step) {
-                        step[i].classList.remove('d-none');
-                        step[i].classList.add('d-block');
-                    }
-                }
-
-                prevBtn.classList.add('d-none');
-                prevBtn.classList.add('d-inline-block');
-                // step[current_step].classList.remove('d-none');
-                // step[current_step].classList.add('d-block')
-                // step[previous_step].classList.remove('d-block');
-                // step[previous_step].classList.add('d-none');
-                if (current_step < stepCount) {
-                    submitBtn.classList.remove('d-inline-block');
-                    submitBtn.classList.add('d-none');
-                    nextBtn.classList.remove('d-none');
-                    nextBtn.classList.add('d-inline-block');
-                    prevBtn.classList.remove('d-none');
-                    prevBtn.classList.add('d-inline-block');
-                }
-            }
-
-            if (current_step == 0) {
-                prevBtn.classList.remove('d-inline-block');
-                prevBtn.classList.add('d-none');
-            }
-
-
-            barra = 7;
-            let progress = ((100 / barra) * current_step)
-            progressBar.style.width = Math.round(progress) + '%';
-            progressBar.innerText = Math.round(progress) + '%'
-        }
-        function submStep(){
-            for (var i = 0; i < stepCount; i++) {
-                step[i].classList.add('d-none')
-            }
-            step[7].classList.remove('d-none')
-            step[7].classList.add('d-inline-block')
-        }
+          barra = 7;
+          let progress = ((100 / barra) * current_step)
+          progressBar.style.width = Math.round(progress) + '%';
+          progressBar.innerText = Math.round(progress) + '%'
+      }
+      function submStep(){
+          for (var i = 0; i < stepCount; i++) {
+              step[i].classList.add('d-none')
+          }
+          step[7].classList.remove('d-none')
+          step[7].classList.add('d-inline-block')
+      }
 
 
       function needImages(){
@@ -2634,7 +2663,7 @@
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
-          illnessField += '<input type="date" name="diagnostic_date[]" class="form-control form-control-sm">'
+          illnessField += `<input type="text" name="diagnostic_date[]" class="form-control form-control-sm" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">`
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
@@ -2936,6 +2965,63 @@
         medicationField += '</tr>'
         $('#birth_control_table tbody').append(medicationField)
       }
+      $("select").change(function () {
+          if(!$(this).val()) $(this).addClass("empty");
+          else $(this).removeClass("empty")
+      });
+      $("select").change();
+
+      (function($) {
+            $.fn.inputFilter = function(inputFilter) {
+                return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                } else {
+                    this.value = "";
+                }
+                });
+            };
+        }(jQuery));
+
+        $(function () {
+            $(".intTextBox").inputFilter(function(value) { // solo numeros
+                return /^-?\d*$/.test(value); 
+            });
+            $(".uintTextBox").inputFilter(function(value) { // solo enteros > 0
+                return /^\d*$/.test(value); 
+            });
+            $(".intLimitTextBox").inputFilter(function(value) { // limitado a 500
+                return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(number)); 
+            });
+            $(".floatTextBox").inputFilter(function(value) { // con decimales
+                return /^-?\d*[.,]?\d*$/.test(value); 
+            });
+            $(".currencyTextBox").inputFilter(function(value) { //modeda
+                return /^-?\d*[.,]?\d{0,2}$/.test(value); 
+            });
+            $(".latinTextBox").inputFilter(function(value) { // solo letas
+                return /^[a-z]*$/i.test(value); 
+            });
+            $(".hexTextBox").inputFilter(function(value) { // exadecimal letas y numeros
+                return /^[0-9a-f]*$/i.test(value); 
+            });
+            function validarFecha(fecha) {
+              var formato = "MM/DD/YYYY";
+              return moment(fecha, formato, true).isValid();
+            }
+            $(document).on('change', '.fecha', function(event) {
+              event.preventDefault();
+              date = $(this).val();
+              if (!validarFecha(date)) {
+
+              }
+            });
+        });
     </script>
   </body>
 </html>

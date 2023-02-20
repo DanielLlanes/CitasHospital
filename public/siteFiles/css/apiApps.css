@@ -200,3 +200,18 @@ select {
 			color: #999;
 }
 
+.form-select-sm {
+    padding-top: 0;
+    padding-bottom:0;
+    padding-left: 0;
+    font-size: .875rem;
+    border-radius: 0.2rem;
+    padding: 0.25rem 0.5rem;
+}
+
+option { color: black; }
+.empty { color: #aaa; }
+
+/*option[value=""][disabled] {
+  display: none;
+}*/

@@ -155,11 +155,17 @@ class EsApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
+
+
             $lang = 'es';
             if ($request->step == 0) {
                 $exist = false;
 
-                if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
+
+                $neddPackage = Procedure::where('id', $request->procedure)->first();
+                
+
+                if ( $neddPackage->has_package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
                 else { $exist = Treatment::where("procedure_id", $request->procedure)->where('package_id', $request->package)->first(); }
 
                 if (!$exist) {
@@ -183,13 +189,13 @@ class EsApiAppsController extends Controller
                         'name' => 'required|string',
                         'sex' => 'required|string|',
                         'age' => 'required|numeric|between:18,99',
-                        'dob' => 'required|date',
+                        'dob' => 'required|date_format:d/m/Y',
                         'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'email' => 'required|max:255|email',
                         'address' => 'required',
-                        'country_id' => 'required|integer',
-                        'state_id' => 'required|integer',
+                        'country_id' => 'required|string',
+                        'state_id' => 'required|string',
                         'city' => 'required|string',
                         'zip' => 'required|string',
                         'ecn' => 'required|string',
@@ -290,40 +296,40 @@ class EsApiAppsController extends Controller
                     "addiction" => 'required|boolean',
                     "which_one_adiction" => 'required_if:addiction,1','string',
                     "high_lipid_levels" => 'required|boolean',
-                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:d/m/Y',
                     "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
                     "arthritis" => 'required|boolean',
-                    "date_arthritis" => 'required_if:arthritis,1','date',
+                    "date_arthritis" => 'required_if:arthritis,1','date','date_format:d/m/Y',
                     "treatment_arthritis" => 'required_if:arthritis,1','string',
                     "cancer" => 'required|boolean',
-                    "date_cancer" => 'required_if:cancer,1','date',
+                    "date_cancer" => 'required_if:cancer,1','date','date_format:d/m/Y',
                     "treatment_cancer" => 'required_if:cancer,1','string',
                     "cholesterol" => 'required|boolean',
-                    "date_cholesterol" => 'required_if:cholesterol,1','date',
+                    "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:d/m/Y',
                     "treatment_cholesterol" => 'required_if:cholesterol,1','string',
                     "triglycerides" => 'required|boolean',
-                    "date_triglycerides" => 'required_if:triglycerides,1','date',
+                    "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:d/m/Y',
                     "treatment_triglycerides" => 'required_if:triglycerides,1','string',
                     "stroke" => 'required|boolean',
-                    "date_stroke" => 'required_if:stroke,1','date',
+                    "date_stroke" => 'required_if:stroke,1','date','date_format:d/m/Y',
                     "treatment_stroke" => 'required_if:stroke,1','string',
                     "diabetes" => 'required|boolean',
-                    "date_diabetes" => 'required_if:diabetes,1','date',
+                    "date_diabetes" => 'required_if:diabetes,1','date','date_format:d/m/Y',
                     "treatment_diabetes" => 'required_if:diabetes,1','string',
                     "coronary_artery_disease" => 'required|boolean',
                     "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "liver_disease" => 'required|boolean',
-                    "date_liver_disease" => 'required_if:liver_disease,1','date',
+                    "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:d/m/Y',
                     "treatment_liver_disease" => 'required_if:liver_disease,1','string',
                     "lugn_disease" => 'required|boolean',
-                    "date_lugn_disease" => 'required_if:lugn_disease,1','date',
+                    "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:d/m/Y',
                     "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
                     "renal_disease" => 'required|boolean',
-                    "date_renal_disease" => 'required_if:renal_disease,1','date',
+                    "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:d/m/Y',
                     "treatment_renal_disease" => 'required_if:renal_disease,1','string',
                     "thyroid_disease" => 'required|boolean',
-                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:d/m/Y',
                     "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
                     "hypertension" => 'required|boolean',
                     "date_hypertension" => 'required_if:hypertension,1','string',
@@ -333,7 +339,7 @@ class EsApiAppsController extends Controller
                     "illness" => ['required_if:any_other_illnesses,1','array'],
                     "illness.*" => ['required_if:any_other_illnesses,1','string'],
                     "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:d/m/Y'],
                     "treatment" => ['required_if:any_other_illnesses,1','array'],
                     "treatment.*" => ['required_if:any_other_illnesses,1','string'],
                 ]);
@@ -661,7 +667,7 @@ class EsApiAppsController extends Controller
             if ($request->step == 6) {
                 $validator = Validator::make($request->all(), [
 
-                    "last_menstrual_period" => "required|date",
+                    "last_menstrual_period" => "required|date|date_format:d/m/Y",
                     "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                     "have_you_been_pregnant" => "required|boolean",
                     "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -715,11 +721,16 @@ class EsApiAppsController extends Controller
     }
     public function storeData(Request $request)
     {
-        //return $request;
+        
         //$partnerCode = $code;
         $lang = 'es';
         $exist = false;
-        if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
+
+
+        $neddPackage = Procedure::where('id', $request->procedure)->first();
+                
+
+        if ( $neddPackage->has_package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
         else { $exist = Treatment::where("procedure_id", $request->procedure)->where('package_id', $request->package)->first(); }
         $treatment = $exist;
 
@@ -742,13 +753,13 @@ class EsApiAppsController extends Controller
                 'name' => 'required|string',
                 'sex' => 'required|string|',
                 'age' => 'required|numeric|between:18,99',
-                'dob' => 'required|date',
+                'dob' => 'required|date|date_format:d/m/Y',
                 'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email',
                 'address' => 'required',
-                'country_id' => 'required|integer',
-                'state_id' => 'required|integer',
+                'country_id' => 'required|string',
+                'state_id' => 'required|string',
                 'city' => 'required|string',
                 'zip' => 'required|string',
                 'ecn' => 'required|string',
@@ -841,40 +852,40 @@ class EsApiAppsController extends Controller
             "addiction" => 'required|boolean',
             "which_one_adiction" => 'required_if:addiction,1','string',
             "high_lipid_levels" => 'required|boolean',
-            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:d/m/Y',
             "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
             "arthritis" => 'required|boolean',
-            "date_arthritis" => 'required_if:arthritis,1','date',
+            "date_arthritis" => 'required_if:arthritis,1','date','date_format:d/m/Y',
             "treatment_arthritis" => 'required_if:arthritis,1','string',
             "cancer" => 'required|boolean',
-            "date_cancer" => 'required_if:cancer,1','date',
+            "date_cancer" => 'required_if:cancer,1','date','date_format:d/m/Y',
             "treatment_cancer" => 'required_if:cancer,1','string',
             "cholesterol" => 'required|boolean',
-            "date_cholesterol" => 'required_if:cholesterol,1','date',
+            "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:d/m/Y',
             "treatment_cholesterol" => 'required_if:cholesterol,1','string',
             "triglycerides" => 'required|boolean',
-            "date_triglycerides" => 'required_if:triglycerides,1','date',
+            "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:d/m/Y',
             "treatment_triglycerides" => 'required_if:triglycerides,1','string',
             "stroke" => 'required|boolean',
-            "date_stroke" => 'required_if:stroke,1','date',
+            "date_stroke" => 'required_if:stroke,1','date','date_format:d/m/Y',
             "treatment_stroke" => 'required_if:stroke,1','string',
             "diabetes" => 'required|boolean',
-            "date_diabetes" => 'required_if:diabetes,1','date',
+            "date_diabetes" => 'required_if:diabetes,1','date','date_format:d/m/Y',
             "treatment_diabetes" => 'required_if:diabetes,1','string',
             "coronary_artery_disease" => 'required|boolean',
             "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "liver_disease" => 'required|boolean',
-            "date_liver_disease" => 'required_if:liver_disease,1','date',
+            "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:d/m/Y',
             "treatment_liver_disease" => 'required_if:liver_disease,1','string',
             "lugn_disease" => 'required|boolean',
-            "date_lugn_disease" => 'required_if:lugn_disease,1','date',
+            "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:d/m/Y',
             "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
             "renal_disease" => 'required|boolean',
-            "date_renal_disease" => 'required_if:renal_disease,1','date',
+            "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:d/m/Y',
             "treatment_renal_disease" => 'required_if:renal_disease,1','string',
             "thyroid_disease" => 'required|boolean',
-            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:d/m/Y',
             "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
             "hypertension" => 'required|boolean',
             "date_hypertension" => 'required_if:hypertension,1','string',
@@ -884,7 +895,7 @@ class EsApiAppsController extends Controller
             "illness" => ['required_if:any_other_illnesses,1','array'],
             "illness.*" => ['required_if:any_other_illnesses,1','string'],
             "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:d/m/Y'],
             "treatment" => ['required_if:any_other_illnesses,1','array'],
             "treatment.*" => ['required_if:any_other_illnesses,1','string'],
         ]);
@@ -920,14 +931,38 @@ class EsApiAppsController extends Controller
                 "bipap_cpap" => "required|boolean",
                 "exercise" => "required|boolean",
 
-                "exercise_type" => ['required_if:exercise,1','array'],
-                "exercise_type.*" => ['required_if:exercise,1','string'],
-                "exercise_how_long" => ['required_if:exercise,1','array'],
-                "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                "exercise_hours.*" => ['required_if:exercise,1','string'],
-                "exercise_hours" => ['required_if:exercise,1','array'],
+                "exercise_type" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_type.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_long" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_how_long.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_hours.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_hours" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
             ]);
         }
 
@@ -964,15 +999,39 @@ class EsApiAppsController extends Controller
                 "asthma" => "required|boolean",
                 "bipap_cpap" => "required|boolean",
                 "exercise" => "required|boolean",
-
-                "exercise_type" => ['required_if:exercise,1','array'],
-                "exercise_type.*" => ['required_if:exercise,1','string'],
-                "exercise_how_long" => ['required_if:exercise,1','array'],
-                "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                "exercise_hours.*" => ['required_if:exercise,1','numeric'],
-                "exercise_hours" => ['required_if:exercise,1','array'],
+            
+                "exercise_type" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_type.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_long" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_how_long.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_hours.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_hours" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
                 ///////////////////////////////////////////////////////
                 "hours_you_sleep_at_night" => ['required', 'numeric'],
                 'do_you_take_sleeping_pills' => ['required', 'boolean'],
@@ -1088,16 +1147,41 @@ class EsApiAppsController extends Controller
                 "bipap_cpap" => "required|boolean",
                 "exercise" => "required|boolean",
 
-                "exercise_type" => ['required_if:exercise,1','array'],
-                "exercise_type.*" => ['required_if:exercise,1','string'],
-                "exercise_how_long" => ['required_if:exercise,1','array'],
-                "exercise_how_long.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent.*" => ['required_if:exercise,1','string'],
-                "exercise_how_frecuent" => ['required_if:exercise,1','array'],
-                "exercise_hours.*" => ['required_if:exercise,1','numeric'],
-                "exercise_hours" => ['required_if:exercise,1','array'],
-                ///////////////////////////////////////////////////////
-                "hours_you_sleep_at_night" => ['required', 'numeric'],
+                
+                "exercise_type" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_type.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_long" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_how_long.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_how_frecuent" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+                "exercise_hours.*" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "string": null,
+                ],
+                "exercise_hours" => [
+                    ($request->exercise == '1') ? "required": null,
+                    ($request->exercise == '1') ? "array": null,
+                ],
+        ///////////////////////////////////////////////////////
+        "hours_you_sleep_at_night" => ['required', 'numeric'],
 
                 'do_you_take_sleeping_pills' => ['required', 'boolean'],
                 'do_you_suffer_from_anxiety_or_depression' => ['required', 'boolean'],
@@ -1109,7 +1193,7 @@ class EsApiAppsController extends Controller
 
         if ($request->sex == 'female') {
             $validator6 = Validator::make($request->all(), [
-                "last_menstrual_period" => "required|date",
+                "last_menstrual_period" => "required|date|date_format:d/m/Y",
                 "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                 "have_you_been_pregnant" => "required|boolean",
                 "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -1189,13 +1273,13 @@ class EsApiAppsController extends Controller
             $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
-            $patient->dob = $request->dob;
+            $patient->dob = Carbon::createFromFormat('d/m/Y', $request->dob)->format('Y-m-d');
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
-            $patient->country_id = $request->country_id;
-            $patient->state_id = $request->state_id;
+            $patient->pais = $request->country_id;
+            $patient->estado = $request->state_id;
             $patient->city = $request->city;
             $patient->zip = $request->zip;
             $patient->ecn = $request->ecn;
@@ -1205,7 +1289,7 @@ class EsApiAppsController extends Controller
             $patient->code = getCode();
             $patient->save();
         }
-
+        
         $app = new Application;
 
         if (!is_null($request->describe_other_allergy)) {
@@ -1246,43 +1330,43 @@ class EsApiAppsController extends Controller
         $app->addiction = $request->addiction;
         $app->which_one_adiction = $request->which_one_adiction;
         $app->high_lipid_levels = $request->high_lipid_levels;
-        $app->date_high_lipd_levels = $request->date_high_lipid_levels;
+        $app->date_high_lipd_levels = (is_null($request->date_high_lipid_levels)? null:Carbon::createFromFormat('d/m/Y', $request->date_high_lipid_levels)->format('Y-m-d'));
         $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
         $app->cancer = $request->cancer;
-        $app->date_cancer = $request->date_cancer;
+        $app->date_cancer = (is_null($request->date_cancer)? null:Carbon::createFromFormat('d/m/Y', $request->date_cancer)->format('Y-m-d'));
         $app->cancer_treatment = $request->treatment_cancer;
         $app->arthritis = $request->arthritis;
-        $app->date_arthritis = $request->date_arthritis;
+        $app->date_arthritis = (is_null($request->date_arthritis)? null:Carbon::createFromFormat('d/m/Y', $request->date_arthritis)->format('Y-m-d'));
         $app->arthritis_treatment = $request->treatment_arthritis;
         $app->cholesterol = $request->cholesterol;
-        $app->date_cholesterol = $request->date_cholesterol;
+        $app->date_cholesterol = (is_null($request->date_cholesterol)? null:Carbon::createFromFormat('d/m/Y', $request->date_cholesterol)->format('Y-m-d'));
         $app->cholesterol_treatment = $request->treatment_cholesterol;
         $app->triglycerides = $request->triglycerides;
-        $app->date_triglycerides = $request->date_triglycerides;
+        $app->date_triglycerides = (is_null($request->date_triglycerides)? null:Carbon::createFromFormat('d/m/Y', $request->date_triglycerides)->format('Y-m-d'));
         $app->triglycerides_treatment = $request->treatment_triglycerides;
         $app->disease_stroke = $request->stroke;
-        $app->date_disease_stroke = $request->date_stroke;
+        $app->date_disease_stroke = (is_null($request->date_stroke)? null:Carbon::createFromFormat('d/m/Y', $request->date_stroke)->format('Y-m-d'));
         $app->disease_stroke_treatment = $request->treatment_stroke;
         $app->diabetes = $request->diabetes;
-        $app->date_diabetes = $request->date_diabetes;
+        $app->date_diabetes = (is_null($request->date_diabetes)? null:Carbon::createFromFormat('d/m/Y', $request->date_diabetes)->format('Y-m-d'));
         $app->diabetes_treatment = $request->treatment_diabetes;
         $app->coronary_artery_disease = $request->coronary_artery_disease;
-        $app->date_coronary_artery_disease = $request->date_coronary_artery_disease;
+        $app->date_coronary_artery_disease = (is_null($request->date_coronary_artery_diseases)? null:Carbon::createFromFormat('d/m/Y', $request->date_coronary_artery_diseases)->format('Y-m-d'));
         $app->coronary_artery_disease_treatment = $request->treatment_coronary_artery_disease;
         $app->disease_liver = $request->liver_disease;
-        $app->date_disease_liver = $request->date_liver_disease;
+        $app->date_disease_liver = (is_null($request->date_liver_disease)? null:Carbon::createFromFormat('d/m/Y', $request->date_liver_disease)->format('Y-m-d'));
         $app->disease_liver_treatment = $request->treatment_liver_disease;
         $app->disease_lung = $request->lugn_disease;
-        $app->date_disease_lung = $request->date_lugn_disease;
+        $app->date_disease_lung = (is_null($request->date_lugn_disease)? null:Carbon::createFromFormat('d/m/Y', $request->date_lugn_disease)->format('Y-m-d'));;
         $app->disease_lung_treatment = $request->treatment_lugn_disease;
         $app->disease_renal = $request->renal_disease;
-        $app->date_disease_renal = $request->date_renal_disease;
+        $app->date_disease_renal = (is_null($request->date_renal_disease)? null:Carbon::createFromFormat('d/m/Y', $request->date_renal_disease)->format('Y-m-d'));;
         $app->disease_renal_treatment = $request->treatment_renal_disease;
         $app->disease_thyroid = $request->thyroid_disease;
-        $app->date_disease_thyroid = $request->date_thyroid_disease;
+        $app->date_disease_thyroid = (is_null($request->date_thyroid_disease)? null:Carbon::createFromFormat('d/m/Y', $request->date_thyroid_disease)->format('Y-m-d'));
         $app->disease_thyroid_treatment = $request->treatment_thyroid_disease;
         $app->ypertension = $request->hypertension;
-        $app->hypertension = $request->date_hypertension;
+        $app->hypertension = (is_null($request->date_hypertension)? null:Carbon::createFromFormat('d/m/Y', $request->date_hypertension)->format('Y-m-d'));;
         $app->hypertension_treatment = $request->treatment_hypertension;
         $app->disease_other = $request->any_other_illnesses;
 
@@ -1335,8 +1419,7 @@ class EsApiAppsController extends Controller
         $app->have_you_received_stem_cell_treatment_for_erectile_dysfunction = $request->have_you_received_stem_cell_treatment_for_erectile_dysfunction;
         $app->hyrvrntwliwtfed = $request->hyrvrntwliwtfed;
 
-
-        $app->last_menstrual_period = $request->last_menstrual_period;
+        $app->last_menstrual_period = (is_null($request->last_menstrual_period)? null:Carbon::createFromFormat('d/m/Y', $request->last_menstrual_period)->format('Y-m-d'));
         $app->bleeding_whas = $request->bleeding_whas;
                     
         $app->have_you_been_pregnant = $request->have_you_been_pregnant;
@@ -1519,15 +1602,17 @@ class EsApiAppsController extends Controller
                 'code' => $surgey_cadena[$i]['code'],
                 ];
             }
+            
             for ($i = 0; $i < count($illness_cadena); $i++) {
                 $insert_illnesses[] = [
                 'application_id' => $app->id,
                 'illness' => $illness_cadena[$i]['illness'],
-                'diagnostic_date' => $illness_cadena[$i]['diagnostic_date'],
+                'diagnostic_date' => Carbon::createFromFormat('d/m/Y', $illness_cadena[$i]['diagnostic_date'])->format('Y-m-d'),
                 'treatment' => $illness_cadena[$i]['treatment'],
                 'code' => $illness_cadena[$i]['code']
                 ];
             }
+            
             for ($i = 0; $i < count($exercise_cadena); $i++) {
                 $insert_exercise[] = [
                 'application_id' => $app->id,
@@ -1745,14 +1830,14 @@ class EsApiAppsController extends Controller
                     ]);
                 }
             }
-            foreach ($toEmail as $key => $data) {
-                Mail::to($data->staff_email)
-                ->send(
-                    new NewAppEmail($data)
-                );
-                sleep(1);
-            }
-            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+            // foreach ($toEmail as $key => $data) {
+            //     Mail::to($data->staff_email)
+            //     ->send(
+            //         new NewAppEmail($data)
+            //     );
+            //     sleep(1);
+            // }
+            // Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;

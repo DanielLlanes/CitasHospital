@@ -216,8 +216,8 @@
                         <div class="notas text"></div>
                     </div>
                 </div>
-                <div class="modal-footer flex-nowrap">
-                    <div class="col-6 d-flex flex-row">
+                <div class="col-12 d-flex">
+                    <div class="col-12 d-flex flex-row justify-content-center">
                         <div class="custom-control custom-radio custom-control-inline">
                             <input type="radio" id="status0" name="status" class="custom-control-input" value="0">
                             <label class="custom-control-label badge text-dark" style="background-color: transparent;" for="status0">Active</label>
@@ -229,7 +229,10 @@
                             </div>
                         @endforeach
                     </div>
-                    <div class="col-6 d-flex flex-wrap justify-content-end">
+                </div>
+                <div class="modal-footer flex-nowrap">
+                    
+                    <div class="col-12 d-flex flex-wrap justify-content-center">
                         <span>
                             <button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">@lang('Close')</button>
                             @can('calendar.edit')
@@ -321,7 +324,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var initialLocaleCode = 'es';
-                calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',

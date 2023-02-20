@@ -202,11 +202,11 @@
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>País</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->country->name ?? '' }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->pais ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Estado</strong>
                                             <br>
-                                            <p class="text-muted">{{ $appInfo->patient->state->name ?? '' }}</p>
+                                            <p class="text-muted">{{ $appInfo->patient->estado ?? '' }}</p>
                                         </div>
                                         <div class="col-md-3 col-6 mb-2"> <strong>Ciudad</strong>
                                             <br>
