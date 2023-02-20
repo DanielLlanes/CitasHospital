@@ -11,6 +11,38 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <title>Applications</title>
+
+    <style>
+      input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], input[type="range"], input[type="date"], input[type="month"], input[type="week"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea, select, .nice-select {
+           background-color: transparent!important; 
+          -webkit-border-radius: 4px;
+          -khtml-border-radius: 4px;
+          -moz-border-radius: 4px;
+          -ms-border-radius: 4px;
+          -o-border-radius: 4px;
+           border-radius: 4px; 
+           border: 1px solid #ced4da; 
+          color: #848e9f;
+          padding: 0 20px;
+          line-height: normal;
+           height: calc(1.5em + 0.5rem + 2px); 
+          font-size: .875rem;
+          -webkit-transition: all 300ms linear 0ms;
+          -khtml-transition: all 300ms linear 0ms;
+          -moz-transition: all 300ms linear 0ms;
+          -ms-transition: all 300ms linear 0ms;
+          -o-transition: all 300ms linear 0ms;
+          transition: all 300ms linear 0ms;
+          -webkit-box-shadow: none;
+          -khtml-box-shadow: none;
+          -moz-box-shadow: none;
+          -ms-box-shadow: none;
+          -o-box-shadow: none;
+          box-shadow: none;
+          width: 100%;
+          outline: none;
+      }
+    </style>
   </head>
   <body id="top">
     <div class="loading"></div>
