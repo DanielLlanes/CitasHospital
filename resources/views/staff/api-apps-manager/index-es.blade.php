@@ -92,14 +92,14 @@
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Teléfono</label>
                     <div class="col-sm-9">
-                      <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="" placeholder="phone">
+                      <input type="text" class="form-control form-control-sm" id="phone" name="phone" value="" placeholder="phone">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
                   <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Movil</label>
                     <div class="col-sm-9">
-                      <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="" placeholder="Mobile">
+                      <input type="text" class="form-control form-control-sm" id="mobile" name="mobile" value="" placeholder="Mobile">
                       <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                     </div>
                   </div>
