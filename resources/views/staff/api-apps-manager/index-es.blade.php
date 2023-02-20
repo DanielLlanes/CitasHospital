@@ -2006,9 +2006,9 @@
       function getServices(data){
         for (var dat of data) {
           let option = `<option value="${dat.id}">${dat.text}</option>`;
-          let option = `<li data-value="${dat.id}">${dat.text}</li>`;
+          let li = `<li data-value="${dat.id}">${dat.text}</li>`;
           $('#select-service-select').append(option)
-          $('#select-service-select').next('nice-select').find('list')
+          $('#select-service-select').next('nice-select').find('list').append(li)
         }
       }
       function getProcedures(id){
