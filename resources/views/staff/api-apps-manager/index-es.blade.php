@@ -1915,7 +1915,7 @@
           nextBtn.classList.add('d-inline-block');
           nextBtn.setAttribute('data-step', current_step);
       }
-      $('select').niceSelect('destroy');
+
       for (var i = 0; i < stepCount; i++) {
         step[i].classList.add('d-none')
       }
@@ -2008,7 +2008,8 @@
           let option = `<option value="${dat.id}">${dat.text}</option>`;
           let li = `<li data-value="${dat.id}">${dat.text}</li>`;
           $('#select-service-select').append(option)
-          $('#select-service-select').next('nice-select').find('list').append(li)
+          $('#select-service-select').next('.nice-select').find('.list').append(li)
+          $('select').niceSelect('update');
         }
       }
       function getProcedures(id){
