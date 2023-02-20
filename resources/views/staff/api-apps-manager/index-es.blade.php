@@ -2008,7 +2008,7 @@
           let option = `<option value="${dat.id}">${dat.text}</option>`;
           let li = `<li data-value="${dat.id}">${dat.text}</li>`;
           $('#select-service-select').append(option)
-          $('#select-service-select').next('.nice-select').find('.list').append(li)
+          //$('#select-service-select').next('.nice-select').find('.list').append(li)
           $('select').niceSelect('update');
         }
       }
@@ -2026,6 +2026,7 @@
             for (var dat of data) {
               let option = `<option package="${dat.package}" value="${dat.id}">${dat.text}</option>`;
               $('#select-procedure-select').append(option)
+              $('select').niceSelect('update');
             }
           })
       }
