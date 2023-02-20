@@ -12,7 +12,14 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <title>Applications</title>
 
-    <style>
+    
+  </head>
+  <body id="top">
+    <div class="loading"></div>
+    </div>
+    <div class="col-12" style="margin-bottom: 100px;"></div>
+    <div class="col-12">
+      <style>
       input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], input[type="range"], input[type="date"], input[type="month"], input[type="week"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea, select, .nice-select {
            background-color: transparent!important; 
           -webkit-border-radius: 4px;
@@ -43,12 +50,6 @@
           outline: none;
       }
     </style>
-  </head>
-  <body id="top">
-    <div class="loading"></div>
-    </div>
-    <div class="col-12" style="margin-bottom: 100px;"></div>
-    <div class="col-12">
       <section id="team" class="team">
         <div class="container">
           <div class="section-title mb-5" data-aos="fade-up">
