@@ -1915,7 +1915,7 @@
           nextBtn.classList.add('d-inline-block');
           nextBtn.setAttribute('data-step', current_step);
       }
-
+      $('select').niceSelect('destroy');
       for (var i = 0; i < stepCount; i++) {
         step[i].classList.add('d-none')
       }
