@@ -2006,7 +2006,9 @@
       function getServices(data){
         for (var dat of data) {
           let option = `<option value="${dat.id}">${dat.text}</option>`;
+          let option = `<li data-value="${dat.id}">${dat.text}</li>`;
           $('#select-service-select').append(option)
+          $('#select-service-select').next('nice-select').find('list')
         }
       }
       function getProcedures(id){
@@ -2064,12 +2066,6 @@
           let data_procedure = 0;
           let data_package = 0;
           let data_sex = '';
-
-
-
-
-
-
           if ($('#select-service-select').data('select2')){
               if ($('#select-service-select').select2('data').length > 0) {data_service = $('#select-service-select').select2('data')[0].id;}else {data_service = 0;}
           }
