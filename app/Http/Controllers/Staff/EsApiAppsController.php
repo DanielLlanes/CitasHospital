@@ -1830,14 +1830,14 @@ class EsApiAppsController extends Controller
                     ]);
                 }
             }
-            // foreach ($toEmail as $key => $data) {
-            //     Mail::to($data->staff_email)
-            //     ->send(
-            //         new NewAppEmail($data)
-            //     );
-            //     sleep(1);
-            // }
-            // Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+            foreach ($toEmail as $key => $data) {
+                Mail::to($data->staff_email)
+                ->send(
+                    new NewAppEmail($data)
+                );
+                sleep(1);
+            }
+            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
