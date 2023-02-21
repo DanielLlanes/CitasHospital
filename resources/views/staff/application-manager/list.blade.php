@@ -39,6 +39,7 @@
                                             <thead>
                                                 <tr>
                                                     <th> ID </th>
+                                                    <th> @lang('Status') </th>
                                                     <th> @lang('Paciente') </th>
                                                     <th> @lang('Marca') </th>
                                                     <th> @lang('Servicio') </th>
@@ -48,7 +49,6 @@
                                                     <th> @lang('Fecha') </th>
                                                     {{-- <th> @lang('Precio') </th>
                                                     <th> @lang('Statring Price') </th> --}}
-                                                    <th> @lang('Status') </th>
                                                     <th> @lang('Código') </th>
                                                     <th> @lang('Promotor') </th>
                                                     <th> @lang('Acciones') </th>
@@ -166,6 +166,7 @@
 		        "columns": [
 
 					{ data: 'id' },
+                    { data: "status" },
                     { data: "paciente" },
                     { data: "marca" },
                     { data: "servicio" },
@@ -175,7 +176,6 @@
                     { data: "fecha" },
                     // { data: "precio" },
                     // { data: "precio_inicial" },
-                    { data: "status" },
                     { data: "codigo" },
                     { data: "partner" },
 		            { data: "acciones", orderable: false, searchable: false },

@@ -1936,34 +1936,11 @@
         }
       });
 
-      // fetch( endPoint + '/countries ')
-      // .then(response => response.json())
-      // .then(json => getCountry(json))
-
       fetch( endPoint + '/services ')
       .then(response => response.json())
       .then(json => getServices(json))
 
-      // $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
-      // $('#country_id').select2();
-      // $('#sex').select2({placeholder: 'Selecciona tu género biológico'});
-      // $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
-      // $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
-      // $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
-      // $('#country_id').on('select2:select', function(e){
-      //   let data = e.params.data;
-      //   getStates(data.id);
-      // })
-      // $('#select-service-select').on('select2:select', function(e){
-      //     let data = e.params.data;
-      //     $("#package").addClass('d-none')
-      //     getProcedures(data.id);
-      // })
-      // $('#select-procedure-select').on('select2:select', function(e){
-      //     let data = e.params.data;
-      //     $("#package").addClass('d-none')
-      //     if (data.package === 1) {getPackages(data)}
-      // })
+    
       $(document).on('change', '#select-service-select', function(event) {
         event.preventDefault();
         var id = $( "#select-service-select option:selected" ).val();
@@ -1979,30 +1956,7 @@
         $("#package").addClass('d-none')
         if (paq == 1) {getPackages(id, paq)}
       });
-      // function getCountry(data){
-      //   console.log("data", data);
-      //     $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-      //     $('#country_id').prepend('<option selected></option>').select2({
-      //         placeholder: 'Selecciona tu pais',
-      //         data: data
-      //     })
-      //   }
-      // function getStates(id){
-      // //     let data = new FormData();
-      // //     data.append('id', id)
-      // //     fetch( endPoint + '/states', {
-      // //         method: "POST",
-      // //         body: data
-      // //     })
-      // //     .then(response => response.json())
-      // //     .then( function(data) {
-      // //         $('#state_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-      // //         $('#state_id').prepend('<option selected></option>').select2({
-      // //             placeholder: 'Selecciona un estado o provincia',
-      // //             data: data
-      // //         })
-      // //     })
-      //  }
+      
       function getServices(data){
         for (var dat of data) {
           let option = `<option value="${dat.id}">${dat.text}</option>`;
@@ -2058,6 +2012,7 @@
               }
           })
       }
+      
       function toTop(){
         $("html, body").animate({ scrollTop: 0 }, "fast");
         document.body.scrollTop = 0;
@@ -2169,7 +2124,7 @@
           })
           .then(response => response.json())
           .then( function(data) {
-              console.log("data", data);
+              toTop()
               $('.loading').css('display', 'none');
               if (!data.success) {
                   $.each( data.errors, function( key, value ) {
@@ -2702,7 +2657,7 @@
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
-          illnessField += `<input type="text" name="diagnostic_date[]" class="form-control form-control-sm" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">`
+          illnessField += `<input type="text" name="diagnostic_date[]" class="form-control form-control-sm dinamicDate" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'">`
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
@@ -2715,6 +2670,7 @@
           illnessField += '</td>'
           illnessField += '</tr>'
           $('#illness_table tbody').append(illnessField)
+          // .dinamicDate
       }
 
       var amount = $('#smoke_cigars').val();

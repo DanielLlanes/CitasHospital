@@ -21,6 +21,44 @@
     <div class="loading"></div>
     <div class="col-12" style="margin-bottom: 100px;"></div>
     <div class="col-12 animate-bottom">
+         <style>
+      input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="tel"], input[type="number"], input[type="range"], input[type="date"], input[type="month"], input[type="week"], input[type="time"], input[type="datetime"], input[type="datetime-local"], input[type="color"], textarea, select, .nice-select {
+           background-color: transparent!important; 
+          -webkit-border-radius: 4px;
+          -khtml-border-radius: 4px;
+          -moz-border-radius: 4px;
+          -ms-border-radius: 4px;
+          -o-border-radius: 4px;
+           border-radius: 4px; 
+           border: 1px solid #ced4da; 
+          color: #848e9f;
+          padding: 0 20px;
+          line-height: normal;
+           height: calc(1.5em + 0.5rem + 2px); 
+          font-size: .875rem;
+          -webkit-transition: all 300ms linear 0ms;
+          -khtml-transition: all 300ms linear 0ms;
+          -moz-transition: all 300ms linear 0ms;
+          -ms-transition: all 300ms linear 0ms;
+          -o-transition: all 300ms linear 0ms;
+          transition: all 300ms linear 0ms;
+          -webkit-box-shadow: none;
+          -khtml-box-shadow: none;
+          -moz-box-shadow: none;
+          -ms-box-shadow: none;
+          -o-box-shadow: none;
+          box-shadow: none;
+          width: 100%;
+          outline: none;
+      }
+      .nice-select span.current {
+          display: block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          line-height: 30px;
+      }
+    </style>
         <section id="team" class="team">
             <div class="container">
                 <div class="section-title mb-5" data-aos="fade-up">
@@ -83,26 +121,9 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
                                     <div class="col-sm-9 d-flex">
-                                        <div class="col-4 pe-3">
-                                            <select name="month" class="form-control form-control-sm month" id="month">
-                                                <option value="" disabled selected class="">Month....</option>
-                                            </select>
-                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
-                                        </div>
-                                        <div class="col-4">
-                                            <select name="day" class="form-control form-control-sm day" id="day">
-                                                <option value="" disabled selected class="placeholder">Day....</option>
-                                            </select>
-                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
-                                        </div>
-                                        <div class="col-4 ps-3">
-                                            <select name="year" class="form-control form-control-sm year" id="year">
-                                                <option value="" disabled selected class="">Year...</option>
-                                            </select>
-                                            <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
-                                        </div>
-                                    </div>
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                        <input type="text" class="form-control form-control-sm w-100" id="dob" name="dob" value="" placeholder="Fecha de naciemiento" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
+                                        <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                                    </div>    
                                 </div>
 
                                 <div class="mb-3 row">
@@ -115,14 +136,14 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Phone</label>
                                     <div class="col-sm-9">
-                                        <input type="phone" class="form-control form-control-sm" id="phone" name="phone" value="" placeholder="phone">
+                                        <input type="text" class="form-control form-control-sm" id="phone" name="phone" value="" placeholder="phone">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Mobile</label>
                                     <div class="col-sm-9">
-                                        <input type="phone" class="form-control form-control-sm" id="mobile" name="mobile" value="" placeholder="Mobile">
+                                        <input type="text" class="form-control form-control-sm" id="mobile" name="mobile" value="" placeholder="Mobile">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>
                                 </div>
@@ -136,16 +157,14 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Country</label>
                                     <div class="col-sm-9">
-                                        <select name="country_id" id="country_id" country="" class="form-control form-control-sm w-100"></select>
+                                        <input type="text" class="form-control form-control-sm" name="country_id" id="country_id" value="" placeholder="Country">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">State </label>
                                     <div class="col-sm-9">
-                                        <select name="state_id" state="" id="state_id" class="form-control form-control-sm w-100">
-                                            <option value="" disabled selected>Select....</option>
-                                        </select>
+                                        <input type="text" class="form-control form-control-sm" name="state_id" state="" id="state_id" value="" placeholder="State">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>
                                 </div>
@@ -180,20 +199,26 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select service</label>
                                     <div class="col-sm-9">
-                                        <select name="service" id="select-service-select" class="form-control form-control-sm w-100"></select>
+                                        <select name="service" id="select-service-select" class="form-control form-control-sm w-100">
+                                            <option value="" disabled selected>Select....</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select procedure</label>
                                 <div class="col-sm-9">
-                                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100"></select>
+                                    <select name="procedure" id="select-procedure-select" class="form-control form-control-sm w-100">
+                                        <option value="" disabled selected>Select....</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="mb-3 row d-none" id="package">
                                 <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select package</label>
                                 <div class="col-sm-9">
-                                    <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;"></select>
+                                    <select name="package" id="select-package-select" class="form-control form-control-sm w-100" style="width: 100%;">
+                                        <option value="" disabled selected>Select....</option>
+                                    </select>
                                 </div>
                             </div>
                             <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
@@ -557,7 +582,7 @@
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9 d-flex">
                                     <div class="col-sm-9">
-                                        <input type="text" class="datePickers form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="">
+                                        <input type="text" class="datePickers form-control form-control-sm" id="date_high_lipid_levels" name="date_high_lipid_levels" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
@@ -588,7 +613,7 @@
                             <div class="mb-3 row mt-1 arthritis"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_arthritis" name="date_arthritis" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -616,7 +641,7 @@
                             <div class="mb-3 row mt-1 cancer"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_cancer" name="date_cancer" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -644,7 +669,7 @@
                             <div class="mb-3 row mt-1 cholesterol"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_cholesterol" name="date_cholesterol" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -672,7 +697,7 @@
                             <div class="mb-3 row mt-1 triglycerides"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_triglycerides" name="date_triglycerides" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -701,7 +726,7 @@
                             <div class="mb-3 row mt-1 stroke"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_stroke" name="date_stroke" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -729,7 +754,7 @@
                             <div class="mb-3 row mt-1 diabetes"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_diabetes" name="date_diabetes" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -757,7 +782,7 @@
                             <div class="mb-3 row mt-1 coronary_artery_disease"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_coronary_artery_disease" name="date_coronary_artery_disease" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -785,7 +810,7 @@
                             <div class="mb-3 row mt-1 liver_disease"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_liver_disease" name="date_liver_disease" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -813,7 +838,7 @@
                             <div class="mb-3 row mt-1 lugn_disease"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_lugn_disease" name="date_lugn_disease" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -841,7 +866,7 @@
                             <div class="mb-3 row mt-1 renal_disease"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_renal_disease" name="date_renal_disease" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -869,7 +894,7 @@
                             <div class="mb-3 row mt-1 thyroid_disease"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_thyroid_disease" name="date_thyroid_disease" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -898,7 +923,7 @@
                             <div class="mb-3 row mt-1 hypertension"  style="display: none">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Diagnostic date </span></label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="date_hypertension" name="date_hypertension" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -1490,7 +1515,7 @@
                             <div class="row mb-3">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Date of last menstrual period</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="datePickers form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="">
+                                    <input type="text" class="datePickers form-control form-control-sm" id="last_menstrual_period" name="last_menstrual_period" value="" placeholder="fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
@@ -1835,10 +1860,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/bindings/inputmask.binding.js"></script>
     <script>
         let step = document.getElementsByClassName('step');
         let prevBtn = document.getElementById('prev-btn');
@@ -1859,30 +1889,15 @@
         form.onsubmit = () => {
             return false
         }
-        $(document).on('select2:open', () => {
-            document.querySelector('.select2-search__field').focus();
-        });
+        // $(document).on('select2:open', () => {
+        //     document.querySelector('.select2-search__field').focus();
+        // });
         checkBox = $("input[type='radio'][value='0']")
         checkBox.each(function(index, el) {
             $(this).attr('checked', 'true');
         });
 
-        $('.datePickers').datetimepicker({
-		    weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0,
-            format: 'mm/dd/yyyy',
-            icons: {
-                  time: "fa fa-clock-o",
-                  date: "fa fa-calendar",
-                  up: "fa fa-arrow-up",
-                  down: "fa fa-arrow-down"
-              }
-		});
+        
         let current_step = 0;
         let stepCount = step.length;
 
@@ -1913,105 +1928,36 @@
             }
         });
 
-        fetch( endPoint + '/countries ')
-        .then(response => response.json())
-        .then(json => getCountry(json))
-
         fetch( endPoint + '/services ')
         .then(response => response.json())
         .then(json => getServices(json))
 
-        function getDays(className) {  
-            console.log(className)
-            for (i=1; i<32; i++) {
-                var data = {id: i.toString().padStart(2, '0'), text: i.toString().padStart(2, '0')};
-                var newOption = new Option(data.text, data.id, false, false);
-                $(className).append(newOption).trigger('change');
-            }
-        }
-
-        function getMonths(className) {  
-            var theMonths = ["January", "February", "March", "April", "May","June", "July", "August", "September", "October", "November", "December"];
-            for (i=0; i<theMonths.length; i++) {
-
-                var data = {id: (i+1).toString().padStart(2, '0'), text: theMonths[i]};
-                var newOption = new Option(data.text, data.id, false, false);
-                $('#month').append(newOption).trigger('change');
-            }
-        }
-
-        function getYears(){
-            var date = new Date()
-            const year = date.getFullYear();
-
-            for (var i = year; i >= (year-100); i--) {
-                var data = {id: i.toString().padStart(4, '0'), text: i.toString().padStart(4, '0')};
-                var newOption = new Option(data.text, data.id, false, false);
-                $('#year').append(newOption).trigger('change');
-            }
-        }
-
-        getYears('.year')
-        getDays('.day')
-        getMonths('.month')
-
-        $('#state_id').select2({placeholder: 'Selecciona un estado o provincia',width: '100%'})
-        $('#country_id').select2();
-        $('#sex').select2({placeholder: 'Biological sex selection'});
-        $('#day').select2({placeholder: 'Day',});
-        $('#month').select2({placeholder: 'Month'});
-        $('#year').select2({placeholder: 'Year'});
-
-        $('#select-service-select').select2({ placeholder: 'Selecciona tu servicio', width: '100%'});
-        $('#select-procedure-select').select2({ placeholder: 'Selecciona tu procedimiento', width: '100%'});
-        $('#select-package-select').select2({ placeholder: 'Selecciona tu packete', width: '100%'});
-        $('#country_id').on('select2:select', function(e){
-            let data = e.params.data;
-            getStates(data.id);
-        })
-        $('#select-service-select').on('select2:select', function(e){
-            let data = e.params.data;
+        $(document).on('change', '#select-service-select', function(event) {
+            event.preventDefault();
+            var id = $( "#select-service-select option:selected" ).val();
             $("#package").addClass('d-none')
-            getProcedures(data.id);
-        })
-        $('#select-procedure-select').on('select2:select', function(e){
-            let data = e.params.data;
+            $( "#select-procedure-select" ).prop("selectedIndex", 0);
+            $( "#select-procedure-select" ).find('option').not(':first').remove();
+            getProcedures(id);
+        });
+        $(document).on('change', '#select-procedure-select', function(event) {
+            event.preventDefault();
+            var id = $( "#select-procedure-select option:selected" ).val();
+            var paq = $( "#select-procedure-select option:selected" ).attr('package');
             $("#package").addClass('d-none')
-            if (data.package === 1) {getPackages(data)}
-        })
-        function getCountry(data){
-            $('#country_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-            $('#country_id').prepend('<option selected></option>').select2({
-                placeholder: 'Selecciona tu pais',
-                data: data
-            })
-        }
-        function getStates(id){
-            let data = new FormData();
-            data.append('id', id)
-            fetch( endPoint + '/states', {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                $('#state_id').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#state_id').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
-                })
-            })
-        }
+            if (paq == 1) {getPackages(id, paq)}
+        });
+
         function getServices(data){
-            $('#select-service-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-            $('#select-service-select').prepend('<option selected></option>').select2({
-                placeholder: 'Selecciona un sevicio',
-                data: data
-            })
-            $('#select-procedure-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
-            $('#select-package-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
+            for (var dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                let li = `<li data-value="${dat.id}">${dat.text}</li>`;
+                $('#select-service-select').append(option)
+                $('select').niceSelect('update');
+            }
         }
         function getProcedures(id){
+            console.log("id", id);
             let data = new FormData();
             data.append('id', id)
             fetch( endPoint + '/procedures', {
@@ -2020,31 +1966,40 @@
             })
             .then(response => response.json())
             .then( function(data) {
-                $('#select-procedure-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#select-procedure-select').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
-                })
-                $('#select-package-select').val(null).empty().attr('placeholder', "Seleccionar...").trigger('change');
+                console.log("data", data);
+                for (var dat of data) {
+                    let option = `<option package="${dat.package}" value="${dat.id}">${dat.text}</option>`;
+                    $('#select-procedure-select').append(option)
+                    $('select').niceSelect('update');
+                }
             })
         }
-        function getPackages(d){
+        function getPackages(id, paq){
             let data = new FormData();
-            if (d.package === 1) { $("#package").removeClass('d-none') }else { $("#package").addClass('d-none') }
-                data.append('id', d.id)
-            fetch( endPoint + '/packages', {
-                method: "POST",
-                body: data
-            })
-            .then(response => response.json())
-            .then( function(data) {
-                $('#select-package-select').empty().attr('placeholder', "Seleccionar ...").trigger('change')
-                $('#select-package-select').prepend('<option selected></option>').select2({
-                    placeholder: 'Selecciona un estado o provincia',
-                    data: data
+            $( "#select-package-select" ).prop("selectedIndex", 0);
+            $( "#select-package-select" ).find('option').not(':first').remove();
+            if (paq == 1) { 
+                $("#package").removeClass('d-none') }
+                else { 
+                    $("#package").addClass('d-none') 
+                }
+                data.append('id', id)
+                fetch( endPoint + '/packages', {
+                    method: "POST",
+                    body: data
                 })
-            })
-        }
+                .then(response => response.json())
+                .then( function(data) {
+                    for (var dat of data) {
+                        let option = `<option value="${dat.id}">${dat.text}</option>`;
+                        $('#select-package-select').append(option)
+                        $('select').niceSelect('update');
+                    }
+                })
+            }
+
+        
+
         function toTop(){
           $("html, body").animate({ scrollTop: 0 }, "fast");
           document.body.scrollTop = 0;
@@ -2703,7 +2658,7 @@
             illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             illnessField += '</td>'
             illnessField += '<td>'
-            illnessField += '<input type="text" name="diagnostic_date[]" class="datePickers form-control form-control-sm">'
+            illnessField += `<input type="text" name="diagnostic_date[]" class="form-control form-control-sm dinamicDate" placeholder="Fecha" data-inputmask="'alias': 'datetime', 'inputFormat': 'dd/mm/yyyy'"`
             illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
             illnessField += '</td>'
             illnessField += '<td>'
@@ -2715,7 +2670,8 @@
             illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping">Delete</button>'
             illnessField += '</td>'
             illnessField += '</tr>'
-            $('#illness_table tbody').append(illnessField)
+            $('#illness_table tbody').append(illnessField);
+            $(".dinamicDate").inputmask();
         }
 
         var amount = $('#smoke_cigars').val();
