@@ -9,9 +9,9 @@
             </a>
         </div>
         <!-- logo end -->
-        <ul class="nav navbar-nav navbar-left in">
+        {{-- <ul class="nav navbar-nav navbar-left in">
             <li><a href="#" class="menu-toggler sidebar-toggler font-size-20"><i class="fa fa-exchange" aria-hidden="true"></i></a></li>
-        </ul>
+        </ul> --}}
 
          {{-- <ul class="nav navbar-nav navbar-left in">
             <li class="dropdown dropdown-extended dropdown-notification" >
@@ -65,11 +65,6 @@
                     </ul>
                 </li>
         </ul> --}}
-        <ul class="nav navbar-nav navbar-left in">
-            <!-- start full screen button -->
-            <li><a href="javascript:;" class="fullscreen-click font-size-20"><i class="fa fa-arrows-alt"></i></a></li>
-            <!-- end full screen button -->
-        </ul>
         <ul class="nav navbar-nav navbar-left in">
             <!-- start full screen button -->
             <li><a href="javascript:;" onclick="Previous()" class=" font-size-20"><i class="fa fa-chevron-left"></i></a></li>

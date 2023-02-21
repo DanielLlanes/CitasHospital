@@ -55,6 +55,7 @@
     <!-- Image Grid -->
     <link href="{{ asset('staffFiles/assets/plugins/jQuery-images-grid/src/images-grid.css') }}" rel="stylesheet">
     <!-- Theme Styles -->
+    <link href="{{ asset('staffFiles/assets/css/theme.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('staffFiles/assets/css/responsive.css') }}" rel="stylesheet" type="text/css" />
@@ -167,6 +168,7 @@
         <!-- Summernote -->
         <script src="{{ asset('staffFiles/assets/plugins/summernote/summernote.min.js') }}"></script>
         <!-- Moments -->
+        <script src="{{ asset('staffFiles/assets/plugins/jquery-ui-touch-punch-master/jquery.ui.touch-punch.min.js') }}"></script>
         <script src="{{ asset('staffFiles/assets/plugins/moment/moment.min.js') }}"></script>
         <!-- end js include path -->
         {{-- plugins Langs --}}
