@@ -66,6 +66,7 @@ class TimeLineController extends Controller
 
         if ($request->file('file')) {
             foreach ($request->file('file') as $key => $img) {
+                Log::emergency($img); return;
                 $destinationPath = storage_path('app/public').'/application/timeLine';
                 $img_name = time().uniqid(Str::random(30)).'.'.$img->getClientOriginalExtension();
                 $image = Image::make($img->getRealPath());
@@ -77,7 +78,7 @@ class TimeLineController extends Controller
                 });
                 File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
 
-                $image->save($destinationPath."/".$img_name, '100');
+                $image->save($destinationPath."/".$img_name, '85');
                 $imgUrl = "storage/application/timeLine/$img_name";
                 $timeLine->imageMany()->create(["code" => getCode(), 'image' => $imgUrl, 'title' => null, 'order' => ($key+1)]);
                 $image->destroy();
