@@ -18,7 +18,6 @@ class AutocompleteController extends Controller
 {
     public function searchStaff(Request $request)
     {
-    
             // $search = Staff::where
             // (
             //     [
@@ -40,6 +39,7 @@ class AutocompleteController extends Controller
         if ($request->has('app')) {
             $appSearch = Application::with(['treatment' => function($q)use($request){ $q->with('service');}])->where('id', $request->app)->first();
             $service = $appSearch->treatment->service->service_en; 
+            
             $search = Staff::whereHas(
                 'assignment', function($q)use($request){
                     $q->where('applications.id', $request->app);
@@ -98,7 +98,7 @@ class AutocompleteController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         
-        $search = Patient::where("name",'like', "%".$request->key."%")
+        $search = Patient::where("name",'like', "%".$request->search."%")
         ->with(
             [
                 'applications' => function ($q) use ($lang){
@@ -133,6 +133,7 @@ class AutocompleteController extends Controller
 
     public function searchService(Request $request)
     {
+
 
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();

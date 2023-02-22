@@ -139,7 +139,7 @@ class EventController extends Controller
                 $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
                 $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
             } else {
-                $singleEvent['backgroundColor'] = 'linear-gradient(70deg,'.$events[$i]->staff->color.' 90%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 10%)';
+                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 650%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
                 $singleEvent['borderColor'] = $events[$i]->staff->color;
             }
 
@@ -213,8 +213,6 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
@@ -497,7 +495,7 @@ class EventController extends Controller
                     $brand = $applications->treatment->brand->brand;
                     $service = $applications->treatment->service->service;
                     $procedure = $applications->treatment->procedure->procedure;
-                    $package = $applications->treatment->package->package;
+                    $package = ($applications->treatment->package != null)? $applications->treatment->package->package:'';
                     $title = $applications->treatment->clave;
                     return '<button type="button" data-clave="'.$title.'" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect margin-right-10 btn-primary btn-add" style="height: 36px; min-width: 36px;width: 36px;" name="'.$brand.', '.$service.', '.$procedure.', '.$package.'" data-id=" '.$applications->id.' "><i class="material-icons">add</i></button>';
                 })
@@ -505,7 +503,7 @@ class EventController extends Controller
                     $brand = $applications->treatment->brand->brand;
                     $service = $applications->treatment->service->service;
                     $procedure = $applications->treatment->procedure->procedure;
-                    $package = $applications->treatment->package->package;
+                    $package = $package = ($applications->treatment->package != null)? $applications->treatment->package->package:'';
                     return '<span style="font-weight: 500;">'.$brand.', '.$service.', '.$procedure.', '.$package.'</span>';
                 })
                 ->addColumn('date', function($applications){

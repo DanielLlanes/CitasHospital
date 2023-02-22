@@ -935,9 +935,7 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}" />
-	<link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/fullcalendar/lib/main.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/material-datetimepicker/bootstrap-material-datetimepicker.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('staffFiles/assets/plugins/fullcalendar-6.1.4/dist/fulcalendar.css') }}" />
 @endsection
 @section('scripts')
     @if (\Session::has('sys-message'))
@@ -980,6 +978,7 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
+                longPressDelay: 0,
                 initialView: 'dayGridMonth',
                 dayMaxEvents: 2,
                 locale: initialLocaleCode,
@@ -987,13 +986,10 @@
                 editable: false,
                 eventDisplay: 'block',
                 dayMaxEventRows: 1, // for all non-TimeGrid views
-  views: {
-    timeGrid: {
-      dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
-    }
-  },
-                eventRender: function(event, element) {
-                    $(element).addTouch();
+                views: {
+                    timeGrid: {
+                        dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+                    }
                 },
                 @can('calendar.edit')
                     editable: true,
@@ -1107,6 +1103,7 @@
                     }
                 },
                 processResults: function(data) {
+                    console.log("data", data);
                     return {
                         results: $.map(data, function(obj) {
                             return {
