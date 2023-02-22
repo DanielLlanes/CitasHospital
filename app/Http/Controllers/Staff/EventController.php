@@ -147,7 +147,7 @@ class EventController extends Controller
 
             $isappx = (!is_null($events[$i]->is_application) ? $events[$i]->application->treatment->clave : $events[$i]->title);
 
-            $singleEvent['title'] = $isappx;
+            $singleEvent['title'] = $events[$i]->title;
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
             $singleEvent['allDay'] = false;

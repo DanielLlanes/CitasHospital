@@ -1183,6 +1183,7 @@
 
                 },
                 success: function(data) {
+                    console.log("data", data);
                     refetchCalendarEvents()
                     if (data.reload) {
                         Toast.fire({

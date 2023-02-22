@@ -84,8 +84,7 @@ class AutocompleteController extends Controller
             
         
 
-        
-        
+    
         return($search);
 
         return response()->json([
