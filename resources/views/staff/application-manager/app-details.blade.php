@@ -2098,7 +2098,7 @@
                     </div>
                     <hr>
                     <br>
-                    <div class="album row" id="album-${data.code}">
+                    <div class="album row w-50" style="margin: 0 auto" id="album-${data.code}">
                     </div>
                 </div>
             </li>
@@ -2144,9 +2144,10 @@
     }
     function displayPostImages(code, items){
         let count = Object.keys(items).length
+        console.log("count", count+ ' ' + code);
         let $album = document.getElementById(`album-${code}`);
         var $row = document.createElement("div");
-        $row.classList.add('row', 'm-0');
+        $row.classList.add('row', 'm-0', 'h-25');
         $album.appendChild($row);
         $rowWidth = (100 / count);
         var img = "";
@@ -2156,7 +2157,7 @@
             </div>`;
 
         }
-        $album.innerHTML = img;
+        $row.innerHTML = img;
     }
     function hideStatusArea(){
 
