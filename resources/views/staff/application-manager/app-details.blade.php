@@ -1650,26 +1650,7 @@
                         </div>
                         <div class="imagen-dropyfy mt-2" id="imagen-dropyfy">
                             <div id="imgs-grid">
-                                <div class="row m-0">
-                                    <div class="w-50">
-                                        <img class="w-100 " alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
-                                    </div>
-                                    <div class="w-50">
-                                        <img class="w-100 " alt="" src="http://staff.prado.test/storage/application/timeLine/1676069360PuzdVzrvuVj82KpGXd0og8jhb8G5qK63e6c9f0e6672.jpg" style="padding: 2px;border-radius: 10px;">
-                                    </div>
-
-                                </div>
-                                <div class="row m-0">
-                                    <div style="width: 33.33%">
-                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
-                                    </div>
-                                    <div style="width: 33.33%">
-                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
-                                    </div>
-                                    <div style="width: 33.33%">
-                                        <img class="w-100" alt="" src="http://staff.prado.test/storage/application/timeLine/1676069361p118lo8qYn0pOlOZc583ykZh5fWWoc63e6c9f12fbd1.jpg" style="padding: 2px;border-radius: 10px;">
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -1873,112 +1854,112 @@
         })
     }
 
-    function uploadImagePreview($filesCount, $files) {
-        var $prev = '';
-        $.each($files, function(i, img) {
-            if (img) {
-                var myObj = {
-                    img
-                };
-                $myArr.push(myObj);
-                $viewArr.push(URL.createObjectURL(img));
-            }
-        });       
-        setUploadGrid($viewArr);
-    }
-    function setUploadGrid($viewArr) {
-        var $imagesArr = $viewArr,
-            $imagesArrCount = $viewArr.length
-            $imagesGrid = 5,
-            $element = $('#imagen-dropyfy');
-            $imagesGridCount = ($imagesArrCount < $imagesGrid) ? $imagesArrCount : $imagesGrid; 
+    // function uploadImagePreview($filesCount, $files) {
+    //     var $prev = '';
+    //     $.each($files, function(i, img) {
+    //         if (img) {
+    //             var myObj = {
+    //                 img
+    //             };
+    //             $myArr.push(myObj);
+    //             $viewArr.push(URL.createObjectURL(img));
+    //         }
+    //     });       
+    //     setUploadGrid($viewArr);
+    // }
+    // function setUploadGrid($viewArr) {
+    //     var $imagesArr = $viewArr,
+    //         $imagesArrCount = $viewArr.length
+    //         $imagesGrid = 5,
+    //         $element = $('#imagen-dropyfy');
+    //         $imagesGridCount = ($imagesArrCount < $imagesGrid) ? $imagesArrCount : $imagesGrid; 
 
-        $element.removeClass().addClass('imagen-dropyfy imgs-grid imgs-grid-' + $imagesGridCount);
-
-
-        //let $divimages = [];
-        $addRow = `<div class="row dropArea"></div>`;
-        $('.dropArea').remove();
-        $element.append($addRow);
-        for (var i = 0; i < $imagesArrCount; ++i) {
-            // if (i === $imagesGrid) {
-            //     break;
-            // }
-
-            $template = ` <div class="col-3 divArea">
-                <span onclick="deleteImage(${i})">&times; delete</span>
-                                <div class="card">
-                                    <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
-                                </div>
-                            </div>`
-            $('.dropArea').append($template);   
+    //     $element.removeClass().addClass('imagen-dropyfy imgs-grid imgs-grid-' + $imagesGridCount);
 
 
-            ///
-        }
-        $( ".dropArea" ).sortable();
+    //     //let $divimages = [];
+    //     $addRow = `<div class="row dropArea"></div>`;
+    //     $('.dropArea').remove();
+    //     $element.append($addRow);
+    //     for (var i = 0; i < $imagesArrCount; ++i) {
+    //         // if (i === $imagesGrid) {
+    //         //     break;
+    //         // }
 
-        $(".dropArea").sortable("refresh");
+    //         $template = ` <div class="col-3 divArea">
+    //             <span onclick="deleteImage(${i})">&times; delete</span>
+    //                             <div class="card">
+    //                                 <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
+    //                             </div>
+    //                         </div>`
+    //         $('.dropArea').append($template);   
 
-        $divimages = $('.imgs-grid-image')
 
-        switch ($divimages.length) {
-            case 2:
-            case 3:
-                getImgHeith($divimages);
-                break;
-            case 4:
-                getImgHeith($divimages.slice(0, 2));
-                getImgHeith($divimages.slice(2));
-                break;
-            case 5:
-            case 6:
-                getImgHeith($divimages.slice(0, 3));
-                getImgHeith($divimages.slice(3));
-                break;
-        }
-    }
-    function getImgHeith(items) {
-        //var $altura_arr = [];
-        $.each(items, function(i, val) {
-            $q = $(this).find('img')
-            let $img = new Image()
-            $img.src = $q.attr('src');
-            $img.onload = function () {
-                $altura_arr.push(this.height)
-                if (items.length == (i+1)) {
-                    outherImg($altura_arr, items)
-                }
-            }
-        });
-    }
-    function outherImg($altura_arr, items){
+    //         ///
+    //     }
+    //     $( ".dropArea" ).sortable();
+
+    //     $(".dropArea").sortable("refresh");
+
+    //     $divimages = $('.imgs-grid-image')
+
+    //     switch ($divimages.length) {
+    //         case 2:
+    //         case 3:
+    //             getImgHeith($divimages);
+    //             break;
+    //         case 4:
+    //             getImgHeith($divimages.slice(0, 2));
+    //             getImgHeith($divimages.slice(2));
+    //             break;
+    //         case 5:
+    //         case 6:
+    //             getImgHeith($divimages.slice(0, 3));
+    //             getImgHeith($divimages.slice(3));
+    //             break;
+    //     }
+    // }
+    // function getImgHeith(items) {
+    //     //var $altura_arr = [];
+    //     $.each(items, function(i, val) {
+    //         $q = $(this).find('img')
+    //         let $img = new Image()
+    //         $img.src = $q.attr('src');
+    //         $img.onload = function () {
+    //             $altura_arr.push(this.height)
+    //             if (items.length == (i+1)) {
+    //                 outherImg($altura_arr, items)
+    //             }
+    //         }
+    //     });
+    // }
+    // function outherImg($altura_arr, items){
         
-        $(items).each(function() {
-            var items = $(this),
-                imgWraps = items.find('.image-wrap'),
-                imgs = items.find('img'),
-                imgHeights = imgs.height();
-                altura_arr.push(imgHeights)
-        });
-        $sort = altura_arr.sort(function(a, b){return a - b});
-        var normalizedHeight = $sort[0];
-        $(items).each(function() {
+    //     $(items).each(function() {
+    //         var items = $(this),
+    //             imgWraps = items.find('.image-wrap'),
+    //             imgs = items.find('img'),
+    //             imgHeights = imgs.height();
+    //             altura_arr.push(imgHeights)
+    //     });
+    //     $sort = altura_arr.sort(function(a, b){return a - b});
+    //     var normalizedHeight = $sort[0];
+    //     $(items).each(function() {
 
-            var item = $(this),
-                imgWrap = item.find('.image-wrap'),
-                img = item.find('img'),
-                imgHeight = img.height();
+    //         var item = $(this),
+    //             imgWrap = item.find('.image-wrap'),
+    //             img = item.find('img'),
+    //             imgHeight = img.height();
 
-                imgWrap.height(normalizedHeight);
+    //             imgWrap.height(normalizedHeight);
 
-            if (imgHeight > normalizedHeight) {
-                var top = Math.floor((imgHeight - normalizedHeight) / 2);
-                //console.log("top", top);
-                img.css({ top: -top });
-            }
-        });
-    }
+    //         if (imgHeight > normalizedHeight) {
+    //             var top = Math.floor((imgHeight - normalizedHeight) / 2);
+    //             //console.log("top", top);
+    //             img.css({ top: -top });
+    //         }
+    //     });
+    // }
     function setNewStaff(lastValue, lastText, specialty){
         var form_data = new FormData();
         form_data.append('name', lastText);
@@ -2118,7 +2099,6 @@
                     <hr>
                     <br>
                     <div class="album row" id="album-${data.code}">
-                        
                     </div>
                 </div>
             </li>
@@ -2128,25 +2108,55 @@
         else {$('.post-timeline-view').append($post)}
         
         $countImages = data.image_many.length
-        if (data.image_many.length > 0) {
-            
-            for (var i = 0; i < data.image_many.length; i++) {
-                $countImages = 'Agrego'+ ' ' + data.image_many.length +  'xx ' + 'imagenes'
-                $('#countImages').html($countImages); 
-                let $images = `
-                    <a href="#">
-                        <img alt="" src="${baseURL}${data.image_many[i].image}">
-                    </a>
-                `;
-                
-                $('#album-'+data.code).append($images)
+
+            if ($countImages > 0) {
+                switch ($countImages) {
+                case 1:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    break;
+                case 2:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    break;
+                case 3:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(1, 3)));
+                    break;
+                case 4:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(1, 4)));
+                    break;
+                case 5:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(2, 5)));
+                    break;
+                default:
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    displayPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(2, 5)));
+                    break;
+                    //Object.fromEntries(Object.entries(foo).slice(1, 3))
             }
         }
-        $('.dropArea').remove();
+        // $('.dropArea').remove();
         var file = document.getElementById('images-input');
         file.value = '';
         $('#post-area-timeline').val('');
         $('#timeline-modal').modal('hide')
+    }
+    function displayPostImages(code, items){
+        let count = Object.keys(items).length
+        let $album = document.getElementById(`album-${code}`);
+        var $row = document.createElement("div");
+        $row.classList.add('row', 'm-0');
+        $album.appendChild($row);
+        $rowWidth = (100 / count);
+        var img = "";
+        for (const i in items) {
+            img += `<div class="${i} imageWrap" style="width: ${$rowWidth}%">
+                    <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+            </div>`;
+
+        }
+        $album.innerHTML = img;
     }
     function hideStatusArea(){
 
@@ -2217,77 +2227,81 @@
         imagesArray.splice(index, 1)
         displayImages()
     }
-    // var input = document.getElementById('images-input')
-    // var output = document.getElementById('imagen-dropyfy')
-    // input.addEventListener("change", () => {
-    //     console.log(document.getElementById("imgs-grid").offsetWidth)
-    //     console.log(document.getElementById("imgs-grid").clientWidth)
-    //     const files = input.files
-    //     for (let i = 0; i < files.length; i++) {
-    //         imagesArray.push(files[i])
-    //     }
-    //     uploadImagePreview()
-    // })
-    // function deleteImage(index) {
-    //     imagesArray.splice(index, 1)
-    //     console.log(index);
-    //     uploadImagePreview()
-    // }
-    // function uploadImagePreview() {
-    //     $('#imgs-grid').html('')
-    //     console.log(imagesArray);
-    //     let $arCount = imagesArray.length;
-    //     switch ($arCount) {
-    //         case 1:
-    //             displayImages(imagesArray.slice(0, 1));
-    //             break;
-    //         case 2:
-    //             displayImages(imagesArray.slice(0, 2));
-    //             break;
-    //         case 3:
-    //             displayImages(imagesArray.slice(0, 1));
-    //             displayImages(imagesArray.slice(1, 3));
-    //             break;
-    //         case 4:
-    //             displayImages(imagesArray.slice(0, 1));
-    //             displayImages(imagesArray.slice(1, 4));
-    //             break;
-    //         case 5:
-    //             displayImages(imagesArray.slice(0, 2));
-    //             displayImages(imagesArray.slice(2, 5));
-    //             break;
-    //         default:
-    //             displayImages(imagesArray.slice(0, 2));
-    //             displayImages(imagesArray.slice(2, 5));
-    //             break;
-    //     }
-    //     //$imgsGrid.appendChild($newDiv)
-    //     //uploadImagePreview()
-    // }
-    // function displayImages(items){
-    //     $rowWidth = (100 / items.length)
-    //     var $grid = document.getElementById("imgs-grid");
-    //     var $row = document.createElement("div");
-    //     $row.classList.add('row', 'm-0');
-    //     $grid.appendChild($row);
-    //     var $img = document.createElement('img')
-    //     var _URL = window.URL || window.webkitURL;
-    //     var file, imgs;
-    //     let img = ""
 
-    //     items.forEach((image, index) => {
-    //         img += `<div class="${index} imageWrap" style="width: ${$rowWidth}%">
-    //                 <img class="w-100" alt="" src="${URL.createObjectURL(image)}" style="padding: 2px;border-radius: 10px;">
+    var input = document.getElementById('images-input')
+    var output = document.getElementById('imagen-dropyfy')
+    input.addEventListener("change", () => {
+        console.log(document.getElementById("imgs-grid").offsetWidth)
+        console.log(document.getElementById("imgs-grid").clientWidth)
+        const files = input.files
+        for (let i = 0; i < files.length; i++) {
+            imagesArray.push(files[i])
+        }
+        uploadImagePreview()
+    })
+    function deleteImage(index) {
+        imagesArray.splice(index, 1)
+        console.log(index);
+        uploadImagePreview()
+    }
+    function uploadImagePreview() {
+        $('#imgs-grid').html('')
+        let $arCount = imagesArray.length;
 
-    //                 <span class="details" onclick="deleteImage(${index})">
-    //                     <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span> 
-    //                 </span>
-    //         </div>`;
-    //     })
-                    
-    //     $row.innerHTML = img;
-        
-    // }
+
+        switch ($arCount) {
+            case 1:
+                displayImages(imagesArray.slice(0, 1));
+                break;
+            case 2:
+                displayImages(imagesArray.slice(0, 2));
+                break;
+            case 3:
+                displayImages(imagesArray.slice(0, 1));
+                displayImages(imagesArray.slice(1, 3));
+                break;
+            case 4:
+                displayImages(imagesArray.slice(0, 1));
+                displayImages(imagesArray.slice(1, 4));
+                break;
+            case 5:
+                displayImages(imagesArray.slice(0, 2));
+                displayImages(imagesArray.slice(2, 5));
+                break;
+            default:
+                displayImages(imagesArray.slice(0, 2));
+                displayImages(imagesArray.slice(2, 5));
+                break;
+        }
+        //$imgsGrid.appendChild($newDiv)
+        //uploadImagePreview()
+    }
+    function displayImages(items){
+        $rowWidth = (100 / items.length)
+        var $grid = document.getElementById("imgs-grid");
+        var $row = document.createElement("div");
+        $row.classList.add('row', 'm-0');
+        $grid.appendChild($row);
+        var $img = document.createElement('img')
+        var _URL = window.URL || window.webkitURL;
+        var file, imgs;
+        let img = ""
+        items.forEach((image, index) => {
+            img += `<div class="${index} imageWrap" style="width: ${$rowWidth}%">
+                    <img class="w-100" alt="" src="${URL.createObjectURL(image)}" style="padding: 2px;border-radius: 10px;">
+
+                    <span class="details delImage" index="${index}">
+                        <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span> 
+                    </span>
+            </div>`;
+        })
+        $row.innerHTML = img;
+
+        $delBtns = document.getElementsByClassName('delImage');
+        for (i = 0; i < $delBtns.length; i++) {
+           $delBtns[i].setAttribute("onclick",`deleteImage(${i})`);
+        }
+    }
     $(document).on('click', '.cancel-post-btn', function(event) {
         event.preventDefault();
         $('.dropArea').remove();
@@ -2956,12 +2970,12 @@
         }, 'slow');
 
     });
-    $(document).on('change', '#images-input', function(event) {
-        event.preventDefault();
-        $files = $(this).prop('files')
-        $filesCount = $(this).prop('files').length
-        uploadImagePreview($filesCount, $files)
-    });
+    // $(document).on('change', '#images-input', function(event) {
+    //     event.preventDefault();
+    //     $files = $(this).prop('files')
+    //     $filesCount = $(this).prop('files').length
+    //     uploadImagePreview($filesCount, $files)
+    // });
     
     $(document).on('click', '#post-area-timeline', function(event) {
         event.preventDefault();

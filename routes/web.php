@@ -18,7 +18,7 @@ use App\Http\Controllers\Staff\AppController;
 */
 
 
-// Route::get('/', [HomeController::class, 'home'])->name('home');
+//Route::get('/', [HomeController::class, 'home'])->name('home');
 // Route::get('/team/{url?}', [HomeController::class, 'team'])->name('team');
 // Route::get('/testimonials/{brand}/{media}', [HomeController::class, 'testimonials'])->name('testimonials');
 // Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
