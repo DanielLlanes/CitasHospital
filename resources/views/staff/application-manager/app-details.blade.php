@@ -2222,6 +2222,7 @@
         $divimages = [];
         $altura_arr = [];
         $('.imgs-grid-image').remove();
+        $('#imgs-grid').html('');
         console.log(imagesArray);
     }
     function deleteImage(index) {
@@ -2236,7 +2237,6 @@
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
         }
-        alert(imagesArray)
         uploadImagePreview()
     })
     function deleteImage(index) {
@@ -2318,7 +2318,7 @@
         let $imagesCount = $('#images-input').prop('files').length;
         let $imageArr = [];
         let $formData = new FormData();
-        $.each($images, function(i, img) {
+        $.each(imagesArray, function(i, img) {
             if (img) {
                 $formData.append("file[]", img);
             }

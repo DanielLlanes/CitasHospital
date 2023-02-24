@@ -67,7 +67,7 @@ class TimeLineController extends Controller
 
         if ($request->file('file')) {
             foreach ($request->file('file') as $key => $img) {
-                Log::emergency($img); return;
+                Log::emergency($img);
                 $destinationPath = storage_path('app/public').'/application/timeLine';
                 $img_name = time().uniqid(Str::random(30)).'.'.$img->getClientOriginalExtension();
                 $image = Image::make($img->getRealPath());
