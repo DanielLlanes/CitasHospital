@@ -19,6 +19,8 @@ class TimeLineController extends Controller
 
     }
     public function store(Request $request){
+        Log::emergency($request->file[0]);
+        return($request);
 
         // return response()->json([
         //     '$count'=> count($request->file('file')),

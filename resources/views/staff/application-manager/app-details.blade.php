@@ -2342,7 +2342,7 @@
             },
             success:function(response)
             {
-            //console.log("response", response);
+            console.log("response", response);
                 if (response.success) {
                     Toast.fire({
                         icon: response.icon,
