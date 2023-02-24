@@ -2232,12 +2232,11 @@
     var input = document.getElementById('images-input')
     var output = document.getElementById('imagen-dropyfy')
     input.addEventListener("change", () => {
-        console.log(document.getElementById("imgs-grid").offsetWidth)
-        console.log(document.getElementById("imgs-grid").clientWidth)
         const files = input.files
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
         }
+        alert(imagesArray)
         uploadImagePreview()
     })
     function deleteImage(index) {
