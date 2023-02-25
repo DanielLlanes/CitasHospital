@@ -1547,7 +1547,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="timeline-form" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">Add time line notes:</label>
                         <textarea class="form-control p-text-area post-area-timeline" id="post-area-timeline" rows="4" placeholder="Add time line notes"></textarea>
@@ -1637,12 +1637,11 @@
                         } */
                         .note-editor .note-dropzone { opacity: 1 !important; }
                     </style>
-                        {{-- <small class="small text-muted cleck-test">has click para agregar imagenes</small>     --}}
                     <div class="form-group droparea mb-2">
                         <div class="col-12 w-100 p-0 ">
                             <div class="col-12 d-flex justify-content-between p-0 " id="head-area">
                                 <p class="align-self-center m-0">Imagenes</p>
-                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple accept="image/*;capture=camera" >
+                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple accept="image/*" capture="camera">
 
                                     <label for="images-input" class="btn btn-primary btn-sm">Select some files</label>
 
@@ -1658,7 +1657,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect cancel-post-btn">Cancelar</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light" id="post-timeline-btn">Post</button>
+                <button type="submit" class="btn btn-danger waves-effect waves-light" id="post-timeline-btn">Post</button>
             </div>
         </div>
     </div>
@@ -2144,7 +2143,6 @@
     }
     function displayPostImages(code, items){
         let count = Object.keys(items).length
-        console.log("count", count+ ' ' + code);
         let $album = document.getElementById(`album-${code}`);
         var $row = document.createElement("div");
         $row.classList.add('row', 'm-0', 'h-25');
@@ -2313,6 +2311,7 @@
     });
     $(document).on('click', '#post-timeline-btn', function(event) {
         event.preventDefault();
+        event.stopPropagation();
         let $message = $('.post-area-timeline').summernote('code');
         let $images = $('#images-input').prop('files')
         let $imagesCount = $('#images-input').prop('files').length;
@@ -2323,8 +2322,8 @@
                 $formData.append("file[]", img);
             }
         });
-
-            $formData.append("imagesArray", JSON.stringify(imagesArray));
+console.log("imagesArray", imagesArray);
+        $formData.append("imagesArray", JSON.stringify(imagesArray));
         $formData.append('app', app_id);
         $formData.append('message', $message);
         $.ajax({
