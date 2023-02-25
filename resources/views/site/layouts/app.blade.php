@@ -8,7 +8,7 @@
     <title>Centro Quirúrgico JL Prado @yield('title')</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
+    {{-- <meta http-equiv="refresh" content="0;URL='http://staff.prado.test'" />  --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicons -->
@@ -43,10 +43,10 @@
 <body>
 
     <!-- ======= Top Bar ======= -->
-    @include('site.commun.topbar')
+    {{-- @include('site.commun.topbar') --}}
     <!-- End Top Bar -->
     <!-- ======= Header ======= -->
-    @include('site.commun.header')
+    {{-- @include('site.commun.header') --}}
     <!-- End Header -->
 <code>
 
@@ -58,7 +58,7 @@
     <!-- End Back to top -->
 
     <!-- ======= Footer ======= -->
-    @include('site.commun.footer')
+    {{-- @include('site.commun.footer') --}}
     <!-- End Footer -->
 
     <!-- Vendor JS Files -->

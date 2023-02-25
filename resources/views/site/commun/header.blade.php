@@ -23,9 +23,9 @@
                         @endforeach
                     </ul>
                 </li>
-                <li><a href="{{ route('team') }}">@lang('site/menu.Team')</a></li>
+               {{--  <li><a href="{{ route('team') }}">@lang('site/menu.Team')</a></li>
                 <li><a href="{{ route('facilities') }}">@lang('site/menu.Facilities')</a></li>
-                <li><a href="{{ route('faqs') }}">@lang('site/menu.Faqs')</a></li>
+                <li><a href="{{ route('faqs') }}">@lang('site/menu.Faqs')</a></li> --}}
                 {{-- <li><a href="{{ route('testimonials') }}">@lang('site/menu.Testimonials')</a></li> --}}
                 <li class="dropdown">
                     <a href="#">
@@ -33,14 +33,14 @@
                         <i class="bi bi-chevron-down"></i>
                     </a>
                     <ul>
-                        @foreach ($brands as $brand)
+                       {{--  @foreach ($brands as $brand)
                             <li class="dropdown"><a href="#"><span class="text-uppercase">{{ $brand->acronym }} - {{ $brand->brand }}</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul class="text-uppercase">
                                     <li><a href="{{ route('testimonials', ['brand'=> $brand->url, 'media'=> 'image']) }}" class="text-uppercase">Images - {{ (app()->getLocale() == "en") ?  "Before - after":"Antes -Después"}}</a></li>
                                     <li><a href="{{ route('testimonials', ['brand'=> $brand->url, 'media'=> 'video']) }}" class="text-uppercase">Videos - {{ (app()->getLocale() == "en") ?  "Testimonials":"Testimonios"}}</a></li>
                                 </ul>
                             </li>
-                        @endforeach
+                        @endforeach --}}
                         {{-- <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
                             <ul>
                                 <li><a href="#">Deep Drop Down 1</a></li>
@@ -53,7 +53,7 @@
                         <li><a href="#">Drop Down 1</a></li> --}}
                     </ul>
                 </li>
-                <li><a href="{{ route('contact') }}">@lang('site/menu.Contact')</a></li>
+                {{-- <li><a href="{{ route('contact') }}">@lang('site/menu.Contact')</a></li> --}}
                 {{-- <li><a href="{{ route('blog') }}">@lang('site/menu.Blog')</a></li> --}}
                 <li class="dropdown">
                     <a href="#">
@@ -78,7 +78,7 @@
                         <span>@lang('site/menu.Language')</span>
                         <i class="bi bi-chevron-down"></i>
                     </a>
-                    <ul>
+                   {{--  <ul>
                         <li>
                             <a href="{{ (app()->getLocale() == 'es') ? 'javascript:;' : route("language", "es") }}" class="text-uppercase">
                                 @lang('site/menu.Spanish')
@@ -91,7 +91,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul> --}}
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav>
         <!-- .navbar -->

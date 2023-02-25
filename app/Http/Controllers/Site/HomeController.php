@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,6 +24,7 @@ class HomeController extends Controller
 {
     public function home()
     {
+       // return Redirect::to('http://staff.prado.test');
         $lang = \App::getLocale();
 
         $sliders = Slider::with(['imageOne', 'videoOne'])->where('active', 1)->orderBy('order', 'ASC')->get();
@@ -45,7 +47,7 @@ class HomeController extends Controller
             ]
         )
         ->get();
-        return view('site.welcome', ["coordinators" => $coordinator, 'sliders' => $sliders]);
+        return view('site.welcome');
     }
     public function team($url = null)
     {
