@@ -2324,7 +2324,7 @@
             }
         });
 
-            $formData.append("imagesArray", imagesArray);
+            $formData.append("imagesArray", JSON.stringify(imagesArray));
         $formData.append('app', app_id);
         $formData.append('message', $message);
         $.ajax({
