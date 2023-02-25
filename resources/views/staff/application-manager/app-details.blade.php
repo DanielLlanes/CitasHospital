@@ -1642,7 +1642,7 @@
                         <div class="col-12 w-100 p-0 ">
                             <div class="col-12 d-flex justify-content-between p-0 " id="head-area">
                                 <p class="align-self-center m-0">Imagenes</p>
-                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple capture="camera" >
+                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple accept="image/*;capture=camera" >
 
                                     <label for="images-input" class="btn btn-primary btn-sm">Select some files</label>
 
