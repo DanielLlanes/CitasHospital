@@ -2125,6 +2125,7 @@
           })
           .then(response => response.json())
           .then( function(data) {
+            console.log("data", data);
               toTop()
               $('.loading').css('display', 'none');
               if (!data.success) {

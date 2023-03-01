@@ -155,8 +155,6 @@ class EsApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
-
-
             $lang = 'es';
             if ($request->step == 0) {
                 $exist = false;
@@ -296,40 +294,40 @@ class EsApiAppsController extends Controller
                     "addiction" => 'required|boolean',
                     "which_one_adiction" => 'required_if:addiction,1','string',
                     "high_lipid_levels" => 'required|boolean',
-                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:d/m/Y',
+                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1', 'date_format:d/m/Y',
                     "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
                     "arthritis" => 'required|boolean',
-                    "date_arthritis" => 'required_if:arthritis,1','date','date_format:d/m/Y',
+                    "date_arthritis" => 'required_if:arthritis,1', 'date_format:d/m/Y',
                     "treatment_arthritis" => 'required_if:arthritis,1','string',
                     "cancer" => 'required|boolean',
-                    "date_cancer" => 'required_if:cancer,1','date','date_format:d/m/Y',
+                    "date_cancer" => 'required_if:cancer,1', 'date_format:d/m/Y',
                     "treatment_cancer" => 'required_if:cancer,1','string',
                     "cholesterol" => 'required|boolean',
-                    "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:d/m/Y',
+                    "date_cholesterol" => 'required_if:cholesterol,1', 'date_format:d/m/Y',
                     "treatment_cholesterol" => 'required_if:cholesterol,1','string',
                     "triglycerides" => 'required|boolean',
-                    "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:d/m/Y',
+                    "date_triglycerides" => 'required_if:triglycerides,1', 'date_format:d/m/Y',
                     "treatment_triglycerides" => 'required_if:triglycerides,1','string',
                     "stroke" => 'required|boolean',
-                    "date_stroke" => 'required_if:stroke,1','date','date_format:d/m/Y',
+                    "date_stroke" => 'required_if:stroke,1', 'date_format:d/m/Y',
                     "treatment_stroke" => 'required_if:stroke,1','string',
                     "diabetes" => 'required|boolean',
-                    "date_diabetes" => 'required_if:diabetes,1','date','date_format:d/m/Y',
+                    "date_diabetes" => 'required_if:diabetes,1', 'date_format:d/m/Y',
                     "treatment_diabetes" => 'required_if:diabetes,1','string',
                     "coronary_artery_disease" => 'required|boolean',
                     "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "liver_disease" => 'required|boolean',
-                    "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:d/m/Y',
+                    "date_liver_disease" => 'required_if:liver_disease,1', 'date_format:d/m/Y',
                     "treatment_liver_disease" => 'required_if:liver_disease,1','string',
                     "lugn_disease" => 'required|boolean',
-                    "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:d/m/Y',
+                    "date_lugn_disease" => 'required_if:lugn_disease,1', 'date_format:d/m/Y',
                     "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
                     "renal_disease" => 'required|boolean',
-                    "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:d/m/Y',
+                    "date_renal_disease" => 'required_if:renal_disease,1', 'date_format:d/m/Y',
                     "treatment_renal_disease" => 'required_if:renal_disease,1','string',
                     "thyroid_disease" => 'required|boolean',
-                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:d/m/Y',
+                    "date_thyroid_disease" => 'required_if:thyroid_disease,1', 'date_format:d/m/Y',
                     "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
                     "hypertension" => 'required|boolean',
                     "date_hypertension" => 'required_if:hypertension,1','string',
@@ -339,7 +337,7 @@ class EsApiAppsController extends Controller
                     "illness" => ['required_if:any_other_illnesses,1','array'],
                     "illness.*" => ['required_if:any_other_illnesses,1','string'],
                     "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:d/m/Y'],
+                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1', 'date_format:d/m/Y'],
                     "treatment" => ['required_if:any_other_illnesses,1','array'],
                     "treatment.*" => ['required_if:any_other_illnesses,1','string'],
                 ]);
@@ -667,7 +665,7 @@ class EsApiAppsController extends Controller
             if ($request->step == 6) {
                 $validator = Validator::make($request->all(), [
 
-                    "last_menstrual_period" => "required|date|date_format:d/m/Y",
+                    "last_menstrual_period" => "required|date_format:d/m/Y",
                     "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                     "have_you_been_pregnant" => "required|boolean",
                     "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -753,7 +751,7 @@ class EsApiAppsController extends Controller
                 'name' => 'required|string',
                 'sex' => 'required|string|',
                 'age' => 'required|numeric|between:18,99',
-                'dob' => 'required|date|date_format:d/m/Y',
+                'dob' => 'required|date_format:d/m/Y',
                 'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email',
@@ -852,40 +850,40 @@ class EsApiAppsController extends Controller
             "addiction" => 'required|boolean',
             "which_one_adiction" => 'required_if:addiction,1','string',
             "high_lipid_levels" => 'required|boolean',
-            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date','date_format:d/m/Y',
+            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1', 'date_format:d/m/Y',
             "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
             "arthritis" => 'required|boolean',
-            "date_arthritis" => 'required_if:arthritis,1','date','date_format:d/m/Y',
+            "date_arthritis" => 'required_if:arthritis,1', 'date_format:d/m/Y',
             "treatment_arthritis" => 'required_if:arthritis,1','string',
             "cancer" => 'required|boolean',
-            "date_cancer" => 'required_if:cancer,1','date','date_format:d/m/Y',
+            "date_cancer" => 'required_if:cancer,1', 'date_format:d/m/Y',
             "treatment_cancer" => 'required_if:cancer,1','string',
             "cholesterol" => 'required|boolean',
-            "date_cholesterol" => 'required_if:cholesterol,1','date','date_format:d/m/Y',
+            "date_cholesterol" => 'required_if:cholesterol,1', 'date_format:d/m/Y',
             "treatment_cholesterol" => 'required_if:cholesterol,1','string',
             "triglycerides" => 'required|boolean',
-            "date_triglycerides" => 'required_if:triglycerides,1','date','date_format:d/m/Y',
+            "date_triglycerides" => 'required_if:triglycerides,1', 'date_format:d/m/Y',
             "treatment_triglycerides" => 'required_if:triglycerides,1','string',
             "stroke" => 'required|boolean',
-            "date_stroke" => 'required_if:stroke,1','date','date_format:d/m/Y',
+            "date_stroke" => 'required_if:stroke,1', 'date_format:d/m/Y',
             "treatment_stroke" => 'required_if:stroke,1','string',
             "diabetes" => 'required|boolean',
-            "date_diabetes" => 'required_if:diabetes,1','date','date_format:d/m/Y',
+            "date_diabetes" => 'required_if:diabetes,1', 'date_format:d/m/Y',
             "treatment_diabetes" => 'required_if:diabetes,1','string',
             "coronary_artery_disease" => 'required|boolean',
             "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "liver_disease" => 'required|boolean',
-            "date_liver_disease" => 'required_if:liver_disease,1','date','date_format:d/m/Y',
+            "date_liver_disease" => 'required_if:liver_disease,1', 'date_format:d/m/Y',
             "treatment_liver_disease" => 'required_if:liver_disease,1','string',
             "lugn_disease" => 'required|boolean',
-            "date_lugn_disease" => 'required_if:lugn_disease,1','date','date_format:d/m/Y',
+            "date_lugn_disease" => 'required_if:lugn_disease,1', 'date_format:d/m/Y',
             "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
             "renal_disease" => 'required|boolean',
-            "date_renal_disease" => 'required_if:renal_disease,1','date','date_format:d/m/Y',
+            "date_renal_disease" => 'required_if:renal_disease,1', 'date_format:d/m/Y',
             "treatment_renal_disease" => 'required_if:renal_disease,1','string',
             "thyroid_disease" => 'required|boolean',
-            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date','date_format:d/m/Y',
+            "date_thyroid_disease" => 'required_if:thyroid_disease,1', 'date_format:d/m/Y',
             "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
             "hypertension" => 'required|boolean',
             "date_hypertension" => 'required_if:hypertension,1','string',
@@ -895,7 +893,7 @@ class EsApiAppsController extends Controller
             "illness" => ['required_if:any_other_illnesses,1','array'],
             "illness.*" => ['required_if:any_other_illnesses,1','string'],
             "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date','date_format:d/m/Y'],
+            "diagnostic_date.*" => ['required_if:any_other_illnesses,1', 'date_format:d/m/Y'],
             "treatment" => ['required_if:any_other_illnesses,1','array'],
             "treatment.*" => ['required_if:any_other_illnesses,1','string'],
         ]);
@@ -1193,7 +1191,7 @@ class EsApiAppsController extends Controller
 
         if ($request->sex == 'female') {
             $validator6 = Validator::make($request->all(), [
-                "last_menstrual_period" => "required|date|date_format:d/m/Y",
+                "last_menstrual_period" => "required|date_format:d/m/Y",
                 "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                 "have_you_been_pregnant" => "required|boolean",
                 "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -1289,7 +1287,7 @@ class EsApiAppsController extends Controller
             $patient->code = getCode();
             $patient->save();
         }
-        
+
         $app = new Application;
 
         if (!is_null($request->describe_other_allergy)) {
