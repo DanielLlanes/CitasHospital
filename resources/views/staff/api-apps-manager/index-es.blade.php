@@ -1880,6 +1880,7 @@
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
     <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/bindings/inputmask.binding.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <script>
       let step = document.getElementsByClassName('step');

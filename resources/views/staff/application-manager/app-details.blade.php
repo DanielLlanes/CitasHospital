@@ -2320,10 +2320,10 @@
         $.each(imagesArray, function(i, img) {
             if (img) {
                 $formData.append("file[]", img);
+                $imageArr.push(img)
             }
         });
-console.log("imagesArray", imagesArray);
-        $formData.append("imagesArray", JSON.stringify(imagesArray));
+        console.log("$imageArr", $imageArr);
         $formData.append('app', app_id);
         $formData.append('message', $message);
         $.ajax({
