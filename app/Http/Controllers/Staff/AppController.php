@@ -469,125 +469,126 @@ class AppController extends Controller
         ->get();  // no se requiere
 
 
-            $debateSpecialties =  $applications->treatment->service->specialties;
-            $debateDoctors = new Collection();
-            $debateMembers = new Collection();
+        $debateSpecialties =  $applications->treatment->service->specialties;
+        $debateDoctors = new Collection();
+        $debateMembers = new Collection();
 
 
-            foreach ($debateSpecialties as $value) {
-                $assignment = Staff::whereHas(
+        foreach ($debateSpecialties as $value) {
+            $assignment = Staff::whereHas(
 
-                    'specialties',
-                    function ($q) use ($value, $lang) {
-                        $q->where('specialties.id', $value->id);
+                'specialties',
+                function ($q) use ($value, $lang) {
+                    $q->where('specialties.id', $value->id);
+                },
+            )
+            ->whereHas(
+                'assignToService',
+                function ($q) use ($treatment) {
+                    $q->where("services.id", $treatment->service->id);
+                }
+            )
+            ->with(
+                [
+                    'specialties' => function ($q) use ($lang, $value) {
+                        $q->select("name_$lang AS Sname", 'specialties.id')
+                        ->where('specialties.id', $value->id);
                     },
-                )
-                ->whereHas(
-                    'assignToService',
-                    function ($q) use ($treatment) {
-                        $q->where("services.id", $treatment->service->id);
-                    }
-                )
-                ->with(
-                    [
-                        'specialties' => function ($q) use ($lang, $value) {
-                            $q->select("name_$lang AS Sname", 'specialties.id')
-                            ->where('specialties.id', $value->id);
-                        },
-                        'assignToService' => function ($q) use ($lang, $treatment) {
-                            $q->select("service_$lang AS Sname", 'services.id')
-                            ->where("services.id", $treatment->service->id);
-                        },
-                        "roles",
-                        'imageOne'
-                    ]
-                )
-                ->select("id", "name", "email")
-                ->get();
+                    'assignToService' => function ($q) use ($lang, $treatment) {
+                        $q->select("service_$lang AS Sname", 'services.id')
+                        ->where("services.id", $treatment->service->id);
+                    },
+                    "roles",
+                    'imageOne'
+                ]
+            )
+            ->select("id", "name", "email")
+            ->get();
 
             //return ($assignment );
 
-                $debateDoctors->push((object)[
-                    'members' => $assignment,
-                ]);
-            }
+            $debateDoctors->push((object)[
+                'members' => $assignment,
+            ]);
+        }
 
-            for ($i = 0; $i < count($debateDoctors); $i++) {
-                foreach ($debateDoctors[$i]->members as $key => $value) {
-                    if ($value->specialties[0]->id != 10) {
-                        $debateMembers->push((object)[
-                            'member_name' => $value->name,
-                            'member_id' => $value->id,
-                            'member_specialty' => $value->specialties[0]->Sname,
-                            'member_service' => $value->assignToService[0]->Sname,
-                            'member_role' => $value->roles[0]->name,
-                            'member_avatar' => asset(getAvatar($value)),
-                            'memeber_show' => true,
-                        ]);
-                    }
+        for ($i = 0; $i < count($debateDoctors); $i++) {
+            foreach ($debateDoctors[$i]->members as $key => $value) {
+                if ($value->specialties[0]->id != 10) {
+                    $debateMembers->push((object)[
+                        'member_name' => $value->name,
+                        'member_id' => $value->id,
+                        'member_specialty' => $value->specialties[0]->Sname,
+                        'member_service' => $value->assignToService[0]->Sname,
+                        'member_role' => $value->roles[0]->name,
+                        'member_avatar' => asset(getAvatar($value)),
+                        'memeber_show' => true,
+                    ]);
                 }
             }
+        }
 
-            $members = Staff::with('imageOne')->role(['administrator', 'super-administrator', 'dios'])->get();
+        $members = Staff::with('imageOne')->role(['administrator', 'super-administrator', 'dios'])->get();
 
 
-            foreach ($members as $member) {
-                $debateMembers->push((object)[
-                    'member_name' => $member->name,
-                    'member_id' => $member->id,
-                    'member_specialty' => null,
-                    'member_service' => null,
-                    'member_role' => $member->roles[0]->name,
-                    'member_avatar' => asset(getAvatar($member)),
-                    'memeber_show' => false,
-                ]);
+        foreach ($members as $member) {
+            $debateMembers->push((object)[
+                'member_name' => $member->name,
+                'member_id' => $member->id,
+                'member_specialty' => null,
+                'member_service' => null,
+                'member_role' => $member->roles[0]->name,
+                'member_avatar' => asset(getAvatar($member)),
+                'memeber_show' => false,
+            ]);
+        }
+
+        $getStatus = Status::All();
+
+        $colStatus = new Collection();
+
+        for ($i=0; $i < count($getStatus); $i++) { 
+            if ($getStatus[$i]->id == 5 || $getStatus[$i]->id == 13 || $getStatus[$i]->id == 15) {
+                $colStatus[] = [
+                    'id' => $getStatus[$i]->id,
+                    'name' => ($lang == 'en')? $getStatus[$i]->name_en:$getStatus[$i]->name_es,
+                    'color' => $getStatus[$i]->color,
+                    'code' => $getStatus[$i]->code,
+                ];
             }
+        };
 
-            $getStatus = Status::All();
+        // $proceduresList = Procedure::where('service_id', $treatment->service->id)
+        // ->where('active', 1)
+        // ->selectRaw("*,procedure_$lang as name")
+        // ->get();
 
-            $colStatus = new Collection();
+        $proceduresList = sugerencias();
+        
 
-            for ($i=0; $i < count($getStatus); $i++) { 
-                if ($getStatus[$i]->id == 5 || $getStatus[$i]->id == 13 || $getStatus[$i]->id == 15) {
-                    $colStatus[] = [
-                        'id' => $getStatus[$i]->id,
-                        'name' => ($lang == 'en')? $getStatus[$i]->name_en:$getStatus[$i]->name_es,
-                        'color' => $getStatus[$i]->color,
-                        'code' => $getStatus[$i]->code,
-                    ];
-                }
-            };
-
-            $proceduresList = Procedure::where('service_id', $treatment->service->id)
-            ->where('active', 1)
-            ->selectRaw("*,procedure_$lang as name")
-            ->get();
-
-
-
-            $countSugerencias = count($applications->suggestions);
-            $sugerencias = $applications->suggestions;
+        $countSugerencias = count($applications->suggestions);
+        $sugerencias = $applications->suggestions;
             //return $sugerencias;
-            
 
-            $suger = new Collection;
-            for ($i=0; $i < $countSugerencias; $i++) { 
-                $staff = Staff::where('id', $sugerencias[$i]->staff_id)->first();
-                $getPro = Procedure::where('id', $sugerencias[$i]->procedure_id)
-                            ->select("procedure_$lang as procedure", 'service_id')
-                            ->first();
-                if ($getPro) {
-                    $suger[] = [
-                        'name' => $getPro->procedure,
-                        'staff' => $staff->name,
-                        'service_id' => $getPro,
-                    ];
-                }
+
+        $suger = new Collection;
+        for ($i=0; $i < $countSugerencias; $i++) { 
+            $staff = Staff::where('id', $sugerencias[$i]->staff_id)->first();
+            $getPro = Procedure::where('id', $sugerencias[$i]->procedure_id)
+            ->select("procedure_$lang as procedure", 'service_id')
+            ->first();
+            if ($getPro) {
+                $suger[] = [
+                    'name' => $getPro->procedure,
+                    'staff' => $staff->name,
+                    'service_id' => $getPro,
+                ];
             }
+        }
 
-            return view(
-                'staff.application-manager.app-details',
-                [
+        return view(
+            'staff.application-manager.app-details',
+            [
                 'appInfo' => $applications,
                 "debateMembers" => $debateMembers, // no se requiere
                 "packsDsponibles" => $packs,
@@ -1009,7 +1010,7 @@ class AppController extends Controller
     {
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
-       
+
         $app = $this->getApplications($request->app);
 
 
@@ -1236,22 +1237,29 @@ class AppController extends Controller
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
-    
+
             if ($request->has('sugerencias')) {
                 $sugerencias = json_decode($request->sugerencias,true);
             }
             $request->merge(['sugerenciasArray' => $sugerencias]);
 
+
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
+
+            ($request->medicalRecommendations == '<p><br></p>') ? $request->merge(['medicalRecommendations' => '']) : $request->medicalRecommendations;
+            ($request->medicalIndications == '<p><br></p>') ? $request->merge(['medicalIndications' => '']) : $request->medicalIndications;
+
+
             $validator = Validator::make($request->all(), [
                 'id' => 'string|required|exists:procedures,id',
                 'app' => 'required|exists:applications,id',
                 'medicalRecommendations' => 'required|string',
                 'medicalIndications' => 'required|string',
                 "sugerenciasArray" => [
-                    ($request->action == "15") ? "array":null,
-                    ($request->action == "15") ? "min:1":null,
+                    ($request->action == 15) ? "required":null,
+                    ($request->action == 15) ? "array":null,
+                    ($request->action == 15) ? "min:1":null,
                 ],
             ]);
 
@@ -1266,8 +1274,7 @@ class AppController extends Controller
             $app = $this->getApplications($request->app);
 
             $coor = Staff::whereHas(
-                'assignment',
-                function ($q) use ($request) {
+                'assignment', function ($q) use ($request) {
                     $q->where('applications.id', $request->app);
                 }
             )
@@ -1289,27 +1296,26 @@ class AppController extends Controller
                 ->first();
             }
 
-
             $dataEmail = new Collection();
 
             if ($app) {
                 switch ($request->action) {
                     case '15':
-                        return $this->withSuggestions($app, $request, $coor, $exist);
-                        break;
+                    return $this->withSuggestions($app, $request, $coor, $exist);
+                    break;
                     case '13':
-                        return $this->changeProcedureApp($app, $request, $coor, $exist);
-                        break;
-                    
+                    return $this->changeProcedureApp($app, $request, $coor, $exist);
+                    break;
                     default:
-                        return $this->aceptedApp($app, $request, $coor, $exist);
-                        break;
+                    return $this->aceptedApp($app, $request, $coor, $exist);
+                    break;
                 }
             } 
         }
     }
     public Function aceptedApp($app, $request, $coor, $exist)
     {
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $statusx = 5;
@@ -1376,8 +1382,8 @@ class AppController extends Controller
             'este' => '-',
             'status' => getStatus($status->statusOne->status->name, $status->statusOne->status->color),
             'indications' => $request->medicalIndications,
-                'recomendations' => $request->medicalRecommendations,
-                    'reazon' => $status->statusOne->status->reazon,
+            'recomendations' => $request->medicalRecommendations,
+            'reazon' => $status->statusOne->status->reazon,
             'exist' => $exist,
         ]);
     }
@@ -1452,12 +1458,7 @@ class AppController extends Controller
     }
     public function withSuggestions($app, $request, $coor, $exist)
     {
-        return response()->json([
-            'app' => $app,
-            'request' => $request,
-            'coor' => $coor,
-            'existe' => $exist,
-        ]);
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
 
@@ -1467,22 +1468,24 @@ class AppController extends Controller
         
         $countSugerencias = count($request->sugerenciasArray);
         $sugerencias = $request->sugerenciasArray;
+
+        $sugerencias = sugerencias($request->sugerenciasArray);
+        
+
         $suger = new Collection;
-        for ($i=0; $i < $countSugerencias; $i++) { 
-            $getPro = Procedure::where('id', $sugerencias[$i]['id'])
-                        ->where('code', $sugerencias[$i]['code'])
-                        ->select("procedure_$lang as procedure")
-                        ->first();
-            if ($getPro) {
-                $suger[] = [
-                    'name' => $getPro->procedure,
-                ];
-                 $app->suggestions()->create([
-                    'application_id' => $request->app,
-                    'staff_id' => Auth::guard('staff')->user()->id,
-                    'procedure_id' => $sugerencias[$i]['id'],
-                    'code' => getCode(),
-                 ]);
+        if (count($sugerencias) > 0) {
+            for ($i=0; $i < $countSugerencias; $i++) { 
+                if (1 == 1) {
+                    $suger[] = [
+                        'name' => $sugerencias[$i]->nombre,
+                    ];
+                    $app->suggestions()->create([
+                        'application_id' => $request->app,
+                        'staff_id' => Auth::guard('staff')->user()->id,
+                        'sugerencia' => $sugerencias[$i]->nombre,
+                        'code' => getCode(),
+                    ]);
+                }
             }
         }
 
@@ -1499,7 +1502,6 @@ class AppController extends Controller
                 'lang' => $value->lang,
             ]);
         }
-
 
         $toEmail->push((object)[
             'staff_name' => $coor[0]->name,
@@ -1549,8 +1551,6 @@ class AppController extends Controller
             'recomendations' => $request->medicalRecommendations,
             'reazon' => $status->statusOne->status->reazon,
         ]);
-
-
     }
     public function setStatusDeclined(Request $request)
     {
@@ -1925,19 +1925,19 @@ class AppController extends Controller
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         return Application::select('id')
-                ->with(
-                    [
-                        'statusOne' => function ($q) use ($lang) {
-                            $q->with([
-                                'status' => function ($q) use ($lang) {
-                                    $q->select("name_$lang as name", 'id', 'color');
-                                }
-                            ])
-                            ->select("*")->orderBy('created_at', 'desc')->first();
-                        },
-                    ]
-                )
-                ->find($app_id);
+        ->with(
+            [
+                'statusOne' => function ($q) use ($lang) {
+                    $q->with([
+                        'status' => function ($q) use ($lang) {
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*")->orderBy('created_at', 'desc')->first();
+                },
+            ]
+        )
+        ->find($app_id);
     }
 
     public function setAceptesSuggestion(Request $request)

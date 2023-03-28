@@ -10,7 +10,7 @@
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 <p>Estimado/a <b>{{ $patient }}</b></p>
 
-                                <p>Felicitaciones, usted ha sido aprobado para un/a cirugía de <b{{ $procedure }}</b>.</p>
+                                <p>Felicitaciones, usted ha sido aprobado para un/a cirugía de <b>{{ $procedure }}</b>.</p>
 
                                 <p>Su paquete incluye lo siguiente:</b></p>
 
@@ -125,16 +125,13 @@
                                 <h3><b>JLPRADO & ASSOCIATES, INC</b></h3>
                                 <p>Número de cuenta bancaria</p>
                                 <p><b>JL Prado & Associates Inc.</b></p>
-                                <p>US Bank</p>
-                                <p>Routing #122235821</p>
-                                <p>Account #157522243953</p>
-                                <p>Swift Code USBKUS44IMT</p>
-                                <p>9543 Heinrich Hertz Suite 4</p>
-                                <p>San Diego, Ca 92154.</p>
+                                <p>FIRST BANK</p>
+                                <p>Routing #081009428</p>
+                                <p>Account #1048742079</p>
                                 <br>
-                                <p>US BANK</p>
-                                <p>399 H St.</p>
-                                <p>Chula Vista Ca</p>
+                                <p>FIRST BANK</p>
+                                <p>878 Eastlake Pkwy Suite 1310</p>
+                                <p>Chula Vista Ca 91914</p>
                                 <br>
                                 <p><b>** SIN PAGOS EN LÍNEA**</b></p>
                                 <p><b>** NO HAY TARJETAS FSA**</b></p>

@@ -1,38 +1,40 @@
 <?php
 
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Partners\PartnersController;
+use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
-use App\Http\Controllers\Staff\LangController;
-use App\Http\Controllers\Staff\RoleController;
-use App\Http\Controllers\Staff\BrandController;
-use App\Http\Controllers\Staff\EventController;
-use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\SliderController;
-use App\Http\Controllers\Staff\PackageController;
-use App\Http\Controllers\Staff\PatientController;
-use App\Http\Controllers\Staff\PaymentController;
-use App\Http\Controllers\Staff\ProductController;
-use App\Http\Controllers\Staff\ProfileController;
-use App\Http\Controllers\Staff\ServiceController;
-use App\Http\Controllers\Staff\FacilityController;
-use App\Http\Controllers\Staff\TimeLineController;
-use App\Http\Controllers\Staff\DashboardController;
-use App\Http\Controllers\Staff\ProcedureController;
-use App\Http\Controllers\Staff\SpecialtyController;
-use App\Http\Controllers\Staff\TreatmentController;
-use App\Http\Controllers\Site\ApplicationController;
-use App\Http\Controllers\Partners\PartnersController;
-use App\Http\Controllers\Staff\PermissionsController;
-use App\Http\Controllers\Staff\TestimonialController;
-use Rap2hpoutre\LaravelLogViewer\LogViewerController;
-use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
-use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
+use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\BrandController;
+use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\EmailTemplateController;
+use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\FacilityController;
+use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\PackageController;
+use App\Http\Controllers\Staff\PatientController;
+use App\Http\Controllers\Staff\PaymentController;
+use App\Http\Controllers\Staff\PermissionsController;
+use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Staff\ProductController;
+use App\Http\Controllers\Staff\ProfileController;
+use App\Http\Controllers\Staff\QuoteController;
+use App\Http\Controllers\Staff\RoleController;
+use App\Http\Controllers\Staff\ServiceController;
+use App\Http\Controllers\Staff\SliderController;
+use App\Http\Controllers\Staff\SpecialtyController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\TestimonialController;
+use App\Http\Controllers\Staff\TimeLineController;
+use App\Http\Controllers\Staff\TreatmentController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
@@ -294,6 +296,36 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/specialty/edit',            [SpecialtyController::class, 'edit'])->name('editSpecialties');
         Route::post('/specialty/update',          [SpecialtyController::class, 'update'])->name('updateSpecialties');
         Route::post('/specialty/destroy',         [SpecialtyController::class, 'destroy'])->name('destroySpecialties');
+    });
+
+    Route::name('quotes.')->group( function(){
+        Route::get('/cotizaciones/listar',          [QuoteController::class, 'index'])->name('quotes');
+        Route::get('/cotizaciones/apps',            [QuoteController::class, 'obtenerApps'])->name('apps');
+        Route::post('/cotizaciones/sugerencias',    [QuoteController::class, 'obtenerSugerencias'])->name('sugerencias');
+        Route::post('/cotizaciones/destroy',        [QuoteController::class, 'destroy'])->name('destroy');
+        Route::post('/cotizaciones/destroy-edit',   [QuoteController::class, 'destroyEdit'])->name('destroyEdit');
+        Route::post('/cotizaciones/store',          [QuoteController::class, 'store'])->name('store');
+        Route::get('/cotizaciones/show',            [QuoteController::class, 'show'])->name('show');
+        Route::post('/cotizaciones/edit',           [QuoteController::class, 'edit'])->name('edit');
+        Route::post('/cotizaciones/update',         [QuoteController::class, 'update'])->name('update');
+        // Route::get('/cotizaciones/view/{id}',   [QuoteController::class, 'show'])->name('show');
+        // Route::post('/cotizaciones/update/{id}',[QuoteController::class, 'update'])->name('update');
+        // Route::post('/cotizaciones/destroy',    [QuoteController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::name('specialty.')->group ( Function () {
+        Route::get('/specialty/listar',           [SpecialtyController::class, 'index'])->name('specialties');
+        Route::get('/specialty/getList',          [SpecialtyController::class, 'getSpecialties'])->name('getSpecialties');
+        Route::post('/specialty/activate',        [SpecialtyController::class, 'activate'])->name('activateSpecialties');
+        Route::post('/specialty/store',           [SpecialtyController::class, 'store'])->name('storeSpecialties');
+        Route::post('/specialty/edit',            [SpecialtyController::class, 'edit'])->name('editSpecialties');
+        Route::post('/specialty/update',          [SpecialtyController::class, 'update'])->name('updateSpecialties');
+        Route::post('/specialty/destroy',         [SpecialtyController::class, 'destroy'])->name('destroySpecialties');
+    });
+
+    Route::name('asignaciones.')->group ( Function () {
+        Route::get('/asignaciones/listar',              [EmailTemplateController::class, 'index'])->name('index');
+        Route::get('/asignaciones/getAssignableList',  [EmailTemplateController::class, 'getAssignableList'])->name('getAssignableList');
     });
 
 });

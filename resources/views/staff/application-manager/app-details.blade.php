@@ -1493,14 +1493,19 @@
                     </label>
                     <div class="col-12">
                         <div class="row cbSugerencias">
-                            @foreach ($proceduresList as $it)
-                                <div class="col-6">
+                             @foreach ($proceduresList as $it)
+                                <div class="col-4">
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" code="{{ $it['code'] }}" id="procedure-{{ $it['id'] }}" value="{{ $it['id'] }}">
-                                        <label class="custom-control-label" for="procedure-{{ $it['id'] }}">{{ $it['name'] }}</label>
+                                        <input type="checkbox" nombre="{{ $it->nombre }}" class="custom-control-input"  id="procedure-{{ $it->id }}" value="{{ $it->id }}">
+                                        <label class="custom-control-label" for="procedure-{{ $it->id }}">{{ $it->nombre }}</label>
                                     </div>
                                 </div>
                             @endforeach
+                            <div class="col-12">
+                                <div id="sugerenciasArray">
+                                    <span class="help-block text-danger">  </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1641,7 +1646,7 @@
                         <div class="col-12 w-100 p-0 ">
                             <div class="col-12 d-flex justify-content-between p-0 " id="head-area">
                                 <p class="align-self-center m-0">Imagenes</p>
-                                <input type="file" class="" name="image-timeline-upload[]" id="images-input" multiple accept="image/*">
+                                <input type="file" class="" name="image-timeline-upload" id="images-input" multiple accept="image/*">
 
                                     <label for="images-input" class="btn btn-primary btn-sm">Select some files</label>
 
@@ -2324,7 +2329,6 @@
                 $imageArr.push(img)
             }
         });
-        console.log("$imageArr", $imageArr);
         $formData.append('app', app_id);
         $formData.append('message', $message);
         $.ajax({
@@ -2750,7 +2754,6 @@
 
         var data = $('#accepted-status-select').select2('data');
         if (data.length > 0) {
-            console.log('la data')
             let id = data[0].id
             let name = data[0].text
             let code = data[0].code
@@ -2759,10 +2762,13 @@
             let action = event.target.getAttribute('action');
             let codigo = event.target.getAttribute('code');
             let checkboxes = document.querySelectorAll('.cbSugerencias input[type=checkbox]:checked');
+
             let array = [];
             $(checkboxes).each(function (index, element) {    
+
                 array[index] = {
                     'id':$(this).val(),
+                    'nombre':$(this).attr('nombre'),
                     'code':$(this).attr('code')
                 }        
             });
@@ -2792,7 +2798,7 @@
                 processData: false,
                 beforeSend: function()
                 {
-                    console.log("response", 'response');
+                    $('.errors').remove();
                 },
                 success:function(response)
                 {
@@ -2805,7 +2811,7 @@
                         $("#current-status-p").html(response.status)
                         $("#span-status-name").html(response.status)
                         hideStatusArea()
-                        $('#status-accepted-modal').model('hide')
+                        $('#status-accepted-modal').modal('hide')
                         //$('#status-accepted-button').remove()
                         //hideAcdeptedBtn()
                     }
@@ -2814,7 +2820,7 @@
                         $.each( response.errors, function( key, value ) {
                             $real = key.replace('.', '-')
                             console.log($real)
-                            $('*[id^='+$real+']').parent().find('.help-block').append('<strong>' + value + '</strong>')
+                            $('*[id^='+$real+']').parent().find('.help-block').append('<strong class="errors">' + value + '</strong>')
                             //$('*[id^='+$real+']').remove()
                         });
                     }

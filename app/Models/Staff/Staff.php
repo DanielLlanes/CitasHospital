@@ -73,7 +73,6 @@ class Staff extends Authenticatable
     {
         return $this->belongsToMany(Application::class)->withPivot('ass_as');
     }
-
     public function assignToService()
     {
         return $this->belongsToMany(Service::class)->withTimestamps();
@@ -125,5 +124,16 @@ class Staff extends Authenticatable
     public function staff_message()
     {
         return $this->hasMany(Message::class, 'staff_id');
+    }
+
+    /**
+     * Staff has one Suggestions.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function suggestions()
+    {
+        // hasOne(RelatedModel, foreignKeyOnRelatedModel = staff_id, localKey = id)
+        return $this->hasOne(Suggestions::class);
     }
 }

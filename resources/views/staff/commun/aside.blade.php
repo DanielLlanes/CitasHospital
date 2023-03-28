@@ -49,6 +49,13 @@
                         </a>
                     </li>
                 @endcan
+                @can('quote.list')
+                    <li class="nav-item">
+                        <a href="{{ route('staff.quotes.quotes') }}" class="nav-link nav-toggle"> <i class="material-icons">dashboard</i>
+                            <span class="title">@lang('Quotes')</span>
+                        </a>
+                    </li>
+                @endcan
                 <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
                         <span class="title">@lang('Staff') </span> <span class="arrow"></span>
@@ -69,6 +76,8 @@
                         @endif
                     </ul>
                 </li>
+
+                
 
                 <li class="nav-item">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">accessible</i>
@@ -119,51 +128,63 @@
                     </li>
                 @endif
                 @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))    
-                <li class="nav-item master-menu">
-                    <a href="javascript:;" class="nav-link nav-toggle">
-                        <i class="material-icons">settings</i>
-                        <span class="title">Configuration</span>
-                        <span class="arrow "></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li class="nav-item">
-                            <a href="javascript:;" class="nav-link nav-toggle">
-                                <i class="fa fa-product-hunt"></i> Treatments
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                @can('brand.list')
+                    <li class="nav-item master-menu">
+                        <a href="javascript:;" class="nav-link nav-toggle">
+                            <i class="material-icons">settings</i>
+                            <span class="title">Configuration</span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa fa-product-hunt"></i> Treatments
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    @can('brand.list')
+                                        <li class="nav-item">
+                                            <a href="{{ route('staff.treatments.configuration.brand') }}" class="nav-link">
+                                                <i class="ml-3"></i> Brand</a>
+                                        </li>
+                                    @endcan
+                                    @can('services.list')
+                                        <li class="nav-item">
+                                            <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
+                                                <i class="ml-3"></i> Services</a>
+                                        </li>
+                                    @endcan
+                                    @can('procedures.list')
+                                        <li class="nav-item">
+                                            <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
+                                                <i class="ml-3"></i> Procedures
+                                             </a>
+                                        </li>
+                                    @endcan
+                                    @can('packages.list')
+                                        <li class="nav-item">
+                                            <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
+                                                <i class="ml-3"></i> Packages
+                                             </a>
+                                        </li>
+                                    @endcan
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="javascript:;" class="nav-link nav-toggle">
+                                    <i class="fa fa-product-hunt"></i> Mail manager
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
                                     <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.brand') }}" class="nav-link">
-                                            <i class="ml-3"></i> Brand</a>
+                                        <a href="{{ route('staff.asignaciones.index') }}" class="nav-link">
+                                            <i class="ml-3"></i> Assignments</a>
                                     </li>
-                                @endcan
-                                @can('services.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.service') }}" class="nav-link">
-                                            <i class="ml-3"></i> Services</a>
-                                    </li>
-                                @endcan
-                                @can('procedures.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.procedure') }}" class="nav-link">
-                                            <i class="ml-3"></i> Procedures
-                                         </a>
-                                    </li>
-                                @endcan
-                                @can('packages.list')
-                                    <li class="nav-item">
-                                        <a href="{{ route('staff.treatments.configuration.package') }}" class="nav-link">
-                                            <i class="ml-3"></i> Packages
-                                         </a>
-                                    </li>
-                                @endcan
-                            </ul>
-                        </li>
-                        @endif
-                        
-                    </ul>
-                </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </li>
+                @endif
                 @if (Auth::guard('staff')->user()->hasRole(['dios', 'administrator', 'super-administrator']))
                     <li class="nav-item master-menu">
                         <a href="javascript:;" class="nav-link nav-toggle">
