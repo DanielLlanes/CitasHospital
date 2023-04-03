@@ -1540,6 +1540,7 @@ class EnApiAppsController extends Controller
                     }
                 ])
             ->first();
+
             $other_staff = Staff::whereHas(
                 'specialties', function($q){
                     $q->where('specialties.id', '!=', 10);
@@ -1622,6 +1623,22 @@ class EnApiAppsController extends Controller
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
+                // $toEmail->push((object)[
+                //     'staff_name' => "Ismael hernandez",
+                //     'staff_email' => 'info@jlpradosc.com',
+                //     'app_id' => $app->id,
+                //     'treatment' => $treatment,
+                //     "patient" => $patient,
+                //     "subject" => $newMessage,
+                // ]);
+                // $toEmail->push((object)[
+                //     'staff_name' => 'Gabriel',
+                //     'staff_email' => 'tejeda.llanes@gmail.com',
+                //     'app_id' => $app->id,
+                //     'treatment' => $treatment,
+                //     "patient" => $patient,
+                //     "subject" => $newMessage,
+                // ]);
             }
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {

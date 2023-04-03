@@ -139,7 +139,7 @@ if (! function_exists('sugerencias')) {
             ['id' => 3, 'nombre' => 'CMMO'],
             ['id' => 4, 'nombre' => 'TT'],
             ['id' => 5, 'nombre' => 'ETT'],
-            ['id' => 6, 'nombre' => 'CCT'],
+            ['id' => 6, 'nombre' => 'CTT'],
             ['id' => 7, 'nombre' => 'FDL'],
             ['id' => 8, 'nombre' => 'TORSO'],
             ['id' => 9, 'nombre' => 'AL'],
@@ -161,11 +161,12 @@ if (! function_exists('sugerencias')) {
             ['id' => 25, 'nombre' => 'EYE LIFT'],
             ['id' => 26, 'nombre' => 'BLEFARO'],
             ['id' => 27, 'nombre' => 'RINO'],
-            ['id' => 28, 'nombre' => 'MONTS LIFT'],
+            ['id' => 28, 'nombre' => 'MONS LIFT'],
             ['id' => 29, 'nombre' => 'BACK LIFT'],
             ['id' => 30, 'nombre' => 'BICHAT'],
             ['id' => 31, 'nombre' => 'BROW LIFT'],
             ['id' => 32, 'nombre' => 'GINECOMASTIA'],
+            ['id' => 33, 'nombre' => 'BBL']
         ];
 
 

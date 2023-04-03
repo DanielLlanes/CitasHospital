@@ -1747,7 +1747,7 @@
 
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
     var week=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    console.log("week", week);
+   
     var dateMessage = monthNames[month] + ' ' + day + ', ' + year + ' '+ hours + ":" + minutes + ampm;
 
     var debateMembers = {!! json_encode($debateMembers) !!}

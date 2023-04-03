@@ -23,7 +23,7 @@
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
                         <div class="col-md-12 d-lg-flex">
-                            <div class="col-md-12">
+                            <div class="col-md-9">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -41,19 +41,57 @@
                                                     <th> ID </th>
                                                     <th> @lang('Staff') </th>
                                                     <th> @lang('Assigned to') </th>
+                                                    <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>Jacob</td>
-                                                    <td>Thornton</td>
-                                                    <td>Thornton</td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="card-box">
+                                    <div class="card-head">
+                                        <header>@lang('Assignamets Manager')</header>
+                                    </div>
+                                    <div class="card-body" id="bar-parent">
+                                       <form action="#" id="form_sample_1" class="form-horizontal" autocomplete="off">
+                                           <div class="form-body">
+                                               <div class="form-group mb-2">
+                                                   <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
+                                                       <span class="required"> * </span>
+                                                   </label>
+                                                   <div class="col-md-12">
+                                                       <select name="" class="staff_name w-100" id="staff_name"></select>
+                                                       <div class="error text-danger col-form-label-sm"></div>
+                                                   </div>
+                                               </div>
+                                               <div class="form-group mb-2">
+                                                   <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Servicio')
+                                                       <span class="required"> * </span>
+                                                   </label>
+                                                   <div class="col-md-12">
+                                                       <select name="" class="service_name w-100" id="service_name"></select>
+                                                       <div class="error text-danger col-form-label-sm"></div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="form-actions">
+                                               <div class="row">
+                                                   <div class="offset-md-3 col-md-9">
+                                                       {{-- @can('brand.create') --}}
+                                                           <button type="button" class="btn btn-info" id="formSubmit">@lang('Add')</button>
+                                                       {{-- @endcan --}}
+                                                       <button type="button" class="btn btn-default" id="formCancel">@lang('Cancel')</button>
+                                                       <button type="reset" class="d-none" id="formReset">@lang('Cancel')</button>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </form>
                                     </div>
                                 </div>
                             </div>
@@ -79,44 +117,278 @@
 	<script>
         
         var globalRouteobtenerLista = "{{ route('staff.asignaciones.getAssignableList') }}";
-        // var globalRouteStore = "{{ route('staff.treatments.configuration.storePackage') }}";
-        // var globalRouteActivar = "{{ route('staff.treatments.configuration.activatePackage') }}"
-        // var globalRouteEditar = "{{ route('staff.treatments.configuration.editPackage') }}"
-        // var globalRouteUpdate = "{{ route('staff.treatments.configuration.updatePackage') }}"
+        var globalSearchStaff = '{{ route('staff.asignaciones.autocompleteStaff') }}';
+        var globalSearchService = '{{ route('staff.asignaciones.autocompleteService') }}';
+        var globalStoreAssignaments = '{{ route('staff.asignaciones.storeAssignaments') }}'
+        var globalRouteActivar = "{{ route('staff.asignaciones.activarAsignaciones') }}"
+        var globalRouteEditar = "{{ route('staff.asignaciones.editAsignaciones') }}"
+        var globalUpdateAssignaments = "{{ route('staff.asignaciones.updateAsignaciones') }}"
         // var globalRouteDestroy = "{{ route('staff.treatments.configuration.destroyPackage') }}"
     </script>
 
     <script>
-        var codigo = 'holis'
-        var assignedTable = $('#assignedTable').DataTable({
-            responsive: true,
-            processing: true,
-            serverSide: true,
-            ajax:{
-                url : globalRouteobtenerLista,
-                type: "get",
-                data: {"service": codigo},
-                error: function (xhr, error, thrown) {
+
+        $(document).ready(function() {
+            var codigo = 'holis'
+            var assignedTable = $('#assignedTable').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax:{
+                    url : globalRouteobtenerLista,
+                    type: "get",
+                    data: {"service": codigo},
+                    error: function (xhr, error, thrown) {
+                    },
                 },
-                success: function(data) {
-                    console.log("data", data);
-
+                language: {
+                    "url": dataTablesLangEs
                 },
-             },
-            language: {
-                "url": dataTablesLangEs
-            },
-            "columns": [
+                "columns": [
 
-                { data: 'DT_RowIndex' },
-                { data: "image" },
-                { data: "brand" },
-                { data: "action", orderable: false, searchable: false, className: 'center' },
+                    { data: 'DT_RowIndex' },
+                    { data: "staff" },
+                    { data: "servicio" },
+                    { data: "active" },
+                    { data: "acciones", orderable: false, searchable: false, className: 'center' },
 
-            ],
-            createdRow: function (row, data, dataIndex) {
-                $(row).addClass('odd gradeX');
-            },
+                    ],
+                createdRow: function (row, data, dataIndex) {
+                    $(row).addClass('odd gradeX');
+                },
+                "drawCallback": function() {
+                },
+            }); 
+
+            $('#staff_name').select2({
+                placeholder: "Select click here",
+                ajax: {
+                    url: globalSearchStaff,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        }
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.name,
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            });
+            $('#service_name').select2({
+                placeholder: "Select click here",
+                ajax: {
+                    url: globalSearchService,
+                    type: 'post',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            search: params.term,
+                        }
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(obj) {
+                                return {
+                                    id: obj.id,
+                                    text: obj.name,
+                                };
+                            })
+                        };
+                    },
+                    cache: true,
+                }
+            });
+            function resetForm() {
+                $('#staff_name').val(null).trigger('change');
+                $('#service_name').val(null).trigger('change');
+            }
+            $(document).on('click', '#formReset', function(event) {
+                event.preventDefault();
+                $('#formEdit').removeAttr('assing')
+                $('#formEdit').attr('id', 'formSubmit').html('add')
+                resetForm()
+            });
+            $(document).on('click', '#formSubmit', function(event) {
+                var dataStaff = $('#staff_name').select2('data');
+                var dataService = $('#service_name').select2('data');
+                var staff_id = (dataStaff.length > 0) ? dataStaff[0].id : null;
+                var service_id = (dataService.length > 0) ? dataService[0].id : null;;
+
+                var dataString = new FormData()
+                dataString.append('staff_id', staff_id);
+                dataString.append('service_id', service_id);
+                $.ajax({
+                    type: "POST",
+                    url: globalStoreAssignaments,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        console.log("data", data);
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            assignedTable.ajax.reload(null, false);
+                            resetForm()
+                        } else {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
+                        }
+                    }
+                });
+             });
+            $(document).on('click', '.table-active', function(event) {
+                event.preventDefault();
+                var form_data = new FormData();
+                form_data.append('id', $(this).attr('attr-id'));
+                $.ajax({
+                    url: globalRouteActivar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            assignedTable.ajax.reload( null, false );
+                        }
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+                
+            });
+            $(document).on('click', '.tbl-edit, .seleccionar', function (event) {
+                var assingId = $(this).attr('data-id')
+                var form_data = new FormData();
+                form_data.append('id', assingId);
+                $.ajax({
+                    url: globalRouteEditar,
+                    method:"POST",
+                    data:form_data,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function()
+                    {
+                    },
+                    success:function(data)
+                    {
+                        if (data.success) {
+                            resetForm()
+                            $('#staff_name').select2("trigger", "select", {
+                                data: { id: data.data.staff_id, text: data.data.staff.name }
+                            });
+                            $('#service_name').select2("trigger", "select", {
+                                data: { id: data.data.service_id, text: data.service }
+                            });
+                            $('#formSubmit').html('edit').attr({
+                                assing: $.trim(assingId),
+                                id: 'formEdit'
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: data.icon,
+                                title: data.msg
+                            })
+                            //clearForm()
+                        }
+                    },
+                    error: function (err)
+                    {
+                        console.log('err', err)
+                    },
+                    complete: function()
+                    {
+                    },
+                })
+            });
+            $(document).on('click', '#formEdit', function(event) {
+                event.preventDefault();
+                var dataStaff = $('#staff_name').select2('data');
+                var dataService = $('#service_name').select2('data');
+                var staff_id = (dataStaff.length > 0) ? dataStaff[0].id : null;
+                var service_id = (dataService.length > 0) ? dataService[0].id : null;;
+                var id = $(this).attr('assing');
+
+                var dataString = new FormData()
+                dataString.append('staff_id', staff_id);
+                dataString.append('service_id', service_id);
+                dataString.append('id', id);
+                $.ajax({
+                    type: "POST",
+                    url: globalUpdateAssignaments,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    contentType: false,
+                    cache: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    processData: false,
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        console.log("data", data);
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                        if (data.reload) {
+                            assignedTable.ajax.reload(null, false);
+                            $('#formEdit').removeAttr('assing')
+                            $('#formEdit').attr('id', 'formSubmit').html('add')
+                            resetForm()
+                        } else {
+                            $.each( data.errors, function( key, value ) {
+                                $('*[id^='+key+']').parent().find('.error').append('<p>'+value+'</p>')
+                            });
+                        }
+                    }
+                });
+            });
         });
+        
     </script>
 @endsection

@@ -679,7 +679,7 @@
                         $name = $(this).attr('data-name');
                         $price = $(this).find('.price').val();
                         $drFee = $(this).find('.dr-fee').val();
-                        $isCkecked = $(this).find('input[type="checkbox"]').is(':checked')
+                        $isCkecked = $(this).find('.isFree').is(':checked')
                         $isFree = 0
                         if ($isCkecked) {
                             $isFree = 1;

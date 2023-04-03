@@ -325,7 +325,13 @@ Route::name('staff.')->namespace('Staff')->group(function(){
 
     Route::name('asignaciones.')->group ( Function () {
         Route::get('/asignaciones/listar',              [EmailTemplateController::class, 'index'])->name('index');
-        Route::get('/asignaciones/getAssignableList',  [EmailTemplateController::class, 'getAssignableList'])->name('getAssignableList');
+        Route::get('/asignaciones/getAssignableList',   [EmailTemplateController::class, 'getAssignableList'])->name('getAssignableList');
+        Route::post('/asignaciones/autocompleteStaff',  [EmailTemplateController::class, 'autocompleteStaff'])->name('autocompleteStaff');
+        Route::post('/asignaciones/autocompleteService',  [EmailTemplateController::class, 'autocompleteService'])->name('autocompleteService');
+        Route::post('/asignaciones/storeAssignaments',  [EmailTemplateController::class, 'storeAssignaments'])->name('storeAssignaments');
+        Route::post('/asignaciones/active',  [EmailTemplateController::class, 'activarAsignaciones'])->name('activarAsignaciones');
+        Route::post('/asignaciones/edit',    [EmailTemplateController::class, 'editerAsignaciones'])->name('editAsignaciones');
+        Route::post('/asignaciones/update',    [EmailTemplateController::class, 'updateerAsignaciones'])->name('updateAsignaciones');
     });
 
 });

@@ -222,7 +222,7 @@ class QuoteController extends Controller
         $quote = new Quote;
         $price = 0;
         for ($i=0; $i < $countSugerencias; $i++) { 
-            if ($request->datos->is_free == 1) {
+            if ($request->datos[$i]['drFee'] == 1) {
                 $price += (float)$request->datos[$i]['price'];
             }
         }

@@ -218,8 +218,6 @@ class BrandController extends Controller
      */
     public function update(Request $request)
     {
-    
-
         $brand = Brand::with('imageOne')->find($request->id);
         if ($brand) {
             $validator = Validator::make($request->all(), [
