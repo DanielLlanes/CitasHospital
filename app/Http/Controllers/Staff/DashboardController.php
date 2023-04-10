@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Http\Controllers\Controller;
+use App\Models\Site\Application;
+use App\Models\Staff\Assignment;
 use App\Models\Staff\Event;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Payment;
+use App\Models\Staff\Staff;
 use App\Traits\DatesLangTrait;
 use App\Traits\StatusAppsTrait;
-use App\Models\Site\Application;
-use Yajra\DataTables\DataTables;
-use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class DashboardController extends Controller
 {
@@ -28,6 +30,8 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth:staff');
+
+        
         date_default_timezone_set('America/Tijuana');
     }
 
@@ -38,6 +42,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $apps = Application::with(

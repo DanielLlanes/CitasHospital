@@ -179,6 +179,10 @@
                                         <a href="{{ route('staff.asignaciones.index') }}" class="nav-link">
                                             <i class="ml-3"></i> Assignments</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('staff.approvals.index') }}" class="nav-link">
+                                            <i class="ml-3"></i> Approve apps</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

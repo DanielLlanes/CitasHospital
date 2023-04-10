@@ -1679,41 +1679,69 @@ class EsApiAppsController extends Controller
                     }
                 }
             }
-            $assignment_staff = Staff::whereHas(
-                'specialties', function($q){
-                    $q->where('specialties.id', 10);
-                },
-            )->whereHas(
-                'assignToService', function($q) use($request){
-                    $q->where("services.id", $request->service);
-                }
-            )
-            ->orderBy('last_assignment', 'ASC')
-            ->with([
-                    'specialties',
-                    'roles',
-                    'assignToService' => function($q){
-                        $q->first();
-                    }
-                ])
-            ->first();
-            
-            $other_staff = Staff::whereHas(
-                'specialties', function($q){
-                    $q->where('specialties.id', '!=', 10);
-                },
-            )->whereHas(
-                'assignToService', function($q) use($request){
-                    $q->where("services.id", $request->service);
+            // $assignment_staff = Staff::whereHas(
+            //     'specialties', function($q){
+            //         $q->where('specialties.id', 10);
+            //     },
+            // )->whereHas(
+            //     'assignToService', function($q) use($request){
+            //         $q->where("services.id", $request->service);
+            //     }
+            // )
+            // ->orderBy('last_assignment', 'ASC')
+            // ->with([
+            //         'specialties',
+            //         'roles',
+            //         'assignToService' => function($q){
+            //             $q->first();
+            //         }
+            //     ])
+            // ->first();
+
+            $assignment_staff = Staff::whereHas( 'asignaciones', function($q) use($request) {
+                $q->where("service_id", $request->service)
+                    ->where('active', 1);
                 }
             )
             ->orderBy('last_assignment', 'ASC')
             ->with([
                 'specialties',
+                'roles',
                 'assignToService' => function($q){
                     $q->first();
                 }
-            ])->get();
+            ])
+            ->first();
+            
+            // $other_staff = Staff::whereHas( 'approvals', function($q)  {
+            //     $q->where("service_id", 2)
+            //         ->where('active', 1)
+            //         ->where('approvals', 1);
+            //     }
+            // )
+            // ->with([
+            //     'specialties',
+            //     'roles',
+            //     'assignToService' => function($q){
+            //         $q->first();
+            //     }
+            // ])
+            // ->get();
+
+            $other_staff = Staff::whereHas( 'approvals', function($q)  {
+                $q->where("service_id", 2)
+                    ->where('active', 1)
+                    ->where('approvals', 1);
+                }
+            )
+            ->with([
+                'specialties',
+                'roles',
+                'assignToService' => function($q){
+                    $q->first();
+                }
+            ])
+            ->get();
 
             $treatment = Treatment::where("procedure_id", $request->procedure)
                 ->where('package_id', $request->package)
@@ -1740,7 +1768,7 @@ class EsApiAppsController extends Controller
                 $assignment[] = [
                     'application_id' => $app->id,
                     'staff_id' => $assignment_staff->id,
-                    'ass_as' => $assignment_staff->specialties[0]->id,
+                    'ass_as' => 10,
                     'code' => getCode(),
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
@@ -1772,23 +1800,35 @@ class EsApiAppsController extends Controller
                     'message' => $newMessage,
                     'code' => getCode(),
                 ]);
-                $toEmail->push((object)[
-                    'staff_name' => $assignment_staff->name,
-                    'staff_email' => $assignment_staff->email,
-                    'app_id' => $app->id,
-                    'treatment' => $treatment,
-                    "patient" => $patient,
-                    "subject" => $newMessage,
-                ]);
 
-                $toEmail->push((object)[
-                    'staff_name' => "Ismael hernandez",
-                    'staff_email' => 'info@jlpradosc.com',
-                    'app_id' => $app->id,
-                    'treatment' => $treatment,
-                    "patient" => $patient,
-                    "subject" => $newMessage,
-                ]);
+                if ($request->service == 2) {
+                    $toEmail->push((object)[
+                        'staff_name' => "Ismael hernandez",
+                        'staff_email' => 'info@abeautifulme.clinic',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]); 
+
+                    $toEmail->push((object)[
+                        'staff_name' => "Anette Prado",
+                        'staff_email' => 'anetteprado@abeautifulme.clinic',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]);
+                } elseif ($request->service != 2) {
+                    $toEmail->push((object)[
+                        'staff_name' => "Ismael hernandez",
+                        'staff_email' => 'info@aslimmerme.clinic  ',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]); 
+                }
                 $toEmail->push((object)[
                     'staff_name' => 'Gabriel',
                     'staff_email' => 'tejeda.llanes@gmail.com',

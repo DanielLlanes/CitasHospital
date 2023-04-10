@@ -136,4 +136,25 @@ class Staff extends Authenticatable
         // hasOne(RelatedModel, foreignKeyOnRelatedModel = staff_id, localKey = id)
         return $this->hasOne(Suggestions::class);
     }
+
+    /**
+     * Staff has one Asignaciones.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function asignaciones()
+    {
+        return $this->hasOne(Assignment::class);
+    }
+
+    /**
+     * Staff has many Approvals.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function approvals()
+    {
+        // hasMany(RelatedModel, foreignKeyOnRelatedModel = staff_id, localKey = id)
+        return $this->hasMany(Approval::class);
+    }
 }

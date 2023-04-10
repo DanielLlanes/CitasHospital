@@ -5,6 +5,7 @@ use App\Http\Controllers\Partners\PartnersController;
 use App\Http\Controllers\Site\ApplicationController;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
+use App\Http\Controllers\Staff\ApprovalController;
 use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
@@ -332,6 +333,17 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/asignaciones/active',  [EmailTemplateController::class, 'activarAsignaciones'])->name('activarAsignaciones');
         Route::post('/asignaciones/edit',    [EmailTemplateController::class, 'editerAsignaciones'])->name('editAsignaciones');
         Route::post('/asignaciones/update',    [EmailTemplateController::class, 'updateerAsignaciones'])->name('updateAsignaciones');
+    });
+
+    Route::name('approvals.')->group ( Function () {
+        Route::get('/approval/listar',              [ApprovalController::class, 'index'])->name('index');
+        Route::get('/approvals/getAssignableList',  [ApprovalController::class, 'getAssignableList'])->name('getAssignableList');
+        Route::post('/approvals/storeAssignaments',  [ApprovalController::class, 'storeAssignaments'])->name('storeAssignaments');
+        Route::post('/approvals/edit',    [ApprovalController::class, 'editerAsignaciones'])->name('editAsignaciones');
+        Route::post('/approvals/update',    [ApprovalController::class, 'updateAssignaments'])->name('updateAsignaciones');
+        Route::post('/approvals/active',  [ApprovalController::class, 'activarAsignaciones'])->name('activarAsignaciones');
+        Route::post('/approvals/approvalAssignaments',  [ApprovalController::class, 'approvalAssignaments'])->name('approvalAssignaments');
+        // Route::post('/approvals/autocompleteService',  [ApprovalController::class, 'autocompleteService'])->name('autocompleteService');
     });
 
 });

@@ -720,8 +720,6 @@ class EnApiAppsController extends Controller
     }
     public function storeData(Request $request)
     {
-        //return $request;
-        //$partnerCode = $code;
         $lang = 'en';
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
@@ -1230,7 +1228,6 @@ class EnApiAppsController extends Controller
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;
         $app->treatment_id = $treatment->id;
-
         $app->mesure_sistem = $request->mesure_sistem;
         $app->weight = $request->max_weigh;
         $app->max_weigh = $request->weight;
@@ -1423,7 +1420,6 @@ class EnApiAppsController extends Controller
             }
         }
 
-
         if ($app->save()) {
             $insert_medications = [];
             $insert_surgeries = [];
@@ -1522,41 +1518,71 @@ class EnApiAppsController extends Controller
                     }
                 }
             }
-            $assignment_staff = Staff::whereHas(
-                'specialties', function($q){
-                    $q->where('specialties.id', 10);
-                },
-            )->whereHas(
-                'assignToService', function($q) use($request){
-                    $q->where("services.id", $request->service);
-                }
-            )
-            ->orderBy('last_assignment', 'ASC')
-            ->with([
-                    'specialties',
-                    'roles',
-                    'assignToService' => function($q){
-                        $q->first();
-                    }
-                ])
-            ->first();
+            // $assignment_staff = Staff::whereHas(
+            //     'specialties', function($q){
+            //         $q->where('specialties.id', 10);
+            //     },
+            // )->whereHas(
+            //     'assignToService', function($q) use($request){
+            //         $q->where("services.id", $request->service);
+            //     }
+            // )
+            // ->orderBy('last_assignment', 'ASC')
+            // ->with([
+            //         'specialties',
+            //         'roles',
+            //         'assignToService' => function($q){
+            //             $q->first();
+            //         }
+            //     ])
+            // ->first();
 
-            $other_staff = Staff::whereHas(
-                'specialties', function($q){
-                    $q->where('specialties.id', '!=', 10);
-                },
-            )->whereHas(
-                'assignToService', function($q) use($request){
-                    $q->where("services.id", $request->service);
+            $assignment_staff = Staff::whereHas( 'asignaciones', function($q) use($request) {
+                $q->where("service_id", $request->service)
+                    ->where('active', 1);
                 }
             )
             ->orderBy('last_assignment', 'ASC')
             ->with([
                 'specialties',
+                'roles',
                 'assignToService' => function($q){
                     $q->first();
                 }
-            ])->get();
+            ])
+            ->first();
+
+            // $other_staff = Staff::whereHas(
+            //     'specialties', function($q){
+            //         $q->where('specialties.id', '!=', 10);
+            //     },
+            // )->whereHas(
+            //     'assignToService', function($q) use($request){
+            //         $q->where("services.id", $request->service);
+            //     }
+            // )
+            // ->orderBy('last_assignment', 'ASC')
+            // ->with([
+            //     'specialties',
+            //     'assignToService' => function($q){
+            //         $q->first();
+            //     }
+            // ])->get();
+            
+            $other_staff = Staff::whereHas( 'approvals', function($q)  {
+                $q->where("service_id", 2)
+                    ->where('active', 1)
+                    ->where('approvals', 1);
+                }
+            )
+            ->with([
+                'specialties',
+                'roles',
+                'assignToService' => function($q){
+                    $q->first();
+                }
+            ])
+            ->get();
 
             $treatment = Treatment::where("procedure_id", $request->procedure)
                 ->where('package_id', $request->package)
@@ -1583,7 +1609,7 @@ class EnApiAppsController extends Controller
                 $assignment[] = [
                     'application_id' => $app->id,
                     'staff_id' => $assignment_staff->id,
-                    'ass_as' => $assignment_staff->specialties[0]->id,
+                    'ass_as' => 10,
                     'code' => getCode(),
                 ];
                 $assignment_staff->last_assignment = date("Y-m-d H:i:s");
@@ -1615,30 +1641,43 @@ class EnApiAppsController extends Controller
                     'message' => $newMessage,
                     'code' => getCode(),
                 ]);
+
+                if ($request->service == 2) {
+                    $toEmail->push((object)[
+                        'staff_name' => "Ismael hernandez",
+                        'staff_email' => 'info@abeautifulme.clinic',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]); 
+
+                    $toEmail->push((object)[
+                        'staff_name' => "Anette Prado",
+                        'staff_email' => 'anetteprado@abeautifulme.clinic',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]);
+                } elseif ($request->service != 2) {
+                    $toEmail->push((object)[
+                        'staff_name' => "Ismael hernandez",
+                        'staff_email' => 'info@aslimmerme.clinic',
+                        'app_id' => $app->id,
+                        'treatment' => $treatment,
+                        "patient" => $patient,
+                        "subject" => $newMessage,
+                    ]); 
+                }
                 $toEmail->push((object)[
-                    'staff_name' => $assignment_staff->name,
-                    'staff_email' => $assignment_staff->email,
+                    'staff_name' => 'Gabriel',
+                    'staff_email' => 'tejeda.llanes@gmail.com',
                     'app_id' => $app->id,
                     'treatment' => $treatment,
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
-                // $toEmail->push((object)[
-                //     'staff_name' => "Ismael hernandez",
-                //     'staff_email' => 'info@jlpradosc.com',
-                //     'app_id' => $app->id,
-                //     'treatment' => $treatment,
-                //     "patient" => $patient,
-                //     "subject" => $newMessage,
-                // ]);
-                // $toEmail->push((object)[
-                //     'staff_name' => 'Gabriel',
-                //     'staff_email' => 'tejeda.llanes@gmail.com',
-                //     'app_id' => $app->id,
-                //     'treatment' => $treatment,
-                //     "patient" => $patient,
-                //     "subject" => $newMessage,
-                // ]);
             }
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
@@ -1675,14 +1714,14 @@ class EnApiAppsController extends Controller
                 ->send(
                     new NewAppEmail($data)
                 );
-                sleep(3);
+                sleep(1);
             }
             Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
         } 
-
+        
         if ($app->save()) {
             $app->statusOne()->create(
                 [
