@@ -1679,69 +1679,10 @@ class EsApiAppsController extends Controller
                     }
                 }
             }
-            // $assignment_staff = Staff::whereHas(
-            //     'specialties', function($q){
-            //         $q->where('specialties.id', 10);
-            //     },
-            // )->whereHas(
-            //     'assignToService', function($q) use($request){
-            //         $q->where("services.id", $request->service);
-            //     }
-            // )
-            // ->orderBy('last_assignment', 'ASC')
-            // ->with([
-            //         'specialties',
-            //         'roles',
-            //         'assignToService' => function($q){
-            //             $q->first();
-            //         }
-            //     ])
-            // ->first();
-
-            $assignment_staff = Staff::whereHas( 'asignaciones', function($q) use($request) {
-                $q->where("service_id", $request->service)
-                    ->where('active', 1);
-                }
-            )
-            ->orderBy('last_assignment', 'ASC')
-            ->with([
-                'specialties',
-                'roles',
-                'assignToService' => function($q){
-                    $q->first();
-                }
-            ])
-            ->first();
             
-            // $other_staff = Staff::whereHas( 'approvals', function($q)  {
-            //     $q->where("service_id", 2)
-            //         ->where('active', 1)
-            //         ->where('approvals', 1);
-            //     }
-            // )
-            // ->with([
-            //     'specialties',
-            //     'roles',
-            //     'assignToService' => function($q){
-            //         $q->first();
-            //     }
-            // ])
-            // ->get();
-
-            $other_staff = Staff::whereHas( 'approvals', function($q)  {
-                $q->where("service_id", 2)
-                    ->where('active', 1)
-                    ->where('approvals', 1);
-                }
-            )
-            ->with([
-                'specialties',
-                'roles',
-                'assignToService' => function($q){
-                    $q->first();
-                }
-            ])
-            ->get();
+            $getStaffEmails = getStaffEmails($request);
+            $assignment_staff = (count($getStaffEmails) > 0) ? $getStaffEmails[0]:'';  
+            $other_staff = getOthersEmails($request);
 
             $treatment = Treatment::where("procedure_id", $request->procedure)
                 ->where('package_id', $request->package)

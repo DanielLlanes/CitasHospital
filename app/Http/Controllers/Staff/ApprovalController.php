@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Staff;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Staff\AdditionalEmail;
 use App\Models\Staff\Approval;
 use App\Models\Staff\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
+use ReflectionClass;
 use Yajra\DataTables\DataTables;
 
 class ApprovalController extends Controller
@@ -27,6 +29,29 @@ class ApprovalController extends Controller
 
     public function index()
     {
+        $assig = Approval::with(['staff', 'additionalEmails', 'service'])->get();
+        foreach($assig as $a) {
+            $additionalEmails = $a->additionalEmails;
+            $hasSelected = false;
+
+            foreach($additionalEmails as $email) {
+                if ($email['selected'] == true) {
+                    $hasSelected = true;
+                    break;
+                }
+            }
+
+            $additionalEmails->push([
+                'id' => null,
+                'staff_id' => $a->staff_id,
+                'email' => $a->staff->email,
+                'selected' => $hasSelected ? 0 : 1,
+                'created_at' => null,
+                'updated_at' => null,
+                'default' => true,
+            ]);
+        }
+
         return view('staff.approvals-manager.approvals');
     }
 
@@ -34,13 +59,7 @@ class ApprovalController extends Controller
     {
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
-            $assig = Approval::with
-            (
-                [
-                    'staff',
-                    'service',
-                ]
-            )->get();
+            $assig = Approval::with(['staff', 'additionalEmails', 'service'])->get();
             
             return DataTables::of($assig)
             ->addIndexColumn()
@@ -71,11 +90,44 @@ class ApprovalController extends Controller
 
                     return '<input otro="'.$assig->approvals.'" class="canApproval" data-id="' . $assig->id . '" type="checkbox" ' . $can . '>';
             })
+            ->addColumn('email', function ($assig) {
+                   
+                $additionalEmails = $assig->additionalEmails;
+                $hasSelected = false;
+                $code = $assig->staff->id."-".$assig->service->id;
+                $uls = '<div class="form-check">';
+                foreach($additionalEmails as $email) {
+                    if ($email['selected'] == true) {
+                        $hasSelected = true;
+                        break;
+                    }
+                }
+                $additionalEmails->push([
+                    'id' => null,
+                    'staff_id' => $assig->staff_id,
+                    'email' => $assig->staff->email,
+                    'selected' => $hasSelected ? 0 : 1,
+                    'created_at' => null,
+                    'updated_at' => null,
+                    'default' => true,
+                ]);  
+
+                foreach ($additionalEmails as $a) {
+                    $email = $a['email'];
+                    $isSelected = ($a['selected']) ? 'checked':"";
+                    $generateUniqueString = password();
+                    $uls .= '<input '. $isSelected .'  class="form-check-input" type="radio" name="emailRadios-' . $code . '" value="" id="defalultMail-' . $generateUniqueString . '">';
+                    $uls .= '<label class="form-check-label" for="defalultMail-' . $generateUniqueString . '"> ' . $email .'. </label><br>';
+                 } 
+                    
+                $uls .= '</div>';
+                return $uls;
+            })
             ->addColumn('acciones', function($assig) {
                 $apps = $assig;
-                return view('staff.quotes-manager.actions-suggestions', compact('apps'));
+                return view('staff.mail-manager.actions-assignaments', compact('apps'));
             })
-            ->rawColumns(['DT_RowIndex', "staff", "servicio", "can", "active", "acciones"])
+            ->rawColumns(['DT_RowIndex', "staff", "servicio", "can", "active", "email", "acciones"])
             ->make(true);
         }
     }
@@ -111,7 +163,7 @@ class ApprovalController extends Controller
 
     public function storeAssignaments(Request $request)
     {
-        //return $request;
+
         $validator = Validator::make($request->all(), [
             'staff_id' => 'required|integer|exists:staff,id',
             'service_id' => 'required|integer|exists:services,id',
@@ -126,14 +178,10 @@ class ApprovalController extends Controller
             ]);
         }
         
-        $exist = Approval::where
-        (
-            [
-                ['staff_id', $request->staff_id],
-                ['service_id', $request->service_id]
-            ]
-        )
-        ->first();
+        $exist = Approval::where('staff_id', $request->staff_id)
+                ->where('service_id', $request->service_id)
+                ->exists();
+        $staff = Staff::find($request->staff_id);        
         if (!$exist) {
             $assig = new Approval;
             $assig->staff_id = $request->staff_id;
@@ -143,6 +191,27 @@ class ApprovalController extends Controller
             $assig->code = getCode();
 
             if ($assig->save()) {
+
+                $is_selected = 0;
+                foreach ($request->emails as $k => $email) {
+                    if ($staff->email == $email['email']) {
+                        if ($email['is_checked']) {
+                           
+                        }
+                    } else {
+                        $reflection = new ReflectionClass(Approval::class);
+                        $namespace = $reflection->getNamespaceName() . '\\' . $reflection->getShortName();
+                        $isSelected = ($email['is_checked'] == 1 )? 1:0;
+                        $other = new AdditionalEmail();
+                        $other->staff_id = $request->staff_id; 
+                        $other->email = strtolower($email['email']); 
+                        $other->selected = $isSelected; 
+                        $other->service_id = $request->service_id;
+                        $other->additional_emailable_id = $assig->id;
+                        $other->additional_emailable_type = $namespace;
+                        $other->save();         
+                    }     
+                }
                 return response()->json([
                     'icon' => 'success',
                     'msg' => 'Agregado correctamente',
@@ -190,9 +259,26 @@ class ApprovalController extends Controller
 
     public function editerAsignaciones(Request $request)
     {
-        $assig = Approval::with('staff', 'service')->find($request->id);
+        $assig = Approval::with('staff', 'service', 'additionalEmails')->find($request->id);
         $lang = Auth::guard('staff')->user()->lang;
         if ($assig) {
+            $additionalEmails = $assig->additionalEmails;
+            $hasSelected = false;
+            foreach($additionalEmails as $email) {
+                if ($email['selected'] == true) {
+                    $hasSelected = true;
+                    break;
+                }
+            }
+            $additionalEmails->push([
+                'id' => null,
+                'staff_id' => $assig->staff->id,
+                'email' => $assig->staff->email,
+                'selected' => $hasSelected ? 0 : 1,
+                'created_at' => null,
+                'updated_at' => null,
+                'default' => true,
+            ]);
             
             return response()->json(
                 [
@@ -217,11 +303,14 @@ class ApprovalController extends Controller
 
     public function updateAssignaments(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'staff_id' => 'required|integer|exists:staff,id',
             'service_id' => 'required|integer|exists:services,id',
             'approval' => 'required|boolean',
+            'emails' => 'required|array',
+            'emails.*.email' => 'required|email|distinct',
+            'emails.*.is_default' => 'required|boolean',
+            'emails.*.is_checked' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -231,34 +320,40 @@ class ApprovalController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
+        $staff = Staff::find($request->staff_id);
+        $assig = Approval::with('additionalEmails')->find($request->id);
 
-        $exist = Approval::where
-        (
-            [
-                ['staff_id', $request->staff_id],
-                ['service_id', $request->service_id],
-                ['approvals', $request->approval]
-            ]
-        )
-        ->first();
+        $reflection = new ReflectionClass(Approval::class);
+        $namespace = $reflection->getNamespaceName() . '\\' . $reflection->getShortName();
+        if ($assig) { 
+            $assig->service_id = $request->service_id;
+            $assig->approvals = $request->service_id;
+            $assig->save();
+            $assig->additionalEmails()->delete();
+            foreach ($request->emails as $email) {
+                if ($staff->email == $email['email']) {
+                    if ($email['is_checked'] == 1) {
+                        continue;
+                    }
+                } else {
+                    $isSelected = ($email['is_checked'] == 1 )? 1:0;
 
-        if (!$exist) { 
-                $assig = Approval::find($request->id);
-                $assig->staff_id = $request->staff_id;
-                $assig->service_id = $request->service_id;
-                $assig->approvals = $request->approval;
-                $assig->code = getCode();
-
-                if ($assig->save()) {
-                    return response()->json([
-                        'icon' => 'success',
-                        'msg' => 'Agregado correctamente',
-                        'reload' => true,
-                        'success' => true
-                    ]);
+                    $other = new AdditionalEmail();
+                    $other->email = strtolower($email['email']); 
+                    $other->selected = $isSelected; 
+                    $other->staff_id = $request->staff_id; 
+                    $other->service_id = $request->service_id;
+                    $other->additional_emailable_id = $assig->id;
+                    $other->additional_emailable_type = $namespace;
+                    $other->save();
                 }
-            
-            
+            }
+            return response()->json([
+                'icon' => 'success',
+                'msg' => 'Agregado correctamente',
+                'reload' => true,
+                'success' => true
+            ]);
         } else {
             return response()->json([
                 'icon' => 'error',
@@ -283,5 +378,50 @@ class ApprovalController extends Controller
                 'success' => true
             ]);
         }
+    }
+    public function getEmailsApprovals(Request $request)
+    {
+        //$emails = Assignment::with(['staff', 'additionalEmails', 'service'])->get();
+        $staff = Staff::with('asignaciones.additionalEmails')->where('id', $request->id)->firstOrFail();
+
+        $asignaciones = $staff->asignaciones;
+        
+        $hasSelected = false;
+        $code = $staff->id;
+        if (!is_null($asignaciones)) {
+            $additionalEmails = $staff->asignaciones->additionalEmails;
+            foreach($additionalEmails as $email) {
+                if ($email['selected'] == true) {
+                    $hasSelected = true;
+                    break;
+                }
+            }
+            $additionalEmails->push([
+                'id' => null,
+                'staff_id' => $staff->id,
+                'email' => $staff->email,
+                'selected' => $hasSelected ? 0 : 1,
+                'created_at' => null,
+                'updated_at' => null,
+                'default' => true,
+            ]);  
+        } else {
+            $asignaciones = [
+                    'additional_emails' => [
+                        [
+                            'id' => null,
+                            'staff_id' => $staff->id,
+                            'email' => $staff->email,
+                            'selected' => $hasSelected ? 0 : 1,
+                            'created_at' => null,
+                            'updated_at' => null,
+                            'default' => true,
+                        ]
+                ]
+            ];
+            unset($staff->asignaciones);
+            $staff->asignaciones = $asignaciones;
+        }
+        return $staff;
     }
 }

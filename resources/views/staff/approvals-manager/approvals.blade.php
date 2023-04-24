@@ -42,6 +42,7 @@
                                                     <th> @lang('Staff') </th>
                                                     <th> @lang('Assigned to') </th>
                                                     <th> @lang('Can Approval') </th>
+                                                    <th> @lang('Email') </th>
                                                     <th> @lang('Active') </th>
                                                     <th> @lang('Action') </th>
                                                 </tr>
@@ -89,6 +90,23 @@
                                                        <div class="error text-danger col-form-label-sm"></div>
                                                    </div>
                                                </div>
+                                               <div class="form-group mb-2">
+                                                   <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Email')
+                                                       <span class="required">  </span>
+                                                   </label>
+                                                   <div class="col-md-12 mb-2" id="emailsArea">
+                                                   </div>
+                                                   <div class="col-md-12" id="addEmailInputDiv">
+                                                   </div>
+                                               </div>
+                                               <div class="form-group mb-2" id="">
+                                                   <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">
+                                                       <span class="required">  </span>
+                                                   </label>
+                                                   <div class="col-md-12 d-flex justify-content-end">
+                                                       <button type="button" class="btn btn-success" id="addNewEmailInput">+ agregar correo</button>
+                                                   </div>
+                                               </div>
                                            </div>
                                            <div class="form-actions">
                                                <div class="row">
@@ -97,7 +115,7 @@
                                                            <button type="button" class="btn btn-info" id="formSubmit">@lang('Add')</button>
                                                        {{-- @endcan --}}
                                                        <button type="button" class="btn btn-default" id="formCancel">@lang('Cancel')</button>
-                                                       <button type="reset" class="d-none" id="formReset">@lang('Cancel')</button>
+                                                       <button type="reset" class="d-none" id="formCancel">@lang('Cancel')</button>
                                                    </div>
                                                </div>
                                            </div>
@@ -134,6 +152,7 @@
         var globalUpdateAssignaments = "{{ route('staff.approvals.updateAsignaciones') }}"
         var globalRouteActivar = "{{ route('staff.approvals.activarAsignaciones') }}"
         var globalApprovalAssignaments = "{{ route('staff.approvals.approvalAssignaments') }}"
+        var globalGetEmailsApprovals = "{{ route('staff.approvals.getEmailsApprovals') }}"
     </script>
 
     <script>
@@ -160,6 +179,7 @@
                     { data: "staff" },
                     { data: "servicio" },
                     { data: "can" },
+                    { data: "email" },
                     { data: "active" },
                     { data: "acciones", orderable: false, searchable: false, className: 'center' },
 
@@ -170,7 +190,7 @@
                 "drawCallback": function() {
                 },
             }); 
-
+            const $emailsArea = $('#addEmailInputDiv .flex-nowrap').length
             $('#staff_name').select2({
                 placeholder: "Select click here",
                 ajax: {
@@ -188,6 +208,8 @@
                                 return {
                                     id: obj.id,
                                     text: obj.name,
+                                    data: obj,
+                                    new: true,
                                 };
                             })
                         };
@@ -219,15 +241,42 @@
                     cache: true,
                 }
             });
+            $('#staff_name').on('change', function() {
+                var dataStaff = $('#staff_name').select2('data');
+                $('#addEmailInputDiv').html('');
+                if (dataStaff.length > 0) {
+                    if (dataStaff[0].hasOwnProperty("new")) {
+                        var staff_id = (dataStaff.length > 0) ? dataStaff[0].id : null;
+                        var staff_data = (dataStaff.length > 0) ? dataStaff[0].data : null;
+                        const obj = {
+                            emailValue: staff_data.email,
+                            isSelected: 'checked',
+                            isDefaultPresent: 1,
+                            generateUniqueString: generateUniqueString(),
+                        };
+                        addNewEmailInput(obj)
+                    }
+                }
+                  
+            });
+            $(document).on('click', '#addNewEmailInput', function(event) {
+                addNewEmailInput();
+            });
             function resetForm() {
                 $('#staff_name').val(null).trigger('change');
                 $('#service_name').val(null).trigger('change');
                 $('#approvalCkbx').prop('checked', false);
+                 $('#emailsArea').html('');
+                $('#addEmailInputDiv').html('');
+                $('#staff_name').prop('disabled', false)
             }
-            $(document).on('click', '#formReset', function(event) {
+            $(document).on('click', '#formCancel', function(event) {
                 event.preventDefault();
                 $('#formEdit').removeAttr('assing')
-                $('#formEdit').attr('id', 'formSubmit').html('add')
+                $('#formEdit').attr('id', 'formSubmit').html('add');
+                $('#emailsArea').html('');
+                $('#addEmailInputDiv').html('');
+                $('#staff_name').prop('disabled', false)
                 resetForm()
             });
             $(document).on('click', '#formSubmit', function(event) {
@@ -239,27 +288,40 @@
 
                 if ($('#approvalCkbx').is(":checked")) {approval = 1}
 
-                var dataString = new FormData()
-                dataString.append('staff_id', staff_id);
-                dataString.append('service_id', service_id);
-                dataString.append('approval', approval);
+                var emails = [];
+
+                $('.emailRadio').each(function(index) {
+                    $attr = 'emails-'+index+'-email'
+                    $(this).parents('.input-group').find('.emailInput').attr('id', $attr);
+                    emails.push({
+                        'email': $(this).parents('.input-group').find('.emailInput').val(),
+                        'is_default': $(this).attr('isdefault'),
+                        'is_checked': $(this).is(':checked') ? 1:0,
+                    });
+                });
+
+                // Crear el objeto de datos a enviar por Ajax
+                var dataString = {
+                    'staff_id': staff_id,
+                    'service_id': service_id,
+                    'emails': emails,
+                    'approval':approval
+                };                
                 $.ajax({
                     type: "POST",
                     url: globalStoreAssignaments,
                     method:"POST",
                     data:dataString,
                     dataType:'JSON',
-                    contentType: false,
                     cache: false,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    processData: false,
                     beforeSend: function(){
 
                     },
                     success: function(data) {
-                        console.log("data", data); return
+                        console.log("data", data)
                         Toast.fire({
                             icon: data.icon,
                             title: data.msg
@@ -341,8 +403,10 @@
                                 assing: $.trim(assingId),
                                 id: 'formEdit'
                             });
-
+                            $('#formEdit').attr('assing', $.trim(assingId))
                             if (data.data.approvals == 1) {$('#approvalCkbx').prop('checked', true)}
+                            $edit = true;
+                            addEmailCheckbox(data.data, $edit)
                         } else {
                             Toast.fire({
                                 icon: data.icon,
@@ -370,23 +434,36 @@
                 var approval = 0
 
                 if ($('#approvalCkbx').is(":checked")) {approval = 1}
-                var dataString = new FormData()
-                dataString.append('staff_id', staff_id);
-                dataString.append('service_id', service_id);
-                dataString.append('id', id);
-                dataString.append('approval', approval);
+
+                var emails = [];
+
+                $('.emailRadio').each(function(index) {
+                    $attr = 'emails-'+index+'-email'
+                    $(this).parents('.input-group').find('.emailInput').attr('id', $attr);
+                    emails.push({
+                        'email': $(this).parents('.input-group').find('.emailInput').val(),
+                        'is_default': $(this).attr('isdefault'),
+                        'is_checked': $(this).is(':checked') ? 1:0,
+                    });
+                });
+                // Crear el objeto de datos a enviar por Ajax
+                var dataString = {
+                    'staff_id': staff_id,
+                    'service_id': service_id,
+                    'emails': emails,
+                    'approval':approval,
+                    'id': id,
+                };                
                 $.ajax({
                     type: "POST",
                     url: globalUpdateAssignaments,
                     method:"POST",
                     data:dataString,
                     dataType:'JSON',
-                    contentType: false,
                     cache: false,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    processData: false,
                     beforeSend: function(){
 
                     },
@@ -449,6 +526,78 @@
                     }
                 });
             });
+            const addEmailCheckbox = (data, edit = false) => {
+                const code = data.id;
+                $('#addEmailInputDiv').html('');
+                if (data) {
+                    data.additional_emails.forEach(email => {
+                        const { email: emailValue, selected, default: isDefault } = email;
+                        const isSelected = selected ? 'checked' : '';
+                        const isDefaultPresent = isDefault !== undefined ? 1 : 0;
+                        $generateUniqueString = generateUniqueString();
+
+                        const obj = {
+                            emailValue: email.email,
+                            isSelected: email.selected ? 'checked' : '',
+                            isDefaultPresent: email.default !== undefined ? 1 : 0,
+                            generateUniqueString: generateUniqueString(),
+                        };
+                        //if (isDefaultPresent == 1) {addNewEmailInput(obj)}
+                        if (edit) {addNewEmailInput(obj)} else {if (isDefaultPresent == 1) {addNewEmailInput(obj)}}
+                        
+                    });
+                } 
+            }
+            const addNewEmailInput = (data = null) => {
+                const emailData = data ? data : {
+                    emailValue: '',
+                    isSelected: '',
+                    isDefaultPresent: 0,
+                    generateUniqueString: ''
+                };
+                if (emailData.isDefaultPresent == 1) {}
+                disabled = (emailData.isDefaultPresent == 1) ? 'disabled readonly': '';
+                $addEmailInputDiv = `
+                    <div class="d-flex flex-nowrap">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend mr-2">
+                                <input ${emailData.isSelected} isDefault="${emailData.isDefaultPresent}" class="form-check-input emailRadio" type="radio" name="emailRadio-${emailData.code}" value="" id="thisRadio-${emailData.generateUniqueString}"aria-label="Radio button for following text input">
+                            </div>
+                            <div class="custom-file">
+                                <input class="form-control form-control-sm emailInput" ${disabled} type="email" value="${emailData.emailValue}" placeholder="">
+                                ${(emailData.isDefaultPresent == 1) ? 
+                                '' : 
+                                '<button type="button" class="btn btn-danger deleteEmailInput btn-sm" id=""><i class="fa fa-trash"></i></button>'}
+                                
+                            </div>
+                        </div>
+                   </div>
+                   <div class="error text-danger col-form-label-sm"></div>
+                `
+                $('#addEmailInputDiv').append($addEmailInputDiv);
+                
+            }
+            let lastTimestamp = 0;
+            function generateUniqueString() {
+                const now = new Date();
+                const timestamp = now.getTime();
+                if (timestamp === lastTimestamp) {
+                    const randomSuffix = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+                    lastTimestamp = timestamp;
+                    return `${timestamp}${randomSuffix}`;
+                }
+                lastTimestamp = timestamp;
+                const year = now.getFullYear().toString();
+                const month = (now.getMonth() + 1).toString().padStart(2, "0");
+                const day = now.getDate().toString().padStart(2, "0");
+                const hours = now.getHours().toString().padStart(2, "0");
+                const minutes = now.getMinutes().toString().padStart(2, "0");
+                const seconds = now.getSeconds().toString().padStart(2, "0");
+                const milliseconds = now.getMilliseconds().toString().padStart(3, "0");
+                const uniqueString = `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+                return uniqueString;
+            }
+            if ($emailsArea == 0) { addNewEmailInput()}
         });
         
     </script>

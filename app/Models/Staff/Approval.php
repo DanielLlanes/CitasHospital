@@ -25,4 +25,9 @@ class Approval extends Model
         // belongsTo(RelatedModel, foreignKey = service_id, keyOnRelatedModel = id)
         return $this->belongsTo(Service::class);
     }
+
+    public function additionalEmails()
+    {
+        return $this->morphMany(AdditionalEmail::class, 'additional_emailable');
+    }
 }

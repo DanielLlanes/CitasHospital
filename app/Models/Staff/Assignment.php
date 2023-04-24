@@ -9,6 +9,8 @@ class Assignment extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id', 'staff_id', 'service_id', 'email', 'selected', 'additional_emailable_id', 'additional_emailable_type',  'created_at ', 'updated_at'];
+
     /**
      * Assignment belongs to Staff.
      *
@@ -29,5 +31,10 @@ class Assignment extends Model
     {
         // belongsTo(RelatedModel, foreignKey = service_id, keyOnRelatedModel = id)
         return $this->belongsTo(Service::class);
+    }
+
+    public function additionalEmails()
+    {
+        return $this->morphMany(AdditionalEmail::class, 'additional_emailable');
     }
 }

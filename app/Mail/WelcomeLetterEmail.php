@@ -42,7 +42,6 @@ class WelcomeLetterEmail extends Mailable implements ShouldQueue
                 "patient" => 'patient',
                 "coordinator" => 'coordinator',
                 "treatment" => 'treatment',
-
             ]
         );
     }

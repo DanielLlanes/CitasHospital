@@ -332,7 +332,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/asignaciones/storeAssignaments',  [EmailTemplateController::class, 'storeAssignaments'])->name('storeAssignaments');
         Route::post('/asignaciones/active',  [EmailTemplateController::class, 'activarAsignaciones'])->name('activarAsignaciones');
         Route::post('/asignaciones/edit',    [EmailTemplateController::class, 'editerAsignaciones'])->name('editAsignaciones');
-        Route::post('/asignaciones/update',    [EmailTemplateController::class, 'updateerAsignaciones'])->name('updateAsignaciones');
+        Route::post('/asignaciones/update',    [EmailTemplateController::class, 'updateAssignaments'])->name('updateAsignaciones');
+        Route::post('/asignaciones/getEmailsAssignaments',    [EmailTemplateController::class, 'getEmailsAssignaments'])->name('getEmailsAssignaments');
+
     });
 
     Route::name('approvals.')->group ( Function () {
@@ -343,7 +345,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/approvals/update',    [ApprovalController::class, 'updateAssignaments'])->name('updateAsignaciones');
         Route::post('/approvals/active',  [ApprovalController::class, 'activarAsignaciones'])->name('activarAsignaciones');
         Route::post('/approvals/approvalAssignaments',  [ApprovalController::class, 'approvalAssignaments'])->name('approvalAssignaments');
-        // Route::post('/approvals/autocompleteService',  [ApprovalController::class, 'autocompleteService'])->name('autocompleteService');
+        Route::post('/approvals/getEmailsApprovals',    [ApprovalController::class, 'getEmailsApprovals'])->name('getEmailsApprovals');
+        Route::post('/approvals/autocompleteService',  [ApprovalController::class, 'autocompleteService'])->name('autocompleteService');
     });
 
 });

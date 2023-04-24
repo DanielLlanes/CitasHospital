@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Staff\Staff;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\Permission\Models\Role;
 
@@ -197,4 +198,105 @@ if (! function_exists('sugerencias')) {
              return $collection;
         }
     }
+}
+
+if (! function_exists('toPascalCase')) {
+    function toPascalCase($str) {
+        $str = ucwords(strtolower($str));
+        $str = str_replace([' ', '_'], '', $str);
+        return $str;
+    }
+}
+
+if (! function_exists('getStaffEmails')) {
+    function getStaffEmails($value)
+    {
+        $coordinador = Staff::whereHas( 'asignaciones', function($q) use($value) {
+            $q->where("service_id", 1)
+                ->where('active', 1);
+            }
+        )
+        ->orderBy('last_assignment', 'ASC')
+        ->with([
+            'specialties',
+            'roles',
+            'asignaciones.additionalEmails',
+            'assignToService' => function($q){
+                $q->first();
+            }
+        ])
+        ->first();
+        $collection = new Collection;
+        $id = $coordinador->id;
+        $mail = $coordinador->email;
+        $name = $coordinador->name;
+        $hasSelected = false;
+        $assig = $coordinador->asignaciones->additionalEmails;
+        foreach($assig as $key => $a) {
+            $additionalEmails = $a->additionalEmails;
+            if ($a['selected'] == true) {
+                $hasSelected = true;
+                $mail = $a['email'];
+            } 
+        }
+        
+        $collection->push((object)[
+            'id' => $id, 
+            'name' => $name, 
+            'email' => $mail,
+            'phone' => $coordinador->phone,
+            'specialties' =>$coordinador->specialties, 
+            'roles' => $coordinador->roles,
+        ]);
+        return $collection;
+    }    
+}
+
+if (! function_exists('getOthersEmails')) {
+    function getOthersEmails($value)
+    {
+        $others = Staff::whereHas('approvals', function($q) use($value) {
+            $q->where("service_id", 1)
+                ->where('active', 1);
+        })
+        ->orderBy('last_assignment', 'ASC')
+        ->with([
+            // 'specialties',
+            // 'roles',
+            'approvals' => function($query) use($value) {
+                $query->where('service_id', 1)
+                    ->where('active', 1)
+                    ->with('additionalEmails');
+            },
+            // 'assignToService' => function($q) {
+            //     $q->first();
+            // }
+        ])
+        ->get();
+
+        $collection = new Collection;
+        foreach ($others as $other) {
+            $id = $other->id;
+            $name = $other->name;
+            $phone = $other->phone;
+            $mail = $other->email;
+            $hasSelected = false;
+            $additionalEmails = $other->approvals[0]->additionalEmails;
+
+            foreach ($additionalEmails as $index => $a) {
+                if ($a->selected == 1) {
+                    $hasSelected = true;
+                    $mail = $a->email;
+                }
+            }
+            $collection->push((object)[
+                'id' => $id,
+                'name' => $name,
+                'email' => $mail,
+                'code' => getCode(),
+            ]);
+        }
+        return $collection;
+        
+    }    
 }

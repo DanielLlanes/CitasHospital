@@ -1113,7 +1113,7 @@ class EnApiAppsController extends Controller
 
         if ($request->sex == 'female') {
             $validator6 = Validator::make($request->all(), [
-                "last_menstrual_period" => "required|'date_format:m/d/Y'",
+                "last_menstrual_period" => "required|date_format:m/d/Y",
                 "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                 "have_you_been_pregnant" => "required|boolean",
                 "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -1518,71 +1518,10 @@ class EnApiAppsController extends Controller
                     }
                 }
             }
-            // $assignment_staff = Staff::whereHas(
-            //     'specialties', function($q){
-            //         $q->where('specialties.id', 10);
-            //     },
-            // )->whereHas(
-            //     'assignToService', function($q) use($request){
-            //         $q->where("services.id", $request->service);
-            //     }
-            // )
-            // ->orderBy('last_assignment', 'ASC')
-            // ->with([
-            //         'specialties',
-            //         'roles',
-            //         'assignToService' => function($q){
-            //             $q->first();
-            //         }
-            //     ])
-            // ->first();
 
-            $assignment_staff = Staff::whereHas( 'asignaciones', function($q) use($request) {
-                $q->where("service_id", $request->service)
-                    ->where('active', 1);
-                }
-            )
-            ->orderBy('last_assignment', 'ASC')
-            ->with([
-                'specialties',
-                'roles',
-                'assignToService' => function($q){
-                    $q->first();
-                }
-            ])
-            ->first();
-
-            // $other_staff = Staff::whereHas(
-            //     'specialties', function($q){
-            //         $q->where('specialties.id', '!=', 10);
-            //     },
-            // )->whereHas(
-            //     'assignToService', function($q) use($request){
-            //         $q->where("services.id", $request->service);
-            //     }
-            // )
-            // ->orderBy('last_assignment', 'ASC')
-            // ->with([
-            //     'specialties',
-            //     'assignToService' => function($q){
-            //         $q->first();
-            //     }
-            // ])->get();
-            
-            $other_staff = Staff::whereHas( 'approvals', function($q)  {
-                $q->where("service_id", 2)
-                    ->where('active', 1)
-                    ->where('approvals', 1);
-                }
-            )
-            ->with([
-                'specialties',
-                'roles',
-                'assignToService' => function($q){
-                    $q->first();
-                }
-            ])
-            ->get();
+            $getStaffEmails = getStaffEmails($request);
+            $assignment_staff = (count($getStaffEmails) > 0) ? $getStaffEmails[0]:'';  
+            $other_staff = getOthersEmails($request);
 
             $treatment = Treatment::where("procedure_id", $request->procedure)
                 ->where('package_id', $request->package)
@@ -1605,6 +1544,9 @@ class EnApiAppsController extends Controller
             $newMessage = "A new application has been assigned to you";
             $response = [];
             $assignment = [];
+
+            
+
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $app->id,
@@ -1612,8 +1554,9 @@ class EnApiAppsController extends Controller
                     'ass_as' => 10,
                     'code' => getCode(),
                 ];
-                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                $assignment_staff->save();
+                $staffx = Staff::find($assignment_staff->id);
+                $staffx->last_assignment = date("Y-m-d H:i:s");
+                $staffx->save();
 
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
@@ -1635,6 +1578,7 @@ class EnApiAppsController extends Controller
                     'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
                     'url' => route('staff.applications.show', ["id" => $app->id]),
                 ]);
+
                 $app->notification()->create([
                     'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
@@ -1642,34 +1586,14 @@ class EnApiAppsController extends Controller
                     'code' => getCode(),
                 ]);
 
-                if ($request->service == 2) {
-                    $toEmail->push((object)[
-                        'staff_name' => "Ismael hernandez",
-                        'staff_email' => 'info@abeautifulme.clinic',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]); 
-
-                    $toEmail->push((object)[
-                        'staff_name' => "Anette Prado",
-                        'staff_email' => 'anetteprado@abeautifulme.clinic',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]);
-                } elseif ($request->service != 2) {
-                    $toEmail->push((object)[
-                        'staff_name' => "Ismael hernandez",
-                        'staff_email' => 'info@aslimmerme.clinic',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]); 
-                }
+                $toEmail->push((object)[
+                    'staff_name' => $assignment_staff->name,
+                    'staff_email' => $assignment_staff->email,
+                    'app_id' => $app->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                    "subject" => $newMessage,
+                ]);
                 $toEmail->push((object)[
                     'staff_name' => 'Gabriel',
                     'staff_email' => 'tejeda.llanes@gmail.com',
@@ -1679,6 +1603,8 @@ class EnApiAppsController extends Controller
                     "subject" => $newMessage,
                 ]);
             }
+
+            
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
                     $app->notification()->create([
@@ -1696,6 +1622,7 @@ class EnApiAppsController extends Controller
                         "patient" => $patient,
                         "subject" => $newMessage,
                     ]);
+                    
                     $date = Carbon::now();
                     $hours = $date->format('g:i A');
                     $notifications->push((object)[
