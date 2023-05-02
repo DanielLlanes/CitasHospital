@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="{{ $lang }}">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,8 +8,8 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
-    <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
+    <link href="{{ env('APP_URL_PARTNER') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
+    <link href="{{ env('APP_URL_PARTNER') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <title>Applications</title>
 
     
@@ -1860,7 +1860,7 @@
 <option value=""></option>
     <!-- Optional JavaScript; choose one of the two! -->
     @section('styles')
-      <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+      <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     @endsection
 
 
@@ -1873,13 +1873,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/moment/moment.min.js"></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
-    <script src="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/bindings/inputmask.binding.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/siteFiles/assets/vendor/dropify/dist/js/dropify.min.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/moment/moment.min.js " ></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/moment/moment.min.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
+    <script src="{{ env('APP_URL_PARTNER') }}/staffFiles/assets/plugins/Inputmask-5.x/dist/bindings/inputmask.binding.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha512-NqYds8su6jivy1/WLoW8x1tZMRD7/1ZfhWG/jcRQLOzV1k1rIODCpMgoBnar5QXshKJGV7vi0LXLNXPoFsM5Zg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <script>
@@ -1892,9 +1892,10 @@
       let bodyElement = document.querySelector('body');
       let succcessDiv = document.getElementById('success');
       let progressBar = document.getElementById('steps');
-      let url = '12345';
-      let domain = '{{ env('APP_URL_API') }}';
-      let endPoint = domain + '/aplicacion';
+      let code = '{{ $code }}';
+      let lang = '{{ $lang }}';
+      let domain = '{{ env('APP_URL_PARTNER') }}';
+      let endPoint = domain + '/partners/' + lang + '/' + code;
       var ip_address = window.location.protocol + '//' + window.location.hostname;;
       var socket_port = '3000';
       var socket = io(ip_address + ':' + socket_port );

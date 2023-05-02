@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Partners\ApiPartnersController;
+//use App\Http\Controllers\Partners\ApiPartnersController;
+use App\Http\Controllers\Partners\EnApiAppsController as EnApiPartners;
+use App\Http\Controllers\Partners\EsApiAppsController as EsApiPartners;
 use App\Http\Controllers\Partners\PartnetsSiteController;
 use App\Http\Controllers\Staff\AppController;
 use App\Http\Controllers\Staff\EnApiAppsController;
@@ -24,14 +26,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::domain(partnersUrl())->group( function() {
-    Route::get('/partners/site/{code}/countries', [ApiPartnersController::class, 'countries']);
-    Route::post('/partners/site/{code}/states',   [ApiPartnersController::class, 'states']);
-    Route::get('/partners/site/{code}/services', [ApiPartnersController::class, 'services']);
-    Route::post('/partners/site/{code}/procedures',   [ApiPartnersController::class, 'procedures']);
-    Route::post('/partners/site/{code}/packages',   [ApiPartnersController::class, 'packages']);
-    Route::post('/partners/site/{code}/checkData',   [ApiPartnersController::class, 'checkData']);
-    Route::post('/partners/site/{code}/getData',   [ApiPartnersController::class, 'getData']);
-    Route::post('/partners/site/{code}/storeData',   [ApiPartnersController::class, 'storeData']);
+    Route::get('/partners/es/{code}', [EsApiPartners::class, 'index']);
+    Route::get('/partners/es/{code}/countries', [EsApiPartners::class, 'countries']);
+    Route::post('/partners/es/{code}/states',   [EsApiPartners::class, 'states']);
+    Route::get('/partners/es/{code}/services', [EsApiPartners::class, 'services']);
+    Route::post('/partners/es/{code}/procedures',   [EsApiPartners::class, 'procedures']);
+    Route::post('/partners/es/{code}/packages',   [EsApiPartners::class, 'packages']);
+    Route::post('/partners/es/{code}/checkData',   [EsApiPartners::class, 'checkData']);
+    Route::post('/partners/es/{code}/getData',   [EsApiPartners::class, 'getData']);
+    Route::post('/partners/es/{code}/storeData',   [EsApiPartners::class, 'storeData']);
+
+    Route::get('/partners/en/{code}', [EnApiPartners::class, 'index']);
+    Route::get('/partners/en/{code}/countries', [EnApiPartners::class, 'countries']);
+    Route::post('/partners/en/{code}/states',   [EnApiPartners::class, 'states']);
+    Route::get('/partners/en/{code}/services', [EnApiPartners::class, 'services']);
+    Route::post('/partners/en/{code}/procedures',   [EnApiPartners::class, 'procedures']);
+    Route::post('/partners/en/{code}/packages',   [EnApiPartners::class, 'packages']);
+    Route::post('/partners/en/{code}/checkData',   [EnApiPartners::class, 'checkData']);
+    Route::post('/partners/en/{code}/getData',   [EnApiPartners::class, 'getData']);
+    Route::post('/partners/en/{code}/storeData',   [EnApiPartners::class, 'storeData']);
 });
 
 Route::domain(apiUrl())->group( function() {

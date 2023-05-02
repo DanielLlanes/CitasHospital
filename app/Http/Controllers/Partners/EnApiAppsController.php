@@ -23,30 +23,83 @@ use App\Models\Staff\Staff;
 use App\Models\Staff\Treatment;
 use App\Traits\DatesLangTrait;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-class ApiPartnersController extends Controller
+class EnApiAppsController extends Controller
 {
     use DatesLangTrait;
 
-    public function index($value='')
+    private $lang;
+    private $partner;
+    private $exist = true;
+
+    public function __construct(Request $request)
     {
-        return view('staff.api-apps-manager.index-es', ['countries' => $countries, 'service' => $service, "treatment" => $treatment]);
+        $ruta = $request->path();
+        $componentes_ruta = explode("/", $ruta); // divide la ruta en partes separadas por la barra diagonal
+        if (count($componentes_ruta) == 3) {
+            $this->lang = $componentes_ruta[count($componentes_ruta) - 2];
+            $this->partner = $componentes_ruta[count($componentes_ruta) - 1];
+        } elseif (count($componentes_ruta)  == 4) {
+            $this->lang = $componentes_ruta[count($componentes_ruta) - 3];
+            $this->partner = $componentes_ruta[count($componentes_ruta) - 2];
+        } else {
+            abort(401);
+        }
+        
+        if (!Partner::where('code', $this->partner)->exists()) {
+           abort(401);
+           $this->exist = false;
+        }
+        App::setLocale($this->lang);
     }
 
-    public function countries(Request $request, $code)
+    public function index()
     {
-    $exist = Partner::where('code', $code)->first();
-    return($exist);
+
+        //return abort(404);
+
+        $lang = $this->lang;
+        
+        $countries = Country::where('active', 1)->orderBy('name', 'desc')->select("id", "name")->get();
+
+        $treatment = Treatment::with
+        (
+            [
+                'service' => function($query) use ($lang) {
+                    $query->select('id', 'brand_id', "active", "service_$lang as service", "need_images", "qty_images")
+                    ->with('brand');
+                 },
+                'procedure' => function($query) use ($lang) {
+                    $query->select('id', "active", "has_package", "service_id", "procedure_$lang as procedure");
+                 },
+                'package' => function($query) use ($lang) {
+                    $query->select('id', "active", "package_$lang as package");
+                 }
+            ]
+        )
+        ->where('active', true)
+        ->select("id", "brand_id", "service_id", "procedure_id", "package_id", "price")
+        ->get();
+
+        $service = Service::with('procedures')->get();
+        //return($treatment);
+
+        return view('partners.site.index-'.$lang, ['countries' => $countries, 'service' => $service, "treatment" => $treatment, 'code' => $this->partner, 'lang' => $this->lang]);
+    }
+
+    public function countries(Request $request)
+    {
         $countries = Country::where('active', 1)
         ->where("name",'like', "%".$request->search."%")
         ->select('id', "name as text")
@@ -65,7 +118,7 @@ class ApiPartnersController extends Controller
     public function services(Request $request)
     {
         if (1 == 1) {
-           $lang = 'es';
+           $lang = $this->lang;
             $services = Service::where("service_$lang",'like', "%".$request->search."%")
             ->select('id', "service_$lang as text", 'need_images', 'qty_images')
             ->has('treatments')
@@ -75,7 +128,7 @@ class ApiPartnersController extends Controller
     }
     public function procedures(Request $request)
     {
-        $lang = 'es';
+        $lang = $this->lang;
 
         if ($request->has('id')) {
             $search = Procedure::whereHas(
@@ -103,7 +156,7 @@ class ApiPartnersController extends Controller
     }
     public function packages(Request $request)
     {
-        $lang = 'es';
+        $lang = $this->lang;
 
         if ($request->has('id')) {
 
@@ -130,8 +183,7 @@ class ApiPartnersController extends Controller
     }
     public function checkData(Request $request)
     {  
-        //return($request);
-            $lang = 'es';
+            $lang = $this->lang;
             if ($request->step == 0) {
                 $exist = false;
 
@@ -153,19 +205,21 @@ class ApiPartnersController extends Controller
                     
                     $patient = Patient::where('email', $request->email)->first();
                 }
+                $minYear = date("Y") - 100;
+                $year = date("Y");
+
                 if (!$patient) {
                     $validator = Validator::make($request->all(), [
                         'treatmentBefore' => 'required|boolean',
                         'name' => 'required|string',
                         'sex' => 'required|string|',
-                        'age' => 'required|numeric|between:18,99',
-                        'dob' => 'required|date',
+                        'dob' => 'required|date_format:m/d/Y',
                         'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                         'email' => 'required|max:255|email',
                         'address' => 'required',
-                        'country_id' => 'required|integer',
-                        'state_id' => 'required|integer',
+                        'country_id' => 'required|string',
+                        'state_id' => 'required|string',
                         'city' => 'required|string',
                         'zip' => 'required|string',
                         'ecn' => 'required|string',
@@ -267,40 +321,40 @@ class ApiPartnersController extends Controller
                     "addiction" => 'required|boolean',
                     "which_one_adiction" => 'required_if:addiction,1','string',
                     "high_lipid_levels" => 'required|boolean',
-                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+                    "date_high_lipid_levels" => 'required_if:high_lipid_levels,1', 'date_format:m/d/Y',
                     "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
                     "arthritis" => 'required|boolean',
-                    "date_arthritis" => 'required_if:arthritis,1','date',
+                    "date_arthritis" => 'required_if:arthritis,1', 'date_format:m/d/Y',
                     "treatment_arthritis" => 'required_if:arthritis,1','string',
                     "cancer" => 'required|boolean',
-                    "date_cancer" => 'required_if:cancer,1','date',
+                    "date_cancer" => 'required_if:cancer,1', 'date_format:m/d/Y',
                     "treatment_cancer" => 'required_if:cancer,1','string',
                     "cholesterol" => 'required|boolean',
-                    "date_cholesterol" => 'required_if:cholesterol,1','date',
+                    "date_cholesterol" => 'required_if:cholesterol,1', 'date_format:m/d/Y',
                     "treatment_cholesterol" => 'required_if:cholesterol,1','string',
                     "triglycerides" => 'required|boolean',
-                    "date_triglycerides" => 'required_if:triglycerides,1','date',
+                    "date_triglycerides" => 'required_if:triglycerides,1', 'date_format:m/d/Y',
                     "treatment_triglycerides" => 'required_if:triglycerides,1','string',
                     "stroke" => 'required|boolean',
-                    "date_stroke" => 'required_if:stroke,1','date',
+                    "date_stroke" => 'required_if:stroke,1', 'date_format:m/d/Y',
                     "treatment_stroke" => 'required_if:stroke,1','string',
                     "diabetes" => 'required|boolean',
-                    "date_diabetes" => 'required_if:diabetes,1','date',
+                    "date_diabetes" => 'required_if:diabetes,1', 'date_format:m/d/Y',
                     "treatment_diabetes" => 'required_if:diabetes,1','string',
                     "coronary_artery_disease" => 'required|boolean',
                     "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
                     "liver_disease" => 'required|boolean',
-                    "date_liver_disease" => 'required_if:liver_disease,1','date',
-                    "treatment_liver_disease" => 'required_if:liver_disease,1','string',
+                    "date_liver_disease" => 'required_if:liver_disease,1', 'date_format:m/d/Y',
+                    "treatment_liver_disease" => 'required_if:liver_disease,1','string','date_format:m/d/Y',
                     "lugn_disease" => 'required|boolean',
-                    "date_lugn_disease" => 'required_if:lugn_disease,1','date',
-                    "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
+                    "date_lugn_disease" => 'required_if:lugn_disease,1', 'date_format:m/d/Y',
+                    "treatment_lugn_disease" => 'required_if:lugn_disease,1','string','date_format:m/d/Y',
                     "renal_disease" => 'required|boolean',
-                    "date_renal_disease" => 'required_if:renal_disease,1','date',
+                    "date_renal_disease" => 'required_if:renal_disease,1', 'date_format:m/d/Y',
                     "treatment_renal_disease" => 'required_if:renal_disease,1','string',
                     "thyroid_disease" => 'required|boolean',
-                    "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+                    "date_thyroid_disease" => 'required_if:thyroid_disease,1', 'date_format:m/d/Y',
                     "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
                     "hypertension" => 'required|boolean',
                     "date_hypertension" => 'required_if:hypertension,1','string',
@@ -310,7 +364,7 @@ class ApiPartnersController extends Controller
                     "illness" => ['required_if:any_other_illnesses,1','array'],
                     "illness.*" => ['required_if:any_other_illnesses,1','string'],
                     "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+                    "diagnostic_date.*" => ['required_if:any_other_illnesses,1', 'date_format:m/d/Y'],
                     "treatment" => ['required_if:any_other_illnesses,1','array'],
                     "treatment.*" => ['required_if:any_other_illnesses,1','string'],
                 ]);
@@ -638,7 +692,7 @@ class ApiPartnersController extends Controller
             if ($request->step == 6) {
                 $validator = Validator::make($request->all(), [
 
-                    "last_menstrual_period" => "required|date",
+                    "last_menstrual_period" => "required|date_format:m/d/Y",
                     "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                     "have_you_been_pregnant" => "required|boolean",
                     "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -680,8 +734,7 @@ class ApiPartnersController extends Controller
     }
     public function getData(Request $request)
     {  
-
-        $lang = 'es';
+        $lang = $this->lang;
         $need_images = Service::select('need_images', 'qty_images')->find($request->service);
         return response()->json([
             'success' => true,
@@ -691,11 +744,9 @@ class ApiPartnersController extends Controller
             "gender" => $request->sex
         ]);
     }
-    public function storeData(Request $request, $code)
+    public function storeData(Request $request)
     {
-        //return $request;
-        $partnerCode = $code;
-        $lang = 'es';
+        $lang = $this->lang;
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
         else { $exist = Treatment::where("procedure_id", $request->procedure)->where('package_id', $request->package)->first(); }
@@ -713,20 +764,21 @@ class ApiPartnersController extends Controller
         }
         $need_images = Service::select('need_images', 'qty_images')->find($request->service);
         $patient = Patient::where('email', $request->email)->first();
-
+        $minYear = date("Y") - 100;
+        $year = date("Y");
         if (!$patient) {
             $validator0 = Validator::make($request->all(), [
                 'treatmentBefore' => 'required|boolean',
                 'name' => 'required|string',
                 'sex' => 'required|string|',
                 'age' => 'required|numeric|between:18,99',
-                'dob' => 'required|date',
+                'dob' => 'required|date_format:m/d/Y',
                 'phone' => ['unique:patients,phone', 'required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'mobile' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email',
                 'address' => 'required',
-                'country_id' => 'required|integer',
-                'state_id' => 'required|integer',
+                'country_id' => 'required|string',
+                'state_id' => 'required|string',
                 'city' => 'required|string',
                 'zip' => 'required|string',
                 'ecn' => 'required|string',
@@ -819,40 +871,40 @@ class ApiPartnersController extends Controller
             "addiction" => 'required|boolean',
             "which_one_adiction" => 'required_if:addiction,1','string',
             "high_lipid_levels" => 'required|boolean',
-            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1','date',
+            "date_high_lipid_levels" => 'required_if:high_lipid_levels,1', 'date_format:m/d/Y',
             "treatment_high_lipid_levels" => 'required_if:high_lipid_levels,1','string',
             "arthritis" => 'required|boolean',
-            "date_arthritis" => 'required_if:arthritis,1','date',
+            "date_arthritis" => 'required_if:arthritis,1', 'date_format:m/d/Y',
             "treatment_arthritis" => 'required_if:arthritis,1','string',
             "cancer" => 'required|boolean',
-            "date_cancer" => 'required_if:cancer,1','date',
+            "date_cancer" => 'required_if:cancer,1', 'date_format:m/d/Y',
             "treatment_cancer" => 'required_if:cancer,1','string',
             "cholesterol" => 'required|boolean',
-            "date_cholesterol" => 'required_if:cholesterol,1','date',
+            "date_cholesterol" => 'required_if:cholesterol,1', 'date_format:m/d/Y',
             "treatment_cholesterol" => 'required_if:cholesterol,1','string',
             "triglycerides" => 'required|boolean',
-            "date_triglycerides" => 'required_if:triglycerides,1','date',
+            "date_triglycerides" => 'required_if:triglycerides,1', 'date_format:m/d/Y',
             "treatment_triglycerides" => 'required_if:triglycerides,1','string',
             "stroke" => 'required|boolean',
-            "date_stroke" => 'required_if:stroke,1','date',
+            "date_stroke" => 'required_if:stroke,1', 'date_format:m/d/Y',
             "treatment_stroke" => 'required_if:stroke,1','string',
             "diabetes" => 'required|boolean',
-            "date_diabetes" => 'required_if:diabetes,1','date',
+            "date_diabetes" => 'required_if:diabetes,1', 'date_format:m/d/Y',
             "treatment_diabetes" => 'required_if:diabetes,1','string',
             "coronary_artery_disease" => 'required|boolean',
             "date_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "treatment_coronary_artery_disease" => 'required_if:coronary_artery_disease,1','string',
             "liver_disease" => 'required|boolean',
-            "date_liver_disease" => 'required_if:liver_disease,1','date',
+            "date_liver_disease" => 'required_if:liver_disease,1', 'date_format:m/d/Y',
             "treatment_liver_disease" => 'required_if:liver_disease,1','string',
             "lugn_disease" => 'required|boolean',
-            "date_lugn_disease" => 'required_if:lugn_disease,1','date',
+            "date_lugn_disease" => 'required_if:lugn_disease,1', 'date_format:m/d/Y',
             "treatment_lugn_disease" => 'required_if:lugn_disease,1','string',
             "renal_disease" => 'required|boolean',
-            "date_renal_disease" => 'required_if:renal_disease,1','date',
+            "date_renal_disease" => 'required_if:renal_disease,1', 'date_format:m/d/Y',
             "treatment_renal_disease" => 'required_if:renal_disease,1','string',
             "thyroid_disease" => 'required|boolean',
-            "date_thyroid_disease" => 'required_if:thyroid_disease,1','date',
+            "date_thyroid_disease" => 'required_if:thyroid_disease,1', 'date_format:m/d/Y',
             "treatment_thyroid_disease" => 'required_if:thyroid_disease,1','string',
             "hypertension" => 'required|boolean',
             "date_hypertension" => 'required_if:hypertension,1','string',
@@ -862,7 +914,7 @@ class ApiPartnersController extends Controller
             "illness" => ['required_if:any_other_illnesses,1','array'],
             "illness.*" => ['required_if:any_other_illnesses,1','string'],
             "diagnostic_date" => ['required_if:any_other_illnesses,1','array'],
-            "diagnostic_date.*" => ['required_if:any_other_illnesses,1','date'],
+            "diagnostic_date.*" => ['required_if:any_other_illnesses,1', 'date_format:m/d/Y'],
             "treatment" => ['required_if:any_other_illnesses,1','array'],
             "treatment.*" => ['required_if:any_other_illnesses,1','string'],
         ]);
@@ -1087,7 +1139,7 @@ class ApiPartnersController extends Controller
 
         if ($request->sex == 'female') {
             $validator6 = Validator::make($request->all(), [
-                "last_menstrual_period" => "required|date",
+                "last_menstrual_period" => "required|date_format:m/d/Y",
                 "bleeding_whas" => "required|in:normal,light,heavy,irregular",
                 "have_you_been_pregnant" => "required|boolean",
                 "how_many_times" => ['required_if:have_you_been_pregnant,1','nullable','string'],
@@ -1161,24 +1213,26 @@ class ApiPartnersController extends Controller
         }
         
         $unHashPassword = Str::random(8);
+        
+
         if (!$patient) {
             $patient = new Patient;
             $patient->treatmentBefore = $request->treatmentBefore;
             $patient->name = Str::ucfirst($request->name);
             $patient->sex = $request->sex;
             $patient->age = $request->age;
-            $patient->dob = $request->dob;
+            $patient->dob = Carbon::createFromFormat('m/d/Y', $request->dob)->format('Y-m-d');
             $patient->phone = $request->phone;
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
-            $patient->country_id = $request->country_id;
-            $patient->state_id = $request->state_id;
+            $patient->pais = $request->country_id;
+            $patient->estado = $request->state_id;
             $patient->city = $request->city;
             $patient->zip = $request->zip;
             $patient->ecn = $request->ecn;
             $patient->ecp = $request->ecp;
-            $patient->lang = 'es';
+            $patient->lang = 'en';
             $patient->password = Hash::make($unHashPassword);
             $patient->code = getCode();
             $patient->save();
@@ -1193,12 +1247,13 @@ class ApiPartnersController extends Controller
         }
 
         $app->temp_code = Str::random(10);
+        $app->code = getCode();
         $app->patient_id = $patient->id;
+        $app->price = (!is_null($treatment->price) ? $treatment->price: null);
 
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;
         $app->treatment_id = $treatment->id;
-
         $app->mesure_sistem = $request->mesure_sistem;
         $app->weight = $request->max_weigh;
         $app->max_weigh = $request->weight;
@@ -1222,43 +1277,43 @@ class ApiPartnersController extends Controller
         $app->addiction = $request->addiction;
         $app->which_one_adiction = $request->which_one_adiction;
         $app->high_lipid_levels = $request->high_lipid_levels;
-        $app->date_high_lipd_levels = $request->date_high_lipid_levels;
+        $app->date_high_lipd_levels = (is_null($request->date_high_lipid_levels)? null:Carbon::createFromFormat('m/d/Y', $request->date_high_lipid_levels)->format('Y-m-d'));
         $app->high_lipid_levels_treatment = $request->high_lipid_levels_treatment;
         $app->cancer = $request->cancer;
-        $app->date_cancer = $request->date_cancer;
-        $app->cancer_treatment = $request->treatment_cancer;
+        $app->date_cancer = (is_null($request->date_cancer)? null:Carbon::createFromFormat('m/d/Y', $request->date_cancer)->format('Y-m-d'));
+        $app->cancer_treatment = (is_null($request->treatment_cancer)? null:$request->treatment_cancer);
         $app->arthritis = $request->arthritis;
-        $app->date_arthritis = $request->date_arthritis;
+        $app->date_arthritis = (is_null($request->date_arthritis)? null:Carbon::createFromFormat('m/d/Y', $request->date_arthritis)->format('Y-m-d'));
         $app->arthritis_treatment = $request->treatment_arthritis;
         $app->cholesterol = $request->cholesterol;
-        $app->date_cholesterol = $request->date_cholesterol;
+        $app->date_cholesterol = (is_null($request->date_cholesterol)? null:Carbon::createFromFormat('m/d/Y', $request->date_cholesterol)->format('Y-m-d'));
         $app->cholesterol_treatment = $request->treatment_cholesterol;
         $app->triglycerides = $request->triglycerides;
-        $app->date_triglycerides = $request->date_triglycerides;
+        $app->date_triglycerides = (is_null($request->date_triglycerides)? null:Carbon::createFromFormat('m/d/Y', $request->date_triglycerides)->format('Y-m-d'));
         $app->triglycerides_treatment = $request->treatment_triglycerides;
         $app->disease_stroke = $request->stroke;
-        $app->date_disease_stroke = $request->date_stroke;
+        $app->date_disease_stroke = (is_null($request->date_stroke)? null:Carbon::createFromFormat('m/d/Y', $request->date_stroke)->format('Y-m-d'));
         $app->disease_stroke_treatment = $request->treatment_stroke;
         $app->diabetes = $request->diabetes;
-        $app->date_diabetes = $request->date_diabetes;
+        $app->date_diabetes = (is_null($request->date_diabetes)? null:Carbon::createFromFormat('m/d/Y', $request->date_diabetes)->format('Y-m-d'));
         $app->diabetes_treatment = $request->treatment_diabetes;
         $app->coronary_artery_disease = $request->coronary_artery_disease;
-        $app->date_coronary_artery_disease = $request->date_coronary_artery_disease;
+        $app->date_coronary_artery_disease = (is_null($request->date_coronary_artery_diseases)? null:Carbon::createFromFormat('m/d/Y', $request->date_coronary_artery_diseases)->format('Y-m-d'));
         $app->coronary_artery_disease_treatment = $request->treatment_coronary_artery_disease;
         $app->disease_liver = $request->liver_disease;
-        $app->date_disease_liver = $request->date_liver_disease;
+        $app->date_disease_liver = (is_null($request->date_liver_disease)? null:Carbon::createFromFormat('m/d/Y', $request->date_liver_disease)->format('Y-m-d'));
         $app->disease_liver_treatment = $request->treatment_liver_disease;
         $app->disease_lung = $request->lugn_disease;
-        $app->date_disease_lung = $request->date_lugn_disease;
+        $app->date_disease_lung = (is_null($request->date_lugn_disease)? null:Carbon::createFromFormat('m/d/Y', $request->date_lugn_disease)->format('Y-m-d'));
         $app->disease_lung_treatment = $request->treatment_lugn_disease;
         $app->disease_renal = $request->renal_disease;
-        $app->date_disease_renal = $request->date_renal_disease;
+        $app->date_disease_renal = (is_null($request->date_renal_disease)? null:Carbon::createFromFormat('m/d/Y', $request->date_renal_disease)->format('Y-m-d'));
         $app->disease_renal_treatment = $request->treatment_renal_disease;
         $app->disease_thyroid = $request->thyroid_disease;
-        $app->date_disease_thyroid = $request->date_thyroid_disease;
+        $app->date_disease_thyroid = (is_null($request->date_thyroid_disease)? null:Carbon::createFromFormat('m/d/Y', $request->date_thyroid_disease)->format('Y-m-d'));
         $app->disease_thyroid_treatment = $request->treatment_thyroid_disease;
         $app->ypertension = $request->hypertension;
-        $app->hypertension = $request->date_hypertension;
+        $app->hypertension = (is_null($request->date_hypertension)? null:Carbon::createFromFormat('m/d/Y', $request->date_hypertension)->format('Y-m-d'));
         $app->hypertension_treatment = $request->treatment_hypertension;
         $app->disease_other = $request->any_other_illnesses;
 
@@ -1312,7 +1367,7 @@ class ApiPartnersController extends Controller
         $app->hyrvrntwliwtfed = $request->hyrvrntwliwtfed;
 
 
-        $app->last_menstrual_period = $request->last_menstrual_period;
+        $app->last_menstrual_period = (is_null($request->last_menstrual_period)? null:Carbon::createFromFormat('m/d/Y', $request->last_menstrual_period)->format('Y-m-d'));
         $app->bleeding_whas = $request->bleeding_whas;
                     
         $app->have_you_been_pregnant = $request->have_you_been_pregnant;
@@ -1352,7 +1407,7 @@ class ApiPartnersController extends Controller
             for ($i=0; $i < count($request->illness); $i++) {
                 $illness_cadena[] = [
                     'illness' => $request->illness[$i],
-                    'diagnostic_date' => $request->diagnostic_date[$i],
+                    'diagnostic_date' => (is_null($request->diagnostic_date[$i])? null:Carbon::createFromFormat('m/d/Y', $request->diagnostic_date[$i])->format('Y-m-d')),
                     'treatment' => $request->treatment[$i],
                     'code' => getCode()
                 ];
@@ -1391,26 +1446,6 @@ class ApiPartnersController extends Controller
             }
         }
 
-        $partnerExist = Partner::where('code', $partnerCode)->first();
-        if (!$partnerExist) {
-            return response()->json([
-                'success' => false,
-                "go" => '0',
-                "reload" => true,
-                "icon" => 'error',
-                "msg" => "Undefined error"
-            ]);
-        }
-        $partnerExist = Partner::where('code', $code)->first();
-        if (!$partnerExist) {
-            return response()->json([
-                'success' => false,
-                "go" => '0',
-                "reload" => true,
-                "icon" => 'error',
-                "msg" => "Undefined error"
-            ]);
-        }
         if ($app->save()) {
             $insert_medications = [];
             $insert_surgeries = [];
@@ -1444,7 +1479,7 @@ class ApiPartnersController extends Controller
                 $insert_illnesses[] = [
                 'application_id' => $app->id,
                 'illness' => $illness_cadena[$i]['illness'],
-                'diagnostic_date' => $illness_cadena[$i]['diagnostic_date'],
+                'diagnostic_date' => (is_null($illness_cadena[$i]['diagnostic_date'])? null:Carbon::createFromFormat('m/d/Y', $illness_cadena[$i]['diagnostic_date'])->format('Y-m-d')),
                 'treatment' => $illness_cadena[$i]['treatment'],
                 'code' => $illness_cadena[$i]['code']
                 ];
@@ -1475,12 +1510,7 @@ class ApiPartnersController extends Controller
                 'code' => $hormone_cadena[$i]['code'],
                 ];
             }
-            $partnerAttach = array(
-                "application_id" => $app->id,
-                "partner_id" => $partnerExist->id,
-                "code" => getCode()
-            );
-            $app->partners()->attach([$partnerAttach]);
+
             $app->medications()->delete();
             MedicationApplication::insert($insert_medications);
             $app->surgeries()->delete();
@@ -1494,9 +1524,19 @@ class ApiPartnersController extends Controller
             $app->hormones()->delete();
             HormonesApplication::insert($insert_hormone);
 
+
+            $partnerExist = Partner::where('code', $this->partner)->first();
+            $partnerAttach = array(
+                "application_id" => $app->id,
+                "partner_id" => $partnerExist->id,
+                "code" => getCode()
+            );
+
+            $app->partners()->attach([$partnerAttach]);
+
             if ($need_images->need_images == 1) {
-                if ($request->has('images')) {
-                    foreach ($images as $key => $image) {
+                if ($request->has('imagenes')) {
+                    foreach ($request->imagenes as $key => $image) {
                         $destinationPath = storage_path('app/public').'/application/image';
                         $img_name = time().uniqid(Str::random(30)).'.'.$image->getClientOriginalExtension();
                         $img = Image::make($image->getRealPath());
@@ -1514,6 +1554,7 @@ class ApiPartnersController extends Controller
                     }
                 }
             }
+
             $getStaffEmails = getStaffEmails($request);
             $assignment_staff = (count($getStaffEmails) > 0) ? $getStaffEmails[0]:'';  
             $other_staff = getOthersEmails($request);
@@ -1539,15 +1580,19 @@ class ApiPartnersController extends Controller
             $newMessage = "A new application has been assigned to you";
             $response = [];
             $assignment = [];
+
+            
+
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $app->id,
                     'staff_id' => $assignment_staff->id,
-                    'ass_as' => $assignment_staff->specialties[0]->id,
+                    'ass_as' => 10,
                     'code' => getCode(),
                 ];
-                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                $assignment_staff->save();
+                $staffx = Staff::find($assignment_staff->id);
+                $staffx->last_assignment = date("Y-m-d H:i:s");
+                $staffx->save();
 
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
@@ -1569,12 +1614,14 @@ class ApiPartnersController extends Controller
                     'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
                     'url' => route('staff.applications.show', ["id" => $app->id]),
                 ]);
+
                 $app->notification()->create([
                     'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
                     'message' => $newMessage,
                     'code' => getCode(),
                 ]);
+
                 $toEmail->push((object)[
                     'staff_name' => $assignment_staff->name,
                     'staff_email' => $assignment_staff->email,
@@ -1583,7 +1630,17 @@ class ApiPartnersController extends Controller
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
+                $toEmail->push((object)[
+                    'staff_name' => 'Gabriel',
+                    'staff_email' => 'tejeda.llanes@gmail.com',
+                    'app_id' => $app->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                    "subject" => $newMessage,
+                ]);
             }
+
+            
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
                     $app->notification()->create([
@@ -1601,6 +1658,7 @@ class ApiPartnersController extends Controller
                         "patient" => $patient,
                         "subject" => $newMessage,
                     ]);
+                    
                     $date = Carbon::now();
                     $hours = $date->format('g:i A');
                     $notifications->push((object)[
@@ -1619,13 +1677,14 @@ class ApiPartnersController extends Controller
                 ->send(
                     new NewAppEmail($data)
                 );
+                sleep(1);
             }
             Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
-        } //
-
+        } 
+        
         if ($app->save()) {
             $app->statusOne()->create(
                 [

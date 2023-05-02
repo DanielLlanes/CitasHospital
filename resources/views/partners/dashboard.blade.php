@@ -21,31 +21,51 @@
             <div class="info-box bg-white">
                 <span class="info-box-icon push-bottom bg-primary"><i class="material-icons">group</i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Aplicaciones <small class="text-muted" style="font-size: .8rem;">  This month</small></span>
-                    <span class="info-box-number countAnimation" id="countNewersEvents" data-counter="counterup" data-value="20">20</span>
+                    <span class="info-box-text">Appointments <small class="text-muted" style="font-size: .8rem;">  This month</small></span>
+                    <span class="info-box-number countAnimation" id="countNewersEvents" data-counter="counterup" data-value=""></span>
                     <div class="progress">
                         <div class="progress-bar bg-primary" id="barEvents" style="width: 20%;"></div>
                     </div>
                     <span class="progress-description">
-                        <span id="incrementEvents">2</span>% Increase in the month
+                    <span id="incrementEvents"></span>% Increase in the month
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-xl-9 col-md-12">
-            <div class="info-box bg-white" style="height: 156.03px;">
-                <div class="info-box-content">
-                    <span class="info-box-text text-center">Partner Info</span>
-                    <div class="row">
-                        <div class="col-4">
-                            {{ Auth()->guard('partners')->user()->name }} <br>  
-                            {{ Auth()->guard('partners')->user()->company }} <br>
-                            {{ Auth()->guard('partners')->user()->website }} <br>
-                        </div>
-                        <div class="col">
-                            {{ Auth()->guard('partners')->user()->email }} <br>
-                            API url 
-                            {{ url('/partners/api/'.Auth()->guard('partners')->user()->code) }}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-line">
+                <div class="tab-content">
+                    <div class="tab-pane active fontawesome-demo" id="tab1">
+                        <div class="row">
+                            <div class="col-md-12 d-lg-flex">
+                                <div class="col-md-12">
+                                    <div class="card  card-box">
+                                        <div class="card-head">
+                                            <header>Partners Info</header>
+                                            <div class="tools">
+                                                <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                                <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                                <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body text-dark">
+                                            {{ Auth()->guard('partners')->user()->name }} <br>  
+                                            {{ Auth()->guard('partners')->user()->company }} <br>
+                                            {{ Auth()->guard('partners')->user()->website }} <br>
+                                            {{ Auth()->guard('partners')->user()->email }} <br>
+                                            {{ url('/partners/es/'.Auth()->guard('partners')->user()->code) }} <br>
+                                            {{ url('/partners/en/'.Auth()->guard('partners')->user()->code) }} <br>
+                                            @php
+                                                $randomString = substr(uniqid(), 0, 15);
+                                                $randomString = bin2hex(random_bytes(5));
+                                            @endphp
+                                            {{ $randomString }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,36 +74,53 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="card card-box">
-                <div class="card-head">
-                    <header>Aplicaciones</header>
-                    <div class="tools">
-                        <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-                        <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-                        <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-                    </div>
-                </div>
-                <div class="card-body " id="">
-                    <div class="row">
-                        <table style="font-size: 1rem;" cellspacing="0" class="table table-hover dt-responsive nowrap w-100" id="applicationsTable">
-                            <thead>
-                                <tr id="lastFiveApps d-none">
-                                    <th> @lang('id') </th>
-                                    <th> @lang('Paciente') </th>
-                                    <th> @lang('Marca') </th>
-                                    <th> @lang('Servicio') </th>
-                                    <th> @lang('Procedimiento') </th>
-                                    <th> @lang('Paquete') </th>
-                                    <th> @lang('Coordinador') </th>
-                                    <th> @lang('fecha') </th>
-                                    <th> @lang('Status') </th>
-                                    <th> @lang('Codigo') </th>
-                                    <th> @lang('Completada') </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+            <div class="tabbable-line">
+                <div class="tab-content">
+                    <div class="tab-pane active fontawesome-demo" id="tab1">
+                        <div class="row">
+                            <div class="col-md-12 d-lg-flex">
+                                <div class="col-md-12">
+                                    <div class="card  card-box">
+                                        <div class="card-head">
+                                            <header></header>
+                                            <div class="tools">
+                                                <a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
+                                                <a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
+                                                <a class="t-close btn-color fa fa-times" href="javascript:;"></a>
+                                            </div>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="table-scrollable responsive" >
+                                                <table style="width:100%; min-width:100% height:20px;" class="table table-hover dt-responsive nowrap" id="applicationsTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th> ID </th>
+                                                            <th> @lang('Status') </th>
+                                                            <th> @lang('Paciente') </th>
+                                                            <th> @lang('Marca') </th>
+                                                            <th> @lang('Servicio') </th>
+                                                            <th> @lang('Procedimiento') </th>
+                                                            <th> @lang('Paquete') </th>
+                                                            <th> @lang('Coordinador') </th>
+                                                            <th> @lang('Fecha') </th>
+                                                            {{-- 
+                                                            <th> @lang('Precio') </th>
+                                                            <th> @lang('Statring Price') </th>
+                                                            --}}
+                                                            <th> @lang('Código') </th>
+                                                            <th> @lang('Promotor') </th>
+                                                            <th> @lang('Acciones') </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
