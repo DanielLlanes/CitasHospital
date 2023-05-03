@@ -870,6 +870,7 @@ class StaffController extends Controller
             $admin = "admins";
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
             ->where('name', 'like', '%' . $admin . '%')
+            ->where('active', 1)
             ->get();
 
             $groups = Permission::select("group_$lang AS group")
@@ -879,6 +880,7 @@ class StaffController extends Controller
             $admin = "admins";
             $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")
             ->where('name', 'not like', '%' . $admin . '%')
+            ->where('active', 1)
             ->get();
 
             $groups = Permission::select("group_$lang AS group")
@@ -886,13 +888,13 @@ class StaffController extends Controller
             ->distinct()->get();
 
         } elseif ($staff_create_permisions_admins && $staff_create_permisions) {
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->where('active', 1)->get();
 
             $groups = Permission::select("group_$lang AS group")->orderBy("group_$lang", 'ASC')
             ->distinct()->get();
 
         } elseif (!$staff_create_permisions_admins && !$staff_create_permisions) {
-            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->get();
+            $permissions = Permission::select("id", "description_$lang AS description", "group_$lang AS groupP")->where('active', 1)->get();
             $groups = Permission::select("group_$lang AS group")->orderBy("group_$lang", 'ASC')
             ->distinct()->get();
         }
