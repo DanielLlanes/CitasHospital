@@ -88,18 +88,20 @@
                                     <br>
                                     <p id="current-status-p">{!!  getStatus($appInfo->statusOne->status->name, $appInfo->statusOne->status->color) !!}</p>
                                 </div>
-                                    @can('applications.approbe')
+                                    
                                     
                                         <div class="col-12 mb-2 text-center" id="set-status-area-div"> <strong>Set Status</strong>
                                             <br>
                                             <div class="d-flex justify-content-between">
-                                                @if ($appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 || Auth::guard('staff')->user()->hasRole(['dios']))
+                                                @if ($thisUserCanApproval && $appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1)
                                                     <button id="status-accepted-button" class="btn btn-success">accepted</button>
+                                                    <button id="status-declined-button" class="btn btn-danger">Declined</button>
+                                                @elseif(Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))
+                                                    <button id="status-accepted-button" class="btn {{ $appInfo->statusOne->status->id == 9 || $appInfo->statusOne->status->id == 1 ? 'btn-success' : 'btn-warning' }} btn-success">accepted</button>
+                                                    <button id="status-declined-button" class="btn btn-danger">Declined</button>
                                                 @endif
-                                                <button id="status-declined-button" class="btn btn-danger">Declined</button>
                                             </div>
                                         </div>
-                                    @endif
                                 </div>
                             <hr>
                         </div>

@@ -2,36 +2,37 @@
 
 namespace App\Http\Controllers\Staff;
 
-use Carbon\Carbon;
-use App\Models\Staff\Staff;
-use Illuminate\Support\Str;
-use App\Models\Staff\Debate;
-use App\Models\Staff\Status;
-use Illuminate\Http\Request;
-use App\Models\Staff\Package;
-use App\Models\Staff\Patient;
-use App\Models\Staff\Service;
-use App\Traits\DatesLangTrait;
 use App\Events\DebateChatEvent;
-use App\Models\Staff\Procedure;
-use App\Models\Staff\Specialty;
-use App\Models\Staff\Treatment;
-use App\Traits\StatusAppsTrait;
-use App\Models\Site\Application;
-use Yajra\DataTables\DataTables;
-use App\Mail\AcceptedLetterEmail;
-use App\Mail\DeclidedLetterEmail;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\AcceptedUnassignedEmail;
-use Illuminate\Support\Facades\Validator;
 use App\Jobs\Staff\Debate\DebateMessagesJob;
-use Illuminate\Database\Eloquent\Collection;
+use App\Mail\AcceptedLetterEmail;
+use App\Mail\AcceptedUnassignedEmail;
 use App\Mail\AcceptedWithChangeOfProcedureEmail;
 use App\Mail\AcceptedWithsuggestionsMail;
+use App\Mail\DeclidedLetterEmail;
+use App\Models\Site\Application;
+use App\Models\Staff\Approval;
+use App\Models\Staff\Debate;
+use App\Models\Staff\Package;
+use App\Models\Staff\Patient;
+use App\Models\Staff\Procedure;
+use App\Models\Staff\Service;
+use App\Models\Staff\Specialty;
+use App\Models\Staff\Staff;
+use App\Models\Staff\Status;
+use App\Models\Staff\Treatment;
+use App\Traits\DatesLangTrait;
+use App\Traits\StatusAppsTrait;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class AppController extends Controller
 {
@@ -586,6 +587,9 @@ class AppController extends Controller
             }
         }
 
+        $aprobaciones = Approval::where('service_id', $applications->treatment->service->id)->where('staff_id', Auth::guard('staff')->user()->id)->first();
+        $thisUserCanApproval= ($aprobaciones)? true:false;
+
         return view(
             'staff.application-manager.app-details',
             [
@@ -596,6 +600,7 @@ class AppController extends Controller
                 "statusOptions" => $colStatus,
                 "proceduresList" => $proceduresList,
                 "sugerencias" => $suger,
+                "thisUserCanApproval" => $thisUserCanApproval,
             ]
         );
     }
