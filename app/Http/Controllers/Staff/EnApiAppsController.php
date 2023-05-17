@@ -720,6 +720,8 @@ class EnApiAppsController extends Controller
     }
     public function storeData(Request $request)
     {
+
+   
         $lang = 'en';
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 

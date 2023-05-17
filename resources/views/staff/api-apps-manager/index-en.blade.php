@@ -2138,7 +2138,7 @@
                     });
                     //$('.loading').css('display', 'block');
                 } else {
-                    // socket.emit('updateDataTablesToServer');
+                    socket.emit('updateDataTablesToServer');
                     // window.location.href = "https://jlpradosc.com"; 
 
                     for (var i = 0; i < stepCount; i++) {

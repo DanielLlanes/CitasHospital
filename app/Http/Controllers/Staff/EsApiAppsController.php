@@ -1712,8 +1712,9 @@ class EsApiAppsController extends Controller
                     'ass_as' => 10,
                     'code' => getCode(),
                 ];
-                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                $assignment_staff->save();
+                $staffx = Staff::find($assignment_staff->id);
+                $staffx->last_assignment = date("Y-m-d H:i:s");
+                $staffx->save();
 
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
@@ -1735,6 +1736,7 @@ class EsApiAppsController extends Controller
                     'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
                     'url' => route('staff.applications.show', ["id" => $app->id]),
                 ]);
+
                 $app->notification()->create([
                     'staff_id' => $assignment_staff->id,
                     'type' => 'New application',
@@ -1758,15 +1760,9 @@ class EsApiAppsController extends Controller
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
-                $toEmail->push((object)[
-                    'staff_name' => 'Gabriel',
-                    'staff_email' => 'gabriel@jlpradosc.com',
-                    'app_id' => $app->id,
-                    'treatment' => $treatment,
-                    "patient" => $patient,
-                    "subject" => $newMessage,
-                ]);
             }
+
+            
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
                     $app->notification()->create([
@@ -1784,6 +1780,7 @@ class EsApiAppsController extends Controller
                         "patient" => $patient,
                         "subject" => $newMessage,
                     ]);
+                    
                     $date = Carbon::now();
                     $hours = $date->format('g:i A');
                     $notifications->push((object)[
