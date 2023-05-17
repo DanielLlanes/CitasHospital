@@ -746,7 +746,6 @@ class EsApiAppsController extends Controller
         $lang = $this->lang;
         $exist = false;
 
-
         $neddPackage = Procedure::where('id', $request->procedure)->first();
                 
 
@@ -1651,7 +1650,9 @@ class EsApiAppsController extends Controller
                 'code' => $hormone_cadena[$i]['code'],
                 ];
             }
-            $partnerExist = Partner::where('code', $this->code)->first();
+
+
+            $partnerExist = Partner::where('code', $this->partner)->first();
             $partnerAttach = array(
                 "application_id" => $app->id,
                 "partner_id" => $partnerExist->id,
@@ -1693,6 +1694,8 @@ class EsApiAppsController extends Controller
                     }
                 }
             }
+
+            
             
             $getStaffEmails = getStaffEmails($request);
             $assignment_staff = (count($getStaffEmails) > 0) ? $getStaffEmails[0]:'';  
@@ -1726,8 +1729,9 @@ class EsApiAppsController extends Controller
                     'ass_as' => 10,
                     'code' => getCode(),
                 ];
-                $assignment_staff->last_assignment = date("Y-m-d H:i:s");
-                $assignment_staff->save();
+                $last_assignament = Staff::find($assignment_staff->id);
+                $last_assignament->last_assignment = date("Y-m-d H:i:s");
+                $last_assignament->save();
 
                 $date = Carbon::now();
                 $hours = $date->format('g:i A');
@@ -1786,12 +1790,19 @@ class EsApiAppsController extends Controller
                 }
                 $toEmail->push((object)[
                     'staff_name' => 'Gabriel',
-                    'staff_email' => 'tejeda.llanes@gmail.com',
+                    'staff_email' => 'gabriel@jlpradosc.com',
                     'app_id' => $app->id,
                     'treatment' => $treatment,
                     "patient" => $patient,
                     "subject" => $newMessage,
                 ]);
+            }
+            foreach ($toEmail as $key => $data) {
+                Mail::to($data->staff_email)
+                ->send(
+                    new NewAppEmail($data)
+                );
+                sleep(1);
             }
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {

@@ -119,7 +119,6 @@ return [
              */
             'disks' => [
                 'backup',
-                'dropbox',
                 'google'
             ],
         ],

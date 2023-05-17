@@ -53,15 +53,15 @@ class ApiPartnersController extends Controller
         ->get();
         return $countries;
     }
-    public function states(Request $request)
-    {
-        if ($request->has('id')) {
-            $states = State::where('country_id', $request->id)
-            ->select('id', "name as text")
-            ->get();
-            return $states;
-        }
-    }
+    // public function states(Request $request)
+    // {
+    //     if ($request->has('id')) {
+    //         $states = State::where('country_id', $request->id)
+    //         ->select('id', "name as text")
+    //         ->get();
+    //         return $states;
+    //     }
+    // }
     public function services(Request $request)
     {
         if (1 == 1) {

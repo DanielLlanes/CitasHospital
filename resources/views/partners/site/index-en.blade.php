@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
-                                    <div class="col-sm-9 d-flex">
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control form-control-sm w-100" id="dob" name="dob" value="" placeholder="Fecha de naciemiento" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>    

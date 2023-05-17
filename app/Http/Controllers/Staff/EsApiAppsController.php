@@ -1772,7 +1772,7 @@ class EsApiAppsController extends Controller
                 }
                 $toEmail->push((object)[
                     'staff_name' => 'Gabriel',
-                    'staff_email' => 'tejeda.llanes@gmail.com',
+                    'staff_email' => 'gabriel@jlpradosc.com',
                     'app_id' => $app->id,
                     'treatment' => $treatment,
                     "patient" => $patient,

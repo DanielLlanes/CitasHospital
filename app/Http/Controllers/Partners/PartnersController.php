@@ -110,8 +110,8 @@ class PartnersController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|unique:partners,name',
-            'company' => 'required|string|unique:partners',
-            'website' => 'required|string|',
+            'company' => 'nullable|string|unique:partners',
+            'website' => 'nullable|string|',
             'image' => "nullable|mimes:jpg,png,jpeg",
             'phone' => ['required', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             'email' => 'required|email|unique:partners',

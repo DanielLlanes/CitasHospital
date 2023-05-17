@@ -27,10 +27,10 @@ REDIS_PASSWORD=null
 REDIS_PORT=6379
 
 MAIL_MAILER=smtp
-MAIL_HOST=smtp.hostinger.com
+MAIL_HOST=mail.jlpradosc.com
 MAIL_PORT=465
 MAIL_USERNAME=contact@jlpradosc.com
-MAIL_PASSWORD=wPU9N9RV@
+MAIL_PASSWORD=JlPrado123@
 MAIL_ENCRYPTION=ssl
 MAIL_FROM_ADDRESS=contact@jlpradosc.com
 MAIL_FROM_NAME="Contact"

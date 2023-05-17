@@ -16,8 +16,8 @@ use App\Http\Controllers\Staff\AppController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+// dd(staffUrl());
+// Route::domain('staff.prado.test')->group(base_path('routes/staff.php'));
 //Route::get('/', [HomeController::class, 'home'])->name('home');
 // Route::get('/team/{url?}', [HomeController::class, 'team'])->name('team');
 // Route::get('/testimonials/{brand}/{media}', [HomeController::class, 'testimonials'])->name('testimonials');

@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Str;
+
 trait UrlCreatorTrait {
     public function urlCreatorTrait($str)
     {
@@ -13,5 +15,8 @@ trait UrlCreatorTrait {
 		return $slug;
     }
 
-    public function stractCreatorTrait($text)
+    public function stractCreatorTrait($text){
+
+
+    }
 }
