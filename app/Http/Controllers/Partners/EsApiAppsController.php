@@ -1760,34 +1760,14 @@ class EsApiAppsController extends Controller
                     'code' => getCode(),
                 ]);
 
-                if ($request->service == 2) {
-                    $toEmail->push((object)[
-                        'staff_name' => "Ismael hernandez",
-                        'staff_email' => 'info@abeautifulme.clinic',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]); 
-
-                    $toEmail->push((object)[
-                        'staff_name' => "Anette Prado",
-                        'staff_email' => 'anetteprado@abeautifulme.clinic',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]);
-                } elseif ($request->service != 2) {
-                    $toEmail->push((object)[
-                        'staff_name' => "Ismael hernandez",
-                        'staff_email' => 'info@aslimmerme.clinic  ',
-                        'app_id' => $app->id,
-                        'treatment' => $treatment,
-                        "patient" => $patient,
-                        "subject" => $newMessage,
-                    ]); 
-                }
+                $toEmail->push((object)[
+                    'staff_name' => $assignment_staff->name,
+                    'staff_email' => $assignment_staff->email,
+                    'app_id' => $app->id,
+                    'treatment' => $treatment,
+                    "patient" => $patient,
+                    "subject" => $newMessage,
+                ]);
                 $toEmail->push((object)[
                     'staff_name' => 'Gabriel',
                     'staff_email' => 'gabriel@jlpradosc.com',
