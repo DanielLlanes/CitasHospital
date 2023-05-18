@@ -1,41 +1,42 @@
 <?php
 
 
-use App\Http\Controllers\Partners\PartnersController;
-use App\Http\Controllers\Site\ApplicationController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\FaqController;
 use App\Http\Controllers\Staff\AppController;
-use App\Http\Controllers\Staff\ApprovalController;
-use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
-use App\Http\Controllers\Staff\Auth\StaffLoginController;
-use App\Http\Controllers\Staff\Auth\StaffRegisterController;
-use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
-use App\Http\Controllers\Staff\AutocompleteController;
-use App\Http\Controllers\Staff\BrandController;
-use App\Http\Controllers\Staff\DashboardController;
-use App\Http\Controllers\Staff\EmailTemplateController;
-use App\Http\Controllers\Staff\EventController;
-use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\LangController;
+use App\Http\Controllers\Staff\RoleController;
+use App\Http\Controllers\Staff\BrandController;
+use App\Http\Controllers\Staff\EventController;
+use App\Http\Controllers\Staff\QuoteController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\PackageController;
 use App\Http\Controllers\Staff\PatientController;
 use App\Http\Controllers\Staff\PaymentController;
-use App\Http\Controllers\Staff\PermissionsController;
-use App\Http\Controllers\Staff\ProcedureController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProfileController;
-use App\Http\Controllers\Staff\QuoteController;
-use App\Http\Controllers\Staff\RoleController;
 use App\Http\Controllers\Staff\ServiceController;
-use App\Http\Controllers\Staff\SliderController;
-use App\Http\Controllers\Staff\SpecialtyController;
-use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\TestimonialController;
+use App\Http\Controllers\Staff\ApprovalController;
+use App\Http\Controllers\Staff\FacilityController;
 use App\Http\Controllers\Staff\TimeLineController;
+use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\ProcedureController;
+use App\Http\Controllers\Staff\SpecialtyController;
 use App\Http\Controllers\Staff\TreatmentController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Site\ApplicationController;
+use App\Http\Controllers\Staff\AssignmentController;
+use App\Http\Controllers\Partners\PartnersController;
+use App\Http\Controllers\Staff\PermissionsController;
+use App\Http\Controllers\Staff\TestimonialController;
 use Rap2hpoutre\LaravelLogViewer\LogViewerController;
+use App\Http\Controllers\Staff\AutocompleteController;
+use App\Http\Controllers\Staff\EmailTemplateController;
+use App\Http\Controllers\Staff\Auth\StaffLoginController;
+use App\Http\Controllers\Staff\Auth\StaffRegisterController;
+use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
+use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
 
 Route::name('staff.')->namespace('Staff')->group(function(){
 	Route::namespace('Auth')->group(function(){
@@ -325,15 +326,16 @@ Route::name('staff.')->namespace('Staff')->group(function(){
     });
 
     Route::name('asignaciones.')->group ( Function () {
-        Route::get('/asignaciones/listar',              [EmailTemplateController::class, 'index'])->name('index');
-        Route::get('/asignaciones/getAssignableList',   [EmailTemplateController::class, 'getAssignableList'])->name('getAssignableList');
-        Route::post('/asignaciones/autocompleteStaff',  [EmailTemplateController::class, 'autocompleteStaff'])->name('autocompleteStaff');
-        Route::post('/asignaciones/autocompleteService',  [EmailTemplateController::class, 'autocompleteService'])->name('autocompleteService');
-        Route::post('/asignaciones/storeAssignaments',  [EmailTemplateController::class, 'storeAssignaments'])->name('storeAssignaments');
-        Route::post('/asignaciones/active',  [EmailTemplateController::class, 'activarAsignaciones'])->name('activarAsignaciones');
-        Route::post('/asignaciones/edit',    [EmailTemplateController::class, 'editerAsignaciones'])->name('editAsignaciones');
-        Route::post('/asignaciones/update',    [EmailTemplateController::class, 'updateAssignaments'])->name('updateAsignaciones');
-        Route::post('/asignaciones/getEmailsAssignaments',    [EmailTemplateController::class, 'getEmailsAssignaments'])->name('getEmailsAssignaments');
+        Route::get('/asignaciones/listar',              [AssignmentController::class, 'index'])->name('index');
+        Route::get('/asignaciones/getAssignableList',   [AssignmentController::class, 'getAssignableList'])->name('getAssignableList');
+        Route::post('/asignaciones/autocompleteStaff',  [AssignmentController::class, 'autocompleteStaff'])->name('autocompleteStaff');
+        Route::post('/asignaciones/autocompleteService',  [AssignmentController::class, 'autocompleteService'])->name('autocompleteService');
+        Route::post('/asignaciones/storeAssignaments',  [AssignmentController::class, 'storeAssignaments'])->name('storeAssignaments');
+        Route::post('/asignaciones/active',  [AssignmentController::class, 'activarAsignaciones'])->name('activarAsignaciones');
+        Route::post('/asignaciones/edit',    [AssignmentController::class, 'editerAsignaciones'])->name('editAsignaciones');
+        Route::post('/asignaciones/update',    [AssignmentController::class, 'updateAssignaments'])->name('updateAsignaciones');
+        Route::post('/asignaciones/getEmailsAssignaments',    [AssignmentController::class, 'getEmailsAssignaments'])->name('getEmailsAssignaments');
+        Route::post('/asignaciones/setEmailsAssignaments',    [AssignmentController::class, 'setEmailsAssignaments'])->name('setEmailsAssignaments');
 
     });
 

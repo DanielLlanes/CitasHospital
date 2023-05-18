@@ -143,11 +143,13 @@
         var globalRouteEditar = "{{ route('staff.asignaciones.editAsignaciones') }}"
         var globalUpdateAssignaments = "{{ route('staff.asignaciones.updateAsignaciones') }}"
         var globalGetEmailsAssignaments = "{{ route('staff.asignaciones.getEmailsAssignaments') }}"
+        var globalSetEmailsAssignaments = "{{ route('staff.asignaciones.setEmailsAssignaments') }}"
     </script>
 
     <script>
         $(document).ready(function() {
-            var codigo = 'holis'
+            var codigo = 'holis';
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             var assignedTable = $('#assignedTable').DataTable({
                 responsive: true,
                 processing: true,
@@ -314,7 +316,7 @@
                         }
                     }
                 });
-             });
+            });
             $(document).on('click', '.table-active', function(event) {
                 event.preventDefault();
                 var form_data = new FormData();
@@ -465,9 +467,58 @@
                     }
                 });
             });
-            $(document).on('change', '.radioApss', function(event) {
+            
+            document.addEventListener('change', function(event) {
                 event.preventDefault();
-                alert($(this).attr('data-id'))
+                var target = event.target;
+                var name = target.getAttribute('name');
+                var selectedRadioDataId = null;
+                var emails = [];
+                var id = target.getAttribute('data-id');
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                if (target.matches('.radioApss')) {
+                    var radios = document.querySelectorAll('input[name="' + name + '"]');
+                    radios.forEach(function(radio) {
+                        var inputId = radio.id;
+                        var label = radio.nextElementSibling;
+                        var labelText = label.textContent.trim();
+                        var isDefault = radio.getAttribute('data-default');
+                        emails.push({
+                            'email': labelText,
+                            'is_default': isDefault == 1 ? 1:0,
+                            'is_checked': (radio.checked) ? 1:0,
+                        });
+                    });
+                }
+                var dataString = {'id': id, 'emails': emails};
+
+                fetch(globalSetEmailsAssignaments, {
+                    method: 'POST',
+                    headers: {'X-CSRF-TOKEN': csrfToken, 'Content-Type': 'application/json'},
+                    body: JSON.stringify(dataString)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    Toast.fire({
+                        icon: data.icon,
+                        title: data.msg
+                    })
+                    if (data.reload) {
+                        assignedTable.ajax.reload(null, false);
+                        resetForm()
+                    } else {
+                        $.each( data.errors, function( key, value ) {
+                            var real = key.replace(/\./g, "-");
+                            $('*[id^='+real+']').parent().find('.error').append('<p>'+value+'</p>')
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+
+
             });
             function resetForm() {
                 $('#staff_name').val(null).trigger('change');
