@@ -12,9 +12,7 @@
 
                                 <p>Este mensaje es para informarle que el doctor {{ $doctor }}, aprobo una aplicacion en la que aun no se a asignado los especialstas</p>
 
-                                <p>
-                                    <a href="{{ $app }}">Ir a la aplicacion</a>
-                                </p>
+                              
                                 <br>
                                 <p>
                                     <a href="{{ $app }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>

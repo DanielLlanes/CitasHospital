@@ -49,7 +49,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('quote.list')
+                @can('quotes.list')
                     <li class="nav-item">
                         <a href="{{ route('staff.quotes.quotes') }}" class="nav-link nav-toggle"> <i class="material-icons">dashboard</i>
                             <span class="title">@lang('Quotes')</span>

@@ -170,10 +170,6 @@ if (! function_exists('sugerencias')) {
             ['id' => 33, 'nombre' => 'BBL']
         ];
 
-
-
-
-
         if (empty($sugerencia)) {
             $collection = collect($segArray)->map(function ($item) {
                 return (object) $item;

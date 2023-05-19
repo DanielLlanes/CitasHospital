@@ -10,30 +10,29 @@
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 <p>Estimado/a <b>{{ $staff_name }}</b></p>
 
-                                <p>El doctor <b>{{ $doctor }}</b>. a a sugerido procedimientos extras para el paciente <strong>{{ $patient }}</strong> </p>
+                                <p>El doctor <b>{{ $doctor }}</b>. aprobado una applicacion para el paciente <strong>{{ $patient }}</strong> </p>
 
                                 <p>El prodedimiento Elegido por el paciente es:<b> {{ $procedimiento }}</b></p>
 
                                 <p>
                                     
                                 </p>
-
-                                <p>
-                                    Las sugerencias son:
-                                </p>
-
-                                <ul style="list-style-type: none;">
-                                    @foreach ($sugerencias as $s)
-                                        <li>
-                                            <strong>{{ $s['name'] }}</strong>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @if (count($sugerencias) > 0)
+                                    <p>
+                                        Las sugerencias son:
+                                    </p>
+                                    <ul style="list-style-type: none;">
+                                        @foreach ($sugerencias as $s)
+                                            <li>
+                                                <strong>{{ $s['name'] }}</strong>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
                                 <br>  
                                 <p>
                                     <a href="{{ $app }}" target="_blank"><Strong>ir a la aplicaión</Strong></a>
-                                </p>             
-                                <br>                                
+                                </p>                                                            
                             </td>
                         </tr>
                     </table>

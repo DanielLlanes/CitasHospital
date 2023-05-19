@@ -1450,12 +1450,12 @@
             </div>
             <div class="modal-body">
                 <div class="row justify-content-center" style="align-content: center">
+                    {{ $appInfo['treatment']['service_id'] }}
                     @foreach ($statusOptions as $item)
                     @if ($appInfo['treatment']['service_id'] == 2 )
                         <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button>
-                    @elseif ($appInfo['treatment']['service_id'] != 2 && $item['id'] != 15)
-                    <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button>
-
+                    @elseif ($appInfo['treatment']['service_id'] != 2 && $item['id'] != 16)
+                    {{-- <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button> --}}
                     @endif
                     @endforeach
                 </div>
@@ -1489,14 +1489,14 @@
                         <span class="help-block text-danger">  </span>
                     </div>
                 </div>
-                <div class="form-group row step d-none" data-id="15">
+                <div class="form-group row step d-none" data-id="16">
                     <label class="control-label col-md-12">Add suggestions
                         <span class="required"> * </span>
                     </label>
                     <div class="col-12">
                         <div class="row cbSugerencias">
                              @foreach ($proceduresList as $it)
-                                <div class="col-4">
+                                <div class="col-6">
                                     <div class="custom-control custom-checkbox">
                                         <input type="checkbox" nombre="{{ $it->nombre }}" class="custom-control-input"  id="procedure-{{ $it->id }}" value="{{ $it->id }}">
                                         <label class="custom-control-label" for="procedure-{{ $it->id }}">{{ $it->nombre }}</label>

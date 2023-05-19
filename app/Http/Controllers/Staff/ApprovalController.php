@@ -125,7 +125,7 @@ class ApprovalController extends Controller
             })
             ->addColumn('acciones', function($assig) {
                 $apps = $assig;
-                return view('staff.mail-manager.actions-assignaments', compact('apps'));
+                return view('staff.assignment-manager.actions-assignaments', compact('apps'));
             })
             ->rawColumns(['DT_RowIndex', "staff", "servicio", "can", "active", "email", "acciones"])
             ->make(true);

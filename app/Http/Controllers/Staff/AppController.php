@@ -549,7 +549,7 @@ class AppController extends Controller
         $colStatus = new Collection();
 
         for ($i=0; $i < count($getStatus); $i++) { 
-            if ($getStatus[$i]->id == 5 || $getStatus[$i]->id == 13 || $getStatus[$i]->id == 15) {
+            if ($getStatus[$i]->id == 5 || $getStatus[$i]->id == 16) {
                 $colStatus[] = [
                     'id' => $getStatus[$i]->id,
                     'name' => ($lang == 'en')? $getStatus[$i]->name_en:$getStatus[$i]->name_es,
@@ -558,7 +558,6 @@ class AppController extends Controller
                 ];
             }
         };
-
         // $proceduresList = Procedure::where('service_id', $treatment->service->id)
         // ->where('active', 1)
         // ->selectRaw("*,procedure_$lang as name")
@@ -1238,7 +1237,7 @@ class AppController extends Controller
     }
     public function setStatusAcepted(Request $request)
     {
-
+        //return $request;
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
@@ -1303,19 +1302,31 @@ class AppController extends Controller
 
             $dataEmail = new Collection();
 
+
             if ($app) {
-                switch ($request->action) {
-                    case '15':
+                if ($app->treatment->procedure->service_id == 2){
                     return $this->withSuggestions($app, $request, $coor, $exist);
-                    break;
-                    case '13':
-                    return $this->changeProcedureApp($app, $request, $coor, $exist);
-                    break;
-                    default:
+                } else {
                     return $this->aceptedApp($app, $request, $coor, $exist);
-                    break;
                 }
-            } 
+            }
+
+            // if ($app) {
+            //     switch ($request->action) {
+            //         case '16':
+            //         if($app->treatment->procedure->service_id == 2){
+
+            //             return $this->withSuggestions($app, $request, $coor, $exist);
+            //         }
+            //         break;
+            //         case '13':
+            //         return $this->changeProcedureApp($app, $request, $coor, $exist);
+            //         break;
+            //         default:
+            //         return $this->aceptedApp($app, $request, $coor, $exist);
+            //         break;
+            //     }
+            // } 
         }
     }
     public Function aceptedApp($app, $request, $coor, $exist)
@@ -1524,7 +1535,7 @@ class AppController extends Controller
         $app->statusOne->delete($app->statusOne->id);
         $appStatus = $app->statusOne()->create(
             [
-                'status_id' => 15,
+                'status_id' => 16,
                 'indications' => $request->medicalIndications,
                 'recomendations' => $request->medicalRecommendations,
                 'code' => getCode(),
