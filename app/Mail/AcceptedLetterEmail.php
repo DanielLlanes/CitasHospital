@@ -50,6 +50,7 @@ class AcceptedLetterEmail extends Mailable implements ShouldQueue
                 'indications' => $this->data->indications,
                 'recomendations' => $this->data->recomendations,
                 'coordinator' => $this->data->coordinator,
+                'sugerencias' => $this->data->sugerencias,
 
             ]
         );

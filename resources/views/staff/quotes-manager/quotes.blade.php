@@ -55,7 +55,6 @@
                                                     <th> @lang('Treatment') </th>
                                                     <th> @lang('Coordinator') </th>
                                                     <th> @lang('Solicitante') </th>
-                                                    <th> @lang('Status') </th>
                                                     <th> @lang('price') </th>
                                                     <th> @lang('Date') </th>
                                                     <th> @lang('Action') </th>
@@ -271,7 +270,6 @@
                     { data: "tratamiento" },
                     { data: "coordinador" },
                     { data: "doctorUno" },
-                    { data: "doctorDos" },
                     { data: "price" },
                     { data: "date" },
                     { data: "acciones", orderable: false, searchable: false, className: 'center' },
@@ -324,7 +322,6 @@
             });
             $(document).on('click', '#add-field-btn', function(event) {
                 event.preventDefault();
-                alert()
                 addNewFieldSurgg();
             });
             $(document).on('click', '#add-field-btn-edit', function(event) {
@@ -335,7 +332,7 @@
                 var numFilas = $('#add-cot-table-body tr').length;
                  $content = `   
                         <tr data-tr="${numFilas+1}">
-                            <th scope="row"><input class="form-control form-control-sm name" type="text" placeholder=""></th>
+                            <th scope="row"><input name="name" class="form-control form-control-sm name" type="text" placeholder=""></th>
                             <td><input class="form-control form-control-sm price" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" type="text" placeholder=""></td>
                             <td><input class="form-control form-control-sm dr-fee" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" type="text" placeholder=""></td>
                             <td>
@@ -356,7 +353,7 @@
                 var numFilas = $('#edit-cot-table-body tr').length;
                  $content = `   
                         <tr data-tr="${numFilas+1}">
-                            <th scope="row"><input class="form-control form-control-sm name-edit" type="text" placeholder=""></th>
+                            <th scope="row"><input name="name" class="form-control form-control-sm name-edit" type="text" placeholder=""></th>
                             <td><input class="form-control form-control-sm price-edit" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" type="text" placeholder=""></td>
                             <td><input class="form-control form-control-sm dr-fee-edit" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" type="text" placeholder=""></td>
                             <td>
@@ -706,10 +703,12 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         beforeSend: function(){
-                           $('#create-quote-modal').modal('hide')
+                           //$('#create-quote-modal').modal('hide')
                         },
                         success:function(data){
-                            console.log("data", data);
+                            if (data.success) {
+                                $('#create-quote-modal').modal('hide')
+                            }
                             quotestable.ajax.reload( null, false );
                         },
                     })
@@ -819,6 +818,10 @@
             $(document).on('input', '.name-edit', function(event) {
                 event.preventDefault();
                 $(this).parents('tr').attr('data-name-edit', $(this).val())
+            });
+            $(document).on('input', '.name', function(event) {
+                event.preventDefault();
+                $(this).parents('tr').attr('data-name', $(this).val())
             });
         });
     </script>

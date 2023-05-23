@@ -8,11 +8,12 @@
 @section('content')
 
 @php
-// echo "<pre>";
+
     $arrays = [];
     $arraysDos = [];
     foreach($appInfo->treatment->service->specialties as $object){$arrays[] = $object->toArray();}
     foreach($appInfo->assignments as $object){$arraysDos[] = $object->toArray();}
+
     for ($i = 0; $i < count($arrays); $i++) {
         unset($arrays[$i]['pivot']);
     }
@@ -25,15 +26,16 @@
 
     $ass = array_column($arraysDos, 'name', 'ass');
     $otro = array_column($arraysDos, 'id', 'ass');
+    $ass_as = array_column($arraysDos, 'ass', 'ass');
 
-    array_walk($arrays, function(&$staff) use ($ass, $otro) {
+    array_walk($arrays, function(&$staff) use ($ass, $otro, $ass_as) {
         $id = $staff['id'];
         $staff['name'] = isset($ass[$id]) ? $ass[$id] : null;
         $staff['staff_id'] = isset($otro[$id]) ? $otro[$id] : null;
+        $staff['ass_as'] = isset($ass_as[$id]) ? $ass_as[$id] : null;
     });
 
-// echo "<pre>";
-    
+
 // echo '</pre>';
 @endphp
 <a href=""></a>
@@ -2369,7 +2371,6 @@
     $(document).on('click', '[id^="appChange"]', function(event) {
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
-        console.log("specialty", specialty);
         specialtyFormated = specialty[1].replace("_", " ");
         //console.log("specialtyFormated", specialtyFormated);
         $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')

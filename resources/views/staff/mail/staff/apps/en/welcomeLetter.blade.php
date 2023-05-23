@@ -17,6 +17,18 @@
                                 <p>Please let me know if you have any questions or need assistance.</p>
 
                                 <p>Warm Regards,</p>
+                                
+                                Dear <b>{{ $patient->name }}</b>,
+                                <br>
+                                It is our great pleasure that you have chosen <b>{{ getUcWords($treatment->service->brand->brand) }}</b> as your destination to achieve your weight loss goals. Let me introduce myself, I am </b>{{ $coordinator->name }}</b>, your medical coordinator. We want to express our appreciation for sending us your application, which is currently under review for prompt approval. We will be happy to provide you with our response within the next 24 hours, and we greatly appreciate your patience during this process.
+                                <br>
+                                In my role as medical coordinator, I am here to provide you with all the assistance you need and answer any questions you may have about weight loss surgery, as well as clarify any questions related to the package you have selected. Our main objective is to provide you with all the necessary information so that you feel safe and confident in your decision. Once your request is approved, you will receive an <b>APPROVAL LETTER</b> that will contain the <b>RESERVATION AND PAYMENT INFORMATION</b> necessary to continue with the process.
+                                <br>
+                                Feel free to contact me at any time if you have any additional questions or need additional assistance. I am here to guide you and give you the support you need.
+                                <br>
+                                Receives a warm greeting,
+                                <br>
+                                
                                 <hr>
                                 <p style="margin: 0;padding: 0;">{{ strtoupper($treatment->service->brand->acronym) }} {{ ucfirst($role = $coordinator->roles[0]->name_en ) }}</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>

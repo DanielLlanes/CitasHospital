@@ -1,8 +1,9 @@
 <?php
 
 use App\Models\Staff\Staff;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Site\Application;
 use Spatie\Permission\Models\Role;
+use Illuminate\Database\Eloquent\Collection;
 
 if (!function_exists('saludar')) {
     function saludar($hola = null) {
@@ -207,8 +208,9 @@ if (! function_exists('toPascalCase')) {
 if (! function_exists('getStaffEmails')) {
     function getStaffEmails($value)
     {
+        //return($value);
         $coordinador = Staff::whereHas( 'asignaciones', function($q) use($value) {
-            $q->where("service_id", 1)
+            $q->where("service_id", $value->service)
                 ->where('active', 1);
             }
         )
@@ -295,4 +297,19 @@ if (! function_exists('getOthersEmails')) {
         return $collection;
         
     }    
+}
+
+if (! function_exists('getCoordinator')) {
+    function getCoordinator($id) {
+        $coor = Application::with(
+            [
+                'assignments' => function ($q) {
+                    $q->wherePivot('ass_as', 10);
+                }
+            ]
+        )->select('id')
+        ->find($id);
+        $coor = $coor->assignments;
+        return $coor;
+    }
 }

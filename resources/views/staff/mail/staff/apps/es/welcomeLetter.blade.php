@@ -8,16 +8,16 @@
                     <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;">
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
-                                <p>Estimado {{ $patient->name }}</p>
-                                 
-                                <p>Estamos muy contentos y emocionados de que haya elegido {{ getUcWords($treatment->service->brand->brand) }} para su viaje de pérdida de peso.  Mi nombre es {{ $coordinator->name }} y seré su coordinador médico.  Hemos recibido su solicitud y está siendo revisada para su aprobación.  Esperamos tener una respuesta en las próximas 24-48 horas y deseamos agradecerle su paciencia.</p>
-                                 
-                                <p>Estaré encantado de responder a todas sus preguntas sobre la cirugía de pérdida de peso y aclarar cualquier duda sobre su paquete.  Una vez que su solicitud sea aprobada, recibirá una CARTA DE APROBACIÓN con la INFORMACIÓN DE RESERVA Y PAGO.</p>
-                                 
-                                <p>Por favor, hágame saber si tiene alguna pregunta o necesita ayuda.</p>
+                                Estimado <b>{{ $patient->name }}</b>,
 
-                                 
-                                <p>Saludos cordiales,</p>
+                                Es un gran placer para nosotros que haya elegido {{ getUcWords($treatment->service->brand->brand) }} como su destino para lograr sus objetivos de pérdida de peso. Permítanme presentarme, soy {{ $coordinator->name }}, su coordinador médico. Queremos expresar nuestro agradecimiento por enviarnos su solicitud, la cual se encuentra actualmente en revisión para su pronta aprobación. En las próximas 24 horas, estaremos encantados de comunicarle nuestra respuesta y le agradecemos mucho su paciencia durante este proceso.
+                                <br>
+                                En mi rol de coordinador médico, estoy para brindarte toda la asistencia que necesites y resolver cualquier duda que puedas tener sobre la cirugía de pérdida de peso, así como aclarar cualquier duda relacionada con el paquete que hayas seleccionado. Nuestro principal objetivo es brindarte toda la información necesaria para que te sientas seguro y confiado en tu decisión. Una vez aprobada su solicitud, recibirá una <b>CARTA DE APROBACIÓN</b> que contendrá la <b>INFORMACIÓN DE RESERVA Y PAGO</b> necesaria para continuar con el proceso.
+                                <br>
+                                No dude en ponerse en contacto conmigo en cualquier momento si tiene alguna pregunta adicional o necesita ayuda adicional. Estoy aquí para guiarte y brindarte el apoyo que necesitas.
+                                <br>
+                                Recibe un cordial saludo,
+                                <br>
                                 <hr>
                                 <p style="margin: 0;padding: 0;">{{ ucfirst($role = $coordinator->roles[0]->name_es ) }} de {{ strtoupper($treatment->service->brand->acronym) }} 
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>

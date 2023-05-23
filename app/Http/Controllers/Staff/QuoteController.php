@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreQuotesRequest;
-use App\Http\Requests\UpdateQuotesRequest;
-use App\Models\Admin\Quotes;
-use App\Models\Site\Application;
 use App\Models\Staff\Quote;
 use App\Models\Staff\Staff;
-use App\Models\Staff\Suggestion;
-use App\Traits\DatesLangTrait;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Models\Admin\Quotes;
+use Illuminate\Http\Request;
+use App\Traits\DatesLangTrait;
+use App\Models\Site\Application;
+use App\Models\Staff\Suggestion;
 use Yajra\DataTables\DataTables;
+use App\Mail\AcceptedLetterEmail;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\StoreQuotesRequest;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\UpdateQuotesRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 class QuoteController extends Controller
 {
@@ -33,55 +35,8 @@ class QuoteController extends Controller
      */
     public function index()
     {
+        $quotes = Quote::all();
         $lang = Auth::guard('staff')->user()->lang;
-        $quotes = Quote::with(
-                [
-                    'suggestions' => function ($q) use ($lang) {
-
-                    },
-                    'application' => function($q) use($lang) {
-                        $q->with(
-                            [
-                                'assignments' => function ($q) use ($lang) {
-                                    $q->whereHas(
-                                        'specialties',
-                                        function ($q) {
-                                            $q->where("name_en", "Coordination");
-                                        }
-                                    );
-                                },
-                                'patient',
-                                'treatment' => function ($q) use ($lang) {
-                                    $q->with(
-                                        [
-                                            "brand" => function ($q) {
-                                                $q->select("brand", "id", "color");
-                                            },
-                                            "service" => function ($q) use ($lang) {
-                                                $q->select("service_$lang AS service", "id");
-                                            },
-                                            "procedure" => function ($q) use ($lang) {
-                                                $q->select("procedure_$lang AS procedure", "id");
-                                            },
-                                            "package" => function ($q) use ($lang) {
-                                                $q->select("package_$lang AS package", "id");
-                                            },
-                                        ]
-                                    );
-                                },
-                            ]
-                        );
-                    },
-                    'statusOne' => function ($q) use ($lang) {
-                        $q->with([
-                            'status' => function ($q) use ($lang) {
-                                $q->select("name_$lang as name", 'id', 'color');
-                            }
-                        ])
-                        ->select("*");
-                    },
-                ]
-            )->get();
         //return $quotes;
         return view('staff.quotes-manager.quotes');
     }
@@ -198,6 +153,7 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
+        //return $request;
         $validator = Validator::make($request->all(), [
             'datos' => 'required|array',
             'datos.*.name' => 'string|required',
@@ -213,18 +169,32 @@ class QuoteController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-        $app = Application::with('suggestions', 'treatment')->find($request->app);
-
+        $app = Application::with('suggestions', 'treatment', 'patient')->find($request->app);
+        $coor = Staff::whereHas(
+            'assignment', function ($q) use ($request) {
+                $q->where('applications.id', $request->app);
+            }
+        )
+        ->whereHas(
+            'assignToSpecialty',
+            function ($q) {
+                $q->where('specialties.id', 10);
+            }
+        )
+        ->get();
         $staff_id = $app->suggestions[0]->staff_id;
-        // return response()->json($price );
         $countSugerencias = count($request->datos);
 
         $quote = new Quote;
+        $suggerencias = new Collection();
         $price = 0;
         for ($i=0; $i < $countSugerencias; $i++) { 
-            if ($request->datos[$i]['drFee'] == 1) {
+            if ($request->datos[$i]['isFree'] == 0) {
                 $price += (float)$request->datos[$i]['price'];
             }
+            $suggerencias->push((object)[
+                'name' => $request->datos[$i]['name']
+            ]);
         }
         $quote->price = $price;
         $quote->code = getCode();
@@ -232,8 +202,8 @@ class QuoteController extends Controller
         $quote->cotizacion = time();
         $app->treatment->price = $price;
         $app->price = $price;
-        $app->save();
-        $quote->save();
+        // $app->save();
+        // $quote->save();
         $app->suggestions()->ForceDelete();
         for ($i=0; $i < $countSugerencias; $i++) { 
             if (1 == 1) {
@@ -249,6 +219,30 @@ class QuoteController extends Controller
                 ]);
             }
         }
+
+        $coor = getCoordinator($request->app);
+        $dataEmail = new Collection();
+        $dataEmail->push((object)[
+            'patient' => $app->patient->name,
+            'email' => $app->patient->email,
+            'lang' => $app->patient->lang,
+            'brand' => $app->treatment->brand,
+            'service' => ($app->patient->lang == 'es') ? $app->treatment->service->service_es : $app->treatment->service->service_en,
+            'procedure' => ($app->patient->lang == 'es') ? $app->treatment->procedure->procedure_es : $app->treatment->procedure->procedure_en,
+            'package' => null,
+            'includes' => $app->treatment->contains,
+            "price" => $price,
+            "downPayment" => ((float) $price * .10),
+            'indications' => $request->medicalIndications,
+            'recomendations' => $request->medicalRecommendations,
+            'coordinator' => $coor[0],
+            'sugerencias' => $suggerencias,
+        ]);
+
+        //return $dataEmail;
+        Mail::send(new AcceptedLetterEmail($dataEmail[0]));
+
+        return response()->json(['success' => true])
     }
 
     /**
@@ -299,16 +293,16 @@ class QuoteController extends Controller
                             ]
                         );
                     },
-                    'statusOne' => function ($q) use ($lang) {
-                        $q->with([
-                            'status' => function ($q) use ($lang) {
-                                $q->select("name_$lang as name", 'id', 'color');
-                            }
-                        ])
-                        ->select("*");
-                    },
+                    // 'statusOne' => function ($q) use ($lang) {
+                    //     $q->with([
+                    //         'status' => function ($q) use ($lang) {
+                    //             $q->select("name_$lang as name", 'id', 'color');
+                    //         }
+                    //     ])
+                    //     ->select("*");
+                    // },
                 ]
-            )->get();
+            )->withSum('suggestions as total', 'unitario')->get();
             return DataTables::of($quotes)
             ->addIndexColumn()
             ->addColumn('cotizacion', function ($quotes) {
@@ -330,11 +324,12 @@ class QuoteController extends Controller
             ->addColumn('doctorUno', function ($quotes) {
                 return '<span>' . $quotes->suggestions[0]->staff->name. '</span>';
             })
-            ->addColumn('doctorDos', function ($quotes) {
-                return '<span>' . getStatus($quotes->statusOne->status->name, $quotes->statusOne->status->color) . '</span>';
-            })
+            // ->addColumn('doctorDos', function ($quotes) {
+            //     return '<span>' . getStatus($quotes->statusOne->status->name, $quotes->statusOne->status->color) . '</span>';
+            // })
             ->addColumn('price', function ($quotes) {
-                return '<span>' . $quotes->price. '</span>';
+
+                return '<span>' . $quotes->total. '</span>';
             })
             ->addColumn('date', function($quotes) {
                return '<span>' . $this->datesLangTrait($quotes->created_at, Auth::guard('staff')->user()->lang) . '</span>';
@@ -342,7 +337,7 @@ class QuoteController extends Controller
             ->addColumn('acciones', function($quotes) {
                 return view('staff.quotes-manager.actions-quotes', compact('quotes'));
             })
-            ->rawColumns(['DT_RowIndex', "cotizacion", "paciente", "tratamiento", "coordinador", "doctorUno", "doctorDos", 'price', 'date', "acciones"])
+            ->rawColumns(['DT_RowIndex', "cotizacion", "paciente", "tratamiento", "coordinador", "doctorUno", 'price', 'date', "acciones"])
             ->make(true);
         }
     }

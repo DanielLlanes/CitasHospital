@@ -1679,7 +1679,7 @@ class EsApiAppsController extends Controller
                     }
                 }
             }
-            
+
             $getStaffEmails = getStaffEmails($request);
             $assignment_staff = (count($getStaffEmails) > 0) ? $getStaffEmails[0]:'';  
             $other_staff = getOthersEmails($request);

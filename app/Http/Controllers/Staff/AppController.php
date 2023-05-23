@@ -89,19 +89,13 @@ class AppController extends Controller
                     );
                 },
                 'assignments' => function ($q) use ($lang) {
-                    $q->whereHas(
-                        'specialties',
-                        function ($q) {
-                            $q->where("name_en", "Coordination");
-                        }
-                    );
+                    $q->wherePivot('ass_as', 10);
                 }
             ]
         )
         ->where('is_complete', true)
         ->get();
-        
-
+           
         foreach ($apps as $key => $app) {
             $app->price = (!is_null($app->treatment->price)) ? $app->treatment->price:$app->price;
         }
@@ -152,12 +146,7 @@ class AppController extends Controller
                             );
                         },
                         'assignments' => function ($q) use ($lang) {
-                            $q->whereHas(
-                                'specialties',
-                                function ($q) {
-                                    $q->where("name_en", "Coordination");
-                                }
-                            );
+                            $q->wherePivot('ass_as', 10);
                         }
                     ]
                 )
@@ -217,12 +206,8 @@ class AppController extends Controller
                                         );
                                     },
                                     'assignments' => function ($q) use ($lang) {
-                                        $q->whereHas(
-                                            'specialties',
-                                            function ($q) {
-                                                $q->where("name_en", "Coordination");
-                                            }
-                                        );
+                                        
+                                        $q->wherePivot('assAs', 10);
                                     }
                                 ]
                             );
@@ -1277,19 +1262,7 @@ class AppController extends Controller
 
             $app = $this->getApplications($request->app);
 
-            $coor = Staff::whereHas(
-                'assignment', function ($q) use ($request) {
-                    $q->where('applications.id', $request->app);
-                }
-            )
-            ->whereHas(
-                'assignToSpecialty',
-                function ($q) {
-                    $q->where('specialties.id', 10);
-                }
-            )
-            ->get();
-
+            $coor = getCoordinator($request->app);
             $exist = false;
             if ($app->treatment->procedure->has_package == 1) {
                 $exist = Treatment::where("procedure_id", $request->id)
@@ -1388,6 +1361,7 @@ class AppController extends Controller
             'indications' => $request->medicalIndications,
             'recomendations' => $request->medicalRecommendations,
             'coordinator' => $coor[0],
+            'sugerencias' => []
         ]);
 
 
