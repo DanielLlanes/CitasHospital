@@ -215,6 +215,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/payments/searchPatientWithApps',  [PaymentController::class, 'searchPatientWithApps'])->name('searchPatientWithApps');
         Route::post('/payments/searchPatientAppDetails',[PaymentController::class, 'searchPatientAppDetails'])->name('searchPatientAppDetails');
         Route::post('/payments/store',                  [PaymentController::class, 'store'])->name('store');
+        Route::post('/payments/getAppsPayment',         [PaymentController::class, 'getAppsPayment'])->name('getAppsPayment');
+        Route::get('/pdf', [PaymentController::class, 'generatePDF'])->name('pdf.generate');
     });
 
     Route::name('patients.')->group( function(){

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Staff;
 
+use PDF;
 use App\Models\Staff\Role;
+use App\Models\Staff\Brand;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Staff\Patient;
@@ -14,9 +16,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ImportantInformationPdf;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Collection;
 
 
 class PaymentController extends Controller
@@ -279,8 +284,12 @@ class PaymentController extends Controller
             ]);
         }
 
-        $itsSame = Application::find($request->id);
-        
+        $itsSame = Application::with('treatment')->find($request->id);
+        $patient = Patient::find($request->patId);
+        $coor = getCoordinator($request->id);
+
+        $brand = Brand::find($itsSame->treatment->brand_id);
+  
         if($request->code != $itsSame->temp_code || $request->patId != $itsSame->patient_id )
         {
             return response()->json(
@@ -311,6 +320,30 @@ class PaymentController extends Controller
         $paymentMethod = PaymentMethod::where('code', $request->paymentMethod)->first();
         $payment = New Payment;
 
+        $data = [
+            'coordinator' => $coor[0],
+            'app_id' => $itsSame->id,
+            "patient" => $patient,
+            "brand" => $brand,
+        ];
+
+        $pdf = PDF::loadView('staff.pdfs.staff.es.importantInfo', ["data" => $data]);
+        $destinationPath = storage_path('app/public').'/pdfs';
+        File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+        $filePath = "{$destinationPath}/{$request->patId}-important-information.pdf";
+        $pdf->save($filePath);
+
+        $toEmail = new Collection;
+
+        $toEmail->push((object)[
+            'staff' => $coor[0],
+            'app_id' => $itsSame->id,
+            "patient" => $patient,
+            "brand" => $brand,
+            "subject" => 'Important Information',
+            "filePath" => $filePath,
+        ]);
+        Mail::send(new ImportantInformationPdf($toEmail));
         $payment->amount = $request->amount;
         $payment->currency = $request->currency;
         $payment->application_id = $request->id;
@@ -318,13 +351,15 @@ class PaymentController extends Controller
         $payment->payment_method_id = $paymentMethod->id;
         $payment->code = time().uniqid(Str::random(30));
         $payment->staff_id = Auth::guard('staff')->user()->id;
-
+        unlink($filePath);
         if ($payment->save()) {
             if ($evidence != '') {
                 $payment->imageOne()->create(
                     ['image' => $evidence, 'code' => getCode()]
                 );
             }
+            
+            
             return response()->json(
                 [
                     'icon' => 'success',
@@ -333,5 +368,43 @@ class PaymentController extends Controller
                 ]
             );
         }      
+    }
+    public function generatePDF()
+    {
+        $data = [
+            'title' => 'Ejemplo de PDF con Laravel-Dompdf',
+            'content' => 'Contenido del PDF',
+        ];
+
+        $pdf = PDF::loadView('staff.pdfs.staff.es.importantInfo', $data);
+        $pdf->setPaper('A4', "portrait");
+        $pdf->setOptions(['isHtml5ParserEnabled' => true]);
+        $destinationPath = storage_path('app/public').'/pdfs';
+        File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
+        return $pdf->stream('ejemplo.pdf');
+    }
+    public function getAppsPayment(Request $request)
+    {
+        $pagos = $this->getAppsPaymentsCount($request->id, $request->patient);
+        return $pagos;
+    }
+    private function getAppsPaymentsCount($id, $patient) {
+        $pagos = Payment::where('patient_id', $patient)->where('application_id', $id)->get();
+        $app = Application::find($id);
+        $price = (float)$app->price;
+        $suma = $pagos->pluck('amount')->sum();
+        $numeroDePagos = count($pagos);
+        $resta = $price - $suma;
+        $estaPagado = ($suma < $price) ? 'No Pagado' : 'Pagado';
+        $esElPrimerPago = $numeroDePagos == 0 ? true : false;
+        return response()->json([
+            'pagos' => $pagos,
+            'price' => $price,
+            'suma' => $suma,
+            'numeroDePagos' => $numeroDePagos,
+            'estaPagado' => $estaPagado,
+            'esElPrimerPago' => $esElPrimerPago,
+            'resta' => $resta,
+        ]);
     }
 }

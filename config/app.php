@@ -176,6 +176,7 @@ return [
             Intervention\Image\ImageServiceProvider::class,
             App\Providers\DropboxServiceProvider::class,
             App\Providers\GoogleDriveServiceProvider::class,
+            Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -191,7 +192,6 @@ return [
         App\Providers\ViewFrondtedShereServiceProvider::class,
         //App\Providers\ViewBackendShereServiceProvider::class,
         Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
-
 
     ],
 
@@ -248,6 +248,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
