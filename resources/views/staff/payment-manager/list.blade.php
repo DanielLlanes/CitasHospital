@@ -550,10 +550,11 @@
                     pagado  = $form.find('#pagado'),
                     restante  = $form.find('#restante'),
                     total  = $form.find('#total');
-                    console.log(pagoMinimo);
+                    var pagoMinimo = data.price * .1;
                     if (data.numeroDePagos == '0') {
-                        var pagoMinimo = data.price * .1;
                         $amount.attr('placeholder', `min: ${pagoMinimo}, max: ${data.price}`);
+                        $amount.attr('data-min', pagoMinimo);
+                        $amount.attr('data-max', data.price);
                     }
                     numPagos.html(data.numeroDePagos);
                     pagado.html(data.suma);

@@ -330,7 +330,7 @@ class PaymentController extends Controller
         $pdf = PDF::loadView('staff.pdfs.staff.es.importantInfo', ["data" => $data]);
         $destinationPath = storage_path('app/public').'/pdfs';
         File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
-        $filePath = "{$destinationPath}/{$request->patId}-important-information.pdf";
+        $filePath = "{$destinationPath}/{$request->patId}-Important Document.pdf";
         $pdf->save($filePath);
 
         $toEmail = new Collection;

@@ -12,7 +12,7 @@
                                 <br>
                                 <p>We hope this message finds you well. We are pleased to inform you that we have successfully recorded and processed your recent payment. In this connection, we are pleased to attach a PDF (Portable Document Format) file containing important information about the process to which your payment refers.</p>
                                 <br>
-                                <p>The attached file, labeled "Important Document - Process [number/identifier]", provides full details on the next steps, the timelines involved, and any other relevant information you may need. Please review the content of the attached file carefully, as it is designed to provide you with a clear and comprehensive guide to the process in question.</p>
+                                <p>The attached file, labeled "Important Document", provides full details on the next steps, the timelines involved, and any other relevant information you may need. Please review the content of the attached file carefully, as it is designed to provide you with a clear and comprehensive guide to the process in question.</p>
                                 <br>
                                 <p>If you have any additional questions or need more information, please do not hesitate to contact us. We will be happy to assist you in any way we can.</p>
                                 <br>

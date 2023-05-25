@@ -12,7 +12,7 @@
                                 <br>
                                 <p>Esperamos que este mensaje le encuentre bien. Nos complace informarle que hemos registrado y procesado exitosamente su pago reciente. En relación a esto, nos complace adjuntar un archivo PDF (Portable Document Format) que contiene información importante sobre el proceso al que hace referencia su pago.</p>
                                 <br>
-                                <p>El archivo adjunto, denominado "Documento Importante - Proceso [número/identificador]", proporciona detalles completos sobre los pasos siguientes, los plazos involucrados y cualquier otra información relevante que pueda necesitar. Por favor, revise cuidadosamente el contenido del archivo adjunto, ya que está diseñado para brindarle una guía clara y completa sobre el proceso en cuestión.</p>
+                                <p>El archivo adjunto, denominado "Important Document", proporciona detalles completos sobre los pasos siguientes, los plazos involucrados y cualquier otra información relevante que pueda necesitar. Por favor, revise cuidadosamente el contenido del archivo adjunto, ya que está diseñado para brindarle una guía clara y completa sobre el proceso en cuestión.</p>
                                 <br>
                                 <p>Si tiene alguna pregunta adicional o necesita más información, no dude en contactarnos. Estaremos encantados de asistirle en todo lo que podamos.</p>
                                 <br>
