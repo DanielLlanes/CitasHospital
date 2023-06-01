@@ -1,28 +1,9 @@
-@extends('staff.layouts.app')
+@extends('staff.pdfs.header')
 @section('title')
     @lang('Payments')
 @endsection
 @section('content')
-    <div class="page-bar">
-        <div class="page-title-breadcrumb">
-            <div class=" pull-left">
-                <div class="page-title">@lang('Payments Manager')</div>
-            </div>
-            <ol class="breadcrumb page-breadcrumb pull-right">
-                <li>
-                    <i class="fa fa-home"></i>&nbsp;
-                    <a class="parent-item" href="index-2.html">@lang('breadcrumb.Home')</a>
-                    &nbsp;<i class="fa fa-angle-right">
-
-                    </i>
-                </li>
-                <li class="active">@lang('Configuration')&nbsp;
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li class="active">@lang('Payments Manager')</li>
-            </ol>
-        </div>
-    </div>
+<body>
     <div class="row">
         <div class="col-md-12">
             <div class="white-box">

@@ -1304,7 +1304,6 @@ class AppController extends Controller
     }
     public Function aceptedApp($app, $request, $coor, $exist)
     {
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $statusx = 5;

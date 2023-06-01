@@ -1,5 +1,7 @@
 @extends('staff.pdfs.header')
 @section('content')
+<body bgcolor="#F7F7F7" style="margin: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;-webkit-font-smoothing: antialiased;-webkit-text-size-adjust: none;height: 100%;width: 100%!important;">
+
 <style>
     p{
         margin-bottom: 16px;
