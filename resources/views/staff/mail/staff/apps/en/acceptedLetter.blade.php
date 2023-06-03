@@ -25,7 +25,7 @@
                                     @endif
                                 @endisset
                                 <br>
-                                <p>The total price of the package is US $[price], and this quote is valid for 3 months. We want you to feel calm, so our package includes all the necessary services to make your experience as complete as possible:</p>
+                                <p>The total price of the package is US ${{ $price }}, and this quote is valid for 3 months. We want you to feel calm, so our package includes all the necessary services to make your experience as complete as possible:</p>
                                 <br>
                                 <ul style="list-style-type: none;">
                                     @foreach ($includes as $item)

@@ -242,7 +242,7 @@ class QuoteController extends Controller
         //return $dataEmail;
         Mail::send(new AcceptedLetterEmail($dataEmail[0]));
 
-        return response()->json(['success' => true])
+        return response()->json(['success' => true]);
     }
 
     /**
