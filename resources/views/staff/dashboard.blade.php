@@ -203,7 +203,7 @@
     <script src="{{ asset('staffFiles/assets/plugins/chart-js/Chart.bundle.js') }}" ></script>
     <script src="{{ asset('staffFiles/assets/plugins/chart-js/utils.js') }}" ></script>
     {{-- <script src="{{ asset('staffFiles/assets/js/pages/chart/chartjs/chartjs-data.js') }}" ></script> --}}
-    </script>
+
     <script>
         globalRouteLastFiveApps = "{{ route('staff.stats.lastFiveApps') }}";
         globalgetSocialMedia = "{{ route('staff.stats.socialMedia') }}"
