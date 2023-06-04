@@ -16,7 +16,7 @@ if (protocol !== 'http') {
         //rejectUnauthorized: false
     };
 }
-console.log(options);
+
 const httpServer = require(protocol).createServer();
 
 const io = require("socket.io")(httpServer, options)
