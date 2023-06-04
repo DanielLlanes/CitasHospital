@@ -12,7 +12,8 @@ if (protocol !== 'http') {
         key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem'),
         cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem'),
         ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem'),
-        //requestCert: false
+        requestCert: false,
+        rejectUnauthorized: false
     };
 }
 console.log(options);
