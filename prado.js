@@ -15,7 +15,7 @@ if (protocol !== 'http') {
         //requestCert: false
     };
 }
-
+console.log(options);
 const httpServer = require(protocol).createServer();
 
 const io = require("socket.io")(httpServer, options)
