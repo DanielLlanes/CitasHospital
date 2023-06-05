@@ -6,16 +6,16 @@ let options = {
     cors: '*'
 };
 
-if (protocol !== 'http') {
-    options = {
-        ...options,
-        key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem'),
-        ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem'),
-        requestCert: false,
-        rejectUnauthorized: false
-    };
-}
+// if (protocol !== 'http') {
+//     options = {
+//         ...options,
+//         key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem'),
+//         cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem'),
+//         ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem'),
+//         requestCert: false,
+//         rejectUnauthorized: false
+//     };
+// }
 
 const httpServer = require(protocol).createServer();
 
@@ -28,10 +28,11 @@ var groups = [];
 
 
 io.on('connection', (socket) => {
+
     socket.on("user_connected", function (user_id) { // user conected works
-    console.log("user_id", user_id);
-    var ip_address = protocol;
-    console.log(ip_address)
+        console.log("user_id", user_id);
+        var ip_address = protocol;
+        console.log(ip_address)
         users[user_id] = socket.id; //user id como key
         io.emit('updateUserStatus', users);
     });
