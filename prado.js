@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
 
     socket.on("eventCalendarRefetchToServer", function() { //Calendar Events works
         socket.broadcast.emit('eventCalendarRefetchToClient');
+        console.log('calendar')
     });
 
     socket.on("sendNewStaffToServer", function(data) { // assing new staff works
