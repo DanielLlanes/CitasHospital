@@ -187,7 +187,6 @@
 
             var socket_port = '3000';
             var socket = io(ip_address + ':' + socket_port, {secure: true} );
-            console.log(socket)
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
