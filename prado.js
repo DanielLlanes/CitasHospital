@@ -1,34 +1,24 @@
 const myModule = require('./protocol.js');
-let protocol = myModule.protocol(); // val is "https or http"   
-const fs = require("fs");
+const { createServer } = require(myModule.protocol());
+const { Server } = require("socket.io");
 
-let options = {
-    cors: '*'
+const httpServerOptions = myModule.protocol() !== 'http' ? {
+  key: readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8'),
+  cert: readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem', 'utf8')
+} : null;
+
+const httpServer = createServer(httpServerOptions);
+
+const options = {
+  cors: '*',
+  ...(myModule.protocol() !== 'http' && {
+    key: httpServerOptions.key,
+    cert: httpServerOptions.cert,
+    ca: [readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem', 'utf8')]
+  })
 };
 
-if (protocol !== 'http') {
-    const hskey = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8');
-    const hscert = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem', 'utf8');
-    const hschain = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem', 'utf8');
-
-    options = {
-        ...options,
-        key: hskey,
-        cert: hscert,
-        ca: [hschain]
-        //requestCert: false,
-        //rejectUnauthorized: false
-    };
-}
-
-const httpServer = require(protocol).createServer();
-
-const io = require("socket.io")(httpServer, options)
-var url = require('url');
-// var Redis = require('ioredis');
-// var redis = new Redis();
-var users = [];
-var groups = [];
+const io = new Server(httpServer, options);
 
 
 io.on('connection', (socket) => {
@@ -91,6 +81,6 @@ io.on('connection', (socket) => {
     })
 });
 
+
 httpServer.listen(3000, () => {
-    console.log('port 3000')
 });
