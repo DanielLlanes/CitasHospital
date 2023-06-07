@@ -7,11 +7,15 @@ let options = {
 };
 
 if (protocol !== 'http') {
+    const hskey = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8');
+    const hscert = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem', 'utf8');
+    const hschain = fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem', 'utf8');
+
     options = {
         ...options,
-        key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem', 'utf8'),
-        ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem', 'utf8'),
+        key: hskey,
+        cert: hscert,
+        ca: [hschain]
         //requestCert: false,
         //rejectUnauthorized: false
     };
