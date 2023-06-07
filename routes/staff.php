@@ -353,5 +353,18 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/approvals/autocompleteService',  [ApprovalController::class, 'autocompleteService'])->name('autocompleteService');
     });
 
+    Route::name('test.')->group(function () {
+        Route::get('mail-test', function () {
+            $data = array('name'=>"Virat Gandhi");
+   
+            Mail::send(['text'=>'staff/mail/test'], $data, function($message) {
+                $message->to('abc@gmail.com', 'Tutorials Point')->subject
+                    ('Laravel Basic Testing Mail');
+                $message->from('xyz@gmail.com','Virat Gandhi');
+            });
+            echo "Basic Email Sent. Check your inbox.";
+        });
+    });
+
 });
 
