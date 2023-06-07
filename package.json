@@ -22,6 +22,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "fs": "^0.0.1-security",
         "ioredis": "^4.28.2",
         "socket.io": "^4.4.0"
     }
