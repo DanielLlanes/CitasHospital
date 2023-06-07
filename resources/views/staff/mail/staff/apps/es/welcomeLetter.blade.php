@@ -8,16 +8,36 @@
                     <table style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;width: 100%;">
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
-                                Estimado <b>{{ $patient->name }}</b>,
+                                <p>Estimado <b>{{ $patient->name }}</b></p>
+                                @if (strtolower($treatment->service->brand->brand) == 'a beautiful me')
+                                    <br>
+                                    <p>Gracias por tu interés en A <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
+                                    <br>
+                                    <p>Nuestro cirujano revisará tu solicitud y en cuanto tengamos un presupuesto para ti, se enviará a tu correo electrónico.</p>
+                                    <p>Mientras tanto, aquí tienes información importante que debes saber.</p>
+                                    <br>
+                                    <p>Para someterte a cirugía plástica, tu IMC debe ser inferior a 32.</p>
+                                    <br>
+                                    <p>Si tu IMC es superior a 32 en el momento de tu solicitud, no se enviará un presupuesto hasta que pierdas peso y tu IMC sea de 32 o menos.</p>
+                                    <br>
+                                    <p>El nivel de hemoglobina debe ser de al menos 14.</p>
+                                    <br>
+                                    <p>Trabajamos para ofrecer la mejor atención posible y la salud y el bienestar de nuestros pacientes es nuestra principal prioridad.</p>
+                                    <br>
+                                    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarme.</p>
+                                    <br>
+                                    <p>Te deseo un maravilloso día lleno de bendiciones y espero tener noticias tuyas pronto.</p>
+                                @elseif (strtolower($treatment->service->brand->brand) == 'a slimmer me')
+                                    <p>Estamos encantados y emocionados de que hayas elegido <b>{{ getUcWords($treatment->service->brand->brand) }}</b> para tu proceso de pérdida de peso. Mi nombre es </b>{{ $coordinator->name }}</b> y seré tu coordinador médico. Hemos recibido tu solicitud y está siendo revisada para su aprobación. Esperamos tener una respuesta en las próximas 24-48 horas y queremos agradecerte por tu paciencia.</p>
+                                    <br>
+                                    <p>Estaré encantado de responder todas tus preguntas sobre la cirugía de pérdida de peso y aclarar cualquier duda sobre tu paquete. Una vez que tu solicitud sea aprobada, recibirás una <b>CARTA DE APROBACIÓN</b> con la <b>INFORMACIÓN DE RESERVA Y PAGO.</b></p>
+                                    <br>
+                                    <p>Por favor, avísame si tienes alguna pregunta o necesitas ayuda.</p>
+                                    <br>
+                                @endif
 
-                                Es un gran placer para nosotros que haya elegido {{ getUcWords($treatment->service->brand->brand) }} como su destino para lograr sus objetivos de pérdida de peso. Permítanme presentarme, soy {{ $coordinator->name }}, su coordinador médico. Queremos expresar nuestro agradecimiento por enviarnos su solicitud, la cual se encuentra actualmente en revisión para su pronta aprobación. En las próximas 24 horas, estaremos encantados de comunicarle nuestra respuesta y le agradecemos mucho su paciencia durante este proceso.
-                                <br>
-                                En mi rol de coordinador médico, estoy para brindarte toda la asistencia que necesites y resolver cualquier duda que puedas tener sobre la cirugía de pérdida de peso, así como aclarar cualquier duda relacionada con el paquete que hayas seleccionado. Nuestro principal objetivo es brindarte toda la información necesaria para que te sientas seguro y confiado en tu decisión. Una vez aprobada su solicitud, recibirá una <b>CARTA DE APROBACIÓN</b> que contendrá la <b>INFORMACIÓN DE RESERVA Y PAGO</b> necesaria para continuar con el proceso.
-                                <br>
-                                No dude en ponerse en contacto conmigo en cualquier momento si tiene alguna pregunta adicional o necesita ayuda adicional. Estoy aquí para guiarte y brindarte el apoyo que necesitas.
-                                <br>
-                                Recibe un cordial saludo,
-                                <br>
+                                <p>Un cordial saludo,</p>
+
                                 <hr>
                                 <p style="margin: 0;padding: 0;">{{ ucfirst($role = $coordinator->roles[0]->name_es ) }} de {{ strtoupper($treatment->service->brand->acronym) }} 
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
