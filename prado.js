@@ -1,5 +1,5 @@
 const myModule = require('./protocol.js');
-let protocol = myModule.protocol(); // val is "Https or http"   
+let protocol = myModule.protocol(); // val is "https or http"   
 const fs = require("fs");
 
 let options = {
@@ -9,9 +9,9 @@ let options = {
 if (protocol !== 'http') {
     options = {
         ...options,
-        key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem'),
-        ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem'),
+        key: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/cert.pem', 'utf8'),
+        ca: fs.readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/chain.pem', 'utf8'),
         //requestCert: false,
         //rejectUnauthorized: false
     };
