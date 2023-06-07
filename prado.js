@@ -1,6 +1,7 @@
 const myModule = require('./protocol.js');
 const { createServer } = require(myModule.protocol());
 const { Server } = require("socket.io");
+const { readFileSync } = require("fs");
 
 const httpServerOptions = myModule.protocol() !== 'http' ? {
   key: readFileSync('/etc/letsencrypt/live/api.jlpradosc.online/privkey.pem', 'utf8'),
