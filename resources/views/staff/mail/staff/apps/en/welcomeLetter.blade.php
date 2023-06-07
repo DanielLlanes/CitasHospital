@@ -9,7 +9,7 @@
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                                 <p>Dear <b>{{ $patient->name }}</b></p>
-                                @if ( {{ strtolower($treatment->service->brand->brand) }} == 'a beautiful me')
+                                @if (  strtolower($treatment->service->brand->brand)  == 'a beautiful me')
                                     <br>
                                     <p>Thank you for your interest in A <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
                                     <br>
@@ -31,14 +31,14 @@
                                     <br>
                                     <p>Have a wonderful and blessed day and I hope to hear from you soon.</p>
                                     
-                                @elseif ( {{ strtolower($treatment->service->brand->brand) }}== 'a slimmer me')
+                                @elseif ( strtolower($treatment->service->brand->brand) == 'a slimmer me')
                                     <p>We are very thrilled and excited you have chosen <b>{{ getUcWords($treatment->service->brand->brand) }}</b> for your weight loss journey.  My name is </b>{{ $coordinator->name }}</b> and I will be your medical coordinator.  We have received your application and it is undergoing review for approval.  We expect to have an answer in the next 24-48 hrs and wish to thank you for your patience.</p>
                                     <br>
                                     <p>I will be very happy to answer all your questions regarding weight loss surgery and clear any doubts about your package.  Once your application is approved, you will receive an <b>APPROVAL LETTER</b> with <b>BOOKING & PAYMENT INFORMATION.</b></p>
                                     <br>       
                                     <p>Please let me know if you have any questions or need assistance.</p>
                                     <br>
-                                    @endif
+                                @endif
                                     
                                 <p>Warm Regards,</p>
                                 <hr>
