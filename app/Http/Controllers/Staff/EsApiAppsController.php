@@ -1762,6 +1762,8 @@ class EsApiAppsController extends Controller
                 ]);
             }
 
+            $patient = Patient::where('email', $request->email)->first();
+            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
             
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
@@ -1794,6 +1796,7 @@ class EsApiAppsController extends Controller
                     ]);
                 }
             }
+
             foreach ($toEmail as $key => $data) {
                 Mail::to($data->staff_email)
                 ->send(
@@ -1801,7 +1804,8 @@ class EsApiAppsController extends Controller
                 );
                 sleep(1);
             }
-            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
+
+            
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;

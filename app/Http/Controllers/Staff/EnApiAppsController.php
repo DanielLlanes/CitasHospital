@@ -1212,6 +1212,8 @@ class EnApiAppsController extends Controller
             $patient->password = Hash::make($unHashPassword);
             $patient->code = getCode();
             $patient->save();
+        } else {
+            
         }
 
         $app = new Application;
@@ -1606,7 +1608,8 @@ class EnApiAppsController extends Controller
                 ]);
             }
 
-            
+            $patient = Patient::where('email', $request->email)->first();
+            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));;
             if (count($other_staff) > 0) {
                 foreach ($other_staff as $staff) {
                     $app->notification()->create([
@@ -1645,7 +1648,6 @@ class EnApiAppsController extends Controller
                 );
                 sleep(1);
             }
-            Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
 
             $app->assignments()->sync($assignment);
             $app->is_complete = true;
