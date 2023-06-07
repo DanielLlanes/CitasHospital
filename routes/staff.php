@@ -353,17 +353,17 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/approvals/autocompleteService',  [ApprovalController::class, 'autocompleteService'])->name('autocompleteService');
     });
 
-    Route::name('test.')->group(function () {
-        Route::get('mail-test', function () {
-            $data = array('name'=>"Virat Gandhi");
+    // Route::name('test.')->group(function () {
+    //     Route::get('mail-test', function () {
+    //         $data = array('name'=>"Virat Gandhi");
    
-            Mail::send(['text'=>'staff/mail/test'], $data, function($message) {
-                $message->to('gabriel@jlpradosc.com', 'GAbriel Point')->subject
-                    ('Laravel Basic Testing Mail');
-            });
-            echo "Basic Email Sent. Check your inbox.";
-        });
-    });
+    //         Mail::send(['text'=>'staff/mail/test'], $data, function($message) {
+    //             $message->to('gabriel@jlpradosc.com', 'GAbriel Point')->subject
+    //                 ('Laravel Basic Testing Mail');
+    //         });
+    //         echo "Basic Email Sent. Check your inbox.";
+    //     });
+    // });
 
 });
 

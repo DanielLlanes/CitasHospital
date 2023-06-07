@@ -207,6 +207,15 @@
     <script>
         globalRouteLastFiveApps = "{{ route('staff.stats.lastFiveApps') }}";
         globalgetSocialMedia = "{{ route('staff.stats.socialMedia') }}"
+
+        window.onload = function() {
+            socket.emit('testTo');
+            console.log("Page loaded");
+        };
+        socket.on('testToClient', () =>  {
+                console.log('entra?');
+                alert('entra?');
+            });
     </script>
     <script src="{{ asset('staffFiles/assets/js/customjs/home.min.js') }}"></script>
 @endsection
