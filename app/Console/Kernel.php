@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \App\Console\Commands\CreateDirectoryAndFiles::class,
+        \App\Console\Commands\CheckImageFiles::class,
     ];
 
     /**
