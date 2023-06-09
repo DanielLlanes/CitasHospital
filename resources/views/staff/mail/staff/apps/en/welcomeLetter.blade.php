@@ -11,7 +11,7 @@
                                 <p>Dear <b>{{ $patient->name }}</b></p>
                                 @if (  strtolower($treatment->service->brand->brand)  == 'a beautiful me')
                                     <br>
-                                    <p>Thank you for your interest in A <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
+                                    <p>Thank you for your interest in <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
                                     <br>
                                     <p>Our surgeon will review your application, as soon as we have a quote for you It will be
                                         sent to your email.</p>

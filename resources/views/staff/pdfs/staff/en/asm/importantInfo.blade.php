@@ -12,10 +12,17 @@
     .page-break {
         page-break-after: always;
     }
+    h1, h2 {
+        text-align: center;
+    }
+    ul, ol {
+        list-style: none;
+    }
 </style>
 <div class="" style="margin: 50px!important">
     <h1 style="text-align: center">IMPORTANT INFORMATION</h1>
     <p>Dear <b>{{ $data['patient']->name }}</b>,</p>
+    <br>
     <p>Please read the following letter, it contains very important information you need to
         know in order to get a high percentage to achieve a complication-free procedure and
         obtain the best possible results.</p>
@@ -102,6 +109,7 @@
                         <li>
                             <b>Travel Size</b>:
                             <ul>
+                                <li>Gas X Chewables (Allowed to take 24 hrs POST surgery.)</li>
                                 <li>Toothpaste/toothbrush</li>
                                 <li>Conditioner,</li>
                                 <li>Body wash</li>

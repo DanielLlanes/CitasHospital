@@ -9,32 +9,50 @@
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 Dear <b>{{ $patient }}</b>,
+                                @if (  strtolower($treatment->service->brand->brand)  == 'a beautiful me')
 
-                                <p>Congratulations! We are pleased to inform you that you have been approved to undergo plastic surgery at our center. We are excited to be able to accompany you in this important chapter of your life, where you will be able to achieve the changes you so desire.</p>
-                                @isset($sugerencias)
+                                    <p>Congratulations, you have been approved for plastic surgery!</p>
+                                    @isset($sugerencias)
+                                        <br>
+                                        @if (count($sugerencias) > 0)
+                                        <p>Here are the procedures we suggest that can help you achieve your goals:</p>
+                                            <ul style="list-style-type: none;">
+                                                @foreach ($sugerencias as $s)
+                                                <li>
+                                                    <strong>{{ $s->name }}</strong>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    @endisset
                                     <br>
-                                    @if (count($sugerencias) > 0)
-                                    <p>Here are the procedures we suggest that can help you achieve your goals:</p>
-                                        <ul style="list-style-type: none;">
-                                            @foreach ($sugerencias as $s)
-                                            <li>
-                                                <strong>{{ $s->name }}</strong>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                @endisset
-                                <br>
-                                <p>The total price of the package is US ${{ $price }}, and this quote is valid for 3 months. We want you to feel calm, so our package includes all the necessary services to make your experience as complete as possible:</p>
-                                <br>
-                                <ul style="list-style-type: none;">
-                                    @foreach ($includes as $item)
-                                        <li>{{ $item->contain_en }}</li>
-                                    @endforeach
-                                </ul>
+                                    <p>The total price of the package is US ${{ $price }}, and this quote is valid for 3 months.</p>
+                                    <br>
+                                    <p>Your package is all inclusive:</p>
+                                    <br>
+                                    <ul style="list-style-type: none;">
+                                        @foreach ($includes as $item)
+                                            <li>{{ $item->contain_en }}</li>
+                                        @endforeach
+                                    </ul>
+
+                                @elseif ( strtolower($treatment->service->brand->brand) == 'a slimmer me')
+                                    <br>
+                                    <p>Congratulations, you have been approved for a {{ $procedure }} Surgery!, Your package includes the following:</p>
+                                    <br>
+                                    <ul style="list-style-type: none;">
+                                        @foreach ($includes as $item)
+                                            <li>{{ $item->contain_en }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <br>
+                                    <p>Your direct indications from our doctor are: {{ $indications }}</p>
+                                    <br>
+                                    <p>Please take a minute to watch our step by step guide <a href="https://jlpradosc.com/step-by-step">step-by-step</a> </p>
+                                @endif
                                 <p>To reserve your surgery date, we require a 10% deposit. Which in this case is ${{ $downPayment }} out of ${{ $price }}. Once you have made this deposit, please send a photo of the receipt to your coordinator to start the programming process.</p>
 
-                                <p>At <b>J.L.Prado Surgical Center</b>, we pride ourselves on providing the best care possible, and taking care of your health and well-being is our top priority. We want you to feel comfortable and secure throughout the entire process, which is why we have prepared several payment options for your convenience:</p>
+                                <p>Everyone at <b>J.L.Prado Surgical Center</b>, we pride ourselves on providing the best care possible, and taking care of your health and well-being is our top priority. We want you to feel comfortable and secure throughout the entire process, which is why we have prepared several payment options for your convenience:</p>
                                 <br>
                                 <p>Bank transfer to our account.</p>
                                 <p>Direct deposit to our account.</p>

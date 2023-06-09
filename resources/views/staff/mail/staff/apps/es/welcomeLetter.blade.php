@@ -11,7 +11,7 @@
                                 <p>Estimado <b>{{ $patient->name }}</b></p>
                                 @if (strtolower($treatment->service->brand->brand) == 'a beautiful me')
                                     <br>
-                                    <p>Gracias por tu interés en A <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
+                                    <p>Gracias por tu interés en <b>{{ getUcWords($treatment->service->brand->brand) }}!</b></p>
                                     <br>
                                     <p>Nuestro cirujano revisará tu solicitud y en cuanto tengamos un presupuesto para ti, se enviará a tu correo electrónico.</p>
                                     <p>Mientras tanto, aquí tienes información importante que debes saber.</p>

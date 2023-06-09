@@ -153,7 +153,6 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request;
         $validator = Validator::make($request->all(), [
             'datos' => 'required|array',
             'datos.*.name' => 'string|required',
@@ -202,8 +201,8 @@ class QuoteController extends Controller
         $quote->cotizacion = time();
         $app->treatment->price = $price;
         $app->price = $price;
-        // $app->save();
-        // $quote->save();
+        $app->save();
+        $quote->save();
         $app->suggestions()->ForceDelete();
         for ($i=0; $i < $countSugerencias; $i++) { 
             if (1 == 1) {
@@ -238,8 +237,7 @@ class QuoteController extends Controller
             'coordinator' => $coor[0],
             'sugerencias' => $suggerencias,
         ]);
-
-        //return $dataEmail;
+        
         Mail::send(new AcceptedLetterEmail($dataEmail[0]));
 
         return response()->json(['success' => true]);

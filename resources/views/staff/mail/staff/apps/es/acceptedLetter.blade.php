@@ -9,30 +9,44 @@
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 Estimado/a <b>{{ $patient }}</b>,
+                                @if (  strtolower($treatment->service->brand->brand)  == 'a beautiful me')
+                                {{-- ABM --}}
+                                    <p>¡Felicitaciones, ha sido aprobado para la cirugía plástica!</p>
 
-                                 <p>¡Felicitaciones! Nos complace informarle que ha sido aprobado/a para someterse a una cirugía plástica en nuestro centro. Nos emociona poder acompañarte en este importante capítulo de tu vida, donde podrás lograr los cambios que tanto deseas.</p>
-
-                                 @isset($sugerencias)
+                                    @isset($sugerencias)
+                                        <br>
+                                        @if (count($sugerencias) > 0)
+                                        <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
+                                            <ul style="list-style-type: none;">
+                                                @foreach ($sugerencias as $s)
+                                                    <li>
+                                                        <strong>{{ $s->name }}</strong>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    @endisset
                                     <br>
-                                    @if (count($sugerencias) > 0)
-                                    <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
-                                        <ul style="list-style-type: none;">
-                                            @foreach ($sugerencias as $s)
-                                                <li>
-                                                    <strong>{{ $s->name }}</strong>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                 @endisset
-                                 <br>
-                                 <p>El precio total del paquete es de US$[precio], y esta cotización es válida por 3 meses. Queremos que te sientas tranquilo, por eso nuestro paquete incluye todos los servicios necesarios para que tu experiencia sea lo más completa posible:</p>
-                                 <br>
-                                 <ul style="list-style-type: none;">
-                                    @foreach ($includes as $item)
-                                        <li>{{ $item->contain_en }}</li>
-                                    @endforeach
-                                </ul>
+                                    <p>El precio total del paquete es de US${{ $price }}, y esta cotización es válida por 3 meses. Queremos que te sientas tranquilo, por eso nuestro paquete incluye todos los servicios necesarios para que tu experiencia sea lo más completa posible:</p>
+                                    <br>
+                                    <ul style="list-style-type: none;">
+                                        @foreach ($includes as $item)
+                                            <li>{{ $item->contain_es }}</li>
+                                        @endforeach
+                                    </ul>
+                                @elseif ( strtolower($treatment->service->brand->brand) == 'a slimmer me')
+                                {{-- ASM --}}
+                                    <br>
+                                    <p>¡Felicidades, ha sido aprobado para una Cirugía de {{ $procedure }}!, Su paquete incluye lo siguiente:</p>
+                                    <br>
+                                    <ul style="list-style-type: none;">
+                                        @foreach ($includes as $item)
+                                            <li>{{ $item->contain_en }}</li>
+                                        @endforeach
+                                    </ul>
+
+                                    
+                                @endif
                                  <p>Para reservar la fecha de su cirugía, requerimos un depósito del 10%. Que en este caso es ${{ $downPayment }} de ${{ $price }}. Una vez que haya realizado este depósito, envíe una foto del recibo a su coordinador para iniciar el proceso de programación.</p>
 
                                  <p>En <b>J.L.Prado Surgical Center</b>, nos enorgullecemos de brindar la mejor atención posible, y cuidar su salud y bienestar es nuestra principal prioridad. Queremos que te sientas cómodo y seguro durante todo el proceso, por eso hemos preparado varias opciones de pago para tu comodidad:</p>

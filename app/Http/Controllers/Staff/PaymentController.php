@@ -266,14 +266,14 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
             $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric',
-            'id' => 'required|integer|exists:applications,id',
-            'code' => 'required|string|exists:applications,temp_code',
-            'evidence' => 'mimes:jpeg,jpg,png,gif|required',
-            'currency' => 'required|in:Dollar,Peso',
-            'patId' => 'required|integer|exists:patients,id',
-            'paymentMethod' => 'required|string|exists:payment_methods,code'
-          ]
+                'amount' => 'required|numeric',
+                'id' => 'required|integer|exists:applications,id',
+                'code' => 'required|string|exists:applications,temp_code',
+                'evidence' => 'mimes:jpeg,jpg,png,gif|required',
+                'currency' => 'required|in:Dollar,Peso',
+                'patId' => 'required|integer|exists:patients,id',
+                'paymentMethod' => 'required|string|exists:payment_methods,code'
+            ]
         );
 
         if ($validator->fails()) {
@@ -283,13 +283,13 @@ class PaymentController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }
-
         $itsSame = Application::with('treatment')->find($request->id);
         $patient = Patient::find($request->patId);
         $coor = getCoordinator($request->id);
-
+        
         $brand = Brand::find($itsSame->treatment->brand_id);
-  
+        
+        
         if($request->code != $itsSame->temp_code || $request->patId != $itsSame->patient_id )
         {
             return response()->json(
@@ -319,15 +319,17 @@ class PaymentController extends Controller
         }
         $paymentMethod = PaymentMethod::where('code', $request->paymentMethod)->first();
         $payment = New Payment;
-
         $data = [
             'coordinator' => $coor[0],
             'app_id' => $itsSame->id,
             "patient" => $patient,
             "brand" => $brand,
         ];
+        $acrom = strtolower($brand->acronym);
+        $elang = $patient->lang;
+        
 
-        $pdf = PDF::loadView('staff.pdfs.staff.es.importantInfo', ["data" => $data]);
+        $pdf = PDF::loadView("staff.pdfs.staff.{$elang}.{$acrom}.importantInfo", ["data" => $data]);
         $destinationPath = storage_path('app/public').'/pdfs';
         File::exists($destinationPath) or File::makeDirectory($destinationPath, 0777, true);
         $filePath = "{$destinationPath}/{$request->patId}-Important Document.pdf";

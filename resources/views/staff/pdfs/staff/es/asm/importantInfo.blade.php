@@ -106,6 +106,7 @@
                     <li>
                         <b>Tamaño de viaje</b>:
                         <ul>
+                            <li>Gas X Chewables (Permitido tomar 24 horas POST cirugía.)</li>
                             <li>Pasta de dientes/cepillo de dientes</li>
                             <li>Acondicionador,</li>
                             <li>Lavado corporal</li>

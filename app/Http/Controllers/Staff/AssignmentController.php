@@ -270,7 +270,7 @@ class AssignmentController extends Controller
                    'service' => ($lang = 'es') ? $assig->service->service_es:$assig->service->service_en,
                ]
            );
-       } else {
+        } else {
            return response()->json(
                [
                    'icon' => 'error',
