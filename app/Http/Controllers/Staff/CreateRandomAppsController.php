@@ -50,8 +50,10 @@ class CreateRandomAppsController extends Controller
             //return $treatment;
             $patient = $this->createPatient();
             $need_images = $this->needImages($treatment->service_id);
-            return $storageApps = $this->createApp($patient, $need_images, $treatment);
+            $storageApps = $this->createApp($patient, $need_images, $treatment);
             sleep(90);
+
+            echo $storageApps;
         }
 
         
@@ -382,10 +384,7 @@ class CreateRandomAppsController extends Controller
             );
         }
 
-        return response()->json([
-            'success' => true,
-            'terminado' => true,
-        ]);
+        return 'terminando....';
 
     }
 
