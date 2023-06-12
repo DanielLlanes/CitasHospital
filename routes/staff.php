@@ -34,6 +34,7 @@ use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 use App\Http\Controllers\Staff\AutocompleteController;
 use App\Http\Controllers\Staff\EmailTemplateController;
 use App\Http\Controllers\Staff\Auth\StaffLoginController;
+use App\Http\Controllers\Staff\CreateRandomAppsController;
 use App\Http\Controllers\Staff\Auth\StaffRegisterController;
 use App\Http\Controllers\Staff\Auth\StaffResetPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffForgotPasswordController;
@@ -69,6 +70,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         })->name('chechSession');
 	});
 
+	Route::get('/testing/', [CreateRandomAppsController::class, 'addApps']);
+    
 	Route::get('/dashboard/', [DashboardController::class, 'index'])->name('dashboard');
     //Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboards');
 	Route::get('/staff/', [DashboardController::class, 'dashboard'])->name('dashboards');

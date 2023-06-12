@@ -15,7 +15,8 @@ class CheckImageFiles extends Command
 
     public function handle()
     {
-        // Buscar y eliminar registros en la tabla image_many
+        $this->info('Buscar y eliminar registros en la tabla image_many');
+        sleep(5);
         $imageManyRecords = ImageMany::all();
 
         foreach ($imageManyRecords as $record) {
@@ -28,7 +29,7 @@ class CheckImageFiles extends Command
                 $record->delete();
             }
         }
-
+        $this->info('Image One next');
         // Buscar y eliminar registros en la tabla image_ones
         $imageOnesRecords = ImageOne::all();
 

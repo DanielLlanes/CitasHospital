@@ -344,6 +344,7 @@
 
                                          </div>
                                     </div>
+                                    
                                     @if (count($appInfo->imageMany) > 0)
                                         Área de imágenes
                                         <div class="row" id="imageRow">

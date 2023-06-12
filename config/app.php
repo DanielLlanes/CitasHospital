@@ -2,6 +2,8 @@
 
 return [
 
+    'isProdTest' => env('APP_ISPRODTEST'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
