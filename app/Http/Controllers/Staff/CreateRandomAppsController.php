@@ -93,8 +93,8 @@ class CreateRandomAppsController extends Controller
             })
             ->orderBy('last_assignment', 'asc')
             ->first();
-            $staff->last_assignment = Carbon::now();
-            $staff->save();
+            $emailPatient->last_assignment = Carbon::now();
+            $emailPatient->save();
             return $emailPatient;
         $patient = Patient::where('email', $emailPatient->email)->first();
         
