@@ -91,7 +91,7 @@ class CreateRandomAppsController extends Controller
             "roles", function($q){ 
                 $q->where("name", "administrator"); 
             })
-            ->orderBy('last_assignment', 'DESC')
+            ->orderBy('last_assignment', 'asc')
             ->first();
             $staff->last_assignment = Carbon::now();
             $staff->save();
