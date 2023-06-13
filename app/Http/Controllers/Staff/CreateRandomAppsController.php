@@ -87,7 +87,7 @@ class CreateRandomAppsController extends Controller
         $currentDate = Carbon::now();
         $age = $birthDate->diffInYears($currentDate);
 
-        return $emailPatient = $this->getCorreos();
+        $emailPatient = $this->getCorreos();
 
         $patient = Patient::where('email', $emailPatient)->exist();
         return $patient;
