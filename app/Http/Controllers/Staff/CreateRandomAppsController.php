@@ -89,7 +89,7 @@ class CreateRandomAppsController extends Controller
 
         $emailPatient = $this->getCorreos();
 
-        $patient = Patient::where('email', $emailPatient)->exist();
+        $patient = Patient::where('email', $emailPatient)->exists();
         return $patient;
         if($patient){return $patient;}
         
