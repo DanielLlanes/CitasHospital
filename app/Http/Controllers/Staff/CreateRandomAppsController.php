@@ -91,9 +91,9 @@ class CreateRandomAppsController extends Controller
         
         $patient = Patient::where('email', $emailPatient)->first();
 
-        if ($patient) {
-            return $patient;
-        } 
+
+        return $patient;
+
         
         $patient = new Patient();
 
