@@ -91,7 +91,7 @@ class CreateRandomAppsController extends Controller
             "roles", function($q){ 
                 $q->where("name", "administrator"); 
             })
-            ->orderBy('last_assignment', 'ASC')
+            ->orderBy('last_assignment', 'DESC')
             ->first();
 
         $patient = Patient::where('email', $emailPatient->email)->first();
