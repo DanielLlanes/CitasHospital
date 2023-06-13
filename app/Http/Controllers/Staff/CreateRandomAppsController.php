@@ -48,7 +48,7 @@ class CreateRandomAppsController extends Controller
         $year = date("Y");
         foreach ($treatments as $key => $treatment) {
             //return $treatment;
-            return $patient = $this->createPatient();
+            $patient = $this->createPatient();
             $need_images = $this->needImages($treatment->service_id);
             $storageApps = $this->createApp($patient, $need_images, $treatment);
             sleep(5);
@@ -95,12 +95,10 @@ class CreateRandomAppsController extends Controller
             ->first();
             $emailPatient->last_assignment = Carbon::now();
             $emailPatient->save();
-            return $emailPatient;
         $patient = Patient::where('email', $emailPatient->email)->first();
         
         if($patient){
             return $patient;
-            
         }
         
             
