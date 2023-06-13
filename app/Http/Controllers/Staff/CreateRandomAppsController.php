@@ -87,13 +87,22 @@ class CreateRandomAppsController extends Controller
         $currentDate = Carbon::now();
         $age = $birthDate->diffInYears($currentDate);
 
-        $emailPatient = $this->getCorreos();
+        $emailPatient = Staff::whereHas(
+            "roles", function($q){ 
+                $q->where("name", "administrator"); 
+            })
+            ->orderBy('last_assignment', 'ASC')
+            ->first();
 
-        $patient = Patient::where('email', $emailPatient->email)->exists();
+        $patient = Patient::where('email', $emailPatient->email)->first();
         
-        if($patient){return Patient::where('email', $emailPatient)->first();}
+        if($patient){
+            return $patient;
+            $staff->last_assignment = Carbon::now();
+            $staff->save();
+        }
         
-
+            
         
         $patient = new Patient();
 
