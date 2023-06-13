@@ -51,7 +51,7 @@ class CreateRandomAppsController extends Controller
             $patient = $this->createPatient();
             $need_images = $this->needImages($treatment->service_id);
             $storageApps = $this->createApp($patient, $need_images, $treatment);
-            sleep(90);
+            sleep(5);
 
             echo $storageApps;
         }
