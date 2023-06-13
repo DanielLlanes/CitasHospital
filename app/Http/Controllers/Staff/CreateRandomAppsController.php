@@ -107,7 +107,7 @@ class CreateRandomAppsController extends Controller
             $patient->dob = $randomDateOfBirth;
             $patient->phone = $faker->phoneNumber;
             $patient->mobile = $faker->phoneNumber;
-            $patient->email = $this->getCorreos()->email;
+            $patient->email = $emailPatient->email;
             $patient->address = $faker->streetAddress;
             $patient->pais = $faker->country;
             $patient->estado = $faker->state;
