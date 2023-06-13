@@ -40,6 +40,7 @@
 
                                 <hr>
                                 <p style="margin: 0;padding: 0;">{{ ucfirst($role = $coordinator->roles[0]->name_es ) }} de {{ strtoupper($treatment->service->brand->acronym) }} 
+                                <p style="margin: 0;padding: 0;"></b>{{ $coordinator->name }}</b></p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Horario de atención:</p>
                                 <p style="margin: 0;padding: 0;">Lun-Vie 9am-5pm</p>

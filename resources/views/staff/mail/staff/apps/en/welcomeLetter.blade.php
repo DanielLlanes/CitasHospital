@@ -43,6 +43,7 @@
                                 <p>Warm Regards,</p>
                                 <hr>
                                 <p style="margin: 0;padding: 0;">{{ strtoupper($treatment->service->brand->acronym) }} {{ ucfirst($role = $coordinator->roles[0]->name_en ) }}</p>
+                                <p style="margin: 0;padding: 0;"></b>{{ $coordinator->name }}</b></p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Business Hours:</p>
                                 <p style="margin: 0;padding: 0;">Mon-Fri 9am-5pm</p>

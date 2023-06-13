@@ -52,7 +52,7 @@ class CreateRandomAppsController extends Controller
             $need_images = $this->needImages($treatment->service_id);
             $storageApps = $this->createApp($patient, $need_images, $treatment);
             sleep(5);
-
+            return 'listo';
             echo $storageApps;
         }
 
@@ -246,6 +246,7 @@ class CreateRandomAppsController extends Controller
 
         // }
         //$treatment->merge(['service', $treatment->service_id]);
+
         $treatment->service = $treatment->service_id;
         $getStaffEmails = getStaffEmails($treatment);
         
@@ -333,7 +334,11 @@ class CreateRandomAppsController extends Controller
             //     "subject" => $newMessage,
             // ]);
         }
-
+        // return response()->json([
+        //     'patient' => $patient, 
+        //     'tratami' => $treatment, 
+        //     'staff' => $assignment_staff
+        // ]);
         
         Mail::send(new WelcomeLetterEmail($patient, $treatment, $assignment_staff));
         // if (count($other_staff) > 0) {
