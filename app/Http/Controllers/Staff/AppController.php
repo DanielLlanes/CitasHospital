@@ -1263,6 +1263,7 @@ class AppController extends Controller
             $app = $this->getApplications($request->app);
 
             $coor = getCoordinator($request->app);
+
             $exist = false;
             if ($app->treatment->procedure->has_package == 1) {
                 $exist = Treatment::where("procedure_id", $request->id)
