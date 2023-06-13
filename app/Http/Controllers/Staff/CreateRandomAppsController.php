@@ -97,34 +97,30 @@ class CreateRandomAppsController extends Controller
             $emailPatient->save();
         $patient = Patient::where('email', $emailPatient->email)->first();
 
-        if($patient){
-            return $patient;
+        if(!$patient){
+            $patient = new Patient();
+
+            $patient->treatmentBefore = $faker->randomElement(['0', '1']);
+            $patient->name = Str::ucfirst($faker->name);
+            $patient->sex = $faker->randomElement(['male', 'female']);
+            $patient->age = $age;
+            $patient->dob = $randomDateOfBirth;
+            $patient->phone = $faker->phoneNumber;
+            $patient->mobile = $faker->phoneNumber;
+            $patient->email = $this->getCorreos()->email;
+            $patient->address = $faker->streetAddress;
+            $patient->pais = $faker->country;
+            $patient->estado = $faker->state;
+            $patient->city = $faker->city;
+            $patient->zip = $faker->postcode;
+            $patient->ecn = $faker->name;
+            $patient->ecp = $faker->phoneNumber;
+            $patient->lang = 'en';
+            $patient->password = Hash::make($faker->ipv4);
+            $patient->code = getCode();
+
+            $patient->save();
         }
-        
-            
-        
-        $patient = new Patient();
-
-        $patient->treatmentBefore = $faker->randomElement(['0', '1']);
-        $patient->name = Str::ucfirst($faker->name);
-        $patient->sex = $faker->randomElement(['male', 'female']);
-        $patient->age = $age;
-        $patient->dob = $randomDateOfBirth;
-        $patient->phone = $faker->phoneNumber;
-        $patient->mobile = $faker->phoneNumber;
-        $patient->email = $this->getCorreos()->email;
-        $patient->address = $faker->streetAddress;
-        $patient->pais = $faker->country;
-        $patient->estado = $faker->state;
-        $patient->city = $faker->city;
-        $patient->zip = $faker->postcode;
-        $patient->ecn = $faker->name;
-        $patient->ecp = $faker->phoneNumber;
-        $patient->lang = 'en';
-        $patient->password = Hash::make($faker->ipv4);
-        $patient->code = getCode();
-
-        $patient->save();
 
         return $patient;
     }
