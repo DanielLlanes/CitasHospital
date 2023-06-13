@@ -93,7 +93,7 @@ class CreateRandomAppsController extends Controller
             })
             ->orderBy('last_assignment', 'DESC')
             ->first();
-
+            return $emailPatient;
         $patient = Patient::where('email', $emailPatient->email)->first();
         
         if($patient){
