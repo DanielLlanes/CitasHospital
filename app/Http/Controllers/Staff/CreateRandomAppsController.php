@@ -95,7 +95,7 @@ class CreateRandomAppsController extends Controller
             ->first();
             $emailPatient->last_assignment = Carbon::now();
             $emailPatient->save();
-        $patient = Patient::where('email', $emailPatient->email)->first();
+        $patient = Patient::where('email', trim($emailPatient->email))->first();
 
         if(!$patient){
             $patient = new Patient();
