@@ -52,7 +52,7 @@ class CreateRandomAppsController extends Controller
             $need_images = $this->needImages($treatment->service_id);
             $storageApps = $this->createApp($patient, $need_images, $treatment);
             sleep(5);
-            return 'listo';
+            
             echo $storageApps;
         }
 
