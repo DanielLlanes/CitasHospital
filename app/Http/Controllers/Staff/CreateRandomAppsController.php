@@ -88,9 +88,9 @@ class CreateRandomAppsController extends Controller
         $age = $birthDate->diffInYears($currentDate);
 
         $emailPatient = $this->getCorreos()->email;
-        return $emailPatient;
-        $patient = Patient::where('email', $emailPatient)->first();
 
+        $patient = Patient::where('email', $emailPatient)->first();
+        return $patient;
         if($patient){return $patient;}
         
 
