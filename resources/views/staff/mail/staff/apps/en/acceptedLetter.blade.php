@@ -50,63 +50,53 @@
                                     <br>
                                     <p>Please take a minute to watch our step by step guide <a href="https://jlpradosc.com/step-by-step">step-by-step</a> </p>
                                 @endif
-                                <p>To reserve your surgery date, we require a 10% deposit. Which in this case is ${{ $downPayment }} out of ${{ $price }}. Once you have made this deposit, please send a photo of the receipt to your coordinator to start the programming process.</p>
-
-                                <p>Everyone at <b>J.L.Prado Surgical Center</b>, we pride ourselves on providing the best care possible, and taking care of your health and well-being is our top priority. We want you to feel comfortable and secure throughout the entire process, which is why we have prepared several payment options for your convenience:</p>
-                                <br>
-                                <p>Bank transfer to our account.</p>
-                                <p>Direct deposit to our account.</p>
-                                <p>Cash payment.</p>
-                                <p>Payment by credit card (a commission of 3.9% will be applied to cover processing costs). Please note that the card must be in the patient's name.</p>
-                                <p>Certified check or cashier's check payable to: JLPRADO & ASSOCIATES, INC.</p>
-                                <p>Below you will find our bank account details:</p>
-                                <br>
-                                <p>Bank account number:
-                                <p>JL Prado & Associates Inc. US Bank
-                                <p>Routing Number 122235821 Account Number 157522243953 Swift Code USBKUS44IMT 9543
-                                <p>Heinrich Hertz Suite 4 San Diego, CA 92154
-                                <p>BANK OF THE UNITED STATES</p>
-                                <p>399 H St. Chula Vista Ca</p>
-                                <br>
-                                <p>We understand that making a payment is an important decision, so we have established a flexible plan so that you can cover the cost of surgery:</p>
-                                <p>Online payments are not accepted FSA cards are not accepted</p>
-                                <br>
-                                <p>It is required to cover 35% of the package two weeks before the scheduled date of surgery.</p>
-                                <p>The remaining balance (65%) can be paid before the surgery date (1 week before if bank transfer is made).</p>
-                                <p>You can make additional payments in advance to complete the total balance before surgery.</p>
-                                <p>On the day of your arrival, you can settle the balance in cash or with a certified check/cashier's check.</p>
-                                <p>We want to ensure your satisfaction and provide you with exceptional service. For this reason, we have also established a clear cancellation policy</p>
-                                <br>
-                                <b>CANCELLATION POLICY</b>
-                                <p>You have 24 hours to cancel after deposit is made in order to receive a full
-                                    refund</p>
-                                <br>
-                                <p>If a patient cancels surgery once at <b>J.L.Prado Surgical Center</b> due to personal and
-                                    not medical reasons, the amount paid for surgery will be forfeited to cover the cost of
-                                    services rendered as well as the canceled cost of the surgery.</p>
-                                <p>Cancelled Cost: is the lost revenue from cancellations. It is not in uenced by your
-                                    cancellation policy, it simply shows the total potential revenue you could have generated
-                                    without the cancellations.</p>
-                                <br>
-
-                                <p>- If surgery is cancelled due to not following the diet or pre surgical indications the
-                                    money paid for surgery will not be refunded.</p>
-                                <p>- If surgery is canceled due to a health problem during pre op evaluation, $1200 dlls
-                                    will be deducted to cover medical expenses and the rest will be reimbursed to the
-                                    patient.</p>
-                                <p>- If surgery I canceled whithin two weeks prior surgery date, you will not be refunded.</p>
-                                <br>
-
-                                <b>RESCHEDULE POLICY</b>
-
-                               <p> Reschedule must be made 3 weeks prior surgery date in order to not lose initial deposit
-                                (10% cost of surgery).</p>
-                                <p>One time reschedule only, a second reschedule, patient will lose initial deposit and will
-                                    have to start the process all over including initial deposit.</p>
-                                <p>We strive to o er the best care possible and our patient’s health and well- being is our
-                                top priority.</p>
-                                <p>If you have any questions or are in need of assistance, please feel free to contact me.
-                                Have a wonderful and blessed day and I hope to hear from you soon.</p>
+                                <p>
+                                    DEPOSIT AND BOOKING INFORMATION.<br>
+                                    This are the options we offer to make your deposit/payment - Wire transfer to our account:<br>
+                                    - Direct deposit to our account<br>
+                                    - Cash<br>
+                                    - Credit card (3.9% fee for processing card)<br>
+                                    NOTE: Card must be under patient's name<br>
+                                    - Certified check or cashier's check made out to: JL Prado & Associates, Inc.
+                                </p>
+                                
+                                <p>
+                                    BALANCE PAYMENT<br>
+                                    You can pay your balance with cash, card, wire transfer, cashier's check to: JLPRADO & ASSOCIATES, INC.<br>
+                                    * balance can be paid in advance or the day of arrival, it must be paid before starting pre-op evaluation.<br>
+                                    Bank name: FIRST BANK<br>
+                                    JL Prado & Associates, inc.<br>
+                                    ACCOUNT: 1048742079<br>
+                                    ROUTING: 081009428<br>
+                                    2494 Roll Dr<br>
+                                    San Diego, Ca 92154<br>
+                                    ** NO ONLINE PAYMENTS**<br>
+                                    ** NO FSA CARDS**
+                                </p>
+                                
+                                <p>
+                                    • A 35% of the package must be covered two weeks prior to surgery.<br>
+                                    • The remaining balance (65%) can be paid before your surgery date (1 week prior if wired)<br>
+                                    • You can make as many payments in advance as you like, completing the total balance "before surgery"<br>
+                                    • You can pay off your balance the day of your arrival in cash or certified/cashier's check or credit card (3.9% service fee)
+                                </p>
+                                
+                                <p>
+                                    CANCELLATION POLICY<br>
+                                    ** 10% deposit is non-refundable **<br>
+                                    ** If a patient cancels surgery once at J.L.Prado Surgical Center due to personal and not medical reasons, the amount paid for surgery will be forfeited to cover the cost of services rendered as well as the canceled cost of the surgery.<br>
+                                    Cancelled Cost: is the lost revenue from cancellations. It is not influenced by your cancellation policy, it simply shows the total potential revenue you could have generated without the cancellations.<br>
+                                    - If surgery is cancelled due to not following the diet or pre-surgical indications, the money paid for surgery will not be refunded.<br>
+                                    - If surgery is canceled due to a health problem during pre-op evaluation, $1200 dlls will be deducted to cover medical expenses and the rest will be reimbursed to the patient.<br>
+                                    - If surgery is canceled within two weeks prior surgery date, you will not be refunded.
+                                </p>
+                                
+                                <p>
+                                    RESCHEDULE POLICY<br>
+                                    Reschedule must be made 3 weeks prior surgery date in order for your initial deposit to be valid, otherwise you will have to pay an initial deposit to schedule a new date.<br>
+                                    One-time reschedule only, a second reschedule, the patient will have to start the process all over including initial deposit.
+                                </p>
+                                
                                 <br>
                                 <p>Warm Regards,</p>
                                 <hr>

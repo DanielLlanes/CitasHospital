@@ -51,59 +51,53 @@
 
                                  <p>En <b>J.L.Prado Surgical Center</b>, nos enorgullecemos de brindar la mejor atención posible, y cuidar su salud y bienestar es nuestra principal prioridad. Queremos que te sientas cómodo y seguro durante todo el proceso, por eso hemos preparado varias opciones de pago para tu comodidad:</p>
                                  <br>
-                                 <p>Transferencia bancaria a nuestra cuenta.</p>
-                                 <p>Depósito directo a nuestra cuenta.</p>
-                                 <p>Pago en efectivo.</p>
-                                 <p>Pago con tarjeta de crédito (se aplicará una comisión del 3,9% para cubrir los gastos de tramitación). Tenga en cuenta que la tarjeta debe estar a nombre del paciente.</p>
-                                 <p>Cheque certificado o cheque de caja a nombre de: JLPRADO & ASSOCIATES, INC.</p>
-                                 <p>A continuación encontrará los datos de nuestra cuenta bancaria:</p>
-                                 <br>
-                                 <p>Número de cuenta bancaria:
-                                 <p>JL Prado & Associates Inc. Banco de EE. UU.
-                                 <p>Número de ruta 122235821 Número de cuenta 157522243953 Código Swift USBKUS44IMT 9543
-                                 <p>Suite Heinrich Hertz 4 San Diego, CA 92154
-                                 <p>BANCO DE LOS ESTADOS UNIDOS</p>
-                                 <p>399 H St. Chula Vista California</p>
-                                 <br>
-                                 <p>Entendemos que realizar un pago es una decisión importante, por lo que hemos establecido un plan flexible para que puedas cubrir el costo de la cirugía:</p>
-                                 <p>No se aceptan pagos en línea No se aceptan tarjetas FSA</p>
-                                 <br>
-                                 <p>Se requiere cubrir el 35% del paquete dos semanas antes de la fecha programada de la cirugía.</p>
-                                 <p>El saldo restante (65%) se puede pagar antes de la fecha de la cirugía (1 semana antes si se realiza transferencia bancaria).</p>
-                                 <p>Puede realizar pagos adicionales por adelantado para completar el saldo total antes de la cirugía.</p>
-                                 <p>El día de su llegada, puede liquidar el saldo en efectivo o con un cheque certificado/cheque de caja.</p>
-                                 <p>Queremos asegurar su satisfacción y brindarle un servicio excepcional. Por este motivo, también hemos establecido una política de cancelación clara</p>
-                                 <br>
-                                 <b>POLÍTICA DE CANCELACIÓN</b>
-                                 <p>Tiene 24 horas para cancelar después de realizar el depósito para recibir un pago completo
-                                     reembolso</p>
-                                 <br>
-                                 <p>Si un paciente cancela una vez la cirugía en <b>Centro Quirúrgico J.L.Prado</b> por motivos personales y
-                                     razones no médicas, el monto pagado por la cirugía se perderá para cubrir el costo de
-                                     servicios prestados, así como el costo cancelado de la cirugía.</p>
-                                 <p>Coste cancelado: es la pérdida de ingresos por cancelaciones. No está influenciado por su
-                                     política de cancelación, simplemente muestra los ingresos potenciales totales que podría haber generado
-                                     sin las cancelaciones.</p>
-                                 <br>
-
-                                 <p>- Si se cancela la cirugía por no seguir la dieta o indicaciones prequirúrgicas la
-                                     el dinero pagado por la cirugía no será reembolsado.</p>
-                                 <p>- Si la cirugía se cancela por un problema de salud durante la evaluación preoperatoria, $1200 dlls
-                                     se deducirá para cubrir los gastos médicos y el resto se reembolsará al
-                                     paciente.</p>
-                                 <p>- Si cancelé la cirugía dentro de las dos semanas anteriores a la fecha de la cirugía, no se le reembolsará.</p>
-                                 <br>
-
-                                 <b>POLÍTICA DE REPROGRAMACIÓN</b>
-
-                                <p> La reprogramación debe hacerse 3 semanas antes de la fecha de la cirugía para no perder el depósito inicial
-                                 (10% costo de la cirugía).</p>
-                                 <p>Solo en una reprogramación, una segunda reprogramación, el paciente perderá el depósito inicial y
-                                     tiene que comenzar todo el proceso, incluido el depósito inicial.</p>
-                                 <p>Nos esforzamos por ofrecer la mejor atención posible y la salud y el bienestar de nuestros pacientes es nuestro
-                                 máxima prioridad.</p>
-                                 <p>Si tiene alguna pregunta o necesita ayuda, no dude en ponerse en contacto conmigo.
-                                 Que tenga un maravilloso y bendecido día y espero tener noticias suyas pronto.</p>
+                                 <p>
+                                    INFORMACIÓN DE DEPÓSITO Y RESERVAS.<br>
+                                    Estas son las opciones que ofrecemos para realizar su depósito/pago:<br>
+                                    - Transferencia bancaria a nuestra cuenta<br>
+                                    - Depósito directo a nuestra cuenta<br>
+                                    - Efectivo<br>
+                                    - Tarjeta de crédito (tarifa del 3.9% por procesamiento de la tarjeta)<br>
+                                    NOTA: La tarjeta debe estar a nombre del paciente<br>
+                                    - Cheque certificado o cheque de caja a nombre de: JL Prado & Associates, Inc.
+                                </p>
+                                
+                                <p>
+                                    PAGO DEL SALDO<br>
+                                    Puede pagar el saldo en efectivo, tarjeta, transferencia bancaria, cheque de caja a: JLPRADO & ASSOCIATES, INC.<br>
+                                    * El saldo puede pagarse por adelantado o el día de llegada, debe pagarse antes de iniciar la evaluación preoperatoria.<br>
+                                    Nombre del banco: FIRST BANK<br>
+                                    JL Prado & Associates, inc.<br>
+                                    CUENTA: 1048742079<br>
+                                    RUTA: 081009428<br>
+                                    2494 Roll Dr<br>
+                                    San Diego, Ca 92154<br>
+                                    ** NO SE ACEPTAN PAGOS EN LÍNEA**<br>
+                                    ** NO SE ACEPTAN TARJETAS FSA (Cuentas de gastos flexibles)**
+                                </p>
+                                
+                                <p>
+                                    • El 35% del paquete debe cubrirse dos semanas antes de la cirugía.<br>
+                                    • El saldo restante (65%) puede pagarse antes de la fecha de la cirugía (1 semana antes si es por transferencia bancaria)<br>
+                                    • Puede realizar tantos pagos anticipados como desee, completando el saldo total "antes de la cirugía"<br>
+                                    • Puede pagar el saldo el día de su llegada en efectivo, cheque certificado/cheque de caja o tarjeta de crédito (con una tarifa de servicio del 3.9%)
+                                </p>
+                                
+                                <p>
+                                    POLÍTICA DE CANCELACIÓN<br>
+                                    ** El 10% del depósito no es reembolsable **<br>
+                                    ** Si un paciente cancela la cirugía una vez en J.L.Prado Surgical Center por razones personales y no médicas, el monto pagado por la cirugía se perderá para cubrir el costo de los servicios prestados, así como el costo cancelado de la cirugía.<br>
+                                    Costo cancelado: es la pérdida de ingresos por cancelaciones. No está influenciado por su política de cancelación, simplemente muestra los ingresos potenciales totales que podría haber generado sin las cancelaciones.<br>
+                                    - Si se cancela la cirugía debido a no seguir la dieta o las indicaciones prequirúrgicas, el dinero pagado por la cirugía no será reembolsado.<br>
+                                    - Si se cancela la cirugía debido a un problema de salud durante la evaluación preoperatoria, se deducirán $1200 dólares para cubrir gastos médicos y el resto se reembolsará al paciente.<br>
+                                    - Si se cancela la cirugía dentro de las dos semanas previas a la fecha de la cirugía, no se realizará ningún reembolso.
+                                </p>
+                                
+                                <p>
+                                    POLÍTICA DE CAMBIO DE FECHA<br>
+                                    El cambio de fecha debe hacerse 3 semanas antes de la fecha de la cirugía para que su depósito inicial sea válido, de lo contrario, deberá realizar un depósito inicial para programar una nueva fecha.<br>
+                                    Solo se permite cambiar la fecha una vez, en caso de un segundo cambio de fecha, el paciente deberá comenzar el proceso nuevamente, incluido el depósito inicial.
+                                </p>
                                  <br>
                                  <p>Un cordial saludo,</p>
                                 <br>
