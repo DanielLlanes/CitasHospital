@@ -50,6 +50,17 @@
                                     <br>
                                     <p>Please take a minute to watch our step by step guide <a href="https://jlpradosc.com/step-by-step">step-by-step</a> </p>
                                 @endif
+                                <br>
+
+                                <p>To schedule your surgery, a 10% deposit is required to lock in your surgery date, which
+                                    in this case is ${{ $downPayment }} to ${{ $price }}. Once you have made this deposit, please
+                                    take a picture of the deposit slip and send it to your coordinator to begin the schedule
+                                    process.</p>
+                                <br>
+
+                                <p> Everyone at J.L.Prado Surgical Center wants to congratulate you and together we will
+                                    open this new chapter in your life. </p>
+
                                 <p>
                                     DEPOSIT AND BOOKING INFORMATION.<br>
                                     This are the options we offer to make your deposit/payment - Wire transfer to our account:<br>
@@ -100,8 +111,8 @@
                                 <br>
                                 <p>Warm Regards,</p>
                                 <hr>
-                                <p style="margin: 0;padding: 0;"><b>{{ strtoupper($brand->acronym) }}</b></p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->name }}</p>
+                                <p style="margin: 0;padding: 0;"><b>{{ strtoupper($brand->acronym) }}</b> Coordinator</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->email }}</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Business Hours:</p>

@@ -101,8 +101,8 @@
                                  <br>
                                  <p>Un cordial saludo,</p>
                                 <br>
-                                <p style="margin: 0;padding: 0;"><b>{{ strtoupper($brand->acronym) }}</b></p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->name }}</p>
+                                <p style="margin: 0;padding: 0;"><b>{{ strtoupper($brand->acronym) }}</b> Cordinador</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->email }}</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Business Hours:</p>
