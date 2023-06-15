@@ -207,7 +207,7 @@ class AppController extends Controller
                                     },
                                     'assignments' => function ($q) use ($lang) {
                                         
-                                        $q->wherePivot('assAs', 10);
+                                        $q->wherePivot('ass_as', 10);
                                     }
                                 ]
                             );
@@ -1305,6 +1305,8 @@ class AppController extends Controller
     }
     public Function aceptedApp($app, $request, $coor, $exist)
     {
+
+
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $statusx = 5;

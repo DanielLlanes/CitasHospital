@@ -1517,7 +1517,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" action="{{ $statusOptions[0]['id'] }}" codigo="{{ $statusOptions[0]['code'] }}" id="confirm-status-accepted-button">Change</button>
+                <button type="button" class="btn btn-primary" action="{{ $statusOptions[0]['id'] }}" codigo="{{ $statusOptions[0]['code'] }}" id="confirm-status-accepted-button">
+                    Change 
+                    <div class="spinner-border text-warning d-none btn-status-acept" role="status" style="width: 1rem; height: 1rem">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                </button>
             </div>
         </div>
     </div>
@@ -2803,10 +2808,16 @@
                 beforeSend: function()
                 {
                     $('.errors').remove();
+                    $('.btn-status-acept').removeClass('d-none')
+                    return
                 },
                 success:function(response)
                 {
                 console.log("response", response);
+
+                    if (!response.success) {
+                        $('.btn-status-acept').addClass('d-none');
+                    }
 
                     if (response.success) {
                         $("#recommended-procedure-span").html('')

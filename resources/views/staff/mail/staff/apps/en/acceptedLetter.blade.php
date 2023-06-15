@@ -110,9 +110,9 @@
                                 
                                 <br>
                                 <p>Warm Regards,</p>
-                                <hr>
+                                <br>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->name }}</p>
-                                <p style="margin: 0;padding: 0;"><b>{{ strtoupper($brand->acronym) }}</b> Coordinator</p>
+                                <p style="margin: 0;padding: 0;">{{ strtoupper($brand->acronym) }} Coordinator</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->email }}</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Business Hours:</p>
