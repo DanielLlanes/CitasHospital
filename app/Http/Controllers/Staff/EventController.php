@@ -37,6 +37,8 @@ class EventController extends Controller
     }
     public function index()
     {
+
+        
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
 
@@ -81,7 +83,64 @@ class EventController extends Controller
         )
         ->get();
 
-        // return($events);
+        $allEvents = [];
+        $singleEvent = [];
+        $extendedProps = [];
+
+        for ($i = 0; $i < count($events); $i++)
+        {
+
+            $singleEvent['id'] = $events[$i]->id;
+
+            if (!is_null($events[$i]->statusOne)) {
+                $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
+                $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
+            } else {
+                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
+                $singleEvent['borderColor'] = $events[$i]->staff->color;
+            }
+
+
+
+            $isappx = (!is_null($events[$i]->is_application) ? $events[$i]->application->treatment->clave : $events[$i]->title);
+
+            $singleEvent['title'] = $events[$i]->title;
+            $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
+            $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
+            $singleEvent['allDay'] = false;
+            $extendedProps['staff'] = $events[$i]->staff->name;
+            $extendedProps['staff_id'] = $events[$i]->staff->id;
+            $extendedProps['patient'] = $events[$i]->patient->name;
+            $extendedProps['patient_id'] = $events[$i]->patient->id;
+            $extendedProps['notas'] = $events[$i]->note;
+            $extendedProps['email'] = $events[$i]->patient->email;
+            $extendedProps['lang'] = $events[$i]->patient->lang;
+            $extendedProps['phone'] = $events[$i]->patient->phone;
+            $extendedProps['startDate'] = $events[$i]->start_date;
+            $extendedProps['startTime'] = $events[$i]->start_time;
+            $extendedProps['endDate'] = $events[$i]->start_date;
+            $extendedProps['endTime'] = $events[$i]->end_time;
+
+            $extendedProps['status'] = (is_null($events[$i]->statusOne)? '0':$events[$i]->statusOne->status_id);
+
+            $extendedProps['isapp'] = (!is_null($events[$i]->is_application)? "si":'no');
+            $extendedProps['application_id'] = (!is_null($events[$i]->is_application)? $events[$i]->application_id : '0');
+            $extendedProps['application_brand'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->brand:'no');
+            $extendedProps['application_service'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->service->service:'no');
+            $extendedProps['application_procedure'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->procedure->procedure:'no');
+            
+            $data = 'no';
+
+            if (!is_null($events[$i]->is_application) && !is_null($events[$i]->application->treatment->package)) {
+                $data = $events[$i]->application->treatment->package->package;
+            }
+            $extendedProps['application_package'] = $data;
+            $extendedProps['formatedDate'] = $this->datesLangTrait($events[$i]->start_date, Auth::guard('staff')->user()->lang);
+
+            $singleEvent['extendedProps'] = $extendedProps;
+            $allEvents[] = $singleEvent;
+        }
+        //return response()->json($allEvents);
         return view('staff.events-manager.list', ['status' => $status]);
     }
 
@@ -127,9 +186,11 @@ class EventController extends Controller
             ]
         )
         ->get();
+
         $allEvents = [];
         $singleEvent = [];
         $extendedProps = [];
+
         for ($i = 0; $i < count($events); $i++)
         {
 
@@ -139,7 +200,7 @@ class EventController extends Controller
                 $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
                 $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
             } else {
-                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 650%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
+                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
                 $singleEvent['borderColor'] = $events[$i]->staff->color;
             }
 
@@ -171,7 +232,9 @@ class EventController extends Controller
             $extendedProps['application_brand'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->brand:'no');
             $extendedProps['application_service'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->service->service:'no');
             $extendedProps['application_procedure'] = (!is_null($events[$i]->is_application)? $events[$i]->application->treatment->procedure->procedure:'no');
+            
             $data = 'no';
+
             if (!is_null($events[$i]->is_application) && !is_null($events[$i]->application->treatment->package)) {
                 $data = $events[$i]->application->treatment->package->package;
             }
@@ -281,7 +344,7 @@ class EventController extends Controller
         $event->code = getCode();
         $event->application_id = $request->has('isApp') ? $request->app: null;
         $event->is_application = $request->has('isApp') ? $request->isApp: null;
-
+        
         if ($event->save()) {
             $staffData = Staff::findOrFail($request->staff_id);
             $dateD = $this->datesLangTrait ($event->start_date, $staffData->lang);
@@ -311,6 +374,7 @@ class EventController extends Controller
 
             if (!is_null($event->application_id) ) {
                 $app = Application::with('statusOne')->find($event->application_id);
+
                 $app->statusOne()->delete($app->statusOne->id);
                 $app->statusOne()->create(
                     [
@@ -320,6 +384,7 @@ class EventController extends Controller
                         'code' => getCode(),
                     ]
                 );
+
             }
 
 
