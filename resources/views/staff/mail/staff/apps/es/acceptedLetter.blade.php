@@ -9,7 +9,7 @@
                         <tr style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 Estimado/a <b>{{ $patient }}</b>,
-                                @if (  strtolower($treatment->service->brand->brand)  == 'a beautiful me')
+                                @if (  strtolower($brand->brand)  == 'a beautiful me')
                                 {{-- ABM --}}
                                     <p>¡Felicitaciones, ha sido aprobado para la cirugía plástica!</p>
 
@@ -34,7 +34,7 @@
                                             <li>{{ $item->contain_es }}</li>
                                         @endforeach
                                     </ul>
-                                @elseif ( strtolower($treatment->service->brand->brand) == 'a slimmer me')
+                                @elseif ( strtolower($brand->brand) == 'a slimmer me')
                                 {{-- ASM --}}
                                     <br>
                                     <p>¡Felicidades, ha sido aprobado para una Cirugía de {{ $procedure }}!, Su paquete incluye lo siguiente:</p>
