@@ -374,7 +374,7 @@
                                         </div>
 
                                        @foreach ($arrays as $value)
-                                        <div class="col-md-3 col-6 mb-2 b-r text-center">
+                                        <div class="col-lg-3 col-12 mb-2 b-r text-center mb-5 mb-lg-0">
                                             <strong>
                                                 {{ $value['specialty'] }}
                                             </strong>
