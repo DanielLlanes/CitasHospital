@@ -154,30 +154,26 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <select class="form-control input-height" name="country_id" id="country_id" country="{{ old('country_id') ?? $patient->country_id }}">
-                                    <option value="" disabled selected>@lang('Select...')</option>
-                                    @foreach ($countries as $country)
-                                        <option {{ $patient->country_id == $country->id ? 'selected' : '' }} value="{{ $country->id }}">{{ $country->name }}</option>
-                                    @endforeach
-                                </select>
+                                <input autocomplete="off" type="text" name="country" value="{{ old('country')  ?? $patient->country_id}}" data-required="1" placeholder="@lang('Enter country')" class="form-control input-height" />
                                 @error('country')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                         </div>
+
+    
                         <div class="form-group row">
                             <label class="control-label col-md-3">@lang('State')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <select class="form-control input-height"  name="state_id" id="state_id" state="{{ old('state_id') ?? $patient->state_id }}">
-                                    <option value="" disabled selected>@lang('Select...')</option>
-                                </select>
-                                @error('state')
+                                <input autocomplete="off" type="text" name="state_id" value="{{ old('state_id') ?? $patient->state_id }}" data-required="1" placeholder="@lang('Enter state')" class="form-control input-height" />
+                                @error('state_id')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
                         </div>
+
 
                         <div class="form-group row">
                             <label class="control-label col-md-3">@lang('City')
@@ -258,74 +254,4 @@
 
 @section('scripts')
     <script src="{{ asset('staffFiles/assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js') }}" ></script>
-    @section('scripts')
-    <script>
-        var globalRouteobtenerEstados = "{{ route('getStates') }}";
-        var globalRoutechekIfPatientExist = "{{ route('chekIfPatientExist') }}";
-    </script>
-
-    <script>
-        $(document).on('change', '#country_id', function(event) {
-            event.preventDefault();
-            getStates()
-        });
-        $(document).on('change', "input, select", function () {
-            $(this).parent().find('.invalid-feedback ').html('');
-        });
-
-        function getStates(state = null) {
-            var form_data = new FormData();
-            form_data.append('id', $( "#country_id option:selected" ).val());
-            $.ajax({
-                url: globalRouteobtenerEstados,
-                method:"POST",
-                data:form_data,
-                dataType:'JSON',
-                contentType: false,
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                processData: false,
-                beforeSend: function()
-                {
-                    $('#state_id').find('option').not(':first').remove();
-                    $('#state_id').val($("#state_id option:first").val());
-                },
-                success:function(data)
-                {
-                    $.each(data, function (i, v) {
-                        if (state !== null ) {
-                            if (state == v.id) {
-                                $('#state_id').append('<option selected value="'+v.id+'">'+v.name+'</option>');
-                            }
-                            $('#state_id').append('<option value="'+v.id+'">'+v.name+'</option>');
-                        } else {
-                            $('#state_id').append('<option value="'+v.id+'">'+v.name+'</option>');
-                            $('#state_id').val($("#state_id option:eq(1)").val());
-                        }
-
-                    });
-                },
-                complete: function()
-                {
-                },
-            })
-        }
-    </script>
-    @if (old('country_id') || !empty($patient ?? ''))
-    <script>
-        var country_id = $( "#country_id" ).attr('country');
-        $("#country_id option[value="+country_id+"]").attr("selected", true);
-        getStates()
-    </script>
-    @endif
-    @if (old('state_id') || !empty($patient ?? ''))
-    <script>
-        var state_id = $( "#state_id" ).attr('state');
-        getStates(state_id)
-    </script>
-    @endif
-@endsection
-
 @endsection

@@ -14,9 +14,11 @@
     foreach($appInfo->treatment->service->specialties as $object){$arrays[] = $object->toArray();}
     foreach($appInfo->assignments as $object){$arraysDos[] = $object->toArray();}
 
+
     for ($i = 0; $i < count($arrays); $i++) {
         unset($arrays[$i]['pivot']);
     }
+
     for ($i = 0; $i < count($arraysDos); $i++) {
         $arraysDos[$i]['ass'] = $arraysDos[$i]['pivot']['ass_as'];
         $arraysDos[$i]['staff_id'] = $arraysDos[$i]['id'];
@@ -24,9 +26,12 @@
         unset($arraysDos[$i]['specialties']);
     }
 
+
     $ass = array_column($arraysDos, 'name', 'ass');
     $otro = array_column($arraysDos, 'id', 'ass');
     $ass_as = array_column($arraysDos, 'ass', 'ass');
+
+    
 
     array_walk($arrays, function(&$staff) use ($ass, $otro, $ass_as) {
         $id = $staff['id'];
@@ -36,7 +41,7 @@
     });
 
 
-// echo '</pre>';
+
 @endphp
 <a href=""></a>
 <div class="page-bar">
@@ -1121,7 +1126,7 @@
                             <div class="tab-pane fontawesome-demo" id="debateChat">
                                 <div id="biography">
                                     <div class="row">
-                                        <div class="col-12 col-md-4">
+                                        <div class="col-12">
                                             <div class="card card-box">
                                                 <div class="card-head">
                                                     <h2 id="para1"></h2>
@@ -1149,7 +1154,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-8">
+                                        <div class="col-12">
                                             <div class="card card-box">
                                                 <div class="card-head">
                                                     <header>DEBATE</header>

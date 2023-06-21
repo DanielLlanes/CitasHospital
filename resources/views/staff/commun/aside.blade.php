@@ -83,18 +83,14 @@
                         <span class="title">@lang('Patients') </span> <span class="arrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        @can('patient.list')
                             <li class="nav-item  ">
                                 <a href="{{ route('staff.patients.patient') }}" class="nav-link "> <span class="title">@lang('All Patients') </span>
                                 </a>
                             </li>
-                        @endcan
-                        @can('patient.edit')
                             <li class="nav-item  ">
                                 <a href="{{ route('staff.patients.add') }}" class="nav-link "> <span class="title">@lang('Add Patient') </span>
                                 </a>
                             </li>
-                        @endcan
                     </ul>
                 </li>
 

@@ -143,8 +143,8 @@ class PatientController extends Controller
                 'mobile' => ['required', 'different:phone', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
                 'email' => 'required|max:255|email|unique:patients,email',
                 'address' => 'required',
-                'country_id' => 'required|integer',
-                'state_id' => 'required|integer',
+                'country_id' => 'required|string',
+                'state_id' => 'required|string',
                 'city' => 'required|string',
                 'zip' => 'required|string',
                 'ecn' => 'required|string',
@@ -162,8 +162,8 @@ class PatientController extends Controller
             $patient->mobile = $request->mobile;
             $patient->email = Str::of($request->email)->lower();
             $patient->address = $request->address;
-            $patient->country_id = $request->country_id;
-            $patient->state_id = $request->state_id;
+            $patient->pais = $request->country_id;
+            $patient->estado = $request->state_id;
             $patient->city = $request->city;
             $patient->zip = $request->zip;
             $patient->ecn = $request->ecn;
@@ -250,8 +250,8 @@ class PatientController extends Controller
             'mobile' => ['required', 'different:phone', 'regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i'],
             'email' => 'required|max:255|email|unique:patients,email,'.$id,
             'address' => 'required',
-            'country_id' => 'required|integer',
-            'state_id' => 'required|integer',
+            'country_id' => 'required|string',
+            'state_id' => 'required|string',
             'city' => 'required|string',
             'zip' => 'required|string',
             'ecn' => 'required|string',
@@ -266,8 +266,8 @@ class PatientController extends Controller
         $patient->mobile = $request->mobile;
         $patient->email = Str::of($request->email)->lower();
         $patient->address = $request->address;
-        $patient->country_id = $request->country_id;
-        $patient->state_id = $request->state_id;
+        $patient->pais = $request->country_id;
+        $patient->estado = $request->state_id;
         $patient->city = $request->city;
         $patient->zip = $request->zip;
         $patient->ecn = $request->ecn;

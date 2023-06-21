@@ -2,10 +2,11 @@
 
 namespace App\Mail;
 
+use Lang;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewEventStaff extends Mailable 
 {
@@ -34,7 +35,7 @@ class NewEventStaff extends Mailable
         app()->setLocale($this->dataMsg['doctor_lang']);
 
         return $this->to($this->dataMsg['doctor_email'], $this->dataMsg['doctor_name'])
-        ->subject(str_replace('_', " ", config('app.name', 'Laravel')) . ' | ' . \Lang::get($this->dataMsg['doctor_subj']))
+        ->subject(str_replace('_', " ", config('app.name', 'Laravel')) . ' | ' . Lang::get($this->dataMsg['doctor_subj']))
         ->view('staff.mail.staff.event.NewEventStaff')
         ->with(
             [

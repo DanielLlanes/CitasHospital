@@ -668,7 +668,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-9 col-sm-12">
+    <div class="col-12 col-xl-9">
          <div class="card-box">
              <div class="card-head">
                  <header>Calendar</header>
@@ -680,7 +680,7 @@
              </div>
          </div>
      </div>
-     <div class="col-md-3 col-sm-12">
+     <div class="col-12 col-xl-3">
          <div class="card-box">
              <div class="card-head">
                  <header>@lang('Book Appointment')</header>
@@ -752,6 +752,7 @@
                                 </label>
                             </div>
                         </div>
+
                         <div class="form-group mb-2 eventApp" style="display: none">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Application')
                                 <span class="required"> * </span>
@@ -761,12 +762,55 @@
                                 <div class="error text-danger col-form-label-sm"></div>
                             </div>
                         </div>
+                        {{-- Nedds PreOps --}}
+                        <div class="form-group mb-2 needPreOps" style="display: none">
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Need PreOps date?')
+                                <span class="required">  </span>
+                            </label>
+                            <div class="col-md-12">
+                                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="needPreOps">
+                                    <input type="checkbox" id="needPreOps" name="needPreOps" value="1" class="mdl-checkbox__input">
+                                    <span class="mdl-checkbox__label"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="datePreOps" style="display: none">
+                            <div class="form-group mb-2">
+                                <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Title')
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-12">
+                                    <input type="text" name="title-PreOps" id="titlePreOps" placeholder="@lang('Title')" class="form-control input-sm" />
+                                    <div class="error text-danger col-form-label-sm"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2 ">
+                                <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Date Of PreOps
+                                    <span class="required"> * </span>
+                                </label>
+                                <div class="col-md-12">
+                                    <div class="input-group date form_date"  data-date="" data-date-format="dd MM yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input class="form-control input-sm" size="16" name="datePreOps" id="datePreOps" placeholder="" type="text">
+                                        <div class="error text-danger col-form-label-sm"></div>
+                                    </div>
+                                    <small id="emailHelp" class="form-text text-muted">Format mm/dd/yyyy</small>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Note')
+                                </label>
+                                <div class="col-md-12">
+                                    <textarea name="address" class="form-control-textarea mb-5" name="notesPreOps" id="notesPreOps" placeholder="@lang('Note')" rows="5" style="font-size: 12px;resize: none"></textarea>
+                                    <div class="error text-danger col-form-label-sm"></div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group mb-2">
-                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Date Of Appointment
+                            <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">Date Of Surgery
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12">
-                                <div class="input-group date form_date"  data-date="" data-date-format="dd MM yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <div class="input-group date form_date"  data-date="" data-date-format="MM dd yyyy" onkeyup="if (/[^\d/]/g.test(this.value)) this.value = this.value.replace(/[^\d/]/g,'')" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                     <input class="form-control input-sm" size="16" name="start" id="start" placeholder="" type="text">
                                     <div class="error text-danger col-form-label-sm"></div>
                                 </div>
@@ -782,10 +826,10 @@
                                     <input class="form-control input-sm" size="16" name="timeStart" id="timeStart" placeholder="Date Of Appointment" type="time">
                                     <div class="error text-danger col-form-label-sm"></div>
                                 </div>
-                                <inpit type="hidden" id="dtp_input3">
+                                <input type="hidden" id="dtp_input3">
                             </div>
                         </div>
-                        <div class="form-group mb-2">
+                        {{-- <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">To
                                 <span class="required"> * </span>
                             </label>
@@ -795,21 +839,20 @@
                                     <div class="error text-danger col-form-label-sm"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="form-group mb-2">
+                        {{-- <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-12 aqui">
-                                {{-- <input type="text" name="staff" id="staff" placeholder="@lang('Enter staff name')" class="form-control input-sm autocomplete staff" onClick="this.setSelectionRange(0, this.value.length)" /> --}}
                                 <select class="form-control input-height " id="staff-search-select">
                                 </select>
                                 <div class="error text-danger col-form-label-sm"></div>
                                 <div id="myInputautocomplete-list" class="autocomplete-items staff" style="overflow-x: auto; max-height: 200px">
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Note')
                             </label>
@@ -979,7 +1022,7 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
                 longPressDelay: 0,
-                initialView: 'dayGridMonth',
+                initialView: 'listWeek',
                 dayMaxEvents: 2,
                 locale: initialLocaleCode,
                 navLinks: true,
@@ -1076,7 +1119,14 @@
                 $('#email').val(data.email).prop('disabled', true)
                 $('#phone').val(data.phone).prop('disabled', true)
                 $('#lang').val(data.lang).prop('disabled', true)
-                if (data.app.length == 0) { $('#is_app').parents('.form-group').hide('fast') } else { $('#is_app').parents('.form-group').show('fast') }
+                var appData = data.app;
+                var $isAppFormGroup = $('#is_app').parents('.form-group');
+
+                if (appData.length === 0) {
+                    $isAppFormGroup.hide('fast');
+                } else {
+                    $isAppFormGroup.show('fast');
+                }
             }
         });
         $('#staff-search-select').empty().attr('placeholder', "Select click here").trigger('change')
@@ -1119,11 +1169,23 @@
         $(document).on('change', '#is_app',function () {
             if ($('#is_app').is(":checked")) {
                 $('.eventApp').show('fast');
+                $('.needPreOps').show('fast');
                 getApps()
             } else {
                 $('.eventApp').hide('fast');
+                $('.needPreOps').hide('fast');
                 $("#app").removeAttr("data-id")
                 $("#app").val("")
+            }
+        });
+        $(document).on('click', "#needPreOps", function() {
+            if ($('#needPreOps').is(":checked")) {
+                $('.datePreOps').show('fast');
+            } else {
+                $('.datePreOps').hide('fast');
+                $('#titlePreOps').val('')
+                $('#datePreOps').val('')
+                $('#notesPreOps').val('')
             }
         });
         $(document).on('click', ".btn-add", function () {
@@ -1148,24 +1210,37 @@
             var data = $('#patient-search-select').select2('data');
             var datax = $('#staff-search-select').select2('data');
             var patient_id = data[0].id;
-            var staff_id =  datax[0].id
-            var staff =  datax[0].id
+            // var staff_id =  datax[0].id
+            // var staff =  datax[0].id
             var date = $('#start').val();
             var formatdate = date.split("/").reverse().join("/");
+            var needPreOps = $('#needPreOps').is(":checked")? '1':"0"
+
             var dataString = new FormData()
+
+            if (needPreOps == "1") {
+                var datePreops = $('#datePreOps').val();
+                var needPreOpsDate = datePreops.split("/").reverse().join("/");
+
+                dataString.append('needPreOpsDate', needPreOpsDate)
+            }
+            
             dataString.append('patient_id', patient_id)
             dataString.append('phone', $('#phone').val())
             dataString.append('title', $('#title').val())
             dataString.append('email', $('#email').val())
             dataString.append('isApp', $('#is_app').is(":checked")? '1':"0")
+            dataString.append('needPreOps', needPreOps)
             dataString.append('app', $('#app').attr("data-id"))
             dataString.append('lang', $("#lang option:selected" ).val())
             dataString.append('patient', $('#patient').val())
             dataString.append('start', formatdate)
             dataString.append('timeStart', $('#timeStart').val())
             dataString.append('timeEnd', $('#timeEnd').val())
-            dataString.append('staff_id', staff)
-            dataString.append('staff', staff)
+            // dataString.append('staff_id', staff)
+            // dataString.append('staff', staff)
+            dataString.append("titlePreOps", $('#titlePreOps').val());
+            dataString.append("notesPreOps", $('#notesPreOps').val());
             dataString.append('notes', $('#notes').val())
             $.ajax({
                 type: "POST",
@@ -1462,7 +1537,7 @@
                 });
             }
         }
-        $('#start').datetimepicker({
+        $('#start, #datePreOps').datetimepicker({
             weekStart: 1,
             todayBtn:  1,
             autoclose: 1,
@@ -1601,6 +1676,12 @@
             $('#is_app').parents('.form-group').hide('fast')
             $('#patient-search-select').val(null).trigger('change');
             $('#staff-search-select').val(null).trigger('change');
+            $('.needPreOps').hide('fast');
+            $("#needPreOps").prop('checked', false);
+            $("#needPreOps").parent().removeClass('is-checked');
+            $('#titlePreOps').val('')
+            $('#datePreOps').val('')
+            $('#notesPreOps').val('')
         }
         socket.on('eventCalendarRefetchToClient', () => {
             refetchCalendarEvents()

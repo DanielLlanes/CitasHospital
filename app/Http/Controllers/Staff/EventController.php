@@ -10,6 +10,7 @@ use App\Models\Staff\Event;
 use App\Models\Staff\Patient;
 use App\Models\Staff\Staff;
 use App\Models\Staff\Status;
+use App\Models\Staff\Treatment;
 use App\Traits\DatesLangTrait;
 use Carbon\Carbon;
 use DataTables;
@@ -37,6 +38,8 @@ class EventController extends Controller
     }
     public function index()
     {
+
+
 
         
         $lang = Auth::guard('staff')->user()->lang;
@@ -90,14 +93,22 @@ class EventController extends Controller
         for ($i = 0; $i < count($events); $i++)
         {
 
+
+
             $singleEvent['id'] = $events[$i]->id;
 
             if (!is_null($events[$i]->statusOne)) {
                 $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
                 $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
             } else {
-                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
-                $singleEvent['borderColor'] = $events[$i]->staff->color;
+                if (!is_null( $events[$i]->staff_id)) {
+                    $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
+                    $singleEvent['borderColor'] = $events[$i]->staff->color;
+                } else {
+                    $singleEvent['backgroundColor'] = '#a9ad5d';
+                    $singleEvent['borderColor'] = '#a9ad5d';
+                }
+                
             }
 
 
@@ -108,8 +119,10 @@ class EventController extends Controller
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
             $singleEvent['allDay'] = false;
-            $extendedProps['staff'] = $events[$i]->staff->name;
-            $extendedProps['staff_id'] = $events[$i]->staff->id;
+
+            $extendedProps['staff'] = !is_null($events[$i]->staff_id) ? $events[$i]->staff->name : null;
+            $extendedProps['staff_id'] = !is_null($events[$i]->staff_id) ? $events[$i]->staff->id : null;
+            
             $extendedProps['patient'] = $events[$i]->patient->name;
             $extendedProps['patient_id'] = $events[$i]->patient->id;
             $extendedProps['notas'] = $events[$i]->note;
@@ -200,8 +213,14 @@ class EventController extends Controller
                 $singleEvent['backgroundColor'] = $events[$i]->statusOne->status->color;
                 $singleEvent['borderColor'] = $events[$i]->statusOne->status->color;
             } else {
-                $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
-                $singleEvent['borderColor'] = $events[$i]->staff->color;
+                if (!is_null( $events[$i]->staff_id)) {
+                    $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
+                    $singleEvent['borderColor'] = $events[$i]->staff->color;
+                } else {
+                    $singleEvent['backgroundColor'] = '#a9ad5d';
+                    $singleEvent['borderColor'] = '#a9ad5d';
+                }
+                
             }
 
 
@@ -212,8 +231,7 @@ class EventController extends Controller
             $singleEvent['start'] = $events[$i]->start_date.'T'.$events[$i]->start_time;
             $singleEvent['end'] = $events[$i]->start_date.'T'.$events[$i]->end_time;
             $singleEvent['allDay'] = false;
-            $extendedProps['staff'] = $events[$i]->staff->name;
-            $extendedProps['staff_id'] = $events[$i]->staff->id;
+
             $extendedProps['patient'] = $events[$i]->patient->name;
             $extendedProps['patient_id'] = $events[$i]->patient->id;
             $extendedProps['notas'] = $events[$i]->note;
@@ -276,28 +294,90 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+
         $lang = Auth::guard('staff')->user()->lang;
+        $staff_id = Auth::guard('staff')->user()->id;
         $lang = app()->getLocale();
+
+        if ($request->isApp == "0") {
+            return $this->noAppEvent($request);
+        } 
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
         if ($request->app == 'undefined') {unset($request['app']);}
         if ($request->isApp == '0') {unset($request['isApp']);}
+
+
+         
+
+        $especialista = [];
+
+
+        if ($request->isApp != '0') {
+            $app = Application::with(
+                [
+                    'treatment' => function($q) {
+                        $q->with('service');
+                    },
+                    'assignments' => function($q) {
+                        $q->with(
+                            [
+                                'specialties' => function($q) {
+                                    $q->where('specialties.id', "!=", 10)
+                                    ->where('specialties.id', "!=", 5);
+                                }
+                            ]
+                        );
+                    }
+                ]
+            )
+            ->find($request->app);
+
+            $service = $app->treatment->service->service_es;
+
+            foreach ($app->assignments as $k => $assignment) {
+                if ( count($assignment->specialties) > 0 ) {
+                    array_push($especialista, $assignment);
+                }
+            }
+            $especialista_id = $especialista[0]['id'];
+
+            if ($especialista_id == null || count($especialista) <= 0) {
+                return response()->json([
+                    'icon' => 'Error',
+                    'msg' => Lang::get('To add an event to the calendar, you need to assign a specialist!'),
+                    'reload' => true
+                ]);
+            }
+        }
+        
+        
         $todayDate = Date('Y-m-d');
+
         $validator = Validator::make($request->all(), [
             'patient' => 'required|string',
             'patient_id' => 'sometimes|nullable|integer|exists:patients,id',
             'email' => 'required|email',
             'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
             'timeStart' => 'required|date_format:H:i',
-            'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
+            //'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
             'notes' => 'required|string',
             'lang' => 'required|string|max:2',
             'title' => 'required|string',
-            'staff_id' => 'required|exists:staff,id',
-            'staff' => 'required|string',
-            'app' => [
-                ($request->has('isApp') ? 'required': ''),
-                ($request->has('isApp') ? 'exists:applications,id': ''),
-                ($request->has('isApp') ? 'integer': ''),
+            "needPreOps" => [
+                $request->has('needPreOps') ? 'required' : '',
+                $request->has('needPreOps') ? 'in:0,1' : '',
+            ],
+            "needPreOpsDate" => [
+                $request->needPreOps == '1' ? 'required' : '',
+                $request->needPreOps == '1' ? 'date_format:Y/m/d' : '',
+            ],
+            "titlePreOps" => [
+                $request->needPreOps == '1' ? 'required' : '',
+                $request->needPreOps == '1' ? 'string' : '',
+            ],        
+            "notesPreOps" => [
+                $request->needPreOps == '1' ? 'required' : '',
+                $request->needPreOps == '1' ? 'string' : '',
             ],
             'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
         ]);
@@ -310,6 +390,13 @@ class EventController extends Controller
             ]);
         }
 
+        $timeStart = Carbon::createFromFormat('H:i', $request->timeStart);
+        $timeStart->addHour(); // Agrega una hora al tiempo inicial
+        $timeEnd = $timeStart->format('H:i'); 
+        $request->merge(['timeEnd' => $timeEnd]);
+
+       
+
         $patient_id = $request->patient_id;
         if ($request->has('patient_lang')) {
             $patient_lang = $request->lang;
@@ -317,22 +404,20 @@ class EventController extends Controller
             $patient_lang = $lang;
         }
 
-        $patienExist = Patient::where('email', $request->email)->first();
-        if (!$patienExist) {
-            $patient = New Patient;
-            $patient->name = $request->patient;
-            $patient->email = $request->email;
-            $patient->phone = $request->phone;
-            $patient->lang = $lang;
-            $patient->code = getCode();
-            $patient->password = Hash::make(Str::random(10));
-            $patient->save();
-            $patient_id = $patient->id;
+        $patient = Patient::firstOrNew(['email' => $request->email]);
+        $patient->name = $request->patient;
+        $patient->phone = $request->phone;
+        $patient->lang = $lang;
+        $patient->code = getCode();
+        $patient->password = Hash::make(Str::random(10));
 
-        }
+        $patient->save();
+        $patient_id = $patient->id;
+
+
 
         $event = new Event;
-        $event->staff_id = $request->staff_id;
+        $event->staff_id = $especialista_id;
         $event->patient_id = $patient_id;
         $event->title = $request->title;
         $event->start_date = $request->start;
@@ -340,13 +425,12 @@ class EventController extends Controller
         $event->end_date = $request->start;
         $event->end_time = $request->timeEnd;
         $event->note = $request->notes;
-        $event->title = $request->title;
         $event->code = getCode();
         $event->application_id = $request->has('isApp') ? $request->app: null;
         $event->is_application = $request->has('isApp') ? $request->isApp: null;
         
         if ($event->save()) {
-            $staffData = Staff::findOrFail($request->staff_id);
+            $staffData = Staff::findOrFail($staff_id);
             $dateD = $this->datesLangTrait ($event->start_date, $staffData->lang);
             $dateP = $this->datesLangTrait ($event->start_date, $request->lang);
 
@@ -387,17 +471,50 @@ class EventController extends Controller
 
             }
 
+            if ($request->needPreOps == "1") {
+                $eventPreOps = new Event;
+                $eventPreOps->staff_id = $staff_id;
+                $eventPreOps->patient_id = $patient_id;
+                $eventPreOps->title = $request->titlePreOps;
+                $eventPreOps->start_date = $request->needPreOpsDate;
+                $eventPreOps->start_time = $request->timeStart;
+                $eventPreOps->end_date = $request->needPreOpsDate;
+                $eventPreOps->end_time = $request->timeEnd;
+                $eventPreOps->note = $request->notesPreOps;
+                $eventPreOps->code = getCode();
+                $eventPreOps->application_id = $request->has('isApp') ? $request->app: null;
+                $eventPreOps->is_application = $request->has('isApp') ? $request->isApp: null;
+
+                $eventPreOps->save();
+
+                $status = Status::find('12');
+                    if ($status) {
+                        if ($status->type === 'Event') {
+                            if (!is_null($eventPreOps->statusOne)) {
+                                $eventPreOps->statusOne->delete($eventPreOps->statusOne->id);
+                            }
+                            $eventPreOps->statusOne()->create(
+                                [
+                                    'status_id' => 12,
+                                    'code' => getCode(),
+                                ]
+                            );
+                        }
+                    }
+            }
 
 
-            Mail::send(new NewEventPatient($dataMsg));
-            Mail::send(new NewEventStaff($dataMsg));
+            // Mail::send(new NewEventPatient($dataMsg));
+            // Mail::send(new NewEventStaff($dataMsg));
 
             $lang = app()->getLocale();
             return response()->json(
                 [
                     'icon' => 'success',
                     'msg' => Lang::get('Event created successfully!'),
-                    'reload' => true
+                    'reload' => true,
+                    'preops' => isset($eventPreOps) ? $eventPreOps : null,
+                    'event' => $event
                 ]
             );
         }
@@ -411,10 +528,100 @@ class EventController extends Controller
         );
     }
 
+
+    private function noAppEvent(Request $request) 
+    {
+        $todayDate = Date('Y-m-d');
+        $lang = Auth::guard('staff')->user()->lang;
+        $validator = Validator::make($request->all(), [
+            'patient' => 'required|string',
+            'patient_id' => 'sometimes|nullable|integer|exists:patients,id',
+            'email' => 'required|email',
+            'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
+            'timeStart' => 'required|date_format:H:i',
+            'notes' => 'required|string',
+            'lang' => 'required|string|max:2',
+            'title' => 'required|string',
+            'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'go' => '0',
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }
+
+        $timeStart = Carbon::createFromFormat('H:i', $request->timeStart);
+        $timeStart->addHour(); // Agrega una hora al tiempo inicial
+        $timeEnd = $timeStart->format('H:i'); 
+        $request->merge(['timeEnd' => $timeEnd]);
+
+        if ($request->has('patient_lang')) {
+            $patient_lang = $request->lang;
+        } else {
+            $patient_lang = $lang;
+        }
+
+        $patient = Patient::firstOrNew(['email' => $request->email]);
+        $patient->name = $request->patient;
+        $patient->phone = $request->phone;
+        $patient->lang = $lang;
+        $patient->code = getCode();
+        $patient->password = Hash::make(Str::random(10));
+
+        $patient->save();
+        $patient_id = $patient->id;
+
+        $event = new Event;
+        $event->staff_id = null;
+        $event->patient_id = $patient_id;
+        $event->title = $request->title;
+        $event->start_date = $request->start;
+        $event->start_time = $request->timeStart;
+        $event->end_date = $request->start;
+        $event->end_time = $request->timeEnd;
+        $event->note = $request->notes;
+        $event->code = getCode();
+        $event->application_id = null;
+        $event->is_application = null;
+
+        if ($event->save()) {
+
+            if (!is_null($event->application_id) ) {
+                $app = Application::with('statusOne')->find($event->application_id);
+
+                $app->statusOne()->delete($app->statusOne->id);
+                $app->statusOne()->create(
+                    [
+                        'status_id' => 6,
+                        'indications' => $request->medicalIndications,
+                        'recomendations' => $request->medicalRecommendations,
+                        'code' => getCode(),
+                    ]
+                );
+
+            }
+
+            $lang = app()->getLocale();
+            return response()->json(
+                [
+                    'icon' => 'success',
+                    'msg' => Lang::get('Event created successfully!'),
+                    'reload' => true,
+                    'preops' => isset($eventPreOps) ? $eventPreOps : null,
+                    'event' => $event
+                ]
+            );
+        }
+    }
+
     public function update(Request $request)
     {
 
         $lang = Auth::guard('staff')->user()->lang;
+
         $lang = app()->getLocale();
         $todayDate = Date('Y-m-d');
         $event = Event::find($request->event);
@@ -428,11 +635,11 @@ class EventController extends Controller
                 'lang' => 'required|string|max:2',
                 'start' => 'required|date_format:Y/m/d|after_or_equal:'.$todayDate,
                 'timeStart' => 'required|date_format:H:i',
-                'timeEnd' => 'required|after_or_equal:timeStart|date_format:H:i',
+                
                 'notes' => 'required|string',
                 'title' => 'required|string',
-                'staff_id' => 'required|exists:staff,id',
-                'staff' => 'required|string',
+                // 'staff_id' => 'required|exists:staff,id',
+                // 'staff' => 'required|string',
                 'app' => [
                     ($request->has('isApp') ? 'required': ''),
                     ($request->has('isApp') ? 'exists:applications,id': ''),
@@ -447,7 +654,13 @@ class EventController extends Controller
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
             }
-            $event->staff_id = $request->staff_id;
+
+            $timeStart = Carbon::createFromFormat('H:i', $request->timeStart);
+            $timeStart->addHour(); // Agrega una hora al tiempo inicial
+            $timeEnd = $timeStart->format('H:i'); 
+            $request->merge(['timeEnd' => $timeEnd]);
+
+            //$event->staff_id = $request->staff_id;
             $event->patient_id = $request->patient_id;
             $event->title = $request->title;
             $event->start_date = $request->start;
@@ -596,7 +809,6 @@ class EventController extends Controller
             $event = Event::with('statusOne')->find($request->event);
             //return($event);
             if ($event) {
-
                 if ($request->key == 0) {
                     if (!is_null($event->statusOne)) {
                         $event->statusOne->delete($event->statusOne->id);
