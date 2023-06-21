@@ -10,7 +10,7 @@
                             <td style="margin: 0 auto!important;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;background-color: #F2F2F2;display: block!important;max-width: 600px!important;clear: both!important;">
                                 <p>Dear <b>{{ $patient }}</b></p>
 
-                                <p>We regret to inform you that your request for <b>{{ $procedure }}</b> Surgery!. It was declined</p>
+                                <p>We regret to inform you that your request for <b>{{ $procedure }}</b>. was declined</p>
 
                                 <p>reason:</b></p>
 
