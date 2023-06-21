@@ -50,13 +50,13 @@
                     </li>
                 @endcan
                 @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))
-                    @can('quotes.list')
+
                         <li class="nav-item">
                             <a href="{{ route('staff.quotes.quotes') }}" class="nav-link nav-toggle"> <i class="material-icons">dashboard</i>
                                 <span class="title">@lang('Quotes')</span>
                             </a>
                         </li>
-                    @endcan
+
                 @endif
                 <li class="nav-item  ">
                     <a href="#" class="nav-link nav-toggle"> <i class="material-icons">group</i>
