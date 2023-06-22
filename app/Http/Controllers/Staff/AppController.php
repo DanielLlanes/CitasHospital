@@ -1305,8 +1305,6 @@ class AppController extends Controller
     }
     public Function aceptedApp($app, $request, $coor, $exist)
     {
-
-
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
         $statusx = 5;
@@ -1326,7 +1324,6 @@ class AppController extends Controller
                 Mail::send(new AcceptedUnassignedEmail($dataE[0]));
             } 
         }
-
         $app->statusOne->delete($app->statusOne->id);
         $app->statusOne()->create(
             [
@@ -1460,12 +1457,13 @@ class AppController extends Controller
         
         $countSugerencias = count($request->sugerenciasArray);
         $sugerencias = $request->sugerenciasArray;
-
-        $sugerencias = sugerencias($request->sugerenciasArray);
+        
         
 
         $suger = new Collection;
-        if (count($sugerencias) > 0) {
+        if (count($sugerencias) > 0 ) {
+            $sugerencias = sugerencias($request->sugerenciasArray);
+
             for ($i=0; $i < $countSugerencias; $i++) { 
                 if (1 == 1) {
                     $suger[] = [
@@ -1479,6 +1477,18 @@ class AppController extends Controller
                     ]);
                 }
             }
+        }
+
+        if (count($sugerencias) <= 0) {
+            $suger[] = [
+                'name' => 'Sin Sugerencias',
+            ];
+            $app->suggestions()->create([
+                'application_id' => $request->app,
+                'staff_id' => Auth::guard('staff')->user()->id,
+                'sugerencia' => 'Sin Sugerencias',
+                'code' => getCode(),
+            ]);
         }
 
         foreach ($admins as $key => $value) {

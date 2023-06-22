@@ -1458,7 +1458,6 @@
             </div>
             <div class="modal-body">
                 <div class="row justify-content-center" style="align-content: center">
-                    {{ $appInfo['treatment']['service_id'] }}
                     @foreach ($statusOptions as $item)
                     @if ($appInfo['treatment']['service_id'] == 2 )
                         <button class="data-status-select mb-2 mr-2 ml-3 text-white" style="background-color: {{ $item['color'] }}; border-color: {{ $item['color'] }}" status="{{ $item['id'] }}" code="{{ $item['code'] }}" class="btn btn-success">{{ $item['name'] }}</button>
@@ -1769,6 +1768,10 @@
     var debate_id = {{ $appInfo->id }}
     var app_id = {{ $appInfo->id }}
     var app_code = '{{ $appInfo->code }}'
+
+    var sugerxxx = {{ $appInfo['treatment']['service_id'] }};
+
+    
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
 
@@ -2729,6 +2732,9 @@
         event.preventDefault();
 
         $('#status-accepted-modal').on('show.bs.modal', function () {
+            if (sugerxxx == "2") {
+                $('.data-status-select').click();
+            }
             $('#accepted-status-select').empty().attr('placeholder', "Select click here").trigger('change')
             $('#accepted-status-select').append('<option selected  value=" ' + $('#change-procedure-p').attr('procedure_id') + ' ">' + $('#change-procedure-p').html() + '</option>').trigger('change')
             $('#accepted-status-select').select2({
@@ -2828,12 +2834,18 @@
                         $("#recommended-procedure-span").html('')
                         $("#recommended-procedure-row").html('')
                         $('#status-accepted-modal').modal('hide')
+
                         $("#current-status-p").html(response.status)
                         $("#span-status-name").html(response.status)
                         hideStatusArea()
                         $('#status-accepted-modal').modal('hide')
                         //$('#status-accepted-button').remove()
                         //hideAcdeptedBtn()
+                        let checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+                        $(checkboxes).each(function (index, element) {
+                            $(this).prop('checked', false);
+                        });
+                        $('#status-accepted-modal').modal('hide')
                     }
 
                     if (!response.success) {

@@ -19,9 +19,11 @@
                                         <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
                                             <ul style="list-style-type: none;">
                                                 @foreach ($sugerencias as $s)
-                                                    <li>
-                                                        <strong>{{ $s->name }}</strong>
-                                                    </li>
+                                                    @if ($s->name !== 'Sin Sugerencias')
+                                                        <li>
+                                                            <strong>{{ $s->name }}</strong>
+                                                        </li>
+                                                    @endif
                                                 @endforeach
                                             </ul>
                                         @endif
