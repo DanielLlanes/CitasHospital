@@ -292,7 +292,6 @@ class AppController extends Controller
             ->make(true);
         }
     }
-
     public function show($id)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -588,7 +587,6 @@ class AppController extends Controller
             ]
         );
     }
-
     public function patientApss(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -669,7 +667,6 @@ class AppController extends Controller
             ->make(true);
         }
     }
-
     public function setNewStaff(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -817,7 +814,6 @@ class AppController extends Controller
             'status_id' => $status->id,
         ]);
     }
-
     public function getNewStaff(Request $request)
     {
 
@@ -908,7 +904,6 @@ class AppController extends Controller
         return $staff;
         return ($staff);
     }
-
     public function sendDebateMessage(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -1857,7 +1852,6 @@ class AppController extends Controller
         )
         ->find($id);
     }
-
     public function getTreatments($id)
     {
         $lang = Auth::guard('staff')->user()->lang;
@@ -1873,7 +1867,6 @@ class AppController extends Controller
         ])
         ->get();
     }
-
     public function getAppPrice(Request $request)
     {
         $app = Application::where([
@@ -1884,7 +1877,6 @@ class AppController extends Controller
 
         return $app;
     }
-
     public function setAppPrice(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -1914,7 +1906,6 @@ class AppController extends Controller
             }
         }
     }
-
     public function setAppPriceAuto($ap, $tr)
     {
         if ($ap->price < $tr->price) {
@@ -1941,7 +1932,6 @@ class AppController extends Controller
         )
         ->find($app_id);
     }
-
     public function setAceptesSuggestion(Request $request)
     {
         $lang = Auth::guard('staff')->user()->lang;

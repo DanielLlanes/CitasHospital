@@ -14,21 +14,28 @@
                                     <p>¡Felicitaciones, ha sido aprobado para la cirugía plástica!</p>
 
                                     @isset($sugerencias)
-                                        <br>
-                                        @if (count($sugerencias) > 0)
-                                        <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
+                                        @php
+                                            $showParagraph = true;
+                                        @endphp
+                                        @foreach ($sugerencias as $s)
+                                            @if ($s->name === 'Sin Sugerencias')
+                                                @php
+                                                    $showParagraph = false;
+                                                    break;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        @if ($showParagraph && count($sugerencias) > 0)
+                                            <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
                                             <ul style="list-style-type: none;">
                                                 @foreach ($sugerencias as $s)
-                                                    @if ($s->name !== 'Sin Sugerencias')
-                                                        <li>
-                                                            <strong>{{ $s->name }}</strong>
-                                                        </li>
-                                                    @endif
+                                                    <li>
+                                                        <strong>{{ $s->name }}</strong>
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         @endif
                                     @endisset
-                                    <br>
                                     <p>El precio total del paquete es de US${{ $price }}, y esta cotización es válida por 3 meses. Queremos que te sientas tranquilo, por eso nuestro paquete incluye todos los servicios necesarios para que tu experiencia sea lo más completa posible:</p>
                                     <br>
                                     <ul style="list-style-type: none;">

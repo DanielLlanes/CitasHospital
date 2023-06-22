@@ -13,18 +13,24 @@
 
                                     <p>Congratulations, you have been approved for plastic surgery!</p>
                                     @isset($sugerencias)
-                                        <br>
-                                        @if (count($sugerencias) > 0)
+                                        @php
+                                            $showParagraph = true;
+                                        @endphp
+                                        @foreach ($sugerencias as $s)
+                                            @if ($s->name === 'Sin Sugerencias')
+                                                @php
+                                                    $showParagraph = false;
+                                                    break;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        @if ($showParagraph && count($sugerencias) > 0)
                                         <p>Here are the procedures we suggest that can help you achieve your goals:</p>
                                             <ul style="list-style-type: none;">
                                                 @foreach ($sugerencias as $s)
-
-                                                    @if ($s->name !== 'Sin Sugerencias')
-                                                        <li>
-                                                            <strong>{{ $s->name }}</strong>
-                                                        </li>
-                                                    @endif
-                                                
+                                                    <li>
+                                                        <strong>{{ $s->name }}</strong>
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         @endif
