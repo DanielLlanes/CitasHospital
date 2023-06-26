@@ -16,6 +16,7 @@
                                 <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">
                                     @lang('Una nueva applicación', ['app_name' => str_replace('_', " ", config('app.name', 'Laravel'))])
                                 </p>
+
                                 <div class="callout" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;">
                                     <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
                                         <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;">@lang('Servicio'): 
@@ -44,7 +45,7 @@
                                     </p>
                                     <p style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;"></p>
                                     <p class="data-patient" style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;margin-bottom: 10px;font-weight: normal;font-size: 16px;line-height: 1.6;text-align: left;padding-bottom: 10px;color: #474747;"> 
-                                        <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;"><a  target="_blank" href="{{ route('staff.applications.show', $url) }}">Ir ala nueva applicación</a></a>
+                                        <strong style="margin: 0;padding: 0;font-family: &quot;Helvetica Neue&quot;, &quot;Helvetica&quot;, Helvetica, Arial, sans-serif;color: #2D6177;"><a  target="_blank" href="{{ route('staff.applications.show', $url) }}">{{ route('staff.applications.show', $url) }}</a></a>
                                     </p>
                                 </div>
                                 

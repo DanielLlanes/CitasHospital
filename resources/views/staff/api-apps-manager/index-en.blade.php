@@ -2139,7 +2139,7 @@
                     //$('.loading').css('display', 'block');
                 } else {
                     socket.emit('updateDataTablesToServer');
-                    // window.location.href = "https://jlpradosc.com"; 
+                   window.location.href = "https://jlpradosc.com/step-by-step"; 
 
                     for (var i = 0; i < stepCount; i++) {
                         step[i].classList.add('d-none')

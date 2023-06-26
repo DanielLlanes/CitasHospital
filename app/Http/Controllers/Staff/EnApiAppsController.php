@@ -720,8 +720,6 @@ class EnApiAppsController extends Controller
     }
     public function storeData(Request $request)
     {
-
-   
         $lang = 'en';
         $exist = false;
         if ( $request->package == 0 ) { $exist = Treatment::where("procedure_id", $request->procedure)->first(); } 
@@ -1571,7 +1569,7 @@ class EnApiAppsController extends Controller
                 $response['application_id'] = $app->id;
                 $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
                 $response['timeDiff'] = $date->diffForHumans();
-                $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+                $response['msgStrac'] = Str::of("A new application has been assigned to you")->limit(20);
 
                 $notifications->push((object)[
                     'staff_id' => $assignment_staff->id,
@@ -1579,7 +1577,7 @@ class EnApiAppsController extends Controller
                     'application_id' => $app->id,
                     'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
                     'timeDiff' => $date->diffForHumans(),
-                    'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
+                    'msgStrac' => Str::of("A new application has been assigned to you")->limit(20),
                     'url' => route('staff.applications.show', ["id" => $app->id]),
                 ]);
 
