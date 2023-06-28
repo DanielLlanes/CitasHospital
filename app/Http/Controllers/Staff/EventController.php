@@ -37,11 +37,7 @@ class EventController extends Controller
         date_default_timezone_set('America/Tijuana');
     }
     public function index()
-    {
-
-
-
-        
+    {        
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
 
@@ -92,9 +88,6 @@ class EventController extends Controller
 
         for ($i = 0; $i < count($events); $i++)
         {
-
-
-
             $singleEvent['id'] = $events[$i]->id;
 
             if (!is_null($events[$i]->statusOne)) {
@@ -105,8 +98,8 @@ class EventController extends Controller
                     $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
                     $singleEvent['borderColor'] = $events[$i]->staff->color;
                 } else {
-                    $singleEvent['backgroundColor'] = '#a9ad5d';
-                    $singleEvent['borderColor'] = '#a9ad5d';
+                    $singleEvent['backgroundColor'] = '#09610c';
+                    $singleEvent['borderColor'] = '#09610c';
                 }
                 
             }
@@ -217,8 +210,8 @@ class EventController extends Controller
                     $singleEvent['backgroundColor'] = 'linear-gradient(65deg,'.$events[$i]->staff->color.' 65%, '.(!is_null($events[$i]->is_application)? $events[$i]->application->treatment->brand->color : $events[$i]->staff->color).' 35%)';
                     $singleEvent['borderColor'] = $events[$i]->staff->color;
                 } else {
-                    $singleEvent['backgroundColor'] = '#a9ad5d';
-                    $singleEvent['borderColor'] = '#a9ad5d';
+                    $singleEvent['backgroundColor'] = '#09610c';
+                    $singleEvent['borderColor'] = '#09610c';
                 }
                 
             }
@@ -294,7 +287,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-
+        //return $request;
         $lang = Auth::guard('staff')->user()->lang;
         $staff_id = Auth::guard('staff')->user()->id;
         $lang = app()->getLocale();
@@ -305,51 +298,8 @@ class EventController extends Controller
         if ($request->patient_id == 'undefined') {unset($request['patient_id']);}
         if ($request->app == 'undefined') {unset($request['app']);}
         if ($request->isApp == '0') {unset($request['isApp']);}
+        if ($request->staff_id == 'undefined') {unset($request['staff_id']);}
 
-
-         
-
-        $especialista = [];
-
-
-        if ($request->isApp != '0') {
-            $app = Application::with(
-                [
-                    'treatment' => function($q) {
-                        $q->with('service');
-                    },
-                    'assignments' => function($q) {
-                        $q->with(
-                            [
-                                'specialties' => function($q) {
-                                    $q->where('specialties.id', "!=", 10)
-                                    ->where('specialties.id', "!=", 5);
-                                }
-                            ]
-                        );
-                    }
-                ]
-            )
-            ->find($request->app);
-
-            $service = $app->treatment->service->service_es;
-
-            foreach ($app->assignments as $k => $assignment) {
-                if ( count($assignment->specialties) > 0 ) {
-                    array_push($especialista, $assignment);
-                }
-            }
-            $especialista_id = $especialista[0]['id'];
-
-            if ($especialista_id == null || count($especialista) <= 0) {
-                return response()->json([
-                    'icon' => 'Error',
-                    'msg' => Lang::get('To add an event to the calendar, you need to assign a specialist!'),
-                    'reload' => true
-                ]);
-            }
-        }
-        
         
         $todayDate = Date('Y-m-d');
 
@@ -379,6 +329,10 @@ class EventController extends Controller
                 $request->needPreOps == '1' ? 'required' : '',
                 $request->needPreOps == '1' ? 'string' : '',
             ],
+            'staff_id' => [
+                $request->has('isApp') ? 'required' : '',
+                $request->has('isApp') ? 'int' : '',
+            ],
             'phone' => ['required','regex:%^(?:(?:\(?(?:00|\+)([1-4]\d\d|[1-9]\d?)\)?)?[\-\.\ \\\/]?)?((?:\(?\d{1,}\)?[\-\.\ \\\/]?){0,})(?:[\-\.\ \\\/]?(?:#|ext\.?|extension|x)[\-\.\ \\\/]?(\d+))?$%i']
         ]);
 
@@ -404,6 +358,8 @@ class EventController extends Controller
             $patient_lang = $lang;
         }
 
+
+        $staff_asignado = $this->setStaffAss($request);
         $patient = Patient::firstOrNew(['email' => $request->email]);
         $patient->name = $request->patient;
         $patient->phone = $request->phone;
@@ -414,10 +370,8 @@ class EventController extends Controller
         $patient->save();
         $patient_id = $patient->id;
 
-
-
         $event = new Event;
-        $event->staff_id = $especialista_id;
+        $event->staff_id = ($request->isApp == "0") ? null:$staff_asignado->id;
         $event->patient_id = $patient_id;
         $event->title = $request->title;
         $event->start_date = $request->start;
@@ -528,7 +482,6 @@ class EventController extends Controller
         );
     }
 
-
     private function noAppEvent(Request $request) 
     {
         $todayDate = Date('Y-m-d');
@@ -619,7 +572,7 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
-
+        return $request;
         $lang = Auth::guard('staff')->user()->lang;
 
         $lang = app()->getLocale();
@@ -660,7 +613,10 @@ class EventController extends Controller
             $timeEnd = $timeStart->format('H:i'); 
             $request->merge(['timeEnd' => $timeEnd]);
 
-            //$event->staff_id = $request->staff_id;
+            
+
+            $staff_asignado = $this->setStaffAss($request);
+            $event->staff_id = ($request->isApp == "0") ? null:$staff_asignado->id;
             $event->patient_id = $request->patient_id;
             $event->title = $request->title;
             $event->start_date = $request->start;
@@ -843,5 +799,169 @@ class EventController extends Controller
                 }
             }
         }
+    }
+
+    public function getAppsStaff(Request $request)
+    {
+        return $this->returnarStaffAss($request);
+    }
+
+    private function returnarStaffAss($request){
+        $lang = Auth::guard('staff')->user()->lang;
+        $locale = app()->getLocale();
+        
+        $app = Application::with(
+            [
+                'patient' => function ($q) {
+                    $q->with(['country', 'state']);
+                },
+                'treatment' => function ($q) use ($lang) {
+                    $q->with(
+                        [
+                            "brand" => function ($q) {
+                                $q->select("brand", "id", "color", "code");
+                            },
+                            "service" => function ($q) use ($lang) {
+                                $q->select("service_$lang AS service", "id", "code");
+                                $q->with(
+                                    [
+                                        'specialties' => function ($q) use ($lang) {
+                                            $q->select("specialties.id", "name_$lang AS specialty", "specialties.id", "code")
+                                            ->where('specialties.id', "!=", 10)
+                                            ->where('specialties.id', "!=", 5);
+                                        }
+                                    ]
+                                );
+                            },
+                            "procedure" => function ($q) use ($lang) {
+                                $q->select("procedure_$lang AS procedure", "id", "has_package", "code");
+                            },
+                            "package" => function ($q) use ($lang) {
+                                $q->select("package_$lang AS package", "id", "code");
+                            },
+                        ]
+                    );
+                },
+                'assignments' => function ($q) use ($lang) {
+                    $q->with(
+                        [
+                            'specialties' => function($q) {
+                                $q->where('specialties.id', "!=", 10)
+                                ->where('specialties.id', "!=", 5);
+                            }
+                        ]
+                    );
+                }
+
+            ]
+        )
+        ->findOrFail($request->app);
+
+
+        $is_selected_staff = '';
+        foreach ($app->assignments as $key => $value) {
+            if (!empty($value->specialties)) {
+                $is_selected_staff = $value->id;
+            }
+        }
+
+
+        $getStaff = $app->treatment->service->specialties[0];
+
+       $staff = Staff::whereHas('specialties', function ($query) use($getStaff){
+            $query->where('specialties.id', $getStaff->id);
+        })->get();
+
+        return response()->json([
+            'staff' => $staff,
+            "asignado" => $is_selected_staff,
+            'ass_ass' => $getStaff->id,
+        ]);
+    }
+
+    private function setStaffAss($request){
+
+
+        $lang = Auth::guard('staff')->user()->lang;
+        $locale = app()->getLocale();
+        
+        $app = Application::with(
+            [
+                'patient' => function ($q) {
+                    $q->with(['country', 'state']);
+                },
+                'treatment' => function ($q) use ($lang) {
+                    $q->with(
+                        [
+                            "brand" => function ($q) {
+                                $q->select("brand", "id", "color", "code");
+                            },
+                            "service" => function ($q) use ($lang) {
+                                $q->select("service_$lang AS service", "id", "code");
+                                $q->with(
+                                    [
+                                        'specialties' => function ($q) use ($lang) {
+                                            $q->select("specialties.id", "name_$lang AS specialty", "specialties.id", "code")
+                                            ->where('specialties.id', "!=", 10)
+                                            ->where('specialties.id', "!=", 5);
+                                        }
+                                    ]
+                                );
+                            },
+                            "procedure" => function ($q) use ($lang) {
+                                $q->select("procedure_$lang AS procedure", "id", "has_package", "code");
+                            },
+                            "package" => function ($q) use ($lang) {
+                                $q->select("package_$lang AS package", "id", "code");
+                            },
+                        ]
+                    );
+                },
+                'assignments' => function ($q) use ($lang) {
+                    $q->with(
+                        [
+                            'specialties' => function($q) {
+                                $q->where('specialties.id', "!=", 10)
+                                ->where('specialties.id', "!=", 5);
+                            }
+                        ]
+                    );
+                }
+
+            ]
+        )
+        ->findOrFail($request->app);
+
+
+        $is_selected_staff = '';
+        foreach ($app->assignments as $key => $value) {
+            if (!empty($value->specialties)) {
+                $is_selected_staff = $value->id;
+            }
+        }
+        $getStaff = $app->treatment->service->specialties[0];
+        $has_assinaments = false;
+        $old_assignament = null;
+        $assignment = $app->assignments()->get();
+
+        foreach ($assignment as $item) {
+            if ($item->pivot->ass_as == $getStaff->id) {
+               $has_assinaments = true;
+               $old_assignament = $item->id;
+            }
+        }
+        //return response()->json($old_assignament);
+        if ($has_assinaments && !is_null($old_assignament)) { // significa que si tiene uno anterior 
+           $assignment = $app->assignments()->where('staff_id', $old_assignament)->first();
+           if ($assignment) {
+                $app->assignments()->detach($assignment->id);
+
+            }
+        }
+        $staff = Staff::find($request->staff_id);
+
+        $app->assignments()->attach($staff->id, ['code' => getCode(), 'ass_as' => $getStaff->id]);
+
+       return $staff;
     }
 }

@@ -2386,7 +2386,6 @@
         event.preventDefault();
         var specialty = $(this).attr('id').split("appChange")
         specialtyFormated = specialty[1].replace("_", " ");
-        //console.log("specialtyFormated", specialtyFormated);
         $("#getStaff"+specialty[1]).empty().attr('placeholder', "Select click here").trigger('change')
         $('#change'+specialty[1]+"App").on('show.bs.modal', function (e) {
             $('#getStaff'+specialty[1]).select2({

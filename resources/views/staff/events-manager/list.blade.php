@@ -841,18 +841,14 @@
                             </div>
                         </div> --}}
 
-                        {{-- <div class="form-group mb-2">
+                        <div class="form-group mb-2" id="idStaffArea" style="display: none">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Staff')
                                 <span class="required"> * </span>
                             </label>
-                            <div class="col-md-12 aqui">
-                                <select class="form-control input-height " id="staff-search-select">
-                                </select>
-                                <div class="error text-danger col-form-label-sm"></div>
-                                <div id="myInputautocomplete-list" class="autocomplete-items staff" style="overflow-x: auto; max-height: 200px">
-                                </div>
+                            <div class="col-md-12 aqui" id="staffArea">
+                                
                             </div>
-                        </div> --}}
+                        </div>
                         <div class="form-group mb-2">
                             <label class="control-label col-form-label-sm col-md-3 text-left text-nowrap">@lang('Note')
                             </label>
@@ -1009,6 +1005,7 @@
         var globalStatusEvent = '{{ route('staff.events.status') }}'
         var canEdit = "{{ Auth::guard('staff')->user()->hasPermissionTo('calendar.edit') }}";
         var canDestroy = "{{ Auth::guard('staff')->user()->hasPermissionTo('calendar.destroy') }}";
+        var globalGetAppsStaff = "{{ route('staff.events.getAppsStaff') }}"
     </script>
 	<script>
         var calendar;
@@ -1080,6 +1077,20 @@
     {{-- <script src="{{ asset('staffFiles/assets/js/customjs/event.min.js') }}"></script> --}}
 
     <script>
+
+        $('#notes').summernote({
+            placeholder: 'Notes',
+            height: 350,
+            toolbar: false,
+            disableResizeEditor: true,
+        })
+        $('#notesPreOps').summernote({
+            placeholder: 'Notes',
+            height: 350,
+            toolbar: false,
+            disableResizeEditor: true,
+        })
+        
         $('#patient-search-select').empty().attr('placeholder', "Select click here").trigger('change')
         $('#patient-search-select').select2({
             placeholder: "Select click here",
@@ -1121,6 +1132,17 @@
                 $('#lang').val(data.lang).prop('disabled', true)
                 var appData = data.app;
                 var $isAppFormGroup = $('#is_app').parents('.form-group');
+
+                $('#staffArea').html('');
+                
+                $("#is_app").prop('checked', false);
+                $("#is_app").parent().removeClass('is-checked');
+                $('#needPreOps').prop('checked', false);
+                $("#needPreOps").parent().removeClass('is-checked');
+
+                $('#staffArea').html('');
+                $('#idStaffArea').hide('fast')
+                $('.needPreOps').hide('fast');
 
                 if (appData.length === 0) {
                     $isAppFormGroup.hide('fast');
@@ -1167,6 +1189,8 @@
             }
         });
         $(document).on('change', '#is_app',function () {
+            $('#staffArea').html('');
+            $('#idStaffArea').hide('fast')
             if ($('#is_app').is(":checked")) {
                 $('.eventApp').show('fast');
                 $('.needPreOps').show('fast');
@@ -1191,11 +1215,12 @@
         $(document).on('click', ".btn-add", function () {
             $("#app").val($(this).attr("name"))
             $("#app").attr("data-id", $(this).attr("data-id"))
-            //$("#title").val($(this).attr("data-clave"))
+            getStaffApps($(this).attr("data-id"))
             $('#appsModal').modal("hide")
         });
         $(document).on("click", "#btnAppsModal",function () {
             $('.eventApp').hide('fast');
+            $('.needPreOps').hide('fast');
             $("#app").removeAttr("data-id")
             $("#app").val("")
             $("#is_app").prop('checked', false);
@@ -1210,8 +1235,8 @@
             var data = $('#patient-search-select').select2('data');
             var datax = $('#staff-search-select').select2('data');
             var patient_id = data[0].id;
-            // var staff_id =  datax[0].id
-            // var staff =  datax[0].id
+            var staff_id =  $('input[name="staffcustomRadio"]:checked').attr('data-id');
+            var staff =  $('input[name="staffcustomRadio"]:checked').attr('data-name');
             var date = $('#start').val();
             var formatdate = date.split("/").reverse().join("/");
             var needPreOps = $('#needPreOps').is(":checked")? '1':"0"
@@ -1237,8 +1262,8 @@
             dataString.append('start', formatdate)
             dataString.append('timeStart', $('#timeStart').val())
             dataString.append('timeEnd', $('#timeEnd').val())
-            // dataString.append('staff_id', staff)
-            // dataString.append('staff', staff)
+            dataString.append('staff_id', staff_id)
+            dataString.append('staff', staff)
             dataString.append("titlePreOps", $('#titlePreOps').val());
             dataString.append("notesPreOps", $('#notesPreOps').val());
             dataString.append('notes', $('#notes').val())
@@ -1344,6 +1369,7 @@
                 });
                 var event = calendar.getEventById($(this).attr('data-id'))
 
+                console.log(event)
                 $(this).removeAttr('data-id')
                 $('#title').val(event.title);
 
@@ -1351,6 +1377,7 @@
                     disabled: true,
                     'data-id': event.extendedProps.patient_id,
                 });
+
                 $('#phone').val(event.extendedProps.phone).attr('disabled', true);
                 $('#email').val(event.extendedProps.email).attr('disabled', true);
                 $('#start').val(moment(event.start).format('DD/MM/YYYY'))
@@ -1359,7 +1386,7 @@
                 $('#timeStart').val(event.extendedProps.startTime.slice(0, 5));
                 $('#timeEnd').val(event.extendedProps.endTime.slice(0, 5));
                 $('#staff').val(event.extendedProps.staff).attr('data-id', event.extendedProps.staff_id);
-                $('#notes').val(event.extendedProps.notas);
+                $('#notes').summernote('code', event.extendedProps.notas);
 
                 var staff = {
                     id: event.extendedProps.staff_id,
@@ -1373,13 +1400,19 @@
 
                 var newStaff = new Option(staff.text, staff.id, false, false);
                 $('#staff-search-select').append(newStaff).trigger('change');
+                $('#patient-search-select').empty().attr('placeholder', "Select click here").trigger('change')
                 var newPatient = new Option(patient.text, patient.id, false, false);
+                console.log(newPatient);
                 $('#patient-search-select').append(newPatient).trigger('change');
 
 
+                if (event.extendedProps.application_id != 0) {
+                    getStaffApps(event.extendedProps.application_id);
+                }
 
                 if (event.extendedProps.isapp == "si") {
                     $('#is_app').parents('.form-group').show('fast')
+                    $("#is_app").prop('checked', true);
                     $("#is_app").prop('checked', true);
                     $("#is_app").parent().addClass('is-checked');
                     var brand = event.extendedProps.application_brand;
@@ -1402,11 +1435,12 @@
                 var date = $('#start').val();
                 var formatdate = date.split("/").reverse().join("/");
                 var data = $('#patient-search-select').select2('data');
+                console.log(data);
                 var datax = $('#staff-search-select').select2('data');
                 var patient_id = data[0].id;
                 var patient = data[0].name;
-                var staff_id =  datax[0].id
-                var staff =  datax[0].name
+                // var staff_id =  datax[0].id
+                // var staff =  datax[0].name
 
                 var dataString = new FormData()
                 dataString.append('patient_id', patient_id)
@@ -1421,8 +1455,8 @@
                 dataString.append('start', formatdate)
                 dataString.append('timeStart', $('#timeStart').val())
                 dataString.append('timeEnd', $('#timeEnd').val())
-                dataString.append('staff_id', staff_id)
-                dataString.append('staff', staff)
+                // dataString.append('staff_id', staff_id)
+                // dataString.append('staff', staff)
                 dataString.append('notes', $('#notes').val())
                 dataString.append('event', $('#formEdit').attr('event'))
                 $.ajax({
@@ -1441,6 +1475,7 @@
 
                     },
                     success: function(data) {
+                        console.log(data);
                         $('input').removeAttr("disabled")
                         refetchCalendarEvents()
                         if (data.reload) {
@@ -1682,6 +1717,15 @@
             $('#titlePreOps').val('')
             $('#datePreOps').val('')
             $('#notesPreOps').val('')
+            $('#notes').summernote('code', '');
+            $('#notesPreOps').summernote('code', '');
+            $('#patient-search-select').empty().attr('placeholder', "Select click here").trigger('change')
+            $('#staffArea').html('');
+            $('#idStaffArea').hide('fast')
+            $("#is_app").prop('checked', false);
+            $("#is_app").parent().removeClass('is-checked');
+            $('#needPreOps').prop('checked', false);
+            $("#needPreOps").parent().removeClass('is-checked');
         }
         socket.on('eventCalendarRefetchToClient', () => {
             refetchCalendarEvents()
@@ -1735,6 +1779,40 @@
                 }
             )
         }
+        function getStaffApps(id){
+            var dataString = new FormData()
+            dataString.append('app', id)
+            $.ajax({
+                type: "POST",
+                url: globalGetAppsStaff,
+                method:"POST",
+                data:dataString,
+                dataType:'JSON',
+                contentType: false,
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                processData: false,
+                beforeSend: function(){
 
+                },
+                success: function(data) {
+                    console.log(data);
+                    if (data.staff.length > 0) {
+                        let radios = '';
+                        data.staff.forEach(element => {
+                            radios += `
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" data-name="${element.name}" data-id="${element.id}" id="customRadio${element.id}" data-ass="${data.ass_ass}" data-old="${element.id == data.asignado ? 'checked' : ''}" name="staffcustomRadio" class="custom-control-input" ${element.id == data.asignado ? 'checked' : ''}>
+                                    <label class="custom-control-label" for="customRadio${element.id}">${element.name}</label>
+                                </div>`;
+                        });
+                        $('#idStaffArea').show('fast')
+                        $('#staffArea').append(radios);
+                    }
+                }
+            });
+        }
     </script>
 @endsection
