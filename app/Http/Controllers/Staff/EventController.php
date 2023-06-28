@@ -572,7 +572,7 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
-        return $request;
+
         $lang = Auth::guard('staff')->user()->lang;
 
         $lang = app()->getLocale();

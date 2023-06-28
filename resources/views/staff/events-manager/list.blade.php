@@ -1439,8 +1439,8 @@
                 var datax = $('#staff-search-select').select2('data');
                 var patient_id = data[0].id;
                 var patient = data[0].name;
-                // var staff_id =  datax[0].id
-                // var staff =  datax[0].name
+                var staff_id =  $('input[name="staffcustomRadio"]:checked').attr('data-id');
+                var staff =  $('input[name="staffcustomRadio"]:checked').attr('data-name');
 
                 var dataString = new FormData()
                 dataString.append('patient_id', patient_id)
@@ -1455,8 +1455,8 @@
                 dataString.append('start', formatdate)
                 dataString.append('timeStart', $('#timeStart').val())
                 dataString.append('timeEnd', $('#timeEnd').val())
-                // dataString.append('staff_id', staff_id)
-                // dataString.append('staff', staff)
+                dataString.append('staff_id', staff_id)
+                dataString.append('staff', staff)
                 dataString.append('notes', $('#notes').val())
                 dataString.append('event', $('#formEdit').attr('event'))
                 $.ajax({
