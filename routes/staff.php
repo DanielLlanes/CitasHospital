@@ -343,6 +343,8 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         Route::post('/asignaciones/update',    [AssignmentController::class, 'updateAssignaments'])->name('updateAsignaciones');
         Route::post('/asignaciones/getEmailsAssignaments',    [AssignmentController::class, 'getEmailsAssignaments'])->name('getEmailsAssignaments');
         Route::post('/asignaciones/setEmailsAssignaments',    [AssignmentController::class, 'setEmailsAssignaments'])->name('setEmailsAssignaments');
+        Route::post('/asignaciones/deleteAssignaments',    [AssignmentController::class, 'deleteAssignaments'])->name('deleteAssignaments');
+
 
     });
 

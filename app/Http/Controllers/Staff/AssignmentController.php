@@ -391,7 +391,8 @@ class AssignmentController extends Controller
    }
 
    public function setEmailsAssignaments(Request $request)
-   {
+    {
+
         $getAssign = Assignment::with('additionalEmails')->where('code', $request->id)->first();
         $staff = Staff::find($getAssign->staff_id);
 
@@ -432,6 +433,33 @@ class AssignmentController extends Controller
                 'msg' => 'El usuario no esta asignado a este sevicio',
                 'reload' => false,
                 'success' => false
+            ]);
+        }
+    }
+
+    public function deleteAssignaments(Request $request)
+    {
+
+        $exist = Assignment::where([ 'staff_id' => $request->staff_id, 'id' => $request->service_id])->with('additionalEmails')->first();
+
+        if ($exist) {
+            // Eliminar los registros asociados en la relación 'additionalEmails'
+            $exist->additionalEmails()->delete();
+        
+            // Eliminar el registro principal
+            $exist->delete();
+        
+            // Retorna una respuesta o realiza cualquier otra acción necesaria
+            return response()->json([
+                'title' => 'Registros eliminados exitosamente.',
+                'icon' => 'success'
+            ]);
+        } else {
+            // No se encontró el registro
+            // Retorna una respuesta de error o realiza cualquier otra acción necesaria
+            return response()->json([
+                'title' => 'El registro no existe.',
+                'icon' => 'error'
             ]);
         }
     }

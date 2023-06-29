@@ -22,8 +22,8 @@
             <div class="tab-content">
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
-                        <div class="col-md-12 d-lg-flex">
-                            <div class="col-md-9">
+                        <div class="col-12 d-lg-flex">
+                            <div class="col-md-9 col-12">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-md-3 col-12">
                                 <div class="card-box">
                                     <div class="card-head">
                                         <header>@lang('Assignamets Manager')</header>
@@ -144,6 +144,8 @@
         var globalUpdateAssignaments = "{{ route('staff.asignaciones.updateAsignaciones') }}"
         var globalGetEmailsAssignaments = "{{ route('staff.asignaciones.getEmailsAssignaments') }}"
         var globalSetEmailsAssignaments = "{{ route('staff.asignaciones.setEmailsAssignaments') }}"
+        var globalDeleteAssignaments = "{{ route('staff.asignaciones.deleteAssignaments') }}"
+        
     </script>
 
     <script>
@@ -602,7 +604,40 @@
                 
             }
             if ($emailsArea == 0) { addNewEmailInput()}
+
+            $(document).on('click', '.eliminarAss', function() {
+                var service = $(this).attr('data-id');
+                var staff = $(this).attr('data-app');
+                var dataString = {
+                    'staff_id': staff,
+                    'service_id': service
+                };
+                $.ajax({
+                    type: "POST",
+                    url: globalDeleteAssignaments,
+                    method:"POST",
+                    data:dataString,
+                    dataType:'JSON',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    beforeSend: function(){
+
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        assignedTable.ajax.reload(null, false);
+                        Toast.fire({
+                            icon: data.icon,
+                            title: data.msg
+                        })
+                       
+                    }
+                });
+            })
+
         });
+
         
     </script>
 @endsection
