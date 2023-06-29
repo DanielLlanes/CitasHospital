@@ -23,7 +23,7 @@
                 <div class="tab-pane active fontawesome-demo" id="tab1">
                     <div class="row">
                         <div class="col-12 d-lg-flex">
-                            <div class="col-md-9 col-12">
+                            <div class="col-md-9">
                                 <div class="card  card-box">
                                     <div class="card-head">
                                         <header></header>
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-12">
+                            <div class="col-md-3">
                                 <div class="card-box">
                                     <div class="card-head">
                                         <header>@lang('Assignamets Manager')</header>
