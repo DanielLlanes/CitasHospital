@@ -1675,7 +1675,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default waves-effect cancel-post-btn">Cancelar</button>
+                <button type="button" class="btn btn-default waves-effect cancel-post-timeline-btn">Cancelar</button>
                 <button type="submit" class="btn btn-danger waves-effect waves-light" id="post-timeline-btn">Post</button>
             </div>
         </div>
@@ -1877,112 +1877,7 @@
         })
     }
 
-    // function uploadImagePreview($filesCount, $files) {
-    //     var $prev = '';
-    //     $.each($files, function(i, img) {
-    //         if (img) {
-    //             var myObj = {
-    //                 img
-    //             };
-    //             $myArr.push(myObj);
-    //             $viewArr.push(URL.createObjectURL(img));
-    //         }
-    //     });       
-    //     setUploadGrid($viewArr);
-    // }
-    // function setUploadGrid($viewArr) {
-    //     var $imagesArr = $viewArr,
-    //         $imagesArrCount = $viewArr.length
-    //         $imagesGrid = 5,
-    //         $element = $('#imagen-dropyfy');
-    //         $imagesGridCount = ($imagesArrCount < $imagesGrid) ? $imagesArrCount : $imagesGrid; 
-
-    //     $element.removeClass().addClass('imagen-dropyfy imgs-grid imgs-grid-' + $imagesGridCount);
-
-
-    //     //let $divimages = [];
-    //     $addRow = `<div class="row dropArea"></div>`;
-    //     $('.dropArea').remove();
-    //     $element.append($addRow);
-    //     for (var i = 0; i < $imagesArrCount; ++i) {
-    //         // if (i === $imagesGrid) {
-    //         //     break;
-    //         // }
-
-    //         $template = ` <div class="col-3 divArea">
-    //             <span onclick="deleteImage(${i})">&times; delete</span>
-    //                             <div class="card">
-    //                                 <img class="card-img-top" src="${$imagesArr[i]}" alt="Card image cap" order="${i}" height="140" style="border: calc(0.25rem - 1px)">
-    //                             </div>
-    //                         </div>`
-    //         $('.dropArea').append($template);   
-
-
-    //         ///
-    //     }
-    //     $( ".dropArea" ).sortable();
-
-    //     $(".dropArea").sortable("refresh");
-
-    //     $divimages = $('.imgs-grid-image')
-
-    //     switch ($divimages.length) {
-    //         case 2:
-    //         case 3:
-    //             getImgHeith($divimages);
-    //             break;
-    //         case 4:
-    //             getImgHeith($divimages.slice(0, 2));
-    //             getImgHeith($divimages.slice(2));
-    //             break;
-    //         case 5:
-    //         case 6:
-    //             getImgHeith($divimages.slice(0, 3));
-    //             getImgHeith($divimages.slice(3));
-    //             break;
-    //     }
-    // }
-    // function getImgHeith(items) {
-    //     //var $altura_arr = [];
-    //     $.each(items, function(i, val) {
-    //         $q = $(this).find('img')
-    //         let $img = new Image()
-    //         $img.src = $q.attr('src');
-    //         $img.onload = function () {
-    //             $altura_arr.push(this.height)
-    //             if (items.length == (i+1)) {
-    //                 outherImg($altura_arr, items)
-    //             }
-    //         }
-    //     });
-    // }
-    // function outherImg($altura_arr, items){
-        
-    //     $(items).each(function() {
-    //         var items = $(this),
-    //             imgWraps = items.find('.image-wrap'),
-    //             imgs = items.find('img'),
-    //             imgHeights = imgs.height();
-    //             altura_arr.push(imgHeights)
-    //     });
-    //     $sort = altura_arr.sort(function(a, b){return a - b});
-    //     var normalizedHeight = $sort[0];
-    //     $(items).each(function() {
-
-    //         var item = $(this),
-    //             imgWrap = item.find('.image-wrap'),
-    //             img = item.find('img'),
-    //             imgHeight = img.height();
-
-    //             imgWrap.height(normalizedHeight);
-
-    //         if (imgHeight > normalizedHeight) {
-    //             var top = Math.floor((imgHeight - normalizedHeight) / 2);
-    //             //console.log("top", top);
-    //             img.css({ top: -top });
-    //         }
-    //     });
-    // }
+    
     function setNewStaff(lastValue, lastText, specialty){
         var form_data = new FormData();
         form_data.append('name', lastText);
@@ -2108,24 +2003,25 @@
         let $message = (data.message == null)? '': data.message;
         var date = new Date(data.created_at);
         let $time = moment(date).fromNow()
-        let $post = ` 
+        let $post = `
             <li class="card p-3 tl-card" post="${data.code}" id="post-${data.id}">
                 <div class="avatar">
                     <img src="${baseURL}${$avatar}" alt="" />
                 </div>
                 <div class="activity-desk">
-                    <h5><a href="#">${data.staff.name}</a> <span id="countImages"></span></h5><small></smal>
+                    <h5><a href="#">${data.staff.name}</a> <span id="countImages"></span></h5>
+                    <small></small>
                     <p class="text-muted">${$time}</p>
                     <div class="activity-desk ml-0">
                         <h5><span>${$message}</span></h5>
                     </div>
                     <hr>
                     <br>
-                    <div class="album row w-50" style="margin: 0 auto" id="album-${data.code}">
+                    <div class="album gallery row w-50" style="margin: 0 auto" id="album-${data.code}">
                     </div>
                 </div>
             </li>
-        `
+        `;
         
         if (mode == 'prepend') {$('.post-timeline-view').prepend($post)} 
         else {$('.post-timeline-view').append($post)}
@@ -2164,6 +2060,7 @@
         file.value = '';
         $('#post-area-timeline').val('');
         $('#timeline-modal').modal('hide')
+        
     }
     function displayPostImages(code, items){
         let count = Object.keys(items).length
@@ -2174,11 +2071,22 @@
         $rowWidth = (100 / count);
         var img = "";
         for (const i in items) {
-            img += `<div class="${i} imageWrap" style="width: ${$rowWidth}%">
-                    <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+            img += `<div class="${i} imageWrap d-flex" style="width: ${$rowWidth}%">
+                    <a href="${baseURL}${items[i].image}">
+                        <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+                    </a>
             </div>`;
-
         }
+        // <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+        $('.gallery').each(function() { // the containers for all your galleries
+            $(this).magnificPopup({
+                delegate: 'a', // the selector for gallery item
+                type: 'image',
+                gallery: {
+                enabled:true
+                }
+            });
+        });
         $row.innerHTML = img;
     }
     function hideStatusArea(){
@@ -2251,7 +2159,6 @@
         imagesArray.splice(index, 1)
         displayImages()
     }
-
     var input = document.getElementById('images-input')
     var output = document.getElementById('imagen-dropyfy')
     input.addEventListener("change", () => {
@@ -2324,7 +2231,7 @@
            $delBtns[i].setAttribute("onclick",`deleteImage(${i})`);
         }
     }
-    $(document).on('click', '.cancel-post-btn', function(event) {
+    $(document).on('click', '.cancel-post-timeline-btn', function(event) {
         event.preventDefault();
         $('.dropArea').remove();
         $('#images-input').empty();

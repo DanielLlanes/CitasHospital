@@ -18,14 +18,8 @@ class TimeLineController extends Controller
     {
 
     }
-    public function store(Request $request){
-
-
-        Log::info($request->file('file'));
-        Log::emergency(response()->json($request));
-        // return response()->json([
-        //     '$count'=> count($request->file('file')),
-        // ]);
+    public function store(Request $request)
+    {
 
         if ($request->message == '<p><br></p>') {
             $request->merge(["message" => null]);
@@ -70,7 +64,6 @@ class TimeLineController extends Controller
 
         if ($request->file('file')) {
             foreach ($request->file('file') as $key => $img) {
-                Log::emergency($img);
                 $destinationPath = storage_path('app/public').'/application/timeLine';
                 $img_name = time().uniqid(Str::random(30)).'.'.$img->getClientOriginalExtension();
                 $image = Image::make($img->getRealPath());
