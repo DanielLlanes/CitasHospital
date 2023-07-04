@@ -2180,8 +2180,6 @@
         console.log(files)
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
-            alert(files[i]->name)
-            console.log(files[i]->name);
         }
         uploadImagePreview()
     })
@@ -2193,7 +2191,7 @@
     function uploadImagePreview() {
         $('#imgs-grid').html('')
         let $arCount = imagesArray.length;
-        alert($arCount)
+
 
         switch ($arCount) {
             case 1:
@@ -3521,16 +3519,15 @@
         }
     });
     
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     document.addEventListener('touchstart', function(event) {
-    //         // Verificar si el evento se originó en un elemento de entrada de tipo "file"
-    //         if (event.target && event.target.nodeName === 'INPUT' && event.target.type === 'file') {
-    //             event.preventDefault(); // Cancelar la acción predeterminada
-    //             event.target.click(); // Abrir la galería
-    //         }
-    //     }, { passive: false });
-    // });
-    //
+    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('touchstart', function(event) {
+            // Verificar si el evento se originó en un elemento de entrada de tipo "file"
+            if (event.target && event.target.nodeName === 'INPUT' && event.target.type === 'file') {
+                event.preventDefault(); // Cancelar la acción predeterminada
+                event.target.click(); // Abrir la galería
+            }
+        }, { passive: false });
+    });
         
 </script>
 @endsection
