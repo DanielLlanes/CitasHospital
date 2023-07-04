@@ -20,6 +20,7 @@ use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\ServiceController;
 use App\Http\Controllers\Staff\ApprovalController;
 use App\Http\Controllers\Staff\FacilityController;
+use App\Http\Controllers\Staff\LogisticController;
 use App\Http\Controllers\Staff\TimeLineController;
 use App\Http\Controllers\Staff\DashboardController;
 use App\Http\Controllers\Staff\ProcedureController;
@@ -210,6 +211,9 @@ Route::name('staff.')->namespace('Staff')->group(function(){
         //
         Route::post('/aplications/add-timeline-post', [TimeLineController::class, 'store'])->name('storePostTimeline');
         Route::post('/aplications/show-timeline-post', [TimeLineController::class, 'show'])->name('showPostTimeline');
+
+        Route::post('/aplications/add-logistic-post', [LogisticController::class, 'store'])->name('storePostLogistic');
+        Route::post('/aplications/show-logistic-post', [LogisticController::class, 'show'])->name('showPostLogistic');
     });
 
     Route::name('payments.')->group( function(){

@@ -1213,104 +1213,12 @@
                                         <div class="full-width p-l-20">
                                             <div class="panel">
                                                 <form>
-                                                    <textarea class="form-control p-text-area" rows="4" placeholder="Add logistics notes"></textarea>
+                                                    <textarea class="form-control p-text-area" id="post-area-logistic" rows="4" placeholder="Add time line notes"></textarea>
                                                 </form>
-                                                <footer class="panel-footer">
-                                                    <button class="btn btn-post pull-right">Post</button>
-                                                    <ul class="nav nav-pills p-option">
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-user"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-camera"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa  fa-location-arrow"></i></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><i class="fa fa-meh-o"></i></a>
-                                                        </li>
-                                                    </ul>
-                                                </footer>
                                             </div>
-                                        </div>
-                                        <div class="full-width p-l-20">
-                                            <ul class="activity-list">
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Rajesh</a> <span>Uploaded 3 new photos</span></h5>
-                                                        <p class="text-muted">7 minutes ago near Alaska, USA</p>
-                                                        <div class="album">
-                                                            <a href="#">
-                                                                <img alt="" src="https://www.orliman.com/wp-content/uploads/post13042017_quirofano-inteligente.jpg">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img alt="" src="https://2.bp.blogspot.com/-KN8x77y7Qx4/TrMHGh9BUCI/AAAAAAAAD5M/rqTY3ZmwrIs/w1200-h630-p-k-no-nu/Imagen+or1.jpg">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img alt="" src="https://i0.wp.com/yoamoenfermeriablog.com/wp-content/uploads/2018/10/quirofano_moncloa1_15_1000x564.jpg?resize=790%2C446&ssl=1">
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">John Doe</a> <span>attended a meeting with</span>
-                                                                        <a href="#">Lina Smith.</a></h5>
-                                                        <p class="text-muted">2 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Kehn Anderson</a> <span>completed the task “wireframe design” within the dead line</span></h5>
-                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="avatar">
-                                                        <img src="{{ asset("staffFiles/assets/img/user/user.jpg") }}" alt="" />
-                                                    </div>
-                                                    <div class="activity-desk">
-                                                        <h5><a href="#">Jacob Ryan</a> <span>was absent office due to sickness</span></h5>
-                                                        <p class="text-muted">4 days ago near Alaska, USA</p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 13 minutes ago</span>
-                                                <div class="post-img"><img src="https://previews.123rf.com/images/siraphol/siraphol1704/siraphol170400471/75206739-interior-borroso-abstracto-del-hospital-y-de-la-cl%C3%ADnica-para-el-fondo.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 37 minutes ago</span>
-                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                            <div class="post-box"> <span class="text-muted text-small"><i class="fa fa-clock-o" aria-hidden="true"></i> 53 minutes ago</span>
-                                                <div class="post-img"><img src="https://i.pinimg.com/originals/cf/ac/ce/cfaccef0c3c98b6d6405d1f4c16ccc8f.jpg" class="img-responsive" alt=""></div>
-                                                <div>
-                                                    <h4 class="">Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p> <a href="#" class="btn btn-raised btn-info btn-sm"><i class="fa fa-heart-o" aria-hidden="true"></i> Like (5) </a> <a href="#" class="btn btn-raised bg-soundcloud btn-sm"><i class="zmdi zmdi-long-arrow-return"></i> Reply</a> </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 p-t-20 text-center">
-                                                  <button type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-info">Load More</button>
+                                            <div class="full-width">
+                                                <ul class="activity-list post-logistic-view">
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -1681,6 +1589,110 @@
         </div>
     </div>
 </div>
+<div id="logistic-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" id="scroll">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar notas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="logistic-form" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Add logistic notes:</label>
+                        <textarea class="form-control p-text-area post-area-logistic" id="post-area-logistic" rows="4" placeholder="Add logistic notes"></textarea>
+                    </div>
+                    <style>
+                        #imagen-dropyfy-logistic {
+                            border-radius: 10px;
+                            width: 100%;
+                            min-height: 250px;
+                            height: auto;
+                            border: .5px solid;
+                            border-color: #eee;
+                            position: relative;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                        }
+                        #images-input-logistic {
+                            display: none;
+                        }
+                        #images-input-logistic::-webkit-file-upload-button {
+                        visibility: hidden;
+                        }
+                        #images-input-logistic::before {
+                        content: 'Select some files';
+                        color: black;
+                        display: inline-block;
+                        background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+                        border: 1px solid #999;
+                        border-radius: 3px;
+                        padding: 5px 8px;
+                        outline: none;
+                        white-space: nowrap;
+                        /* -webkit-user-select: none; */
+                        cursor: pointer;
+                        text-shadow: 1px 1px #fff;
+                        font-weight: 700;
+                        font-size: 10pt;
+                        }
+                        #images-input-logistic:hover::before {
+                        border-color: black;
+                        }
+                        #images-input-logistic:active {
+                        outline: 0;
+                        }
+                        #images-input-logistic:active::before {
+                        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+                        }
+
+                        #imgs-grid-logistic {
+                            position: relative;
+                            box-sizing: border-box
+                            border: .5px solid #eee;
+                            border-radius: 10px;
+                            min-height: 250px;
+                        }
+                        .imageWrap-logistic {
+                            position: relative;
+                        }
+                        .imageWrap-logistic span {
+                            position: absolute;
+                            top: 4px;
+                            right: 4px;
+                            cursor: pointer;
+                        }
+
+                        .imageWrap-logistic span:hover {
+                            opacity: 0.8;
+                        }
+                        .note-editor .note-dropzone { opacity: 1 !important; }
+                    </style>
+                    <div class="form-group droparea mb-2">
+                        <div class="col-12 w-100 p-0 ">
+                            <div class="col-12 d-flex justify-content-between p-0 " id="head-area">
+                                <p class="align-self-center m-0">Imagenes</p>
+                                <input type="file" class="" name="image-logistic-upload" id="images-input-logistic" multiple accept="image/*">
+
+                                    <label for="images-input-logistic" class="btn btn-primary btn-sm">Select some files</label>
+
+                            </div>
+                        </div>
+                        <div class="imagen-dropyfy mt-2" id="imagen-dropyfy-logistic">
+                            <div id="imgs-grid-logistic">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect cancel-post-logistic-btn">Cancelar</button>
+                <button type="submit" class="btn btn-danger waves-effect waves-light" id="post-logistic-btn">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="treatmenta-availables-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1742,6 +1754,9 @@
     var globalRouteChangeNewProcedureWithPackage  = "{{ route('staff.applications.changeNewProcedureWithPackage') }}"
     var globalRouteSetAceptesSuggestion = "{{ route('staff.applications.setAceptesSuggestion') }}"
 
+    var globalRouteStorePostLogistic = "{{ route('staff.applications.storePostLogistic') }}"
+    var globalRouteShowPostLogistic = "{{ route('staff.applications.showPostLogistic') }}"
+
 
     var user_lang = "{{ Auth::guard('staff')->user()->lang }}";
     var canChangeProcedure = "{{ Auth::guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'coordinator']) }}";
@@ -1788,6 +1803,7 @@
     })
 
     getTimeLinePost()
+    getLogisticPost()
 
     $(window).scroll(function() {
         if($(window).scrollTop() == $(document).height() - $(window).height()) {
@@ -1876,8 +1892,6 @@
             },
         })
     }
-
-    
     function setNewStaff(lastValue, lastText, specialty){
         var form_data = new FormData();
         form_data.append('name', lastText);
@@ -2073,14 +2087,14 @@
         for (const i in items) {
             img += `<div class="${i} imageWrap d-flex" style="width: ${$rowWidth}%">
                     <a href="${baseURL}${items[i].image}">
-                        <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+                        <img class="w-md-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
                     </a>
             </div>`;
         }
         // <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
-        $('.gallery').each(function() { // the containers for all your galleries
+        $('.gallery').each(function() { 
             $(this).magnificPopup({
-                delegate: 'a', // the selector for gallery item
+                delegate: 'a',
                 type: 'image',
                 gallery: {
                 enabled:true
@@ -2163,6 +2177,7 @@
     var output = document.getElementById('imagen-dropyfy')
     input.addEventListener("change", () => {
         const files = input.files
+        console.log(files)
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
         }
@@ -2916,13 +2931,6 @@
         }, 'slow');
 
     });
-    // $(document).on('change', '#images-input', function(event) {
-    //     event.preventDefault();
-    //     $files = $(this).prop('files')
-    //     $filesCount = $(this).prop('files').length
-    //     uploadImagePreview($filesCount, $files)
-    // });
-    
     $(document).on('click', '#post-area-timeline', function(event) {
         event.preventDefault();
         $('#timeline-modal').modal('show')
@@ -3032,10 +3040,296 @@
             disableResizeEditor: true,
             disableDragAndDrop:true,
     })
-
     $('#timeline-modal').on('hidden.bs.modal', function (e) {
     })
+////////////////////
 
+    $(document).on('click', '#post-area-logistic', function(event) {
+        event.preventDefault();
+        $('#logistic-modal').modal('show')
+    });
+    $('.post-area-logistic').summernote({
+        placeholder: 'Agregar notas',
+        height: 'auto',
+        toolbar: false,
+        disableResizeEditor: true,
+        disableDragAndDrop:true,
+    })
+    $('#logistic-modal').on('hidden.bs.modal', function (e) {
+    })
+
+    var $myArr_logistic = [];
+    var $viewArr_logistic = [];
+    var imagesArray_logistic = [];
+    var $divimages_logistic = [];
+    var $altura_arr_logistic = [];
+    function getLogisticPost() {
+        let $offset = $('.tl-card').length;
+        let $limit = 5;
+        let $formData = new FormData();
+        $formData.append('app', app_id)
+        $formData.append('offset', $offset)
+        $formData.append('limit', $limit)
+
+        $.ajax({
+            url: globalRouteShowPostLogistic,
+            method:"POST",
+            data:$formData,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+
+            },
+            success:function(response)
+            {
+                $.each(response.post, function(i, val) {
+                    addNewLogisticPost(response.post[i], 'append')
+                });
+            },
+            complete: function()
+            {
+            },
+        })
+    }
+    function addNewLogisticPost(data, mode) {
+        let $avatar = 'staffFiles/assets/img/user/user.jpg';
+        let $countImages = '';
+        if (data.staff.image_one !== null) {
+            $avatar = data.staff.image_one.image
+        }
+        let $message = (data.message == null)? '': data.message;
+        var date = new Date(data.created_at);
+        let $time = moment(date).fromNow()
+        let $post = `
+            <li class="card p-3 tl-card" post="${data.code}" id="post-${data.id}">
+                <div class="avatar">
+                    <img src="${baseURL}${$avatar}" alt="" />
+                </div>
+                <div class="activity-desk">
+                    <h5><a href="#">${data.staff.name}</a> <span id="countImages"></span></h5>
+                    <small></small>
+                    <p class="text-muted">${$time}</p>
+                    <div class="activity-desk ml-0">
+                        <h5><span>${$message}</span></h5>
+                    </div>
+                    <hr>
+                    <br>
+                    <div class="album galleryLogistic row w-50" style="margin: 0 auto" id="album-${data.code}">
+                    </div>
+                </div>
+            </li>
+        `;
+        if (mode == 'prepend') {$('.post-logistic-view').prepend($post)} 
+        else {$('.post-logistic-view').append($post)}
+        
+        $countImages = data.image_many.length
+
+            if ($countImages > 0) {
+                switch ($countImages) {
+                case 1:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    break;
+                case 2:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    break;
+                case 3:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(1, 3)));
+                    break;
+                case 4:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 1)));
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(1, 4)));
+                    break;
+                case 5:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(2, 5)));
+                    break;
+                default:
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(0, 2)));
+                    displayLogisticPostImages(data.code, Object.fromEntries(Object.entries(data.image_many).slice(2, 5)));
+                    break;
+                    //Object.fromEntries(Object.entries(foo).slice(1, 3))
+            }
+        }
+        // $('.dropArea').remove();
+        var file = document.getElementById('images-input-logistic');
+        file.value = '';
+        $('#post-area-logistic').val('');
+        $('#logistic-modal').modal('hide')
+        
+    }
+    function displayLogisticPostImages(code, items){
+        let count = Object.keys(items).length
+        let $album = document.getElementById(`album-${code}`);
+        var $row = document.createElement("div");
+        $row.classList.add('row', 'm-0', 'h-25');
+        $album.appendChild($row);
+        $rowWidth = (100 / count);
+        var img = "";
+        for (const i in items) {
+            img += `<div class="${i} imageWrap-logistic d-flex" style="width: ${$rowWidth}%">
+                    <a href="${baseURL}${items[i].image}">
+                        <img class="w-md-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+                    </a>
+            </div>`;
+        }
+        // <img class="w-100" alt="" src="${baseURL}${items[i].image}" style="padding: 2px;border-radius: 10px;">
+        $('.galleryLogistic').each(function() { 
+            $(this).magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {
+                enabled:true
+                }
+            });
+        });
+        $row.innerHTML = img;
+    }
+    var input_logistic = document.getElementById('images-input-logistic')
+    var output_logistic = document.getElementById('imagen-dropyfy-logistic')
+    input_logistic.addEventListener("change", () => {
+        const files = input_logistic.files
+        for (let i = 0; i < files.length; i++) {
+            imagesArray-logistic.push(files[i])
+        }
+        uploadLogisticImagePreview()
+    })
+    function deleteImageLogistic(index) {
+        imagesArray-logistic.splice(index, 1)
+        console.log(index);
+        uploadLogisticImagePreview()
+    }
+    function uploadLogisticImagePreview() {
+        $('#imgs-grid-logistic').html('')
+        let $arCount = imagesArray_logistic.length;
+        switch ($arCount) {
+            case 1:
+                displayLogisticImages(imagesArray_logistic.slice(0, 1));
+                break;
+            case 2:
+                displayLogisticImages(imagesArray_logistic.slice(0, 2));
+                break;
+            case 3:
+                displayLogisticImages(imagesArray_logistic.slice(0, 1));
+                displayLogisticImages(imagesArray_logistic.slice(1, 3));
+                break;
+            case 4:
+                displayLogisticImages(imagesArray_logistic.slice(0, 1));
+                displayLogisticImages(imagesArray_logistic.slice(1, 4));
+                break;
+            case 5:
+                displayLogisticImages(imagesArray_logistic.slice(0, 2));
+                displayLogisticImages(imagesArray_logistic.slice(2, 5));
+                break;
+            default:
+                displayLogisticImages(imagesArray_logistic.slice(0, 2));
+                displayLogisticImages(imagesArray_logistic.slice(2, 5));
+                break;
+        }
+        //$imgsGrid.appendChild($newDiv)
+        //uploadImagePreview()
+    }
+    function displayLogisticImages(items){
+        $rowWidth = (100 / items.length)
+        var $grid = document.getElementById("imgs-grid-logistic");
+        var $row = document.createElement("div");
+        $row.classList.add('row', 'm-0');
+        $grid.appendChild($row);
+        var $img = document.createElement('img')
+        var _URL = window.URL || window.webkitURL;
+        var file, imgs;
+        let img = ""
+        items.forEach((image, index) => {
+            img += `<div class="${index} imageWrap-logistic" que? style="width: ${$rowWidth}%">
+                    <img class="w-100" alt="" src="${URL.createObjectURL(image)}" style="padding: 2px;border-radius: 10px;">
+
+                    <span class="details delImage-logistic" index="${index}">
+                        <span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span> 
+                    </span>
+            </div>`;
+        })
+        $row.innerHTML = img;
+
+        $delBtns = document.getElementsByClassName('delImage-logistic');
+        for (i = 0; i < $delBtns.length; i++) {
+           $delBtns[i].setAttribute("onclick",`deleteImageLogistic(${i})`);
+        }
+    }
+    $(document).on('click', '.cancel-post-logistic-btn', function(event) {
+        event.preventDefault();
+        $('.dropArea-logistic').remove();
+        $('#images-input-logistic').empty();
+        $("#images-input-logistic").val('');
+        $('#post-area-logistic').val('');
+        clearArrayLogisticImage()
+        $('#logistic-modal').modal('hide')
+    });
+    $(document).on('click', '#post-logistic-btn', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        let $message = $('.post-area-logistic').summernote('code');
+        let $images = $('#images-input-logistic').prop('files')
+        let $imagesCount = $('#images-input-logistic').prop('files').length;
+        let $imageArr = [];
+        let $formData = new FormData();
+        $.each(imagesArray, function(i, img) {
+            if (img) {
+                $formData.append("file[]", img);
+                $imageArr.push(img)
+            }
+        });
+        $formData.append('app', app_id);
+        $formData.append('message', $message);
+        $.ajax({
+            url: globalRouteStorePostLogistic,
+            method:"POST",
+            data:$formData,
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            processData: false,
+            beforeSend: function()
+            {
+
+            },
+            success:function(response)
+            {
+            console.log("response", response);
+                if (response.success) {
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.message,
+                    })
+
+                    addNewLogisticPost(response.post, 'prepend');
+                    clearArrayLogisticImage()
+                }
+            },
+            complete: function()
+            {
+            },
+        })  
+    });
+    function clearArrayLogisticImage (){
+        $myArr_logistic = [];
+        $viewArr_logistic = [];
+        imagesArray_logistic = [];
+        $divimages_logistic = [];
+        $altura_arr_logistic = [];
+        $('.imgs-grid-image-logistic').remove();
+        $('#imgs-grid-logistic').html('');
+    }
+
+    //
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
         if (response.success) {
             $('#change-procedure-p').html(response.name);
