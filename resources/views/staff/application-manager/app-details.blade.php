@@ -3521,15 +3521,15 @@
         }
     });
     
-    document.addEventListener('DOMContentLoaded', function() {
-        document.addEventListener('touchstart', function(event) {
-            // Verificar si el evento se originó en un elemento de entrada de tipo "file"
-            if (event.target && event.target.nodeName === 'INPUT' && event.target.type === 'file') {
-                event.preventDefault(); // Cancelar la acción predeterminada
-                event.target.click(); // Abrir la galería
-            }
-        }, { passive: false });
-    });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     document.addEventListener('touchstart', function(event) {
+    //         // Verificar si el evento se originó en un elemento de entrada de tipo "file"
+    //         if (event.target && event.target.nodeName === 'INPUT' && event.target.type === 'file') {
+    //             event.preventDefault(); // Cancelar la acción predeterminada
+    //             event.target.click(); // Abrir la galería
+    //         }
+    //     }, { passive: false });
+    // });
         
 </script>
 @endsection
