@@ -2180,8 +2180,8 @@
         console.log(files)
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
-            alert(files[i])
-            console.log(files[i]);
+            alert(files[i]->name)
+            console.log(files[i]->name);
         }
         uploadImagePreview()
     })
@@ -2193,7 +2193,7 @@
     function uploadImagePreview() {
         $('#imgs-grid').html('')
         let $arCount = imagesArray.length;
-
+        alert($arCount)
 
         switch ($arCount) {
             case 1:
