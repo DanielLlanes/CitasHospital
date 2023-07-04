@@ -22,7 +22,7 @@
                                     <br>
                                     <p>El nivel de hemoglobina debe ser de al menos 14.</p>
                                     <br>
-                                    <p>Trabajamos para ofrecer la mejor atención posible y la salud y el bienestar de nuestros pacientes es nuestra principal prioridad.</p>
+                                    <p>Trabajamos para ofrecer la mejor atención posible, la salud y el bienestar de nuestros pacientes es nuestra principal prioridad.</p>
                                     <br>
                                     <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarme.</p>
                                     <br>
