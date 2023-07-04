@@ -2180,6 +2180,8 @@
         console.log(files)
         for (let i = 0; i < files.length; i++) {
             imagesArray.push(files[i])
+            alert(files[i])
+            console.log(files[i]);
         }
         uploadImagePreview()
     })
