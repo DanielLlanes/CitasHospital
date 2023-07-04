@@ -20,6 +20,7 @@ class CreateLogisticsTable extends Migration
             $table->text('message')->nullable();
             $table->text('code')->nullable();
             $table->timestamps();
+            //
         });
         Schema::table('logistics', function($table) {
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade')->onUpdate('cascade');
