@@ -3196,12 +3196,12 @@
     input_logistic.addEventListener("change", () => {
         const files = input_logistic.files
         for (let i = 0; i < files.length; i++) {
-            imagesArray-logistic.push(files[i])
+            imagesArray_logistic.push(files[i])
         }
         uploadLogisticImagePreview()
     })
     function deleteImageLogistic(index) {
-        imagesArray-logistic.splice(index, 1)
+        imagesArray_logistic.splice(index, 1)
         console.log(index);
         uploadLogisticImagePreview()
     }
@@ -3278,7 +3278,7 @@
         let $imagesCount = $('#images-input-logistic').prop('files').length;
         let $imageArr = [];
         let $formData = new FormData();
-        $.each(imagesArray, function(i, img) {
+        $.each(imagesArray_logistic, function(i, img) {
             if (img) {
                 $formData.append("file[]", img);
                 $imageArr.push(img)
