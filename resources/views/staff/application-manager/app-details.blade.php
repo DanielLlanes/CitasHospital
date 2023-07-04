@@ -2268,7 +2268,7 @@
                 $formData.append("file[]", img);
                 $imageArr.push(img)
                 console.log(img)
-                alert(img.name)
+                alert(img.size)
             }
         });
         $formData.append('app', app_id);
