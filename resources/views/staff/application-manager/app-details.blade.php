@@ -1719,6 +1719,66 @@
     }
 </style>
 
+<h1>Subir Imagen desde Cámara o Galería</h1>
+  <input id="image-input" type="file" accept="image/*" multiple>
+  <button id="submit-button" type="submit">Subir</button>
+  <div id="preview-container"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var imageInput = document.getElementById('image-input');
+      var submitButton = document.getElementById('submit-button');
+      var previewContainer = document.getElementById('preview-container');
+      var imagesPreview = [];
+
+      imageInput.addEventListener('change', handleImageSelection);
+      submitButton.addEventListener('click', uploadImages);
+
+      function handleImageSelection(e) {
+        var selectedFiles = Array.from(e.target.files);
+        if (selectedFiles.length > 0) {
+          selectedFiles.forEach(function(file) {
+            var reader = new FileReader();
+            reader.onload = function() {
+              var imagePreview = document.createElement('img');
+              imagePreview.src = reader.result;
+              imagePreview.classList.add('preview-image');
+              previewContainer.appendChild(imagePreview);
+              imagesPreview.push({ file: file, preview: imagePreview });
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+        submitButton.disabled = false;
+      }
+
+      function uploadImages() {
+        if (imagesPreview.length > 0) {
+          var formData = new FormData();
+          imagesPreview.forEach(function(image) {
+            formData.append('image[]', image.file);
+          });
+
+          // Realizar la llamada AJAX para subir las imágenes
+          // utilizando la biblioteca o método de tu elección (fetch, Axios, etc.)
+          // y enviar formData al servidor
+
+          console.log('Imágenes enviadas:', imagesPreview);
+        }
+      }
+
+      previewContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('preview-image')) {
+          var imageIndex = Array.from(previewContainer.children).indexOf(e.target);
+          if (imageIndex !== -1) {
+            previewContainer.removeChild(e.target);
+            imagesPreview.splice(imageIndex, 1);
+          }
+        }
+      });
+    });
+  </script>
+
 @endsection
 @section('styles')
 <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
@@ -3191,6 +3251,8 @@
         });
         $row.innerHTML = img;
     }
+
+    //
     var input_logistic = document.getElementById('images-input-logistic')
     var output_logistic = document.getElementById('imagen-dropyfy-logistic')
     input_logistic.addEventListener("change", () => {
@@ -3328,7 +3390,6 @@
         $('.imgs-grid-image-logistic').remove();
         $('#imgs-grid-logistic').html('');
     }
-
     //
     socket.on('sendChangeAppProcedureToClient', (response) =>  {
         if (response.success) {
