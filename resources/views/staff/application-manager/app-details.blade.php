@@ -1297,7 +1297,11 @@
         }
     }
 @endphp
+A ver aqui
 
+<form action="/file-upload"
+      class="dropzone"
+      id="upload-form"></form>
 <div class="modal fade" id="change-procedure-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1678,7 +1682,9 @@
 
                             </div>
                         </div>
-                        <div class="imagen-dropyfy mt-2" id="imagen-dropyfy-logistic">
+
+                        
+                        <div class="imagen-dropyfy mt-2" id="imagen-dropyfy-logistic">on
                             <div id="imgs-grid-logistic">
                                 
                             </div>
@@ -1717,12 +1723,20 @@
     .note-editable > p {
         margin: 0 !important;
     }
+    .dz-error-mark, .dz-error-message {
+        display: none!important;
+    }
+    .dropzone .dz-preview .dz-error-message {
+        top: 150px!important;
+    }
 </style>
 
 @endsection
 @section('styles')
+
 <link href="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.css') }}"  rel="stylesheet">
 <link href="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/magnific-popup.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 @endsection
 @section('scripts')
 @if (\Session::has('sys-message'))
@@ -1736,6 +1750,8 @@
 <script src="{{ asset('staffFiles/assets/plugins/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('staffFiles/assets/plugins/magnific-popup-master/dist/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ asset('staffFiles/assets/plugins/autosize-master/dist/autosize.min.js') }}"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
 
 <script>
     var itemContainer = $(".nice-chat");
@@ -1785,6 +1801,49 @@
     var app_code = '{{ $appInfo->code }}'
 
     var sugerxxx = {{ $appInfo['treatment']['service_id'] }};
+
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        Dropzone.options.uploadForm = { // The camelized version of the ID of the form element
+
+        // The configuration we've talked about above
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+
+        // The setting up of the dropzone
+        init: function() {
+            var myDropzone = this;
+
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+
+            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+            // of the sending event because uploadMultiple is set to true.
+            this.on("sendingmultiple", function() {
+                // Gets triggered when the form is actually being sent.
+                // Hide the success button or the complete form.
+            });
+            this.on("successmultiple", function(files, response) {
+                // Gets triggered when the files have successfully been sent.
+                // Redirect user or notify of success.
+            });
+            this.on("errormultiple", function(files, response) {
+                // Gets triggered when there was an error sending the files.
+                // Maybe show form again, and notify user of error
+            });
+        }
+
+        }
+    });
+
+    
 
     
 
