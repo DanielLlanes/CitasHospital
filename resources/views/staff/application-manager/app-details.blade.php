@@ -1299,9 +1299,12 @@
 @endphp
 A ver aqui
 
-<form action="/file-upload"
-      class="dropzone"
-      id="upload-form"></form>
+<form id="myDropzone" class="dropzone">
+    <div class="dz-message">
+      Arrastra y suelta los archivos aquí para subirlos
+    </div>
+  </form>
+  <button id="uploadButton">Enviar</button>
 <div class="modal fade" id="change-procedure-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1723,12 +1726,37 @@ A ver aqui
     .note-editable > p {
         margin: 0 !important;
     }
-    .dz-error-mark, .dz-error-message {
+    .dz-error-message, .dz-error-mark {
         display: none!important;
     }
     .dropzone .dz-preview .dz-error-message {
         top: 150px!important;
     }
+    .dropzone {
+        min-height: 150px;
+        border: 0.1rem solid rgb(126 112 112 / 30%);
+        background: transparent;
+        padding: 20px 20px;
+    }
+    .dropzone .dz-preview .dz-remove {
+        font-size: 14px;
+        text-align: center;
+        display: block;
+        cursor: pointer;
+        border: none;
+        background: red;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        line-height: 10px;
+        padding: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 50;
+    }
+    
 </style>
 
 @endsection
@@ -1801,51 +1829,45 @@ A ver aqui
     var app_code = '{{ $appInfo->code }}'
 
     var sugerxxx = {{ $appInfo['treatment']['service_id'] }};
+    Dropzone.autoDiscover = false;
 
+        Dropzone.options.myDropzone = {
+            url: "/upload", // URL de destino para enviar los archivos
+            autoProcessQueue: false, // Desactivar la carga automática
+            maxFilesize: 5, // Tamaño máximo de archivo en MB
+            acceptedFiles: "image/*", // Tipos de archivo permitidos (en este caso, solo imágenes)
+            //addRemoveLinks: true, // Mostrar enlaces de eliminación para cada archivo
+        };
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-        Dropzone.options.uploadForm = { // The camelized version of the ID of the form element
+        var myDropzone = new Dropzone("#myDropzone");
 
-        // The configuration we've talked about above
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 100,
-        maxFiles: 100,
+        // Evento cuando se haga clic en el botón de enviar
+        document.getElementById("uploadButton").addEventListener("click", function() {
+            myDropzone.processQueue(); // Procesar la cola de archivos
+        });
 
-        // The setting up of the dropzone
-        init: function() {
-            var myDropzone = this;
+        // Evento cuando se complete la carga de todos los archivos
+        myDropzone.on("queuecomplete", function() {
+            console.log("Todos los archivos han sido cargados");
+        });
 
-            // First change the button to actually tell Dropzone to process the queue.
-            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                // Make sure that the form isn't actually being sent.
-                e.preventDefault();
-                e.stopPropagation();
-                myDropzone.processQueue();
-            });
+        // Personalizar el aspecto de los enlaces de eliminación
+        myDropzone.on("addedfile", function(file) {
+        var removeButton = Dropzone.createElement('<span class="details dz-remove" index="0" onclick="deleteImage(0)">' +
+            '<span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span>' +
+            '</span>');
+        var _this = this;
 
-            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-            // of the sending event because uploadMultiple is set to true.
-            this.on("sendingmultiple", function() {
-                // Gets triggered when the form is actually being sent.
-                // Hide the success button or the complete form.
-            });
-            this.on("successmultiple", function(files, response) {
-                // Gets triggered when the files have successfully been sent.
-                // Redirect user or notify of success.
-            });
-            this.on("errormultiple", function(files, response) {
-                // Gets triggered when there was an error sending the files.
-                // Maybe show form again, and notify user of error
-            });
-        }
+        // Evento cuando se haga clic en el botón de eliminar
+        removeButton.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            _this.removeFile(file); // Eliminar el archivo de Dropzone
+        });
 
-        }
-    });
-
-    
-
-    
+        // Agrega el botón de eliminar al archivo en Dropzone
+        file.previewElement.appendChild(removeButton);
+        });
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
 
@@ -2228,10 +2250,10 @@ A ver aqui
         $('#imgs-grid').html('');
         console.log(imagesArray);
     }
-    function deleteImage(index) {
-        imagesArray.splice(index, 1)
-        displayImages()
-    }
+    // function deleteImage(index) {
+    //     imagesArray.splice(index, 1)
+    //     displayImages()
+    // }
     var input = document.getElementById('images-input')
     var output = document.getElementById('imagen-dropyfy')
     input.addEventListener("change", () => {

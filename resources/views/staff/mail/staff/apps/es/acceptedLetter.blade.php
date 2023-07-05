@@ -11,7 +11,7 @@
                                 Estimado/a <b>{{ $patient }}</b>,
                                 @if (  strtolower($brand->brand)  == 'a beautiful me')
                                 {{-- ABM --}}
-                                    <p>¡Felicitaciones, ha sido aprobado para la cirugía plástica!</p>
+                                    <p>¡Felicitaciones, ha sido aprobado para cirugía plástica!</p>
 
                                     @isset($sugerencias)
                                         @php
@@ -26,7 +26,7 @@
                                             @endif
                                         @endforeach
                                         @if ($showParagraph && count($sugerencias) > 0)
-                                            <p>Estos son los procedimientos que sugerimos que pueden ayudarte a lograr tus objetivos:</p>
+                                            <p>Estos son los procedimientos que nuestro doctor sugirió para obtener el mejor resultado:</p>
                                             <ul style="list-style-type: none;">
                                                 @foreach ($sugerencias as $s)
                                                     <li>
@@ -36,7 +36,7 @@
                                             </ul>
                                         @endif
                                     @endisset
-                                    <p>El precio total del paquete es de US${{ $price }}, y esta cotización es válida por 3 meses. Queremos que te sientas tranquilo, por eso nuestro paquete incluye todos los servicios necesarios para que tu experiencia sea lo más completa posible:</p>
+                                    <p>El precio total del paquete es de US${{ $price }}, esta cotización es válida por 3 meses. Queremos que se sienta tranquilo, por eso nuestros paquetes incluyen los siguientes servicios para que tu experiencia sea lo más completa posible:</p>
                                     <br>
                                     <ul style="list-style-type: none;">
                                         @foreach ($includes as $item)
@@ -58,7 +58,7 @@
                                 @endif
                                  <p>Para reservar la fecha de su cirugía, requerimos un depósito del 10%. Que en este caso es ${{ $downPayment }} de ${{ $price }}. Una vez que haya realizado este depósito, envíe una foto del recibo a su coordinador para iniciar el proceso de programación.</p>
 
-                                 <p>En <b>J.L.Prado Surgical Center</b>, nos enorgullecemos de brindar la mejor atención posible, y cuidar su salud y bienestar es nuestra principal prioridad. Queremos que te sientas cómodo y seguro durante todo el proceso, por eso hemos preparado varias opciones de pago para tu comodidad:</p>
+                                 <p>En <b>J.L.Prado Surgical Center</b>, nos enorgullecemos de brindar la mejor atención posible, y cuidar su salud y bienestar es nuestra principal prioridad. Queremos que te sientas cómodo y seguro durante todo el proceso, por eso hemos preparado las siguientes formas de pago:</p>
                                  <br>
                                  <p>
                                     INFORMACIÓN DE DEPÓSITO Y RESERVAS.<br>
@@ -81,7 +81,6 @@
                                     RUTA: 081009428<br>
                                     2494 Roll Dr<br>
                                     San Diego, Ca 92154<br>
-                                    ** NO SE ACEPTAN PAGOS EN LÍNEA**<br>
                                     ** NO SE ACEPTAN TARJETAS FSA (Cuentas de gastos flexibles)**
                                 </p>
                                 
@@ -111,7 +110,7 @@
                                  <p>Un cordial saludo,</p>
                                 <br>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->name }}</p>
-                                <p style="margin: 0;padding: 0;"{{ strtoupper($brand->acronym) }} Coordinador</p>
+                                <p style="margin: 0;padding: 0;"{{ strtoupper($brand->acronym) }} Coordinador> </p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->email }}</p>
                                 <p style="margin: 0;padding: 0;">{{ $coordinator->phone }}</p>
                                 <p style="margin: 0;padding: 0;">Business Hours:</p>
