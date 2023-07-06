@@ -1200,7 +1200,7 @@
                                                 </form>
                                             </div>
                                             <div class="full-width">
-                                                <ul class="activity-list post-timeline-view">
+                                                <ul class="activity-list post-timeline-view" >
                                                 </ul>
                                             </div>
                                         </div>
@@ -1297,7 +1297,7 @@
         }
     }
 @endphp
-A ver aqui
+{{-- A ver aqui
 
 <form id="myDropzone" class="dropzone">
     <div class="dz-message">
@@ -1305,7 +1305,7 @@ A ver aqui
     </div>
     <input type="text" name message>
   </form>
-  <button id="uploadButton">Enviar</button>
+  <button id="uploadButton">Enviar</button> --}}
 <div class="modal fade" id="change-procedure-modal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1842,86 +1842,6 @@ A ver aqui
     var app_code = '{{ $appInfo->code }}'
 
     var sugerxxx = {{ $appInfo['treatment']['service_id'] }};
-    Dropzone.autoDiscover = false;
-
-    Dropzone.options.myDropzone = {
-        url: "/upload", // URL de destino para enviar los archivos
-        autoProcessQueue: false, // Desactivar la carga automática
-        maxFilesize: 5, // Tamaño máximo de archivo en MB
-        acceptedFiles: "image/*", // Tipos de archivo permitidos (en este caso, solo imágenes)
-        //addRemoveLinks: true, // Mostrar enlaces de eliminación para cada archivo
-    };
-
-    var myDropzone = new Dropzone("#myDropzone");
-
-    // Evento cuando se haga clic en el botón de enviar
-    document.getElementById("uploadButton").addEventListener("click", function() {
-       // myDropzone.processQueue(); // Procesar la cola de archivos
-    });
-
-    // Evento cuando se complete la carga de todos los archivos
-    myDropzone.on("queuecomplete", function() {
-        console.log("Todos los archivos han sido cargados");
-    });
-
-    // Personalizar el aspecto de los enlaces de eliminación
-    myDropzone.on("addedfile", function(file) {
-    var removeButton = Dropzone.createElement('<span class="details dz-remove" index="0" onclick="deleteImage(0)">' +
-        '<span class="notification-icon circle deepPink-bgcolor"><i class="fa fa-times"></i></span>' +
-        '</span>');
-    var _this = this;
-
-    // Evento cuando se haga clic en el botón de eliminar
-    removeButton.addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        _this.removeFile(file); // Eliminar el archivo de Dropzone
-    });
-
-    // Agrega el botón de eliminar al archivo en Dropzone
-    file.previewElement.appendChild(removeButton);
-    });
-
-    var form = document.getElementById("myDropzone");
-    var submitButton = document.getElementById("uploadButton");
-    var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    submitButton.addEventListener("click", function(event) {
-        event.preventDefault(); // Evitar el envío del formulario por defecto
-
-        // Crear una instancia de FormData para recopilar los datos del formulario
-        var formData = new FormData(form);
-
-        // Recopilar los archivos de Dropzone y agregarlos a FormData
-        var dropzoneFiles = myDropzone.getQueuedFiles();
-        console.log(dropzoneFiles);
-  
-        for (var i = 0; i < dropzoneFiles.length; i++) {
-            formData.append("file[]", dropzoneFiles[i], dropzoneFiles[i].name);
-        }
-        formData.append('app', 1);
-        //formData.append('message', $message);
-        // Realizar una solicitud HTTP POST utilizando Fetch API
-        fetch(globalRouteStorePostTimeline, {
-            method: "post",
-            body: formData,
-            headers: {
-                "X-CSRF-TOKEN": token // Agregar el token de Laravel como encabezado
-            }
-        })
-        .then(function(response) {
-            // Manejar la respuesta de la solicitud
-            if (response.ok) {
-            console.log("Formulario enviado correctamente");
-            // Aquí puedes realizar acciones adicionales después de enviar el formulario
-                
-            } else {
-            console.error("Error al enviar el formulario");
-            }
-        })
-        .catch(function(error) {
-            console.error("Error de red:", error);
-        });
-    });
 
     var reciverSound = '{{ asset('sounds/facebook-nuevo mensaje.mp3') }}'
 
@@ -2166,7 +2086,7 @@ A ver aqui
                     </div>
                     <hr>
                     <br>
-                    <div class="album gallery row w-50" style="margin: 0 auto" id="album-${data.code}">
+                    <div class="album gallery row w-50" style="margin: 0 auto" id="album-${data.code}" data-masonry='{"percentPosition": true }'>
                     </div>
                 </div>
             </li>
