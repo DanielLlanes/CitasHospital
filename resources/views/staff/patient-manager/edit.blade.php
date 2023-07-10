@@ -154,8 +154,8 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="country" value="{{ old('country')  ?? $patient->country_id}}" data-required="1" placeholder="@lang('Enter country')" class="form-control input-height" />
-                                @error('country')
+                                <input autocomplete="off" type="text" name="country_id" value="{{ old('country')  ?? $patient->pais}}" data-required="1" placeholder="@lang('Enter country')" class="form-control input-height" />
+                                @error('country_id')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
                             </div>
@@ -167,7 +167,7 @@
                                 <span class="required"> * </span>
                             </label>
                             <div class="col-md-5">
-                                <input autocomplete="off" type="text" name="state_id" value="{{ old('state_id') ?? $patient->state_id }}" data-required="1" placeholder="@lang('Enter state')" class="form-control input-height" />
+                                <input autocomplete="off" type="text" name="state_id" value="{{ old('state_id') ?? $patient->estado }}" data-required="1" placeholder="@lang('Enter state')" class="form-control input-height" />
                                 @error('state_id')
                                     <span class="help-block text-danger"> {{ $message }} </span>
                                 @enderror
