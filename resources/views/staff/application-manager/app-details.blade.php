@@ -2222,12 +2222,13 @@
         $altura_arr = [];
         $('.imgs-grid-image').remove();
         $('#imgs-grid').html('');
-        console.log(imagesArray);
+        $('#images-input').val('');
+        $('.post-area-timeline').summernote('reset');
     }
-    // function deleteImage(index) {
-    //     imagesArray.splice(index, 1)
-    //     displayImages()
-    // }
+    function deleteImage(index) {
+        imagesArray.splice(index, 1)
+        displayImages()
+    }
     var input = document.getElementById('images-input')
     var output = document.getElementById('imagen-dropyfy')
     input.addEventListener("change", () => {
@@ -3099,8 +3100,7 @@
     })
     $('#timeline-modal').on('hidden.bs.modal', function (e) {
     })
-////////////////////
-
+    ////////////////////
     $(document).on('click', '#post-area-logistic', function(event) {
         event.preventDefault();
         $('#logistic-modal').modal('show')
@@ -3182,6 +3182,7 @@
                 </div>
             </li>
         `;
+        console.log($post);
         if (mode == 'prepend') {$('.post-logistic-view').prepend($post)} 
         else {$('.post-logistic-view').append($post)}
         
@@ -3384,6 +3385,7 @@
         $altura_arr_logistic = [];
         $('.imgs-grid-image-logistic').remove();
         $('#imgs-grid-logistic').html('');
+        $('.post-area-logistic').summernote('reset');
     }
 
     //
