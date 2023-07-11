@@ -2341,7 +2341,7 @@
             const data = [];
 
             for (let i = 40; i <= 300; i++) {
-                const formatted = `${i} kilos`;
+                const formatted = `${i} kilograms`;
                 data.push({ id: i, text: formatted });
             }
 
@@ -2357,7 +2357,7 @@
 
             for (let i = 140; i <= 250; i++) {
                 const centimeters = i / 100;
-                const formatted = `${centimeters} metros`;
+                const formatted = `${centimeters} meters`;
                 data.push({ id: centimeters, text: formatted });
             }
 
