@@ -248,6 +248,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Max Weigth <span class="fw-bold" id="mw"> (Kg)</span></label>
                                 <div class="col-sm-9">
@@ -255,20 +257,45 @@
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
+
+                            {{-- ////////// --}}
+
+                            {{-- <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Current Weigth <span class="fw-bold" id="cw"> (Kg)</span></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="" placeholder="">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
-                            </div>
+                            </div> --}}
+
                             <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select current weigth</label>
+                                <div class="col-sm-9">
+                                    <select id="weight" name="weight" class="form-control form-control-sm w-100">
+                                        <option value="" disabled selected>Select....</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            {{-- <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Heigth <span class="fw-bold" id="h"> (Mts)</span></label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control form-control-sm" id="height" name="height" value="" placeholder="">
                                     <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                 </div>
+                            </div> --}}
+
+                            <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select current height</label>
+                                <div class="col-sm-9">
+                                    <select id="height" name="height" class="form-control form-control-sm w-100">
+                                        <option value="" disabled selected>Select....</option>
+                                    </select>
+                                </div>
                             </div>
+
+                            {{-- //////////// --}}
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">IMC</label>
                                 <div class="col-sm-9">
@@ -2292,6 +2319,45 @@
             $('#imc').attr('readOnly', true);
         });
 
+
+        const createHeight = () => {
+            const data = [];
+
+            for (let i = 4; i <= 7; i++) {
+                for (let j = 0; j <= 11; j++) {
+                const value = i * 12 + j;
+                const formatted = `${i}' ${j}"`;
+                data.push({ text: formatted, id: value });
+                }
+            }
+
+            for (var dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                $('#height').append(option)
+                $('#height').niceSelect('update');
+            }
+        };
+
+        createHeight();
+
+        const createWeight = () => {
+            const data = [];
+
+            for (let i = 140; i <= 800; i++) {
+                const formatted = `${i} libras`;
+                data.push({ id: i, text: formatted });
+            }
+
+            for (var dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                $('#weight').append(option)
+                $('#weight').niceSelect('update');
+            }
+         };
+
+        createWeight();
+
+
         $(document).on("change", "#weight", function () {
             var sistem = $("input[type=radio][name=mesure_sistem]:checked").val()
             if ($("#height").val()!= "") {
@@ -2305,7 +2371,7 @@
                 ImcCalculate(sistem)
             }
         });
-
+        /////////////////////////////////////////////////////////////////////////////////////
         $(document).on('click', '#medicationFormSave', function () {
             $('#medicationFormSave').show('fast');
             $('.formError').html('')
@@ -2686,6 +2752,7 @@
                 console.log('no');
             }
         });
+
         $(document).on('click', '.deleteSurgey', function(event) {
             $(this).parents('tr').remove()
 
