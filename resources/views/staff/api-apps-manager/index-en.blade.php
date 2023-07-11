@@ -66,8 +66,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4 px-5 p-md-0">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 px-5 p-md-0">
                     <div class="d-none progress">
                         <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
@@ -269,7 +269,7 @@
                             </div> --}}
 
                             <div class="mb-3 row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select current weigth</label>
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current weigth</label>
                                 <div class="col-sm-9">
                                     <select id="weight" name="weight" class="form-control form-control-sm w-100">
                                         <option value="" disabled selected>Select....</option>
@@ -287,7 +287,7 @@
                             </div> --}}
 
                             <div class="mb-3 row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Select current height</label>
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current height</label>
                                 <div class="col-sm-9">
                                     <select id="height" name="height" class="form-control form-control-sm w-100">
                                         <option value="" disabled selected>Select....</option>
@@ -1829,7 +1829,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-3"></div>
             </section>
         </div>
         <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel" aria-hidden="true">
