@@ -2319,8 +2319,7 @@
             $('#imc').attr('readOnly', true);
         });
 
-
-        const createHeight = () => {
+        const createImperialHeight = () => {
             const data = [];
 
             for (let i = 4; i <= 7; i++) {
@@ -2338,13 +2337,43 @@
             }
         };
 
-        createHeight();
+        const createMetricWeight = () => {
+            const data = [];
 
-        const createWeight = () => {
+            for (let i = 40; i <= 300; i++) {
+                const formatted = `${i} kilos`;
+                data.push({ id: i, text: formatted });
+            }
+
+            for (const dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                $('#weight').append(option);
+                $('#weight').niceSelect('update');
+            }
+        };
+
+        const createMetricHeight = () => {
+            const data = [];
+
+            for (let i = 140; i <= 250; i++) {
+                const centimeters = i / 100;
+                const formatted = `${centimeters} metros`;
+                data.push({ id: centimeters, text: formatted });
+            }
+
+            for (const dat of data) {
+                let option = `<option value="${dat.id}">${dat.text}</option>`;
+                $('#height').append(option);
+                $('#height').niceSelect('update');
+            }
+        };
+
+
+        const createImperialWeight = () => {
             const data = [];
 
             for (let i = 140; i <= 800; i++) {
-                const formatted = `${i} libras`;
+                const formatted = `${i} pounds`;
                 data.push({ id: i, text: formatted });
             }
 
@@ -2353,9 +2382,7 @@
                 $('#weight').append(option)
                 $('#weight').niceSelect('update');
             }
-         };
-
-        createWeight();
+        };
 
 
         $(document).on("change", "#weight", function () {
@@ -2371,6 +2398,51 @@
                 ImcCalculate(sistem)
             }
         });
+
+
+        // function ImcCalculate(sistem) {
+        //     if (sistem == "M") {
+        //         var altura = $("#height").val()
+        //         var altura = $("#height").val()
+                
+        //         var peso = $("#weight").val()
+        //         var peso = $("#weight").val()
+
+        //         var formula = peso / (altura * altura);
+        //         $("#imc").val(formula.toFixed(2))
+        //     } else if (sistem =="I"){
+        //         var altura = $("#height").val() * $("#height").val();
+        //         var peso = $("#weight").val() * 703;
+
+        //         var formula = peso / altura;
+        //         $('#imc').attr('readOnly', false);
+        //         $("#imc").val(formula.toFixed(2))
+        //         $('#imc').attr('readOnly', true);
+        //     }
+        // }
+        function ImcCalculate(sistem) {
+            var weight = document.getElementById('weight').value;
+            var height = document.getElementById('height').value;
+            //var selector = document.getElementById('unit-selector').value;
+            var bmi;
+
+            if (sistem === 'M') {
+                // Formato de peso: Kilogramos (kg) - Ejemplo: 70 kg
+                // Formato de altura: Metros (m) - Ejemplo: 1.70 m
+                bmi = weight / (height * height);
+            } else {
+                // Formato de peso: Libras (lb) - Ejemplo: 154 lb
+                // Formato de altura: Pulgadas (in) - Ejemplo: 66 in
+                bmi = (weight * 703) / (height * height);
+            }
+
+            $('#imc').attr('readOnly', false);
+                $("#imc").val(formula.toFixed(2))
+                $('#imc').attr('readOnly', true);
+
+            // var resultElement = document.getElementById('result');
+            // resultElement.textContent = 'Tu IMC es: ' + bmi.toFixed(2);
+        }
         /////////////////////////////////////////////////////////////////////////////////////
         $(document).on('click', '#medicationFormSave', function () {
             $('#medicationFormSave').show('fast');
@@ -2417,21 +2489,31 @@
             }
         });
 
+        createMetricWeight()
+        createMetricHeight()
+
         $(document).on('change', 'input[type=radio][name=mesure_sistem]',  function() {
             $("#max_weigh").val("");
-            $("#weight").val("");
-            $("#height").val("");
+            $('#height').html('').append(`<option selected disabled value="">Select ...</option>`)
+            $('#weight').html('').append(`<option selected disabled value="">Select ...</option>`)
             $("#imc").val("");
             if ($(this).val() == 'I') {
                 $('#mw').html(' (Lb)')
                 $('#cw').html(' (Lb)')
                 $('#h').html(' (Ft)')
+                createImperialHeight();
+                createImperialWeight();
             } else if($(this).val() == 'M'){
                 $('#mw').html(' (Kg)')
                 $('#cw').html(' (Kg)')
                 $('#h').html(' (Mts)')
+                createMetricWeight()
+                createMetricHeight()
             }
+            // $('#height').append(`<option disabled value="">Select ...</option>`)
+            // $('#weight').append(`<option disabled value="">Select ...</option>`)
         });
+        
         $(document).on('change', 'input[type=radio][name=blood_thinners]',  function() {
             if ($("input[type=radio][name=blood_thinners]:checked").val() == '1') {
                 $("#rbt").show('fast')
