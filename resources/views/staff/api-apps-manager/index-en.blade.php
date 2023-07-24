@@ -13,7 +13,51 @@
     <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
     <title>Applications</title>
     <style>
-        
+        .dropify-wrapper .dropify-message span.file-icon {
+            font-size: 20px;
+            color: #CCC;
+        }
+        @media (max-width: 992px)   {
+
+            /* Force table to not be like tables anymore */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            tr {
+            margin: 0 0 1rem 0;
+            }
+
+            tr:nth-child(odd) {
+            background: #ccc;
+            }
+
+            td {
+                /* Behave  like a "row" */
+                
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 0;
+                left: 6px;
+                width: 25%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+        }
 
     </style>
 </head>
@@ -66,8 +110,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6 px-5 p-md-0">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 px-5 p-md-0">
                     <div class="d-none progress">
                         <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
@@ -269,7 +313,7 @@
                             </div> --}}
 
                             <div class="mb-3 row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current weigth</label>
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current weigth <span class="fw-bold" id="cw"> (Kg)</span></label>
                                 <div class="col-sm-9">
                                     <select id="weight" name="weight" class="form-control form-control-sm w-100">
                                         <option value="" disabled selected>Select....</option>
@@ -287,7 +331,7 @@
                             </div> --}}
 
                             <div class="mb-3 row">
-                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current height</label>
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current height <span class="fw-bold" id="h"> (Mts)</span></label>
                                 <div class="col-sm-9">
                                     <select id="height" name="height" class="form-control form-control-sm w-100">
                                         <option value="" disabled selected>Select....</option>
@@ -1829,7 +1873,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </section>
         </div>
         <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel" aria-hidden="true">
@@ -1935,12 +1979,12 @@
             nextBtn.setAttribute('data-step', current_step);
         }
 
-        for (var i = 0; i < stepCount; i++) {
-            step[i].classList.add('d-none')
-        }
+        // for (var i = 0; i < stepCount; i++) {
+        //     step[i].classList.add('d-none')
+        // }
 
-        step[current_step].classList.remove('d-none');
-        step[current_step].classList.add('d-block');
+        // step[current_step].classList.remove('d-none');
+        // step[current_step].classList.add('d-block');
 
         var drEvent = $('.dropify').dropify({
             messages: {
@@ -2399,6 +2443,29 @@
             }
         });
 
+        function ImcCalculate(sistem) {
+            var weight = document.getElementById('weight').value;
+            var height = document.getElementById('height').value;
+            //var selector = document.getElementById('unit-selector').value;
+            var bmi;
+
+            if (sistem === 'M') {
+                // Formato de peso: Kilogramos (kg) - Ejemplo: 70 kg
+                // Formato de altura: Metros (m) - Ejemplo: 1.70 m
+                bmi = weight / (height * height);
+            } else {
+                // Formato de peso: Libras (lb) - Ejemplo: 154 lb
+                // Formato de altura: Pulgadas (in) - Ejemplo: 66 in
+                bmi = (weight * 703) / (height * height);
+            }
+
+            $('#imc').attr('readOnly', false);
+                $("#imc").val(bmi.toFixed(2))
+                $('#imc').attr('readOnly', true);
+
+            // var resultElement = document.getElementById('result');
+            // resultElement.textContent = 'Tu IMC es: ' + bmi.toFixed(2);
+        }
 
         // function ImcCalculate(sistem) {
         //     if (sistem == "M") {
@@ -2420,29 +2487,7 @@
         //         $('#imc').attr('readOnly', true);
         //     }
         // }
-        function ImcCalculate(sistem) {
-            var weight = document.getElementById('weight').value;
-            var height = document.getElementById('height').value;
-            //var selector = document.getElementById('unit-selector').value;
-            var bmi;
-
-            if (sistem === 'M') {
-                // Formato de peso: Kilogramos (kg) - Ejemplo: 70 kg
-                // Formato de altura: Metros (m) - Ejemplo: 1.70 m
-                bmi = weight / (height * height);
-            } else {
-                // Formato de peso: Libras (lb) - Ejemplo: 154 lb
-                // Formato de altura: Pulgadas (in) - Ejemplo: 66 in
-                bmi = (weight * 703) / (height * height);
-            }
-
-            $('#imc').attr('readOnly', false);
-                $("#imc").val(formula.toFixed(2))
-                $('#imc').attr('readOnly', true);
-
-            // var resultElement = document.getElementById('result');
-            // resultElement.textContent = 'Tu IMC es: ' + bmi.toFixed(2);
-        }
+        
         /////////////////////////////////////////////////////////////////////////////////////
         $(document).on('click', '#medicationFormSave', function () {
             $('#medicationFormSave').show('fast');
@@ -2460,23 +2505,23 @@
             $('.formError').html('')
             addMedicationFields()
         });
-        function ImcCalculate(sistem) {
-            if (sistem == "M") {
-                var altura = $("#height").val()
-                var peso = $("#weight").val()
+        // function ImcCalculate(sistem) {
+        //     if (sistem == "M") {
+        //         var altura = $("#height").val()
+        //         var peso = $("#weight").val()
 
-                var formula = peso / (altura * altura);
-                $("#imc").val(formula.toFixed(2))
-            } else if (sistem =="I"){
-                var altura = $("#height").val() * $("#height").val();
-                var peso = $("#weight").val() * 703;
+        //         var formula = peso / (altura * altura);
+        //         $("#imc").val(formula.toFixed(2))
+        //     } else if (sistem =="I"){
+        //         var altura = $("#height").val() * $("#height").val();
+        //         var peso = $("#weight").val() * 703;
 
-                var formula = peso / altura;
-                $('#imc').attr('readOnly', false);
-                $("#imc").val(formula.toFixed(2))
-                $('#imc').attr('readOnly', true);
-            }
-        }
+        //         var formula = peso / altura;
+        //         $('#imc').attr('readOnly', false);
+        //         $("#imc").val(formula.toFixed(2))
+        //         $('#imc').attr('readOnly', true);
+        //     }
+        // }
         $(document).on('change', 'input[type=radio][name=take_medication]',  function (e) {
             if ($("input[type=radio][name=take_medication]:checked").val() == '1') {
                 $('#medication_table').show('fast')

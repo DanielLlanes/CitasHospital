@@ -11,7 +11,53 @@
     <link href="{{ env('APP_URL_API') }}/siteFiles/assets/vendor/dropify/dist/css/dropify.min.css" rel="stylesheet">
     <link href="{{ env('APP_URL_API') }}/siteFiles/css/apiApps.css" rel="stylesheet">
     <title>Applications</title>
+    <style>
+      .dropify-wrapper .dropify-message span.file-icon {
+            font-size: 20px;
+            color: #CCC;
+        }
+        @media (max-width: 992px)   {
 
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        tr {
+        margin: 0 0 1rem 0;
+        }
+
+        tr:nth-child(odd) {
+        /* background: #ccc; */
+        }
+
+        td {
+            /* Behave  like a "row" */
+            
+            border-bottom: 1px solid #eee;
+            position: relative;
+            /* padding-left: 50%; */
+        }
+
+        td:before {
+            /* Now like a table header */
+            /* position: absolute; */
+            /* Top/left values mimic padding */
+            /* top: 0;
+            left: 6px;
+            width: 25%; */
+            padding-right: 10px;
+            white-space: nowrap;
+        }
+        }
+    </style>
     
   </head>
   <body id="top">
@@ -63,8 +109,8 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3"></div>
-          <div class="col-md-6 px-5 p-md-0">
+          <div class="col-md-2"></div>
+          <div class="col-md-8 px-5 p-md-0">
             <div class="d-none progress">
               <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
@@ -252,19 +298,21 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Peso actual <span class="fw-bold" id="cw"> (Kg)</span></label>
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Peso actual <span class="fw-bold" id="cw"> (Kg)</span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="" placeholder="">
-                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                      <select id="weight" name="weight" class="form-control form-control-sm w-100">
+                          <option value="" disabled selected>Select....</option>
+                      </select>
                   </div>
-                </div>
-                <div class="mb-3 row">
-                  <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Altura <span class="fw-bold" id="h"> (Mts)</span></label>
+              </div>
+              <div class="mb-3 row">
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Altura <span class="fw-bold" id="h"> (Mts)</span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control form-control-sm" id="height" name="height" value="" placeholder="">
-                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
+                      <select id="height" name="height" class="form-control form-control-sm w-100">
+                          <option value="" disabled selected>Select....</option>
+                      </select>
                   </div>
-                </div>
+              </div>
                 <div class="mb-3 row">
                   <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">IMC</label>
                   <div class="col-sm-9">
@@ -293,9 +341,9 @@
                   </div>
                 </div>
                 <div class="col-12" id="medication_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
+                  <table class="table medication_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
                         <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
                         <th style="font-weight: 600; font-size: .9rem;">Nombre del medicamento</th>
                         <th style="font-weight: 600; font-size: .9rem;">Razón</th>
@@ -518,19 +566,19 @@
                 </div>
 
                 <div class="col-12" id="surgery_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Nombre</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Edad</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Año</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Complicaciones</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Acciones</th>
+                  <table class="table surgery_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Tipo</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Nombre</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Edad</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Año</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Complicaciones</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Acciones</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody role="rowgroup">
                     </tbody>
                   </table>
                   <div class="col-12 d-flex justify-content-end">
@@ -942,9 +990,9 @@
                   </div>
                 </div>
                 <div class="col-12" id="illness_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
+                  <table class="table illness_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
                         <th style="font-weight: 600; font-size: .9rem;">¿Qué otra enfermedad? </th>
                         <th style="font-weight: 600; font-size: .9rem;">Fecha de diagnóstico</th>
                         <th style="font-weight: 600; font-size: .9rem;">Tratamiento</th>
@@ -1167,9 +1215,9 @@
                 </div>
 
                 <div class="col-12" id="exercise_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
+                  <table class="table exercise_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
                         <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
                         <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
                         <th style="font-weight: 600; font-size: .9rem;">¿Cuánto tiempo?</th>
@@ -1579,16 +1627,16 @@
                   </div>
                 </div>
                 <div class="col-12" id="birth_control_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
-                        <th style="font-weight: 600; font-size: .9rem;">¿Durante cuánto tiempo ha utilizado este anticonceptivo?</th>
-                        <th style="font-weight: 600; font-size: .9rem;">Acciones</th>
+                  <table class="table birth_control_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Tipo</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">¿Durante cuánto tiempo ha utilizado este anticonceptivo?</th>
+                        <th role="columnheader" style="font-weight: 600; font-size: .9rem;">Acciones</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody  role="rowgroup">
                     </tbody>
                   </table>
                   <div class="col-12 d-flex justify-content-end">
@@ -1610,9 +1658,9 @@
                   </div>
                 </div>
                 <div class="col-12" id="hormones_table" style="display: none">
-                  <table class="table">
-                    <thead>
-                      <tr>
+                  <table class="table hormones_table">
+                    <thead role="rowgroup">
+                      <tr role="row">
                         <th style="font-weight: 600; font-size: .9rem; display: none">Orden</th>
                         <th style="font-weight: 600; font-size: .9rem;">Tipo</th>
                         <th style="font-weight: 600; font-size: .9rem;">¿Cuánto tiempo lleva usando esta hormona?</th>
@@ -1808,8 +1856,8 @@
                 </div>
               </div>
             </form>
-            <div class="col-md-3"></div>
           </div>
+          <div class="col-md-2"></div>
         </section>
         </div>
       <div class="modal fade" id="medicationModal" tabindex="-1" aria-labelledby="medicationModalLabel" aria-hidden="true">
@@ -1908,6 +1956,61 @@
       checkBox.each(function(index, el) {
         $(this).attr('checked', 'true');
       });
+
+      const generateDynamicCSSForTable = (tableSelector) => {
+        const tables = document.querySelectorAll(tableSelector);
+        tables.forEach((table) => {
+          const row = table.querySelector('tr[role="row"]');
+          if (!row) {
+            console.error('No se encontró la fila con los nombres de campo para la tabla:', table);
+            return;
+          }
+          const thElements = row.getElementsByTagName('th');
+          const fieldNames = [];
+
+          for (let i = 0; i < thElements.length; i++) {
+            const estilos = window.getComputedStyle(thElements[i]);
+            if (estilos.display === 'none') {
+                console.log('El elemento tiene estilo "display: none".');
+            } else {
+              fieldNames.push(thElements[i].textContent);
+            }
+            
+          }
+
+        console.log(fieldNames);
+          let css = "";
+          for (let i = 0; i < fieldNames.length; i++) {
+            css += `table${tableSelector} td:nth-of-type(${i + 1})::before { white-space: nowrap; width: 200px; content: '${fieldNames[i]}'; }\n`;
+
+          }
+
+        
+          const style = document.createElement('style');
+          style.type = 'text/css';
+          style.appendChild(document.createTextNode(css));
+
+          
+          document.head.appendChild(style);
+        });
+      };
+
+      const mediaQuery = "(max-width: 992px)";
+      const mediaQueryList = window.matchMedia(mediaQuery);
+      const handleMediaQueryChange = (event) => {
+        if (event.matches) {
+          generateDynamicCSSForTable('.surgery_table');//
+          generateDynamicCSSForTable('.birth_control_table');//**
+          generateDynamicCSSForTable('.hormones_table');//**
+          generateDynamicCSSForTable('.medication_table');//
+          generateDynamicCSSForTable('.illness_table');//
+          generateDynamicCSSForTable('.exercise_table');//
+          // generateDynamicCSSForTable('.birth_control_table');
+        }
+      };
+      mediaQueryList.addListener(handleMediaQueryChange);
+      handleMediaQueryChange(mediaQueryList);
+
       let current_step = 0;
       let stepCount = step.length;
       if (current_step == 0) {
@@ -2293,53 +2396,115 @@
         $('#imc').attr('readOnly', true);
       });
 
-      $(document).on("change", "#weight", function () {
+
+
+      const createImperialHeight = () => {
+          const data = [];
+
+          for (let i = 4; i <= 7; i++) {
+              for (let j = 0; j <= 11; j++) {
+              const value = i * 12 + j;
+              const formatted = `${i}' ${j}"`;
+              data.push({ text: formatted, id: value });
+              }
+          }
+
+          for (var dat of data) {
+              let option = `<option value="${dat.id}">${dat.text}</option>`;
+              $('#height').append(option)
+              $('#height').niceSelect('update');
+          }
+      };
+
+      const createMetricWeight = () => {
+          const data = [];
+
+          for (let i = 40; i <= 300; i++) {
+              const formatted = `${i} kilos`;
+              data.push({ id: i, text: formatted });
+          }
+
+          for (const dat of data) {
+              let option = `<option value="${dat.id}">${dat.text}</option>`;
+              $('#weight').append(option);
+              $('#weight').niceSelect('update');
+          }
+      };
+
+      const createMetricHeight = () => {
+          const data = [];
+
+          for (let i = 140; i <= 250; i++) {
+              const centimeters = i / 100;
+              const formatted = `${centimeters} metros`;
+              data.push({ id: centimeters, text: formatted });
+          }
+
+          for (const dat of data) {
+              let option = `<option value="${dat.id}">${dat.text}</option>`;
+              $('#height').append(option);
+              $('#height').niceSelect('update');
+          }
+      };
+
+      const createImperialWeight = () => {
+          const data = [];
+
+          for (let i = 140; i <= 800; i++) {
+              const formatted = `${i} libras`;
+              data.push({ id: i, text: formatted });
+          }
+          for (var dat of data) {
+              let option = `<option value="${dat.id}">${dat.text}</option>`;
+              $('#weight').append(option)
+              $('#weight').niceSelect('update');
+          }
+      };
+
+
+    $(document).on("change", "#weight", function () {
         var sistem = $("input[type=radio][name=mesure_sistem]:checked").val()
         if ($("#height").val()!= "") {
-          ImcCalculate(sistem)
+            ImcCalculate(sistem)
         }
-      });
+    });
 
-      $(document).on("change", "#height", function () {
+    $(document).on("change", "#height", function () {
         var sistem = $("input[type=radio][name=mesure_sistem]:checked").val()
         if ($("#weight").val()!= "") {
-          ImcCalculate(sistem)
+            ImcCalculate(sistem)
         }
-      });
+    });
 
-      $(document).on('click', '#medicationFormSave', function () {
-        $('#medicationFormSave').show('fast');
-        $('.formError').html('')
-      });
+    function ImcCalculate(sistem) {
+        var weight = document.getElementById('weight').value;
+        var height = document.getElementById('height').value;
+        //var selector = document.getElementById('unit-selector').value;
+        var bmi;
 
-      $(document).on('click', '.deleteMedication', function(event) {
-        $(this).parents('tr').remove()
-
-        if ($("#medication_table tbody tr").length < 1) {
-          addMedicationFields()
+        if (sistem === 'M') {
+            // Formato de peso: Kilogramos (kg) - Ejemplo: 70 kg
+            // Formato de altura: Metros (m) - Ejemplo: 1.70 m
+            bmi = weight / (height * height);
+        } else {
+            // Formato de peso: Libras (lb) - Ejemplo: 154 lb
+            // Formato de altura: Pulgadas (in) - Ejemplo: 66 in
+            bmi = (weight * 703) / (height * height);
         }
-      });
+
+        $('#imc').attr('readOnly', false);
+            $("#imc").val(bmi.toFixed(2))
+            $('#imc').attr('readOnly', true);
+
+        // var resultElement = document.getElementById('result');
+        // resultElement.textContent = 'Tu IMC es: ' + bmi.toFixed(2);
+    }
+
       $(document).on('click', '#medicationTableAdd',function () {
         $('.formError').html('')
         addMedicationFields()
       });
-      function ImcCalculate(sistem) {
-        if (sistem == "M") {
-          var altura = $("#height").val()
-          var peso = $("#weight").val()
-
-          var formula = peso / (altura * altura);
-          $("#imc").val(formula.toFixed(2))
-        } else if (sistem =="I"){
-          var altura = $("#height").val() * $("#height").val();
-          var peso = $("#weight").val() * 703;
-
-          var formula = peso / altura;
-          $('#imc').attr('readOnly', false);
-          $("#imc").val(formula.toFixed(2))
-          $('#imc').attr('readOnly', true);
-        }
-      }
+     
       $(document).on('change', 'input[type=radio][name=take_medication]',  function (e) {
         if ($("input[type=radio][name=take_medication]:checked").val() == '1') {
           $('#medication_table').show('fast')
@@ -2351,21 +2516,30 @@
           $('#medication_table').find('tbody').html('');
         }
       });
+
+      createMetricWeight()
+      createMetricHeight()
       
       $(document).on('change', 'input[type=radio][name=mesure_sistem]',  function() {
+
         $("#max_weigh").val("");
-        $("#weight").val("");
-        $("#height").val("");
+        $('#height').html('').append(`<option selected disabled value="">Select ...</option>`)
+        $('#weight').html('').append(`<option selected disabled value="">Select ...</option>`)
         $("#imc").val("");
         if ($(this).val() == 'I') {
           $('#mw').html(' (Lb)')
           $('#cw').html(' (Lb)')
           $('#h').html(' (Ft)')
+          createImperialHeight();
+          createImperialWeight();
         } else if($(this).val() == 'M'){
           $('#mw').html(' (Kg)')
           $('#cw').html(' (Kg)')
           $('#h').html(' (Mts)')
+          createMetricWeight()
+          createMetricHeight()
         }
+        
       });
       $(document).on('change', 'input[type=radio][name=blood_thinners]',  function() {
         if ($("input[type=radio][name=blood_thinners]:checked").val() == '1') {
@@ -2430,7 +2604,7 @@
         medicationField += '<input type="text" name="medication_frecuency[]" class="form-control form-control-sm"">'
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
         medicationField += '</td>'
-        medicationField += '<td class="text-center">'
+        medicationField += '<td>'
         medicationField += '<button class="btn btn-danger btn-sm btn-block deleteMedication" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
@@ -2482,7 +2656,7 @@
           surgeryField += '<input type="text" name="surgey_complications[]" class="form-control form-control-sm">'
           surgeryField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           surgeryField += '</td>'
-          surgeryField += '<td class="text-center">'
+          surgeryField += '<td>'
           surgeryField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Eliminar</i></button>'
           surgeryField += '</td>'
           surgeryField += '</tr>'
@@ -2667,7 +2841,7 @@
           illnessField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           illnessField += '</td>'
           illnessField += '<td>'
-          illnessField += '<td class="text-center">'
+          illnessField += '<td>'
           illnessField += '<button class="btn btn-danger btn-sm deleteillness" type="button" id="addon-wrapping">Eliminar</i></button>'
           illnessField += '</td>'
           illnessField += '</tr>'
@@ -2859,7 +3033,7 @@
           exerciseField += '<input type="text" name="exercise_hours[]" class="form-control form-control-sm">'
           exerciseField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
           exerciseField += '</td>'
-          exerciseField += '<td class="text-center">'
+          exerciseField += '<td>'
           exerciseField += '<button class="btn btn-danger btn-sm btn-block deleteSurgey" type="button" id="addon-wrapping">Eliminar</i></button>'
           exerciseField += '</td>'
           exerciseField += '</tr>'
@@ -2930,16 +3104,16 @@
       function addHormoneFields() {
         var medicationField = '';
         medicationField += '<tr>'
-        medicationField += '<th>'
+        medicationField += '<td>'
         medicationField += '<input type="text" name="hormone_type[]" class="form-control form-control-sm">'
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
-        medicationField += '</th>'
+        medicationField += '</td>'
         medicationField += '<td>'
         medicationField += '<input type="text" name="hormone_how_long[]" class="form-control form-control-sm">'
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
         medicationField += '</td>'
         medicationField += '<td>'
-        medicationField += '<td class="text-center">'
+        medicationField += '<td>'
         medicationField += '<button class="btn btn-danger btn-sm btn-block deleteHormone" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
@@ -2948,15 +3122,15 @@
       function addbirthControlFields() {
         var medicationField = '';
         medicationField += '<tr>'
-        medicationField += '<th>'
+        medicationField += '<td>'
         medicationField += '<input type="text" name="birthControl_type[]" class="form-control form-control-sm">'
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
-        medicationField += '</th>'
+        medicationField += '</td>'
         medicationField += '<td>'
         medicationField += '<input type="text" name="birthControl_how_long[]" class="form-control form-control-sm">'
         medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
         medicationField += '</td>'
-        medicationField += '<td class="text-center">'
+        medicationField += '<td>'
         medicationField += '<button class="btn btn-danger btn-sm btn-block deletebirthControl" type="button" id="addon-wrapping">Eliminar</i></button>'
         medicationField += '</td>'
         medicationField += '</tr>'
@@ -2967,6 +3141,8 @@
           else $(this).removeClass("empty")
       });
       $("select").change();
+
+      
 
       (function($) {
             $.fn.inputFilter = function(inputFilter) {
