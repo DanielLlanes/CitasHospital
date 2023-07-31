@@ -2033,12 +2033,12 @@
             nextBtn.setAttribute('data-step', current_step);
         }
 
-        // for (var i = 0; i < stepCount; i++) {
-        //     step[i].classList.add('d-none')
-        // }
+        for (var i = 0; i < stepCount; i++) {
+            step[i].classList.add('d-none')
+        }
 
-        // step[current_step].classList.remove('d-none');
-        // step[current_step].classList.add('d-block');
+        step[current_step].classList.remove('d-none');
+        step[current_step].classList.add('d-block');
 
         var drEvent = $('.dropify').dropify({
             messages: {
@@ -3155,10 +3155,10 @@
         function addHormoneFields() {
             var medicationField = '';
             medicationField += '<tr>'
-            medicationField += '<th>'
+            medicationField += '<td>'
             medicationField += '<input type="text" name="hormone_type[]" class="form-control form-control-sm">'
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
-            medicationField += '</th>'
+            medicationField += '</td>'
             medicationField += '<td>'
             medicationField += '<input type="text" name="hormone_how_long[]" class="form-control form-control-sm">'
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
@@ -3173,10 +3173,10 @@
         function addbirthControlFields() {
             var medicationField = '';
             medicationField += '<tr>'
-            medicationField += '<th>'
+            medicationField += '<td>'
             medicationField += '<input type="text" name="birthControl_type[]" class="form-control form-control-sm">'
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
-            medicationField += '</th>'
+            medicationField += '</td>'
             medicationField += '<td>'
             medicationField += '<input type="text" name="birthControl_how_long[]" class="form-control form-control-sm">'
             medicationField += '<span class="invalid-feedback" style="display: block!important;" role="alert"></span>'
