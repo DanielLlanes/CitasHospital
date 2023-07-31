@@ -18,44 +18,44 @@
         }
         @media (max-width: 992px)   {
 
-        /* Force table to not be like tables anymore */
-        table, thead, tbody, th, td, tr {
-            display: block;
-        }
+          /* Force table to not be like tables anymore */
+          table, thead, tbody, th, td, tr {
+              display: block;
+          }
 
-        /* Hide table headers (but not display: none;, for accessibility) */
-        thead tr {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-        }
+          /* Hide table headers (but not display: none;, for accessibility) */
+          thead tr {
+              position: absolute;
+              top: -9999px;
+              left: -9999px;
+          }
 
-        tr {
-        margin: 0 0 1rem 0;
-        }
+          tr {
+          margin: 0 0 1rem 0;
+          }
 
-        tr:nth-child(odd) {
-        /* background: #ccc; */
-        }
+          tr:nth-child(odd) {
+          /* background: #ccc; */
+          }
 
-        td {
-            /* Behave  like a "row" */
-            
-            border-bottom: 1px solid #eee;
-            position: relative;
-            /* padding-left: 50%; */
-        }
+          td {
+              /* Behave  like a "row" */
+              
+              border-bottom: 1px solid #eee;
+              position: relative;
+              /* padding-left: 50%; */
+          }
 
-        td:before {
-            /* Now like a table header */
-            /* position: absolute; */
-            /* Top/left values mimic padding */
-            /* top: 0;
-            left: 6px;
-            width: 25%; */
-            padding-right: 10px;
-            white-space: nowrap;
-        }
+          td:before {
+              /* Now like a table header */
+              /* position: absolute; */
+              /* Top/left values mimic padding */
+              /* top: 0;
+              left: 6px;
+              width: 25%; */
+              padding-right: 10px;
+              white-space: nowrap;
+          }
         }
     </style>
     
@@ -1905,7 +1905,7 @@
                   </div>
               </div>
           </div>
-<option value=""></option>
+      <option value=""></option>
     <!-- Optional JavaScript; choose one of the two! -->
     @section('styles')
       <link rel="stylesheet" type="text/css" href="{{ env('APP_URL_API') }}/staffFiles/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
@@ -1998,6 +1998,7 @@
       const mediaQuery = "(max-width: 992px)";
       const mediaQueryList = window.matchMedia(mediaQuery);
       const handleMediaQueryChange = (event) => {
+
         if (event.matches) {
           generateDynamicCSSForTable('.surgery_table');//
           generateDynamicCSSForTable('.birth_control_table');//**

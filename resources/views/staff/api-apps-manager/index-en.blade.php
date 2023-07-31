@@ -36,7 +36,7 @@
             }
 
             tr:nth-child(odd) {
-            background: #ccc;
+            /* background: #ccc; */
             }
 
             td {
@@ -44,16 +44,16 @@
                 
                 border-bottom: 1px solid #eee;
                 position: relative;
-                padding-left: 50%;
+                /* padding-left: 50%; */
             }
 
             td:before {
                 /* Now like a table header */
-                position: absolute;
+                /* position: absolute; */
                 /* Top/left values mimic padding */
-                top: 0;
+                /* top: 0;
                 left: 6px;
-                width: 25%;
+                width: 25%; */
                 padding-right: 10px;
                 white-space: nowrap;
             }
@@ -368,9 +368,9 @@
                                 </div>
                             </div>
                             <div class="col-12" id="medication_table" style="display: none">
-                                <table class="table">
+                                <table class="table medication_table">
                                     <thead>
-                                        <tr>
+                                       <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Medication name</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Reazon</th>
@@ -593,9 +593,9 @@
                             </div>
 
                             <div class="col-12" id="surgery_table" style="display: none">
-                                <table class="table">
+                                <table class="table surgery_table">
                                     <thead>
-                                        <tr>
+                                        <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Type</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Name</th>
@@ -1020,9 +1020,9 @@
                                 </div>
                             </div>
                             <div class="col-12" id="illness_table" style="display: none">
-                                <table class="table">
+                                <table class="table illness_table">
                                     <thead>
-                                        <tr>
+                                        <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem;">What other illness? </th>
                                             <th style="font-weight: 600; font-size: .9rem;">Diagnostic date</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Treatment</th>
@@ -1245,9 +1245,9 @@
                             </div>
 
                             <div class="col-12" id="exercise_table" style="display: none">
-                                <table class="table">
+                                <table class="table exercise_table">
                                     <thead>
-                                        <tr>
+                                        <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Type</th>
                                             <th style="font-weight: 600; font-size: .9rem;">How long?</th>
@@ -1655,9 +1655,9 @@
                                 </div>
                             </div>
                             <div class="col-12" id="birth_control_table" style="display: none">
-                                <table class="table">
+                                <table class="table birth_control_table">
                                     <thead>
-                                        <tr>
+                                        <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Type</th>
                                             <th style="font-weight: 600; font-size: .9rem;">How long have you been using this contraceptive?</th>
@@ -1685,9 +1685,9 @@
                                 </div>
                             </div>
                             <div class="col-12" id="hormones_table" style="display: none">
-                                <table class="table">
+                                <table class="table hormones_table">
                                     <thead>
-                                        <tr>
+                                        <tr role="row">
                                             <th style="font-weight: 600; font-size: .9rem; display: none">Order</th>
                                             <th style="font-weight: 600; font-size: .9rem;">Type</th>
                                             <th style="font-weight: 600; font-size: .9rem;">How long have you been using this hormone?</th>
@@ -1968,6 +1968,60 @@
             $(this).attr('checked', 'true');
         });
 
+        const generateDynamicCSSForTable = (tableSelector) => {
+        const tables = document.querySelectorAll(tableSelector);
+        tables.forEach((table) => {
+          const row = table.querySelector('tr[role="row"]');
+          if (!row) {
+            console.error('No se encontró la fila con los nombres de campo para la tabla:', table);
+            return;
+          }
+          const thElements = row.getElementsByTagName('th');
+          const fieldNames = [];
+
+          for (let i = 0; i < thElements.length; i++) {
+            const estilos = window.getComputedStyle(thElements[i]);
+            if (estilos.display === 'none') {
+                console.log('El elemento tiene estilo "display: none".');
+            } else {
+              fieldNames.push(thElements[i].textContent);
+            }
+            
+          }
+
+        console.log(fieldNames);
+          let css = "";
+          for (let i = 0; i < fieldNames.length; i++) {
+            css += `table${tableSelector} td:nth-of-type(${i + 1})::before { white-space: nowrap; width: 200px; content: '${fieldNames[i]}'; }\n`;
+
+          }
+
+        
+          const style = document.createElement('style');
+          style.type = 'text/css';
+          style.appendChild(document.createTextNode(css));
+
+          
+          document.head.appendChild(style);
+        });
+      };
+
+      const mediaQuery = "(max-width: 992px)";
+      const mediaQueryList = window.matchMedia(mediaQuery);
+      const handleMediaQueryChange = (event) => {
+
+        if (event.matches) {
+          generateDynamicCSSForTable('.surgery_table');//
+          generateDynamicCSSForTable('.birth_control_table');//**
+          generateDynamicCSSForTable('.hormones_table');//**
+          generateDynamicCSSForTable('.medication_table');//
+          generateDynamicCSSForTable('.illness_table');//
+          generateDynamicCSSForTable('.exercise_table');//
+          // generateDynamicCSSForTable('.birth_control_table');
+        }
+      };
+      mediaQueryList.addListener(handleMediaQueryChange);
+      handleMediaQueryChange(mediaQueryList);
         
         let current_step = 0;
         let stepCount = step.length;
@@ -2466,28 +2520,6 @@
             // var resultElement = document.getElementById('result');
             // resultElement.textContent = 'Tu IMC es: ' + bmi.toFixed(2);
         }
-
-        // function ImcCalculate(sistem) {
-        //     if (sistem == "M") {
-        //         var altura = $("#height").val()
-        //         var altura = $("#height").val()
-                
-        //         var peso = $("#weight").val()
-        //         var peso = $("#weight").val()
-
-        //         var formula = peso / (altura * altura);
-        //         $("#imc").val(formula.toFixed(2))
-        //     } else if (sistem =="I"){
-        //         var altura = $("#height").val() * $("#height").val();
-        //         var peso = $("#weight").val() * 703;
-
-        //         var formula = peso / altura;
-        //         $('#imc').attr('readOnly', false);
-        //         $("#imc").val(formula.toFixed(2))
-        //         $('#imc').attr('readOnly', true);
-        //     }
-        // }
-        
         /////////////////////////////////////////////////////////////////////////////////////
         $(document).on('click', '#medicationFormSave', function () {
             $('#medicationFormSave').show('fast');
