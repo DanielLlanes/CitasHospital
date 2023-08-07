@@ -95,10 +95,11 @@ class AppController extends Controller
         )
         ->where('is_complete', true)
         ->get();
-           
-        foreach ($apps as $key => $app) {
-            $app->price = (!is_null($app->treatment->price)) ? $app->treatment->price:$app->price;
-        }
+
+        
+        // foreach ($apps as $key => $app) {
+        //     $app->price = (!is_null($app->treatment->price)) ? $app->treatment->price:$app->price;
+        // }
 
         return view(
             'staff.application-manager.list'
@@ -264,8 +265,8 @@ class AppController extends Controller
             })
             ->addColumn('precio_inicial', function ($apps) {
 
-                $price = ($apps->treatment->price != null ? '$ ' . $apps->treatment->price : "-----");
-                return '<span>' . $price . '</span>';
+               // $price = ($apps->treatment->price != null ? '$ ' . $apps->treatment->price : "-----");
+                return '<span>' . $apps->price . '</span>';
             })
             ->addColumn('precio', function ($apps) {
 
@@ -287,8 +288,7 @@ class AppController extends Controller
             ->addColumn('acciones', function($apps) {
                 return view('staff.application-manager.actions-list', compact('apps'));
             })
-            //->addColumn('acciones', 'staff.application-manager.actions-list')
-            ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'precio', 'precio_inicial', 'partner', 'status', 'acciones'])
+            ->rawColumns(['DT_RowIndex', 'codigo', 'paciente', 'marca', 'servicio', 'procedimiento', 'paquete', "coordinador", 'fecha', 'partner', 'status', 'acciones'])
             ->make(true);
         }
     }

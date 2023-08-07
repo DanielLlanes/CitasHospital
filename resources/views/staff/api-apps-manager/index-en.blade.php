@@ -302,16 +302,6 @@
                                 </div>
                             </div>
 
-                            {{-- ////////// --}}
-
-                            {{-- <div class="mb-3 row">
-                                <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Current Weigth <span class="fw-bold" id="cw"> (Kg)</span></label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="weight" name="weight" value="" placeholder="">
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
-                                </div>
-                            </div> --}}
-
                             <div class="mb-3 row">
                                 <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current weigth <span class="fw-bold" id="cw"> (Kg)</span></label>
                                 <div class="col-sm-9">
@@ -320,15 +310,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
-                            {{-- <div class="mb-3 row">
-                                <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm">Heigth <span class="fw-bold" id="h"> (Mts)</span></label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-control-sm" id="height" name="height" value="" placeholder="">
-                                    <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
-                                </div>
-                            </div> --}}
 
                             <div class="mb-3 row">
                                 <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">current height <span class="fw-bold" id="h"> (Mts)</span></label>
@@ -1263,11 +1244,6 @@
                                     <button type="button" class="btn btn-second text-white mb-3" id="exerciceTableAdd">Add exercise</button>
                                 </div>
                             </div>
-
-
-
-
-
 
                             <div class="div-service" style="display: none;">
                                 <div class="mb-3 row mt-1">

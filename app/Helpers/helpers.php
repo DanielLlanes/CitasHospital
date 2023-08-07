@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Staff\Staff;
+use Illuminate\Support\Str;
 use App\Models\Site\Application;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Collection;

@@ -44,6 +44,32 @@ class ProcedureController extends Controller
         ->select('id', "package_$lang AS name")
         ->get();
 
+        $lang = Auth::guard('staff')->user()->lang;
+            $lang = app()->getLocale();
+
+            $procedures = Procedure::select("*", "procedure_$lang as procedure")
+            ->with(
+                [
+                    'imageOne',
+                    'service' => function($q) use ($lang){
+                        $q->select("id", "brand_id", "service_$lang as service")
+                        ->with(
+                            [
+                                'brand' => function($q) use ($lang){
+                                    $q->select("id", "brand", "color");
+                                }
+                            ]
+                        );
+                    },
+                    'descriptionOne' => function($q)use($lang){
+                        $q->select('*', "description_$lang as description");
+                    }
+                ]
+            )
+            ->get();
+
+            //return $procedures;
+
         return view('staff.procedure-manager.list', ["packages" => $packages]);
     }
 
