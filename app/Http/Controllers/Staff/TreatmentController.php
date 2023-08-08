@@ -331,6 +331,8 @@ class TreatmentController extends Controller
 
     public function update(Request $request)
     {
+
+
         if ($request->image == 'undefined') {
             $request->request->remove('image');
         }
@@ -388,11 +390,11 @@ class TreatmentController extends Controller
             'price' => 'nullable|sometimes|numeric',
             'starting' => 'required|boolean',
             "discount" => "sometimes|nullable|numeric",
-            'discountType' => 
-                [
-                    ($request->has('discount')) ? 'required' : '',
-                    ($request->has('discount')) ? "in:money,porcent" : '',
-                ],
+            // 'discountType' => 
+            //     [
+            //         ($request->has('discount')) ? 'required' : '',
+            //         ($request->has('discount')) ? "in:money,porcent" : '',
+            //     ],
 
             'image' => "nullable|sometimes|image|mimes:jpg,png,jpeg",
           ]
