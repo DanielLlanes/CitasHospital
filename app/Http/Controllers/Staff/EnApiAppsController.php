@@ -157,6 +157,7 @@ class EnApiAppsController extends Controller
     }
     public function checkData(Request $request)
     {  
+
             $lang = 'en';
             if ($request->step == 0) {
                 $exist = false;
@@ -1222,11 +1223,22 @@ class EnApiAppsController extends Controller
             $otherAlergies = 1;
         }
 
+        $newPrice = (!is_null($treatment->price) ? $treatment->price: null);
+
+        if ($request->procedure == 1) {
+            if ($request->addOns == 1) {
+                $newPrice = $newPrice + 1200;
+            } elseif ($request->addOns == 2) {
+                $newPrice = $newPrice + 1000;
+            }
+        }
+        
+
         $app->temp_code = Str::random(10);
         $app->code = getCode();
         $app->patient_id = $patient->id;
-        $app->price = (!is_null($treatment->price) ? $treatment->price: null);
-
+        $app->price = $newPrice;
+        $app->addons = $request->addOns;
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;
         $app->treatment_id = $treatment->id;

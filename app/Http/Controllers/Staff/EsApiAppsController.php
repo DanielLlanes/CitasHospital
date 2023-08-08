@@ -1296,10 +1296,23 @@ class EsApiAppsController extends Controller
             $otherAlergies = 1;
         }
 
+
+        $newPrice = (!is_null($treatment->price) ? $treatment->price: null);
+
+        if ($request->procedure == 1) {
+            if ($request->addOns == 1) {
+                $newPrice = $newPrice + 1200;
+            } elseif ($request->addOns == 2) {
+                $newPrice = $newPrice + 1000;
+            }
+        }
+
         $app->temp_code = Str::random(10);
         $app->code = getCode();
         $app->patient_id = $patient->id;
-        $app->price = (!is_null($treatment->price) ? $treatment->price: null);
+        $app->price = $newPrice;
+
+        $app->addons = $request->addOns;
 
         $app->temp_code = Str::random(10);
         $app->patient_id = $patient->id;
@@ -1725,7 +1738,7 @@ class EsApiAppsController extends Controller
                 $response['application_id'] = $app->id;
                 $response['timestamp'] = $this->datesLangTrait($date, 'en') . ", " .$hours;
                 $response['timeDiff'] = $date->diffForHumans();
-                $response['msgStrac'] = \Str::of("A new application has been assigned to you")->limit(20);
+                $response['msgStrac'] = Str::of("A new application has been assigned to you")->limit(20);
 
                 $notifications->push((object)[
                     'staff_id' => $assignment_staff->id,
@@ -1733,7 +1746,7 @@ class EsApiAppsController extends Controller
                     'application_id' => $app->id,
                     'timestamp' => $this->datesLangTrait($date, 'en') . ", " .$hours,
                     'timeDiff' => $date->diffForHumans(),
-                    'msgStrac' => \Str::of("A new application has been assigned to you")->limit(20),
+                    'msgStrac' => Str::of("A new application has been assigned to you")->limit(20),
                     'url' => route('staff.applications.show', ["id" => $app->id]),
                 ]);
 

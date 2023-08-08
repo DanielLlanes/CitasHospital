@@ -265,6 +265,23 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="mb-3 row d-none" id="addons">
+                                <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Addons</label>
+                                <div class="col-sm-9">
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="0" type="radio" name="addOns" id="addOns3" checked>
+                                            <label class="form-check-label" for="addOns1">None</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" value="1" type="radio" name="addOns" id="addOns1">
+                                            <label class="form-check-label" for="addOns1">Single port +$1200 USD</label>
+                                    </div>
+                                    <div class="form-check">
+                                    <input class="form-check-input" value="2" type="radio" name="addOns" id="addOns2">
+                                        <label class="form-check-label" for="addOns2">Invisible Sleeve +$1000 USD</label>
+                                    </div>
+                                </div>
+                            </div>
                             <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
                         </div>
                         <div class="step">
@@ -279,6 +296,7 @@
                                     <p for="staticEmail" class="col-form-label col-form-label-sm text-center">Select your preferred measurement system</p>
                                 </div>
                             </div>
+
                             <div class="row mb-5">
                                 <label for="staticEmail" class="col-sm-3 col-form-label col-form-label-sm"></label>
                                 <div class="col-sm-9 text-center checkBox">
@@ -1936,68 +1954,65 @@
         form.onsubmit = () => {
             return false
         }
-        // $(document).on('select2:open', () => {
-        //     document.querySelector('.select2-search__field').focus();
-        // });
         checkBox = $("input[type='radio'][value='0']")
         checkBox.each(function(index, el) {
             $(this).attr('checked', 'true');
         });
 
         const generateDynamicCSSForTable = (tableSelector) => {
-        const tables = document.querySelectorAll(tableSelector);
-        tables.forEach((table) => {
-          const row = table.querySelector('tr[role="row"]');
-          if (!row) {
-            console.error('No se encontró la fila con los nombres de campo para la tabla:', table);
-            return;
-          }
-          const thElements = row.getElementsByTagName('th');
-          const fieldNames = [];
+            const tables = document.querySelectorAll(tableSelector);
+            tables.forEach((table) => {
+                const row = table.querySelector('tr[role="row"]');
+                if (!row) {
+                    console.error('No se encontró la fila con los nombres de campo para la tabla:', table);
+                    return;
+                }
+                const thElements = row.getElementsByTagName('th');
+                const fieldNames = [];
 
-          for (let i = 0; i < thElements.length; i++) {
-            const estilos = window.getComputedStyle(thElements[i]);
-            if (estilos.display === 'none') {
-                console.log('El elemento tiene estilo "display: none".');
-            } else {
-              fieldNames.push(thElements[i].textContent);
+                for (let i = 0; i < thElements.length; i++) {
+                    const estilos = window.getComputedStyle(thElements[i]);
+                    if (estilos.display === 'none') {
+                        console.log('El elemento tiene estilo "display: none".');
+                    } else {
+                        fieldNames.push(thElements[i].textContent);
+                    }
+
+                }
+
+                console.log(fieldNames);
+                let css = "";
+                for (let i = 0; i < fieldNames.length; i++) {
+                    css += `table${tableSelector} td:nth-of-type(${i + 1})::before { white-space: nowrap; width: 200px; content: '${fieldNames[i]}'; }\n`;
+
+                }
+
+
+                const style = document.createElement('style');
+                style.type = 'text/css';
+                style.appendChild(document.createTextNode(css));
+
+
+                document.head.appendChild(style);
+            });
+        };
+
+        const mediaQuery = "(max-width: 992px)";
+        const mediaQueryList = window.matchMedia(mediaQuery);
+        const handleMediaQueryChange = (event) => {
+
+            if (event.matches) {
+                generateDynamicCSSForTable('.surgery_table'); //
+                generateDynamicCSSForTable('.birth_control_table'); //**
+                generateDynamicCSSForTable('.hormones_table'); //**
+                generateDynamicCSSForTable('.medication_table'); //
+                generateDynamicCSSForTable('.illness_table'); //
+                generateDynamicCSSForTable('.exercise_table'); //
+                // generateDynamicCSSForTable('.birth_control_table');
             }
-            
-          }
-
-        console.log(fieldNames);
-          let css = "";
-          for (let i = 0; i < fieldNames.length; i++) {
-            css += `table${tableSelector} td:nth-of-type(${i + 1})::before { white-space: nowrap; width: 200px; content: '${fieldNames[i]}'; }\n`;
-
-          }
-
-        
-          const style = document.createElement('style');
-          style.type = 'text/css';
-          style.appendChild(document.createTextNode(css));
-
-          
-          document.head.appendChild(style);
-        });
-      };
-
-      const mediaQuery = "(max-width: 992px)";
-      const mediaQueryList = window.matchMedia(mediaQuery);
-      const handleMediaQueryChange = (event) => {
-
-        if (event.matches) {
-          generateDynamicCSSForTable('.surgery_table');//
-          generateDynamicCSSForTable('.birth_control_table');//**
-          generateDynamicCSSForTable('.hormones_table');//**
-          generateDynamicCSSForTable('.medication_table');//
-          generateDynamicCSSForTable('.illness_table');//
-          generateDynamicCSSForTable('.exercise_table');//
-          // generateDynamicCSSForTable('.birth_control_table');
-        }
-      };
-      mediaQueryList.addListener(handleMediaQueryChange);
-      handleMediaQueryChange(mediaQueryList);
+        };
+        mediaQueryList.addListener(handleMediaQueryChange);
+        handleMediaQueryChange(mediaQueryList);
         
         let current_step = 0;
         let stepCount = step.length;
@@ -2513,23 +2528,6 @@
             $('.formError').html('')
             addMedicationFields()
         });
-        // function ImcCalculate(sistem) {
-        //     if (sistem == "M") {
-        //         var altura = $("#height").val()
-        //         var peso = $("#weight").val()
-
-        //         var formula = peso / (altura * altura);
-        //         $("#imc").val(formula.toFixed(2))
-        //     } else if (sistem =="I"){
-        //         var altura = $("#height").val() * $("#height").val();
-        //         var peso = $("#weight").val() * 703;
-
-        //         var formula = peso / altura;
-        //         $('#imc').attr('readOnly', false);
-        //         $("#imc").val(formula.toFixed(2))
-        //         $('#imc').attr('readOnly', true);
-        //     }
-        // }
         $(document).on('change', 'input[type=radio][name=take_medication]',  function (e) {
             if ($("input[type=radio][name=take_medication]:checked").val() == '1') {
                 $('#medication_table').show('fast')
@@ -3214,6 +3212,23 @@
             $(".year").inputFilter(function(value) { // limitado a 500
                 return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(31)); 
             });
+        });
+
+
+        const selectElement = document.getElementById("select-procedure-select");
+        const addonsArea = document.getElementById("addons");
+        const firstRadio = addonsArea.querySelector('input[type="radio"]');
+        
+
+        selectElement.addEventListener("change", function() {
+            if (selectElement.value === "1") {
+                addonsArea.classList.remove("d-none");
+            } else {
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                }
+                addonsArea.classList.add("d-none");
+            }
         });
 
     </script>

@@ -263,6 +263,23 @@
                   </select>
                   </div>
                 </div>
+                <div class="mb-3 row d-none" id="addons">
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Addons</label>
+                  <div class="col-sm-9">
+                      <div class="form-check">
+                          <input class="form-check-input" value="0" type="radio" name="addOns" id="addOns3" checked>
+                              <label class="form-check-label" for="addOns1">Ninguna</label>
+                      </div>
+                      <div class="form-check">
+                          <input class="form-check-input" value="1" type="radio" name="addOns" id="addOns1">
+                              <label class="form-check-label" for="addOns1">Única incisión +$1200 USD</label>
+                      </div>
+                      <div class="form-check">
+                      <input class="form-check-input" value="2" type="radio" name="addOns" id="addOns2">
+                          <label class="form-check-label" for="addOns2">Incisión invisible +$1000 USD</label>
+                      </div>
+                  </div>
+              </div>
                 <span class="invalid-feedback text-center" id="treatment" style="display: block!important;" role="alert"></span>
               </div>
               <div class="step">
@@ -3195,6 +3212,22 @@
 
               }
             });
+        });
+
+        const selectElement = document.getElementById("select-procedure-select");
+        const addonsArea = document.getElementById("addons");
+        const firstRadio = addonsArea.querySelector('input[type="radio"]');
+        
+
+        selectElement.addEventListener("change", function() {
+            if (selectElement.value === "1") {
+                addonsArea.classList.remove("d-none");
+            } else {
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                }
+                addonsArea.classList.add("d-none");
+            }
         });
     </script>
   </body>

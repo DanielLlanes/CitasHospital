@@ -216,6 +216,7 @@ if (! function_exists('getStaffEmails')) {
             }
         )
         ->orderBy('last_assignment', 'ASC')
+        ->where('active', 1)
         ->with([
             'specialties',
             'roles',
