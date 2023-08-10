@@ -124,7 +124,7 @@
                         </ul>
                     </li>
                 @endif
-                @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator']))    
+                @if (Auth()->guard('staff')->user()->hasRole(['dios', 'super-administrator', 'administrator', 'supervisor']))    
                     <li class="nav-item master-menu">
                         <a href="javascript:;" class="nav-link nav-toggle">
                             <i class="material-icons">settings</i>
