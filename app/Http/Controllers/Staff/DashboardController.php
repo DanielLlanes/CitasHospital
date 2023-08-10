@@ -332,6 +332,7 @@ class DashboardController extends Controller
                     return '<span>'.$apps->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('paquete', function($apps){
+                    return $apps->treatment;
                     if (!is_null($apps->treatment->package)) {
                         return '<span>'.$apps->treatment->package->package.'</span>';
                     } else {
