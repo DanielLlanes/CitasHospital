@@ -89,7 +89,7 @@ class DashboardController extends Controller
         ->take(5)
         ->get();
 
-       // return $apps;
+       return $apps[0]->treatment;
 
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
