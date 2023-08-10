@@ -324,6 +324,7 @@ class DashboardController extends Controller
                     //return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('servicio', function($apps){
+                    return $apps->treatment;
                     return '<span>'.$apps->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedimiento', function($apps){
