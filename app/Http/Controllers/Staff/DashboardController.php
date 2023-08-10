@@ -334,7 +334,7 @@ class DashboardController extends Controller
                     if (!is_null($apps->treatment->procedure)) {
                         return '<span>'.$apps->treatment->procedure->procedure.'</span>';
                     }
-                    return "Not Available"
+                    return "Not Available";
                 })
                 ->addColumn('paquete', function($apps){
                     //return $apps->treatment;
