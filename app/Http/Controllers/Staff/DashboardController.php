@@ -325,11 +325,16 @@ class DashboardController extends Controller
                 })
                 ->addColumn('servicio', function($apps){
                     //return $apps->treatment;
-                    return '<span>'.$apps->treatment->service->service.'</span>';
+                    if (!is_null($apps->treatment->brand)) {
+                        return '<span>'.$apps->treatment->service->service.'</span>';
+                    }
+                    return "Not Available";
                 })
                 ->addColumn('procedimiento', function($apps){
-                    //return $apps->treatment;
-                    return '<span>'.$apps->treatment->procedure->procedure.'</span>';
+                    if (!is_null($apps->treatment->procedure)) {
+                        return '<span>'.$apps->treatment->procedure->procedure.'</span>';
+                    }
+                    return "Not Available"
                 })
                 ->addColumn('paquete', function($apps){
                     //return $apps->treatment;
