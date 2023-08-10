@@ -89,7 +89,7 @@ class DashboardController extends Controller
         ->take(5)
         ->get();
 
-       return $apps[0]->treatment->brand;
+       // return $apps;
 
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
@@ -324,15 +324,15 @@ class DashboardController extends Controller
                     //return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('servicio', function($apps){
-                    return $apps->treatment;
+                    //return $apps->treatment;
                     return '<span>'.$apps->treatment->service->service.'</span>';
                 })
                 ->addColumn('procedimiento', function($apps){
-                    return $apps->treatment;
+                    //return $apps->treatment;
                     return '<span>'.$apps->treatment->procedure->procedure.'</span>';
                 })
                 ->addColumn('paquete', function($apps){
-                    return $apps->treatment;
+                    //return $apps->treatment;
                     if (!is_null($apps->treatment->package)) {
                         return '<span>'.$apps->treatment->package->package.'</span>';
                     } else {

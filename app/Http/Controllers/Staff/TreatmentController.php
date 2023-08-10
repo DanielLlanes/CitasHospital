@@ -89,8 +89,8 @@ class TreatmentController extends Controller
                 ]
             )
             ->selectRaw("*")
-            ->orderBy('order', 'asc')
             ->orderBy('service_id', "asc")
+            ->orderBy('order', 'asc')
             ->get();
 
             return DataTables::of($treatment)
