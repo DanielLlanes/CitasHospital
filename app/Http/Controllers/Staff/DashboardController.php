@@ -42,7 +42,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return 'puta';
+        //return 'puta';
         $lang = 'en';
         $apps = Application::with(
             [
