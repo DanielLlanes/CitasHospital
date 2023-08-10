@@ -42,6 +42,54 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        return 'puta';
+        $lang = 'en';
+        $apps = Application::with(
+            [
+                'statusOne' => function($q)use($lang){
+                    $q->with([
+                        'status' => function($q)use($lang){
+                            $q->select("name_$lang as name", 'id', 'color');
+                        }
+                    ])
+                    ->select("*");
+                },
+                'patient' => function($q){
+                    $q->select('name', 'id');
+                },
+                'treatment' => function($q) use($lang) {
+                    $q->with(
+                        [
+                            "brand" => function($q){
+                                $q->select("brand", "id", "color");
+                            },
+                            "service" => function($q) use($lang) {
+                                $q->select("service_$lang AS service", "id");
+                            },
+                            "procedure" => function($q) use($lang) {
+                                $q->select("procedure_$lang AS procedure", "id");
+                            },
+                            "package" => function($q) use($lang) {
+                                $q->select("package_$lang AS package", "id");
+                            },
+                        ]
+                    );
+                },
+                'assignments' => function($q) use($lang) {
+                    $q->whereHas(
+                        'specialties', function($q){
+                            $q->where("name_en", "Coordination");
+                        }
+                    );
+                }
+            ]
+        )
+        ->where('is_complete', true)
+        ->orderBy('id', 'desc')
+        ->take(5)
+        ->get();
+
+        return $apps;
 
         $lang = Auth::guard('staff')->user()->lang;
         $lang = app()->getLocale();
@@ -272,7 +320,8 @@ class DashboardController extends Controller
                     return '<span>'.$apps->patient->name.'</span>';
                 })
                 ->addColumn('marca', function($apps){
-                    return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
+                    return $apps->treatment;
+                    //return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
                 })
                 ->addColumn('servicio', function($apps){
                     return '<span>'.$apps->treatment->service->service.'</span>';
