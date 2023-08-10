@@ -264,7 +264,7 @@ class DashboardController extends Controller
         if ($request->ajax()) {
             $lang = Auth::guard('staff')->user()->lang;
             $lang = app()->getLocale();
-            if (Auth::guard("staff")->user()->can('applications.all')) {
+            // if (Auth::guard("staff")->user()->can('applications.all')) {
                 $apps = Application::with(
                     [
                         'statusOne' => function($q)use($lang){
@@ -309,7 +309,7 @@ class DashboardController extends Controller
                 ->orderBy('id', 'desc')
                 ->take(5)
                 ->get();
-            }
+            // }
 
             return DataTables::of($apps)
                 ->addIndexColumn()
