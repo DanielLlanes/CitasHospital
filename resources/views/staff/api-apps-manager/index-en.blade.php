@@ -2002,19 +2002,20 @@
         const firstRadio = addonsArea.querySelector('input[type="radio"]');
 
         selectElement.addEventListener("change", function() {
-            if (selectElement.value == "1") {
-                addonsArea.classList.remove("d-none");
-            } else {
-                if (firstRadio) {
-                    firstRadio.checked = true;
-                }
-                addonsArea.classList.add("d-none");
-            }
+            // if (selectElement.value == "1") {
+            //     addonsArea.classList.remove("d-none");
+            // } else {
+            //     if (firstRadio) {
+            //         firstRadio.checked = true;
+            //     }
+            //     addonsArea.classList.add("d-none");
+            // }
+            alert('??')
         });
 
-        $(document).on('change', '#select-procedure-select', function() {
-            alert('Si entra')
-        })
+        // $(document).on('change', '#'+selectElement, function() {
+        //     alert('Si entra')
+        // })
 
         const mediaQuery = "(max-width: 992px)";
         const mediaQueryList = window.matchMedia(mediaQuery);
