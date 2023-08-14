@@ -2133,11 +2133,13 @@
 
         
 
-        function toTop(){
-          $("html, body").animate({ scrollTop: 0 }, "fast");
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
-        }
+            function toTop() {
+                var $appsForm = $(".appsForm");
+                
+                if ($appsForm.length > 0) {
+                    $("html, body").animate({ scrollTop: $appsForm.offset().top }, "fast");
+                }
+            }
         nextBtn.addEventListener('click', () => {
             $('.invalid-feedback').html('');
             let data_service = 0;
