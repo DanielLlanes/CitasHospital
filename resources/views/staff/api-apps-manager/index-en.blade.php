@@ -165,7 +165,7 @@
                                 <div class="mb-3 row">
                                     <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Date of birth</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-sm w-100" id="dob" name="dob" value="" placeholder="Fecha de naciemiento" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
+                                        <input type="text" class="form-control form-control-sm w-100" id="dob" name="dob" value="" placeholder="Date of birth" data-inputmask="'alias': 'datetime', 'inputFormat': 'mm/dd/yyyy'">
                                         <span class="invalid-feedback" style="display: block!important;" role="alert"></span>
                                     </div>    
                                 </div>
@@ -1997,6 +1997,22 @@
             });
         };
 
+        const selectElement = document.getElementById("select-procedure-select");
+        const addonsArea = document.getElementById("addons");
+        const firstRadio = addonsArea.querySelector('input[type="radio"]');
+        
+
+        selectElement.addEventListener("change", function() {
+            if (selectElement.value === "1") {
+                addonsArea.classList.remove("d-none");
+            } else {
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                }
+                addonsArea.classList.add("d-none");
+            }
+        });
+
         const mediaQuery = "(max-width: 992px)";
         const mediaQueryList = window.matchMedia(mediaQuery);
         const handleMediaQueryChange = (event) => {
@@ -3213,24 +3229,6 @@
                 return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(31)); 
             });
         });
-
-
-        const selectElement = document.getElementById("select-procedure-select");
-        const addonsArea = document.getElementById("addons");
-        const firstRadio = addonsArea.querySelector('input[type="radio"]');
-        
-
-        selectElement.addEventListener("change", function() {
-            if (selectElement.value === "1") {
-                addonsArea.classList.remove("d-none");
-            } else {
-                if (firstRadio) {
-                    firstRadio.checked = true;
-                }
-                addonsArea.classList.add("d-none");
-            }
-        });
-
     </script>
 </body>
 </html>

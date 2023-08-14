@@ -2414,6 +2414,22 @@
         $('#imc').attr('readOnly', true);
       });
 
+      const selectElement = document.getElementById("select-procedure-select");
+      const addonsArea = document.getElementById("addons");
+      const firstRadio = addonsArea.querySelector('input[type="radio"]');
+      
+
+      selectElement.addEventListener("change", function() {
+          if (selectElement.value === "1") {
+              addonsArea.classList.remove("d-none");
+          } else {
+              if (firstRadio) {
+                  firstRadio.checked = true;
+              }
+              addonsArea.classList.add("d-none");
+          }
+      });
+
 
 
       const createImperialHeight = () => {
@@ -3214,21 +3230,7 @@
             });
         });
 
-        const selectElement = document.getElementById("select-procedure-select");
-        const addonsArea = document.getElementById("addons");
-        const firstRadio = addonsArea.querySelector('input[type="radio"]');
         
-
-        selectElement.addEventListener("change", function() {
-            if (selectElement.value === "1") {
-                addonsArea.classList.remove("d-none");
-            } else {
-                if (firstRadio) {
-                    firstRadio.checked = true;
-                }
-                addonsArea.classList.add("d-none");
-            }
-        });
     </script>
   </body>
 </html>
