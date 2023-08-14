@@ -2001,9 +2001,11 @@
         const addonsArea = document.getElementById("addons");
         const firstRadio = addonsArea.querySelector('input[type="radio"]');
         
+        console.log(selectElement);
 
         selectElement.addEventListener("change", function() {
             if (selectElement.value === "1") {
+                console.log(selectElement.value );
                 addonsArea.classList.remove("d-none");
             } else {
                 if (firstRadio) {
@@ -3230,7 +3232,6 @@
             });
         });
 
-        alert('esta leyendo')
     </script>
 </body>
 </html>
