@@ -111,7 +111,7 @@
             </div>
             <div class="row">
                 <div class="col-md-2 col-12"></div>
-                <div class="col-md-8 col-12 px-5 p-md-0">
+                <div class="col-md-8 col-12">
                     <div class="d-none progress">
                         <div class="progress-bar progress-bar-striped bg-danger" id="steps" role="progressbar" style="width: 0;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                     </div>
