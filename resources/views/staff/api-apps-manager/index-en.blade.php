@@ -2134,10 +2134,10 @@
         
 
             function toTop() {
-                var $appsForm = $(".appsForm");
+                var $teamElement = $("#team");
                 
-                if ($appsForm.length > 0) {
-                    $("html, body").animate({ scrollTop: $appsForm.offset().top }, "fast");
+                if ($teamElement.length > 0) {
+                    $("html, body").animate({ scrollTop: $teamElement.offset().top }, "fast");
                 }
             }
         nextBtn.addEventListener('click', () => {
