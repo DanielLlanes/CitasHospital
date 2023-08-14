@@ -320,12 +320,14 @@ class DashboardController extends Controller
                     return '<span>'.$apps->patient->name.'</span>';
                 })
                 ->addColumn('marca', function($apps){
-                    return $apps->treatment->brand_id;
-                    //return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
+                    if (!is_null($apps->treatment->brand)) {
+                        return '<span style="color: '.$apps->treatment->brand->color.'">'.$apps->treatment->brand->brand.'</span>';
+                    }
+                    return "Not Available";
                 })
                 ->addColumn('servicio', function($apps){
                     //return $apps->treatment;
-                    if (!is_null($apps->treatment->brand)) {
+                    if (!is_null($apps->treatment->service)) {
                         return '<span>'.$apps->treatment->service->service.'</span>';
                     }
                     return "Not Available";
