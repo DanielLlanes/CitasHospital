@@ -2001,10 +2001,10 @@
         const addonsArea = document.getElementById("addons");
         const firstRadio = addonsArea.querySelector('input[type="radio"]');
         
-        console.log(selectElement);
-        console.log(firstRadio);
+
 
         selectElement.addEventListener("change", function() {
+            alert('select')
             if (selectElement.value == "1") {
                 alert(selectElement.value)
                 console.log(selectElement.value );
