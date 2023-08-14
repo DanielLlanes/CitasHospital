@@ -1974,6 +1974,21 @@
         $(this).attr('checked', 'true');
       });
 
+      const selectElement = $("#select-procedure-select");
+        const addonsArea = $("#addons");
+        const firstRadio = addonsArea.find('input[type="radio"]').first();
+
+        $(document).on("change", "#select-procedure-select", function() {
+            if ($("#select-procedure-select option:selected").val() == "1") {
+                $("#addons").removeClass("d-none");
+            } else {
+                if (firstRadio.length) {
+                    firstRadio.prop("checked", true);
+                }
+                $("#addons").addClass("d-none");
+            }
+        });
+
       const generateDynamicCSSForTable = (tableSelector) => {
         const tables = document.querySelectorAll(tableSelector);
         tables.forEach((table) => {
