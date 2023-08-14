@@ -2003,12 +2003,12 @@
 
         $(document).on("change", "#select-procedure-select", function() {
             if ($("#select-procedure-select option:selected").val() == "1") {
-                ("#addons").removeClass("d-none");
+                $("#addons").removeClass("d-none");
             } else {
                 if (firstRadio.length) {
                     firstRadio.prop("checked", true);
                 }
-                ("#addons").addClass("d-none");
+                $("#addons").addClass("d-none");
             }
         });
 
