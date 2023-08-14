@@ -2135,9 +2135,10 @@
 
             function toTop() {
                 var $teamElement = $("#team");
-                
+          
                 if ($teamElement.length > 0) {
-                    $("html, body").animate({ scrollTop: $teamElement.offset().top }, "fast");
+                    var targetScrollTop = $teamElement.offset().top - 70;
+                    $("html, body").animate({ scrollTop: targetScrollTop }, "fast");
                 }
             }
         nextBtn.addEventListener('click', () => {
