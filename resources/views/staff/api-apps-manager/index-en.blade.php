@@ -3229,6 +3229,8 @@
                 return /^\d*$/.test(value) && (value === "" || parseInt(value) <= parseInt(31)); 
             });
         });
+
+        alert('esta leyendo')
     </script>
 </body>
 </html>
