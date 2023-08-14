@@ -1997,25 +1997,22 @@
             });
         };
 
-        const selectElement = document.getElementById("select-procedure-select");
-        const addonsArea = document.getElementById("addons");
-        const firstRadio = addonsArea.querySelector('input[type="radio"]');
+        const selectElement = $("#select-procedure-select");
+        const addonsArea = $("#addons");
+        const firstRadio = addonsArea.find('input[type="radio"]').first();
 
-        selectElement.addEventListener("change", function() {
-            // if (selectElement.value == "1") {
-            //     addonsArea.classList.remove("d-none");
-            // } else {
-            //     if (firstRadio) {
-            //         firstRadio.checked = true;
-            //     }
-            //     addonsArea.classList.add("d-none");
-            // }
-            alert('??')
+        $(document).on("change", "#select-procedure-select", function() {
+            if (selectElement.val() === "1") {
+                addonsArea.removeClass("d-none");
+            } else {
+                if (firstRadio.length) {
+                    firstRadio.prop("checked", true);
+                }
+                addonsArea.addClass("d-none");
+            }
         });
 
-        // $(document).on('change', '#'+selectElement, function() {
-        //     alert('Si entra')
-        // })
+
 
         const mediaQuery = "(max-width: 992px)";
         const mediaQueryList = window.matchMedia(mediaQuery);
