@@ -86,7 +86,7 @@ class DashboardController extends Controller
         )
         ->where('is_complete', true)
         ->orderBy('id', 'desc')
-        ->take(5)
+
         ->get();
 
        return $apps;
