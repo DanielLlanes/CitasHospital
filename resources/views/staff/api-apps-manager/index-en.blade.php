@@ -61,7 +61,7 @@
 
     </style>
 </head>
-<body class="">
+<body class="top">
     <div class="loading"></div>
     <div class="col-12" style="margin-bottom: 100px;"></div>
     <div class="col-12 animate-bottom">
@@ -2133,14 +2133,14 @@
 
         
 
-            function toTop() {
-                var $teamElement = $("#team");
-          
-                if ($teamElement.length > 0) {
-                    var targetScrollTop = $teamElement.offset().top - 70;
-                    $("html, body").animate({ scrollTop: targetScrollTop }, "fast");
-                }
+        function toTop() {
+            var $teamElement = $("#team");
+        
+            if ($teamElement.length > 0) {
+                var targetScrollTop = $teamElement.offset().top - 70;
+                $("html, body").animate({ scrollTop: targetScrollTop }, "fast");
             }
+        }
         nextBtn.addEventListener('click', () => {
             $('.invalid-feedback').html('');
             let data_service = 0;
