@@ -2002,13 +2002,13 @@
         const firstRadio = addonsArea.find('input[type="radio"]').first();
 
         $(document).on("change", "#select-procedure-select", function() {
-            if (selectElement.val() === "1") {
-                addonsArea.removeClass("d-none");
+            if ($("#select-procedure-select option:selected").val() == "1") {
+                ("#addons").removeClass("d-none");
             } else {
                 if (firstRadio.length) {
                     firstRadio.prop("checked", true);
                 }
-                addonsArea.addClass("d-none");
+                ("#addons").addClass("d-none");
             }
         });
 
