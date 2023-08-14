@@ -2002,9 +2002,11 @@
         const firstRadio = addonsArea.querySelector('input[type="radio"]');
         
         console.log(selectElement);
+        console.log(firstRadio);
 
         selectElement.addEventListener("change", function() {
-            if (selectElement.value === "1") {
+            if (selectElement.value == "1") {
+                alert(selectElement.value)
                 console.log(selectElement.value );
                 addonsArea.classList.remove("d-none");
             } else {
