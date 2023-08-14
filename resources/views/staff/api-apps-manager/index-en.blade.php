@@ -2000,14 +2000,9 @@
         const selectElement = document.getElementById("select-procedure-select");
         const addonsArea = document.getElementById("addons");
         const firstRadio = addonsArea.querySelector('input[type="radio"]');
-        
-
 
         selectElement.addEventListener("change", function() {
-            alert('select')
             if (selectElement.value == "1") {
-                alert(selectElement.value)
-                console.log(selectElement.value );
                 addonsArea.classList.remove("d-none");
             } else {
                 if (firstRadio) {
@@ -2016,6 +2011,10 @@
                 addonsArea.classList.add("d-none");
             }
         });
+
+        $(document).on('change', '#select-procedure-select', function() {
+            alert('Si entra')
+        })
 
         const mediaQuery = "(max-width: 992px)";
         const mediaQueryList = window.matchMedia(mediaQuery);
