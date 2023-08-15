@@ -1669,7 +1669,7 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-6">
-                                <div class="staffName">Staff: ${arg.event.extendedProps.staff.name}</div>
+                                <div class="staffName">Staff: ${arg.event.extendedProps.staff}</div>
                                 <div class="patient">Patient: ${arg.event.extendedProps.patient}</div>
                                 <div class="fechaInicio">Date: ${moment(arg.event.start).format('MMM Do YYYY')}</div>
                             </div>

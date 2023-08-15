@@ -235,7 +235,7 @@ class EventController extends Controller
             $extendedProps['startTime'] = $events[$i]->start_time;
             $extendedProps['endDate'] = $events[$i]->start_date;
             $extendedProps['endTime'] = $events[$i]->end_time;
-            $extendedProps['staff'] = is_null($events[$i]->staff_id)? null:Staff::find($events[$i]->staff_id);
+            $extendedProps['staff'] = is_null($events[$i]->staff_id)? null:Staff::find($events[$i]->staff_id)->name;
 
             
 
