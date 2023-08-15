@@ -361,14 +361,20 @@ class EventController extends Controller
 
         $staff_asignado = $this->setStaffAss($request);
         $patient = Patient::firstOrNew(['email' => $request->email]);
-        $patient->name = $request->patient;
-        $patient->phone = $request->phone;
-        $patient->lang = $lang;
-        $patient->code = getCode();
-        $patient->password = Hash::make(Str::random(10));
+        if (!$patient) {
+            $patient = new Patient;
+            $patient->name = $request->patient;
+            $patient->phone = $request->phone;
+            $patient->lang = $lang;
+            $patient->code = getCode();
+            $patient->password = Hash::make(Str::random(10));
 
-        $patient->save();
+            $patient->save();
+        }
+        
         $patient_id = $patient->id;
+
+        //return $patient_id;
 
         $event = new Event;
         $event->staff_id = ($request->isApp == "0") ? null:$staff_asignado->id;
