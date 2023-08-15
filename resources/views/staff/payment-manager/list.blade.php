@@ -286,7 +286,7 @@
                                 <div class="col-md-12">
                                     <select name="currency" id="currency" class="form-control input-sm">
                                         <option value="" disabled selected>Select....</option>
-                                        <option value="Dollar">Dollar (USD)</option>
+                                        <option value="Dollar" selected>Dollar (USD)</option>
                                         <option value="Peso">Peso (MXP)</option>
                                     </select>
                                     <div class="error text-danger col-form-label-sm"></div>
@@ -309,7 +309,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="appPaymentModal" class="btn btn-primary">Save</button>
+                            <button type="button" id="appPaymentModal" class="btn btn-primary">Save  
+
+                                <div class="spinner-border text-light d-none paymentspinner" role="status" style="width: 1rem; height: 1rem">
+                                    <span class="sr-only"> Loading...</span>
+                                  </div>
+                            </button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="reset" id="formResetModal" class="d-none"></button>
                         </div>
@@ -581,6 +586,7 @@
                 var _0x4bbbx15 = $('#patient')['select2']('data');
                 var _0x4bbbx16 = $('#applications')['select2']('data');
                 var _0x4bbbx17 = $('#paymentMethod')['val']();
+
                 _0x4bbbx12['append']('evidence', _0x4bbbx13);
                 _0x4bbbx12['append']('amount', _0x4bbbx14);
                 _0x4bbbx12['append']('evidence', 1);
@@ -601,7 +607,9 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]')['attr']('content')
                     },
                     processData: false,
-                    beforeSend: function() {},
+                    beforeSend: function() {
+                        $('.paymentspinner').removeClass('d-none')
+                    },
                     success: function(_0x4bbbx7) {
                         console['log']('data', _0x4bbbx7);
                         Toast['fire']({
@@ -615,8 +623,9 @@
                             $['each'](_0x4bbbx7['errors'], function(_0x4bbbx18, _0x4bbbx19) {
                                 $('*[id^=' + _0x4bbbx18 + ']')['parent']()['find'](
                                     '.error')['append']('<p>' + _0x4bbbx19 + '</p>')
-                            })
+                            })   
                         }
+                        $('.paymentspinner').addClass('d-none')
                     }
                 })
             });

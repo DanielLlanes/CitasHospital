@@ -93,8 +93,11 @@ class AppController extends Controller
                 }
             ]
         )
-        ->where('is_complete', true)
+        //->where('is_complete', true)
         ->get();
+
+
+       // return $apps;
 
         
         // foreach ($apps as $key => $app) {

@@ -1559,8 +1559,6 @@ class EnApiAppsController extends Controller
             $response = [];
             $assignment = [];
 
-            
-
             if ($assignment_staff) {
                 $assignment[] = [
                     'application_id' => $app->id,

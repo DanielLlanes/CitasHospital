@@ -305,7 +305,7 @@ class DashboardController extends Controller
                         }
                     ]
                 )
-                ->where('is_complete', true)
+                //->where('is_complete', true)
                 ->orderBy('id', 'desc')
                 ->take(5)
                 ->get();
