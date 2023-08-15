@@ -1662,33 +1662,32 @@
                 $('#formReset').click();
                 $('.error').html('')
                 $('#myInputautocomplete-list.patient').fadeOut(1000).html('');
+                var eventModalBody = `
+                    <div class="col-12">
+                        <div class="title text-center font-weight-bold text-capitalize">${arg.event.title}</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="staffName">Staff: ${arg.event.extendedProps.staff.name}</div>
+                                <div class="patient">Patient: ${arg.event.extendedProps.patient}</div>
+                                <div class="fechaInicio">Date: ${moment(arg.event.start).format('MMM Do YYYY')}</div>
+                            </div>
+                            <div class="col-6">
+                                ${arg.event.extendedProps.isapp === 'si' ? `
+                                    <div class="staffName">Brand: ${arg.event.extendedProps.application_brand}</div>
+                                    <div class="staffName">Service: ${arg.event.extendedProps.application_service}</div>
+                                    <div class="staffName">Procedure: ${arg.event.extendedProps.application_procedure}</div>
+                                    <div class="staffName">Package: ${arg.event.extendedProps.application_package}</div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <div class="notas text">Notes: ${arg.event.extendedProps.notas}</div>
+                    </div>
+                `;
 
-
-
-                var eventModalBody =' <div class="col-12">\
-                                    <div class="title text-center font-weight-bold text-capitalize">' + arg.event.title + '</div>\
-                                    </div>\
-                                    <div class="col-12">\
-                                    <div class="row">\
-                                    <div class="col-6">\
-                                    <div class="staffName">Staff: ' + arg.event.extendedProps.staff + '</div>\
-                                    <div class="patient">Patient: ' + arg.event.extendedProps.patient + '</div>\
-                                    <div class="fechaInicio">Date: ' + moment(arg.event.start).format('MMM Do YYYY') + '</div>\
-                                    </div>\
-                                    <div class="col-6">';
-                                if (arg.event.extendedProps.isapp == 'si') {
-                                    eventModalBody += '<div class="staffName">Brand: ' + arg.event.extendedProps.application_brand + '</div>';
-                                    eventModalBody += '<div class="staffName">Service: ' + arg.event.extendedProps.application_service + '</div>';
-                                    eventModalBody += '<div class="staffName">Procedure: ' + arg.event.extendedProps.application_procedure + '</div>';
-                                    eventModalBody += '<div class="staffName">Package: ' + arg.event.extendedProps.application_package + '</div>';
-                                }
-                eventModalBody += '</div>\
-                        </div>\
-                    </div>\
-                    <div class="col-12 text-center">\
-                        <div class="notas text">Notes: ' + arg.event.extendedProps.notas + '</div>\
-                    </div>\
-                ';
                 $('')
                 $("input[name=status][value=" + arg.event.extendedProps.status + "]").prop('checked', true);
                 $('#eventModalBody').html('')
