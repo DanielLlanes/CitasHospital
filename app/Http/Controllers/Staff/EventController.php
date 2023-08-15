@@ -287,7 +287,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        //return $request;
+        return $request;
         $lang = Auth::guard('staff')->user()->lang;
         $staff_id = Auth::guard('staff')->user()->id;
         $lang = app()->getLocale();

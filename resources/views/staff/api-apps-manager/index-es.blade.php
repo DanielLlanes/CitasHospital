@@ -144,7 +144,7 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Nombre</label>
+                  <label for="inputPassword" class="col-sm-3 col-form-label col-form-label-sm">Nombre completo</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control form-control-sm" id="name" name="name" value="" placeholder="Name">
                   </div>
